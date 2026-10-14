@@ -151,6 +151,8 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "ee-riigi-teataja",
         "pl-eli-sejm",
         "ar-infoleg",
+        "us-govinfo-usreports",
+        "us-govinfo-uscourts",
     }
     for source_id in approved:
         licence_gate(catalog.sources.get(source_id))

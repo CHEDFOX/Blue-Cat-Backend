@@ -378,6 +378,21 @@ def _units(lines: list[str], loc: Located, chain: dict[int, int]) -> list[tuple[
 
 # --------------------------------------------------------------------------- entry point
 
+PART_MAX = 32  # width of judgment_paragraphs.part
+
+
+def _part(label: str) -> str:
+    """The unit's ``part``: the running head's label, or - when it does not fit the column - its kind."""
+    if len(label) <= PART_MAX:
+        return label
+    low = label.lower()
+    if "dissent" in low and "concur" in low:
+        return "concurring and dissenting"
+    for key, kind in (("dissent", "dissenting"), ("concur", "concurring"), ("appendix", "appendix")):
+        if key in low:
+            return kind
+    return "separate opinion" if low.startswith("opinion of") else "text"
+
 
 def parse_govinfo_usreports(content: bytes) -> list[ParsedDocument]:
     try:
@@ -424,9 +439,12 @@ def parse_govinfo_usreports(content: bytes) -> list[ParsedDocument]:
             ext["decision_date_caveat"] = (
                 "the source gives 1 January, a day the Court did not sit: probably a year-only date"
             )
+        long_labels = {num: label for num, label, _ in units if len(label) > PART_MAX}
+        if long_labels:
+            ext["long_part_labels"] = long_labels  # the full labels of the pages whose part had to be shortened
         paragraphs = [
-            ParsedParagraph(eid=f"p{num}", num=num, part=part, text=text, sort_order=index, refs=[])
-            for index, (num, part, text) in enumerate(units, start=1)
+            ParsedParagraph(eid=f"p{num}", num=num, part=_part(label), text=text, sort_order=index, refs=[])
+            for index, (num, label, text) in enumerate(units, start=1)
         ]
         documents.append(
             ParsedDocument(

@@ -80,6 +80,7 @@ class UsJudgmentExt(BaseModel):
     volume_cases_listed: int | None = None
     volume_cases_located: int | None = None
     decision_date_caveat: str | None = None
+    long_part_labels: dict[str, str] | None = None
     # GovInfo packages (USREPORTS and USCOURTS)
     govinfo_package: str | None = None
     govinfo_granule: str | None = None

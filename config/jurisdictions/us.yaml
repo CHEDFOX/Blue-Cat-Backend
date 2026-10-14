@@ -3,7 +3,7 @@
 # Every statement must be confirmed by a qualified US lawyer before verification.status can become "reviewed".
 schema_version: 1
 id: US
-profile_version: 0.2.0
+profile_version: 0.3.0
 name: United States of America (federal)
 names: {en: United States of America}
 kind: sovereign_state
@@ -111,6 +111,8 @@ citation:
     - "Promoting Women in Entrepreneurship Act, Pub. L. No. 115-6, § 2(1), 131 Stat. 11 (2017)"
     - "27 C.F.R. § 478.11 (2018)"
     - "H.R. 1000, 116th Cong. § 2(a) (2019)"
+    - "Roe v. Wade, 410 U.S. 113, 153 (1973)"
+    - "Kolenc v. HHS, No. 23-1808 (Fed. Cir. Jan. 3, 2024)"
 publication:
   official_sources: [us-gpo-uslm-samples, us-uscode-house]
   commencement: >-
@@ -126,9 +128,17 @@ coverage:
     - CFR text is from 2018-2019 annual editions only; later amendments are not reflected.
     - Federal Register documents, Statutes at Large volumes, engrossed amendments and some bill stages without a dated action are not ingested.
     - >-
-      No case law is ingested. The only open source examined, the Caselaw Access Project (CC0 data), is planned
-      but not usable: its data host's robots.txt disallows all robots (see docs/jurisdictions/us-case-law.md).
-      No State, territorial or tribal law.
+      Case law ingested: United States Reports volumes 2-586 from GovInfo (OCR text of the bound volumes; only the cases
+      whose page headers the parser recognises, about four in five in the volumes sampled and fewer before 1900) and
+      opinions of the thirteen courts of appeals from GovInfo's USCOURTS collection (PDF text layer; scans skipped).
+      Supreme Court decisions after volume 586 (the 2018 Term) are not ingested, so a later decision that overruled or
+      limited an ingested case is missing; ULIS records no judicial treatment (it would never be inferred), so every
+      ingested decision must be checked for later history elsewhere. District, bankruptcy and state courts are absent.
+    - >-
+      Sources examined and not used: the Caselaw Access Project (CC0 data, but its host's robots.txt disallows all
+      robots), CourtListener (HTTP 403 for the ULIS bot), Cornell LII (terms restrict commercial use of its
+      compilation), Justia (terms page HTTP 403), and the Supreme Court's own site (PDF only, planned); see
+      docs/jurisdictions/us-case-law.md. No State, territorial or tribal law.
     - >-
       The court hierarchy models the Supreme Court and the thirteen courts of appeals only; district courts and
       state courts are not modelled. Judicial treatment (overruled, distinguished) is in no ingested source and
