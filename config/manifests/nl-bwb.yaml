@@ -1,0 +1,17 @@
+# Dutch national Acts fetched from the Basiswettenbestand open-data repository (CC0 1.0).
+# For each regulation the connector reads https://repository.officiele-overheidspublicaties.nl/bwb/<bwb_id>/manifest.xml
+# and downloads <bwb_id>/<toestand>/xml/<bwb_id>_<toestand>.xml: every toestand that had started when the manifest
+# was generated (`history: true`, oldest first) or only the current one (`history: false`). Scheduled toestanden are
+# never fetched; the manifest itself is ingested last as a change report.
+schema_version: 1
+source_id: nl-bwb
+base_url: https://repository.officiele-overheidspublicaties.nl/bwb
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+regulations:
+  - {bwb_id: BWBR0001840, title: Grondwet, history: true}                                                    # constitutional, 11 toestanden since 2002
+  - {bwb_id: BWBR0040940, title: Uitvoeringswet Algemene verordening gegevensbescherming, history: true}      # data protection, 6 toestanden since 2018
+  - {bwb_id: BWBR0002656, title: Burgerlijk Wetboek Boek 1, history: false}                                  # persons and family law
+  - {bwb_id: BWBR0005289, title: Burgerlijk Wetboek Boek 6, history: false}                                  # obligations, tort
+  - {bwb_id: BWBR0001854, title: Wetboek van Strafrecht, history: false}                                     # criminal law
+  - {bwb_id: BWBR0005537, title: Algemene wet bestuursrecht, history: false}                                 # administrative law

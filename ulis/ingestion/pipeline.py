@@ -32,6 +32,7 @@ from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.au_federal_register import FederalRegisterConnector
 from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
+from ulis.sources.connectors.bwb import BwbConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
 from ulis.sources.connectors.eu_cellar import CellarConnector
 from ulis.sources.connectors.fedlex import FedlexConnector
@@ -45,6 +46,7 @@ from ulis.sources.parsers import (
     akn,
     au_federal_register,
     boe_consolidada,
+    bwb,
     egov_law,
     eu_cellar,
     fedlex,
@@ -72,6 +74,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "fedlex_akn": fedlex.parse_fedlex,
     "finlex_akn": finlex.parse_finlex,
     "frl_epub": au_federal_register.parse_federal_register,
+    "bwb_xml": bwb.parse_bwb,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -85,6 +88,7 @@ PARSER_VERSIONS = {
     "fedlex_akn": fedlex.PARSER_VERSION,
     "finlex_akn": finlex.PARSER_VERSION,
     "frl_epub": au_federal_register.PARSER_VERSION,
+    "bwb_xml": bwb.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -128,6 +132,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "fedlex": FedlexConnector,
     "finlex": FinlexConnector,
     "au_federal_register": FederalRegisterConnector,
+    "bwb": BwbConnector,
 }
 
 
@@ -161,6 +166,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or fedlex.resolve_uri(uri)
         or finlex.resolve_uri(uri)
         or au_federal_register.resolve_uri(uri)
+        or bwb.resolve_uri(uri)
         or (uri, None)
     )
 
@@ -485,6 +491,10 @@ class Ingestor:
             row.sort_order = prov.sort_order
         if row is not None and row.parent_id is None and prov.parent_eid in provisions:
             row.parent_id = provisions[prov.parent_eid].id
+        if row is not None and not row.index_unit and (prov.is_leaf or prov.has_own_content):
+            # A container in an earlier version that is a leaf in this one (e.g. an article whose members
+            # were merged into one text) is indexed from now on, so that this version can be found.
+            row.index_unit = True
         if row is None:
             parent = provisions.get(prov.parent_eid) if prov.parent_eid else None
             row = m.Provision(

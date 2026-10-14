@@ -1,0 +1,135 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. The Netherlands (national legislation). Provinces,
+# municipalities and water authorities are not profiled; Aruba, Curaçao and Sint Maarten (the
+# other countries of the Kingdom) are out of scope. EU membership is deliberately not recorded here.
+schema_version: 1
+id: NL
+profile_version: 0.1.0
+name: Netherlands
+names: {nl: Nederland, en: Netherlands}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [nl]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: >-
+    To verify - decentralised unitary state (provinces, municipalities, water authorities) and the
+    European part of the Kingdom of the Netherlands, whose other countries (Aruba, Curaçao, Sint
+    Maarten) have their own legislation; Bonaire, Sint Eustatius and Saba (Caribbean Netherlands)
+    are public bodies of the Netherlands with partly separate (BES) legislation. Treaty provisions
+    "die naar haar inhoud een ieder kunnen verbinden, hebben verbindende kracht nadat zij zijn
+    bekendgemaakt" (art. 93 Grondwet), and statutory provisions are not applied where that would be
+    incompatible with such provisions (art. 94 Grondwet): moderate monism. Frisian is recognised in
+    Fryslân; legislation is in Dutch.
+legislative_institutions:
+  - id: NL-WETGEVER
+    name: Regering en Staten-Generaal gezamenlijk (art. 81 Grondwet; Grondwet amendments under Hoofdstuk 8)
+    instrument_types: [constitution, act]
+  - id: NL-REGERING
+    name: Regering - algemene maatregelen van bestuur, vastgesteld bij koninklijk besluit (art. 89 Grondwet)
+    instrument_types: [order_in_council]
+  - id: NL-MINISTERS
+    name: Ministers (ministeriële regelingen)
+    instrument_types: [ministerial_regulation]
+instrument_types: [constitution, act, order_in_council, ministerial_regulation]
+norm_hierarchy: [constitution, act, order_in_council, ministerial_regulation]
+courts:
+  - id: NL-HR
+    name: Hoge Raad der Nederlanden
+    rank: 1
+  - id: NL-ABRVS
+    name: Raad van State, Afdeling bestuursrechtspraak
+    rank: 1
+  - id: NL-CRVB
+    name: Centrale Raad van Beroep
+    rank: 1
+  - id: NL-CBB
+    name: College van Beroep voor het bedrijfsleven
+    rank: 1
+  - id: NL-GH
+    name: Gerechtshoven (courts of appeal)
+    rank: 2
+    appeals_to: [NL-HR]
+  - id: NL-RB
+    name: Rechtbanken (district courts)
+    rank: 3
+    appeals_to: [NL-GH, NL-ABRVS, NL-CRVB, NL-CBB]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - civil-law system without formal stare decisis: lower courts are not formally bound
+    by Hoge Raad decisions but follow them in practice, and cassation corrects departures. The Hoge
+    Raad is the highest court in civil, criminal and tax matters (appeals from the gerechtshoven);
+    in administrative law the Afdeling bestuursrechtspraak van de Raad van State, the Centrale Raad
+    van Beroep (social security, civil service) and the College van Beroep voor het bedrijfsleven
+    (economic administrative law) are the highest courts in their fields, mostly on appeal from the
+    rechtbanken (the appeal routes in this profile are simplified). Courts may not review Acts of
+    Parliament against the Constitution - art. 120 Grondwet: "De rechter treedt niet in de
+    beoordeling van de grondwettigheid van wetten en verdragen." - but do review them against
+    provisions of treaties and of decisions of international organisations that are binding on
+    everyone (arts. 93-94 Grondwet). Numbers of courts (four gerechtshoven, eleven rechtbanken) and
+    any pending constitutional amendment of art. 120 to verify.
+citation:
+  module: nl
+  notes: >-
+    Dutch practice: "art." with the article number, "lid" for members, "onder" for list items (and
+    "sub" below that), followed by the abbreviation from the profile's extensions (chosen among the
+    abbreviations listed in each regulation's wetstechnische informatie) or the official citation
+    title. Burgerlijk Wetboek articles are cited with their book number ("6:162"). The BWB id and
+    Juriconnect identifier are kept in ext.bwb_id and ext.jci. To verify: "onder a" versus "sub a";
+    the Grondwet is cited in full here although the WTI also lists "Gw".
+  examples:
+    - "art. 6:162 lid 1 BW"
+    - "art. 1:3 lid 1 BW"
+    - "art. 310 Sr"
+    - "art. 1 Grondwet"
+    - "art. 3:4 lid 2 Awb"
+    - "art. 22 lid 2 onder a UAVG"
+publication:
+  official_sources: [nl-bwb]
+  commencement: >-
+    "De wet regelt de bekendmaking en de inwerkingtreding van de wetten. Zij treden niet in werking
+    voordat zij zijn bekendgemaakt." (art. 88 Grondwet). Acts and AMvBs are published in the
+    Staatsblad, ministerial regulations in the Staatscourant (electronically on
+    officielebekendmakingen.nl since 1 July 2009); the act or a royal decree usually fixes the date
+    of entry into force (default rule of the Bekendmakingswet to verify).
+  amendment: >-
+    Amending Acts are published in the Staatsblad; KOOP consolidates them into new toestanden of the
+    Basiswettenbestand, normally within a few working days. Consolidations are not official texts.
+  repeal: >-
+    Express repeal; the consolidation keeps a repealed article with the editorial text "Vervallen"
+    and the date and publication of the repeal.
+memberships:
+  # Founding member of the European Economic Community (1958); the EU continues it (to verify).
+  - organisation: EU
+    from_date: 1958-01-01
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only six national Acts are ingested (Grondwet, Uitvoeringswet AVG, Burgerlijk Wetboek Boeken 1 and 6, Wetboek van Strafrecht, Algemene wet bestuursrecht); no other Acts, no AMvBs, ministerial regulations, treaties or policy rules.
+    - Version history (all toestanden since 2002 / 2018) only for the Grondwet and the Uitvoeringswet AVG; the other four Acts have their current toestand only, so earlier wordings are a history gap.
+    - The BWB starts in 2002 (Acts); wordings before the first toestand are not available.
+    - Not the authentic text; the Staatsblad and Staatscourant (officielebekendmakingen.nl) are not ingested.
+    - Members (leden) and list items carry their article's date; retroactive effect is noted, not modelled as a separate validity period.
+    - Preambles (aanhef), closing formulas, structural editorial notes and the articles inside annexes (each annex is one provision) are not separately indexed; parallel texts in one article (e.g. Awb art. 8:36c) are kept as one undivided provision.
+    - No legislation of provinces, municipalities or water authorities (Centrale Voorziening Decentrale Regelgeving), no BES legislation for the Caribbean Netherlands (Bonaire, Sint Eustatius, Saba); Aruba, Curaçao and Sint Maarten are out of scope.
+    - No case law (rechtspraak.nl is not ingested), no EU law in this profile.
+    - Frisian texts and English translations are not ingested.
+extensions:
+  nl:
+    # Citation abbreviations. `afkortingen` are copied from each regulation's wetstechnische informatie
+    # (https://repository.officiele-overheidspublicaties.nl/bwb/<id>/<id>.WTI, algemene-informatie/afkortingen,
+    # read 2026-10-14); `cite_as` must be one of them or the citeertitel (checked by the nl module).
+    abbreviations:
+      BWBR0001840: {citeertitel: Grondwet, afkortingen: [GW, Gw], cite_as: Grondwet}
+      BWBR0040940: {citeertitel: Uitvoeringswet Algemene verordening gegevensbescherming, afkortingen: [UAVG], cite_as: UAVG}
+      BWBR0002656: {citeertitel: Burgerlijk Wetboek Boek 1, afkortingen: [BW, BW Boek 1, BW1], cite_as: BW}
+      BWBR0005289: {citeertitel: Burgerlijk Wetboek Boek 6, afkortingen: [BW, BW Boek 6, BW6], cite_as: BW}
+      BWBR0001854: {citeertitel: Wetboek van Strafrecht, afkortingen: [Sr, WvS, WvSr], cite_as: Sr}
+      BWBR0005537: {citeertitel: Algemene wet bestuursrecht, afkortingen: [Awb], cite_as: Awb}

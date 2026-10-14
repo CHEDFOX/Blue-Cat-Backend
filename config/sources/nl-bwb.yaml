@@ -1,0 +1,108 @@
+# Basiswettenbestand (BWB): consolidated Dutch national legislation (KOOP). Terms and access rules
+# read on 2026-10-14 from the publisher's own pages (cached under var/sources/):
+#   https://data.overheid.nl/dataset/basis-wetten-bestand - dataset "Basis Wetten Bestand", data owner KOOP (Kennis- en
+#        Exploitatiecentrum voor Officiële Overheidspublicaties) (Rijk), "Licentie: CC-0 (1.0)", "Toegang: Publiek";
+#        "Alle regelingen uit het basiswettenbestand zijn als open data beschikbaar in XML-formaat. Deze kunnen gedownload
+#        worden over HTTPS vanaf de repository. Daardoor is het mogelijk om een eigen kopie van het basiswettenbestand
+#        op te bouwen." Downloads (toestand, WTI, manifest schemas) and the SRU handleiding are each listed as CC-0 (1.0).
+#   https://www.overheid.nl/help/wet-en-regelgeving/een-eigen-kopie-van-het-basiswettenbestand-opbouwen - the
+#        collection (about 45,000 regelingen, more than 100,000 toestanden), "een bestand met de wetstechnische
+#        informatie, een manifest-bestand"; manifest, WTI and toestand files "kunt u eenvoudig via HTTPS downloaden";
+#        schemas toestand_2015-2.xsd, wti_2015-2.xsd and bwb/_manifest.xsd on the repository host.
+#   https://data.overheid.nl/sites/default/files/dataset/ab78ba3f-bc07-49cc-95f2-0e23b8653181/resources/Handleiding%2BSRU%2BBWB.pdf
+#        - SRU interface (endpoint zoekservice.overheid.nl/sru/Search, x-connection=BWB) and response fields
+#        (geldigheidsperiode, zichtperiode, locatie_toestand / _wti / _manifest on the repository).
+#   https://www.overheid.nl/help/wet-en-regelgeving/bijzonderheden-consolidatie - "De geconsolideerde teksten zijn geen
+#        officiële teksten in de zin van de Grondwet. Alleen publicaties in het Staatsblad, de Staatscourant en andere
+#        van overheidswege verkrijgbaar gestelde publicatiebladen hebben een officieel karakter."; retroactive effect
+#        ("terugwerkende kracht") is information in the WTI and marked in the text.
+#   https://www.overheid.nl/help/wet-en-regelgeving/inhoud-actualiteit-volledigheid-en-betrouwbaarheid - Acts and AMvBs
+#        from 1 May 2002; at least 95% of decisions processed within two working days of publication; errors occur
+#        ("A-fouten"); "De informatie in Wet- en regelgeving vormt geen bekendmaking in de zin van de Grondwet."
+#   robots.txt (read first): repository.officiele-overheidspublicaties.nl/robots.txt -> 404 (none published);
+#        zoekservice.overheid.nl/robots.txt -> "User-agent: * / Disallow: /" (the SRU service is therefore NOT used);
+#        wetten.overheid.nl/robots.txt -> catch-all allows most paths but disallows /*/informatie/xml, /service/ and
+#        search results, and disallows named AI/LLM crawlers (GPTBot, ClaudeBot, anthropic-ai, CCBot, "rag-kennisbank",
+#        ...) entirely; "AstralLaw" and "45weg-legal-research" (legal research) are allowed with Crawl-delay 30. The
+#        website is NOT crawled by ULIS. www.overheid.nl and data.overheid.nl (Crawl-delay 10) allow the help and
+#        dataset pages read here for the catch-all user agent; both also disallow ClaudeBot and other AI crawlers.
+#   Auteurswet art. 11 (BWBR0001886, toestand 2026-01-01_0, fetched from the repository): "Er bestaat geen
+#        auteursrecht op wetten, besluiten en verordeningen, door de openbare macht uitgevaardigd, noch op rechterlijke
+#        uitspraken en administratieve beslissingen."
+schema_version: 1
+id: nl-bwb
+name: Basiswettenbestand (wetten.overheid.nl)
+publisher: >-
+  KOOP - Kennis- en Exploitatiecentrum voor Officiële Overheidspublicaties (Ministerie van
+  Binnenlandse Zaken en Koninkrijksrelaties); open-data repository
+  repository.officiele-overheidspublicaties.nl
+kind: open_data_repository
+authority: official_non_authentic
+jurisdictions: [NL]
+document_kinds: [constitution, act]
+languages: [nl]
+coverage: >-
+  Consolidated texts of Dutch national regulations (Acts and AMvBs from 1 May 2002, ministerial
+  regulations from 1 May 2003, and other categories), each as a series of toestanden
+  (consolidated versions with validity periods), plus per-regulation manifest and wetstechnische
+  informatie (WTI) files. ULIS ingests six national Acts (see the manifest): the full series of
+  toestanden of the Grondwet and the Uitvoeringswet AVG, the current toestand of the others.
+access:
+  method: bulk_download
+  endpoint: config/manifests/nl-bwb.yaml
+update_frequency: daily ("Dagelijks wordt het basiswettenbestand bijgewerkt"); re-fetch a regulation's manifest.xml to refresh
+rate_limits: >-
+  No published rate limit and no robots.txt on the repository host. ULIS waits 5 s between
+  requests, identifies itself and caches every download. The SRU service (zoekservice.overheid.nl)
+  is not used because its robots.txt disallows all robots.
+licence:
+  id: CC0-1.0
+  name: >-
+    Creative Commons CC0 1.0 (public domain dedication), as stated for the BWB dataset and its
+    downloads on data.overheid.nl; Acts are not protected by copyright (art. 11 Auteurswet)
+  url: https://data.overheid.nl/dataset/basis-wetten-bestand
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the dataset page on data.overheid.nl (data owner KOOP) states "Licentie: CC-0
+    (1.0)" for the dataset and each of its downloads, and that all BWB regulations are available as
+    open data in XML for download over HTTPS from the repository, to build one's own copy; art. 11
+    Auteurswet excludes copyright in Acts and other regulations. The repository host publishes no
+    robots.txt; the SRU host's robots.txt (Disallow: /) is respected by not using it.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: >-
+    Bron: Basiswettenbestand (wetten.overheid.nl), KOOP; open data CC0 1.0. Geconsolideerde tekst,
+    geen officiële bekendmaking: alleen de publicatie in het Staatsblad of de Staatscourant is officieel.
+  conditions:
+    - Do not present the consolidated text as official; the Staatsblad / Staatscourant publication is authentic (stated on every result).
+    - Polite retrieval from the repository only (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+    - Do not use the SRU service (zoekservice.overheid.nl disallows all robots) and do not crawl wetten.overheid.nl.
+  notes: >-
+    CC0 requires no attribution; ULIS attributes anyway. The KOOP website wetten.overheid.nl and
+    the portals overheid.nl / data.overheid.nl disallow named AI/LLM crawlers (including ClaudeBot,
+    anthropic-ai and a "rag-kennisbank") in robots.txt. ULIS's own identified research bot is not
+    among them and did not crawl wetten.overheid.nl, but the publisher's stated preference should
+    be reviewed before ULIS is used for model training or retrieval-augmented generation at scale.
+    Counsel review still recommended before production use.
+provenance: >-
+  KOOP's open-data repository of the Basiswettenbestand: per regulation a manifest.xml (listing
+  every toestand with validity and visibility periods and a SHA-512 hash) and one XML file per
+  toestand. Consolidations are made by KOOP from the publications in the Staatsblad and
+  Staatscourant (officielebekendmakingen.nl), which alone are official. Each download is stored
+  byte-for-byte (SHA-256) with its URL and retrieval time; whether it matches the manifest's
+  SHA-512 is recorded.
+known_limitations:
+  - Not the official text ("geen officiële teksten in de zin van de Grondwet"); the Staatsblad and Staatscourant are authentic and are not ingested.
+  - History in the BWB starts on 1 May 2002 for Acts; earlier wordings are not available as toestanden.
+  - Dates are per article (element @inwerking); members and list items share their article's date. Retroactive effect is only noted, the version starts on its entry into force.
+  - Toestanden corrected later for retroactive effect are replaced by their corrected variant; the superseded variants (other knowledge time) are not ingested.
+  - Scheduled toestanden (starting after the manifest was generated) are reported as outstanding changes, not ingested.
+  - For older toestanden the manifest's SHA-512 does not match the file served (KOOP regenerated the files with richer metadata); recorded per document, not fatal.
+  - Consolidation can lag publication by a few working days, and the publisher reports occasional errors.
+status: active
+connector: bwb
+parser: bwb_xml

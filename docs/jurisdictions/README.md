@@ -16,3 +16,4 @@ gaps and the actual test and ingestion results. See
 | Switzerland (federal) | Fedlex | [ch.md](ch.md) |
 | Finland | Finlex open data | [fi.md](fi.md) |
 | Australia (Commonwealth) | Federal Register of Legislation | [au.md](au.md) |
+| Netherlands | Basiswettenbestand (BWB) | [nl.md](nl.md) |
