@@ -78,15 +78,16 @@ services:
       db: {condition: service_healthy}
     env_file: .env
     environment: *ulis-env
-    # Migrate and sync the catalog on every start, then serve with two workers. Rate limits are enforced
-    # per worker process (two workers: up to twice the configured value).
+    # Migrate and sync the catalog on every start, then serve with ONE worker process: research jobs run
+    # in-process and a starting process fails the jobs it finds running, so a second worker would
+    # kill the first one's jobs. (A single async worker is plenty for early testers.)
     command:
       - sh
       - -c
       - >-
         python -m ulis.cli migrate && python -m ulis.cli sync-catalog &&
         exec uvicorn ulis.api.app:create_app --factory --host 0.0.0.0 --port 8000
-        --workers 2 --no-access-log --no-server-header --timeout-keep-alive 5
+        --workers 1 --no-access-log --no-server-header --timeout-keep-alive 5
     volumes:
       - ${ULIS_DATA_DIR:-/srv/ulis}/objects:/data/objects
       - ${ULIS_DATA_DIR:-/srv/ulis}/sources:/data/sources

@@ -19,6 +19,7 @@ from sqlalchemy.orm import Session
 
 from ulis import __version__
 from ulis.api.deps import AppState, Principal, get_session, require_api_key, state
+from ulis.api.research import install_research
 from ulis.api.security import install_security
 from ulis.catalog import Catalog
 from ulis.db import make_engine, make_session_factory
@@ -261,4 +262,5 @@ def create_app(
         ]
 
     install_security(app, settings)  # rate limits, body limits, CORS, access log, /ready, production checks
+    install_research(app)
     return app

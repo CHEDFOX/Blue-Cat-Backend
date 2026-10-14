@@ -7,6 +7,7 @@ import json
 import sys
 import uuid
 from datetime import date
+from pathlib import Path
 
 from alembic import command
 from alembic.config import Config
@@ -20,7 +21,7 @@ from ulis.ingestion.pipeline import Ingestor
 from ulis.ops.commands import OPS_COMMANDS, add_ops_parsers, run_ops_command
 from ulis.retrieval.indexer import rebuild_passages
 from ulis.retrieval.search import SearchRequest, search
-from ulis.settings import REPO_ROOT, load_settings
+from ulis.settings import REPO_ROOT, Settings, load_settings
 from ulis.sources.registry import LicenceNotApproved
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
@@ -32,6 +33,47 @@ def migrate(database_url: str) -> None:
     cfg.set_main_option("sqlalchemy.url", database_url)
     cfg.attributes["configure_logger"] = False
     command.upgrade(cfg, "head")
+
+
+def _research(args: argparse.Namespace, settings: Settings, catalog: Catalog) -> int:
+    from ulis.assistant.config import MAX_CASE_CHARS, MAX_QUESTION_CHARS, load_assistant_config
+    from ulis.assistant.oneshot import NotConfigured, run_once
+    from ulis.assistant.pipeline import PipelineError, ResearchInput
+    from ulis.assistant.safety import clean_text
+
+    case_text: str | None = None
+    if args.case_file:
+        case_text = sys.stdin.read() if args.case_file == "-" else Path(args.case_file).read_text("utf-8")
+    jurisdiction = args.jurisdiction.strip().upper() if args.jurisdiction else None
+    if jurisdiction and jurisdiction not in catalog.jurisdictions:
+        print(f"unknown jurisdiction {jurisdiction!r}", file=sys.stderr)
+        return 2
+    if len(args.question) > MAX_QUESTION_CHARS or len(case_text or "") > MAX_CASE_CHARS:
+        print(
+            f"question is limited to {MAX_QUESTION_CHARS} and the case to {MAX_CASE_CHARS} characters", file=sys.stderr
+        )
+        return 2
+    request = ResearchInput(
+        question=clean_text(args.question).strip(),
+        case_text=clean_text(case_text).strip() if case_text else None,
+        jurisdiction=jurisdiction,
+        as_of=args.as_of,
+        depth=args.depth,
+    )
+
+    def progress(stage: str, message: str) -> None:
+        print(f"[{stage}] {message}", file=sys.stderr)
+
+    try:
+        result = run_once(settings, catalog, load_assistant_config(), request, report=progress)
+    except NotConfigured as exc:
+        print(f"research assistant unavailable: {exc}", file=sys.stderr)
+        return 2
+    except PipelineError as exc:
+        print(f"research failed ({exc.code}): {exc.message}", file=sys.stderr)
+        return 1
+    print(result.model_dump_json(indent=2))
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -56,10 +98,18 @@ def main(argv: list[str] | None = None) -> int:
     srch.add_argument("--include-historical", action="store_true")
     srch.add_argument("--limit", type=int, default=5)
     srch.add_argument("--json", action="store_true")
+    rsch = sub.add_parser("research", help="run the LLM research assistant once (needs ANTHROPIC_API_KEY)")
+    rsch.add_argument("--question", required=True)
+    rsch.add_argument("--case-file", help="text file with the case ('-' reads standard input)")
+    rsch.add_argument("--jurisdiction")
+    rsch.add_argument("--as-of", type=date.fromisoformat)
+    rsch.add_argument("--depth", choices=["standard", "deep"], default="standard")
     args = parser.parse_args(argv)
 
     settings = load_settings()
     catalog = Catalog.load(settings.config_dir)
+    if args.cmd == "research":
+        return _research(args, settings, catalog)
     if args.cmd == "validate-config":
         print(
             f"ok: {len(catalog.jurisdictions.profiles)} jurisdictions, {len(catalog.sources.sources)} sources, "

@@ -14,3 +14,4 @@ dist/
 deploy/.env
 deploy/backups/
 deploy/exports/
+eval/results/

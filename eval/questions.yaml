@@ -1,0 +1,117 @@
+# Evaluation questions for the research assistant (run: python scripts/eval_research.py).
+#
+# expected_citations: fragments that the citation of at least one authority CITED BY THE ANSWER must
+# contain (case, spacing and dash-insensitive). They name the canonical provision for the question and
+# follow the citation format of each jurisdiction module; they were taken from provisions that the
+# repository's connector tests know exist, not checked against your database. A "missing" result means
+# retrieval, drafting or verification dropped the provision, or that your corpus lacks it, or that the
+# citation is formatted differently: read the cited_authorities column before concluding anything.
+# Controls (expect_insufficient) have no corpus: the right answer is "insufficient authority indexed".
+version: 1
+questions:
+  - id: de-human-dignity
+    jurisdiction: DE
+    as_of: 2026-10-14
+    question: What does the German Basic Law provide about human dignity, and which state bodies does that provision bind?
+    expected_citations: ["Art. 1 Abs. 1 GG", "Art. 1 Abs. 3 GG"]
+
+  - id: de-theft
+    jurisdiction: DE
+    as_of: 2024-01-01
+    question: What is theft under German criminal law and what penalty does it carry?
+    expected_citations: ["§ 242 Abs. 1 StGB"]
+
+  - id: gb-obtaining-property-2005
+    jurisdiction: GB-ENG
+    as_of: 2005-06-01
+    question: Which offence covered obtaining property by deception in England and Wales in June 2005, and has it since changed?
+    expected_citations: ["Theft Act 1968, s 15"]
+    notes: Point-in-time check; the provision was later repealed, so the answer must separate then from now.
+
+  - id: gb-satisfactory-quality
+    jurisdiction: GB-ENG
+    as_of: 2024-06-01
+    question: A consumer bought a laptop that stopped working after two weeks. When must goods sold to a consumer be of satisfactory quality?
+    expected_citations: ["Consumer Rights Act 2015, s 9"]
+
+  - id: gb-public-authority-convention
+    jurisdiction: GB-ENG
+    as_of: 2024-06-01
+    question: Is it unlawful for an English local authority to act in a way that is incompatible with Convention rights?
+    expected_citations: ["Human Rights Act 1998, s 6"]
+
+  - id: ca-access-to-records
+    jurisdiction: CA
+    as_of: 2026-07-01
+    question: Who has a right to be given access to records under the control of a Canadian federal government institution?
+    expected_citations: ["Access to Information Act, RSC 1985, c A-1, s 4(1)"]
+
+  - id: ie-theft
+    jurisdiction: IE
+    as_of: 2024-01-01
+    question: When is a person guilty of theft in Ireland?
+    expected_citations: ["Criminal Justice (Theft and Fraud Offences) Act 2001, s 4(1)"]
+
+  - id: us-fair-use
+    jurisdiction: US
+    as_of: 2024-01-01
+    question: Under what conditions is the use of a copyrighted work for criticism or teaching a fair use?
+    expected_citations: ["17 U.S.C. § 107"]
+
+  - id: es-effective-judicial-protection
+    jurisdiction: ES
+    as_of: 2024-01-01
+    question: Which provision of the Spanish Constitution guarantees effective judicial protection?
+    expected_citations: ["art. 24.1 CE"]
+
+  - id: ch-sensitive-data-fr
+    jurisdiction: CH
+    as_of: 2025-05-01
+    question: Qu'est-ce qu'une donnée personnelle sensible selon la loi fédérale suisse sur la protection des données ?
+    expected_citations: ["art. 5 let. c LPD"]
+    notes: French question; the answer must cite the French text of the Act.
+
+  - id: nl-tort
+    jurisdiction: NL
+    as_of: 2026-01-01
+    question: On what basis can a person claim damages for a wrongful act attributable to another under Dutch civil law?
+    expected_citations: ["art. 6:162 lid 1 BW"]
+
+  - id: jp-tort
+    jurisdiction: JP
+    as_of: 2026-10-01
+    question: Under Japanese law, what liability arises from intentionally or negligently infringing another person's rights?
+    expected_citations: ["民法第709条"]
+    notes: English question over Japanese-language law; tests multilingual querying.
+
+  - id: tw-tort
+    jurisdiction: TW
+    as_of: 2026-10-02
+    question: What liability does Taiwanese civil law impose on someone who intentionally or negligently unlawfully infringes another person's rights?
+    expected_citations: ["民法第184條第1項"]
+
+  - id: eu-rome-i
+    jurisdiction: EU
+    as_of: 2024-01-01
+    question: Can the parties to a cross-border contract choose the law that governs it, and how is that choice expressed?
+    expected_citations: ["Regulation (EC) No 593/2008, art 3(1)"]
+
+  - id: lv-equality
+    jurisdiction: LV
+    as_of: 2026-10-01
+    question: What does the Latvian Constitution say about equality before the law?
+    expected_citations: ["Satversmes 91. pants"]
+
+  - id: control-nz-wills
+    jurisdiction: NZ
+    as_of: 2024-01-01
+    question: What formalities make a will valid in New Zealand?
+    expect_insufficient: true
+    notes: Control. New Zealand legislation is not ingested; the assistant must not answer from memory.
+
+  - id: control-in-contract
+    jurisdiction: IN
+    as_of: 2024-01-01
+    question: When is a contract voidable for coercion under Indian law?
+    expect_insufficient: true
+    notes: Control. India is not ingested.

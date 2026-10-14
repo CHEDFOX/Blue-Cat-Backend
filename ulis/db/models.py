@@ -547,3 +547,33 @@ class Passage(Base):
     authoritative: Mapped[bool] = mapped_column(Boolean)
     is_proposed: Mapped[bool] = mapped_column(Boolean, default=False)
     index_version: Mapped[int] = mapped_column(Integer, default=1)
+
+
+# --------------------------------------------------------------------------- research assistant
+
+
+class ResearchJob(Base):
+    """One run of the research assistant (``POST /v1/research``).
+
+    Never holds the question or the case text: only a digest of the request, the model's own
+    structured result and progress messages. Rows are deleted at ``expires_at``.
+    """
+
+    __tablename__ = "research_jobs"
+    __table_args__ = (
+        CheckConstraint(
+            "status IN ('queued', 'running', 'completed', 'failed', 'refused')", name="research_job_status"
+        ),
+        Index("ix_research_jobs_expires_at", "expires_at"),
+        Index("ix_research_jobs_principal_created", "principal", "created_at"),
+    )
+
+    id: Mapped[uuid.UUID] = uuid_pk()
+    status: Mapped[str] = mapped_column(String(16))
+    principal: Mapped[str] = mapped_column(String(80))
+    created_at: Mapped[datetime] = created_at()
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    request_sha256: Mapped[str] = mapped_column(String(64))
+    progress: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, default=list)
+    result: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    error: Mapped[dict[str, Any] | None] = mapped_column(JSONB)

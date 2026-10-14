@@ -53,4 +53,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
     CMD python -c "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=4).status == 200 else 1)"
 # Applies migrations and syncs the catalog, then serves. docker-compose.yml overrides this with the same
 # steps; running the image directly needs ULIS_API_KEYS, ULIS_DATABASE_URL (a non-default password) and so on.
-CMD ["sh", "-c", "python -m ulis.cli migrate && python -m ulis.cli sync-catalog && exec uvicorn ulis.api.app:create_app --factory --host 0.0.0.0 --port 8000 --workers 2 --no-access-log --no-server-header"]
+CMD ["sh", "-c", "python -m ulis.cli migrate && python -m ulis.cli sync-catalog && exec uvicorn ulis.api.app:create_app --factory --host 0.0.0.0 --port 8000 --workers 1 --no-access-log --no-server-header"]

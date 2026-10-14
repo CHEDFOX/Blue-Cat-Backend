@@ -1,6 +1,6 @@
 # Deploying ULIS on one VPS
 
-One person, one server: PostgreSQL 16 + the API (2 workers) + Caddy (automatic HTTPS), all from `deploy/`.
+One person, one server: PostgreSQL 16 + the API (one worker process: research jobs run in-process) + Caddy (automatic HTTPS), all from `deploy/`.
 ULIS is a research aid for lawyers, never legal advice.
 
 > **What was and was not tested.** Tested here: the new code (API hardening, `load-all`, `status`) against
@@ -140,7 +140,7 @@ Update the base images now and then: `docker compose pull db caddy && docker com
       client, remove the old key, `up -d api` again. Rotate when a laptop or person leaves.
 - [ ] The web interface's *server* calls the API with its key; the key never goes to a browser, so leave
       `ULIS_CORS_ORIGINS` empty. The API sees only the web server's address, so the web app must rate-limit its own users.
-- [ ] Rate limits are per worker process (2 workers: up to 2x). Defaults: 600/min per key, 300/min per IP, research
+- [ ] Rate limits are per process (one worker). Defaults: 600/min per key, 300/min per IP, research
       60/h per key and IP, 300/day for everybody. Tighten with the `ULIS_RATE_LIMIT_*` variables.
 - [ ] Off-site, ideally encrypted, backups; a tested restore. Keep Docker, the images and the OS patched.
 - [ ] Before anyone pastes a client's case file: pasted text goes to the LLM provider. Agree the provider's data
