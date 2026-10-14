@@ -418,7 +418,9 @@ def parse_slovlex_static(content: bytes) -> list[ParsedDocument]:
             if key in footnote_texts and footnote_texts[key] not in seen:
                 seen.append(footnote_texts[key])
                 known = {r.href for r in provisions[index].refs}
-                provisions[index].refs += [r for r in footnote_refs[key] if r.href not in known]  # the footnote cites them
+                provisions[index].refs += [
+                    r for r in footnote_refs[key] if r.href not in known
+                ]  # the footnote cites them
         if seen:
             provisions[index].note = "\n".join(seen)
     if not provisions:

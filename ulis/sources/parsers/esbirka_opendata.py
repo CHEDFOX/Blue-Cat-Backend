@@ -159,7 +159,7 @@ def parse_esbirka(content: bytes) -> list[ParsedDocument]:
     footnotes: dict[str, str] = {}
     for row in rows:
         if row.type == "PPC" and row.label_number:
-            footnotes.setdefault(str(row.label_number), _clean(row.text))
+            footnotes.setdefault(str(row.label_number), f"{row.label_number}) {_clean(row.text)}")
 
     provisions: list[ParsedProvision] = []
     used: dict[str, int] = {}
