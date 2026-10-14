@@ -248,6 +248,7 @@ class ProvisionVersion(Base):
         CheckConstraint("valid_to IS NULL OR valid_from IS NULL OR valid_to > valid_from", name="interval"),
         CheckConstraint("status IN ('in_force', 'prospective', 'repealed', 'proposed')", name="status"),
         CheckConstraint("valid_to_basis IN ('explicit', 'derived', 'open')", name="valid_to_basis"),
+        CheckConstraint("valid_from_basis IN ('source', 'observed')", name="valid_from_basis"),
     )
 
     id: Mapped[uuid.UUID] = uuid_pk()
@@ -261,6 +262,9 @@ class ProvisionVersion(Base):
     valid_from: Mapped[date | None] = mapped_column(Date)
     valid_to: Mapped[date | None] = mapped_column(Date)
     valid_to_basis: Mapped[str] = mapped_column(String(16), default="open")
+    # "observed": the source restated this wording without moving its start date, so it is dated
+    # from the first point-in-time version in which it appears (see the ingestion pipeline).
+    valid_from_basis: Mapped[str] = mapped_column(String(16), default="source", server_default="source")
     note: Mapped[str | None] = mapped_column(Text)
     source_document_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("source_documents.id"))
     source_locator: Mapped[str] = mapped_column(Text)

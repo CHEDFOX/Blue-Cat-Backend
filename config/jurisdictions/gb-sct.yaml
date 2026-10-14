@@ -1,0 +1,40 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED.
+schema_version: 1
+id: GB-SCT
+profile_version: 0.1.0
+name: Scotland
+kind: constituent_unit
+parent: GB
+fictional: false
+verification:
+  status: draft_unverified
+official_languages: [en]
+legal_system:
+  families: [mixed]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: To verify - Scots law is a mixed (civilian and common law) system.
+legislative_institutions:
+  - id: GB-SCT-PARL
+    name: Scottish Parliament
+    instrument_types: [act, statutory_instrument]
+instrument_types: [act, statutory_instrument]
+norm_hierarchy: [act, statutory_instrument]
+courts:
+  - id: GB-CSIH
+    name: Court of Session, Inner House
+    rank: 1
+    appeals_to: [GB-UKSC]
+  - id: GB-HCJ
+    name: High Court of Justiciary
+    rank: 1
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: gb
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only selected Acts of the Scottish Parliament are ingested; no Scottish statutory instruments yet.
+    - Scots common law (including the common-law offence of theft) is not represented.

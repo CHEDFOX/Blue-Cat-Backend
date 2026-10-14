@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import date
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from ulis.catalog import Catalog
@@ -41,7 +41,10 @@ def provision_at(
     if language not in languages:
         raise NotFound(f"no {language} text for {uri}; available: {languages}")
     in_lang = [v for v in versions if v.language == language]
-    pit = resolve_at(in_lang, as_of)
+    history_start = session.scalar(
+        select(func.min(m.InstrumentVersion.version_date)).where(m.InstrumentVersion.instrument_id == instrument.id)
+    )
+    pit = resolve_at(in_lang, as_of, history_start=history_start, work_date=instrument.work_date)
 
     limitations: list[Limitation] = []
     selected: dict[str, Any] | None = None
@@ -68,6 +71,7 @@ def provision_at(
             "valid_from": _iso(data.version.valid_from),
             "valid_to": _iso(data.version.valid_to),
             "valid_to_basis": data.version.valid_to_basis,
+            "valid_from_basis": data.version.valid_from_basis,
             "note": data.version.note,
             "expression_uri": data.instrument_version.uri,
             "currency_date": _iso(data.currency_date),
@@ -88,6 +92,9 @@ def provision_at(
             "not_yet_in_force": f"No version of this provision was in force on {as_of}; it took effect later.",
             "prospective_only": f"On {as_of} this provision had been enacted but was not in force.",
             "no_version": f"No version of this provision is recorded for {as_of}.",
+            "history_not_indexed": f"No version of this provision is indexed for {as_of}. Indexed history for this "
+            f"instrument starts on {history_start}; an earlier version may have applied, or the provision may not "
+            "yet have existed.",
         }
         limitations.insert(0, Limitation("NO_VERSION_ON_DATE", "critical", messages.get(pit.status, pit.status)))
 
@@ -121,6 +128,7 @@ def provision_at(
                 "valid_from": _iso(v.valid_from),
                 "valid_to": _iso(v.valid_to),
                 "valid_to_basis": v.valid_to_basis,
+                "valid_from_basis": v.valid_from_basis,
                 "text": v.text,
                 "note": v.note,
                 "selected": pit.version is not None and v.id == pit.version.id,

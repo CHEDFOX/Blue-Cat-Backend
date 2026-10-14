@@ -123,6 +123,16 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
         else:
             period += "; no end date recorded"
         out.append(Limitation("VERSION_PERIOD", "info", f"This version applies {period}."))
+        if v.valid_from_basis == "observed":
+            out.append(
+                Limitation(
+                    "START_DATE_OBSERVED",
+                    "warning",
+                    f"Start date approximate: the source dates this wording from an earlier date that its own "
+                    f"earlier versions contradict, so it is shown from {v.valid_from}, the first point-in-time "
+                    "version in which it appears. The change took effect on or before that date.",
+                )
+            )
         if v.valid_from is None and iv.validity_basis == "attested_at_edition":
             out.append(
                 Limitation(
@@ -197,13 +207,33 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
                             f"{data.currency_date}; the provision may have changed since.",
                         )
                     )
-    for change in data.outstanding_changes:
+    specific = [c for c in data.outstanding_changes if c.get("affects_eid")]
+    general = [c for c in data.outstanding_changes if not c.get("affects_eid")]
+    for change in specific[:5]:
         out.append(
             Limitation(
                 "OUTSTANDING_CHANGES",
                 "warning",
                 f"Source reports a change not yet incorporated: {change.get('by_title') or change.get('by_uri')}"
                 f" - {change.get('description')}",
+            )
+        )
+    if len(specific) > 5:
+        out.append(
+            Limitation(
+                "OUTSTANDING_CHANGES",
+                "warning",
+                f"...and {len(specific) - 5} more outstanding changes affecting this provision.",
+            )
+        )
+    if general:
+        examples = "; ".join(str(c.get("affected_label") or c.get("by_title")) for c in general[:3])
+        out.append(
+            Limitation(
+                "OUTSTANDING_CHANGES_INSTRUMENT",
+                "warning",
+                f"The source lists {len(general)} change(s) to this instrument not yet incorporated and not "
+                f"linked to a specific provision (e.g. {examples}); check whether they affect this text.",
             )
         )
 
@@ -267,6 +297,15 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
                 "(1 U.S.C. 112, 204).",
             )
         )
+    elif iv.text_origin == "official_revised":
+        out.append(
+            Limitation(
+                "REVISED_TEXT",
+                "info",
+                "Revised (consolidated) text maintained by the official publisher's editors; it is not the "
+                "authentic enacted text.",
+            )
+        )
     elif iv.text_origin == "official_conversion":
         out.append(
             Limitation(
@@ -280,6 +319,7 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
     elif not data.instrument_version.authoritative and iv.text_origin not in (
         "unofficial_compilation",
         "official_conversion",
+        "official_revised",  # REVISED_TEXT already says it is not the authentic enacted text
     ):
         out.append(Limitation("NOT_AUTHENTIC_TEXT", "warning", "This language version is not an authentic text."))
 

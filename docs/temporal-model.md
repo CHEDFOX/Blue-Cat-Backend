@@ -40,7 +40,7 @@ question concerns an earlier date.
 
 | Basis | Used for | Effect on answers |
 |---|---|---|
-| `source_periods` | Sources that state periods (Akoma Ntoso `temporalData`) | Dates shown as published; derived end dates flagged |
+| `source_periods` | Sources that state periods (Akoma Ntoso `temporalData`; legislation.gov.uk restrictions) | Dates shown as published; derived end dates flagged. A UK period with an end but no start runs from the start of the revised data (first lifecycle date after enactment) |
 | `enactment_date_presumed` | US public laws as enacted | In force from approval date under the default rule; `EFFECTIVE_DATE_PRESUMED` warning |
 | `attested_at_edition` | CFR annual editions; statute compilations | Start unknown, so `ATTESTED_ONLY_AT` and authority "applicability unverified" |
 | `proposal_stage` | Bill and resolution versions | Each stage supersedes the previous (`LATER_STAGE_EXISTS`); never law |
@@ -52,11 +52,36 @@ resolve_at(versions_of_one_provision_in_one_language, D):
   dated := versions with valid_from and status in {in_force, repealed}, sorted by valid_from
   current := last v in dated with valid_from <= D < (valid_to or ∞)
   if current: status := current.status                        # in_force | repealed
-  elif dated and D < first(dated).valid_from: not_yet_in_force
+  elif dated and D < first(dated).valid_from:
+      history_not_indexed if work_date <= D < history_start      # made, but older versions not indexed
+      else not_yet_in_force
   elif any prospective: prospective_only
   else: no_version
   also return earlier, later and prospective versions for the timeline
 ```
+
+`history_start` is the earliest indexed version date of the instrument. Searches whose date
+falls in such a gap carry `HISTORY_INCOMPLETE` (for example, UK Acts before the 1 February
+1991 basedate of the revised data).
+
+### Point-in-time series (legislation.gov.uk)
+
+Each fetched point-in-time version attests the law on its own date. Three rules keep the
+history honest:
+
+- **Forecasts are not law yet.** A wording dated after the version it appears in (for example
+  an uncommenced provision with a scheduled date) is not recorded from that version; it is
+  reported as a scheduled change. The version fetched for that date records what actually
+  applied, which often differs because the text was amended before commencement.
+- **Containers follow their children.** A section's text includes its subsections, so its
+  wording runs from the latest start, and until the earliest end, found in its subtree. If
+  the children's periods never overlap, the composite text never applied as a whole and is
+  not recorded for that version (`record_version = false`).
+- **Restatements are dated by observation.** When a later version gives a provision a new
+  wording but keeps the old start date (which the source's own earlier versions contradict),
+  the new wording is recorded from the date of the first version that shows it, with
+  `valid_from_basis = observed` and a `START_DATE_OBSERVED` warning. Out-of-order or
+  non-point-in-time differences remain conflicts for human review.
 
 ## Case law and time
 

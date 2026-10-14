@@ -38,11 +38,19 @@ class ParsedProvision:
     has_own_content: bool
     # Heading of the enclosing top-level provision (useful context for leaf passages).
     context_heading: str | None = None
+    # False when the source's composite text for this container never applied as a whole (its
+    # children's periods do not overlap): the provision is recorded, but not this version.
+    record_version: bool = True
 
     @property
     def indexable(self) -> bool:
         """Leaves are indexed; containers only when they carry their own text (e.g. a chapeau)."""
-        return self.status != "repealed" and bool(self.text) and (self.is_leaf or self.has_own_content)
+        return (
+            self.record_version
+            and self.status != "repealed"
+            and bool(self.text)
+            and (self.is_leaf or self.has_own_content)
+        )
 
 
 @dataclass(frozen=True)

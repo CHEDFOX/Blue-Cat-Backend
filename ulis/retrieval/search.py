@@ -452,6 +452,25 @@ def search(
                     "search a constituent jurisdiction to include it.",
                 )
             )
+    if req.jurisdiction is not None and scope["chain"]:
+        gap = session.execute(
+            text(
+                "SELECT count(*), min(h.start) FROM (SELECT i.id, min(iv.version_date) AS start FROM instruments i "
+                "JOIN instrument_versions iv ON iv.instrument_id = i.id "
+                "WHERE i.jurisdiction_id = ANY(CAST(:chain AS text[])) AND i.work_date <= :as_of "
+                "AND NOT i.is_proposed GROUP BY i.id) h WHERE h.start > :as_of"
+            ),
+            {"chain": scope["chain"], "as_of": as_of},
+        ).one()
+        if gap[0]:
+            global_limits.append(
+                Limitation(
+                    "HISTORY_INCOMPLETE",
+                    "warning",
+                    f"For {gap[0]} instrument(s) in scope, indexed versions start after {as_of} (earliest "
+                    f"{gap[1]}); text that applied on {as_of} may be missing from these results.",
+                )
+            )
     if req.as_of is None:
         global_limits.append(
             Limitation("DATE_DEFAULTED", "info", f"No date was given; results reflect the law as indexed for {as_of}.")
@@ -527,6 +546,8 @@ def _provision_hit(session: Session, catalog: Catalog, c: _Candidate, rank: int,
             prov.top_kind,
             list(prov.num_path),
             pv.language,
+            ext=inst.ext or {},
+            eid=prov.eid,
         )
     )
     return {
@@ -550,6 +571,7 @@ def _provision_hit(session: Session, catalog: Catalog, c: _Candidate, rank: int,
             "valid_from": pv.valid_from.isoformat() if pv.valid_from else None,
             "valid_to": pv.valid_to.isoformat() if pv.valid_to else None,
             "valid_to_basis": pv.valid_to_basis,
+            "valid_from_basis": pv.valid_from_basis,
             "authoritative": iv.authoritative,
             "text_origin": iv.text_origin,
             "consolidation": iv.consolidation_kind,
@@ -570,6 +592,7 @@ def _provision_hit(session: Session, catalog: Catalog, c: _Candidate, rank: int,
                 "valid_from": t.valid_from.isoformat() if t.valid_from else None,
                 "valid_to": t.valid_to.isoformat() if t.valid_to else None,
                 "valid_to_basis": t.valid_to_basis,
+                "valid_from_basis": t.valid_from_basis,
                 "current_hit": t.id == str(pv.id),
             }
             for t in data.timeline

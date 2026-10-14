@@ -37,6 +37,8 @@ class ProvisionCitationInput:
     # Date of the work (e.g. enactment) and of the expression cited (e.g. a CFR edition).
     work_date: date | None = None
     version_date: date | None = None
+    # The provision's eId, for conventions that depend on structure (e.g. UK schedules).
+    eid: str = ""
 
 
 @dataclass(frozen=True)

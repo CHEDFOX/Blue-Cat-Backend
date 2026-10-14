@@ -3,9 +3,10 @@
 Jurisdiction-aware legal corpus, retrieval and verification backend (Python, FastAPI,
 PostgreSQL). The frontend is in [`Blue-Cat-Web`](https://github.com/CHEDFOX/Blue-Cat-Web).
 
-> **Status:** Phase 1 foundations plus a working Phase 2 slice. Real data: a **sample of US
-> federal law** from the US Government Publishing Office (96 official USLM files: public
-> laws, statute compilations, CFR editions, bills and resolutions). Plus a fictional
+> **Status:** Phase 1 foundations plus a working Phase 2 slice. Real data: **UK legislation**
+> from legislation.gov.uk (9 Acts and instruments of the UK, Scottish and Welsh legislatures,
+> each with its full point-in-time history) and a **sample of US federal law** from the US
+> Government Publishing Office (96 official USLM files). Plus a fictional
 > multi-jurisdiction test corpus. Coverage is partial and stated on every response; ULIS
 > makes no claim of legal competence. Research aid only, not legal advice.
 
@@ -43,6 +44,7 @@ python -m ulis.cli ingest ulis-fictional-sample      # licence-gated; prints a r
 python -m ulis.cli verify-sources                    # re-derives every text from raw bytes
 python -m ulis.cli search "retain personal data" --jurisdiction XA --as-of 2020-06-01
 python -m ulis.cli ingest us-gpo-uslm-samples        # real US federal sample (git clone of a pinned GPO commit)
+python -m ulis.cli ingest gb-legislation-gov-uk       # real UK legislation with history (polite, cached fetch)
 python -m ulis.cli ingest in-india-code              # refused: licence review pending (exit 2)
 uvicorn ulis.api.app:create_app --factory --port 8000
 ```
@@ -93,9 +95,10 @@ tests/             unit + PostgreSQL integration tests
 | Source | Jurisdiction | Content | Status |
 |---|---|---|---|
 | `us-gpo-uslm-samples` | US (federal) | 96 official GPO USLM files pinned to commit `4ec9db2`: 14 public laws as enacted, 11 statute compilations, 7 CFR edition volumes (221 parts), 64 bill/resolution versions; 12 files excluded with recorded reasons | Real, public domain; sample only |
+| `gb-legislation-gov-uk` | GB, England and Wales, Scotland, Wales | 9 works with every point-in-time version (159 versions): Theft Act 1968, Interpretation Act 1978, Human Rights Act 1998, Consumer Rights Act 2015, Data Protection Act 2018, an SI, a Scottish Act, a Welsh Measure and a Welsh Act; territorial extent, repeals, outstanding effects | Real, Open Government Licence v3.0; selection only |
 | `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
 
 Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO
 user-assigned codes). India (`IN`) has a *draft, unverified* profile and no corpus; queries
-for `IN` say so explicitly. Other official portals are pending network access and licence
-review; see [sources-and-licensing.md](docs/sources-and-licensing.md).
+for `IN` say so explicitly. India Code refuses automated access (HTTP 403), so India waits
+for the publisher's permission. See [sources-and-licensing.md](docs/sources-and-licensing.md).

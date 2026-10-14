@@ -1,0 +1,36 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. England and Wales: one legal jurisdiction.
+schema_version: 1
+id: GB-EAW
+profile_version: 0.1.0
+name: England and Wales
+kind: constituent_unit
+parent: GB
+fictional: false
+verification:
+  status: draft_unverified
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+instrument_types: []
+courts:
+  - id: GB-EWCA
+    name: Court of Appeal of England and Wales
+    rank: 1
+    appeals_to: [GB-UKSC]
+    binds_self: true
+  - id: GB-EWHC
+    name: High Court of Justice (England and Wales)
+    rank: 2
+    appeals_to: [GB-EWCA]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+  notes: To verify - the Court of Appeal is generally bound by its own decisions, with recognised exceptions.
+citation:
+  module: gb
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Legislation extending to England and Wales is covered only for the selected instruments.

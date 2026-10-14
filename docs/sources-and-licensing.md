@@ -53,7 +53,7 @@ or without conditions); connector and parser configured.
 |---|---|---|---|---|
 | `ulis-fictional-sample` | active | CC0-1.0, self-authored | **Admitted** | Fictional; pinned by SHA-256 manifest |
 | `us-gpo-uslm-samples` | active | US government work (17 U.S.C. 105) + CC0 waiver, stated in the repository `LICENSE.md` and each file's `dc:rights` | **Admitted** | Real; GitHub `usgpo/uslm` pinned to one commit, files pinned by SHA-256; converted XML, not authenticated |
-| `gb-legislation-gov-uk` | planned | Open Government Licence v3.0 (to confirm) | Refused | Point-in-time XML and extent data; outstanding effects must be surfaced |
+| `gb-legislation-gov-uk` | active | Open Government Licence v3.0 (stated in the site footer; fair-use policy encourages re-use) | **Admitted** | Akoma Ntoso with point-in-time versions, extent and status; fetched politely (identifying User-Agent, robots `Crawl-delay: 5`, cache); outstanding effects reported |
 | `gb-find-case-law` | planned | Open Justice Licence (to confirm) | Refused | Our understanding: computational analysis requires a separate licence. Recorded as `automated_processing: not_allowed` until held |
 | `us-uscode-house` | planned | US government work, 17 U.S.C. 105 (to confirm) | Refused | Non-positive-law titles are prima facie evidence (1 U.S.C. 204) |
 | `eu-eur-lex` | planned | Commission Decision 2011/833/EU reuse (to confirm) | Refused | Only the e-OJ is authentic; consolidations are documentation |
@@ -80,6 +80,19 @@ point-in-time data and a published open licence is the lowest-risk pilot. legisl
 is the best-documented example. India is an important target, but the reuse terms for bulk
 legislation text and court sources are not yet established and must be reviewed first. The
 choice is a product and legal decision for the team. The platform supports either.
+
+**Second real source (2026-10-14):** legislation.gov.uk, after network access was opened.
+Licence and fair-use terms were read from the site itself before activation. The connector
+fetches each Act's revised text at every date in its lifecycle, so the whole version history
+since the start of the revised data is indexed (1 February 1991 for older Acts; enactment for
+later ones). Earlier dates are reported as `history_not_indexed`, never as "not in force".
+Known gaps: Welsh-language texts of Welsh legislation are not ingested yet; editorial
+annotations are kept as notes, never as law text; unapplied effects are reported as
+outstanding changes.
+
+**India (2026-10-14):** indiacode.nic.in answers our identified crawler with HTTP 403 (Access
+Denied). We do not work around blocks. India stays at "no corpus" until the publisher grants
+access or offers a bulk-data channel, and the licence review is complete.
 
 **First real source (2026-10-14):** US federal law from the GPO's public GitHub repository
 (the only official publisher reachable from the build container), via the `git_snapshot`

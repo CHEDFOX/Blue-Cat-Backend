@@ -21,7 +21,22 @@ def _profile(**overrides: object) -> dict[str, object]:
 
 
 def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
-    assert set(catalog.jurisdictions.profiles) == {"INT", "XR", "XA", "XA-NP", "XA-SP", "XB", "IN", "US"}
+    assert set(catalog.jurisdictions.profiles) == {
+        "INT",
+        "XR",
+        "XA",
+        "XA-NP",
+        "XA-SP",
+        "XB",
+        "IN",
+        "US",
+        "GB",
+        "GB-EAW",
+        "GB-ENG",
+        "GB-WLS",
+        "GB-SCT",
+        "GB-NIR",
+    }
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"
     assert catalog.jurisdictions.get("IN").coverage.corpus_status == "none"
@@ -91,7 +106,7 @@ def test_profile_hash_is_stable(catalog: Catalog) -> None:
 
 
 def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
-    approved = {"ulis-fictional-sample", "us-gpo-uslm-samples"}
+    approved = {"ulis-fictional-sample", "us-gpo-uslm-samples", "gb-legislation-gov-uk"}
     for source_id in approved:
         licence_gate(catalog.sources.get(source_id))
     for source in catalog.sources:

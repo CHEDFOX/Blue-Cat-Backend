@@ -77,7 +77,7 @@ def test_licence_gate_blocks_planned_sources(session: Session, catalog: Catalog,
     with pytest.raises(LicenceNotApproved):
         Ingestor(session, catalog, store).ingest_source("in-india-code", actor="pytest")
     with pytest.raises(LicenceNotApproved):
-        Ingestor(session, catalog, store).ingest_source("gb-legislation-gov-uk", actor="pytest")
+        Ingestor(session, catalog, store).ingest_source("eu-eur-lex", actor="pytest")
 
 
 class _ListConnector:

@@ -36,7 +36,7 @@ Implemented in `ulis/db/models.py` and `migrations/versions/0001_core_schema.py`
 | Legal instrument | `instruments` | `uri`, `jurisdiction_id`, `instrument_type` (constitution, act, code, regulation, bill, treaty, ...), `is_proposed`, `extent[]`, `ext` |
 | Instrument version | `instrument_versions` | `language`, `authoritative`, `text_origin`, `consolidation_kind` (as_enacted / consolidated / as_introduced), `version_date`, `currency_date`, `outstanding_changes` |
 | Statutory provision | `provisions` | `eid`, `uri`, `kind`, `num_path[]`, `parent_id`, `extent[]`, `index_unit` |
-| Provision version | `provision_versions` | Exact `text` + `text_sha256`, `status` (in_force/prospective/repealed/proposed), `valid_from`, `valid_to`, `valid_to_basis`, `note`, `source_locator` |
+| Provision version | `provision_versions` | Exact `text` + `text_sha256`, `status` (in_force/prospective/repealed/proposed), `valid_from`, `valid_to`, `valid_to_basis`, `valid_from_basis` (source/observed), `note`, `source_locator` |
 | Provenance and corroboration | `provision_version_sources` | Every expression and source document that attests a provision version |
 | Judgment and judgment version | `judgments`, `judgment_versions` | `court_id`, `case_name`, `neutral_citation`, `decision_date`, `docket`; versions by language |
 | Judgment paragraph | `judgment_paragraphs` | `eid`, `num`, `part` (background/motivation/decision), exact `text` + hash |
@@ -55,7 +55,7 @@ Implemented in `ulis/db/models.py` and `migrations/versions/0001_core_schema.py`
 ## Integrity constraints worth noting
 
 - `provision_versions`: unique on `(provision, language, coalesce(valid_from,'-infinity'), status)`;
-  `valid_to > valid_from`; enumerated `status` and `valid_to_basis`.
+  `valid_to > valid_from`; enumerated `status`, `valid_to_basis` and `valid_from_basis`.
 - `source_documents`: unique `(source_id, sha256)`, which makes ingestion idempotent.
 - `passages` and `proposition_support` must point at exactly one target (check constraint).
 - `propositions.kind` is enumerated, so a model-generated inference can never be stored as

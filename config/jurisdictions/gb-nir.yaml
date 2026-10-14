@@ -1,0 +1,35 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED.
+schema_version: 1
+id: GB-NIR
+profile_version: 0.1.0
+name: Northern Ireland
+kind: constituent_unit
+parent: GB
+fictional: false
+verification:
+  status: draft_unverified
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+legislative_institutions:
+  - id: GB-NIR-ASSEMBLY
+    name: Northern Ireland Assembly
+    instrument_types: [act, statutory_rule]
+instrument_types: [act, statutory_rule]
+norm_hierarchy: [act, statutory_rule]
+courts:
+  - id: GB-NICA
+    name: Court of Appeal in Northern Ireland
+    rank: 1
+    appeals_to: [GB-UKSC]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: gb
+coverage:
+  corpus_status: none
+  known_gaps:
+    - No Northern Ireland legislation is ingested yet (UK Acts extending to Northern Ireland are covered).

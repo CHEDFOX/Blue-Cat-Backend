@@ -1,0 +1,32 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED.
+schema_version: 1
+id: GB-WLS
+profile_version: 0.1.0
+name: Wales
+names: {en: Wales, cy: Cymru}
+kind: constituent_unit
+parent: GB-EAW
+fictional: false
+verification:
+  status: draft_unverified
+official_languages: [en, cy]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+legislative_institutions:
+  - id: GB-WLS-SENEDD
+    name: Senedd Cymru / Welsh Parliament (formerly National Assembly for Wales)
+    instrument_types: [act, measure, statutory_instrument]
+instrument_types: [act, measure, statutory_instrument]
+norm_hierarchy: [act, measure, statutory_instrument]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: gb
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Welsh-language texts (equally authentic with English) are not yet ingested.
+    - Only selected Welsh Acts and Measures are ingested.

@@ -88,6 +88,7 @@ PointInTimeStatus = Literal[
     "no_version",
     "in_force_date_unverified",
     "proposed",
+    "history_not_indexed",
 ]
 
 
@@ -100,8 +101,20 @@ class PointInTime:
     prospective: list[VersionLike] = field(default_factory=list)
 
 
-def resolve_at(versions: Sequence[VersionLike], as_of: date) -> PointInTime:
-    """Select the version of one provision (one language) applicable on ``as_of``."""
+def resolve_at(
+    versions: Sequence[VersionLike],
+    as_of: date,
+    *,
+    history_start: date | None = None,
+    work_date: date | None = None,
+) -> PointInTime:
+    """Select the version of one provision (one language) applicable on ``as_of``.
+
+    ``history_start`` is the earliest date from which the instrument's versions are indexed and
+    ``work_date`` the date the instrument was made. A date between the two falls in a gap: an
+    earlier, unindexed version may have applied, so the answer is ``history_not_indexed`` rather
+    than "not yet in force".
+    """
     dated = _dated(versions)
     prospective = [v for v in versions if v.status == "prospective"]
     current = next((v for v in reversed(dated) if covers(v, as_of)), None)
@@ -112,7 +125,8 @@ def resolve_at(versions: Sequence[VersionLike], as_of: date) -> PointInTime:
     if current is not None:
         status: PointInTimeStatus = "in_force" if current.status == "in_force" else "repealed"
     elif dated and as_of < dated[0].valid_from:  # type: ignore[operator]
-        status = "not_yet_in_force"
+        in_gap = history_start is not None and work_date is not None and work_date <= as_of < history_start
+        status = "history_not_indexed" if in_gap else "not_yet_in_force"
     elif undated:
         # Known to be in force only at a source date (e.g. a code edition); the start is unknown.
         status, current = "in_force_date_unverified", undated[-1]

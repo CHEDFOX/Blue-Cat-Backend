@@ -52,6 +52,7 @@ class VersionSummary:
     valid_to: date | None
     valid_to_basis: str
     text_sha256: str
+    valid_from_basis: str = "source"
 
 
 @dataclass
@@ -124,6 +125,7 @@ def provision_citation(
             profile_extensions=profile.extensions,
             work_date=instrument.work_date,
             version_date=version_date,
+            eid=provision.eid,
         )
     )
 
@@ -229,7 +231,16 @@ def load_provision(session: Session, catalog: Catalog, version_id: uuid.UUID) ->
                 outstanding.append(change)
 
     timeline = [
-        VersionSummary(str(v.id), v.language, v.status, v.valid_from, v.valid_to, v.valid_to_basis, v.text_sha256)
+        VersionSummary(
+            str(v.id),
+            v.language,
+            v.status,
+            v.valid_from,
+            v.valid_to,
+            v.valid_to_basis,
+            v.text_sha256,
+            v.valid_from_basis,
+        )
         for v in session.scalars(
             select(m.ProvisionVersion)
             .where(m.ProvisionVersion.provision_id == provision.id, m.ProvisionVersion.language == pv.language)

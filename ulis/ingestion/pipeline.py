@@ -30,9 +30,10 @@ from ulis.retrieval.indexer import rebuild_passages
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
+from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
-from ulis.sources.parsers import akn, uslm
+from ulis.sources.parsers import akn, legislation_gov_uk, uslm
 from ulis.sources.registry import SourceDescriptor, licence_gate
 from ulis.storage.object_store import ObjectStore
 from ulis.temporal.validity import Span, derive_valid_to
@@ -42,8 +43,13 @@ from ulis.temporal.validity import Span, derive_valid_to
 PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "akn3": lambda content: [akn.parse_akn(content)],
     "uslm": uslm.parse_uslm,
+    "legislation_gov_uk_akn": legislation_gov_uk.parse_legislation_gov_uk,
 }
-PARSER_VERSIONS = {"akn3": akn.PARSER_VERSION, "uslm": uslm.PARSER_VERSION}
+PARSER_VERSIONS = {
+    "akn3": akn.PARSER_VERSION,
+    "uslm": uslm.PARSER_VERSION,
+    "legislation_gov_uk_akn": legislation_gov_uk.PARSER_VERSION,
+}
 PROPOSED_TYPES = ("bill", "resolution")
 
 
@@ -62,6 +68,7 @@ class IngestionReport:
     instrument_versions_created: int = 0
     provision_versions_created: int = 0
     provision_versions_corroborated: int = 0
+    provision_versions_restated: int = 0
     judgments_created: int = 0
     paragraphs_created: int = 0
     citation_links_created: int = 0
@@ -83,6 +90,10 @@ def build_connector(source: SourceDescriptor, base_dir: Path = REPO_ROOT, cache_
         return GitSnapshotConnector(
             base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
         )
+    if source.connector == "legislation_gov_uk":
+        return LegislationGovUkConnector(
+            base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
+        )
     raise ValueError(f"no connector implementation named {source.connector!r}")
 
 
@@ -95,7 +106,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
     if "/~" in uri:
         work, _, eid = uri.partition("/~")
         return work, eid or None
-    return uslm.resolve_identifier(uri) or (uri, None)
+    return uslm.resolve_identifier(uri) or legislation_gov_uk.resolve_uri(uri) or (uri, None)
 
 
 def _sha(text: str) -> str:
@@ -378,6 +389,8 @@ class Ingestor:
         if row is not None and is_latest:
             # Document order follows the most recent expression (inserted provisions slot in).
             row.sort_order = prov.sort_order
+        if row is not None and row.parent_id is None and prov.parent_eid in provisions:
+            row.parent_id = provisions[prov.parent_eid].id
         if row is None:
             parent = provisions.get(prov.parent_eid) if prov.parent_eid else None
             row = m.Provision(
@@ -396,6 +409,8 @@ class Ingestor:
             s.add(row)
             provisions[prov.eid] = row
 
+        if not prov.record_version:
+            return
         text_sha = _sha(prov.text)
         key = (row.id, version.language, prov.status, prov.valid_from)
         existing = versions.get(key)
@@ -410,6 +425,8 @@ class Ingestor:
                     )
                 )
                 report.provision_versions_corroborated += 1
+            elif self._restated(row, version, prov, existing, text_sha, versions, doc, report):
+                pass
             else:
                 report.conflicts.append(
                     f"{row.uri} ({version.language}, from {prov.valid_from}): text differs between "
@@ -423,6 +440,21 @@ class Ingestor:
                 )
             return
 
+        versions[key] = self._new_version(row, version, prov, text_sha, doc, report, valid_from=prov.valid_from)
+
+    def _new_version(
+        self,
+        row: m.Provision,
+        version: m.InstrumentVersion,
+        prov: ParsedProvision,
+        text_sha: str,
+        doc: m.SourceDocument,
+        report: IngestionReport,
+        *,
+        valid_from: Any,
+    ) -> m.ProvisionVersion:
+        s = self.session
+        valid_to = prov.valid_to if prov.valid_to is None or valid_from is None or prov.valid_to > valid_from else None
         pv = m.ProvisionVersion(
             id=uuid.uuid4(),
             provision_id=row.id,
@@ -432,15 +464,14 @@ class Ingestor:
             text=prov.text,
             text_sha256=text_sha,
             status=prov.status,
-            valid_from=prov.valid_from,
-            valid_to=prov.valid_to,
-            valid_to_basis="explicit" if prov.valid_to else "open",
+            valid_from=valid_from,
+            valid_to=valid_to,
+            valid_to_basis="explicit" if valid_to else "open",
             note=prov.note,
             source_document_id=doc.id,
             source_locator=prov.eid,
         )
         s.add(pv)
-        versions[key] = pv
         s.add(
             m.ProvisionVersionSource(
                 provision_version_id=pv.id,
@@ -451,8 +482,82 @@ class Ingestor:
         )
         report.provision_versions_created += 1
         for ref in prov.refs:
-            self._add_link("provision_version", pv.id, instrument.uri, ref, doc)
+            self._add_link("provision_version", pv.id, row.uri.partition("/~")[0], ref, doc)
             report.citation_links_created += 1
+        return pv
+
+    def _restated(
+        self,
+        row: m.Provision,
+        version: m.InstrumentVersion,
+        prov: ParsedProvision,
+        existing: m.ProvisionVersion,
+        text_sha: str,
+        versions: dict[tuple[Any, str, str, Any], m.ProvisionVersion],
+        doc: m.SourceDocument,
+        report: IngestionReport,
+    ) -> bool:
+        """A point-in-time series that gives a provision a new wording but keeps its old start date.
+
+        Each point-in-time version attests the law on its own date, so the new wording certainly
+        applied on this version's date and the old one on the last date it was seen. The new
+        wording is recorded from this version's date (``valid_from_basis = observed``) instead of
+        the start date the source gives, which its own earlier versions contradict. Anything else
+        (out-of-order versions, other kinds of source) stays a conflict for a human to resolve.
+        """
+        s = self.session
+        observed = version.version_date
+        if version.consolidation_kind != "point_in_time" or prov.valid_from is None or prov.valid_from >= observed:
+            return False
+        last_seen = s.scalar(
+            select(func.max(m.InstrumentVersion.version_date))
+            .join(m.ProvisionVersionSource, m.ProvisionVersionSource.instrument_version_id == m.InstrumentVersion.id)
+            .where(m.ProvisionVersionSource.provision_version_id == existing.id)
+        )
+        if last_seen is None or last_seen >= observed:
+            return False
+        same = next(
+            (
+                pv
+                for (pid, lang, status, start), pv in versions.items()
+                if pid == row.id
+                and lang == version.language
+                and status == prov.status
+                and start is not None
+                and prov.valid_from < start <= observed
+                and pv.text_sha256 == text_sha
+            ),
+            None,
+        )
+        if same is not None:  # this restatement was already recorded from an earlier version
+            s.add(
+                m.ProvisionVersionSource(
+                    provision_version_id=same.id,
+                    instrument_version_id=version.id,
+                    source_document_id=doc.id,
+                    source_locator=prov.eid,
+                )
+            )
+            report.provision_versions_corroborated += 1
+            return True
+        if (row.id, version.language, prov.status, observed) in versions:
+            return False
+        pv = self._new_version(row, version, prov, text_sha, doc, report, valid_from=observed)
+        pv.valid_from_basis = "observed"
+        versions[(row.id, version.language, prov.status, observed)] = pv
+        self._verify(
+            doc,
+            "version_restated",
+            "warn",
+            {
+                "provision": row.uri,
+                "stated_start": prov.valid_from.isoformat(),
+                "previous_wording_last_seen": last_seen.isoformat(),
+                "recorded_from": observed.isoformat(),
+            },
+        )
+        report.provision_versions_restated += 1
+        return True
 
     def _persist_judgment(self, parsed: ParsedDocument, doc: m.SourceDocument, report: IngestionReport) -> Any:
         s = self.session

@@ -1,0 +1,25 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED.
+schema_version: 1
+id: GB-ENG
+profile_version: 0.1.0
+name: England
+kind: constituent_unit
+parent: GB-EAW
+fictional: false
+verification:
+  status: draft_unverified
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+instrument_types: []
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: gb
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - England has no separate legislature; see GB and GB-EAW.

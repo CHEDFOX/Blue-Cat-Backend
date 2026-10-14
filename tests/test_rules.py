@@ -170,3 +170,13 @@ def test_quote_checks() -> None:
     assert check_quote("than “five years”", text).normalisations == ["quotation_marks"]
     assert check_quote("seven years", text).result == "not_found"
     assert check_quote("   ", text).result == "not_found"
+
+
+def test_unindexed_history_is_not_reported_as_not_yet_in_force() -> None:
+    # e.g. an Act made in 1968 whose indexed point-in-time versions start at 1991-02-01
+    versions = [Span("v1991", "in_force", D(1991, 2, 1), None)]
+    gap = resolve_at(versions, D(1980, 1, 1), history_start=D(1991, 2, 1), work_date=D(1968, 7, 26))
+    before = resolve_at(versions, D(1960, 1, 1), history_start=D(1991, 2, 1), work_date=D(1968, 7, 26))
+    assert gap.status == "history_not_indexed" and gap.version is None
+    assert before.status == "not_yet_in_force"
+    assert resolve_at(versions, D(1980, 1, 1)).status == "not_yet_in_force"  # no history information given
