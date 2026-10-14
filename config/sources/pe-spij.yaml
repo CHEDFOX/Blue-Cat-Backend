@@ -1,0 +1,51 @@
+# Peruvian legislation (SPIJ, Sistema Peruano de Información Jurídica, Ministerio de Justicia y Derechos Humanos, and the
+# Congress's "leyes" site). PLANNED, nothing ingested. Checked 2026-10-14, one request each, no retry, no other client
+# identity, no proxy or mirror:
+#   https://spij.minjus.gob.pe/robots.txt                                    - "Connection reset by peer" (TLS connection closed by the host).
+#   https://leyes.congreso.gob.pe/robots.txt                                 - HTTP 200: "Disallow: /*.pdf$" and the folder
+#        /Documentos/2021_2026/Acusaciones_Constitucionales/; everything else allowed. Not pursued: no terms or licence
+#        page of the Congress was read, and the consolidated texts the site offers (to verify) are PDF files, which that
+#        robots.txt disallows for every robot.
+#   https://www.gob.pe/robots.txt                                            - HTTP 200 (allows everything except /admin/ and sheet parameters); the
+#        gob.pe portal was not searched for a consolidated-text dataset or a licence statement.
+schema_version: 1
+id: pe-spij
+name: SPIJ - Sistema Peruano de Información Jurídica
+publisher: Ministerio de Justicia y Derechos Humanos del Perú
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [PE]
+document_kinds: [constitution, act]
+languages: [es]
+coverage: >-
+  Peruvian national legislation with consolidated texts ("texto concordado"). ULIS ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://spij.minjus.gob.pe/
+  authentication: null
+update_frequency: Not read (the host did not answer).
+rate_limits: Not read (robots.txt of spij.minjus.gob.pe could not be fetched).
+licence:
+  id: UNVERIFIED
+  name: Licence not verified - terms and robots.txt of SPIJ could not be read
+  url: null
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. NOT READ: any terms of use of spij.minjus.gob.pe (no answer) or leyes.congreso.gob.pe.
+    READ: robots.txt of leyes.congreso.gob.pe and www.gob.pe (see above).
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - Do not fetch from spij.minjus.gob.pe while it drops ULIS's requests, and do not try to pass that.
+    - Do not fetch the Congress's PDF files (robots.txt disallows them).
+    - Read the terms and robots.txt of any host before a fetch and re-review the licence.
+  notes: STOPPED, nothing ingested. Re-test SPIJ from another network and read its terms; look for an open-data publication on gob.pe.
+provenance: >-
+  Official legal information system of the Ministry of Justice. The authentic text of a norm is the one in the diario oficial El Peruano (to verify).
+known_limitations:
+  - Nothing is ingested.
+status: planned

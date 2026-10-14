@@ -1,0 +1,65 @@
+# Brazilian federal legislation (Planalto "Legislação", LexML, Senado, Câmara). PLANNED, nothing ingested: the publishers'
+# hosts did not answer ULIS's identifying user agent from the research environment. Checked 2026-10-14, one request each,
+# no retry, no other client identity, no proxy or mirror (the rules for this project forbid working around a block):
+#   https://www.planalto.gov.br/robots.txt                                   - "curl: (52) Empty reply from server" (the connection is closed
+#        without any HTTP response); the same for https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm
+#        (Código Civil, the consolidated text). Planalto is the publisher of the consolidated federal texts (Constituição,
+#        Código Civil, Código Penal, CLT, CDC, LGPD ...): without it there is no source of the current text.
+#   https://www.lexml.gov.br/robots.txt                                      - connection reset by peer (TLS tunnel closed by the host).
+#   https://legis.senado.leg.br/robots.txt                                   - HTTP 403 "Request forbidden by administrative rules."
+#   https://www.camara.leg.br/robots.txt                                     - HTTP 200. It names AI crawlers (GPTBot, ChatGPT-User,
+#        Google-Extended, anthropic-ai, Claude-Web, CCBot, PerplexityBot ...) with a comment that the aim is to keep the
+#        site's content from being used to train AIs; the "User-agent: *" group does not disallow legislation paths, and
+#        ULIS's agent is not one of the named ones. Not pursued: the Câmara's pages that hold norms (www2.camara.leg.br
+#        "legin") and their terms were not read, and the consolidated text, the one a legal-research tool needs, is
+#        Planalto's.
+# A person with access from another network (or the publishers' contact) should re-check; if www.planalto.gov.br answers
+# an identified research client and its robots.txt allows /ccivil_03/, a connector for the HTML (Latin-1/UTF-8 pages with
+# revision marks: struck-through repealed text and "(Redação dada pela Lei ...)" notes) is the next step.
+schema_version: 1
+id: br-planalto-legislacao
+name: Legislação do Planalto (consolidated federal texts) and LexML
+publisher: Presidência da República (Subchefia para Assuntos Jurídicos), Brazil; LexML Brasil network
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [BR]
+document_kinds: [constitution, act]
+languages: [pt]
+coverage: >-
+  Brazilian federal norms: the Constituição Federal and its amendments, the codes (Civil, Penal, Processo Civil, CLT,
+  CDC ...), laws and decrees, as compiled HTML texts with revision marks. ULIS ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.planalto.gov.br/ccivil_03/
+  authentication: null
+update_frequency: >-
+  Not read (the host did not answer). The compiled texts are updated by the Presidency as amendments are published.
+rate_limits: >-
+  Not read: planalto.gov.br/robots.txt could not be fetched (empty reply).
+licence:
+  id: UNVERIFIED
+  name: Licence not verified - the publishers' terms and robots.txt could not be read
+  url: null
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. NOT READ: any terms of use of planalto.gov.br or lexml.gov.br (no answer); robots.txt of
+    those hosts (no answer / HTTP 403 on the Senate host). READ: robots.txt of www.camara.leg.br (see above).
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - Do not fetch from planalto.gov.br, lexml.gov.br or legis.senado.leg.br while they refuse or drop ULIS's requests, and do not try to pass that.
+    - Read the terms and robots.txt of the host before any fetch and re-review the licence.
+  notes: >-
+    STOPPED, nothing ingested. Whether the hosts block datacentre addresses or this user agent is not known; a person
+    should test from an ordinary network and, if the consolidated texts are served to an identified research client,
+    contact the Presidency (Planalto) for confirmation of reuse before a connector is written.
+provenance: >-
+  Official publication of the Presidency of the Republic; the authentic text of a federal norm is the one published in the
+  Diário Oficial da União (to verify).
+known_limitations:
+  - Nothing is ingested; the hosts are unreachable from the research environment.
+status: planned
