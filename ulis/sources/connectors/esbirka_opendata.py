@@ -59,7 +59,7 @@ ITEMS_KEY = '"položky"'.encode()
 FRAGMENT_LIST_KEY = '  "právní-akt-znění-fragment" : ['.encode()
 AFTER_FRAGMENT_LIST_KEY = '\n  "právní-akt-související-dokument"'.encode()
 ACT_ID = re.compile(r"^(sb)/([0-9]{4})/([0-9]{1,4})$")
-ELI_IRI = re.compile(r"^esel-esb:eli/([a-z0-9]+)/([0-9]{4})/([0-9]+)(?:/([0-9]{4}-[0-9]{2}-[0-9]{2}))?$")
+ELI_IRI = re.compile(r"^esel-esb:eli/cz/([a-z0-9]+)/([0-9]{4})/([0-9]+)(?:/([0-9]{4}-[0-9]{2}-[0-9]{2}))?$")
 # Source keys copied, in this order, into the rows of a raw document's ``fragments``.
 FRAGMENT_COLUMNS = (
     "eli",  # znění-fragment-eli
