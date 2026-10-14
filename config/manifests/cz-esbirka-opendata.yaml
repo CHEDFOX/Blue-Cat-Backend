@@ -1,0 +1,57 @@
+# Czech Collection of Laws (e-Sbírka) from the publisher's open-data dumps, https://opendata.eselpoint.gov.cz/datove-sady-esbirka/.
+# The connector downloads four dumps once (about 1.9 GB compressed: 001PravniAktZneni = versions of acts,
+# 003PravniAktZneniFragment = fragments of every version, 004PravniAktFragment = fragment texts, 006PravniAktMetadata =
+# titles and kinds), reads them as streams and keeps only the versions selected here in a SQLite slice under the cache
+# directory; later runs reuse the slice. With the switches below on the dumps of 2026-10-14 the slice has 24,809 acts, 26,327
+# versions and 6.75 million version-fragments: about 10 minutes and 4.9 GB of disk (plus 1.9 GB for the dumps; both can be
+# deleted after the ingest). One raw document is one version of one act, oldest first within an act. To ingest less, set
+# `in_force: false` (only the lists) or `in_force_years: [first, last]`.
+#   full_history  every version up to as_of of these acts (id = <collection>/<year>/<number>, e.g. sb/2012/89 for 89/2012 Sb.)
+#   current       only the version in force on as_of
+#   in_force      true: also the version in force on as_of of every other act of the Sbírka zákonů (`sb`) - this is the
+#                 bulk of the corpus (all acts, decrees and government regulations in force); false: only the lists above.
+#                 `in_force_years: [first, last]` limits it to acts numbered in those years (for trial runs).
+#   skip          acts never taken
+# Versions that take effect after as_of are not taken. The Sbírka mezinárodních smluv (`sm`) and the historical Úřední
+# listy (`ul0`, `ul1`, `ul2`, `vcs`) are not selected. An id that does not exist selects nothing.
+schema_version: 1
+source_id: cz-esbirka-opendata
+base_url: https://opendata.eselpoint.gov.cz/datove-sady-esbirka/
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+selection:
+  as_of: 2026-10-14
+  collections: [sb]
+  full_history:
+    - sb/1993/1      # Ústava České republiky
+    - sb/1993/2      # Listina základních práv a svobod
+    - sb/2012/89     # občanský zákoník
+    - sb/2009/40     # trestní zákoník
+    - sb/2006/262    # zákoník práce
+    - sb/1963/99     # občanský soudní řád
+    - sb/1961/141    # trestní řád
+    - sb/2012/90     # zákon o obchodních korporacích
+    - sb/2002/150    # soudní řád správní
+    - sb/2004/500    # správní řád
+    - sb/2019/110    # zákon o zpracování osobních údajů
+    - sb/2012/91     # zákon o mezinárodním právu soukromém
+    - sb/1993/182    # zákon o Ústavním soudu
+    - sb/2011/418    # zákon o trestní odpovědnosti právnických osob
+    - sb/2016/251    # zákon o některých přestupcích
+    - sb/2009/280    # daňový řád
+    - sb/1992/586    # zákon o daních z příjmů
+    - sb/2004/235    # zákon o dani z přidané hodnoty
+    - sb/2000/121    # autorský zákon
+    - sb/1999/106    # zákon o svobodném přístupu k informacím
+    - sb/2016/222    # zákon o Sbírce zákonů a mezinárodních smluv
+    - sb/2001/120    # exekuční řád
+    - sb/2002/6      # zákon o soudech a soudcích
+    - sb/1993/283    # zákon o státním zastupitelství
+    - sb/1992/358    # notářský řád
+    - sb/1992/634    # zákon o ochraně spotřebitele
+    - sb/2016/257    # zákon o spotřebitelském úvěru
+    - sb/1991/455    # živnostenský zákon
+    - sb/1991/563    # zákon o účetnictví
+    - sb/2005/127    # zákon o elektronických komunikacích
+    - sb/2011/372    # zákon o zdravotních službách
+  in_force: true

@@ -1,0 +1,102 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Slovakia (national legislation, Zbierka zákonov). Subnational (generally
+# binding regulations of municipalities and regions) and ministerial collections are not profiled. EU membership is
+# deliberately not recorded here (added separately with the EU profile).
+schema_version: 1
+id: SK
+profile_version: 0.1.0
+name: Slovakia
+names: {sk: Slovensko, en: Slovakia}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [sk]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: >-
+    To verify - unitary parliamentary republic under the Constitution of the Slovak Republic (Ústava Slovenskej
+    republiky, 460/1992 Zb., in force from 1 October 1992, in part from 1 January 1993). Civil-law system (Central
+    European tradition: Civil Code 40/1964 Zb., Commercial Code 513/1991 Zb., Criminal Code 300/2005 Z. z., recodified
+    civil procedure in 2016). Legislative power belongs to the National Council (Národná rada Slovenskej republiky,
+    čl. 72); acts are signed by the President and promulgated in the Collection of Laws (Zbierka zákonov). Treaties
+    ratified and promulgated in the prescribed way take precedence over acts, and those on human rights and
+    fundamental freedoms that provide a wider scope of rights prevail over acts (čl. 7 ods. 5) - to verify.
+    Slovak is the state language and the language of legislation.
+legislative_institutions:
+  - id: SK-NR
+    name: Národná rada Slovenskej republiky (National Council) - constitution, constitutional acts and acts (zákony)
+    instrument_types: [constitution, constitutional_act, act]
+  - id: SK-EXECUTIVE
+    name: Vláda Slovenskej republiky (Government), ministries and other central bodies - regulations (nariadenia vlády, vyhlášky, opatrenia) under statutory authority
+    instrument_types: [regulation]
+instrument_types: [constitution, constitutional_act, act, regulation]
+norm_hierarchy: [constitution, constitutional_act, act, regulation]
+courts:
+  - id: SK-US
+    name: Ústavný súd Slovenskej republiky (Constitutional Court, Košice)
+    rank: 1
+  - id: SK-NS
+    name: Najvyšší súd Slovenskej republiky (Supreme Court)
+    rank: 1
+  - id: SK-NSS
+    name: Najvyšší správny súd Slovenskej republiky (Supreme Administrative Court, since 2021)
+    rank: 1
+  - id: SK-KS
+    name: Krajské súdy (regional courts - eight)
+    rank: 2
+    appeals_to: [SK-NS]
+  - id: SK-OS
+    name: Okresné súdy (district courts)
+    rank: 3
+    appeals_to: [SK-KS]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal rule of binding precedent (civil-law system). Decisions of the Constitutional Court on
+    constitutionality are binding and published in the Collection of Laws; the Supreme Court issues opinions
+    (stanoviská) on the uniform interpretation of laws and publishes selected decisions, which lower courts in
+    practice follow. The exact court hierarchy and appeal routes (including the specialised criminal court and the
+    administrative courts) are simplified here. Case law is not ingested.
+citation:
+  module: sk
+  notes: >-
+    Slovak convention: the pinpoint comes first, then the name of the act in the genitive - "§ 420 Občianskeho
+    zákonníka", "§ 144 ods. 1 Trestného zákona", "čl. 2 ods. 1 Ústavy Slovenskej republiky"; other acts by number -
+    "§ 5 ods. 2 zákona č. 18/2018 Z. z." (Zb. for acts of 1992 and earlier: "zákona č. 40/1964 Zb."). Pinpoint
+    abbreviations: čl., §, ods., písm. a), bod. The genitive names of the codes are a small table in the module;
+    other acts are cited by number.
+  examples:
+    - "§ 420 Občianskeho zákonníka"
+    - "§ 144 ods. 1 Trestného zákona"
+    - "§ 13 ods. 1 písm. a) Zákonníka práce"
+    - "čl. 2 ods. 1 Ústavy Slovenskej republiky"
+    - "§ 5 ods. 2 zákona č. 18/2018 Z. z."
+publication:
+  official_sources: [sk-slovlex-static]
+  commencement: >-
+    Acts are signed by the President of the Republic and promulgated in the Collection of Laws (Zbierka zákonov
+    Slovenskej republiky) by the Ministry of Justice; since 1 January 2016 the electronic Collection in Slov-lex is
+    the official one (zákon 400/2015 Z. z. - to verify). An act states its day of entry into force (účinnosť); it
+    cannot take effect before promulgation. Slov-lex publishes time versions (časové verzie) with their effective
+    dates; the consolidated text it displays is informative, and only the promulgated text (and consolidated texts
+    the Ministry declares legally binding) is binding - to verify with 400/2015 Z. z. § 14.
+  amendment: >-
+    Textual amendment by amending acts (novely). Slov-lex shows, for each act, a history table of time versions
+    (časová verzia) with the first and last day each applies and the amending acts that caused it.
+  repeal: >-
+    Express repeal by a later act; a time version records the text as in force on each period.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Acts of the Collection of Laws listed in the manifest only (about 30 acts - the Constitution, Civil and Commercial Codes, Criminal Code and Criminal Procedure Code, Labour Code, the three procedure codes of 2015, the data-protection act and other main acts); no other acts, no regulations (nariadenia vlády, vyhlášky) except those listed, no ministerial collections, no treaties, no explanatory memoranda and no case law.
+    - Slovak only. Slov-lex publishes no official translations of acts.
+    - History is the time versions the manifest asks for (all up to the retrieval date for the main codes, only the current one for the other acts); time versions that take effect after the retrieval date are not ingested; the promulgated text of an act (vyhlásené znenie) is not ingested.
+    - Time versions are whole-act snapshots dated by their first and last day; the source gives no dates for single provisions.
+    - The consolidated texts on Slov-lex are informative (not legally binding) according to the page itself; ULIS marks them official but not authoritative.
+    - Footnotes are kept as notes of the provisions that mark them; tables of contents, signatures and annex layout are not kept (an annex is one flattened text); cross-references are stored for links to other acts and within the act.
+    - Slovak has no PostgreSQL text-search configuration, so the "simple" configuration is used (no stemming; Slovak is highly inflected, so searches need the exact word forms).

@@ -1,0 +1,102 @@
+# e-Sbírka open data (Ministerstvo vnitra ČR): the Czech Collection of Laws with the time versions ("znění") of every act,
+# as JSON dumps regenerated daily. Terms, access rules and documentation read on 2026-10-14 from the publisher's own files,
+# fetched with the User-Agent below:
+#   https://opendata.eselpoint.gov.cz/ - page "ESEL OpenData" with links "Datové sady eSbírky" (datove-sady-esbirka/), "Datové sady
+#        eLegislativy" and "SPARQL endpoint". https://opendata.eselpoint.gov.cz/robots.txt answers 404 (no rules).
+#   https://opendata.eselpoint.gov.cz/datove-sady-esbirka/ - Apache directory "Index of /datove-sady-esbirka" (listing of 2026-10-14):
+#        001PravniAktZneni (versions of acts, 170 MB gz), 002PravniAkt, 003PravniAktZneniFragment (1.2 GB gz), 004PravniAktFragment
+#        (507 MB gz), 006PravniAktMetadata, 007PravniAktKonsolidacniVazba, 008PravniAktOdkaz, ... 045 and code lists, each as .json.gz and
+#        .jsonld.gz (the same data with a JSON-LD context), all modified 2026-10-14 (generated daily). Responses carry
+#        "Access-Control-Allow-Origin: *" and accept range requests. No licence or terms text appears in the listing or the files.
+#   https://e-sbirka.gov.cz/ (the public portal, since the domain change from www.e-sbirka.cz, which answers 308) is a JavaScript
+#        application: its robots.txt and the pages of its "otevřená data" and terms sections return the application shell, so no terms
+#        text of the publisher's own could be read; its configuration (assets/configs/env.js) names this open-data host as the
+#        publisher's "openDataBasePath" (https://opendata.eselpoint.gov.cz/esel-esb/{eli}). https://api.e-sbirka.cz/ shows only a notice
+#        that the system moved to e-sbirka.gov.cz and its robots.txt returns that page. The REST API (sbr-cache, sbr-externi) is not used.
+#   The basis for reuse recorded below is statutory, read from the corpus itself (the versions in force on 2026-10-14, which the
+#   connector's own slice contains):
+#   Autorský zákon 121/2000 Sb. (version from 2025-07-01) § 3: "Ochrana podle práva autorského se nevztahuje na a) úřední dílo, jímž je
+#        právní předpis, rozhodnutí, opatření obecné povahy, veřejná listina, veřejně přístupný rejstřík a sbírka jeho listin, jakož i
+#        úřední návrh úředního díla a jiná přípravná úřední dokumentace, včetně úředního překladu takového díla ..." - legislation is
+#        not protected by copyright. (Database rights, if any, are not examined; to verify with counsel.)
+#   Zákon o svobodném přístupu k informacím 106/1999 Sb. (version from 2025-08-19) § 5a odst. 3: "Povinné subjekty zveřejňují dynamická
+#        data, která nejsou obsažená v registrech a jejichž poskytnutí není zákonem omezeno, způsobem umožňujícím dálkový přístup,
+#        zejména prostřednictvím rozhraní pro programování aplikací jako otevřená data ..."; § 4c odst. 1: public bodies register such
+#        information in the national open-data catalogue.
+#   Zákon o Sbírce zákonů a mezinárodních smluv 222/2016 Sb. (version from 2026-08-29) § 1 odst. 1: "Sbírka zákonů a mezinárodních smluv je
+#        úředním listem, ve kterém se vyhlašuje závazné znění právního předpisu, mezinárodní smlouvy nebo jiného aktu stanoveného tímto
+#        nebo jiným zákonem."; § 6 odst. 1: "Správcem elektronického systému Sbírky zákonů a mezinárodních smluv je Ministerstvo vnitra.";
+#        § 6 odst. 2 písm. a): the Collection is kept "v elektronické podobě a zpřístupňuje se veřejnosti způsobem umožňujícím dálkový
+#        přístup"; § 7 odst. 1: "Je-li vyhlašovaným aktem novela právního předpisu, uvede se text právního předpisu ve znění novely v
+#        příloze částky; text právního předpisu ve znění novely je také závazným zněním."
+schema_version: 1
+id: cz-esbirka-opendata
+name: e-Sbírka open data - Czech Collection of Laws with time versions of acts (JSON dumps)
+publisher: Ministerstvo vnitra České republiky - e-Sbírka (e-sbirka.gov.cz, opendata.eselpoint.gov.cz)
+kind: official_legislation_portal
+# The Collection is the official gazette (222/2016 Sb. § 1), the consolidated text of an act as amended by a novela published with it
+# is "také závazným zněním" (§ 7 odst. 1), but whether each time version the dumps give is that binding text is not established
+# here. Modelled as official but not authentic until counsel confirms the legal force of the time versions.
+authority: official_non_authentic
+jurisdictions: [CZ]
+document_kinds: [constitution, constitutional_act, act, decree, regulation, notice]
+languages: [cs]
+coverage: >-
+  e-Sbírka holds the acts of the Sbírka zákonů since 1918 (and the Sbírka mezinárodních smluv and historical official gazettes)
+  with all versions. ULIS ingests, from the Sbírka zákonů only, the whole history up to 2026-10-14 of about 30 main acts listed in
+  the manifest (the Constitution and Charter, the Civil, Criminal and Labour Codes, the procedure codes, the data-protection act and
+  other main acts) and the version in force of every other act, decree and government regulation in force (the manifest's
+  in_force switch); treaties and historical gazettes are not selected.
+access:
+  method: bulk_download
+  endpoint: config/manifests/cz-esbirka-opendata.yaml
+  authentication: none
+update_frequency: the dumps are regenerated daily (all files of 2026-10-14 were generated between 00:05 and 05:34 UTC)
+rate_limits: >-
+  The host states no rate limit or robots rules; ULIS makes four large downloads (about 1.9 GB compressed), one request each (resumable),
+  identifies itself and stops on any refusal. They are read once, as streams, and reduced to a slice of the selected versions.
+licence:
+  id: CZ-ESBIRKA-OPEN-DATA-STATUTORY
+  name: e-Sbírka open data - legislation not protected by copyright (autorský zákon 121/2000 Sb. § 3 písm. a); published by the Ministry of the Interior as open data (106/1999 Sb. § 5a)
+  url: https://opendata.eselpoint.gov.cz/datove-sady-esbirka/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-14, from the open-data host's directory listing, the absence of robots.txt on it, the portal's configuration
+    file naming that host, and the statutory texts of 121/2000, 106/1999 and 222/2016 Sb. read from the corpus itself (quoted in the
+    comments above). The publisher's open-data page and any terms text on the portal could not be read (JavaScript application); no
+    licence text of the publisher's own was found. Approved on the statutory basis only - the acts are not protected by copyright, the
+    data are offered publicly as machine-readable files by the administrator of the Collection, and nothing found restricts automated
+    reuse.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: true
+  attribution_text: >-
+    Zdroj: e-Sbírka (e-sbirka.gov.cz), Ministerstvo vnitra České republiky, otevřená data. Časová znění jsou převzata z datových sad;
+    závazné znění je vyhlášeno ve Sbírce zákonů. Struktura normalizována ULIS-em.
+  conditions:
+    - Download the dumps once and reuse the cache; do not poll them (they are regenerated daily); stop on any refusal.
+    - Do not present a time version as the enacted text; the text promulgated in the Collection prevails and the legal force of the consolidated versions is not established here.
+    - The dumps are large (about 1.9 GB compressed, 30 GB of JSON); the connector reads them as streams and never loads a whole file.
+  notes: >-
+    No explicit licence statement of the publisher was available (see the comments above), so counsel review is recommended before
+    production use, in particular of database rights and of the terms on the portal's open-data page. The publisher had announced that
+    fragment identifiers and the data structure might change (Ministry of the Interior notices on the staged launch of e-Sbírka); a new
+    parser version may be needed if the dump layout changes.
+provenance: >-
+  The files 001PravniAktZneni, 003PravniAktZneniFragment, 004PravniAktFragment and 006PravniAktMetadata (.json.gz) under
+  https://opendata.eselpoint.gov.cz/datove-sady-esbirka/, downloaded with an identifying User-Agent and cached with their URL, ETag,
+  Last-Modified and retrieval time under var/sources/opendata.eselpoint.gov.cz/. A raw document is one version of one act assembled
+  from the records of those files: the values of the version, the metadata and every fragment of the version are copied unchanged
+  (the keys are renamed in the columns list), and the document is stored byte for byte (SHA-256 addressed).
+known_limitations:
+  - The time versions are the publisher's consolidated texts; ULIS does not mark them authentic (222/2016 Sb. § 7 odst. 1 makes the text as amended binding, but this is not established for every time version here).
+  - Versions are whole-act snapshots dated by the version's effective-from and effective-to days; a fragment with its own later effective day is dated from that day. Unchanged wording continues across versions; a provision absent from a version ends where that version starts.
+  - Only the acts and versions the manifest selects are ingested; versions that take effect after as_of are not. The as-promulgated text is kept only for an act that has no consolidated version starting the same day.
+  - Links between acts are not stored (the fragment text gives only link ids; the link dataset 008PravniAktOdkaz is not read); tables are flattened to text; annexes are one flattened provision; text continuing after a list is appended to the text of the provision that holds the list.
+  - Fragment identifiers and the dump layout may change; a re-fetched dump is not compared with the earlier one, but a raw document whose bytes differ from one already recorded is refused as a conflict.
+status: active
+connector: esbirka_opendata
+parser: esbirka_opendata_json
