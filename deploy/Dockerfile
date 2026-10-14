@@ -34,7 +34,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     ULIS_SOURCE_CACHE_DIR=/data/sources
 # git: the connectors for Canada and the US GPO samples clone pinned commits.
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends git ca-certificates \
+    && apt-get install -y --no-install-recommends git ca-certificates poppler-utils \
     && rm -rf /var/lib/apt/lists/* \
     && useradd --system --uid 10001 --create-home --home-dir /home/ulis --shell /usr/sbin/nologin ulis \
     && mkdir -p /data/objects /data/sources \
