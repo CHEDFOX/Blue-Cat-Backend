@@ -10,8 +10,10 @@ Law service, whose licence for computational analysis is a separate matter (``gb
 ``PoliteHttp``: identifying User-Agent, at least 5 s between requests, HTTPS to ``www.supremecourt.uk`` only,
 back-off on 429/5xx, any other refusal stops the run, cache under ``<cache_dir>/www.supremecourt.uk/``. The host's
 ``robots.txt`` (it disallows only ``/contact-us/book-room-hearing``) is read first and every URL is checked
-against it. A page that is missing (404), is not the page of the listed case, or is not UTF-8 HTML is not passed
-on: it is reported in ``fetch_errors`` and the run goes on.
+against it. A page that is missing (404), is not the page of the listed case, is not HTML, or has the neutral
+citation of a page already passed on (joined appeals have one page per case number, all holding the same judgment) is
+not passed on: it is reported in ``fetch_errors`` and the run goes on. The committed manifest lists one page per
+judgment.
 """
 
 from __future__ import annotations
@@ -35,6 +37,7 @@ BASE_URL = f"https://{HOST}"
 ROBOTS_URL = f"{BASE_URL}/robots.txt"
 MIN_DELAY = 5.0
 CASE_ID = re.compile(r"^UKSC/(\d{4})/(\d{4})$")
+CITATION = re.compile(rb'<p[^>]*\bid="neutral-citation-number"[^>]*>\s*([^<]+?)\s*</p>')
 
 __all__ = ["FetchError", "UkscConnector", "judgment_url"]
 
@@ -98,6 +101,7 @@ class UkscConnector:
         # No robots.txt (404) means no restrictions (RFC 9309, 2.3.1.3); any other failure stops the run.
         got = self.http.get(ROBOTS_URL, cache_key="robots.txt")
         robots = got[0].decode("utf-8", "replace") if got is not None else ""
+        citations: dict[bytes, str] = {}
         for case_id in manifest["cases"]:
             url = judgment_url(case_id)
             if not robots_allows(robots, self.http.user_agent, url):
@@ -114,6 +118,13 @@ class UkscConnector:
             if 'id="case-id"' not in content.decode("utf-8", "replace") or case_id.encode() not in content:
                 self.fetch_errors.append(f"{url}: the page is not the judgment page of {case_id}; skipped")
                 continue
+            found = CITATION.search(content)
+            citation = found.group(1) if found else b""
+            if citation and citation in citations:
+                shown = citation.decode("utf-8", "replace")
+                self.fetch_errors.append(f"{url}: the same judgment ({shown}) as {citations[citation]}; skipped")
+                continue
+            citations[citation] = case_id
             yield RawDocument(
                 external_id=f"uksc:{case_id}",
                 uri=url,

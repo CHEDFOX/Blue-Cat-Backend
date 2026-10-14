@@ -200,7 +200,7 @@ def test_profile_source_and_manifest(catalog: Catalog, tmp_path: Path) -> None:
     assert isinstance(build_connector(source), UkscConnector)
     manifest = UkscConnector(REPO_ROOT / source.access.endpoint, SOURCE, tmp_path)._manifest()
     cases = manifest["cases"]
-    assert len(cases) == len(set(cases)) == 156 and cases == sorted(cases)
+    assert len(cases) == len(set(cases)) == 126 and cases == sorted(cases)  # one page per judgment (156 pages)
     assert cases[0] == "UKSC/2021/0098" and cases[-1] == "UKSC/2026/0080" and ABBEY.replace("_", "/") not in cases
     assert _id(ABBEY) in cases and _id(FORTHWELL) in cases and _id(DM) in cases
     assert manifest["crawl_delay_seconds"] >= 5 and "(" in manifest["user_agent"]
@@ -277,6 +277,30 @@ def test_connector_reports_pages_that_are_not_the_listed_judgment_and_goes_on(tm
     assert len(connector.fetch_errors) == 2
     assert "is not the judgment page of UKSC/2022/0124" in connector.fetch_errors[0]
     assert "expected HTML" in connector.fetch_errors[1]
+
+
+def test_connector_skips_a_second_page_of_the_same_judgment(tmp_path: Path) -> None:
+    cache = tmp_path / "cache"
+    _cache_robots(cache, None)
+    _cache_page(cache, ABBEY, _raw(ABBEY))
+    joined = _raw(ABBEY).replace(
+        b"UKSC/2022/0124", b"UKSC/2022/0125"
+    )  # a joined appeal: another case id, same judgment
+    http = PoliteHttp(cache, UA, allowed_hosts={HOST})
+    url = judgment_url("UKSC/2022/0125")
+    page = http.cache_path(url, "judgments/uksc-2022-0125.html")
+    page.write_bytes(joined)
+    meta = {
+        "url": url,
+        "final_url": url,
+        "status": 200,
+        "content_type": "text/html",
+        "retrieved_at": "2026-10-14T21:00:00+00:00",
+    }
+    page.with_name(page.name + ".meta.json").write_text(json.dumps(meta))
+    connector = UkscConnector(_manifest(tmp_path, ["UKSC/2022/0124", "UKSC/2022/0125"]), SOURCE, cache, offline=True)
+    assert [d.external_id for d in connector.fetch()] == ["uksc:UKSC/2022/0124"]
+    assert connector.fetch_errors == [f"{url}: the same judgment ([2024] UKSC 23) as UKSC/2022/0124; skipped"]
 
 
 def test_connector_refuses_bad_manifests_and_obeys_robots_txt(tmp_path: Path) -> None:
@@ -376,7 +400,8 @@ def test_links_and_reingest(
         assert (abbey.docket, abbey.decision_date) == ("UKSC/2022/0124", date(2024, 7, 9))
         links = session.scalars(select(m.CitationLink).where(m.CitationLink.from_work_uri == abbey.uri)).all()
         assert {lk.to_uri for lk in links} >= {"http://www.legislation.gov.uk/id/ukpga/1996/53"}
-        assert all(lk.to_instrument_id is None for lk in links)  # the Housing Grants Act is not ingested here
+        # The Housing Grants Act 1996 is not ingested by any test, so its links stay open.
+        assert all(lk.to_instrument_id is None for lk in links if "ukpga/1996/53" in lk.to_uri)
         pattern = session.scalars(
             select(m.CitationLink).where(
                 m.CitationLink.extraction_method == "pattern", m.CitationLink.to_uri.like("/gb/uksc/%")

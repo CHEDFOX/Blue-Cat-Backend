@@ -1,7 +1,7 @@
 """Parser for UK Supreme Court judgments published as HTML on the Court's own website.
 
-``https://www.supremecourt.uk/cases/judgments/uksc-<year>-<number>`` shows the judgment in full (156 judgments of
-2022-2026 on 2026-10-14; earlier judgments are PDFs only). The page has stable element ids:
+``https://www.supremecourt.uk/cases/judgments/uksc-<year>-<number>`` shows the judgment in full (156 pages for 126
+judgments of 2021-2026 on 2026-10-14; earlier judgments are PDFs only). The page has stable element ids:
 ``case-title`` (h1), ``case-id`` ("UKSC/2022/0124"), ``appellant-N`` / ``respondent-N`` / ``intervener-N``,
 ``judgment-appealed-link``, ``judgment-date`` ("9 July 2024"), ``neutral-citation-number`` ("[2024] UKSC 23"),
 ``hearing-start-date`` / ``hearing-end-date``, the justices in ``justices``, then the judgment itself after the heading

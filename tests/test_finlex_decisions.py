@@ -417,7 +417,9 @@ def test_judgments_links_and_reingest(
         links = session.scalars(select(m.CitationLink).where(m.CitationLink.from_work_uri.like(f"/{BASE}/%"))).all()
         assert len(links) == 6 and {lk.to_uri for lk in links} == {"/fi/act/1999/523", "/fi/act/2018/1050"}
         assert all(lk.extraction_method == "pattern" and lk.relation == "references" for lk in links)
-        assert all(lk.to_instrument_id is None for lk in links)  # the Acts are not ingested in this test
+        # A target is resolved only if that Act is ingested (test_finlex.py's run may have ingested some).
+        instruments = {i.id: i.uri for i in session.scalars(select(m.Instrument))}
+        assert all(lk.to_instrument_id is None or instruments[lk.to_instrument_id] == lk.to_uri for lk in links)
         again = Ingestor(session, catalog, store).ingest_source(SOURCE, actor="pytest", connector=_Decisions())
         assert again.documents_unchanged == 5 and again.judgments_created == 0 and again.paragraphs_created == 0
         ids = session.scalars(select(m.SourceDocument.id).where(m.SourceDocument.source_id == SOURCE)).all()

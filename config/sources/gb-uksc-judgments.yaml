@@ -28,8 +28,8 @@ jurisdictions: [GB]
 document_kinds: [judgment]
 languages: [en]
 coverage: >-
-  The 156 judgments of the UK Supreme Court (2021 to 2026, neutral citations [2022] UKSC ... to [2026] UKSC 33) that the Court
-  publishes in full as HTML on its website, with the case's parties, the decision appealed, the justices, hearing dates, the
+  The 126 judgments of the UK Supreme Court (2021 to 2026, neutral citations [2022] UKSC ... to [2026] UKSC 33) that the Court
+  publishes in full as HTML on its website (156 case pages: joined appeals have one page per case number), with the case's parties, the decision appealed, the justices, hearing dates, the
   numbered paragraphs and the Court's hyperlinks to legislation. Earlier judgments (PDF only), press summaries and the Judicial
   Committee of the Privy Council (jcpc.uk) are not ingested.
 access:
@@ -40,7 +40,7 @@ update_frequency: >-
   When the Court hands down a judgment; ULIS re-reads the sitemap and extends the manifest (a page is fetched again only with an
   empty cache).
 rate_limits: >-
-  None published. ULIS makes one request at a time, 5 s apart (156 pages: about 13 minutes), with an identifying User-Agent, and
+  None published. ULIS makes one request at a time, 5 s apart (126 pages: about 11 minutes), with an identifying User-Agent, and
   caches every page under var/sources/.
 licence:
   id: OGL-UK-3.0
@@ -72,7 +72,7 @@ provenance: >-
   https://www.supremecourt.uk/cases/judgments/uksc-<year>-<number> fetched with an identifying User-Agent; every page is cached
   byte for byte with its URL and retrieval time under var/sources/www.supremecourt.uk/ and stored unchanged.
 known_limitations:
-  - 156 judgments from 2021 on; the Court's earlier judgments (since 2009) exist on the site only as PDFs and are not ingested (a PDF text parser would be needed).
+  - 126 judgments from 2021 on (the pages of further case numbers of joined appeals are not ingested, being the same judgment); the Court's earlier judgments (since 2009) exist on the site only as PDFs and are not ingested (a PDF text parser would be needed).
   - Website version of the judgment, not the signed judgment; the page layout is the Court's current one (element ids), a redesign would need a parser update.
   - Paragraph numbers are read from the text (1, 2, 3 ...); quoted numbered passages stay unnumbered. Footnotes, if any, are not separated.
   - Links to other judgments are by the pattern "[yyyy] UKSC n" only; links to legislation are the Court's own hyperlinks, resolved only where that Act is ingested. Later treatment of a judgment is not recorded.

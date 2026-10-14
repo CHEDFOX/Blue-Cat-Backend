@@ -30,3 +30,7 @@ gaps and the actual test and ingestion results. See
 | Estonia | Riigi Teataja | [ee.md](ee.md) |
 | New Zealand (planned, blocked) | NZ Legislation (PCO) | [nz.md](nz.md) |
 | Poland | Sejm ELI API | [pl.md](pl.md) |
+| Sweden (case law) | Domstolsverket open data (Sök rättspraxis, CC0) | [se-case-law.md](se-case-law.md) |
+| Finland (Data Protection Ombudsman decisions, not courts) | Finlex open data | [fi-decisions.md](fi-decisions.md) |
+| United Kingdom (Supreme Court judgments) | supremecourt.uk (Open Government Licence) | [gb-case-law.md](gb-case-law.md) |
+| Court decisions of Canada, Australia, Ireland, Switzerland, Denmark, Finland (KKO), Poland, New Zealand, Germany (BVerfG) (planned, blocked) | Survey of the publishers | [court-decisions-survey.md](court-decisions-survey.md) |
