@@ -1,13 +1,12 @@
 # United States federal regulations: the eCFR (all CFR titles, current text)
-
-Status: **draft unverified (US profile 0.1.2); the committed manifest lists all 50 titles, the sandbox run ingested
-a slice (titles 1, 12, 17)**. Research aid, not legal advice. The eCFR is an *unofficial* editorial compilation.
+Status: **draft unverified (US profile 0.1.2); the manifest lists all 50 titles, the sandbox run ingested titles 1, 12, 17**.
+Research aid, not legal advice. The eCFR is an *unofficial* editorial compilation.
 
 | | |
 |---|---|
 | Source | `config/sources/us-ecfr.yaml` (`us-ecfr`, active); manifest `config/manifests/us-ecfr.yaml` (50 titles, 49 files, title 35 reserved) |
 | Connector / parser | `ulis/sources/connectors/ecfr.py` (`ecfr`, on `PoliteHttp`); `ulis/sources/parsers/ecfr.py` (`ecfr_xml` 1.0.0); citations in `ulis/jurisdictions/modules/us.py` (`us` 1.2.0) |
-| Tests | `tests/test_ecfr.py` (21 tests, 5 on PostgreSQL); fixtures `tests/fixtures/ecfr/` (title 1 whole, parts of titles 12 and 17) |
+| Tests | `tests/test_ecfr.py` (22 tests, 5 on PostgreSQL); fixtures `tests/fixtures/ecfr/` (title 1 whole, parts of titles 12 and 17) |
 
 ## Source and licence (read 2026-10-14)
 
@@ -45,15 +44,30 @@ ranges and parts, tables of contents, graphics (a note says where they were), su
 * **No dated snapshots:** the versioner API is closed to robots and GPO keeps only the current file, so
   `ulis/ingestion/snapshots.py` is not used; earlier dates carry the current-only limitation, as for the US Code.
 * `text_origin = official_consolidation`, `authoritative = false`; the legal edition is the annual CFR (PDF/text).
-* Authority: `instrument_type regulation` ranks as `binding_regulation` (1.2, below `binding_legislation` 1.25) when a
-  date is known; attested-only text (statutes and regulations alike) is `applicability_unverified` (0.9). Core unchanged.
+  Authority: a regulation is `binding_regulation` (1.2, below statutes at 1.25) when a date is known; attested-only text
+  (statutes and regulations alike) is `applicability_unverified` (0.9). Core unchanged.
 
 ## Citations
 
 `12 CFR 220.1`, `12 CFR 220.1(b)(3)(ii)`, `12 CFR part 302, appendix A` (the Federal Register's own form, no year:
 the eCFR is not a printed edition). The 2018-2019 annual-edition sample keeps `27 C.F.R. § 478.11(b) (2018)`.
+## Results (sandbox, 2026-10-14)
+* **Slice ingested: titles 1, 12 and 17** (the manifest lists all). 4 requests (robots.txt and 3 files, 17 MB for
+  title 17, 39 MB for title 12). Ingest report: 537 parts (28 + 395 + 114; 80 reserved ranges dropped by the
+  connector, none outside a part), 537 instruments and versions, **140,187 provision versions** (10,517
+  sections, 324 appendices, 129,346 paragraphs and appendix blocks), 132,190 passages indexed, 0 errors, 0 conflicts, 0 skipped.
+  `verify-sources`: **537 of 537 pass** (stored texts re-derive from the stored envelopes).
+* Sections with irregular numbering kept whole: 120 of 6,932 (title 12), 62 of 3,314 (title 17), 0 of 271 (title 1).
+  Long appendices are cut at HD1/HD2 headings (the 559,471-character "Supplement I to Part 1005" is 184 blocks).
+* Tests: `tests/test_ecfr.py` 22 passed (5 of them need PostgreSQL); full suite 759 passed.
+  `ruff check`, `ruff format --check` and `mypy ulis` pass.
+* Searches (dev DB, as of 2026-10-14): "initial margin requirements for brokers and dealers extending credit" ->
+  `12 CFR 221.3(a)(2)`, `12 CFR 220.3(c)`; "privacy impact assessment information in identifiable form" ->
+  `1 CFR 603.2`; "commodity pool operator exemption from registration" -> `17 CFR 3.12(h)(3)`, `17 CFR 4.13`;
+  "electronic fund transfers unauthorized consumer liability" -> `12 CFR 1005.12(b)(2)(ii)`. Every hit carries
+  `ATTESTED_ONLY_AT`, `AS_OF_AFTER_CURRENCY` (date 2026-10-06), `OFFICIAL_CONSOLIDATION_REPRODUCED`,
+  `SOURCE_NOT_AUTHENTIC`, `PROFILE_UNVERIFIED`; authority `applicability_unverified`.
 
-@@RESULTS@@
 
 ## Known gaps
 
@@ -61,5 +75,5 @@ the eCFR is not a printed edition). The 2018-2019 annual-edition sample keeps `2
 * About 2% of sections (irregular numbering) are one provision; unnumbered paragraphs belong to the paragraph before
   them; numbers repeated after unnumbered text (definitions) get `_dup2` eIds and an "Ambiguous pinpoint" note.
 * Content outside any part is not ingested (none in titles 1, 12, 17); the larger titles (26, 40, 42, 48 ...) were not
-  run here. Tables are flattened; authority and Federal Register citations are not linked to the US Code.
-* A full run is one transaction: run it on a machine with disk and time for ~50 downloads; downloads are cached.
+  run here; a full run is one transaction with ~50 cached downloads. Tables are flattened; authority and Federal
+  Register citations are not linked to the US Code.
