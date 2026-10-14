@@ -24,3 +24,4 @@ gaps and the actual test and ingestion results. See
 | Ireland | electronic Irish Statute Book | [ie.md](ie.md) |
 | Italy | Normattiva | [it.md](it.md) |
 | Austria (planned, blocked) | RIS OGD | [at.md](at.md) |
+| Latvia | Likumi.lv (Latvijas Vēstnesis) | [lv.md](lv.md) |

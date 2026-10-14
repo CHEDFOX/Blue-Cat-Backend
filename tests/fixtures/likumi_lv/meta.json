@@ -1,0 +1,32 @@
+{
+ "satversme": {
+  "url": "https://likumi.lv/ta/id/57980-latvijas-republikas-satversme",
+  "final_url": "https://likumi.lv/ta/id/57980-latvijas-republikas-satversme",
+  "retrieved_at": "2026-10-14T11:46:32.600833+00:00",
+  "content_type": "text/html; charset=utf-8"
+ },
+ "kriminallikums": {
+  "url": "https://likumi.lv/ta/id/88966-kriminallikums",
+  "final_url": "https://likumi.lv/ta/id/88966-kriminallikums",
+  "retrieved_at": "2026-10-14T11:47:42.620590+00:00",
+  "content_type": "text/html; charset=utf-8"
+ },
+ "darba-likums": {
+  "url": "https://likumi.lv/ta/id/26019-darba-likums",
+  "final_url": "https://likumi.lv/ta/id/26019-darba-likums",
+  "retrieved_at": "2026-10-14T11:47:57.092932+00:00",
+  "content_type": "text/html; charset=utf-8"
+ },
+ "civillikums-1": {
+  "url": "https://likumi.lv/ta/id/90223",
+  "final_url": "https://likumi.lv/ta/id/90223",
+  "retrieved_at": "2026-10-14T11:48:48.879570+00:00",
+  "content_type": "text/html; charset=utf-8"
+ },
+ "administrativa-procesa-likums": {
+  "url": "https://likumi.lv/ta/id/55567-administrativa-procesa-likums",
+  "final_url": "https://likumi.lv/ta/id/55567-administrativa-procesa-likums",
+  "retrieved_at": "2026-10-14T11:48:02.322972+00:00",
+  "content_type": "text/html; charset=utf-8"
+ }
+}

@@ -1,0 +1,25 @@
+# Latvian legislation fetched from Likumi.lv (official publisher "Latvijas Vēstnesis"): one page per
+# document, the current ("spēkā esošā") edition. Copyright Law (Autortiesību likums) Art. 6(1): legislative
+# acts and their official consolidated versions are not protected by copyright; the portal's terms
+# (https://likumi.lv/par-mums/portala-lietosanas-noteikumi) grant free access and forbid no copying.
+# `id` is the document's number on the site (https://likumi.lv/ta/id/<id>, the address the page itself
+# gives as its own). The Civillikums is published in five parts, each with its own edition history, so each
+# part is ingested as its own document (the combined page /ta/id/225418 is not used: it has no
+# per-article structure or edition list). Earlier editions (/redakcijas-datums/...) are disallowed by
+# robots.txt and are never requested.
+schema_version: 1
+source_id: lv-likumi
+base_url: https://likumi.lv
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+laws:
+  - {id: 57980, title: Latvijas Republikas Satversme}                   # constitution
+  - {id: 88966, title: Krimināllikums}                                  # criminal law
+  - {id: 90224, title: "Civillikums. Ievads"}                           # civil law
+  - {id: 90223, title: "Civillikums. PIRMĀ DAĻA. Ģimenes tiesības"}
+  - {id: 90222, title: "Civillikums. OTRĀ DAĻA. Mantojuma tiesības"}
+  - {id: 90221, title: "Civillikums. TREŠĀ DAĻA. Lietu tiesības"}
+  - {id: 90220, title: "Civillikums. CETURTĀ DAĻA. Saistību tiesības"}
+  - {id: 300099, title: Fizisko personu datu apstrādes likums}          # data processing
+  - {id: 26019, title: Darba likums}                                    # labour law
+  - {id: 55567, title: Administratīvā procesa likums}                   # administrative procedure

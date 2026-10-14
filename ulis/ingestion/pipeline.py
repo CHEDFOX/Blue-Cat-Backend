@@ -41,6 +41,7 @@ from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnect
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
+from ulis.sources.connectors.likumi_lv import LikumiLvConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
@@ -61,6 +62,7 @@ from ulis.sources.parsers import (
     irish_statute_book,
     justice_canada,
     legislation_gov_uk,
+    likumi_lv,
     moj_law,
     normattiva,
     retsinformation,
@@ -93,6 +95,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "normattiva_akn": normattiva.parse_normattiva,
     "eisb_act_xml": irish_statute_book.parse_irish_statute_book,
     "ris_bundesrecht_xml": ris.parse_ris_bundesrecht,
+    "likumi_lv_html": likumi_lv.parse_likumi_lv,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -113,6 +116,7 @@ PARSER_VERSIONS = {
     "normattiva_akn": normattiva.PARSER_VERSION,
     "eisb_act_xml": irish_statute_book.PARSER_VERSION,
     "ris_bundesrecht_xml": ris.PARSER_VERSION,
+    "likumi_lv_html": likumi_lv.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -163,6 +167,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "normattiva": NormattivaConnector,
     "irish_statute_book": IrishStatuteBookConnector,
     "ris_ogd": RisOgdConnector,
+    "likumi_lv": LikumiLvConnector,
 }
 
 
@@ -200,6 +205,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or riksdagen_sfs.resolve_uri(uri)
         or normattiva.resolve_uri(uri)
         or irish_statute_book.resolve_uri(uri)
+        or likumi_lv.resolve_uri(uri)
         or (uri, None)
     )
 

@@ -1,0 +1,85 @@
+# Likumi.lv: consolidated Latvian legislation of the official publisher "Latvijas Vēstnesis". Terms read on
+# 2026-10-14 from the site itself (pages cached under var/sources/likumi.lv/):
+#   https://likumi.lv/par-mums/portala-lietosanas-noteikumi - the portal's terms of use (updated 09.10.2026). The user
+#        may "brīvi un bez maksas piekļūt portālam un tajā publicētajai informācijai saskaņā ar ārējos normatīvajos
+#        aktos noteikto" (freely and free of charge access the portal and the information published on it, as
+#        provided by external legal acts) and must not act "pret portāla drošību, stabilitāti un ātrdarbību"
+#        (against the portal's security, stability and speed). The terms contain no prohibition of automated
+#        copying or reuse and no copyright reservation. Publisher: "Latvijas Vēstnesis" (valsts SIA).
+#   https://likumi.lv/par-mums - "Likumi.lv ir tiesību aktu vietne, kurā tiek nodrošināta brīva piekļuve Latvijas
+#        Republikas tiesību aktiem"; the portal is run by the official publisher under the Oficiālo publikāciju un
+#        tiesiskās informācijas likums; "Visam Likumi.lv saturam ir informatīvs raksturs, un atšķirību gadījumā
+#        primārā ir tiesību akta oficiālā publikācija." Footer of every page: "Sistematizēti tiesību akti ir
+#        informatīvi. Pretrunu gadījumā vadās pēc oficiālās publikācijas."
+#   https://likumi.lv/robots.txt - for User-agent * disallows asset directories, /search.php, /body_print.php, /doc.php/*,
+#        /l.php, "/*/redakcijas-datums/" and "/*&version_date=" (pages of earlier editions) and ~480 individual document
+#        ids; "Crawl-delay: 1". None of the ten documents ingested is disallowed; earlier editions are NOT fetched.
+#   https://likumi.lv/ta/id/5138-autortiesibu-likums - Autortiesību likums 6. pants (1): "Autortiesības neaizsargā:
+#        1) normatīvos un administratīvos aktus ... (likumus, tiesu spriedumus, lēmumus un citus oficiālus dokumentus),
+#        kā arī šo tekstu oficiālos tulkojumus un oficiālās konsolidētās versijas".
+schema_version: 1
+id: lv-likumi
+name: Likumi.lv
+publisher: >-
+  Valsts SIA "Latvijas Vēstnesis" (official publisher of the Republic of Latvia), portal likumi.lv
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [LV]
+document_kinds: [constitution, act]
+languages: [lv]
+coverage: >-
+  Latvian legislation, systematised (consolidated) by the official publisher: the current edition of each
+  act, with the list of earlier and later editions. ULIS ingests the current edition of six instruments in
+  Latvian - the Satversme, Krimināllikums, Civillikums (five parts), Fizisko personu datu apstrādes likums,
+  Darba likums and Administratīvā procesa likums.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/lv-likumi.yaml
+update_frequency: continuous (new editions appear when amendments enter into force; the page shows the edition in force)
+rate_limits: >-
+  No published rate limit; robots.txt (2026-10-14) sets "Crawl-delay: 1". ULIS waits 5 s between requests,
+  identifies itself, caches every download, and refuses any document robots.txt disallows.
+licence:
+  id: LV-AL-6-official-works
+  name: >-
+    Official works without copyright (Autortiesību likums 6. panta pirmās daļas 1. punkts: legislative acts and their
+    official consolidated versions); portal terms grant free access and contain no restriction on reuse
+  url: https://likumi.lv/par-mums/portala-lietosanas-noteikumi
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the terms of use (updated 09.10.2026) promise free access to the published information and
+    prohibit nothing but acts against the portal's security, stability and speed; Autortiesību likums 6.(1)1) excludes
+    legislative acts and their official consolidated versions from copyright; robots.txt allows the document pages
+    (disallowing earlier-edition pages, which are not fetched).
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: >-
+    Avots: Likumi.lv (https://likumi.lv), oficiālais izdevējs "Latvijas Vēstnesis". Sistematizēti tiesību akti ir
+    informatīvi; pretrunu gadījumā vadās pēc oficiālās publikācijas.
+  conditions:
+    - The text is informative; the official publication in Latvijas Vēstnesis prevails (stated on every result).
+    - Respect robots.txt - in particular never fetch earlier-edition pages (/redakcijas-datums/, version_date) or disallowed document ids.
+    - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+    - The English translations on the site (by the State Language Centre) are not ingested.
+  notes: >-
+    The terms of use say nothing on automated reuse either way; the statutory exclusion from copyright and the
+    explicit free-access statement are the basis. The site does not require attribution; ULIS attributes anyway.
+    Counsel review still recommended before production use (e.g. on database rights in the compiled collection).
+provenance: >-
+  Official legal portal run by the official publisher; systematised texts under the Oficiālo publikāciju un
+  tiesiskās informācijas likums. The authentic text of each act is its publication in Latvijas Vēstnesis
+  (vestnesis.lv). Each page is stored byte-for-byte (SHA-256) with its URL and retrieval time.
+known_limitations:
+  - Informative systematised text; the official publication in Latvijas Vēstnesis is authentic.
+  - Only the current edition of each act is ingested; earlier editions' pages are disallowed by robots.txt, so there is no history.
+  - The page states no per-provision dates and no "up to date" date; editions are dated by their start (and, if stated, end).
+  - Editions published for the future ("Nākotnes") are reported as outstanding changes without text.
+  - Amendment notes ("Ar grozījumiem, kas izdarīti ar ...") are kept as notes; the amending acts are not ingested.
+  - English translations on the same site are not ingested.
+status: active
+connector: likumi_lv
+parser: likumi_lv_html

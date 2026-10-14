@@ -1,0 +1,111 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Latvia (national law). EU membership is deliberately not recorded here
+# (added separately with the EU profile).
+schema_version: 1
+id: LV
+profile_version: 0.1.0
+name: Latvia
+names: {lv: Latvija, en: Latvia}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [lv]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: >-
+    To verify - unitary parliamentary republic under the Satversme (adopted 15 February 1922, in force 7 November
+    1922); the Saeima (100 members) legislates, the President of the State promulgates acts (Satversme Art. 69: an act
+    enters into force fourteen days after promulgation unless it sets another period), the Cabinet of Ministers
+    (Ministru kabinets) issues regulations (noteikumi). Civil-law system (the Civillikums of 1937 in force again since
+    1992). Treaties: Art. 68 requires the Saeima's approval of treaties that settle matters decided by legislation;
+    Latvia is usually described as monist (ratified treaties are part of the domestic legal order, ranking below the
+    Satversme) - to verify, including the rank of treaties against acts. Local governments (novadi, pilsētas) issue
+    binding regulations (saistošie noteikumi); not ingested.
+legislative_institutions:
+  - id: LV-SAEIMA
+    name: Saeima (acts - likumi; the Satversme is amended by the Saeima under Art. 76-79, in part with a referendum)
+    instrument_types: [constitution, act]
+  - id: LV-MK
+    name: Ministru kabinets (Cabinet of Ministers - noteikumi, rīkojumi)
+    instrument_types: [regulation]
+instrument_types: [constitution, act, regulation]
+norm_hierarchy: [constitution, act, regulation]
+courts:
+  - id: LV-ST
+    name: Satversmes tiesa (Constitutional Court)
+    rank: 1
+  - id: LV-AT
+    name: "Augstākā tiesa (Supreme Court; its Senāts is the cassation instance)"
+    rank: 1
+  - id: LV-APG
+    name: Apgabaltiesas (regional courts; appeal instance in civil and criminal cases)
+    rank: 2
+    appeals_to: [LV-AT]
+  - id: LV-RT
+    name: Rajonu (pilsētu) tiesas (district/city courts; first instance in civil and criminal cases)
+    rank: 3
+    appeals_to: [LV-APG]
+  - id: LV-AAT
+    name: Administratīvā apgabaltiesa (Administrative Regional Court; appeal instance in administrative cases)
+    rank: 2
+    appeals_to: [LV-AT]
+  - id: LV-ARRT
+    name: Administratīvā rajona tiesa (Administrative District Court; first instance in administrative cases)
+    rank: 3
+    appeals_to: [LV-AAT]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal rule of binding precedent for ordinary courts; the case law of the Supreme Court (its
+    Senate's "atziņas") is followed in practice and cited as persuasive. Judgments of the Satversmes tiesa are final and
+    binding on all institutions, courts and persons (Satversmes tiesas likums). The court structure shown is
+    simplified (the 2021 reform of the court map, military and other special courts are not modelled); every court
+    entry is a draft to verify.
+citation:
+  module: lv
+  notes: >-
+    The act's name in the genitive first, then the pinpoint from the largest to the smallest unit, containers in the
+    genitive and the cited unit in the nominative: "Krimināllikuma 117. pants", "Satversmes 91. pants",
+    "Darba likuma 101. panta pirmās daļas 1. punkts", with parts as ordinal words and inserted articles with a
+    superscript ("38.¹ pants"). Transitional provisions: "Krimināllikuma pārejas noteikumu 11. punkts". Genitive names
+    are set for the ingested acts only; the formal reference to the official publication (Latvijas Vēstnesis number
+    and date) is not generated.
+  examples:
+    - "Krimināllikuma 117. pants"
+    - "Satversmes 91. pants"
+    - "Civillikuma 1415. pants"
+    - "Darba likuma 101. panta pirmās daļas 1. punkts"
+    - "Administratīvā procesa likuma 1. pants"
+    - "Fizisko personu datu apstrādes likuma 1. pants"
+publication:
+  official_sources: [lv-likumi]
+  commencement: >-
+    The President promulgates acts after their adoption (Satversme Art. 69) and they are published in the official
+    gazette Latvijas Vēstnesis (vestnesis.lv); an act enters into force fourteen days after promulgation unless it
+    states another period (Art. 69).
+  amendment: >-
+    Textual amendment by amending acts ("Grozījumi ..."). The official publisher (Latvijas Vēstnesis) systematises the
+    acts on likumi.lv, shows each edition ("redakcija") with its validity period and annotates each changed place with
+    the amending act and the date it enters into force. The systematised texts are informative; the official
+    publication prevails.
+  repeal: >-
+    Express repeal; the systematised text marks a repealed article or part "(Izslēgts ar ... likumu)" and keeps its
+    number.
+memberships:
+  # Accession to the European Union on 1 May 2004 (to verify).
+  - organisation: EU
+    from_date: 2004-05-01
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only the current edition of six instruments is ingested - the Satversme, Krimināllikums, Civillikums (Ievads and the four parts), Fizisko personu datu apstrādes likums, Darba likums and Administratīvā procesa likums; no other acts, no Cabinet regulations (noteikumi), treaties, local regulations or case law (Satversmes tiesa, Augstākā tiesa).
+    - No history - earlier editions are disallowed by Likumi.lv's robots.txt and are not fetched; the edition list is recorded only as the start of the current edition, and later editions are reported as outstanding changes without text.
+    - Dates are those of the whole edition (revision snapshot); the page gives no per-provision dates, so a provision's own commencement is not known.
+    - The texts are informative systematisations; the authentic text is the publication in Latvijas Vēstnesis, which is not ingested, nor are the amending acts.
+    - The enacting formula, adoption statement and signatures, annexes and tables are not ingested (none of the six instruments has an annex in the pages used); English translations on the site are not ingested.
+    - No PostgreSQL text-search configuration exists for Latvian, so the simple configuration is used (no stemming; inflected forms are matched only when identical).
