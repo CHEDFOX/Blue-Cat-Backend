@@ -74,6 +74,10 @@ publication:
   commencement: To verify - as set by the diploma; the default interval after publication is not recorded here.
   amendment: To verify - amending diplomas are published in the Diário da República; the DRE offers consolidated versions.
   repeal: To verify - express or implicit repeal.
+memberships:
+  # Joined the European Communities on 1986-01-01 (to verify).
+  - organisation: EU
+    from_date: 1986-01-01
 coverage:
   corpus_status: none
   known_gaps:

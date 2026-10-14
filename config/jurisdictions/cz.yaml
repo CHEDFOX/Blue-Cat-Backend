@@ -93,6 +93,10 @@ publication:
   repeal: >-
     Express repeal by a later act; the consolidated texts omit repealed provisions, and the last version of a repealed
     act is marked repealed.
+memberships:
+  # Acceded to the EU on 2004-05-01 (to verify).
+  - organisation: EU
+    from_date: 2004-05-01
 coverage:
   corpus_status: pilot
   known_gaps:

@@ -101,6 +101,10 @@ publication:
   repeal: >-
     Express repeal or implicit repeal; a consolidated code prints repealed articles as "Abrogé ( L. date )" and
     ULIS records them as repealed with the wording in the note.
+memberships:
+  # Founding member of the European Economic Community (1958); the EU continues it (to verify).
+  - organisation: EU
+    from_date: 1958-01-01
 coverage:
   corpus_status: partial
   known_gaps:

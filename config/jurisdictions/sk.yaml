@@ -90,6 +90,10 @@ publication:
     (časová verzia) with the first and last day each applies and the amending acts that caused it.
   repeal: >-
     Express repeal by a later act; a time version records the text as in force on each period.
+memberships:
+  # Acceded to the EU on 2004-05-01 (to verify).
+  - organisation: EU
+    from_date: 2004-05-01
 coverage:
   corpus_status: pilot
   known_gaps:

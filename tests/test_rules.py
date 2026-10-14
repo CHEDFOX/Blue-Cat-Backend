@@ -201,6 +201,16 @@ def test_law_of_a_regional_organisation_applies_only_to_members_and_only_from_ac
     assert reg.organisations_on("XA-NP", date(2020, 1, 1)) == ["XR"]  # provinces share the State's memberships
 
 
+@pytest.mark.parametrize(
+    ("state", "joined"),
+    [("LU", date(1958, 1, 1)), ("PT", date(1986, 1, 1)), ("CZ", date(2004, 5, 1)), ("SK", date(2004, 5, 1))],
+)
+def test_eu_membership_dates_of_added_member_states(catalog: Catalog, state: str, joined: date) -> None:
+    reg = catalog.jurisdictions
+    assert reg.organisations_on(state, joined) == ["EU"]
+    assert "EU" not in reg.organisations_on(state, date(joined.year - 1, 12, 31))
+
+
 def test_scripts_without_spaces_are_searched_as_character_bigrams() -> None:
     from ulis.languages import segment_for_search
 
