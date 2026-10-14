@@ -29,12 +29,20 @@ from ulis.db import models as m
 from ulis.retrieval.indexer import rebuild_passages
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import Connector, RawDocument
+from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
-from ulis.sources.parsers import akn, gesetze_im_internet, justice_canada, legislation_gov_uk, uslm
+from ulis.sources.parsers import (
+    akn,
+    boe_consolidada,
+    gesetze_im_internet,
+    justice_canada,
+    legislation_gov_uk,
+    uslm,
+)
 from ulis.sources.registry import SourceDescriptor, licence_gate
 from ulis.storage.object_store import ObjectStore
 from ulis.temporal.validity import Span, derive_valid_to
@@ -47,6 +55,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "legislation_gov_uk_akn": legislation_gov_uk.parse_legislation_gov_uk,
     "justice_canada_xml": justice_canada.parse_justice_canada,
     "gii_norm_xml": gesetze_im_internet.parse_gesetze_im_internet,
+    "boe_consolidada_xml": boe_consolidada.parse_boe_consolidada,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -54,6 +63,7 @@ PARSER_VERSIONS = {
     "legislation_gov_uk_akn": legislation_gov_uk.PARSER_VERSION,
     "justice_canada_xml": justice_canada.PARSER_VERSION,
     "gii_norm_xml": gesetze_im_internet.PARSER_VERSION,
+    "boe_consolidada_xml": boe_consolidada.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -86,24 +96,24 @@ class IngestionReport:
         return asdict(self)
 
 
+# Connectors taking (manifest path, source id, cache directory), by the source's ``connector`` name.
+CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
+    "boe_consolidada": BoeConsolidadaConnector,
+    "gesetze_im_internet": GesetzeImInternetConnector,
+    "git_snapshot": GitSnapshotConnector,
+    "legislation_gov_uk": LegislationGovUkConnector,
+}
+
+
 def build_connector(source: SourceDescriptor, base_dir: Path = REPO_ROOT, cache_dir: Path | None = None) -> Connector:
     if not source.access.endpoint:
         raise ValueError(f"source {source.id} has no manifest endpoint")
     if source.connector == "local_manifest":
         return LocalManifestConnector(base_dir / source.access.endpoint, source.id)
-    if source.connector == "git_snapshot":
-        return GitSnapshotConnector(
-            base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
-        )
-    if source.connector == "legislation_gov_uk":
-        return LegislationGovUkConnector(
-            base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
-        )
-    if source.connector == "gesetze_im_internet":
-        return GesetzeImInternetConnector(
-            base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
-        )
-    raise ValueError(f"no connector implementation named {source.connector!r}")
+    factory = CONNECTORS.get(source.connector or "")
+    if factory is None:
+        raise ValueError(f"no connector implementation named {source.connector!r}")
+    return factory(base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources")
 
 
 def resolve_uri(uri: str) -> tuple[str, str | None]:

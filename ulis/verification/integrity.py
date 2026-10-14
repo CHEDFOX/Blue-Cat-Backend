@@ -36,7 +36,12 @@ def verify_source_document(
         if hashlib.sha256(raw).hexdigest() != doc.sha256:
             problems.append("raw bytes do not match the recorded SHA-256")
         parsed_docs = PARSERS[catalog.sources.get(doc.source_id).parser or ""](raw)
-        units = {(d.work_uri, p.eid): p.text for d in parsed_docs for p in d.provisions}
+        # One raw document can attest several versions of a provision (e.g. a source that carries a
+        # provision's whole version history), so each locator maps to the hashes of all its texts.
+        units: dict[tuple[str, str], set[str]] = {}
+        for d in parsed_docs:
+            for p in d.provisions:
+                units.setdefault((d.work_uri, p.eid), set()).add(_sha(p.text))
         paras = {(d.work_uri, p.eid): p.text for d in parsed_docs for p in d.paragraphs}
         for pvs, pv, work_uri in session.execute(
             select(m.ProvisionVersionSource, m.ProvisionVersion, m.Instrument.uri)
@@ -46,10 +51,10 @@ def verify_source_document(
             .where(m.ProvisionVersionSource.source_document_id == doc.id)
         ):
             checked += 1
-            source_text = units.get((work_uri, pvs.source_locator))
-            if source_text is None:
+            source_hashes = units.get((work_uri, pvs.source_locator))
+            if source_hashes is None:
                 problems.append(f"{pvs.source_locator}: not found in source")
-            elif _sha(source_text) != pv.text_sha256:
+            elif pv.text_sha256 not in source_hashes:
                 problems.append(f"{pvs.source_locator}: stored text differs from source")
             if _sha(pv.text) != pv.text_sha256:
                 problems.append(f"{pvs.source_locator}: stored text does not match its own hash")
