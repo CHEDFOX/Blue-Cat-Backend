@@ -59,8 +59,8 @@ from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
 from ulis.sources.connectors.ris_ogd import RisOgdConnector
-from ulis.sources.connectors.uksc import UkscConnector
 from ulis.sources.connectors.slovlex_static import SlovLexStaticConnector
+from ulis.sources.connectors.uksc import UkscConnector
 from ulis.sources.connectors.uscode_house import UscodeHouseConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef, ParseSkipped
 from ulis.sources.parsers import (
@@ -94,8 +94,8 @@ from ulis.sources.parsers import (
     riigi_teataja,
     riksdagen_sfs,
     ris,
-    uksc_html,
     slovlex_static,
+    uksc_html,
     uslm,
 )
 from ulis.sources.registry import SourceDescriptor, licence_gate
