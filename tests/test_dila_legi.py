@@ -319,7 +319,7 @@ def build_archive(
             add(name, data)
 
 
-def seed_cache(cache: Path, listing: list[str] | None = None) -> None:
+def seed_cache(cache: Path, listing: list[str] | None = None, database: str = "LEGI") -> None:
     """robots.txt answered 404 (no rules) and, optionally, a directory index listing the given archive names."""
     host = cache / "echanges.dila.gouv.fr"
     host.mkdir(parents=True, exist_ok=True)
@@ -328,7 +328,7 @@ def seed_cache(cache: Path, listing: list[str] | None = None) -> None:
         json.dumps({"url": "https://echanges.dila.gouv.fr/robots.txt", "status": 404})
     )
     if listing is not None:
-        index = host / "OPENDATA" / "LEGI-index.html"
+        index = host / "OPENDATA" / f"{database}-index.html"
         index.parent.mkdir(parents=True, exist_ok=True)
         rows = "\n".join(f'<a href="{name}">{name}</a> 2026-01-01 00:00 1M' for name in listing)
         index.write_text(f"<html><pre>{rows}</pre></html>")
@@ -675,7 +675,7 @@ def test_search_finds_an_article_with_its_citation_and_limitations(
     session: Session, catalog: Catalog, fr_ingested: IngestionReport
 ) -> None:
     assert fr_ingested.errors == [] and fr_ingested.conflicts == []
-    assert fr_ingested.instrument_versions_created == 2 and fr_ingested.documents_new == 2
+    assert fr_ingested.documents_seen == 2 and fr_ingested.documents_new + fr_ingested.documents_unchanged == 2
     res = _search(session, catalog, "tout fait quelconque de l'homme qui cause à autrui un dommage", date(2024, 1, 1))
     hit = res["results"][0]
     assert hit["citation"] == "C. civ., art. 1240"

@@ -153,6 +153,10 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "pl-eli-sejm",
         "ar-infoleg",
         "fr-dila-legi",
+        "fr-dila-constit",
+        "fr-dila-cass",
+        "fr-dila-inca",
+        "fr-dila-jade",
     }
     for source_id in approved:
         licence_gate(catalog.sources.get(source_id))
