@@ -16,17 +16,45 @@ stycket andra strecksatsen brottsbalken``. A paragraph is always cited, also in 
 only one. Transitional provisions: ``regeringsformen, övergångsbestämmelserna till SFS 1976:871
 punkt 2``. Customary abbreviations (BrB, RF, LAS) are not generated.
 
+Case law reports are cited by their official report number with the paragraph (punkt) of the court's reasons:
+``NJA 2026 s. 347 p. 7``, ``HFD 2026 ref. 35 p. 3``, ``MIG 2026:9``; a report without a number by the court, date
+and case number (``Högsta domstolen 2026-06-12, mål nr FT 1040-25``).
+
 Formatting conventions only; to be confirmed by a Swedish reviewer before the SE profile is
 "reviewed".
 """
 
 from __future__ import annotations
 
-from typing import ClassVar, Literal
+from typing import Any, ClassVar, Literal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
-from ulis.jurisdictions.modules.base import JurisdictionModule, ProvisionCitationInput
+from ulis.jurisdictions.modules.base import JudgmentCitationInput, JurisdictionModule, ProvisionCitationInput
+
+
+class SeJudgmentExt(BaseModel):
+    """Extension data of a case law report from Domstolsverket's open data (Sök rättspraxis)."""
+
+    model_config = ConfigDict(extra="forbid")
+    publication_id: str
+    group_id: str | None = None  # links the report to the judgment/decision it reports
+    court_code: str  # the API's court code, e.g. HDO, HFD, HSV
+    court_name: str | None = None  # the actual court, e.g. "Svea hovrätt" (the ULIS court may be a group)
+    type: str | None = None  # PREJUDIKAT, VAGLEDANDE_MEN_EJ_PREJUDICERANDE ...
+    references: list[str] = Field(default_factory=list)  # e.g. ["NJA 2026:30", "NJA 2026 s. 347"]
+    ecli: str | None = None
+    case_numbers: list[str] = Field(default_factory=list)
+    labour_court_number: str | None = None
+    nickname: str | None = None  # benämning, e.g. "Bryggan på Sippsö"
+    keywords: list[str] = Field(default_factory=list)
+    legal_areas: list[str] = Field(default_factory=list)
+    statutes: list[dict[str, Any]] = Field(default_factory=list)  # {"sfs": "1972:207", "reference": "3 kap. 4 § ..."}
+    cited_cases: list[str] = Field(default_factory=list)  # free text, as published
+    literature: list[dict[str, Any]] = Field(default_factory=list)
+    preparatory_works: list[str] = Field(default_factory=list)
+    published: str | None = None
+
 
 ORDINALS = [
     "första",
@@ -87,8 +115,14 @@ def _parts(num_path: list[str]) -> dict[str, str]:
 
 class SeModule(JurisdictionModule):
     id: ClassVar[str] = "se"
-    version: ClassVar[str] = "1.0.0"
+    version: ClassVar[str] = "1.1.0"
     ext_model: ClassVar[type[BaseModel]] = SeExt
+
+    def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:
+        # A report's ext (Sök rättspraxis) is recognised by its court code; a statute's by its SFS number.
+        if "court_code" in ext:
+            return SeJudgmentExt.model_validate(ext).model_dump(exclude_none=True)
+        return super().validate_ext(ext)
 
     def pinpoint(self, c: ProvisionCitationInput) -> str:
         parts = _parts(c.num_path)
@@ -118,3 +152,15 @@ class SeModule(JurisdictionModule):
         if pin.startswith("övergångsbestämmelserna"):
             return f"{name}, {pin}"
         return f"{pin} {name}"
+
+    def judgment_citation(self, c: JudgmentCitationInput) -> str:
+        """``NJA 2026 s. 347 p. 7`` (the report number, then the paragraph of the reasons); without a report number
+        the court, date and case number."""
+        pin = f" p. {c.paragraph}" if c.paragraph else ""
+        if c.neutral_citation:
+            return f"{c.neutral_citation}{pin}"
+        court = str((c.ext or {}).get("court_name") or c.court_name)
+        text = f"{court} {c.decision_date.isoformat()}"
+        if c.docket:
+            text += f", mål nr {c.docket}"
+        return f"{text}{pin}"

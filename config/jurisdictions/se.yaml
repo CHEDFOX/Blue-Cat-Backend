@@ -2,7 +2,7 @@
 # regulations) are not profiled. EU membership is added separately, with the EU profile.
 schema_version: 1
 id: SE
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Sweden
 names: {sv: Sverige, en: Sweden}
 kind: sovereign_state
@@ -61,6 +61,23 @@ courts:
     name: Förvaltningsrätterna (administrative courts)
     rank: 3
     appeals_to: [SE-KR]
+  # Special courts of the higher courts' case law (se-rattspraxis). Their own hierarchies and appeals to the supreme
+  # courts are not modelled; rank 1 only means the highest court of their field in this profile (to verify).
+  - id: SE-AD
+    name: Arbetsdomstolen (Labour Court)
+    rank: 1
+  - id: SE-MIOD
+    name: Migrationsöverdomstolen (Migration Court of Appeal)
+    rank: 1
+  - id: SE-MMOD
+    name: Mark- och miljööverdomstolen (Land and Environment Court of Appeal; until 2011 Miljööverdomstolen)
+    rank: 1
+  - id: SE-PMOD
+    name: Patent- och marknadsöverdomstolen (Patent and Market Court of Appeal)
+    rank: 1
+  - id: SE-MD
+    name: Marknadsdomstolen (Market Court, until 2016)
+    rank: 1
 precedent:
   doctrine: jurisprudence_constante
   vertical_binding: false
@@ -73,8 +90,9 @@ precedent:
     eller lagtolkning, som förut varit antagen av Högsta domstolen" may be referred to the full
     court (3 kap. 6 §). Precedents (prejudikat) of Högsta domstolen and Högsta
     förvaltningsdomstolen are followed in practice by lower courts (de facto binding); other
-    decisions are persuasive. Special courts (Arbetsdomstolen, Patent- och marknadsöverdomstolen,
-    migration courts) are not profiled.
+    decisions are persuasive. Special courts (Arbetsdomstolen, Migrationsöverdomstolen, Mark- och
+    miljööverdomstolen, Patent- och marknadsöverdomstolen, Marknadsdomstolen) are profiled only as the highest
+    courts of their field; their appeal routes are not modelled.
 citation:
   module: se
   notes: >-
@@ -90,7 +108,7 @@ citation:
     - "9 § första stycket förvaltningslagen (2017:900)"
     - "2 kap. 1 § första stycket 1 regeringsformen"
 publication:
-  official_sources: [se-riksdagen-sfs]
+  official_sources: [se-riksdagen-sfs, se-rattspraxis]
   commencement: >-
     "Av författning skall framgå när den träder i kraft." (lag (1976:633) om kungörande av lagar
     och andra författningar, 13 §). Laws and ordinances are published in Svensk
@@ -114,5 +132,6 @@ coverage:
     - No history - one current consolidation per statute. Dates are known only for wordings that change on a date the consolidation states (e.g. 2027-01-01); everything else is attested only at the record's publication date (start unknown).
     - Amendments awaiting a commencement date set by the Government ("den dag som regeringen bestämmer") are recorded as prospective and reported as outstanding changes.
     - Chapters and headings are context, not provisions. Paragraph (stycke) numbers are not printed; they are derived from the layout.
-    - No ordinances, no other fundamental laws (successionsordningen, tryckfrihetsförordningen, yttrandefrihetsgrundlagen), no case law (Högsta domstolen, Högsta förvaltningsdomstolen), no treaties, no regional or municipal regulations.
+    - No ordinances, no other fundamental laws (successionsordningen, tryckfrihetsförordningen, yttrandefrihetsgrundlagen), no treaties, no regional or municipal regulations.
+    - Case law is the official case reports (rättsfallsreferat) of the higher courts from Domstolsverket's open data (se-rattspraxis), not the courts' judgments and decisions themselves (open data from March 2025, in PDF), and not the lower courts' decisions; no citator beyond the publisher's statute references.
     - Swedish uses PostgreSQL's swedish text-search configuration (stemming only; no compound splitting).

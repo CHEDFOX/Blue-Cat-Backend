@@ -49,6 +49,7 @@ from ulis.sources.connectors.likumi_lv import LikumiLvConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
+from ulis.sources.connectors.rattspraxis_se import RattspraxisConnector
 from ulis.sources.connectors.rechtspraak import RechtspraakConnector
 from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
@@ -76,6 +77,7 @@ from ulis.sources.parsers import (
     likumi_lv,
     moj_law,
     normattiva,
+    rattspraxis_se,
     rechtspraak,
     retsinformation,
     riigi_teataja,
@@ -105,6 +107,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "frl_epub": au_federal_register.parse_federal_register,
     "bwb_xml": bwb.parse_bwb,
     "rechtspraak_xml": rechtspraak.parse_rechtspraak,
+    "rattspraxis_se_json": rattspraxis_se.parse_rattspraxis,
     "moj_law_html": moj_law.parse_moj_law,
     "riksdagen_sfs_json": riksdagen_sfs.parse_riksdagen_sfs,
     "retsinformation_lexdania": retsinformation.parse_retsinformation,
@@ -132,6 +135,7 @@ PARSER_VERSIONS = {
     "frl_epub": au_federal_register.PARSER_VERSION,
     "bwb_xml": bwb.PARSER_VERSION,
     "rechtspraak_xml": rechtspraak.PARSER_VERSION,
+    "rattspraxis_se_json": rattspraxis_se.PARSER_VERSION,
     "moj_law_html": moj_law.PARSER_VERSION,
     "riksdagen_sfs_json": riksdagen_sfs.PARSER_VERSION,
     "retsinformation_lexdania": retsinformation.PARSER_VERSION,
@@ -191,6 +195,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "au_federal_register": FederalRegisterConnector,
     "bwb": BwbConnector,
     "rechtspraak": RechtspraakConnector,
+    "rattspraxis_se": RattspraxisConnector,
     "moj_laws": MojLawsConnector,
     "riksdagen_sfs": RiksdagenSfsConnector,
     "retsinformation": RetsinformationConnector,

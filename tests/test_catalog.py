@@ -145,6 +145,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "nl-rechtspraak",
         "tw-moj-laws",
         "se-riksdagen-sfs",
+        "se-rattspraxis",
         "dk-retsinformation",
         "it-normattiva",
         "ie-irish-statute-book",
