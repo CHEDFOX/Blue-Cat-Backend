@@ -1,0 +1,20 @@
+# EU law fetched from Cellar, the Publications Office repository behind EUR-Lex.
+# Reuse: Commission Decision 2011/833/EU (source acknowledged; see config/sources/eu-eur-lex.yaml).
+# Polite access: identifying User-Agent, at least 5 s between requests, local cache.
+# Each work is fetched in every listed language; all EU language versions are equally authentic.
+schema_version: 1
+source_id: eu-eur-lex
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+languages: [en, fr, de]
+works:
+  # Primary law. TEU and TFEU exist in Cellar only as XHTML; the Charter also in Formex 4.
+  - {celex: "12016M/TXT", format: xhtml}   # Treaty on European Union, consolidated version 2016
+  - {celex: "12016E/TXT", format: xhtml}   # Treaty on the Functioning of the European Union, consolidated version 2016
+  - {celex: "12016P/TXT", format: fmx4}    # Charter of Fundamental Rights of the European Union (OJ C 202, 2016)
+  # Secondary law, original Official Journal texts (Formex 4).
+  - {celex: "32016R0679", format: fmx4}    # Regulation (EU) 2016/679 (GDPR)
+  - {celex: "32008R0593", format: fmx4}    # Regulation (EC) No 593/2008 (Rome I)
+  - {celex: "32012R1215", format: fmx4}    # Regulation (EU) No 1215/2012 (Brussels I recast)
+  - {celex: "32011L0083", format: fmx4}    # Directive 2011/83/EU (consumer rights)
+  - {celex: "32024R1689", format: fmx4}    # Regulation (EU) 2024/1689 (Artificial Intelligence Act)

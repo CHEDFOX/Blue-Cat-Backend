@@ -1,31 +1,91 @@
-# PLANNED - preliminary research notes, to be confirmed.
+# EU law from the Publications Office of the European Union (EUR-Lex / Cellar).
+# Licence and access reviewed 2026-10-14; see docs/jurisdictions/eu.md for the evidence.
 schema_version: 1
 id: eu-eur-lex
-name: EUR-Lex / Cellar
+name: EUR-Lex / Cellar (Publications Office of the European Union)
 publisher: Publications Office of the European Union
 kind: official_legislation_portal
-authority: official_authentic
+authority: official_non_authentic
 jurisdictions: [EU]
-document_kinds: [treaty, regulation, directive, decision, judgment]
+document_kinds: [founding_treaty, charter, regulation, directive]
 languages: [bg, cs, da, de, el, en, es, et, fi, fr, ga, hr, hu, it, lt, lv, mt, nl, pl, pt, ro, sk, sl, sv]
-coverage: EU law in all official languages; Official Journal and consolidated texts; CJEU case law.
+coverage: >-
+  EU law in all 24 official languages: the Official Journal, consolidated texts, case law and
+  their metadata, held in Cellar (the repository behind EUR-Lex). ULIS ingests a hand-picked
+  list of instruments (see the manifest) in English, French and German: the original Official
+  Journal texts of acts (Formex 4), the Charter of Fundamental Rights (OJ C 202, 2016) and the
+  2016 consolidated versions of the TEU and TFEU (XHTML; protocols, annexes and declarations
+  excluded), each with the Publications Office metadata on dates, amendments and corrigenda.
 access:
   method: api
-  endpoint: https://publications.europa.eu/
-update_frequency: daily
+  endpoint: config/manifests/eu-eur-lex.yaml
+update_frequency: daily (Official Journal); re-fetch to refresh
+rate_limits: >-
+  No published rate limit found. publications.europa.eu/robots.txt redirects to
+  https://op.europa.eu/robots.txt ("User-agent: *", "Allow: /", no Crawl-delay; /resource/ and
+  /webapi/ are not disallowed). ULIS waits at least 5 s between requests and caches every
+  response. eur-lex.europa.eu itself answered automated requests (even robots.txt) with an AWS
+  WAF challenge (HTTP 202, x-amzn-waf-action: challenge) on 2026-10-14; ULIS does not use it.
 licence:
   id: EU-REUSE-2011-833
-  name: Commission Decision 2011/833/EU on the reuse of Commission documents (to be confirmed)
-  review_status: pending_review
+  name: Commission reuse notice - Commission Decision 2011/833/EU of 12 December 2011 on the reuse of Commission documents
+  url: http://data.europa.eu/eli/dec/2011/833/oj
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the publisher's own pages (2026-10-14): (1) the Publications Office's
+    dataset "Sparql and RESTful API access to European Union law and publications (CELLAR)" on
+    the official EU data portal (https://data.europa.eu/data/datasets/sparql-cellar-of-the-publications-office)
+    describes the service ULIS uses ("Key collections of EU information - legal content and
+    general publications - can be fetched directly from ... the CELLAR, using the
+    machine-readable SPARQL endpoint facility or the HTTP RESTful web services") and gives
+    every distribution the licence "European Commission reuse notice"
+    (http://data.europa.eu/eli/dec/2011/833/oj); (2) Decision 2011/833/EU (read from Cellar,
+    OJ L 330, 14.12.2011, p. 39), arts 4 and 6: documents are available for reuse for commercial
+    or non-commercial purposes, without charge and without individual application, subject to
+    acknowledging the source, not distorting the original meaning and non-liability of the
+    Commission; (3) the Cellar "Users" page (https://op.europa.eu/en/web/cellar/users) names
+    data re-users (academic and research institutions, publishers ...) who "can search and
+    retrieve publications and their associated metadata directly from Cellar"; (4) the
+    Publications Office copyright notice
+    (https://op.europa.eu/en/web/about-us/legal-notices/publications-office-of-the-european-union-copyright)
+    refers reuse of EUR-Lex content to the EUR-Lex notice and names op-copyright@publications.europa.eu
+    for questions on Cellar reuse; (5) the data.europa.eu copyright notice
+    (https://data.europa.eu/en/copyright-notice) restates the Commission reuse policy.
+  reviewed_on: 2026-10-14
   redistribution: allowed_with_conditions
-  bulk_download: unknown
-  automated_processing: unknown
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
   commercial_use: allowed_with_conditions
   attribution_required: true
-provenance: Official publisher of EU law.
+  attribution_text: "Source: EUR-Lex / Cellar, Publications Office of the European Union (https://eur-lex.europa.eu). © European Union."
+  conditions:
+    - Acknowledge the source (Decision 2011/833/EU, art 6(2)(a)).
+    - Do not distort the original meaning or message of the documents (art 6(2)(b)); ULIS stores the exact text and never edits it.
+    - The Commission is not liable for any consequence of the reuse (art 6(2)(c)).
+    - Only the Official Journal published in electronic form is authentic (Regulation (EU) No 216/2013, art 1(2), from 1 July 2013; before that the printed OJ); ULIS never presents its copies as authentic.
+    - Content subject to third-party rights is outside the reuse policy (Decision 2011/833/EU, art 2(2)(b)).
+  notes: >-
+    Not read: the EUR-Lex legal notice (https://eur-lex.europa.eu/content/legal-notice/legal-notice.html),
+    because eur-lex.europa.eu answers automated clients with a bot challenge. A person should
+    confirm it in a browser. Decision 2011/833/EU covers Commission documents and documents the
+    Publications Office publishes on its behalf; acts of the Parliament and the Council, the
+    Treaties and case law are reused here on the strength of the publisher's licence statement
+    for the Cellar dataset. The Court of Justice's own notice (https://curia.europa.eu/site/jcms/d2_5167/en/copyright)
+    allows case law to be reproduced with acknowledgement; no case law is ingested yet.
+    Counsel review recommended before production use.
+provenance: >-
+  Cellar, publications.europa.eu: the SPARQL endpoint (https://publications.europa.eu/webapi/rdf/sparql)
+  for metadata and the RESTful item URLs (https://publications.europa.eu/resource/cellar/...)
+  for the files. Each language version of a work is stored as one bundle holding every response
+  used, exactly as received, with its URL, retrieval time and SHA-256 (images in annexes are
+  listed but not kept).
 known_limitations:
-  - Only the electronic Official Journal is authentic; consolidated versions are documentation tools.
-  - EU jurisdiction profile (regional organisation with direct effect rules) not yet written.
-status: planned
-connector: null
-parser: null
+  - Formex 4 and XHTML files are the publisher's renditions of the Official Journal, not the authentic (signed) electronic edition.
+  - Original Official Journal texts only; later amendments and corrigenda are reported from the metadata but not applied. Where the metadata locates a replacement, deletion or insertion, the original wording of that provision is ended on the amendment's start of validity and the new wording is not indexed.
+  - The TEU and TFEU are the 2016 consolidated versions (documentation, not authentic); when each wording took effect is not recorded.
+  - Partial application dates are recorded in notes; which provisions they concern is not modelled.
+  - Recitals, citations, final formulas and signatures are not indexed.
+  - Only English, French and German are ingested.
+status: active
+connector: eu_cellar
+parser: eu_cellar
