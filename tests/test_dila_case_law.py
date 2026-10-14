@@ -290,11 +290,14 @@ def test_decisions_are_cited_in_french_style() -> None:
 
 
 # ------------------------------------------------------------------------------------------------------ archives
-def dump_name(ident: str, database: str) -> str:
+def dump_name(ident: str, database: str, stock: bool = False) -> str:
+    """Path of a decision in an archive: the stock groups the Cour de cassation by chamber (cass/global/civile/...)."""
     tail = "/".join([ident[8:20][i : i + 2] for i in range(0, 10, 2)])
     if ident.startswith("CONS"):
         return f"constit/global/CONS/TEXT/{tail}/{ident}.xml"
     if ident.startswith("JURI"):
+        if stock:
+            return f"{database.lower()}/global/civile/JURI/TEXT/{tail}/{ident}.xml"
         return f"juri/{database.lower()}/global/JURI/TEXT/{tail}/{ident}.xml"
     return f"jade/global/publie/CETA/TEXT/{tail}/{ident}.xml"
 
@@ -335,7 +338,7 @@ def cass_cache(tmp_path: Path, **kwargs: Any) -> tuple[Path, int]:
     directory = cache / "echanges.dila.gouv.fr" / "OPENDATA" / "CASS"
     directory.mkdir(parents=True)
     stock = directory / CASS_STOCK
-    build_archive(stock, {dump_name(i, "cass"): raw(i) for i in (CASS85, CASS24)})
+    build_archive(stock, {dump_name(i, "cass", stock=True): raw(i) for i in (CASS85, CASS24)})
     return cache, stock.stat().st_size
 
 

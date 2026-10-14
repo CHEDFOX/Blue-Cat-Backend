@@ -46,7 +46,8 @@ from ulis.sources.connectors.dila_dump import (
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
 
-MEMBER = re.compile(r"(?:^|/)[a-z]+/global/[A-Z]+/TEXT/(?:\d{2}/){5}(?P<id>[A-Z]{8}\d{12})\.xml$")
+# The stocks group decisions in folders (cass/global/civile/JURI/TEXT/..., jade/global/publie/CETA/TEXT/...).
+MEMBER =re.compile(r"(?:^|/)[a-z]+/global/(?:[A-Za-z_]+/)*TEXT/(?:\d{2}/){5}(?P<id>[A-Z]{8}\d{12})\.xml$")
 DELETED = re.compile(r"(?P<id>[A-Z]{8}\d{12})(?:\.xml)?$")
 HEADER_BYTES = 6000
 
