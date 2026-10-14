@@ -4,7 +4,7 @@ One person, one server: PostgreSQL 16 + the API (one worker process: research jo
 ULIS is a research aid for lawyers, never legal advice.
 
 > **What was and was not tested.** Tested here: the new code (API hardening, `load-all`, `status`) against
-> PostgreSQL 16, including a live 2-worker uvicorn; the backup, restore, export and import scripts against a local
+> PostgreSQL 16, including a live uvicorn; the backup, restore, export and import scripts against a local
 > PostgreSQL 16; `docker compose config` (the compose file parses, interpolates and fails fast without a password);
 > the container's run-time layout emulated without Docker. **Not tested, because this sandbox has no Docker daemon, no
 > systemd and no Caddy:** the image build, `docker compose up`, the Caddyfile (syntax checked by eye), the systemd
@@ -164,7 +164,7 @@ monthly spend limit there. The worst case per day is `ULIS_RATE_LIMIT_RESEARCH_G
 * **Single-node database**, one server: no replication or failover; the recovery point is the last dump, the recovery time
   is a restore. Rate limits are in memory and per worker, not shared.
 * Profiles and parsers are not independently reviewed (see `roadmap.md`); every answer needs a lawyer's check.
-* No load test has been run; the two-worker, 8 GB sizing is a reasoned starting point, not a measured capacity.
+* No load test has been run; the single-worker, 8 GB sizing is a reasoned starting point, not a measured capacity.
 
 ## 11. Troubleshooting
 
