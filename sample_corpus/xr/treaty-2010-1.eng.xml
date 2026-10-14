@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL TEST DATA - not real law. CC0-1.0. English and French texts are equally authentic. -->
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ulis="urn:ulis:akn-ext:1">
+  <act name="treaty">
+    <meta>
+      <identification source="#ulis">
+        <FRBRWork>
+          <FRBRthis value="/akn/xr/treaty/2010/1/!main"/>
+          <FRBRuri value="/akn/xr/treaty/2010/1"/>
+          <FRBRdate date="2010-05-20" name="signature"/>
+          <FRBRauthor href="#union"/>
+          <FRBRcountry value="xr"/>
+          <FRBRnumber value="1"/>
+          <FRBRname value="Northern Union Convention on the Protection of Personal Data"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/akn/xr/treaty/2010/1/eng@2010-05-20/!main"/>
+          <FRBRuri value="/akn/xr/treaty/2010/1/eng@2010-05-20"/>
+          <FRBRdate date="2010-05-20" name="signature"/>
+          <FRBRauthor href="#union"/>
+          <FRBRauthoritative value="true"/>
+          <FRBRlanguage language="eng"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/akn/xr/treaty/2010/1/eng@2010-05-20/!main.xml"/>
+          <FRBRuri value="/akn/xr/treaty/2010/1/eng@2010-05-20.akn"/>
+          <FRBRdate date="2026-10-14" name="transform"/>
+          <FRBRauthor href="#ulis"/>
+        </FRBRManifestation>
+      </identification>
+      <lifecycle source="#ulis">
+        <eventRef eId="e_signature" date="2010-05-20" type="generation" source="#original" refersTo="#signature"/>
+        <eventRef eId="e_eif" date="2012-03-01" type="generation" source="#original" refersTo="#entryIntoForce"/>
+      </lifecycle>
+      <temporalData source="#ulis">
+        <temporalGroup eId="tg_eif">
+          <timeInterval start="#e_eif" refersTo="#inForce"/>
+        </temporalGroup>
+      </temporalData>
+      <references source="#ulis">
+        <original eId="original" href="/akn/xr/treaty/2010/1/eng@2010-05-20" showAs="Northern Union Convention on the Protection of Personal Data"/>
+        <TLCOrganization eId="union" href="/ontology/organization/xr/union" showAs="Northern Union"/>
+        <TLCOrganization eId="ulis" href="/ontology/organization/ulis" showAs="ULIS project"/>
+        <TLCEvent eId="signature" href="/ontology/event/signature" showAs="Signature"/>
+        <TLCEvent eId="entryIntoForce" href="/ontology/event/entryIntoForce" showAs="Entry into force"/>
+        <TLCConcept eId="inForce" href="/ontology/concept/inForce" showAs="In force"/>
+      </references>
+      <proprietary source="#ulis">
+        <ulis:meta>
+          <ulis:jurisdiction>XR</ulis:jurisdiction>
+          <ulis:instrumentType>treaty</ulis:instrumentType>
+          <ulis:shortTitle>Northern Union Convention on the Protection of Personal Data 2010</ulis:shortTitle>
+          <ulis:textOrigin>official</ulis:textOrigin>
+          <ulis:consolidation kind="consolidated" currencyDate="2026-09-30"/>
+          <ulis:treatyParties>
+            <ulis:party jurisdiction="XB" signed="2010-05-20" consentType="ratification" consented="2011-09-01" entryIntoForce="2012-03-01"/>
+            <ulis:party jurisdiction="XA" signed="2010-05-20" consentType="ratification" consented="2012-02-10" entryIntoForce="2012-03-01"/>
+          </ulis:treatyParties>
+        </ulis:meta>
+      </proprietary>
+    </meta>
+    <preface>
+      <p class="title"><docTitle>Northern Union Convention on the Protection of Personal Data</docTitle></p>
+    </preface>
+    <body period="#tg_eif">
+      <article eId="art_1">
+        <num>1</num>
+        <heading>Purpose</heading>
+        <content><p>This Convention establishes common minimum standards for the protection of individuals when personal data concerning them are processed.</p></content>
+      </article>
+      <article eId="art_5">
+        <num>5</num>
+        <heading>Storage limitation</heading>
+        <paragraph eId="art_5__para_1">
+          <num>1.</num>
+          <content><p>Each Party shall ensure that personal data are kept for no longer than is necessary for the purposes for which they are processed.</p></content>
+        </paragraph>
+        <paragraph eId="art_5__para_2">
+          <num>2.</num>
+          <content><p>Each Party shall provide an effective remedy by which an individual may obtain the erasure of personal data kept in breach of paragraph 1.</p></content>
+        </paragraph>
+      </article>
+      <article eId="art_20">
+        <num>20</num>
+        <heading>Entry into force</heading>
+        <content><p>This Convention enters into force on the first day of the month following the deposit of the second instrument of ratification.</p></content>
+      </article>
+    </body>
+  </act>
+</akomaNtoso>

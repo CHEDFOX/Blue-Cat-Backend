@@ -1,0 +1,30 @@
+# FICTIONAL. The Northern Union is an invented regional organisation used only to
+# exercise treaty, multilingual and membership features with lawfully usable text.
+schema_version: 1
+id: XR
+profile_version: 1.0.0
+name: Northern Union (fictional)
+names: {en: Northern Union, fr: Union du Nord}
+kind: regional_organisation
+parent: INT
+fictional: true
+verification:
+  status: fictional_test_data
+official_languages: [en, fr]
+legal_system:
+  families: [international]
+  structure: international_organisation
+  treaty_reception: not_applicable
+instrument_types: [treaty]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+citation:
+  module: default
+  examples: ["Northern Union Convention on the Protection of Personal Data 2010, art 5(1)"]
+publication:
+  official_sources: [ulis-fictional-sample]
+coverage:
+  corpus_status: fictional_sample
+  known_gaps:
+    - Only one convention is present; no protocols, reservations texts or explanatory reports.

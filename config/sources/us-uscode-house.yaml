@@ -1,0 +1,31 @@
+# PLANNED - preliminary research notes, to be confirmed.
+schema_version: 1
+id: us-uscode-house
+name: United States Code (Office of the Law Revision Counsel)
+publisher: Office of the Law Revision Counsel, U.S. House of Representatives
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [US]
+document_kinds: [act]
+languages: [en]
+coverage: Codified general and permanent federal statutes, USLM XML by title and release point.
+access:
+  method: bulk_download
+  endpoint: https://uscode.house.gov/download/download.shtml
+update_frequency: per release point
+licence:
+  id: US-GOV-PD
+  name: U.S. Government work, not subject to copyright (17 U.S.C. 105) - to be confirmed
+  review_status: pending_review
+  redistribution: allowed
+  bulk_download: allowed
+  automated_processing: unknown
+  commercial_use: allowed
+  attribution_required: false
+provenance: Official codification office.
+known_limitations:
+  - Titles not enacted as positive law are prima facie evidence of the law (1 U.S.C. 204); the Statutes at Large control.
+  - State law is not covered.
+status: planned
+connector: null
+parser: null

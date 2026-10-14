@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL TEST DATA - not real law. CC0-1.0. Version: as enacted. -->
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ulis="urn:ulis:akn-ext:1">
+  <act name="act">
+    <meta>
+      <identification source="#ulis">
+        <FRBRWork>
+          <FRBRthis value="/akn/xa/act/2021/4/!main"/>
+          <FRBRuri value="/akn/xa/act/2021/4"/>
+          <FRBRdate date="2021-11-20" name="enactment"/>
+          <FRBRauthor href="#parliament"/>
+          <FRBRcountry value="xa"/>
+          <FRBRnumber value="4"/>
+          <FRBRname value="Personal Data (Amendment) Act 2021"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/akn/xa/act/2021/4/eng@2021-11-20/!main"/>
+          <FRBRuri value="/akn/xa/act/2021/4/eng@2021-11-20"/>
+          <FRBRdate date="2021-11-20" name="enactment"/>
+          <FRBRauthor href="#parliament"/>
+          <FRBRauthoritative value="true"/>
+          <FRBRlanguage language="eng"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/akn/xa/act/2021/4/eng@2021-11-20/!main.xml"/>
+          <FRBRuri value="/akn/xa/act/2021/4/eng@2021-11-20.akn"/>
+          <FRBRdate date="2026-10-14" name="transform"/>
+          <FRBRauthor href="#ulis"/>
+        </FRBRManifestation>
+      </identification>
+      <lifecycle source="#ulis">
+        <eventRef eId="e_enactment" date="2021-11-20" type="generation" source="#original" refersTo="#enactment"/>
+        <eventRef eId="e_s2" date="2022-01-01" type="generation" source="#original" refersTo="#commencement"/>
+        <eventRef eId="e_s4" date="2023-03-01" type="generation" source="#original" refersTo="#commencement"/>
+      </lifecycle>
+      <temporalData source="#ulis">
+        <temporalGroup eId="tg_enact">
+          <timeInterval start="#e_enactment" refersTo="#inForce"/>
+        </temporalGroup>
+        <temporalGroup eId="tg_s2">
+          <timeInterval start="#e_s2" refersTo="#inForce"/>
+        </temporalGroup>
+        <temporalGroup eId="tg_s4">
+          <timeInterval start="#e_s4" refersTo="#inForce"/>
+        </temporalGroup>
+      </temporalData>
+      <references source="#ulis">
+        <original eId="original" href="/akn/xa/act/2021/4/eng@2021-11-20" showAs="Personal Data (Amendment) Act 2021"/>
+        <TLCOrganization eId="parliament" href="/ontology/organization/xa/parliament" showAs="Parliament of Aurelia"/>
+        <TLCOrganization eId="ulis" href="/ontology/organization/ulis" showAs="ULIS project"/>
+        <TLCEvent eId="enactment" href="/ontology/event/enactment" showAs="Enactment"/>
+        <TLCEvent eId="commencement" href="/ontology/event/commencement" showAs="Commencement"/>
+        <TLCConcept eId="inForce" href="/ontology/concept/inForce" showAs="In force"/>
+      </references>
+      <proprietary source="#ulis">
+        <ulis:meta>
+          <ulis:jurisdiction>XA</ulis:jurisdiction>
+          <ulis:instrumentType>act</ulis:instrumentType>
+          <ulis:shortTitle>Personal Data (Amendment) Act 2021</ulis:shortTitle>
+          <ulis:extent>XA</ulis:extent>
+          <ulis:textOrigin>official</ulis:textOrigin>
+          <ulis:consolidation kind="as_enacted"/>
+        </ulis:meta>
+      </proprietary>
+    </meta>
+    <preface>
+      <p class="title"><docTitle>Personal Data (Amendment) Act 2021</docTitle></p>
+      <p class="number"><docNumber>Act No. 4 of 2021</docNumber></p>
+    </preface>
+    <body period="#tg_enact">
+      <section eId="sec_1">
+        <num>1</num>
+        <heading>Short title and commencement</heading>
+        <subsection eId="sec_1__subsec_1">
+          <num>(1)</num>
+          <content><p>This Act may be cited as the Personal Data (Amendment) Act 2021.</p></content>
+        </subsection>
+        <subsection eId="sec_1__subsec_2">
+          <num>(2)</num>
+          <content><p>Section 2 comes into force on 1 January 2022.</p></content>
+        </subsection>
+        <subsection eId="sec_1__subsec_3">
+          <num>(3)</num>
+          <content><p>Section 3 comes into force on a day appointed by the Minister by notice in the Gazette.</p></content>
+        </subsection>
+        <subsection eId="sec_1__subsec_4">
+          <num>(4)</num>
+          <content><p>Section 4 comes into force on 1 March 2023.</p></content>
+        </subsection>
+      </section>
+      <section eId="sec_2" period="#tg_s2">
+        <num>2</num>
+        <heading>Retention period</heading>
+        <content>
+          <p>In <ref href="/akn/xa/act/2015/12/~sec_12__subsec_1" ulis:relation="amends">section 12(1) of the Personal Data Act 2015</ref>, for "seven years" substitute "five years".</p>
+        </content>
+      </section>
+      <section eId="sec_3" ulis:status="prospective">
+        <num>3</num>
+        <heading>Backup copies</heading>
+        <content>
+          <p>After <ref href="/akn/xa/act/2015/12/~sec_12" ulis:relation="inserts">section 12 of the Personal Data Act 2015</ref> insert the following section: "12A Backup copies (1) For the purposes of section 12, personal data held in a backup copy is retained by the controller. (2) A controller may keep a backup copy for up to ninety days after the period in section 12(1) expires, if the backup copy is isolated from ordinary processing."</p>
+        </content>
+      </section>
+      <section eId="sec_4" period="#tg_s4">
+        <num>4</num>
+        <heading>Repeal of transitional provision</heading>
+        <content>
+          <p><ref href="/akn/xa/act/2015/12/~sec_20" ulis:relation="repeals">Section 20 of the Personal Data Act 2015</ref> is repealed.</p>
+        </content>
+      </section>
+    </body>
+  </act>
+</akomaNtoso>

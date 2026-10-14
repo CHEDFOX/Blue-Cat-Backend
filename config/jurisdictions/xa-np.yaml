@@ -1,0 +1,43 @@
+# FICTIONAL. Northern Province of Aurelia.
+schema_version: 1
+id: XA-NP
+profile_version: 1.0.0
+name: Northern Province (Aurelia, fictional)
+kind: constituent_unit
+parent: XA
+fictional: true
+verification:
+  status: fictional_test_data
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+legislative_institutions:
+  - id: XA-NP-LEG
+    name: Northern Provincial Legislature
+    instrument_types: [act, bill]
+instrument_types: [act, regulation, bill]
+norm_hierarchy: [act, regulation]
+courts:
+  - id: XA-NP-HC
+    name: High Court of the Northern Province
+    rank: 1
+    appeals_to: [XA-SC]
+    binds_self: false
+  - id: XA-NP-DC
+    name: District Court of the Northern Province
+    rank: 2
+    appeals_to: [XA-NP-HC]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: xa
+  examples: ["Health Records Act 2019 (XA-NP) s 5(1)", "Re Calder Archives Ltd [2020] XANPHC 15 [3]"]
+publication:
+  official_sources: [ulis-fictional-sample]
+coverage:
+  corpus_status: fictional_sample
+  known_gaps:
+    - Only one provincial Act and one High Court judgment are indexed.

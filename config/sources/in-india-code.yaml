@@ -1,0 +1,34 @@
+# PLANNED - licence status unknown. Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: in-india-code
+name: India Code
+publisher: Legislative Department, Ministry of Law and Justice, Government of India
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [IN]
+document_kinds: [act, regulation, rule, notification]
+languages: [en, hi]
+coverage: Central and State Acts with subordinate legislation (coverage and currency to be measured).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.indiacode.nic.in/
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms of use to be reviewed
+  review_status: pending_review
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: >-
+    Review needed: the site's terms of use, and section 52(1)(q) of the Copyright Act 1957, which
+    (as we read it, subject to counsel) permits reproduction of an Act of a Legislature only
+    together with commentary or other original matter. Judgments and orders are treated
+    differently under the same clause.
+provenance: Official government portal (authenticity status of the online text to be confirmed).
+known_limitations:
+  - Currency, amendment incorporation and Hindi coverage not yet measured.
+status: planned
+connector: null
+parser: null

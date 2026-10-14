@@ -1,0 +1,31 @@
+# PLANNED - preliminary research notes, to be confirmed.
+schema_version: 1
+id: eu-eur-lex
+name: EUR-Lex / Cellar
+publisher: Publications Office of the European Union
+kind: official_legislation_portal
+authority: official_authentic
+jurisdictions: [EU]
+document_kinds: [treaty, regulation, directive, decision, judgment]
+languages: [bg, cs, da, de, el, en, es, et, fi, fr, ga, hr, hu, it, lt, lv, mt, nl, pl, pt, ro, sk, sl, sv]
+coverage: EU law in all official languages; Official Journal and consolidated texts; CJEU case law.
+access:
+  method: api
+  endpoint: https://publications.europa.eu/
+update_frequency: daily
+licence:
+  id: EU-REUSE-2011-833
+  name: Commission Decision 2011/833/EU on the reuse of Commission documents (to be confirmed)
+  review_status: pending_review
+  redistribution: allowed_with_conditions
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+provenance: Official publisher of EU law.
+known_limitations:
+  - Only the electronic Official Journal is authentic; consolidated versions are documentation tools.
+  - EU jurisdiction profile (regional organisation with direct effect rules) not yet written.
+status: planned
+connector: null
+parser: null

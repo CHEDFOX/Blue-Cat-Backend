@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL TEST DATA - not real law. CC0-1.0. -->
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ulis="urn:ulis:akn-ext:1">
+  <judgment name="judgment">
+    <meta>
+      <identification source="#ulis">
+        <FRBRWork>
+          <FRBRthis value="/akn/xa-np/judgment/xanphc/2020/15/!main"/>
+          <FRBRuri value="/akn/xa-np/judgment/xanphc/2020/15"/>
+          <FRBRdate date="2020-11-03" name="decision"/>
+          <FRBRauthor href="#court"/>
+          <FRBRcountry value="xa-np"/>
+          <FRBRnumber value="15"/>
+          <FRBRname value="Re Calder Archives Ltd"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/akn/xa-np/judgment/xanphc/2020/15/eng@2020-11-03/!main"/>
+          <FRBRuri value="/akn/xa-np/judgment/xanphc/2020/15/eng@2020-11-03"/>
+          <FRBRdate date="2020-11-03" name="decision"/>
+          <FRBRauthor href="#court"/>
+          <FRBRauthoritative value="true"/>
+          <FRBRlanguage language="eng"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/akn/xa-np/judgment/xanphc/2020/15/eng@2020-11-03/!main.xml"/>
+          <FRBRuri value="/akn/xa-np/judgment/xanphc/2020/15/eng@2020-11-03.akn"/>
+          <FRBRdate date="2026-10-14" name="transform"/>
+          <FRBRauthor href="#ulis"/>
+        </FRBRManifestation>
+      </identification>
+      <references source="#ulis">
+        <TLCOrganization eId="court" href="/ontology/organization/xa-np/highCourt" showAs="High Court of the Northern Province"/>
+        <TLCOrganization eId="ulis" href="/ontology/organization/ulis" showAs="ULIS project"/>
+      </references>
+      <proprietary source="#ulis">
+        <ulis:meta>
+          <ulis:jurisdiction>XA-NP</ulis:jurisdiction>
+          <ulis:court>XA-NP-HC</ulis:court>
+          <ulis:caseName>Re Calder Archives Ltd</ulis:caseName>
+          <ulis:neutralCitation>[2020] XANPHC 15</ulis:neutralCitation>
+          <ulis:decisionDate>2020-11-03</ulis:decisionDate>
+          <ulis:docket>NPHC/APP/2020/31</ulis:docket>
+          <ulis:textOrigin>official</ulis:textOrigin>
+        </ulis:meta>
+      </proprietary>
+    </meta>
+    <header>
+      <p>High Court of the Northern Province. Re Calder Archives Ltd. Judgment of 3 November 2020.</p>
+    </header>
+    <judgmentBody>
+      <introduction>
+        <paragraph eId="para_1">
+          <num>[1]</num>
+          <content><p>This is an appeal by Calder Archives Ltd against an enforcement notice issued by the Information Commissioner under the Personal Data Act 2015.</p></content>
+        </paragraph>
+      </introduction>
+      <background>
+        <paragraph eId="para_2">
+          <num>[2]</num>
+          <content><p>The notice alleged that Calder Archives retained personal data of former customers for more than seven years, contrary to <ref href="/akn/xa/act/2015/12/~sec_12__subsec_1" ulis:relation="cites">section 12(1) of the Act</ref>. The data in question existed only on offline backup tapes stored off-site.</p></content>
+        </paragraph>
+      </background>
+      <motivation>
+        <paragraph eId="para_3">
+          <num>[3]</num>
+          <content><p>Section 12(1) provides that a controller "shall not retain personal data for longer than seven years after the purpose for which it was collected has been fulfilled". In my judgment, data held solely on offline backup tapes, which are not accessed in the ordinary course of business, is not "retained" within the meaning of <ref href="/akn/xa/act/2015/12/~sec_12__subsec_1" ulis:relation="interprets">that subsection</ref>.</p></content>
+        </paragraph>
+        <paragraph eId="para_4">
+          <num>[4]</num>
+          <content><p>The word "retain" connotes keeping data available for use. Backup tapes kept only for disaster recovery are not so available.</p></content>
+        </paragraph>
+      </motivation>
+      <decision>
+        <paragraph eId="para_5">
+          <num>[5]</num>
+          <content><p>The appeal is allowed and the enforcement notice is quashed.</p></content>
+        </paragraph>
+      </decision>
+    </judgmentBody>
+  </judgment>
+</akomaNtoso>

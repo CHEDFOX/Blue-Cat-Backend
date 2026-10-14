@@ -1,0 +1,53 @@
+# FICTIONAL. The Federal Republic of Aurelia is an invented common-law federation.
+schema_version: 1
+id: XA
+profile_version: 1.0.1
+name: Federal Republic of Aurelia (fictional)
+names: {en: Federal Republic of Aurelia}
+kind: sovereign_state
+parent: INT
+fictional: true
+verification:
+  status: fictional_test_data
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: federal
+  treaty_reception: dualist
+  notes: Article 41 of the (fictional) Constitution requires an Act of Parliament for a treaty to have domestic effect.
+legislative_institutions:
+  - id: XA-PARL
+    name: Parliament of Aurelia
+    instrument_types: [act, bill]
+instrument_types: [constitution, act, regulation, bill]
+norm_hierarchy: [constitution, act, regulation]
+courts:
+  - id: XA-SC
+    name: Supreme Court of Aurelia
+    rank: 1
+    binds_self: false
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+  notes: >-
+    Decisions bind all courts whose appeals lie (directly or indirectly) to the deciding court.
+    The Supreme Court may depart from its own previous decisions.
+citation:
+  module: xa
+  examples:
+    - "Personal Data Act 2015 (XA) s 12(1)"
+    - "Minerva Holdings Ltd v Information Commissioner [2023] XASC 7 [14]"
+publication:
+  official_sources: [ulis-fictional-sample]
+  commencement: Acts commence on the date they specify or on a day appointed by ministerial notice in the Gazette.
+  amendment: Textual amendment by later Act ("for X substitute Y"); consolidations are editorial.
+  repeal: Express repeal by later Act.
+memberships:
+  - organisation: XR
+    from_date: 2008-01-01
+coverage:
+  corpus_status: fictional_sample
+  known_gaps:
+    - Federal regulations, Gazette notices and commencement orders are not ingested.
+    - One Supreme Court judgment is indexed (one more from the Northern Province High Court); citator coverage is not comprehensive.
+    - The Digital Services Act 2026 (referenced as an outstanding change) is not in the corpus.

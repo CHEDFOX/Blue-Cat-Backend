@@ -1,0 +1,62 @@
+# Manifest of the ULIS fictional sample corpus. FICTIONAL TEST DATA - not real law.
+# Every document is pinned by SHA-256; the local_manifest connector rejects mismatches.
+# Regenerate pins with: python scripts/update_manifest_hashes.py
+schema_version: 1
+source_id: ulis-fictional-sample
+documents:
+- path: xa/constitution-1990.eng.xml
+  external_id: xa-constitution-1990-eng
+  media_type: application/akn+xml
+  sha256: 252bca24b4d16e4bac0050cbf105337b3561edfe46cbefc27cf48da7a937e5f2
+- path: xa/act-2015-12.eng@2015-06-01.xml
+  external_id: xa-act-2015-12-eng-2015-06-01
+  media_type: application/akn+xml
+  sha256: 009df448b4dc443581651044857192e28885696d36158c335b8191ce7ce7a34a
+- path: xa/act-2015-12.eng@2022-01-01.xml
+  external_id: xa-act-2015-12-eng-2022-01-01
+  media_type: application/akn+xml
+  sha256: e32d600d3ee8d2a869357bea5a83e44f7f8756e32a6fbf6ac160d21b4d32f024
+- path: xa/act-2015-12.eng@2023-03-01.xml
+  external_id: xa-act-2015-12-eng-2023-03-01
+  media_type: application/akn+xml
+  sha256: 267fae68855244935f98a5bb85365d78163a85046f00b24a10909345a9335867
+- path: xa/act-2021-4.eng.xml
+  external_id: xa-act-2021-4-eng
+  media_type: application/akn+xml
+  sha256: 296b4bdc2d7716d0fa5c73b6b4aa71fcf875459b74fabc0c03651dd067ca9a99
+- path: xa/bill-2026-9.eng.xml
+  external_id: xa-bill-2026-9-eng
+  media_type: application/akn+xml
+  sha256: bad676af8a6f30b013951681afbc31fb20c7b229da8a51be7df93b1bf7d60907
+- path: xa-np/act-2019-3.eng.xml
+  external_id: xa-np-act-2019-3-eng
+  media_type: application/akn+xml
+  sha256: 3deb71679088eb6edc647deee84dbccc820b613ad440ec378dab8fc7f748ebd5
+- path: xa-np/judgment-2020-xanphc-15.eng.xml
+  external_id: xa-np-judgment-2020-xanphc-15-eng
+  media_type: application/akn+xml
+  sha256: 5d98675aedba0c82985a427b77f8c20d9cf0dea3e96849c2f11edcb8701c6333
+- path: xa/judgment-2023-xasc-7.eng.xml
+  external_id: xa-judgment-2023-xasc-7-eng
+  media_type: application/akn+xml
+  sha256: 9cd1696b7458c1968e704fc10f3425ac8eba08a91b73c4aa7c0bfd4b193824b0
+- path: xb/code-civil.fra.xml
+  external_id: xb-code-civil-fra
+  media_type: application/akn+xml
+  sha256: 1176bf96edabab85e2604a5814eb0c97777135f007853f3278ad427a92f498b2
+- path: xb/code-civil.deu.xml
+  external_id: xb-code-civil-deu
+  media_type: application/akn+xml
+  sha256: 9e0a4fdfe7530bc6e11cfab4bd7fb5d688431e332f74b3a2519df7a0d030e674
+- path: xb/judgment-2019-cass-2018-114.fra.xml
+  external_id: xb-judgment-2019-cass-2018-114-fra
+  media_type: application/akn+xml
+  sha256: 2c4fb85b0c9a24cf94521d524ad76fcf050f0d7b351a408f5bcac488bb29395d
+- path: xr/treaty-2010-1.eng.xml
+  external_id: xr-treaty-2010-1-eng
+  media_type: application/akn+xml
+  sha256: bddd639468e9d0fb512f0eb34139edcb0cd72477512db655521e1db893541764
+- path: xr/treaty-2010-1.fra.xml
+  external_id: xr-treaty-2010-1-fra
+  media_type: application/akn+xml
+  sha256: 5484049a4d2c91b494c2d00ae9fbab4b6f7257b49efc5ba63edf2d71e88fbd55

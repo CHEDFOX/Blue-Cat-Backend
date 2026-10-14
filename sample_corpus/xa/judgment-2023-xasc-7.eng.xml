@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL TEST DATA - not real law. CC0-1.0. -->
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ulis="urn:ulis:akn-ext:1">
+  <judgment name="judgment">
+    <meta>
+      <identification source="#ulis">
+        <FRBRWork>
+          <FRBRthis value="/akn/xa/judgment/xasc/2023/7/!main"/>
+          <FRBRuri value="/akn/xa/judgment/xasc/2023/7"/>
+          <FRBRdate date="2023-06-14" name="decision"/>
+          <FRBRauthor href="#court"/>
+          <FRBRcountry value="xa"/>
+          <FRBRnumber value="7"/>
+          <FRBRname value="Minerva Holdings Ltd v Information Commissioner"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/akn/xa/judgment/xasc/2023/7/eng@2023-06-14/!main"/>
+          <FRBRuri value="/akn/xa/judgment/xasc/2023/7/eng@2023-06-14"/>
+          <FRBRdate date="2023-06-14" name="decision"/>
+          <FRBRauthor href="#court"/>
+          <FRBRauthoritative value="true"/>
+          <FRBRlanguage language="eng"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/akn/xa/judgment/xasc/2023/7/eng@2023-06-14/!main.xml"/>
+          <FRBRuri value="/akn/xa/judgment/xasc/2023/7/eng@2023-06-14.akn"/>
+          <FRBRdate date="2026-10-14" name="transform"/>
+          <FRBRauthor href="#ulis"/>
+        </FRBRManifestation>
+      </identification>
+      <references source="#ulis">
+        <TLCOrganization eId="court" href="/ontology/organization/xa/supremeCourt" showAs="Supreme Court of Aurelia"/>
+        <TLCOrganization eId="ulis" href="/ontology/organization/ulis" showAs="ULIS project"/>
+      </references>
+      <proprietary source="#ulis">
+        <ulis:meta>
+          <ulis:jurisdiction>XA</ulis:jurisdiction>
+          <ulis:court>XA-SC</ulis:court>
+          <ulis:caseName>Minerva Holdings Ltd v Information Commissioner</ulis:caseName>
+          <ulis:neutralCitation>[2023] XASC 7</ulis:neutralCitation>
+          <ulis:decisionDate>2023-06-14</ulis:decisionDate>
+          <ulis:docket>SC/CIV/2022/118</ulis:docket>
+          <ulis:textOrigin>official</ulis:textOrigin>
+        </ulis:meta>
+      </proprietary>
+    </meta>
+    <header>
+      <p>Supreme Court of Aurelia. Minerva Holdings Ltd v Information Commissioner. Judgment of 14 June 2023.</p>
+    </header>
+    <judgmentBody>
+      <introduction>
+        <paragraph eId="para_1">
+          <num>[1]</num>
+          <content><p>Minerva Holdings Ltd appeals against a decision upholding a penalty imposed for retaining personal data beyond the period permitted by <ref href="/akn/xa/act/2015/12/~sec_12__subsec_1" ulis:relation="cites">section 12(1) of the Personal Data Act 2015</ref>.</p></content>
+        </paragraph>
+      </introduction>
+      <motivation>
+        <paragraph eId="para_2">
+          <num>[2]</num>
+          <content><p>Section 12(1), as amended with effect from 1 January 2022, provides that a controller "shall not retain personal data for longer than five years after the purpose for which it was collected has been fulfilled".</p></content>
+        </paragraph>
+        <paragraph eId="para_3">
+          <num>[3]</num>
+          <content><p>The appellant relied on <ref href="/akn/xa-np/judgment/xanphc/2020/15" ulis:relation="cites">Re Calder Archives Ltd [2020] XANPHC 15</ref>, in which the High Court of the Northern Province held that data held only on offline backup tapes is not "retained".</p></content>
+        </paragraph>
+        <paragraph eId="para_4">
+          <num>[4]</num>
+          <content><p>We respectfully disagree. The ordinary meaning of "retain" is to continue to have or hold. Data on a backup tape remains in the controller's possession and can be restored at will. Nothing in the Act confines <ref href="/akn/xa/act/2015/12/~sec_12__subsec_1" ulis:relation="interprets">section 12(1)</ref> to data in active use.</p></content>
+        </paragraph>
+        <paragraph eId="para_5">
+          <num>[5]</num>
+          <content><p><ref href="/akn/xa/act/2015/12/~sec_12A" ulis:relation="cites">Section 12A</ref>, inserted by the Personal Data (Amendment) Act 2021, would expressly treat backup copies as retained. It has not been brought into force, and we do not rely on it. Our conclusion rests on section 12(1) alone.</p></content>
+        </paragraph>
+        <paragraph eId="para_6">
+          <num>[6]</num>
+          <content><p><ref href="/akn/xa-np/judgment/xanphc/2020/15" ulis:relation="overrules">Re Calder Archives Ltd</ref> was wrongly decided on this point and is overruled.</p></content>
+        </paragraph>
+      </motivation>
+      <decision>
+        <paragraph eId="para_7">
+          <num>[7]</num>
+          <content><p>The appeal is dismissed.</p></content>
+        </paragraph>
+      </decision>
+    </judgmentBody>
+  </judgment>
+</akomaNtoso>

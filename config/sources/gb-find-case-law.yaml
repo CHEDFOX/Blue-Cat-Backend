@@ -1,0 +1,32 @@
+# PLANNED - preliminary research notes, to be confirmed.
+schema_version: 1
+id: gb-find-case-law
+name: Find Case Law
+publisher: The National Archives (UK)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [GB]
+document_kinds: [judgment]
+languages: [en]
+coverage: Judgments and decisions from courts and tribunals in England and Wales and UK-wide bodies (scope to be measured).
+access:
+  method: api
+  endpoint: https://caselaw.nationalarchives.gov.uk/
+update_frequency: daily
+licence:
+  id: OPEN-JUSTICE-LICENCE
+  name: Open Justice Licence (to be confirmed)
+  review_status: pending_review
+  redistribution: allowed_with_conditions
+  bulk_download: unknown
+  automated_processing: not_allowed
+  commercial_use: unknown
+  notes: >-
+    Our understanding (to be confirmed) is that computational analysis requires a separate
+    licence application. Until that licence is held, automated processing is recorded as not allowed.
+provenance: Official judgment repository.
+known_limitations:
+  - Historic coverage is incomplete.
+status: planned
+connector: null
+parser: null

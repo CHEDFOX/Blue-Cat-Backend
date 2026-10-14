@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL TEST DATA - not real law. CC0-1.0. Provincial Act; extends to the Northern Province only. -->
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ulis="urn:ulis:akn-ext:1">
+  <act name="act">
+    <meta>
+      <identification source="#ulis">
+        <FRBRWork>
+          <FRBRthis value="/akn/xa-np/act/2019/3/!main"/>
+          <FRBRuri value="/akn/xa-np/act/2019/3"/>
+          <FRBRdate date="2019-08-01" name="enactment"/>
+          <FRBRauthor href="#legislature"/>
+          <FRBRcountry value="xa-np"/>
+          <FRBRnumber value="3"/>
+          <FRBRname value="Health Records Act 2019"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/akn/xa-np/act/2019/3/eng@2019-08-01/!main"/>
+          <FRBRuri value="/akn/xa-np/act/2019/3/eng@2019-08-01"/>
+          <FRBRdate date="2019-08-01" name="consolidation"/>
+          <FRBRauthor href="#ulis"/>
+          <FRBRauthoritative value="true"/>
+          <FRBRlanguage language="eng"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/akn/xa-np/act/2019/3/eng@2019-08-01/!main.xml"/>
+          <FRBRuri value="/akn/xa-np/act/2019/3/eng@2019-08-01.akn"/>
+          <FRBRdate date="2026-10-14" name="transform"/>
+          <FRBRauthor href="#ulis"/>
+        </FRBRManifestation>
+      </identification>
+      <lifecycle source="#ulis">
+        <eventRef eId="e_enactment" date="2019-08-01" type="generation" source="#original" refersTo="#enactment"/>
+        <eventRef eId="e_commencement" date="2019-09-01" type="generation" source="#original" refersTo="#commencement"/>
+      </lifecycle>
+      <temporalData source="#ulis">
+        <temporalGroup eId="tg_2019">
+          <timeInterval start="#e_commencement" refersTo="#inForce"/>
+        </temporalGroup>
+      </temporalData>
+      <references source="#ulis">
+        <original eId="original" href="/akn/xa-np/act/2019/3/eng@2019-08-01" showAs="Health Records Act 2019"/>
+        <TLCOrganization eId="legislature" href="/ontology/organization/xa-np/legislature" showAs="Northern Provincial Legislature"/>
+        <TLCOrganization eId="ulis" href="/ontology/organization/ulis" showAs="ULIS project"/>
+        <TLCEvent eId="enactment" href="/ontology/event/enactment" showAs="Enactment"/>
+        <TLCEvent eId="commencement" href="/ontology/event/commencement" showAs="Commencement"/>
+        <TLCConcept eId="inForce" href="/ontology/concept/inForce" showAs="In force"/>
+      </references>
+      <proprietary source="#ulis">
+        <ulis:meta>
+          <ulis:jurisdiction>XA-NP</ulis:jurisdiction>
+          <ulis:instrumentType>act</ulis:instrumentType>
+          <ulis:shortTitle>Health Records Act 2019</ulis:shortTitle>
+          <ulis:extent>XA-NP</ulis:extent>
+          <ulis:textOrigin>official</ulis:textOrigin>
+          <ulis:consolidation kind="consolidated" currencyDate="2026-09-30"/>
+        </ulis:meta>
+      </proprietary>
+    </meta>
+    <preface>
+      <p class="title"><docTitle>Health Records Act 2019</docTitle></p>
+      <p class="number"><docNumber>Provincial Act No. 3 of 2019</docNumber></p>
+    </preface>
+    <body period="#tg_2019">
+      <section eId="sec_1">
+        <num>1</num>
+        <heading>Short title and commencement</heading>
+        <content><p>This Act may be cited as the Health Records Act 2019 and comes into force on 1 September 2019.</p></content>
+      </section>
+      <section eId="sec_5">
+        <num>5</num>
+        <heading>Access to health records</heading>
+        <subsection eId="sec_5__subsec_1">
+          <num>(1)</num>
+          <content><p>A patient may request access to any health record held about the patient by a health provider in the Province.</p></content>
+        </subsection>
+        <subsection eId="sec_5__subsec_2">
+          <num>(2)</num>
+          <content><p>A health provider shall give access within fifteen days after receiving a request.</p></content>
+        </subsection>
+      </section>
+      <section eId="sec_6">
+        <num>6</num>
+        <heading>Retention of health records</heading>
+        <subsection eId="sec_6__subsec_1">
+          <num>(1)</num>
+          <content><p>A health provider shall keep a health record for at least ten years after the patient's last treatment.</p></content>
+        </subsection>
+        <subsection eId="sec_6__subsec_2">
+          <num>(2)</num>
+          <content><p>The duty in subsection (1) applies despite <ref href="/akn/xa/act/2015/12/~sec_12" ulis:relation="cites">section 12 of the Personal Data Act 2015</ref>.</p></content>
+        </subsection>
+      </section>
+    </body>
+  </act>
+</akomaNtoso>

@@ -1,0 +1,31 @@
+# Curated legal-concept labels used for cross-lingual query expansion.
+#
+# A label set says "texts about this topic often use these words". It does NOT say
+# that provisions using the words have the same legal meaning or effect in different
+# jurisdictions. Expansions are always reported back to the user.
+schema_version: 1
+concepts:
+  - key: data-retention-limit
+    description: Limits on how long personal data may be kept.
+    labels:
+      en: [retention, retain, keep, kept, storage limitation]
+      fr: [conservation, conserver, conservées]
+      de: [Aufbewahrung, aufbewahren, aufbewahrt]
+  - key: erasure-of-personal-data
+    description: Rights or remedies requiring personal data to be erased.
+    labels:
+      en: [erasure, erase, deletion]
+      fr: [effacement, effacer]
+      de: [Löschung, löschen]
+  - key: privacy-private-life
+    description: Protection of private life and personal data as a right.
+    labels:
+      en: [private life, privacy]
+      fr: [vie privée]
+      de: [Privatsphäre]
+  - key: backup-copies
+    description: Backup or archival copies of data.
+    labels:
+      en: [backup, backups, backup copies]
+      fr: [copies de sauvegarde, sauvegarde]
+      de: [Sicherungskopien, Sicherungskopie]

@@ -1,0 +1,28 @@
+# Root of the jurisdiction tree. It carries no corpus: it exists so that sovereign
+# states and regional organisations have a common parent and so that treaties have
+# a home when they are not concluded under a regional organisation.
+schema_version: 1
+id: INT
+profile_version: 1.0.0
+name: International legal order
+kind: international_legal_order
+parent: null
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Structural node only. Contains no statements of substantive law.
+official_languages: []
+legal_system:
+  families: [international]
+  structure: international_legal_order
+  treaty_reception: not_applicable
+instrument_types: [treaty]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: No general doctrine of binding precedent between international courts and tribunals is assumed.
+coverage:
+  corpus_status: none
+  known_gaps:
+    - No multilateral treaty collection has been ingested.
+    - No customary international law or general principles are represented.

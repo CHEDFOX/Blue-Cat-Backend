@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL TEST DATA - not real law. CC0-1.0. -->
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ulis="urn:ulis:akn-ext:1">
+  <act name="constitution">
+    <meta>
+      <identification source="#ulis">
+        <FRBRWork>
+          <FRBRthis value="/akn/xa/constitution/1990/!main"/>
+          <FRBRuri value="/akn/xa/constitution/1990"/>
+          <FRBRdate date="1990-03-01" name="adoption"/>
+          <FRBRauthor href="#assembly"/>
+          <FRBRcountry value="xa"/>
+          <FRBRname value="Constitution of the Federal Republic of Aurelia"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/akn/xa/constitution/1990/eng@1990-03-01/!main"/>
+          <FRBRuri value="/akn/xa/constitution/1990/eng@1990-03-01"/>
+          <FRBRdate date="1990-03-01" name="consolidation"/>
+          <FRBRauthor href="#ulis"/>
+          <FRBRauthoritative value="true"/>
+          <FRBRlanguage language="eng"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/akn/xa/constitution/1990/eng@1990-03-01/!main.xml"/>
+          <FRBRuri value="/akn/xa/constitution/1990/eng@1990-03-01.akn"/>
+          <FRBRdate date="2026-10-14" name="transform"/>
+          <FRBRauthor href="#ulis"/>
+        </FRBRManifestation>
+      </identification>
+      <lifecycle source="#ulis">
+        <eventRef eId="e_adoption" date="1990-03-01" type="generation" source="#original" refersTo="#commencement"/>
+      </lifecycle>
+      <temporalData source="#ulis">
+        <temporalGroup eId="tg_1990">
+          <timeInterval start="#e_adoption" refersTo="#inForce"/>
+        </temporalGroup>
+      </temporalData>
+      <references source="#ulis">
+        <original eId="original" href="/akn/xa/constitution/1990/eng@1990-03-01" showAs="Constitution of the Federal Republic of Aurelia"/>
+        <TLCOrganization eId="assembly" href="/ontology/organization/xa/constituentAssembly" showAs="Constituent Assembly of Aurelia"/>
+        <TLCOrganization eId="ulis" href="/ontology/organization/ulis" showAs="ULIS project"/>
+        <TLCEvent eId="commencement" href="/ontology/event/commencement" showAs="Commencement"/>
+        <TLCConcept eId="inForce" href="/ontology/concept/inForce" showAs="In force"/>
+      </references>
+      <proprietary source="#ulis">
+        <ulis:meta>
+          <ulis:jurisdiction>XA</ulis:jurisdiction>
+          <ulis:instrumentType>constitution</ulis:instrumentType>
+          <ulis:shortTitle>Constitution of Aurelia</ulis:shortTitle>
+          <ulis:extent>XA</ulis:extent>
+          <ulis:textOrigin>official</ulis:textOrigin>
+          <ulis:consolidation kind="consolidated" currencyDate="2026-09-30"/>
+        </ulis:meta>
+      </proprietary>
+    </meta>
+    <preface>
+      <p class="title"><docTitle>Constitution of the Federal Republic of Aurelia</docTitle></p>
+    </preface>
+    <body period="#tg_1990">
+      <article eId="art_1">
+        <num>1</num>
+        <heading>Supremacy of the Constitution</heading>
+        <content>
+          <p>This Constitution is the supreme law of Aurelia. Any law inconsistent with it is void to the extent of the inconsistency.</p>
+        </content>
+      </article>
+      <article eId="art_14">
+        <num>14</num>
+        <heading>Private life</heading>
+        <paragraph eId="art_14__para_1">
+          <num>(1)</num>
+          <content>
+            <p>Every person has the right to respect for their private life, home and correspondence.</p>
+          </content>
+        </paragraph>
+        <paragraph eId="art_14__para_2">
+          <num>(2)</num>
+          <content>
+            <p>The right in clause (1) may be limited only by a law that is necessary and proportionate to a legitimate aim.</p>
+          </content>
+        </paragraph>
+      </article>
+      <article eId="art_41">
+        <num>41</num>
+        <heading>Treaties</heading>
+        <paragraph eId="art_41__para_1">
+          <num>(1)</num>
+          <content>
+            <p>A treaty binds Aurelia when it is ratified by the President with the approval of Parliament.</p>
+          </content>
+        </paragraph>
+        <paragraph eId="art_41__para_2">
+          <num>(2)</num>
+          <content>
+            <p>A treaty forms part of the law of Aurelia only to the extent that it is given effect by an Act of Parliament.</p>
+          </content>
+        </paragraph>
+      </article>
+    </body>
+  </act>
+</akomaNtoso>

@@ -1,0 +1,35 @@
+schema_version: 1
+id: ulis-fictional-sample
+name: ULIS fictional sample corpus
+publisher: ULIS project
+kind: project_authored
+authority: fictional
+jurisdictions: [XA, XA-NP, XB, XR]
+document_kinds: [constitution, act, code, bill, treaty, judgment]
+languages: [en, fr, de]
+coverage: >-
+  A deliberately small, invented corpus (constitution, Acts with point-in-time versions,
+  an amending Act, a provincial Act, a bill, a bilingual civil code, a bilingual treaty and
+  three judgments). It exercises the platform; it describes no real law.
+access:
+  method: local_manifest
+  endpoint: sample_corpus/MANIFEST.yaml
+update_frequency: manual
+licence:
+  id: CC0-1.0
+  name: Creative Commons Zero v1.0 Universal
+  url: https://creativecommons.org/publicdomain/zero/1.0/
+  review_status: approved
+  reviewed_by: ULIS project (self-authored content)
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+provenance: Written for this repository; every file is pinned by SHA-256 in sample_corpus/MANIFEST.yaml.
+known_limitations:
+  - Fictional. Must never be presented as real law.
+status: active
+connector: local_manifest
+parser: akn3

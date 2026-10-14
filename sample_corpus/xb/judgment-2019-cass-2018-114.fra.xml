@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL TEST DATA - not real law. CC0-1.0. Paragraph numbers added by the corpus editor for pinpointing. -->
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ulis="urn:ulis:akn-ext:1">
+  <judgment name="judgment">
+    <meta>
+      <identification source="#ulis">
+        <FRBRWork>
+          <FRBRthis value="/akn/xb/judgment/xbcc/2019-03-12/2018-114/!main"/>
+          <FRBRuri value="/akn/xb/judgment/xbcc/2019-03-12/2018-114"/>
+          <FRBRdate date="2019-03-12" name="decision"/>
+          <FRBRauthor href="#court"/>
+          <FRBRcountry value="xb"/>
+          <FRBRnumber value="2018-114"/>
+          <FRBRname value="Société Helvar c. Dubois"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/akn/xb/judgment/xbcc/2019-03-12/2018-114/fra@2019-03-12/!main"/>
+          <FRBRuri value="/akn/xb/judgment/xbcc/2019-03-12/2018-114/fra@2019-03-12"/>
+          <FRBRdate date="2019-03-12" name="decision"/>
+          <FRBRauthor href="#court"/>
+          <FRBRauthoritative value="true"/>
+          <FRBRlanguage language="fra"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/akn/xb/judgment/xbcc/2019-03-12/2018-114/fra@2019-03-12/!main.xml"/>
+          <FRBRuri value="/akn/xb/judgment/xbcc/2019-03-12/2018-114/fra@2019-03-12.akn"/>
+          <FRBRdate date="2026-10-14" name="transform"/>
+          <FRBRauthor href="#ulis"/>
+        </FRBRManifestation>
+      </identification>
+      <references source="#ulis">
+        <TLCOrganization eId="court" href="/ontology/organization/xb/courDeCassation" showAs="Cour de cassation"/>
+        <TLCOrganization eId="ulis" href="/ontology/organization/ulis" showAs="ULIS project"/>
+      </references>
+      <proprietary source="#ulis">
+        <ulis:meta>
+          <ulis:jurisdiction>XB</ulis:jurisdiction>
+          <ulis:court>XB-CC</ulis:court>
+          <ulis:caseName>Société Helvar c. Dubois</ulis:caseName>
+          <ulis:decisionDate>2019-03-12</ulis:decisionDate>
+          <ulis:docket>2018-114</ulis:docket>
+          <ulis:textOrigin>official</ulis:textOrigin>
+        </ulis:meta>
+      </proprietary>
+    </meta>
+    <header>
+      <p>Cour de cassation de Borealis. Arrêt du 12 mars 2019, n° 2018-114.</p>
+    </header>
+    <judgmentBody>
+      <background>
+        <paragraph eId="para_1">
+          <num>1</num>
+          <content><p>Mme Dubois a demandé l'effacement des données la concernant que la société Helvar conservait dans des copies de sauvegarde.</p></content>
+        </paragraph>
+        <paragraph eId="para_2">
+          <num>2</num>
+          <content><p>La cour d'appel a rejeté la demande au motif que les copies de sauvegarde ne sont pas utilisées dans l'activité courante de la société.</p></content>
+        </paragraph>
+      </background>
+      <motivation>
+        <paragraph eId="para_3">
+          <num>3</num>
+          <content><p>En statuant ainsi, alors que la conservation de données dans des copies de sauvegarde constitue une conservation au sens de <ref href="/akn/xb/act/code/civil/~art_28__para_2" ulis:relation="interprets">l'article 28, alinéa 2, du Code civil</ref>, la cour d'appel a violé ce texte.</p></content>
+        </paragraph>
+      </motivation>
+      <decision>
+        <paragraph eId="para_4">
+          <num>4</num>
+          <content><p>Par ces motifs, la Cour casse et annule l'arrêt attaqué.</p></content>
+        </paragraph>
+      </decision>
+    </judgmentBody>
+  </judgment>
+</akomaNtoso>

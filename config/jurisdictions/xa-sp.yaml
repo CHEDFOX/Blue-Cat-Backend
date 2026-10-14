@@ -1,0 +1,32 @@
+# FICTIONAL. Southern Province of Aurelia - deliberately has no corpus, to exercise
+# coverage-gap reporting for a constituent unit.
+schema_version: 1
+id: XA-SP
+profile_version: 1.0.0
+name: Southern Province (Aurelia, fictional)
+kind: constituent_unit
+parent: XA
+fictional: true
+verification:
+  status: fictional_test_data
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+instrument_types: [act, regulation, bill]
+norm_hierarchy: [act, regulation]
+courts:
+  - id: XA-SP-HC
+    name: High Court of the Southern Province
+    rank: 1
+    appeals_to: [XA-SC]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: xa
+coverage:
+  corpus_status: none
+  known_gaps:
+    - No provincial legislation or case law is indexed.

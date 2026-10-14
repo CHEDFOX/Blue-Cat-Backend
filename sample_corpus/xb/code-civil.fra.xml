@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL TEST DATA - not real law. CC0-1.0. French and German versions are equally authentic. -->
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ulis="urn:ulis:akn-ext:1">
+  <act name="code">
+    <meta>
+      <identification source="#ulis">
+        <FRBRWork>
+          <FRBRthis value="/akn/xb/act/code/civil/!main"/>
+          <FRBRuri value="/akn/xb/act/code/civil"/>
+          <FRBRdate date="2004-01-01" name="enactment"/>
+          <FRBRauthor href="#parlement"/>
+          <FRBRcountry value="xb"/>
+          <FRBRname value="Code civil / Zivilgesetzbuch"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/akn/xb/act/code/civil/fra@2004-01-01/!main"/>
+          <FRBRuri value="/akn/xb/act/code/civil/fra@2004-01-01"/>
+          <FRBRdate date="2004-01-01" name="consolidation"/>
+          <FRBRauthor href="#parlement"/>
+          <FRBRauthoritative value="true"/>
+          <FRBRlanguage language="fra"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/akn/xb/act/code/civil/fra@2004-01-01/!main.xml"/>
+          <FRBRuri value="/akn/xb/act/code/civil/fra@2004-01-01.akn"/>
+          <FRBRdate date="2026-10-14" name="transform"/>
+          <FRBRauthor href="#ulis"/>
+        </FRBRManifestation>
+      </identification>
+      <lifecycle source="#ulis">
+        <eventRef eId="e_vigueur" date="2004-01-01" type="generation" source="#original" refersTo="#commencement"/>
+      </lifecycle>
+      <temporalData source="#ulis">
+        <temporalGroup eId="tg_2004">
+          <timeInterval start="#e_vigueur" refersTo="#inForce"/>
+        </temporalGroup>
+      </temporalData>
+      <references source="#ulis">
+        <original eId="original" href="/akn/xb/act/code/civil/fra@2004-01-01" showAs="Code civil"/>
+        <TLCOrganization eId="parlement" href="/ontology/organization/xb/parlement" showAs="Parlement de Borealis"/>
+        <TLCOrganization eId="ulis" href="/ontology/organization/ulis" showAs="ULIS project"/>
+        <TLCEvent eId="commencement" href="/ontology/event/commencement" showAs="Entrée en vigueur"/>
+        <TLCConcept eId="inForce" href="/ontology/concept/inForce" showAs="En vigueur"/>
+      </references>
+      <proprietary source="#ulis">
+        <ulis:meta>
+          <ulis:jurisdiction>XB</ulis:jurisdiction>
+          <ulis:instrumentType>code</ulis:instrumentType>
+          <ulis:shortTitle>Code civil</ulis:shortTitle>
+          <ulis:extent>XB</ulis:extent>
+          <ulis:textOrigin>official</ulis:textOrigin>
+          <ulis:consolidation kind="consolidated" currencyDate="2026-09-30"/>
+          <ulis:ext module="xb">{"code_key": "civil"}</ulis:ext>
+        </ulis:meta>
+      </proprietary>
+    </meta>
+    <preface>
+      <p class="title"><docTitle>Code civil</docTitle></p>
+    </preface>
+    <body period="#tg_2004">
+      <article eId="art_28">
+        <num>28</num>
+        <heading>Protection de la vie privée</heading>
+        <paragraph eId="art_28__para_1">
+          <num>1</num>
+          <content><p>Toute personne a droit au respect de sa vie privée et à la protection des données qui la concernent.</p></content>
+        </paragraph>
+        <paragraph eId="art_28__para_2">
+          <num>2</num>
+          <content><p>Les données personnelles ne peuvent être conservées au-delà de la durée nécessaire à la finalité pour laquelle elles ont été collectées.</p></content>
+        </paragraph>
+        <paragraph eId="art_28__para_3">
+          <num>3</num>
+          <content><p>Le juge peut ordonner l'effacement des données conservées en violation de l'alinéa 2.</p></content>
+        </paragraph>
+      </article>
+      <article eId="art_29">
+        <num>29</num>
+        <heading>Prescription</heading>
+        <content><p>L'action fondée sur l'article 28 se prescrit par trois ans à compter du jour où la personne lésée a eu connaissance de l'atteinte.</p></content>
+      </article>
+    </body>
+  </act>
+</akomaNtoso>

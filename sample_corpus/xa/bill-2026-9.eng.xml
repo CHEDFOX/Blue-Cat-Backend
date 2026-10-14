@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL TEST DATA - not real law. CC0-1.0. Version: as introduced. A bill is not law. -->
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ulis="urn:ulis:akn-ext:1">
+  <bill name="bill">
+    <meta>
+      <identification source="#ulis">
+        <FRBRWork>
+          <FRBRthis value="/akn/xa/bill/2026/9/!main"/>
+          <FRBRuri value="/akn/xa/bill/2026/9"/>
+          <FRBRdate date="2026-04-15" name="introduction"/>
+          <FRBRauthor href="#parliament"/>
+          <FRBRcountry value="xa"/>
+          <FRBRnumber value="9"/>
+          <FRBRname value="Personal Data (Amendment) Bill 2026"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/akn/xa/bill/2026/9/eng@2026-04-15/!main"/>
+          <FRBRuri value="/akn/xa/bill/2026/9/eng@2026-04-15"/>
+          <FRBRdate date="2026-04-15" name="introduction"/>
+          <FRBRauthor href="#parliament"/>
+          <FRBRauthoritative value="true"/>
+          <FRBRlanguage language="eng"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/akn/xa/bill/2026/9/eng@2026-04-15/!main.xml"/>
+          <FRBRuri value="/akn/xa/bill/2026/9/eng@2026-04-15.akn"/>
+          <FRBRdate date="2026-10-14" name="transform"/>
+          <FRBRauthor href="#ulis"/>
+        </FRBRManifestation>
+      </identification>
+      <lifecycle source="#ulis">
+        <eventRef eId="e_intro" date="2026-04-15" type="generation" source="#original" refersTo="#introduction"/>
+      </lifecycle>
+      <references source="#ulis">
+        <original eId="original" href="/akn/xa/bill/2026/9/eng@2026-04-15" showAs="Personal Data (Amendment) Bill 2026"/>
+        <TLCOrganization eId="parliament" href="/ontology/organization/xa/parliament" showAs="Parliament of Aurelia"/>
+        <TLCOrganization eId="ulis" href="/ontology/organization/ulis" showAs="ULIS project"/>
+        <TLCEvent eId="introduction" href="/ontology/event/introduction" showAs="Introduction"/>
+      </references>
+      <proprietary source="#ulis">
+        <ulis:meta>
+          <ulis:jurisdiction>XA</ulis:jurisdiction>
+          <ulis:instrumentType>bill</ulis:instrumentType>
+          <ulis:shortTitle>Personal Data (Amendment) Bill 2026</ulis:shortTitle>
+          <ulis:extent>XA</ulis:extent>
+          <ulis:textOrigin>official</ulis:textOrigin>
+          <ulis:consolidation kind="as_introduced"/>
+          <ulis:billStage>introduced; second reading pending</ulis:billStage>
+        </ulis:meta>
+      </proprietary>
+    </meta>
+    <preface>
+      <p class="title"><docTitle>Personal Data (Amendment) Bill 2026</docTitle></p>
+    </preface>
+    <body>
+      <section eId="sec_1">
+        <num>1</num>
+        <heading>Short title</heading>
+        <content><p>This Act may be cited as the Personal Data (Amendment) Act 2026.</p></content>
+      </section>
+      <section eId="sec_2">
+        <num>2</num>
+        <heading>Retention period</heading>
+        <content>
+          <p>In <ref href="/akn/xa/act/2015/12/~sec_12__subsec_1" ulis:relation="proposes_amendment">section 12(1) of the Personal Data Act 2015</ref>, for "five years" substitute "three years".</p>
+        </content>
+      </section>
+    </body>
+  </bill>
+</akomaNtoso>

@@ -1,0 +1,27 @@
+# Local development stack: PostgreSQL + API. Not a production deployment.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ulis
+      POSTGRES_PASSWORD: ulis
+      POSTGRES_DB: ulis
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ulis"]
+      interval: 5s
+      retries: 10
+  api:
+    build: .
+    depends_on:
+      db: {condition: service_healthy}
+    environment:
+      ULIS_DATABASE_URL: postgresql+psycopg://ulis:ulis@db:5432/ulis
+      ULIS_OBJECT_STORE_DIR: /data/objects
+      ULIS_ENV: development
+    volumes: [objects:/data/objects]
+    ports: ["8000:8000"]
+volumes:
+  pgdata:
+  objects:

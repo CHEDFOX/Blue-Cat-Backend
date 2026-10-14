@@ -1,0 +1,51 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED.
+# Recorded to show how a real jurisdiction is onboarded before any corpus exists.
+# Every statement here must be confirmed by a qualified Indian lawyer before the
+# profile's verification.status can become "reviewed" (see docs/jurisdiction-extensions.md).
+schema_version: 1
+id: IN
+profile_version: 0.1.0
+name: Republic of India
+names: {en: Republic of India, hi: भारत गणराज्य}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [hi, en]
+legal_system:
+  families: [common_law]
+  structure: federal
+  treaty_reception: dualist
+  notes: >-
+    To verify - generally described as dualist; Article 253 of the Constitution empowers
+    Parliament to legislate to implement treaties. Federal structure with strong Union features.
+legislative_institutions:
+  - id: IN-PARL
+    name: Parliament of India
+    instrument_types: [act, bill]
+instrument_types: [constitution, act, ordinance, regulation, rule, notification, bill]
+norm_hierarchy: [constitution, act, ordinance, regulation, rule, notification]
+courts:
+  - id: IN-SC
+    name: Supreme Court of India
+    rank: 1
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+  notes: >-
+    To verify - Article 141 of the Constitution: law declared by the Supreme Court is binding on
+    all courts within the territory of India. High Courts, tribunals and bench-strength rules
+    still have to be modelled.
+citation:
+  module: default
+publication:
+  official_sources: [in-india-code]
+memberships: []
+coverage:
+  corpus_status: none
+  known_gaps:
+    - No Indian legislation or judgments have been ingested.
+    - Source licensing (India Code, court websites) is pending legal review.
+    - States, Union Territories, High Courts and tribunals are not yet modelled.

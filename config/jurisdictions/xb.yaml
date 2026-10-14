@@ -1,0 +1,50 @@
+# FICTIONAL. Kingdom of Borealis - an invented bilingual civil-law state.
+# French and German texts are equally authentic (neither is a translation).
+schema_version: 1
+id: XB
+profile_version: 1.0.0
+name: Kingdom of Borealis (fictional)
+names: {fr: Royaume de Borealis, de: Königreich Borealis}
+kind: sovereign_state
+parent: INT
+fictional: true
+verification:
+  status: fictional_test_data
+official_languages: [fr, de]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: Ratified treaties are part of domestic law once published (fictional rule).
+legislative_institutions:
+  - id: XB-PARL
+    name: Parlement / Parlament
+    instrument_types: [code, act, bill]
+instrument_types: [constitution, code, act, regulation, bill]
+norm_hierarchy: [constitution, code, act, regulation]
+courts:
+  - id: XB-CC
+    name: Cour de cassation / Kassationshof
+    rank: 1
+  - id: XB-CA
+    name: Cour d'appel / Appellationsgericht
+    rank: 2
+    appeals_to: [XB-CC]
+precedent:
+  doctrine: jurisprudence_constante
+  vertical_binding: false
+  notes: >-
+    Judicial decisions are not formally binding on other courts. A consistent line of
+    decisions of the Cour de cassation carries strong persuasive weight.
+citation:
+  module: xb
+  examples: ["art. 28 al. 2 CC-XB", "Art. 28 Abs. 2 ZGB-XB", "Cass. XB, 12 mars 2019, n° 2018-114"]
+publication:
+  official_sources: [ulis-fictional-sample]
+coverage:
+  corpus_status: fictional_sample
+  known_gaps:
+    - Only two articles of the Civil Code and one Cour de cassation decision are indexed.
+extensions:
+  xb:
+    code_abbreviations: {fr: CC-XB, de: ZGB-XB}

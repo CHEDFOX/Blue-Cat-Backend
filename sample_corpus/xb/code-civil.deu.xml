@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL TEST DATA - not real law. CC0-1.0. French and German versions are equally authentic. -->
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ulis="urn:ulis:akn-ext:1">
+  <act name="code">
+    <meta>
+      <identification source="#ulis">
+        <FRBRWork>
+          <FRBRthis value="/akn/xb/act/code/civil/!main"/>
+          <FRBRuri value="/akn/xb/act/code/civil"/>
+          <FRBRdate date="2004-01-01" name="enactment"/>
+          <FRBRauthor href="#parlament"/>
+          <FRBRcountry value="xb"/>
+          <FRBRname value="Code civil / Zivilgesetzbuch"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/akn/xb/act/code/civil/deu@2004-01-01/!main"/>
+          <FRBRuri value="/akn/xb/act/code/civil/deu@2004-01-01"/>
+          <FRBRdate date="2004-01-01" name="consolidation"/>
+          <FRBRauthor href="#parlament"/>
+          <FRBRauthoritative value="true"/>
+          <FRBRlanguage language="deu"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/akn/xb/act/code/civil/deu@2004-01-01/!main.xml"/>
+          <FRBRuri value="/akn/xb/act/code/civil/deu@2004-01-01.akn"/>
+          <FRBRdate date="2026-10-14" name="transform"/>
+          <FRBRauthor href="#ulis"/>
+        </FRBRManifestation>
+      </identification>
+      <lifecycle source="#ulis">
+        <eventRef eId="e_inkraft" date="2004-01-01" type="generation" source="#original" refersTo="#commencement"/>
+      </lifecycle>
+      <temporalData source="#ulis">
+        <temporalGroup eId="tg_2004">
+          <timeInterval start="#e_inkraft" refersTo="#inForce"/>
+        </temporalGroup>
+      </temporalData>
+      <references source="#ulis">
+        <original eId="original" href="/akn/xb/act/code/civil/deu@2004-01-01" showAs="Zivilgesetzbuch"/>
+        <TLCOrganization eId="parlament" href="/ontology/organization/xb/parlament" showAs="Parlament von Borealis"/>
+        <TLCOrganization eId="ulis" href="/ontology/organization/ulis" showAs="ULIS project"/>
+        <TLCEvent eId="commencement" href="/ontology/event/commencement" showAs="Inkrafttreten"/>
+        <TLCConcept eId="inForce" href="/ontology/concept/inForce" showAs="In Kraft"/>
+      </references>
+      <proprietary source="#ulis">
+        <ulis:meta>
+          <ulis:jurisdiction>XB</ulis:jurisdiction>
+          <ulis:instrumentType>code</ulis:instrumentType>
+          <ulis:shortTitle>Zivilgesetzbuch</ulis:shortTitle>
+          <ulis:extent>XB</ulis:extent>
+          <ulis:textOrigin>official</ulis:textOrigin>
+          <ulis:consolidation kind="consolidated" currencyDate="2026-09-30"/>
+          <ulis:ext module="xb">{"code_key": "civil"}</ulis:ext>
+        </ulis:meta>
+      </proprietary>
+    </meta>
+    <preface>
+      <p class="title"><docTitle>Zivilgesetzbuch</docTitle></p>
+    </preface>
+    <body period="#tg_2004">
+      <article eId="art_28">
+        <num>28</num>
+        <heading>Schutz der Privatsphäre</heading>
+        <paragraph eId="art_28__para_1">
+          <num>1</num>
+          <content><p>Jede Person hat Anspruch auf Achtung ihrer Privatsphäre und auf Schutz der sie betreffenden Daten.</p></content>
+        </paragraph>
+        <paragraph eId="art_28__para_2">
+          <num>2</num>
+          <content><p>Personendaten dürfen nicht länger aufbewahrt werden, als es der Zweck erfordert, für den sie erhoben wurden.</p></content>
+        </paragraph>
+        <paragraph eId="art_28__para_3">
+          <num>3</num>
+          <content><p>Das Gericht kann die Löschung von Daten anordnen, die entgegen Absatz 2 aufbewahrt werden.</p></content>
+        </paragraph>
+      </article>
+      <article eId="art_29">
+        <num>29</num>
+        <heading>Verjährung</heading>
+        <content><p>Die Klage aus Artikel 28 verjährt in drei Jahren ab dem Tag, an dem die verletzte Person von der Verletzung Kenntnis erhalten hat.</p></content>
+      </article>
+    </body>
+  </act>
+</akomaNtoso>

@@ -1,0 +1,36 @@
+# PLANNED - not ingestible until the licence review is approved and a connector exists.
+# Licence statements below are preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: gb-legislation-gov-uk
+name: legislation.gov.uk
+publisher: The National Archives (UK)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [GB]
+document_kinds: [act, regulation]
+languages: [en, cy]
+coverage: >-
+  UK primary and secondary legislation, as enacted and as revised (point-in-time), with
+  territorial extent and commencement metadata in its XML (CLML) format.
+access:
+  method: api
+  endpoint: https://www.legislation.gov.uk/
+update_frequency: continuous (editorial)
+licence:
+  id: OGL-UK-3.0
+  name: Open Government Licence v3.0 (to be confirmed)
+  url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+  review_status: pending_review
+  redistribution: allowed_with_conditions
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  notes: Confirm attribution wording, API fair-use limits and any exclusions before ingestion.
+provenance: Official publisher of UK legislation.
+known_limitations:
+  - Revised versions can carry outstanding effects not yet applied by the editorial team.
+  - Jurisdiction profile for GB is not yet written.
+status: planned
+connector: null
+parser: null

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FICTIONAL TEST DATA - not real law. CC0-1.0. Version: consolidated as at 2022-01-01. -->
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ulis="urn:ulis:akn-ext:1">
+  <act name="act">
+    <meta>
+      <identification source="#ulis">
+        <FRBRWork>
+          <FRBRthis value="/akn/xa/act/2015/12/!main"/>
+          <FRBRuri value="/akn/xa/act/2015/12"/>
+          <FRBRdate date="2015-06-01" name="enactment"/>
+          <FRBRauthor href="#parliament"/>
+          <FRBRcountry value="xa"/>
+          <FRBRnumber value="12"/>
+          <FRBRname value="Personal Data Act 2015"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/akn/xa/act/2015/12/eng@2022-01-01/!main"/>
+          <FRBRuri value="/akn/xa/act/2015/12/eng@2022-01-01"/>
+          <FRBRdate date="2022-01-01" name="consolidation"/>
+          <FRBRauthor href="#ulis"/>
+          <FRBRauthoritative value="true"/>
+          <FRBRlanguage language="eng"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/akn/xa/act/2015/12/eng@2022-01-01/!main.xml"/>
+          <FRBRuri value="/akn/xa/act/2015/12/eng@2022-01-01.akn"/>
+          <FRBRdate date="2026-10-14" name="transform"/>
+          <FRBRauthor href="#ulis"/>
+        </FRBRManifestation>
+      </identification>
+      <lifecycle source="#ulis">
+        <eventRef eId="e_enactment" date="2015-06-01" type="generation" source="#original" refersTo="#enactment"/>
+        <eventRef eId="e_commencement" date="2015-07-01" type="generation" source="#original" refersTo="#commencement"/>
+        <eventRef eId="e_amd_2022" date="2022-01-01" type="amendment" source="#amd2021" refersTo="#amendment"/>
+      </lifecycle>
+      <temporalData source="#ulis">
+        <temporalGroup eId="tg_2015">
+          <timeInterval start="#e_commencement" refersTo="#inForce"/>
+        </temporalGroup>
+        <temporalGroup eId="tg_2022">
+          <timeInterval start="#e_amd_2022" refersTo="#inForce"/>
+        </temporalGroup>
+      </temporalData>
+      <references source="#ulis">
+        <original eId="original" href="/akn/xa/act/2015/12/eng@2015-06-01" showAs="Personal Data Act 2015"/>
+        <TLCOrganization eId="parliament" href="/ontology/organization/xa/parliament" showAs="Parliament of Aurelia"/>
+        <TLCOrganization eId="ulis" href="/ontology/organization/ulis" showAs="ULIS project"/>
+        <TLCEvent eId="enactment" href="/ontology/event/enactment" showAs="Enactment"/>
+        <TLCEvent eId="commencement" href="/ontology/event/commencement" showAs="Commencement"/>
+        <passiveRef eId="amd2021" href="/akn/xa/act/2021/4" showAs="Personal Data (Amendment) Act 2021"/>
+        <TLCEvent eId="amendment" href="/ontology/event/amendment" showAs="Amendment"/>
+        <TLCEvent eId="repeal" href="/ontology/event/repeal" showAs="Repeal"/>
+        <TLCConcept eId="inForce" href="/ontology/concept/inForce" showAs="In force"/>
+      </references>
+      <proprietary source="#ulis">
+        <ulis:meta>
+          <ulis:jurisdiction>XA</ulis:jurisdiction>
+          <ulis:instrumentType>act</ulis:instrumentType>
+          <ulis:shortTitle>Personal Data Act 2015</ulis:shortTitle>
+          <ulis:extent>XA</ulis:extent>
+          <ulis:textOrigin>official</ulis:textOrigin>
+          <ulis:consolidation kind="consolidated" currencyDate="2022-01-01"/>
+          <ulis:ext module="xa">{"chapter": "Cap. 512"}</ulis:ext>
+        </ulis:meta>
+      </proprietary>
+    </meta>
+    <preface>
+      <p class="title"><docTitle>Personal Data Act 2015</docTitle></p>
+      <p class="number"><docNumber>Act No. 12 of 2015</docNumber></p>
+    </preface>
+    <body period="#tg_2015">
+      <section eId="sec_1">
+        <num>1</num>
+        <heading>Short title and commencement</heading>
+        <subsection eId="sec_1__subsec_1">
+          <num>(1)</num>
+          <content><p>This Act may be cited as the Personal Data Act 2015.</p></content>
+        </subsection>
+        <subsection eId="sec_1__subsec_2">
+          <num>(2)</num>
+          <content><p>This Act comes into force on 1 July 2015.</p></content>
+        </subsection>
+      </section>
+      <section eId="sec_2">
+        <num>2</num>
+        <heading>Interpretation</heading>
+        <content>
+          <p>In this Act, "controller" means a person who determines the purposes for which personal data is processed, and "personal data" means information relating to an identified or identifiable individual.</p>
+        </content>
+      </section>
+      <section eId="sec_3">
+        <num>3</num>
+        <heading>Convention given effect</heading>
+        <content>
+          <p>This Act gives effect in Aurelia to the <ref href="/akn/xr/treaty/2010/1" ulis:relation="implements">Northern Union Convention on the Protection of Personal Data 2010</ref>.</p>
+        </content>
+      </section>
+      <section eId="sec_12">
+        <num>12</num>
+        <heading>Retention limit</heading>
+        <subsection eId="sec_12__subsec_1" period="#tg_2022" ulis:note="Words substituted by the Personal Data (Amendment) Act 2021, s 2.">
+          <num>(1)</num>
+          <content><p>A controller shall not retain personal data for longer than five years after the purpose for which it was collected has been fulfilled.</p></content>
+        </subsection>
+        <subsection eId="sec_12__subsec_2">
+          <num>(2)</num>
+          <content><p>Subsection (1) does not apply to personal data that a controller is required to keep by another Act.</p></content>
+        </subsection>
+      </section>
+      <section eId="sec_12A" ulis:status="prospective" ulis:note="Inserted by the Personal Data (Amendment) Act 2021, s 3. Not in force: no commencement notice has been published.">
+        <num>12A</num>
+        <heading>Backup copies</heading>
+        <subsection eId="sec_12A__subsec_1">
+          <num>(1)</num>
+          <content><p>For the purposes of section 12, personal data held in a backup copy is retained by the controller.</p></content>
+        </subsection>
+        <subsection eId="sec_12A__subsec_2">
+          <num>(2)</num>
+          <content><p>A controller may keep a backup copy for up to ninety days after the period in section 12(1) expires, if the backup copy is isolated from ordinary processing.</p></content>
+        </subsection>
+      </section>
+      <section eId="sec_13">
+        <num>13</num>
+        <heading>Right to erasure</heading>
+        <subsection eId="sec_13__subsec_1">
+          <num>(1)</num>
+          <content><p>A data subject may require a controller to erase personal data concerning the data subject that is no longer necessary for the purpose for which it was collected.</p></content>
+        </subsection>
+        <subsection eId="sec_13__subsec_2">
+          <num>(2)</num>
+          <content><p>A controller shall comply with a requirement under subsection (1) within thirty days.</p></content>
+        </subsection>
+      </section>
+      <section eId="sec_20">
+        <num>20</num>
+        <heading>Transitional registration</heading>
+        <content>
+          <p>A controller registered under the Data Registry Act 1998 immediately before 1 July 2015 is treated as registered under this Act until 30 June 2017.</p>
+        </content>
+      </section>
+    </body>
+  </act>
+</akomaNtoso>
