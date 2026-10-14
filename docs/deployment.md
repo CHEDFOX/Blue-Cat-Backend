@@ -83,7 +83,9 @@ docker compose --profile tools run --rm cli status                  # per-jurisd
   resumable) and `scripts/build_gii_manifest.py [--all]` exist for running the download separately from a checkout with a
   virtualenv. The cache layout is identical (`var/sources/<host>/...`), so a cache downloaded on another machine can be
   rsynced into `/srv/ulis/sources` (then `chown -R 10001:10001`) and `load-all` will not download it again. A
-  1,101-law trial from the cache ingested in 191 s.
+  1,101-law trial from the cache ingested in 191 s. A source is one transaction, so if the German run is interrupted
+  nothing from that run is stored, but every download is kept: run the same command again and it finishes from the
+  cache in minutes instead of hours.
 * **Skip the wait**: on a machine that already holds the data run `deploy/export-corpus.sh --with-objects`, copy the
   `ulis-corpus-*` files over and run `deploy/import-corpus.sh --objects ...-objects.tar.gz ...dump` on the new server.
   The export holds the corpus tables only (audit events, verification records and research results stay behind);
