@@ -22,11 +22,7 @@ import base64
 import binascii
 import json
 import re
-import shutil
-import subprocess  # noqa: S404 - runs pdftotext only, on a file in a private temporary directory, without a shell
-import tempfile
 from datetime import date
-from pathlib import Path
 from typing import Any
 
 from defusedxml.ElementTree import fromstring
@@ -37,11 +33,11 @@ from ulis.sources.normalized import (
     ParsedParagraph,
     ParseSkipped,
 )
+from ulis.sources.parsers.pdf_text import PdfTextError, pdf_pages
 
 PARSER_VERSION = "1.0.0"
 BUNDLE_SCHEMA = "ulis-us-govinfo-uscourts/1"
 MODS = "{http://www.loc.gov/mods/v3}"
-PDFTOTEXT_TIMEOUT = 120
 
 # GovInfo court codes of the courts of appeals -> court ids of the US profile.
 COURTS = {
@@ -59,7 +55,6 @@ __all__ = [
     "UsCourtsParseError",
     "bundle_bytes",
     "parse_govinfo_uscourts",
-    "pdf_pages",
     "work_uri_for",
 ]
 
@@ -74,36 +69,6 @@ def bundle_bytes(bundle: dict[str, Any]) -> bytes:
 
 def work_uri_for(granule: str) -> str:
     return f"/us/case/govinfo/{granule}"
-
-
-def pdf_pages(pdf: bytes) -> list[str]:
-    """The text of each PDF page, as ``pdftotext`` extracts it (reading order)."""
-    exe = shutil.which("pdftotext")
-    if exe is None:
-        raise UsCourtsParseError("pdftotext (poppler-utils) is not installed; it is needed to read court PDFs")
-    if not pdf.startswith(b"%PDF-"):
-        raise UsCourtsParseError("the document is not a PDF file")
-    with tempfile.TemporaryDirectory(prefix="ulis-pdf-") as tmp:
-        source = Path(tmp) / "opinion.pdf"
-        source.write_bytes(pdf)
-        try:
-            done = subprocess.run(  # noqa: S603 - fixed argument list, no shell, own temporary directory
-                [exe, "-q", "-enc", "UTF-8", str(source), "-"],
-                capture_output=True,
-                timeout=PDFTOTEXT_TIMEOUT,
-                cwd=tmp,
-                check=False,
-            )
-        except subprocess.TimeoutExpired as exc:
-            raise UsCourtsParseError(f"pdftotext timed out after {PDFTOTEXT_TIMEOUT} s") from exc
-    if done.returncode != 0:
-        raise UsCourtsParseError(
-            f"pdftotext failed ({done.returncode}): {done.stderr.decode('utf-8', 'replace')[:200]}"
-        )
-    pages = done.stdout.decode("utf-8", "replace").split("\f")
-    if pages and not pages[-1].strip():
-        pages.pop()
-    return pages
 
 
 def _clean(page: str) -> str:
@@ -186,7 +151,10 @@ def parse_govinfo_uscourts(content: bytes) -> list[ParsedDocument]:
         pdf = base64.b64decode(bundle["pdf_base64"], validate=True)
     except (KeyError, binascii.Error, ValueError) as exc:
         raise UsCourtsParseError(f"the bundle holds no valid PDF: {exc}") from exc
-    pages = pdf_pages(pdf)
+    try:
+        pages = pdf_pages(pdf)
+    except PdfTextError as exc:
+        raise UsCourtsParseError(str(exc)) from exc
     if not _has_text(pages):
         raise ParseSkipped(f"{granule}: the PDF has no text layer (a scan); ULIS does no OCR")
 

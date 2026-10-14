@@ -1,0 +1,987 @@
+<mods xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" version="3.3" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd" ID="P0b002ee1dec5c423">
+    <name type="corporate">
+         <namePart>United States Government Publishing Office</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">publisher</roleTerm>
+              <roleTerm authority="marcrelator" type="code">pbl</roleTerm>
+        </role>
+         <role>
+              <roleTerm authority="marcrelator" type="text">distributor</roleTerm>
+              <roleTerm authority="marcrelator" type="code">dst</roleTerm>
+        </role>
+    </name>
+    <name type="corporate">
+         <namePart>United States</namePart>
+         <namePart>United States Supreme Court</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">author</roleTerm>
+              <roleTerm authority="marcrelator" type="code">aut</roleTerm>
+        </role>
+         <description>Government Organization</description>
+    </name>
+    <typeOfResource>text</typeOfResource>
+    <genre authority="marcgt">government publication</genre>
+    <language>
+         <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+    </language>
+    <extension>
+         <collectionCode>USREPORTS</collectionCode>
+         <category>Judicial Publications</category>
+         <branch>judicial</branch>
+         <dateIngested>2026-02-23</dateIngested>
+    </extension>
+    <titleInfo>
+         <title>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers</title>
+    </titleInfo>
+    <classification authority="sudocs">JU 6.8:550</classification>
+    <name type="corporate">
+         <namePart>United States</namePart>
+         <namePart>Supreme Court</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">author</roleTerm>
+              <roleTerm authority="marcrelator" type="code">aut</roleTerm>
+        </role>
+    </name>
+    <identifier type="uri">https://www.govinfo.gov/content/pkg/USREPORTS-550</identifier>
+    <location>
+         <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550</url>
+         <url displayLabel="PDF rendition" access="raw object">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550.pdf</url>
+    </location>
+    <extension>
+         <searchtitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers</searchtitle>
+         <docClass>USREPORTS</docClass>
+         <accessId>USREPORTS-550</accessId>
+         <volume>550</volume>
+         <dateIssued notSpecified="day-month">2010</dateIssued>
+         <reporter name="Frank D. Wagner"></reporter>
+         <courtTerm>2006</courtTerm>
+    </extension>
+                            
+    <titleInfo>
+                                    
+         <title>United States Reports, 550</title>
+                                    
+         <subTitle>cases adjudged in the Supreme Court at</subTitle>
+                                
+    </titleInfo>
+                            
+    <titleInfo type="alternative">
+                                    
+         <title>Cases adjudged in the Supreme Court at</title>
+                                
+    </titleInfo>
+                            
+    <titleInfo displayLabel="Also known as:" type="alternative">
+                                    
+         <title>U.S. reports</title>
+                                
+    </titleInfo>
+                            
+    <titleInfo type="uniform">
+                                    
+         <title>United States reports (Washington, D.C.)</title>
+                                
+    </titleInfo>
+                            
+    <name type="corporate">
+                                    
+         <namePart>United States</namePart>
+                                    
+         <namePart>Supreme Court.</namePart>
+                                    
+         <role>
+                                            
+              <roleTerm authority="marcrelator" type="text">creator</roleTerm>
+                                        
+        </role>
+                                
+    </name>
+                            
+    <typeOfResource>text</typeOfResource>
+                            
+    <genre authority="marcgt">law report or digest</genre>
+                            
+    <genre authority="fast">Digests.</genre>
+                            
+    <genre authority="fast">Periodicals.</genre>
+                            
+    <originInfo>
+                                    
+         <place>
+                                            
+              <placeTerm authority="marccountry" type="code">dcu</placeTerm>
+                                        
+        </place>
+                                    
+         <place>
+                                            
+              <placeTerm type="text">Washington, D.C.]</placeTerm>
+                                        
+        </place>
+                                    
+         <publisher>U.S. Supreme Court</publisher>
+                                    
+         <dateIssued>2010</dateIssued>
+                                    
+         <dateCreated encoding="marc" point="start">1883</dateCreated>
+                                    
+         <dateCreated encoding="marc" point="end">9999</dateCreated>
+                                    
+         <issuance>continuing</issuance>
+                                    
+         <frequency>Irregular</frequency>
+                                
+    </originInfo>
+                            
+    <language>
+                                    
+         <languageTerm authority="iso639-2b" type="code">eng</languageTerm>
+                                
+    </language>
+                            
+    <physicalDescription>
+                                    
+         <extent>1 online resource (volumes)</extent>
+                                
+    </physicalDescription>
+                            
+    <note type="date/sequential designation">Print began with: [Vol. 108] (Oct. term 1882 ... Oct. term 1883).</note>
+                            
+    <subject>
+                                    
+         <geographicCode authority="marcgac">n-us---</geographicCode>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <name type="corporate">
+                                            
+              <namePart>United States.</namePart>
+                                            
+              <namePart>Supreme Court</namePart>
+                                        
+        </name>
+                                    
+         <genre>Periodicals</genre>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Law reports, digests, etc</topic>
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Constitutional law</topic>
+                                    
+         <geographic>United States</geographic>
+                                    
+         <genre>Digests</genre>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Judicial opinions</topic>
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <name type="corporate">
+                                            
+              <namePart>United States.</namePart>
+                                            
+              <namePart>Supreme Court.</namePart>
+                                        
+        </name>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Constitutional law</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Judicial opinions</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Law reports, digests, etc</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <classification authority="lcc">ISSN RECORD</classification>
+                            
+    <classification authority="ddc" edition="14">348</classification>
+                            
+    <classification authority="sudocs">JU 6.8:550</classification>
+                            
+    <relatedItem displayLabel="Print version:" type="otherFormat">
+                                    
+         <titleInfo>
+                                            
+              <title>United States reports</title>
+                                        
+        </titleInfo>
+                                    
+         <name>
+                                            
+              <namePart>United States. Supreme Court.</namePart>
+                                        
+        </name>
+                                    
+         <identifier type="issn">0891-6845</identifier>
+                                    
+         <identifier type="local">(DLC) 01026074</identifier>
+                                    
+         <identifier type="local">(OCoLC)4384322</identifier>
+                                
+    </relatedItem>
+                            
+    <relatedItem displayLabel="Microfiche version:" type="otherFormat">
+                                    
+         <titleInfo>
+                                            
+              <title>United States reports</title>
+                                        
+        </titleInfo>
+                                    
+         <name>
+                                            
+              <namePart>United States. Supreme Court.</namePart>
+                                        
+        </name>
+                                    
+         <identifier type="local">(OCoLC)26859335</identifier>
+                                
+    </relatedItem>
+                            
+    <identifier type="sudoc-item-number">0741-A (online)</identifier>
+                            
+    <identifier type="issn">2150-2331</identifier>
+                            
+    <identifier type="lccn">2009231052</identifier>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-" usage="primary display">https://purl.fdlp.gov/GPO/LPS30185</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-">http://www.supremecourt.gov/opinions/boundvolumes.aspx</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-vol. 552, 2007 term (UNT Digital Library)">https://purl.fdlp.gov/GPO/gpo54225</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-vol. 552, 2007 term (UNT Digital Library)">https://digital.library.unt.edu/explore/collections/USREP/browse/</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="[Vol.] 108, Oct. term 1882-vol. 542, 2003 term (Library of Congress Digital Collections by agreement with the William S. Hein &amp; Co., Inc.)">https://purl.fdlp.gov/GPO/gpo94050</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="[Vol.] 108, Oct. term 1882-vol. 542, 2003 term (Library of Congress Digital Collections by agreement with the William S. Hein &amp; Co., Inc.)">https://www.loc.gov/collections/united-states-reports/</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="(online)">https://catalog.gpo.gov/fdlpdir/locate.jsp?ItemNumber=0741-A&amp;SYS=000641007</url>
+                                
+    </location>
+                        
+    <originInfo>
+         <publisher>U.S. Government Printing Office</publisher>
+         <dateIssued encoding="w3cdtf">2010-01-01</dateIssued>
+         <issuance>continuing</issuance>
+         <frequency authority="marcfrequency">Completely irregular</frequency>
+    </originInfo>
+    <physicalDescription>
+         <note type="source content type">converted</note>
+         <digitalOrigin>reformatted digital</digitalOrigin>
+         <extent>990 digital object pages</extent>
+    </physicalDescription>
+    <classification authority="sudocs">JU 6.8:550</classification>
+    <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550</identifier>
+    <identifier type="local">P0b002ee1dec5c423</identifier>
+    <identifier type="ILS system id">000641007</identifier>
+    <recordInfo>
+         <recordContentSource authority="marcorg">DGPO</recordContentSource>
+         <recordCreationDate encoding="w3cdtf">2026-02-23</recordCreationDate>
+         <recordChangeDate encoding="w3cdtf">2026-02-23</recordChangeDate>
+         <recordIdentifier source="DGPO">USREPORTS-550</recordIdentifier>
+         <recordOrigin>machine generated</recordOrigin>
+         <languageOfCataloging>
+              <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+        </languageOfCataloging>
+    </recordInfo>
+    <accessCondition type="GPO scope determination">fdlp</accessCondition>
+    <extension>
+         <docClass>USREPORTS</docClass>
+         <accessId>USREPORTS-550</accessId>
+         <volume>550</volume>
+         <dateIssued notSpecified="day-month">2010</dateIssued>
+         <reporter name="Frank D. Wagner"></reporter>
+         <courtTerm>2006</courtTerm>
+    </extension>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-FrontMatter-2" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-FrontMatter-2/mods.xml">
+         <titleInfo>
+              <title>Title Page, 550 U.S. (2007)</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-FrontMatter-2</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-FrontMatter-2.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9d1</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Title Page, 550 U.S. (2007)</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-550-FrontMatter-2</accessId>
+              <sequenceNumber>1</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-FrontMatter-2</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-FrontMatter-2.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-FrontMatter-5" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-FrontMatter-5/mods.xml">
+         <titleInfo>
+              <title>Erratum</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-FrontMatter-5</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-FrontMatter-5.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9bf</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Erratum</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-550-FrontMatter-5</accessId>
+              <sequenceNumber>2</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-FrontMatter-5</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-FrontMatter-5.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-FrontMatter-4" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-FrontMatter-4/mods.xml">
+         <titleInfo>
+              <title>Justices of the Supreme Court</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-FrontMatter-4</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-FrontMatter-4.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9cf</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Justices of the Supreme Court</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-550-FrontMatter-4</accessId>
+              <sequenceNumber>3</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-FrontMatter-4</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-FrontMatter-4.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-FrontMatter-3" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-FrontMatter-3/mods.xml">
+         <titleInfo>
+              <title>Supreme Court of the United States Allotment of Justices</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-FrontMatter-3</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-FrontMatter-3.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9b6</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Supreme Court of the United States Allotment of Justices</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-550-FrontMatter-3</accessId>
+              <sequenceNumber>4</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-FrontMatter-3</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-FrontMatter-3.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-FrontMatter" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-FrontMatter/mods.xml">
+         <titleInfo>
+              <title>Table of Cases Reported</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-FrontMatter</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-FrontMatter.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9d0</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Table of Cases Reported</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-550-FrontMatter</accessId>
+              <sequenceNumber>5</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-FrontMatter</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-FrontMatter.pdf</url>
+        </location>
+    </relatedItem>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <relatedItem type="constituent" ID="id-USREPORTS-550-501" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-501/mods.xml">
+         <titleInfo>
+              <title>Hinck v. United States, 550 U.S. 501 (2007)</title>
+              <partNumber>550 U.S. 501</partNumber>
+              <partName>Case</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-501</identifier>
+         <identifier type="preferred citation">550 U.S. 501 (2007)</identifier>
+         <identifier type="United States Reports citation">550 U.S. 501</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-501.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9d3</identifier>
+        </relatedItem>
+         <subject>
+              <topic>Tax Abatement</topic>
+              <topic>Tax Courts</topic>
+              <topic>Tax Administration and Collection</topic>
+              <topic>Tax Law</topic>
+              <topic>Income Tax</topic>
+              <topic>Interest Abatement</topic>
+              <topic>Internal Revenue Service (I.R.S.)</topic>
+              <topic>District Courts</topic>
+              <topic>Internal Revenue Code (I.R.C.)</topic>
+              <topic>Abatement of Interest</topic>
+              <topic>Federal Taxation, Typically Under Provisions of the Internal Revenue Code</topic>
+              <topic>Federal Taxation</topic>
+        </subject>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Hinck v. United States, 550 U.S. 501 (2007);550 U.S. 501</searchTitle>
+              <granuleClass>CASE</granuleClass>
+              <accessId>USREPORTS-550-501</accessId>
+              <reportNumber>501</reportNumber>
+              <sequenceNumber>20</sequenceNumber>
+              <pagePosition>1</pagePosition>
+              <decisionDate>2007-05-21</decisionDate>
+              <courtTerm>2006</courtTerm>
+              <usCitation>550 U.S. 501</usCitation>
+              <fullCitation>550 U.S. 501 (2007)</fullCitation>
+              <subject authority="llc" uri="https://www.loc.gov/research-centers/law-library-of-congress/about-this-research-center">
+                                        
+                   <topic>Tax Abatement</topic>
+                                        
+                   <topic>Tax Courts</topic>
+                                        
+                   <topic>Tax Administration and Collection</topic>
+                                        
+                   <topic>Tax Law</topic>
+                                        
+                   <topic>Income Tax</topic>
+                                        
+                   <topic>Interest Abatement</topic>
+                                        
+                   <topic>Internal Revenue Service (I.R.S.)</topic>
+                                        
+                   <topic>District Courts</topic>
+                                        
+                   <topic>Internal Revenue Code (I.R.C.)</topic>
+                                        
+                   <topic>Abatement of Interest</topic>
+                                    
+            </subject>
+              <subject authority="scdb" uri="http://scdb.wustl.edu/documentation.php?var=issue">
+                                        
+                   <topic>Federal Taxation, Typically Under Provisions of the Internal Revenue Code</topic>
+                                        
+                   <topic>Federal Taxation</topic>
+                                    
+            </subject>
+              <docketId>2006-042-01</docketId>
+              <petitioner>Taxpayer or executor of taxpayer&apos;s estate, federal only</petitioner>
+              <respondent>United States</respondent>
+              <jurisdiction>Cert</jurisdiction>
+              <adminAction>Internal Revenue Service, Collector, Commissioner, or District Director of</adminAction>
+              <caseOrigin>U.S. Court of Claims, Court of Federal Claims</caseOrigin>
+              <caseSource>U.S. Court of Appeals, Federal Circuit</caseSource>
+              <certReason>Federal court conflict</certReason>
+              <chiefJustice>John G. Roberts, Jr.</chiefJustice>
+              <dateArgument>2007-04-23</dateArgument>
+              <authorityDecision>Statutory construction</authorityDecision>
+              <law>
+                                        
+                   <type>Federal Statute</type>
+                                        
+                   <legalProvisions>Internal Revenue Code and pre-IRC revenue acts</legalProvisions>
+                                    
+            </law>
+              <decisionType>Opinion of the court (orally argued)</decisionType>
+              <unconstitutionality>No declaration of unconstitutionality</unconstitutionality>
+              <disposition>Affirmed (includes modified)</disposition>
+              <partyWinning>No favorable disposition for petitioning party apparent</partyWinning>
+              <majorityOpinion>
+                                        
+                   <writer>John G. Roberts, Jr.</writer>
+                                        
+                   <assigner>John G. Roberts, Jr.</assigner>
+                                    
+            </majorityOpinion>
+              <votes>
+                                        
+                   <majority>9</majority>
+                                        
+                   <minority>0</minority>
+                                    
+            </votes>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-501</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-501.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-511" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-511/mods.xml">
+         <titleInfo>
+              <title>Office of Sen. Mark Dayton v. Hanson, 550 U.S. 511 (2007)</title>
+              <partNumber>550 U.S. 511</partNumber>
+              <partName>Case</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-511</identifier>
+         <identifier type="preferred citation">550 U.S. 511 (2007)</identifier>
+         <identifier type="United States Reports citation">550 U.S. 511</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-511.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9bb</identifier>
+        </relatedItem>
+         <subject>
+              <topic>Speech or Debate Clause</topic>
+              <topic>Jurisdiction and Venue</topic>
+              <topic>District Courts</topic>
+              <topic>Constitutional Law</topic>
+              <topic>Civil Procedure</topic>
+              <topic>Congressional Accountability Act of (C.A.A.)</topic>
+              <topic>No Merits: Dismissed or Affirmed for Want of Jurisdiction (Cf. Judicial Administration: Supreme Court Jurisdiction or Authority on Appeal from Federal District Courts or Courts of Appeals)</topic>
+              <topic>Judicial Power</topic>
+        </subject>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Office of Sen. Mark Dayton v. Hanson, 550 U.S. 511 (2007);550 U.S. 511</searchTitle>
+              <granuleClass>CASE</granuleClass>
+              <accessId>USREPORTS-550-511</accessId>
+              <reportNumber>511</reportNumber>
+              <sequenceNumber>21</sequenceNumber>
+              <pagePosition>1</pagePosition>
+              <decisionDate>2007-05-21</decisionDate>
+              <courtTerm>2006</courtTerm>
+              <usCitation>550 U.S. 511</usCitation>
+              <fullCitation>550 U.S. 511 (2007)</fullCitation>
+              <subject authority="llc" uri="https://www.loc.gov/research-centers/law-library-of-congress/about-this-research-center">
+                                        
+                   <topic>Speech or Debate Clause</topic>
+                                        
+                   <topic>Jurisdiction and Venue</topic>
+                                        
+                   <topic>District Courts</topic>
+                                        
+                   <topic>Constitutional Law</topic>
+                                        
+                   <topic>Civil Procedure</topic>
+                                        
+                   <topic>Congressional Accountability Act of (C.A.A.)</topic>
+                                    
+            </subject>
+              <subject authority="scdb" uri="http://scdb.wustl.edu/documentation.php?var=issue">
+                                        
+                   <topic>No Merits: Dismissed or Affirmed for Want of Jurisdiction (Cf. Judicial Administration: Supreme Court Jurisdiction or Authority on Appeal from Federal District Courts or Courts of Appeals)</topic>
+                                        
+                   <topic>Judicial Power</topic>
+                                    
+            </subject>
+              <docketId>2006-043-01</docketId>
+              <petitioner>U.S. Senator</petitioner>
+              <respondent>Employee, or job applicant, including beneficiaries of</respondent>
+              <jurisdiction>Cert</jurisdiction>
+              <caseOrigin>District Of Columbia U.S. District Court</caseOrigin>
+              <caseSource>U.S. Court of Appeals, District of Columbia Circuit (includes the Court of Appeals for the District of Columbia but not the District of Columbia Court of Appeals, which has local jurisdiction)</caseSource>
+              <certReason>No reason given</certReason>
+              <chiefJustice>John G. Roberts, Jr.</chiefJustice>
+              <dateArgument>2007-04-24</dateArgument>
+              <authorityDecision>Statutory construction</authorityDecision>
+              <authorityDecision>Federal common law</authorityDecision>
+              <law>
+                                        
+                   <type>Infrequently litigated statutes</type>
+                                        
+                   <legalProvisions>Infrequently litigated statutes</legalProvisions>
+                                    
+            </law>
+              <decisionType>Opinion of the court (orally argued)</decisionType>
+              <unconstitutionality>No declaration of unconstitutionality</unconstitutionality>
+              <disposition>Petition denied or appeal dismissed</disposition>
+              <partyWinning>No favorable disposition for petitioning party apparent</partyWinning>
+              <majorityOpinion>
+                                        
+                   <writer>John Paul Stevens</writer>
+                                        
+                   <assigner>John Paul Stevens</assigner>
+                                    
+            </majorityOpinion>
+              <votes>
+                                        
+                   <majority>8</majority>
+                                        
+                   <minority>0</minority>
+                                    
+            </votes>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-511</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-511.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-516" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-516/mods.xml">
+         <titleInfo>
+              <title>Winkelman v. Parma City School Dist., 550 U.S. 516 (2007)</title>
+              <partNumber>550 U.S. 516</partNumber>
+              <partName>Case</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-516</identifier>
+         <identifier type="preferred citation">550 U.S. 516 (2007)</identifier>
+         <identifier type="United States Reports citation">550 U.S. 516</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-516.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9be</identifier>
+        </relatedItem>
+         <subject>
+              <topic>Administrative Law</topic>
+              <topic>Administrative Law and Regulatory Procedures</topic>
+              <topic>Private Schools</topic>
+              <topic>Individuals with Disabilities Education Act (I.D.E.A.)</topic>
+              <topic>Individualized Education Program (I.E.P.)</topic>
+              <topic>Pro Se Representation</topic>
+              <topic>Special Education</topic>
+              <topic>People with Disabilities</topic>
+              <topic>Lack of Counsel</topic>
+              <topic>Representation</topic>
+              <topic>Juveniles (Cf. Rights of Illegitimates)</topic>
+              <topic>Civil Rights</topic>
+        </subject>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Winkelman v. Parma City School Dist., 550 U.S. 516 (2007);550 U.S. 516</searchTitle>
+              <granuleClass>CASE</granuleClass>
+              <accessId>USREPORTS-550-516</accessId>
+              <reportNumber>516</reportNumber>
+              <sequenceNumber>22</sequenceNumber>
+              <pagePosition>1</pagePosition>
+              <decisionDate>2007-05-21</decisionDate>
+              <courtTerm>2006</courtTerm>
+              <usCitation>550 U.S. 516</usCitation>
+              <fullCitation>550 U.S. 516 (2007)</fullCitation>
+              <subject authority="llc" uri="https://www.loc.gov/research-centers/law-library-of-congress/about-this-research-center">
+                                        
+                   <topic>Administrative Law</topic>
+                                        
+                   <topic>Administrative Law and Regulatory Procedures</topic>
+                                        
+                   <topic>Private Schools</topic>
+                                        
+                   <topic>Individuals with Disabilities Education Act (I.D.E.A.)</topic>
+                                        
+                   <topic>Individualized Education Program (I.E.P.)</topic>
+                                        
+                   <topic>Pro Se Representation</topic>
+                                        
+                   <topic>Special Education</topic>
+                                        
+                   <topic>People with Disabilities</topic>
+                                        
+                   <topic>Lack of Counsel</topic>
+                                        
+                   <topic>Representation</topic>
+                                    
+            </subject>
+              <subject authority="scdb" uri="http://scdb.wustl.edu/documentation.php?var=issue">
+                                        
+                   <topic>Juveniles (Cf. Rights of Illegitimates)</topic>
+                                        
+                   <topic>Civil Rights</topic>
+                                    
+            </subject>
+              <docketId>2006-044-01</docketId>
+              <petitioner>Parent or parents</petitioner>
+              <respondent state="Oklahoma">Local school district or board of education</respondent>
+              <jurisdiction>Cert</jurisdiction>
+              <adminAction state="Ohio">State Agency</adminAction>
+              <caseOrigin>Ohio Northern U.S. District Court</caseOrigin>
+              <caseSource>U.S. Court of Appeals, Sixth Circuit</caseSource>
+              <certReason>Federal court conflict</certReason>
+              <chiefJustice>John G. Roberts, Jr.</chiefJustice>
+              <dateArgument>2007-02-27</dateArgument>
+              <authorityDecision>Statutory construction</authorityDecision>
+              <law>
+                                        
+                   <type>Infrequently litigated statutes</type>
+                                        
+                   <legalProvisions>Infrequently litigated statutes</legalProvisions>
+                                    
+            </law>
+              <decisionType>Opinion of the court (orally argued)</decisionType>
+              <unconstitutionality>No declaration of unconstitutionality</unconstitutionality>
+              <disposition>Reversed and remanded</disposition>
+              <partyWinning>Petitioning party received a favorable disposition</partyWinning>
+              <majorityOpinion>
+                                        
+                   <writer>Anthony M. Kennedy</writer>
+                                        
+                   <assigner>John G. Roberts, Jr.</assigner>
+                                    
+            </majorityOpinion>
+              <votes>
+                                        
+                   <majority>7</majority>
+                                        
+                   <minority>2</minority>
+                                    
+            </votes>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-516</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-516.pdf</url>
+        </location>
+    </relatedItem>
+    
+    
+    
+    
+    <relatedItem type="constituent" ID="id-USREPORTS-550-BackMatter-5" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-BackMatter-5/mods.xml">
+         <titleInfo>
+              <title>Reporter&apos;s Note, 550 U.S. (2007)</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-5</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-5.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9c5</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Reporter&apos;s Note, 550 U.S. (2007)</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-550-BackMatter-5</accessId>
+              <sequenceNumber>27</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-5</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-5.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-BackMatter-9" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-BackMatter-9/mods.xml">
+         <titleInfo>
+              <title>Orders for April 23 through May 29, 2007</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-9</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-9.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9ba</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Orders for April 23 through May 29, 2007</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-550-BackMatter-9</accessId>
+              <sequenceNumber>28</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-9</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-9.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-BackMatter-3" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-BackMatter-3/mods.xml">
+         <titleInfo>
+              <title>Amendment to Federal Rules of Appellate Procedure</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-3</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-3.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9bd</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Amendment to Federal Rules of Appellate Procedure</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-550-BackMatter-3</accessId>
+              <sequenceNumber>29</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-3</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-3.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-BackMatter" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-BackMatter/mods.xml">
+         <titleInfo>
+              <title>Rules of Bankruptcy Procedure</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9d4</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Rules of Bankruptcy Procedure</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-550-BackMatter</accessId>
+              <sequenceNumber>30</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-BackMatter-2" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-BackMatter-2/mods.xml">
+         <titleInfo>
+              <title>Rules of Civil Procedure</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-2</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-2.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9b9</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Rules of Civil Procedure</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-550-BackMatter-2</accessId>
+              <sequenceNumber>31</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-2</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-2.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-BackMatter-8" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-BackMatter-8/mods.xml">
+         <titleInfo>
+              <title>Rules of Criminal Procedure</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-8</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-8.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9c1</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Rules of Criminal Procedure</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-550-BackMatter-8</accessId>
+              <sequenceNumber>32</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-8</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-8.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-BackMatter-4" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-BackMatter-4/mods.xml">
+         <titleInfo>
+              <title>Reporter&apos;s Note, 550 U.S. (2007)</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-4</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-4.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9b5</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Reporter&apos;s Note, 550 U.S. (2007)</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-550-BackMatter-4</accessId>
+              <sequenceNumber>33</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-4</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-4.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-BackMatter-6" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-BackMatter-6/mods.xml">
+         <titleInfo>
+              <title>Opinion of Individual Justice in Chambers</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-6</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-6.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9d7</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Opinion of Individual Justice in Chambers</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-550-BackMatter-6</accessId>
+              <sequenceNumber>34</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-6</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-6.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-550-BackMatter-7" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-550/USREPORTS-550-BackMatter-7/mods.xml">
+         <titleInfo>
+              <title>Index</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-7</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-7.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1dec7a9b7</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2006, April 17 through May 29, 2007, together with opinion of individual justice in chambers;Index</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-550-BackMatter-7</accessId>
+              <sequenceNumber>35</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-550/USREPORTS-550-BackMatter-7</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-550/pdf/USREPORTS-550-BackMatter-7.pdf</url>
+        </location>
+    </relatedItem>
+</mods>

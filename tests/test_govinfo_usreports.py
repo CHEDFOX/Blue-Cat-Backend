@@ -7,6 +7,7 @@ contiguous slice of the real text rendition of volumes 410 (Roe v. Wade), 250 (a
 
 from __future__ import annotations
 
+import base64
 import gzip
 import json
 from collections.abc import Iterator
@@ -26,11 +27,12 @@ from ulis.retrieval.search import SearchRequest, search
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.govinfo import HOST, ROBOTS_URL
-from ulis.sources.connectors.govinfo_usreports import UsReportsGovInfoConnector, mods_url, text_url
+from ulis.sources.connectors.govinfo_usreports import UsReportsGovInfoConnector, mods_url, pdf_url, text_url
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.moj_laws import robots_allows
 from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
 from ulis.sources.normalized import ParsedDocument, ParseSkipped
+from ulis.sources.parsers import govinfo_usreports as usreports_module
 from ulis.sources.parsers.govinfo_usreports import (
     BUNDLE_SCHEMA,
     UsReportsParseError,
@@ -38,6 +40,7 @@ from ulis.sources.parsers.govinfo_usreports import (
     parse_govinfo_usreports,
     read_mods,
 )
+from ulis.sources.parsers.pdf_text import normalise_glyphs
 from ulis.sources.registry import licence_gate
 from ulis.storage.object_store import LocalObjectStore
 
@@ -148,6 +151,73 @@ def test_ocr_errors_of_the_source_are_kept() -> None:
     assert stitt.judgment.decision_date == date(2018, 1, 1)
     assert "year-only" in stitt.ext["decision_date_caveat"]
     assert [p.part for p in stitt.paragraphs][:3] == ["Syllabus", "Syllabus", "Opinion of the Court"]
+
+
+def test_labels_too_long_for_the_part_column_are_shortened_and_kept_in_ext() -> None:
+    from ulis.sources.parsers.govinfo_usreports import _part
+
+    assert _part("Opinion of the Court") == "Opinion of the Court"
+    assert _part("Stewart, J., concurring") == "Stewart, J., concurring"  # 32 characters or fewer: kept as printed
+    assert _part("Marshall, J., concurring in result") == "concurring"  # 34 characters
+    assert _part("Blackmun, J., concurring in judgment") == "concurring"
+    assert _part("White, J., concurring in part and dissenting in part") == "concurring and dissenting"
+    assert _part("Appendix to opinion of Douglas, J., dissenting") == "appendix"
+    assert _part("Opinion of Brennan, J., announcing the judgment") == "separate opinion"
+    lines = _text("vol410-roe").splitlines()
+    last = max(i for i, ln in enumerate(lines) if ln == "Rehnquist, J., dissenting")
+    lines[last] = "Appendix to opinion of Rehnquist, J., dissenting"  # as it prints in other volumes
+    (doc,) = parse_govinfo_usreports(_bundle("vol410-roe", 410, text="\n".join(lines) + "\n"))
+    assert doc.paragraphs[-1].num == "178" and doc.paragraphs[-1].part == "appendix"
+    assert doc.ext["long_part_labels"] == {"178": "Appendix to opinion of Rehnquist, J., dissenting"}
+    assert all(len(p.part) <= 32 for p in doc.paragraphs)
+
+
+def _pdf_bundle(pdf: bytes = b"%PDF-1.4 fixture") -> bytes:
+    return bundle_bytes(
+        {
+            "schema": BUNDLE_SCHEMA,
+            "volume": 550,
+            "mods": _mods("vol550-hinck"),
+            "pdf_base64": base64.b64encode(pdf).decode("ascii"),
+        }
+    )
+
+
+@pytest.fixture
+def volume_550_pdf_text(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The real pdftotext output of 18 pages of the volume 550 PDF stands in for the extraction itself (that step is
+    tested on real PDFs in tests/test_govinfo_uscourts.py), so these tests need no PDF tool."""
+    raw = gzip.decompress((FIX / "vol550-hinck.pdftext.gz").read_bytes()).decode("utf-8")
+    pages = [normalise_glyphs(p) for p in raw.split("\f") if p.strip()]
+    monkeypatch.setattr(usreports_module, "pdf_pages", lambda pdf: pages)
+
+
+def test_a_volume_without_text_rendition_is_read_from_the_text_layer_of_its_pdf(volume_550_pdf_text: None) -> None:
+    docs = {d.ext["first_page"]: d for d in parse_govinfo_usreports(_pdf_bundle())}
+    assert list(docs) == [501, 511]  # Winkelman (516) is listed, but where it ends is not in the slice
+    hinck, dayton = docs[501], docs[511]
+    assert hinck.judgment is not None and dayton.judgment is not None
+    assert hinck.judgment.neutral_citation == "550 U.S. 501" and hinck.judgment.decision_date == date(2007, 5, 21)
+    assert hinck.judgment.case_name == "Hinck v. United States"
+    assert [p.num for p in hinck.paragraphs] == [str(n) for n in range(501, 511)]
+    assert [p.num for p in dayton.paragraphs] == [str(n) for n in range(511, 516)]
+    assert hinck.paragraphs[0].part == "Syllabus" and hinck.paragraphs[-1].part == "Opinion of the Court"
+    # the caption comes first; the slugs and the running head are gone
+    assert hinck.paragraphs[0].text.startswith("HINCK et ux. v. UNITED STATES\ncertiorari to the united states court")
+    for p in hinck.paragraphs + dayton.paragraphs:
+        assert "PAGES PGT" not in p.text and "Unit: $" not in p.text and "550US" not in p.text
+        assert "\u00ad" not in p.text and not any("\ufb00" <= c <= "\ufb06" for c in p.text)
+
+
+def test_soft_hyphens_are_joined_and_ligature_glyphs_expanded() -> None:
+    assert normalise_glyphs("nation\u00ad\nally and inci\u00addental") == "nationally and incidental"
+    assert normalise_glyphs("signi\ufb01cantly e\ufb03cient \ufb02ow") == "significantly efficient flow"
+    assert normalise_glyphs("plain text, 12 U. S. C. \u00a7 24") == "plain text, 12 U. S. C. \u00a7 24"
+
+
+def test_a_pdf_that_cannot_be_read_is_an_error() -> None:
+    with pytest.raises(UsReportsParseError, match="volume PDF cannot be read"):
+        parse_govinfo_usreports(_pdf_bundle(b"<html>error</html>"))
 
 
 def test_mods_reader_lists_cases_with_first_page_and_citation() -> None:
@@ -281,6 +351,19 @@ def _cache(cache: Path, volumes: dict[int, tuple[str, str]], robots: str | None 
         put(text_url(volume), f"content/USREPORTS-{volume}.txt", text.encode(), "text/plain")
 
 
+def _cache_pdf_volume(cache: Path, volume: int, mods: str, pdf: bytes, media: str = "application/pdf") -> None:
+    http = PoliteHttp(cache, UA, allowed_hosts={HOST})
+    for url, key, body, ctype in (
+        (mods_url(volume), f"metadata/USREPORTS-{volume}.mods.xml", mods.encode(), "application/xml"),
+        (pdf_url(volume), f"content/USREPORTS-{volume}.pdf", pdf, media),
+    ):
+        path = http.cache_path(url, key)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(body)
+        meta = {"status": 200, "retrieved_at": "2026-10-14T18:00:00+00:00", "url": url, "final_url": url}
+        path.with_name(path.name + ".meta.json").write_text(json.dumps({**meta, "content_type": ctype}))
+
+
 def _manifest(tmp_path: Path, volumes: list[int], **extra: Any) -> Path:
     body = {
         "schema_version": 1,
@@ -330,6 +413,27 @@ def test_connector_skips_and_reports_bad_volumes_but_a_refusal_stops(tmp_path: P
     # a volume that is not cached at all is an error, never a silent gap
     with pytest.raises(FetchError, match="offline and not cached"):
         list(UsReportsGovInfoConnector(_manifest(tmp_path, [413]), SOURCE, cache, offline=True).fetch())
+
+
+def test_connector_takes_the_volume_pdf_when_the_package_has_no_text_rendition(tmp_path: Path) -> None:
+    cache = tmp_path / "cache"
+    _cache(cache, {})
+    fake = b"%PDF-1.4 fixture bytes"
+    _cache_pdf_volume(cache, 550, _mods("vol550-hinck"), fake)
+    connector = UsReportsGovInfoConnector(_manifest(tmp_path, [550]), SOURCE, cache, offline=True)
+    (doc,) = list(connector.fetch())
+    assert connector.fetch_errors == [] and doc.uri == pdf_url(550) and doc.external_id == "govinfo:USREPORTS-550"
+    bundle = json.loads(doc.content)
+    assert "text" not in bundle and base64.b64decode(bundle["pdf_base64"]) == fake  # exact bytes as received
+    assert bundle["mods"] == _mods("vol550-hinck") and bundle["pdf_url"] == pdf_url(550)
+    # an answer that is not a PDF, or a package that links neither rendition, is reported and skipped
+    _cache_pdf_volume(cache, 550, _mods("vol550-hinck"), b"<html>error</html>", media="text/html")
+    bad = UsReportsGovInfoConnector(_manifest(tmp_path, [550]), SOURCE, cache, offline=True)
+    assert list(bad.fetch()) == [] and "expected application/pdf" in bad.fetch_errors[0]
+    stripped = _mods("vol550-hinck").replace("PDF rendition", "Other rendition")
+    _cache_pdf_volume(cache, 550, stripped, fake)
+    none = UsReportsGovInfoConnector(_manifest(tmp_path, [550]), SOURCE, cache, offline=True)
+    assert list(none.fetch()) == [] and "neither a text rendition" in none.fetch_errors[0]
 
 
 def test_connector_obeys_robots_txt(tmp_path: Path) -> None:

@@ -2,7 +2,9 @@
 
 Input (one raw document per volume, made by ``connectors/govinfo_usreports.py``): a JSON bundle holding the volume's
 package MODS (``https://www.govinfo.gov/metadata/pkg/USREPORTS-<volume>/mods.xml``) and the volume's text rendition
-(``.../content/pkg/USREPORTS-<volume>/text/USREPORTS-<volume>.txt``), both exactly as received.
+(``.../content/pkg/USREPORTS-<volume>/text/USREPORTS-<volume>.txt``), both exactly as received. Volumes whose package
+links no text rendition (the later, born-digital ones) come with the volume PDF (base64) instead of the text; its text
+layer is read with ``pdftotext`` and goes through the same steps.
 
 * The MODS lists every case of the volume (``granuleClass`` CASE) with the title, the decision date, the United
   States Reports citation (``usCitation``, e.g. ``410 U.S. 113``) and the number of its first page
@@ -11,11 +13,10 @@ package MODS (``https://www.govinfo.gov/metadata/pkg/USREPORTS-<volume>/mods.xml
   out of it between the running heads of its first page and of the first page of the next case. Pages are recognised
   from the running heads (page number lines such as ``OCTOBER TERM, 1972`` / ``410 U. S.``, ``Cite as: ...``): a
   chain of page numbers 1, 2, 3, ... that increases through the text. A case is ingested only if the running heads of
-its
-  first page and of the next case's first page are in that chain and a caption (``CERTIORARI TO ...``, ``APPEAL
-  FROM ...``) follows its first page head; otherwise it is left out (the layouts of the older volumes differ and are
-  not recognised). ``volume_cases_listed`` / ``volume_cases_located`` in each judgment's ``ext`` say how many of the
-  volume's cases were found.
+  its first page and of the next case's first page are in that chain, a caption (``CERTIORARI TO ...``, ``APPEAL
+  FROM ...``) follows its first page head and the caption names the case; otherwise it is left out (the layouts of the
+  older volumes differ and are not recognised). ``volume_cases_listed`` / ``volume_cases_located`` in each judgment's
+  ``ext`` say how many of the volume's cases were found.
 * The units ("paragraphs") are the printed pages. ``num`` is the page number as printed in the United States Reports
   (a range ``153-154`` when a page's running head is not in the text); ``part`` is the label of the running head
   (``Syllabus``, ``Opinion of the Court``, ``Douglas, J., dissenting``, ...), ``text`` the page's lines in source order
@@ -27,6 +28,8 @@ Judicial treatment is not in the source and is never inferred.
 
 from __future__ import annotations
 
+import base64
+import binascii
 import json
 import re
 from dataclasses import dataclass
@@ -41,6 +44,7 @@ from ulis.sources.normalized import (
     ParsedParagraph,
     ParseSkipped,
 )
+from ulis.sources.parsers.pdf_text import PdfTextError, pdf_pages
 
 PARSER_VERSION = "1.0.0"
 BUNDLE_SCHEMA = "ulis-us-govinfo-usreports/1"
@@ -163,6 +167,8 @@ CAPTION = re.compile(
     re.IGNORECASE,
 )
 BACKMATTER = re.compile(r"^(?:MISCELLANEOUS )?ORDERS?\b[A-Z ,0-9.-]*$")
+# Typesetter's slugs that the volume PDFs of the later volumes carry on every page ("550US1", "Unit: $U28", ...).
+SLUG = re.compile(r"^(?:\d+US\d+|Unit: \$\w+|\[\d\d-\d\d-\d\d \d\d:\d\d:\d\d\] PAGES PGT: .*)$")
 MAX_SKIP = 12  # pages whose running head is missing between two recognised ones
 
 
@@ -217,7 +223,10 @@ def _is_head_line(line: str) -> bool:
     return (
         len(s) <= 70
         and len(letters) >= 5
-        and (not PUNCT_TAIL.search(s.replace("v.", "v")) or (" v. " in s and s.endswith(".")))
+        and (
+            not PUNCT_TAIL.search(s.replace("v.", "v"))
+            or (s.endswith(".") and (" v. " in s or not any(c.islower() for c in s)))
+        )
         and sum(c.islower() for c in letters) <= 3 + 2 * s.count(" v.")
         and bool(CAPS_TITLE.match(s))
     )
@@ -285,6 +294,10 @@ def _starts_caption(lines: list[str], j: int) -> bool:
 def _find_caption(lines: list[str], begin: int, upper: int, name: str = "") -> int | None:
     for j in range(begin, min(begin + MAX_STRAY, upper)):
         if _starts_caption(lines, j) and _names_the_case(name, lines[j : j + 4]):
+            # a caption can begin with lines that are not in capitals ("WINKELMAN, a minor, by and through ... v.")
+            wanted = _tokens(name)
+            while j - 1 >= begin and j - begin < MAX_STRAY and wanted & _tokens(lines[j - 1]) and j - 1 >= 0:
+                j -= 1
             return j
     return None
 
@@ -388,10 +401,23 @@ def _part(label: str) -> str:
     low = label.lower()
     if "dissent" in low and "concur" in low:
         return "concurring and dissenting"
-    for key, kind in (("dissent", "dissenting"), ("concur", "concurring"), ("appendix", "appendix")):
+    for key, kind in (("appendix", "appendix"), ("dissent", "dissenting"), ("concur", "concurring")):
         if key in low:
             return kind
     return "separate opinion" if low.startswith("opinion of") else "text"
+
+
+def _volume_lines(bundle: dict[str, Any]) -> list[str]:
+    """The lines of the volume: the text rendition as it is, or - for a volume that has none - the text layer of the
+    volume's PDF (blank lines and typesetter's slugs left out; soft hyphens joined, ligature glyphs expanded)."""
+    if "pdf_base64" not in bundle:
+        return str(bundle["text"]).lstrip("\ufeff").splitlines()
+    try:
+        pdf = base64.b64decode(bundle["pdf_base64"], validate=True)
+        pages = pdf_pages(pdf)
+    except (binascii.Error, ValueError, PdfTextError) as exc:
+        raise UsReportsParseError(f"the volume PDF cannot be read: {exc}") from exc
+    return [ln.rstrip() for page in pages for ln in page.splitlines() if ln.strip() and not SLUG.match(ln.strip())]
 
 
 def parse_govinfo_usreports(content: bytes) -> list[ParsedDocument]:
@@ -407,7 +433,7 @@ def parse_govinfo_usreports(content: bytes) -> list[ParsedDocument]:
     if not cases:
         raise ParseSkipped(f"volume {volume}: the package lists no case")
     cases.sort(key=lambda c: c.page)
-    lines = bundle["text"].lstrip("\ufeff").splitlines()
+    lines = _volume_lines(bundle)
     chain = page_chain(lines, cases[-1].page + 400)
     located = [loc for loc in _locate(lines, cases, chain) if loc is not None]
     if not located:
