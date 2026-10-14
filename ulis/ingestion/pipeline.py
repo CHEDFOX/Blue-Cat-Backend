@@ -29,11 +29,12 @@ from ulis.db import models as m
 from ulis.retrieval.indexer import rebuild_passages
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import Connector, RawDocument
+from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
-from ulis.sources.parsers import akn, justice_canada, legislation_gov_uk, uslm
+from ulis.sources.parsers import akn, gesetze_im_internet, justice_canada, legislation_gov_uk, uslm
 from ulis.sources.registry import SourceDescriptor, licence_gate
 from ulis.storage.object_store import ObjectStore
 from ulis.temporal.validity import Span, derive_valid_to
@@ -45,12 +46,14 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "uslm": uslm.parse_uslm,
     "legislation_gov_uk_akn": legislation_gov_uk.parse_legislation_gov_uk,
     "justice_canada_xml": justice_canada.parse_justice_canada,
+    "gii_norm_xml": gesetze_im_internet.parse_gesetze_im_internet,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
     "uslm": uslm.PARSER_VERSION,
     "legislation_gov_uk_akn": legislation_gov_uk.PARSER_VERSION,
     "justice_canada_xml": justice_canada.PARSER_VERSION,
+    "gii_norm_xml": gesetze_im_internet.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -96,6 +99,10 @@ def build_connector(source: SourceDescriptor, base_dir: Path = REPO_ROOT, cache_
         return LegislationGovUkConnector(
             base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
         )
+    if source.connector == "gesetze_im_internet":
+        return GesetzeImInternetConnector(
+            base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
+        )
     raise ValueError(f"no connector implementation named {source.connector!r}")
 
 
@@ -112,6 +119,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         uslm.resolve_identifier(uri)
         or legislation_gov_uk.resolve_uri(uri)
         or justice_canada.resolve_uri(uri)
+        or gesetze_im_internet.resolve_uri(uri)
         or (uri, None)
     )
 

@@ -1,0 +1,20 @@
+# German federal laws fetched from Gesetze im Internet (one xml.zip per law, current consolidation).
+# Free use and re-use of the German-language norms (site home page); § 5 Abs. 1 UrhG.
+# `abbr` is the law's path on the site (https://www.gesetze-im-internet.de/<abbr>/xml.zip), as listed
+# in https://www.gesetze-im-internet.de/gii-toc.xml. An optional `sha256` pins the exact download.
+schema_version: 1
+source_id: de-gesetze-im-internet
+base_url: https://www.gesetze-im-internet.de
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+laws:
+  - {abbr: gg, title: Grundgesetz für die Bundesrepublik Deutschland}       # constitutional
+  - {abbr: bgb, title: Bürgerliches Gesetzbuch}                              # civil
+  - {abbr: stgb, title: Strafgesetzbuch}                                     # criminal
+  - {abbr: zpo, title: Zivilprozessordnung}                                  # civil procedure
+  - {abbr: stpo, title: Strafprozeßordnung}                                  # criminal procedure
+  - {abbr: hgb, title: Handelsgesetzbuch}                                    # commercial
+  - {abbr: vwvfg, title: Verwaltungsverfahrensgesetz}                        # administrative procedure
+  - {abbr: bdsg_2018, title: Bundesdatenschutzgesetz}                        # data protection
+  - {abbr: kschg, title: Kündigungsschutzgesetz}                             # employment
+  - {abbr: gewstg, title: Gewerbesteuergesetz}                               # tax (sentence-numbered)
