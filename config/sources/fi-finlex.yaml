@@ -1,0 +1,87 @@
+schema_version: 1
+id: fi-finlex
+name: Finlex open data - consolidated statutes (Akoma Ntoso)
+publisher: Ministry of Justice, Finland (Finlex; maintained by the Legal Register Centre)
+kind: official_legislation_portal
+# The consolidated text is published by the official portal but is not authentic: the source
+# marks the consolidated work FRBRauthoritative = false. The authentic text is the statute as
+# published in the Statute Book of Finland (Act on the Statute Book of Finland 188/2000, ss 12-13).
+authority: official_non_authentic
+jurisdictions: [FI]
+document_kinds: [act]
+languages: [fi, sv]
+coverage: >-
+  Finlex open data serves the consolidated statutes ("ajantasainen lainsäädäntö" /
+  "uppdaterad lagstiftning") as Akoma Ntoso XML, one document per language (Finnish, Swedish)
+  and per temporal version (the text as amended by each amending statute), through a REST API.
+  ULIS ingests the selected Acts listed in the manifest, in both languages, with every earlier
+  temporal version for the Acts marked history: true. Original statutes as published in the
+  Statute Book (FRBR subtype "statute"), translations, decrees, case law and treaties are not
+  ingested.
+access:
+  method: api
+  endpoint: config/manifests/fi-finlex.yaml
+  authentication: none (the API requires a User-Agent header; no registration)
+update_frequency: >-
+  continuous - the API is updated shortly after publication; downloadable packages daily
+  (https://www.finlex.fi/en/open-data)
+rate_limits: >-
+  No numeric limit is published. "User volumes ... may be restricted to ensure service
+  availability. If the number of calls is being restricted, the service will return the http
+  error code 429 Too Many Requests" (https://www.finlex.fi/en/open-data/integration-quick-guide).
+  opendata.finlex.fi has no robots.txt (404 on 2026-10-14); www.finlex.fi/robots.txt disallows
+  only /_next/image. ULIS sends one request per 5 s with an identifying User-Agent and backs
+  off on 429/5xx.
+licence:
+  id: CC-BY-4.0
+  name: Creative Commons Attribution 4.0 International (Finlex open data)
+  url: https://creativecommons.org/licenses/by/4.0/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the publisher's own pages (read 2026-10-14). Finlex FAQ
+    (https://www.finlex.fi/en/faq; Finnish https://www.finlex.fi/fi/ukk): "Finlex is a public
+    service that anybody can use free of charge. There are no restrictions on use, on the right
+    of access to information or on the utilisation of the data published in Finlex. All
+    information published in Finlex is public." - "Finlex open data is available under a
+    Creative Commons Attribution 4.0 (CC BY 4.0) licence." - "The data may not be used for
+    purposes that breach or compromise the protection of personal data. The data may not be
+    combined in a manner that violates a person's privacy." Open data service and API
+    documentation: https://www.finlex.fi/en/open-data,
+    https://www.finlex.fi/en/open-data/integration-quick-guide ("You can call the API without
+    identification or registration"; "All endpoints require you to set 'User-Agent'-header"),
+    OpenAPI description https://opendata.finlex.fi/Finlex_avoin_data_v0_4_0.yaml.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  # Finlex prescribes no attribution wording (none found on the pages above); this follows CC BY 4.0.
+  attribution_text: >-
+    Source: Finlex open data, Ministry of Justice, Finland (www.finlex.fi), licensed under
+    CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Consolidated text; not the
+    authentic text of the statutes. Structure normalised by ULIS.
+  conditions:
+    - Attribution under CC BY 4.0, with a link to the licence and an indication that the material was modified (ULIS normalises structure and separates editorial notes from the text).
+    - Do not use the data in a way that breaches or compromises the protection of personal data, or combine it in a way that violates a person's privacy (Finlex FAQ).
+    - Do not present the consolidated text as authentic (the source marks it non-authoritative; stated on every result).
+  notes: >-
+    Statutes themselves are not protected by copyright: Copyright Act (tekijänoikeuslaki
+    404/1961) 9 § 1 mom. 1 kohta, "Tekijänoikeutta ei ole: 1) lakeihin ja asetuksiin" (read in
+    the Finlex consolidation, version fin@latest, 2026-10-14). The CC BY 4.0 grant covers the
+    open data (metadata, structure, editorial notes) as published. Counsel review still
+    recommended before production use.
+provenance: >-
+  https://opendata.finlex.fi/finlex/avoindata/v1/akn/fi/act/statute-consolidated/{year}/{number}/{fin|swe}@{version}
+  fetched with an identifying User-Agent; every response cached with its URL and retrieval time
+  under var/sources/opendata.finlex.fi/. Responses are gzip-encoded; the decoded XML is stored
+  unchanged (SHA-256 addressed).
+known_limitations:
+  - Consolidated text prepared by Finlex's editors; not authentic. The authentic Finnish and Swedish texts are the statutes as published in the Statute Book of Finland.
+  - The consolidation lags publication; the source's consolidation date (dateConsolidated) is reported as the currency date.
+  - Per-provision start dates are the entry-into-force dates the source records for the statute that gave each wording; where an amending statute commenced in stages (stated only in its text), a date can be wrong for some provisions.
+  - The Finnish and Swedish versions occasionally differ in structure or in amendment markers; each is recorded as published.
+  - Earlier temporal versions are not available from the API for every Act (e.g. the Constitution's earlier versions answer 404).
+status: active
+connector: finlex
+parser: finlex_akn

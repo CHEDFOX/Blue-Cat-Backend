@@ -14,3 +14,4 @@ gaps and the actual test and ingestion results. See
 | Spain (State) | BOE consolidated legislation | [es.md](es.md) |
 | Japan | e-Gov 法令検索 | [jp.md](jp.md) |
 | Switzerland (federal) | Fedlex | [ch.md](ch.md) |
+| Finland | Finlex open data | [fi.md](fi.md) |

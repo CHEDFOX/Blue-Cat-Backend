@@ -104,6 +104,7 @@ tests/             unit + PostgreSQL integration tests
 | `es-boe-consolidada` | ES (State) | 6 norms with every consolidated version: Constitución, Código Civil, Código Penal, LOPDGDD, Ley 39/2015, Estatuto de los Trabajadores ([notes](docs/jurisdictions/es.md)) | Real, BOE reuse licence; informative, not the official text |
 | `jp-egov-laws` | JP | 7 laws in Japanese: Constitution, Civil Code, Penal Code (14 revisions), Code of Civil Procedure, Personal Information Protection Act (24 revisions), Labour Standards Act, Companies Act ([notes](docs/jurisdictions/jp.md)) | Real, Public Data License 1.0; the Official Gazette prevails |
 | `ch-fedlex` | CH (federal) | 7 laws in German, French and Italian: Federal Constitution, ZGB/CC, OR/CO, StGB/CP, DSG/LPD, ZPO/CPC, VwVG/PA; consolidation history since 2021 for four ([notes](docs/jurisdictions/ch.md)) | Real, free reuse (Art. 5 URG, Art. 19 PublA); the SR is not the authoritative publication |
+| `fi-finlex` | FI | 7 Acts in Finnish and Swedish (consolidated): Constitution, Criminal Code, Contracts Act, Inheritance Code, Employment Contracts Act, Administrative Procedure Act, Data Protection Act; history for two ([notes](docs/jurisdictions/fi.md)) | Real, CC BY 4.0; consolidations are not authentic |
 | `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
 
 Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO

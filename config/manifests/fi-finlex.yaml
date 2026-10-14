@@ -1,0 +1,18 @@
+# Consolidated Finnish statutes fetched from the Finlex open data API (Finnish and Swedish).
+# Licence: CC BY 4.0 (Finlex FAQ). API rules: User-Agent required, 429 when rate-limited.
+# history: true fetches every earlier temporal version named in the latest version's
+# finlex:amendedBy list (plus the version as enacted); versions the API lacks are skipped.
+schema_version: 1
+source_id: fi-finlex
+base_url: https://opendata.finlex.fi/finlex/avoindata/v1
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+languages: [fin, swe]
+works:
+  - {year: 1999, number: "731", history: false}     # Suomen perustuslaki / Finlands grundlag (Constitution)
+  - {year: 1889, number: "39-001", history: false}  # Rikoslaki / Strafflag (Criminal Code), whole Act
+  - {year: 1929, number: "228", history: false}     # Oikeustoimilaki / Lag om rättshandlingar (Contracts Act); earlier versions: 404
+  - {year: 2018, number: "1050", history: true}     # Tietosuojalaki / Dataskyddslag (Data Protection Act)
+  - {year: 2003, number: "434", history: true}      # Hallintolaki / Förvaltningslag (Administrative Procedure Act)
+  - {year: 2001, number: "55", history: false}      # Työsopimuslaki / Arbetsavtalslag (Employment Contracts Act)
+  - {year: 1965, number: "40", history: false}      # Perintökaari / Ärvdabalk (Inheritance Code)

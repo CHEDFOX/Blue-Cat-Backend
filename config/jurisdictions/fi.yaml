@@ -1,0 +1,100 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Finland. Åland's autonomy (own legislature and
+# legislation in its fields of competence) is not profiled yet. EU membership is added
+# separately, with the EU profile.
+schema_version: 1
+id: FI
+profile_version: 0.1.0
+name: Finland
+names: {fi: Suomi, sv: Finland, en: Finland}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [fi, sv]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: dualist
+  notes: >-
+    To verify - unitary republic (Constitution 731/1999, 1 § and 4 §) with the autonomous
+    Åland Islands; Nordic civil-law system. Acts are enacted and published in Finnish and
+    Swedish, both equally authentic (Act on the Statute Book of Finland 188/2000, 11 §:
+    publication in Finnish and Swedish). Treaties are brought into force domestically by an
+    implementing act or decree (voimaansaattamislaki / -asetus) - to verify.
+legislative_institutions:
+  - id: FI-EDUSKUNTA
+    name: Eduskunta / Riksdagen (Parliament of Finland)
+    instrument_types: [act]
+  - id: FI-VN
+    name: Valtioneuvosto / Statsrådet (Government) and ministries
+    instrument_types: [decree]
+instrument_types: [act, decree]
+norm_hierarchy: [act, decree]
+courts:
+  - id: FI-KKO
+    name: Korkein oikeus / Högsta domstolen (Supreme Court)
+    rank: 1
+  - id: FI-KHO
+    name: Korkein hallinto-oikeus / Högsta förvaltningsdomstolen (Supreme Administrative Court)
+    rank: 1
+  - id: FI-HO
+    name: Hovioikeudet / Hovrätterna (courts of appeal)
+    rank: 2
+    appeals_to: [FI-KKO]
+  - id: FI-HAO
+    name: Hallinto-oikeudet / Förvaltningsdomstolarna (administrative courts)
+    rank: 2
+    appeals_to: [FI-KHO]
+  - id: FI-KO
+    name: Käräjäoikeudet / Tingsrätterna (district courts)
+    rank: 3
+    appeals_to: [FI-HO]
+precedent:
+  doctrine: jurisprudence_constante
+  vertical_binding: false
+  notes: >-
+    To verify - there is no formal rule of binding precedent. Precedents (ennakkopäätökset /
+    prejudikat) of the Supreme Court (KKO) and the Supreme Administrative Court (KHO) are
+    followed in practice by lower courts (de facto binding); other decisions are persuasive.
+    The Constitution (3 §) names KKO and KHO as the highest courts. Special courts (Market
+    Court, Labour Court, Insurance Court) are not profiled.
+citation:
+  module: fi
+  notes: >-
+    Title first, statute number in brackets, then the pinpoint in the language of the text.
+    Chapters are cited only for Acts whose sections restart in each chapter. Customary
+    abbreviations (RL, PL) and inflected forms are not generated.
+  examples:
+    - "Suomen perustuslaki (731/1999) 6 § 2 mom."
+    - "Finlands grundlag (731/1999) 6 § 2 mom."
+    - "Rikoslaki (39/1889) 21 luku 1 §"
+    - "Strafflag (39/1889) 21 kap. 1 §"
+    - "Työsopimuslaki (55/2001) 13 luku 7 § 1 mom. 3 a kohta"
+publication:
+  official_sources: [fi-finlex]
+  commencement: >-
+    A statute states its date of entry into force (Act on the Statute Book 188/2000, 7 §); if
+    it has not been published by then, it enters into force on publication.
+  amendment: >-
+    Textual amendment by later statutes, each published in the Statute Book; Finlex publishes
+    unofficial consolidations ("ajantasainen lainsäädäntö") marking the amending statute of
+    each changed provision.
+  repeal: >-
+    Express repeal; the consolidation replaces a repealed provision with a note ("4 momentti on
+    kumottu L:lla 22.5.2026/380." / "4 mom. har upphävts genom L 22.5.2026/380.").
+memberships:
+  # Accession to the European Union on 1 January 1995 (to verify).
+  - organisation: EU
+    from_date: 1995-01-01
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only seven Acts are ingested (see the source manifest), all as consolidated (non-authentic) texts in Finnish and Swedish; the original statutes as published in the Statute Book are not ingested.
+    - Earlier temporal versions are ingested only for the Contracts Act, the Data Protection Act and the Administrative Procedure Act; for the others, dates before a provision's current wording are a history gap.
+    - Chapters and parts are not provisions (their headings are context only); a whole chapter repealed between two temporal versions is not recorded as repealed.
+    - Subsection (momentti) numbers are not printed; they are derived from position after normalising inconsistent source encodings.
+    - No decrees, no translations (English translations on Finlex are unofficial), no case law (KKO, KHO), no treaties.
+    - Åland's own legislation and the limits of national legislation in Åland are not modelled.
+    - Finnish and Swedish use PostgreSQL's finnish and swedish text-search configurations (stemming only; no compound splitting).
