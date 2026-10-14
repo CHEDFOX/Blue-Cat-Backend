@@ -15,8 +15,8 @@
 #              1958, the main codes and the data-protection law (Loi n° 78-17);
 #   natures  - every text of these natures, in force or not: CODE (108 codes incl. 31 repealed ones), CONSTITUTION (3),
 #              LOI, LOI_ORGANIQUE, LOI_CONSTIT, ORDONNANCE, DECRET_LOI.
-#   Decrees (DECRET) and orders (ARRETE) are not selected: they are about 140,000 texts with 1.1 million article versions in
-#   the stock. To ingest them, add DECRET and/or ARRETE to `natures` (the ingestion is then proportionally longer).
+#   Decrees (DECRET) and orders (ARRETE) are not selected: they are about 138,000 texts (55,000 decrees, 83,000 orders)
+#   and 1.5 million files of the stock's 2.3 million. To ingest them, add DECRET and/or ARRETE to `natures` (the ingestion is then proportionally longer).
 schema_version: 1
 source_id: fr-dila-legi
 user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
