@@ -109,6 +109,7 @@ tests/             unit + PostgreSQL integration tests
 | `nl-bwb` | NL | 6 Acts: Grondwet and UAVG with every consolidated version since 2002/2018, BW Boek 1 and 6, Wetboek van Strafrecht, Awb ([notes](docs/jurisdictions/nl.md)) | Real, CC0 1.0; consolidations are not official |
 | `tw-moj-laws` | TW | 8 laws in Traditional Chinese, current text: Constitution, Additional Articles, Civil Code, Criminal Code, Code of Civil Procedure, Administrative Procedure Act, Personal Data Protection Act, Labor Standards Act ([notes](docs/jurisdictions/tw.md)) | Real, Open Government Data License 1.0; the Presidential Office Gazette is authentic |
 | `se-riksdagen-sfs` | SE | 8 statutes in Swedish, current text: Regeringsformen, Brottsbalken, Avtalslagen, Ärvdabalken, LAS, Förvaltningslagen, 2018:218, Rättegångsbalken ([notes](docs/jurisdictions/se.md)) | Real, free reuse naming "Källa: Sveriges riksdag"; consolidations are not authentic |
+| `dk-retsinformation` | DK | 6 Acts in Danish (official consolidations): Straffeloven, Aftaleloven, Arveloven, Funktionærloven, Forvaltningsloven, Databeskyttelsesloven; earlier consolidations for two ([notes](docs/jurisdictions/dk.md)) | Real, free unrestricted use (Civilstyrelsen terms); Lovtidende is authentic |
 | `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
 
 Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO

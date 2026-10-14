@@ -1,0 +1,24 @@
+# Danish lovbekendtgørelser (official consolidations published in Lovtidende A) fetched as Lex Dania
+# XML from Retsinformation by ELI (https://www.retsinformation.dk/eli/lta/<year>/<number>/xml).
+# Terms: free, non-exclusive, unrestricted right of use (https://www.retsinformation.dk/api).
+# Each work lists its consolidations OLDEST FIRST (whole-law snapshots); the last one is the
+# consolidation Retsinformation marked as current ("gældende") on 2026-10-14, found by following
+# the ELI metadata (consolidates / consolidated_by).
+schema_version: 1
+source_id: dk-retsinformation
+base_url: https://www.retsinformation.dk/eli
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 10
+works:
+  - name: Forvaltningsloven        # LBK 1365/2007, 988/2012, 433/2014 (current; later changes lov 503/2018, 655/2024)
+    consolidations: [lta/2007/1365, lta/2012/988, lta/2014/433]
+  - name: Funktionærloven          # LBK 81/2009, 1002/2017 (current; later changes lov 1711/2018, 715/2025)
+    consolidations: [lta/2009/81, lta/2017/1002]
+  - name: Straffeloven             # LBK 1294/2025 (current)
+    consolidations: [lta/2025/1294]
+  - name: Aftaleloven              # LBK 193/2016 (current; later change lov 2158/2021)
+    consolidations: [lta/2016/193]
+  - name: Arveloven                # LBK 1347/2021 (current; later change lov 1464/2024)
+    consolidations: [lta/2021/1347]
+  - name: Databeskyttelsesloven    # LBK 289/2024 (current; consolidates lov 502/2018, 1783/2023, 1784/2023)
+    consolidations: [lta/2024/289]

@@ -1,0 +1,110 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Denmark (the Realm's legislation for Denmark proper). The
+# Faroe Islands and Greenland (home rule / self-government within the Realm) are out of scope. EU
+# membership is deliberately not recorded here (added separately with the EU profile).
+schema_version: 1
+id: DK
+profile_version: 0.1.0
+name: Denmark
+names: {da: Danmark, en: Denmark}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [da]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: dualist
+  notes: >-
+    To verify - unitary constitutional monarchy under Danmarks Riges Grundlov (lov nr. 169 af 5. juni
+    1953); legislative power rests jointly with the King and the Folketing (Grundloven § 3), and an
+    Act becomes law on royal assent (stadfæstelse) and is published in Lovtidende. Nordic legal
+    tradition, usually classed with the civil-law family (no comprehensive civil code). Dualist:
+    treaties bind Denmark internationally but have domestic effect through incorporation or
+    transformation by statute (e.g. the ECHR, incorporated by lov nr. 285 af 29. april 1992) - to
+    verify. The Faroe Islands and Greenland have their own legislatures and legislation and are not
+    profiled.
+legislative_institutions:
+  - id: DK-LOVGIVER
+    name: Kongen og Folketinget i forening (Grundloven § 3); Grundloven amended under § 88
+    instrument_types: [constitution, act]
+  - id: DK-REGERING
+    name: Ministre (bekendtgørelser under statutory authority)
+    instrument_types: [executive_order]
+instrument_types: [constitution, act, executive_order]
+norm_hierarchy: [constitution, act, executive_order]
+courts:
+  - id: DK-HR
+    name: Højesteret (Supreme Court)
+    rank: 1
+  - id: DK-OLR
+    name: Østre Landsret (Eastern High Court)
+    rank: 2
+    appeals_to: [DK-HR]
+  - id: DK-VLR
+    name: Vestre Landsret (Western High Court)
+    rank: 2
+    appeals_to: [DK-HR]
+  - id: DK-SHR
+    name: Sø- og Handelsretten (Maritime and Commercial High Court)
+    rank: 2
+    appeals_to: [DK-HR]
+  - id: DK-BR
+    name: Byretterne (district courts)
+    rank: 3
+    appeals_to: [DK-OLR, DK-VLR]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal rule of binding precedent; decisions of Højesteret are followed by the
+    lower courts in practice (de facto binding), and Højesteret may depart from its own case law.
+    Ordinary courts hear civil, criminal and administrative cases (no separate administrative
+    courts); courts may review the constitutionality of Acts (exercised rarely, e.g. the Tvind
+    judgment, UfR 1999.841 H). Appeal routes are simplified (second-tier appeals to Højesteret need
+    leave from Procesbevillingsnævnet). Den Særlige Klageret and the Faroese and Greenlandic courts
+    are not profiled.
+citation:
+  module: dk
+  notes: >-
+    Pinpoint first, then "i" and the popular title in running-text form: "§ 3, stk. 2, nr. 1, i
+    forvaltningsloven". The genitive form ("straffelovens § 276") and the formal reference to the
+    consolidation ("jf. lovbekendtgørelse nr. ...") are not generated; each consolidation is
+    identified by its expression (dan@lbk-<year>-<number>) and its ELI.
+  examples:
+    - "§ 276 i straffeloven"
+    - "§ 3, stk. 2, nr. 1, i forvaltningsloven"
+    - "§ 19, stk. 1, i forvaltningsloven"
+    - "§ 2, stk. 2, i funktionærloven"
+    - "§ 36 i aftaleloven"
+    - "§ 3 i lov nr. 638 af 12. juni 2013"
+publication:
+  official_sources: [dk-retsinformation]
+  commencement: >-
+    Acts are published in Lovtidende A (lovtidende.dk, electronic since 2008); an Act states when it
+    enters into force, often "dagen efter bekendtgørelsen i Lovtidende" or on a fixed date, or
+    leaves it to a minister (ikrafttrædelsesbekendtgørelse). Default rule in lovtidendeloven to
+    verify.
+  amendment: >-
+    Textual amendment by amending acts (ændringslove). The responsible ministry periodically
+    publishes an official consolidation (lovbekendtgørelse) in Lovtidende A; consolidations lag the
+    amendments ("udarbejdes sjældent med det samme", Retsinformation FAQ), and in case of
+    inconsistency the enacted acts prevail (to verify).
+  repeal: >-
+    Express repeal; consolidations keep repealed paragraphs as "§ 17. (Ophævet)".
+memberships:
+  # Accession to the European Communities on 1 January 1973 (to verify).
+  - organisation: EU
+    from_date: 1973-01-01
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only six Acts are ingested, as official consolidations (lovbekendtgørelser) - Forvaltningsloven, Funktionærloven, Straffeloven, Aftaleloven, Arveloven and Databeskyttelsesloven; no other Acts, no executive orders (bekendtgørelser), circulars, treaties or case law.
+    - Danmarks Riges Grundlov is NOT ingested - Retsinformation has no structured (Lex Dania XML) text for documents before 24 September 2007 and no PDF for it.
+    - Original Acts and amending acts (lov H / lov C) are not ingested; amendments made after the current consolidation are listed as outstanding changes only.
+    - Earlier consolidations only for Forvaltningsloven (2007, 2012, 2014) and Funktionærloven (2009, 2017); wording before the earliest consolidation is a history gap.
+    - Versions are dated by each consolidation's own date, not by when each wording took effect; a wording may have applied earlier, and amendments in force between two consolidations are not shown in the earlier one.
+    - Annexes (bilag) are not ingested (e.g. the GDPR text reproduced in Databeskyttelsesloven, the table of contents of Straffeloven); nor are the introductory formula and signatures.
+    - Faroe Islands and Greenland legislation is out of scope; Retsinformation itself does not hold laws that apply only there.
