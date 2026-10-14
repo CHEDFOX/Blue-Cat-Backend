@@ -3,7 +3,7 @@
 # separately, with the EU profile.
 schema_version: 1
 id: FI
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Finland
 names: {fi: Suomi, sv: Finland, en: Finland}
 kind: sovereign_state
@@ -51,6 +51,12 @@ courts:
     name: Käräjäoikeudet / Tingsrätterna (district courts)
     rank: 3
     appeals_to: [FI-HO]
+  # Not a court: a supervisory authority whose decisions Finlex publishes (fi-finlex-dpo-decisions). Appeal routes are
+  # not modelled.
+  - id: FI-TSV
+    name: Tietosuojavaltuutettu / Dataombudsmannen (Data Protection Ombudsman)
+    kind: administrative_body
+    rank: 1
 precedent:
   doctrine: jurisprudence_constante
   vertical_binding: false
@@ -95,6 +101,7 @@ coverage:
     - Earlier temporal versions are ingested only for the Contracts Act, the Data Protection Act and the Administrative Procedure Act; for the others, dates before a provision's current wording are a history gap.
     - Chapters and parts are not provisions (their headings are context only); a whole chapter repealed between two temporal versions is not recorded as repealed.
     - Subsection (momentti) numbers are not printed; they are derived from position after normalising inconsistent source encodings.
-    - No decrees, no translations (English translations on Finlex are unofficial), no case law (KKO, KHO), no treaties.
+    - No decrees, no translations (English translations on Finlex are unofficial), no treaties.
+    - No court decisions (KKO, KHO, courts of appeal) - Finlex's open data has none and the Supreme Court's own site reserves its rights (see docs/jurisdictions/court-decisions-survey.md). The only decisions are about 400 of the Data Protection Ombudsman (an authority, not a court), without links to the statutes they apply.
     - Åland's own legislation and the limits of national legislation in Åland are not modelled.
     - Finnish and Swedish use PostgreSQL's finnish and swedish text-search configurations (stemming only; no compound splitting).

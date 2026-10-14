@@ -1,0 +1,76 @@
+# Decisions of the Data Protection Ombudsman (tietosuojavaltuutettu) in Finlex open data. NOT court decisions: the Ombudsman is a
+# supervisory authority (profile entry FI-TSV, kind administrative_body). Finlex's open data has no court decisions at all (see
+# fi-kko-precedents). Terms and access rules read on 2026-10-14 from the publisher's own pages:
+#   https://www.finlex.fi/robots.txt (200) - "User-Agent: *" / "Disallow: /_next/image"; the download path is not disallowed.
+#   https://www.finlex.fi/en/faq - "Finlex is a public service that anybody can use free of charge. There are no restrictions
+#        on use, on the right of access to information or on the utilisation of the data published in Finlex. All information
+#        published in Finlex is public." "Finlex open data is available under a Creative Commons Attribution 4.0 (CC BY 4.0)
+#        licence. The data may not be used for purposes that breach or compromise the protection of personal data. The data may
+#        not be combined in a manner that violates a person's privacy."
+#   https://www.finlex.fi/en/open-data/download-materials - "You can download all documents for each material ... The materials are
+#        ZIP-compressed, and the packages are updated with new documents once a day": "Decisions of Data Protection Ombudsman (3.6 MB)"
+#        at /files/open-data/archives/data-protection-ombudsman-decision.zip (also Chancellor of Justice 227 MB and Parliamentary
+#        Ombudsman 567 MB packages, not ingested: their decisions are mostly an attached PDF).
+#   https://www.finlex.fi/en/open-data/integration-quick-guide - the REST API (Akoma Ntoso judgment type
+#        data-protection-ombudsman-decision) and its rate rules; the package is used instead (one request).
+#   Copyright Act 404/1961, 9 § 1 mom. 4 kohta (Finlex consolidation, fin@latest): "Tekijänoikeutta ei ole: ... 4) viranomaisen tai
+#        muun julkisen toimielimen päätöksiin ja lausumiin".
+schema_version: 1
+id: fi-finlex-dpo-decisions
+name: Finlex open data - decisions of the Data Protection Ombudsman (Akoma Ntoso)
+publisher: Ministry of Justice, Finland (Finlex; maintained by the Legal Register Centre); decisions by the Office of the Data Protection Ombudsman
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [FI]
+document_kinds: [judgment]
+languages: [fi, sv]
+coverage: >-
+  The decisions of the Data Protection Ombudsman and Deputy Ombudsman as published by Finlex, 1999 to 2026: about 396
+  Akoma Ntoso documents (382 Finnish, 14 Swedish expressions of 385 decisions), under the Personal Data Act (henkilötietolaki),
+  the GDPR and the Criminal Matters Data Protection Act. Parts of some decisions are redacted by the Ombudsman. Not ingested:
+  decisions of the Chancellor of Justice and the Parliamentary Ombudsman (text in attached PDFs).
+access:
+  method: bulk_download
+  endpoint: config/manifests/fi-finlex-dpo-decisions.yaml
+  authentication: none
+update_frequency: daily (Finlex rebuilds the download packages once a day)
+rate_limits: >-
+  No numeric limit is published for the download packages (the API answers 429 when volumes are restricted). ULIS makes one
+  request for the package and one for robots.txt, with an identifying User-Agent, and caches both under var/sources/.
+licence:
+  id: CC-BY-4.0
+  name: Creative Commons Attribution 4.0 International (Finlex open data)
+  url: https://creativecommons.org/licenses/by/4.0/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the publisher's own pages (read 2026-10-14): Finlex FAQ (https://www.finlex.fi/en/faq), the download page
+    (https://www.finlex.fi/en/open-data/download-materials), robots.txt and Copyright Act 9 § 1 mom. 4 kohta. Not reviewed by counsel.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Source: Finlex open data, Ministry of Justice, Finland (www.finlex.fi), licensed under CC BY 4.0
+    (https://creativecommons.org/licenses/by/4.0/). Decision of the Data Protection Ombudsman as published by Finlex; structure
+    normalised by ULIS.
+  conditions:
+    - Attribution under CC BY 4.0, with a link to the licence and an indication that the material was modified (ULIS normalises the structure).
+    - Do not use the data in a way that breaches or compromises the protection of personal data, or combine it in a way that violates a person's privacy (Finlex FAQ); ULIS does not try to un-redact decisions.
+    - The decisions are those of a supervisory authority, not of a court; they are never presented as binding precedent.
+  notes: >-
+    The open-data licence is the publisher's general statement; the decisions themselves are not protected by copyright
+    (Copyright Act 9 § 1 mom. 4 kohta). Counsel review recommended before production use, in particular on the personal-data
+    conditions for decisions about identifiable controllers.
+provenance: >-
+  https://www.finlex.fi/files/open-data/archives/data-protection-ombudsman-decision.zip fetched with an identifying User-Agent;
+  cached unchanged with its URL and retrieval time under var/sources/www.finlex.fi/. Each main.xml member is stored byte for byte.
+known_limitations:
+  - Not court decisions (supervisory authority); about 400 decisions, not the Chancellor of Justice or Parliamentary Ombudsman decisions.
+  - Paragraphs are not numbered in the source; citations are to the whole decision (diary number and date).
+  - No links to statutes or to other decisions; the text names the GDPR and Finnish Acts in prose only.
+  - Redacted passages are marked by the Ombudsman in the text ("salassa pidettävää tietoa poistettu") and cannot be restored.
+status: active
+connector: finlex_decisions
+parser: finlex_akn_decision

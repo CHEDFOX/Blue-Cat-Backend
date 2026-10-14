@@ -12,6 +12,9 @@ One documented style, title first, with the statute number as published in the S
   ``Rikoslaki (39/1889) 34 luku 4 § 1 mom. 4 kohdan a alakohta`` /
   ``Strafflag (39/1889) 34 kap. 4 § 1 mom. 4 punkten underpunkt a``
 
+Decisions of the Data Protection Ombudsman (Finlex): ``Tietosuojavaltuutettu, päätös 31.3.2026, dnro
+TSV/5875/2024`` / ``Dataombudsmannen, beslut 13.12.2022, dnr 4672/161/22``.
+
 Customary abbreviations (``RL 21:1``, ``PL 6 §``) and inflected forms (``rikoslain 21 luvun
 1 §``, ``6 § grundlagen``) are not generated: the source gives neither. Formatting conventions
 only; to be confirmed by a Finnish reviewer before the FI profile is "reviewed".
@@ -19,11 +22,11 @@ only; to be confirmed by a Finnish reviewer before the FI profile is "reviewed".
 
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import Any, ClassVar
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
-from ulis.jurisdictions.modules.base import JurisdictionModule, ProvisionCitationInput
+from ulis.jurisdictions.modules.base import JudgmentCitationInput, JurisdictionModule, ProvisionCitationInput
 
 WORDS = {
     "fi": {"ch": "luku", "ss": "mom.", "p": "kohta", "p_of": "kohdan", "sp": "alakohta"},
@@ -40,6 +43,24 @@ class FiExt(BaseModel):
     eli: str | None = None
 
 
+class FiJudgmentExt(BaseModel):
+    """Extension data of a decision of the Data Protection Ombudsman (Finlex open data)."""
+
+    model_config = ConfigDict(extra="forbid")
+    subtype: str  # Finlex document type, e.g. "data-protection-ombudsman-decision"
+    year: int  # the year in the Finlex identifier (the case year, not always the decision year)
+    number: str
+    diary_number: str | None = None  # dnro, e.g. "TSV/5875/2024"
+    legal_basis: str | None = None  # Finlex's classification, e.g. "EU:n yleisen tietosuoja-asetuksen mukainen päätös"
+    keywords: list[str] = Field(default_factory=list)
+    date_produced: str | None = None  # when Finlex produced this expression
+
+
+# Citation forms of the deciding bodies in the profile: (Finnish, Swedish) names, "decision" word, diary number word.
+BODIES = {"FI-TSV": ("Tietosuojavaltuutettu", "Dataombudsmannen")}
+DECISION = {"fi": ("päätös", "dnro"), "sv": ("beslut", "dnr")}
+
+
 def _parts(num_path: list[str]) -> dict[str, str]:
     out: dict[str, str] = {}
     for part in num_path:
@@ -51,8 +72,14 @@ def _parts(num_path: list[str]) -> dict[str, str]:
 
 class FiModule(JurisdictionModule):
     id: ClassVar[str] = "fi"
-    version: ClassVar[str] = "1.0.0"
+    version: ClassVar[str] = "1.1.0"
     ext_model: ClassVar[type[BaseModel]] = FiExt
+
+    def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:
+        # A decision's ext (Finlex judgment) is recognised by its document type; a statute's by its number.
+        if "subtype" in ext:
+            return FiJudgmentExt.model_validate(ext).model_dump(exclude_none=True)
+        return super().validate_ext(ext)
 
     def pinpoint(self, c: ProvisionCitationInput) -> str:
         words = WORDS["sv" if c.language == "sv" else "fi"]
@@ -78,3 +105,19 @@ class FiModule(JurisdictionModule):
         title = f"{c.instrument_title} ({number})" if number else c.instrument_title
         pin = self.pinpoint(c)
         return f"{title} {pin}" if pin else title
+
+    def judgment_citation(self, c: JudgmentCitationInput) -> str:
+        """``Tietosuojavaltuutettu, päätös 31.3.2026, dnro TSV/5875/2024`` (Swedish: ``Dataombudsmannen, beslut ...``).
+
+        Decisions have no numbered paragraphs; a paragraph number, if ever given, follows as ``kohta`` / ``punkt``.
+        """
+        lang = "sv" if c.language == "sv" else "fi"
+        body = BODIES.get(c.court_id, (c.court_name, c.court_name))[1 if lang == "sv" else 0]
+        word, diary_word = DECISION[lang]
+        d = c.decision_date
+        text = f"{body}, {word} {d.day}.{d.month}.{d.year}"
+        if c.docket:
+            text += f", {diary_word} {c.docket}"
+        if c.paragraph:
+            text += f", {'punkt' if lang == 'sv' else 'kohta'} {c.paragraph}"
+        return text

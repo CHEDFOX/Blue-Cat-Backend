@@ -39,6 +39,7 @@ from ulis.sources.connectors.eu_cellar import CellarConnector
 from ulis.sources.connectors.eu_cellar_case_law import CellarCaseLawConnector
 from ulis.sources.connectors.fedlex import FedlexConnector
 from ulis.sources.connectors.finlex import FinlexConnector
+from ulis.sources.connectors.finlex_decisions import FinlexDecisionsConnector
 from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.infoleg_ar import InfolegArConnector
@@ -66,6 +67,7 @@ from ulis.sources.parsers import (
     eu_cellar_case_law,
     fedlex,
     finlex,
+    finlex_decisions,
     gesetze_im_internet,
     infoleg_ar,
     irish_statute_book,
@@ -99,6 +101,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "eu_cellar_case_law": eu_cellar_case_law.parse_eu_case_law,
     "fedlex_akn": fedlex.parse_fedlex,
     "finlex_akn": finlex.parse_finlex,
+    "finlex_akn_decision": finlex_decisions.parse_finlex_decision,
     "frl_epub": au_federal_register.parse_federal_register,
     "bwb_xml": bwb.parse_bwb,
     "rechtspraak_xml": rechtspraak.parse_rechtspraak,
@@ -125,6 +128,7 @@ PARSER_VERSIONS = {
     "eu_cellar_case_law": eu_cellar_case_law.PARSER_VERSION,
     "fedlex_akn": fedlex.PARSER_VERSION,
     "finlex_akn": finlex.PARSER_VERSION,
+    "finlex_akn_decision": finlex_decisions.PARSER_VERSION,
     "frl_epub": au_federal_register.PARSER_VERSION,
     "bwb_xml": bwb.PARSER_VERSION,
     "rechtspraak_xml": rechtspraak.PARSER_VERSION,
@@ -183,6 +187,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "eu_cellar_case_law": CellarCaseLawConnector,
     "fedlex": FedlexConnector,
     "finlex": FinlexConnector,
+    "finlex_decisions": FinlexDecisionsConnector,
     "au_federal_register": FederalRegisterConnector,
     "bwb": BwbConnector,
     "rechtspraak": RechtspraakConnector,

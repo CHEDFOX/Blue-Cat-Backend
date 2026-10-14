@@ -139,6 +139,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "eu-eur-lex",
         "eu-cellar-case-law",
         "fi-finlex",
+        "fi-finlex-dpo-decisions",
         "au-federal-register",
         "nl-bwb",
         "nl-rechtspraak",
