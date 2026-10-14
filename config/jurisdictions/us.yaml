@@ -1,10 +1,9 @@
 # REAL JURISDICTION - DRAFT, UNVERIFIED.
-# Federal level only. States, territories, tribes and the federal court system below the
-# Supreme Court are not yet modelled. Every statement must be confirmed by a qualified
-# US lawyer before verification.status can become "reviewed".
+# Federal level only. States, territories, tribes and the federal trial courts are not yet modelled.
+# Every statement must be confirmed by a qualified US lawyer before verification.status can become "reviewed".
 schema_version: 1
 id: US
-profile_version: 0.1.1
+profile_version: 0.2.0
 name: United States of America (federal)
 names: {en: United States of America}
 kind: sovereign_state
@@ -31,12 +30,81 @@ courts:
   - id: US-SC
     name: Supreme Court of the United States
     rank: 1
+  - id: US-CA1
+    name: United States Court of Appeals for the First Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CA2
+    name: United States Court of Appeals for the Second Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CA3
+    name: United States Court of Appeals for the Third Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CA4
+    name: United States Court of Appeals for the Fourth Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CA5
+    name: United States Court of Appeals for the Fifth Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CA6
+    name: United States Court of Appeals for the Sixth Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CA7
+    name: United States Court of Appeals for the Seventh Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CA8
+    name: United States Court of Appeals for the Eighth Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CA9
+    name: United States Court of Appeals for the Ninth Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CA10
+    name: United States Court of Appeals for the Tenth Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CA11
+    name: United States Court of Appeals for the Eleventh Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CADC
+    name: United States Court of Appeals for the District of Columbia Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
+  - id: US-CAFC
+    name: United States Court of Appeals for the Federal Circuit
+    rank: 2
+    appeals_to: [US-SC]
+    binds_self: true
 precedent:
   doctrine: stare_decisis
   vertical_binding: true
   notes: >-
     To verify - decisions of the Supreme Court bind lower federal courts and, on federal
-    questions, state courts. Courts of appeals and district courts are not yet modelled.
+    questions, state courts. The thirteen courts of appeals (rank 2) are modelled so that Supreme
+    Court decisions rank above them; a court of appeals binds the district courts of its own
+    circuit and, in general, its own later panels (an en banc court may overrule), not the other
+    circuits. District courts, specialised federal courts, the Court of Federal Claims and all
+    state courts are not modelled, so a forum court can only be one of the courts listed here.
 citation:
   module: us
   examples:
@@ -57,5 +125,12 @@ coverage:
     - Only ten positive-law titles of the United States Code are ingested (1, 5, 11, 17, 18, 28, 31, 35, 38, 44), as one online release point (current through Public Law 119-120, 7 October 2026), without earlier release points, appendices or notes. The other titles (including 26 and 42, which are not positive law and only prima facie evidence) are not ingested; the public laws in the sample are as enacted, not as amended.
     - CFR text is from 2018-2019 annual editions only; later amendments are not reflected.
     - Federal Register documents, Statutes at Large volumes, engrossed amendments and some bill stages without a dated action are not ingested.
-    - No case law; no State, territorial or tribal law.
+    - >-
+      No case law is ingested. The only open source examined, the Caselaw Access Project (CC0 data), is planned
+      but not usable: its data host's robots.txt disallows all robots (see docs/jurisdictions/us-case-law.md).
+      No State, territorial or tribal law.
+    - >-
+      The court hierarchy models the Supreme Court and the thirteen courts of appeals only; district courts and
+      state courts are not modelled. Judicial treatment (overruled, distinguished) is in no ingested source and
+      would never be inferred.
     - Provision-specific effective dates are not extracted from Acts or rules.
