@@ -37,6 +37,7 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "GB-SCT",
         "GB-NIR",
         "CA",
+        "CH",
         "DE",
         "ES",
         "JP",
@@ -116,6 +117,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "us-gpo-uslm-samples",
         "gb-legislation-gov-uk",
         "ca-justice-laws-xml",
+        "ch-fedlex",
         "de-gesetze-im-internet",
         "es-boe-consolidada",
         "jp-egov-laws",
@@ -136,3 +138,12 @@ def test_find_case_law_records_computational_analysis_restriction(catalog: Catal
     assert source.licence.automated_processing == "not_allowed"
     with pytest.raises(LicenceNotApproved, match="automated_processing"):
         licence_gate(source)
+
+
+def test_every_active_source_has_a_registered_connector_and_parser(catalog: Catalog) -> None:
+    from ulis.ingestion.pipeline import CONNECTORS, PARSERS
+
+    for source in catalog.sources:
+        if source.status == "active":
+            assert source.connector == "local_manifest" or source.connector in CONNECTORS, source.id
+            assert source.parser in PARSERS, source.id

@@ -12,6 +12,7 @@ from ulis.jurisdictions.modules.base import (
     ProvisionCitationInput,
 )
 from ulis.jurisdictions.modules.ca import CaModule
+from ulis.jurisdictions.modules.ch import ChModule
 from ulis.jurisdictions.modules.de import DeModule
 from ulis.jurisdictions.modules.es import EsModule
 from ulis.jurisdictions.modules.eu import EuModule
@@ -29,6 +30,7 @@ MODULES: dict[str, JurisdictionModule] = {
         AureliaModule(),
         BorealisModule(),
         CaModule(),
+        ChModule(),
         DeModule(),
         EsModule(),
         GbModule(),

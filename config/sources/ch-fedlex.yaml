@@ -1,0 +1,93 @@
+schema_version: 1
+id: ch-fedlex
+name: Fedlex - Classified Compilation of Federal Legislation (SR), Akoma Ntoso XML
+publisher: Swiss Federal Chancellery (Bundeskanzlei / Chancellerie fédérale / Cancelleria federale)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [CH]
+document_kinds: [constitution, federal_act]
+languages: [de, fr, it]
+coverage: >-
+  The publication platform for federal law (Publications Act, SR 170.512): the Official
+  Compilation (AS), the Federal Gazette (BBl) and the Classified Compilation (SR), with linked data
+  (JOLux) on a SPARQL endpoint and the SR consolidations as Akoma Ntoso XML, HTML, PDF and Word
+  files, one per consolidation date and language. ULIS ingests the German, French and Italian XML of
+  a selected list of SR consolidations: the current consolidation of each, and the series of
+  consolidations available in XML for some of them.
+access:
+  method: api
+  endpoint: config/manifests/ch-fedlex.yaml
+update_frequency: >-
+  A new consolidation for every amendment that takes effect; rebuild the manifest
+  (scripts/build_fedlex_manifest.py) and re-ingest to refresh.
+rate_limits: >-
+  No published rate limit and no Crawl-delay. www.fedlex.admin.ch/robots.txt allows everything except
+  print views (?print=, ?printId=); fedlex.data.admin.ch/robots.txt disallows /filestore/* for all
+  user agents. ULIS queries the SPARQL endpoint on fedlex.data.admin.ch (allowed), never fetches
+  files from fedlex.data.admin.ch/filestore/, and downloads the XML files from
+  www.fedlex.admin.ch/filestore/, the public mapping of that store used by the Fedlex website itself
+  (api/assets/app-config.json, "publicMapping"), with an identifying User-Agent and 5 s between requests.
+licence:
+  id: CH-URG-ART5-PUBLV-ART49
+  name: >-
+    Official enactments are not protected by copyright (Art. 5 Copyright Act, SR 231.1); reuse subject
+    to the conditions of Art. 49 para. 1 Publications Ordinance (PublO, SR 170.512.1)
+  url: https://www.fedlex.admin.ch/en/legal-information
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the publisher's own pages, read 2026-10-14:
+    (1) Legal information (https://www.fedlex.admin.ch/de/legal-information, content served from
+    https://www.fedlex.admin.ch/api/assets/editable-items/editable-pages/de/legal-information.html):
+    "Die Inhalte der Publikationsplattform stellen keine geschützten Werke im Sinne des
+    Urheberrechts dar (siehe Art. 5 des Urheberrechtsgesetzes vom 9. Oktober 1992). Die Konsultation
+    sowie das Herunterladen von Daten zu Verwertungszwecken ist unentgeltlich (siehe Art. 19 Abs. 1
+    PublG und Art. 48 Abs. 2 PublV). Für die Verwertung gelten jedoch die Auflagen gemäss Art. 49 PublV."
+    (2) Technical and legal information for third-party users
+    (https://www.fedlex.admin.ch/de/broadcasters): quotes Art. 49 PublV and states that the XML
+    format is intended for machine processing ("Das XML Format ist für eine maschinelle Verarbeitung
+    der Daten angedacht"). (3) Art. 49 para. 1 PublO as in force since 1 July 2022, read in the SR
+    consolidation of 2022-07-01 (eli/cc/2015/670) in German, French and Italian. (4) robots.txt of
+    www.fedlex.admin.ch and fedlex.data.admin.ch (see rate_limits). No opendata.swiss dataset for
+    the SR consolidations was found (searched 2026-10-14); its terms page
+    (https://opendata.swiss/en/terms-of-use) therefore does not apply here.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Dies ist keine amtliche Veröffentlichung. Massgebend ist allein die Veröffentlichung durch die
+    Bundeskanzlei. | Ceci n’est pas une publication officielle. Seule la publication opérée par la
+    Chancellerie fédérale fait foi | Il presente documento non è una pubblicazione ufficiale. Fa
+    unicamente fede la pubblicazione della Cancelleria federale. (Source: Fedlex, Swiss Federal
+    Chancellery, https://www.fedlex.admin.ch)
+  conditions:
+    - Art. 49 para. 1 let. a PublO - the data must not be altered in content (ULIS stores and serves the exact text; footnotes are kept separately as notes).
+    - Art. 49 para. 1 let. b PublO - the data must be presented so that they are visually clearly distinguished from comments or other additions (ULIS returns law text, notes and limitations as separate fields; clients must keep them apart).
+    - Art. 49 para. 1 let. c PublO - the data must carry the notice "Dies ist keine amtliche Veröffentlichung. Massgebend ist allein die Veröffentlichung durch die Bundeskanzlei." (shown as attribution, in German, French and Italian, on every result).
+    - Art. 49 para. 1 let. e PublO - no impression may be given that this is an official publication (every result states that it is a reproduction, not an official version).
+    - Art. 49 para. 1 let. f and g PublO - particularly sensitive personal data in AS/SR texts must be removed once the Federal Chancellery no longer publishes them or only in anonymised form; such data in other texts may not be used. The enactments ingested are general federal acts; re-ingestion from a fresh manifest is the removal path.
+    - Art. 49 para. 1 let. h PublO - the data may be redistributed or made accessible for a fee only in a value-added (refined) form.
+    - Follow robots.txt of each Fedlex host; do not fetch fedlex.data.admin.ch/filestore/.
+  notes: >-
+    Legal status of the text: under Art. 15 para. 1 PublA (SR 170.512) the version published in the
+    Official Compilation (AS) is authoritative for federal enactments, and under Art. 15 para. 2 the
+    version published on the platform is authoritative (in force since 1 January 2016). The SR is a
+    consolidated, systematically ordered and continuously updated collection of the AS texts
+    (Art. 11 PublA); it is not the authoritative version. German, French and Italian enactments are
+    equally binding (Art. 14 para. 1 PublA). Counsel review still recommended before production use,
+    in particular of the fetch path (public filestore mapping) and of the commercial-use condition.
+provenance: >-
+  Official publication platform of the Swiss Confederation operated by the Federal Chancellery.
+  Each SR consolidation is identified by its ELI (e.g. https://fedlex.data.admin.ch/eli/cc/1999/404)
+  and its date of applicability; the file URLs come from the JOLux linked data (SPARQL).
+known_limitations:
+  - The SR consolidation is not the authoritative version; the Official Compilation (AS) prevails (Art. 15 PublA).
+  - Each consolidation states the text applicable from its date; earlier wordings are indexed only where earlier consolidations were ingested (XML is available from 2021 at the earliest).
+  - Footnotes (amendment history, cross-references) are editorial and kept as notes, not as law text.
+  - Consolidations published before they apply (Art. 26 let. d PublO) are not ingested.
+  - Romansh and English versions are not ingested.
+status: active
+connector: fedlex
+parser: fedlex_akn

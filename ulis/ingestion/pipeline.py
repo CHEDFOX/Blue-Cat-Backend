@@ -33,6 +33,7 @@ from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
 from ulis.sources.connectors.eu_cellar import CellarConnector
+from ulis.sources.connectors.fedlex import FedlexConnector
 from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
@@ -43,6 +44,7 @@ from ulis.sources.parsers import (
     boe_consolidada,
     egov_law,
     eu_cellar,
+    fedlex,
     gesetze_im_internet,
     justice_canada,
     legislation_gov_uk,
@@ -63,6 +65,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "boe_consolidada_xml": boe_consolidada.parse_boe_consolidada,
     "egov_law_xml": egov_law.parse_egov,
     "eu_cellar": eu_cellar.parse_eu_cellar,
+    "fedlex_akn": fedlex.parse_fedlex,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -73,6 +76,7 @@ PARSER_VERSIONS = {
     "boe_consolidada_xml": boe_consolidada.PARSER_VERSION,
     "egov_law_xml": egov_law.PARSER_VERSION,
     "eu_cellar": eu_cellar.PARSER_VERSION,
+    "fedlex_akn": fedlex.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -113,6 +117,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "legislation_gov_uk": LegislationGovUkConnector,
     "egov_laws": EgovLawsConnector,
     "eu_cellar": CellarConnector,
+    "fedlex": FedlexConnector,
 }
 
 
@@ -143,6 +148,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or gesetze_im_internet.resolve_uri(uri)
         or egov_law.resolve_uri(uri)
         or eu_cellar.resolve_uri(uri)
+        or fedlex.resolve_uri(uri)
         or (uri, None)
     )
 
