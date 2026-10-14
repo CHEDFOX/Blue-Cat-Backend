@@ -1,0 +1,99 @@
+# United States Reports (Supreme Court of the United States) from GovInfo, U.S. Government Publishing Office.
+# Terms and access rules read on 2026-10-14 from the publisher's own pages, robots.txt first
+# (details in docs/jurisdictions/us-case-law.md):
+#   https://www.govinfo.gov/robots.txt - "User-agent: *", no Crawl-delay; disallows only /core/, /profiles/, a list of
+#        Drupal admin/user paths, /search/ and /app/search/*; allows everything else (including /metadata/, /content/
+#        and /sitemap/) and lists a sitemap index per collection (USREPORTS_sitemap_index.xml, USCOURTS_sitemap_index.xml).
+#   https://www.govinfo.gov/about/policies - "Public Domain & Copyright Notice": 17 U.S.C. 105 provides that "Copyright
+#        protection under this title is not available for any work of the United States Government"; "The intent of the
+#        section is to place in the public domain all work of the United States Government"; "public documents can generally
+#        be reprinted without legal restriction. However, Government publications may contain copyrighted material which was
+#        used with permission of the copyright owner" ("customary credit should be given" to the originating agency).
+#        "Digital Dissemination of Access Content Packages": GPO makes content available to download and store locally.
+#   https://www.govinfo.gov/sitemaps - "Sitemaps can be used by systems to crawl and harvest content from GovInfo"; the
+#        sitemap XML files carry a LOCKSS permission statement ("LOCKSS system has permission to collect, preserve, and serve
+#        this Archival Unit"). USREPORTS has one sitemap per year, each listing volume packages.
+#   https://www.govinfo.gov/developers and https://www.govinfo.gov/bulkdata/ - the JSON API "uses an api.data.gov key" (ULIS
+#        must not use it and does not); the Bulk Data Repository does not include USREPORTS or USCOURTS (it lists BILLS,
+#        BILLSTATUS, BILLSUM, CBD, CFR, COMPS, ECFR, FR, GOVMAN, HMAN, PAI, PLAW, PPP, SCD, STATUTE), so the keyless routes
+#        are the sitemaps, /metadata/pkg/<package>/mods.xml and /content/pkg/<package>/....
+#   https://www.govinfo.gov/metadata/pkg/USREPORTS-410/mods.xml - the package metadata: publisher U.S. Supreme Court / U.S.
+#        Government Printing Office, "reformatted digital" (converted from print), a "Text rendition"
+#        (/content/pkg/USREPORTS-410/text/USREPORTS-410.txt) and a "PDF rendition" of the volume, and one constituent per
+#        case with title, citation (usCitation), decisionDate, reportNumber (first page) and subject topics.
+#   Request history (all 2026-10-14, sequential, identified User-Agent): robots.txt, /about/policies, /bulkdata/,
+#        /sitemaps, /developers, the USCOURTS and USREPORTS sitemap indexes and 168 USREPORTS year sitemaps, a few USCOURTS
+#        pages, and for volumes 3, 100, 250, 330, 410 and 586 the package MODS and text rendition.
+schema_version: 1
+id: us-govinfo-usreports
+name: United States Reports on GovInfo (USREPORTS)
+publisher: >-
+  U.S. Government Publishing Office (GovInfo), for the Supreme Court of the United States (Reporter of Decisions).
+  GovInfo's digital copy of the official bound volumes.
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [US]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  The bound volumes of the United States Reports in GovInfo: volumes 2 to 586 (1790s to the 2018 Term; GovInfo lists
+  no volume 1 and no volume 465), each with a package of metadata for every case (title, citation, decision date,
+  first page) and a text rendition of the whole volume. ULIS ingests the cases that its parser can cut out of the OCR
+  text (see known_limitations): the Syllabus, the Court's opinion, concurrences and dissents page by page.
+  Opinions after 586 U.S. (2019 Term onwards) are not in this collection (the Supreme Court's own site has them as
+  PDF files; see us-supremecourt-gov-opinions).
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/us-govinfo-usreports.yaml
+  authentication: none
+update_frequency: >-
+  New volumes are added by GovInfo when the Court's bound volumes are published; ULIS re-fetches nothing unless the
+  manifest is run again with an empty cache.
+rate_limits: >-
+  Published: none (robots.txt has no Crawl-delay; GovInfo invites sitemap crawling). ULIS makes sequential requests at
+  least 5 s apart (about 0.2 per second), identifies itself, and caches every response; the manifest needs about 1,170
+  requests and 1.7 GB.
+licence:
+  id: US-PD-17USC105
+  name: >-
+    Work of the United States Government, not protected by copyright (17 U.S.C. 105); GovInfo "Public Domain &
+    Copyright Notice"
+  url: https://www.govinfo.gov/about/policies
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - GovInfo's Public Domain & Copyright Notice (17 U.S.C. 105), its sitemaps page (crawling invited),
+    robots.txt (no restriction on the paths used) and developer page (the API needs a key and is not used), all read
+    2026-10-14. Not reviewed by counsel.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: >-
+    Supreme Court of the United States, United States Reports, as published by the U.S. Government Publishing Office
+    on GovInfo (https://www.govinfo.gov/app/collection/usreports). Text from OCR of the printed volumes.
+  conditions:
+    - Use only keyless routes (sitemaps, /metadata/pkg/..., /content/pkg/...), never the api.data.gov-key API; respect robots.txt and request sequentially, at least 5 s apart.
+    - GovInfo warns that government publications may contain copyrighted material used with permission; nothing in the cases read is marked as such, but a reviewer should check for quoted third-party material before republishing text.
+    - Customary credit to the originating agency (the Supreme Court / GPO) is requested, not a legal condition.
+  notes: >-
+    The licence rests on 17 U.S.C. 105 as quoted on GovInfo's policy page; ULIS did not read the statute itself or
+    case law on the government-edicts doctrine. The Court's opinions, and the Reporter of Decisions' syllabi and
+    headnotes as printed in the official volumes, are works of government employees; this is an inference to be
+    confirmed by counsel. The commercial_use value is the same inference.
+provenance: >-
+  The bound volumes were scanned and converted (MODS: "reformatted digital") by GPO; the text rendition is OCR text of
+  the whole volume without page breaks. ULIS stores each volume's MODS and text byte-for-byte inside one JSON bundle
+  (SHA-256 per volume) with the URLs and retrieval times. The PDF of the volume is the better image of the print
+  edition; the OCR text keeps its errors.
+known_limitations:
+  - The OCR text has errors (for example the missing "fi" and "fl" ligatures in some volumes, as in "defnition" and "affrmed") and a reading order that is not always the page order; text is stored as the source gives it, without correction, so exact-phrase searches can miss.
+  - The cases are cut out of the volume text by their page headers; a case is ingested only if the headers of its first page and of the next case's first page, a caption and a word of the case name are found. Many cases of older volumes (mostly before 1900) and some of newer ones are not found; each judgment's ext records volume_cases_listed and volume_cases_located. The last case of a volume is ingested only when an "ORDERS" heading ends it.
+  - Units are printed pages; a page whose running head is missing in the OCR is merged with the next (num "153-154"). Footnotes stay where the OCR puts them, at the end of the page. Page labels (Syllabus, Opinion of the Court, "X, J., dissenting") come from the running heads and are "text" where none is recognised.
+  - Decision dates are the MODS values; some are YYYY-01-01 (year only in practice), flagged in ext.decision_date_caveat. Case names are the MODS titles, with the source's own artefacts (for example "&(and)").
+  - Summary orders, per curiam dispositions after page 900 and the orders lists are not ingested; the MODS has no docket number, so none is recorded.
+  - Judicial treatment (overruled, distinguished, followed) is not in the source and is never inferred; no links to statutes are made.
+status: active
+connector: govinfo_usreports
+parser: govinfo_usreports

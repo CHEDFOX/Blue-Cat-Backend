@@ -1,0 +1,64 @@
+# PLANNED - NOT INGESTED. The Supreme Court's own website allows robots on its opinion pages and states no reuse
+# terms, but publishes the opinions only as PDF files and ULIS has no PDF text extraction for them yet.
+# Checked on 2026-10-14, robots.txt first (details in docs/jurisdictions/us-case-law.md):
+#   https://www.supremecourt.gov/robots.txt - "User-agent: discobot" / "Disallow:/" and "User-agent: SOTScraper" /
+#        "Disallow: /" (two named crawlers), and for "User-agent:*": "Disallow: /images/", "Disallow: /rss/",
+#        "Disallow: /cdn/", "Crawl-delay:1". The /opinions/ pages are not disallowed.
+#   https://www.supremecourt.gov/policies/web_policies_and_notices.aspx - "Website Policies and Notices": links, disclaimer of
+#        endorsement, security monitoring, gifts; it says nothing about copyright, reuse or automated access.
+#   https://www.supremecourt.gov/opinions/slipopinion/25 and https://www.supremecourt.gov/opinions/USReports.aspx - HTML
+#        listings (docket, name, date, author, citation) that link PDF files only: slip opinions
+#        (/opinions/<yy>pdf/...pdf), preliminary prints (/opinions/preliminaryprint/...pdf) and bound volumes
+#        (/opinions/boundvolumes/<n>BV.pdf, volumes 502 to 587). There is no HTML or text form of an opinion.
+#   Request history (2026-10-14): robots.txt, the policies page, the 2025 slip-opinion listing and the U.S. Reports listing.
+#   No opinion PDF was fetched.
+# Why it matters: GovInfo's USREPORTS collection ends with volume 586 (2018 Term). The Court's site is the free source of
+# the later volumes (587 as a bound volume; 588-606 as preliminary prints) and of the current term's slip opinions.
+schema_version: 1
+id: us-supremecourt-gov-opinions
+name: Supreme Court of the United States, opinions (supremecourt.gov)
+publisher: Supreme Court of the United States (Reporter of Decisions, Public Information Office)
+kind: official_court_database
+authority: official_authentic
+jurisdictions: [US]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  Slip opinions of the current and recent terms, preliminary prints (volumes 588 to 606) and bound volumes of the
+  United States Reports (volumes 502 to 587) as PDF files. Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.supremecourt.gov/opinions/USReports.aspx
+  authentication: none
+update_frequency: Opinions are posted on the day of release; preliminary prints and bound volumes later.
+rate_limits: "robots.txt (2026-10-14): Crawl-delay: 1 for all agents; ULIS would use at least 5 s."
+licence:
+  id: US-PD-17USC105
+  name: Work of the United States Government (17 U.S.C. 105); the Court's website states no reuse terms
+  url: https://www.supremecourt.gov/policies/web_policies_and_notices.aspx
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project - robots.txt and the Website Policies and Notices page of supremecourt.gov (2026-10-14). The policies
+    page has no copyright or reuse statement, so the public-domain basis (17 U.S.C. 105, as GovInfo's notice quotes it)
+    is an inference for this host.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  conditions:
+    - Respect robots.txt (/images/, /rss/ and /cdn/ are disallowed) and request sequentially, at least 5 s apart.
+    - A PDF-to-text step is needed (no text or HTML form exists); the layout of the preliminary prints must be parsed and tested on the real files before the source is switched on.
+    - Confirm the public-domain basis with counsel (no statement on the host itself).
+  notes: >-
+    Left planned because the work is not done, not because access is refused: opinion pages are open to robots. The
+    Court's slip opinions are the authentic first text; the bound volumes and preliminary prints are the official
+    reports.
+provenance: Not retrieved.
+known_limitations:
+  - Not ingested - PDF only; no text extraction or parser exists; volumes 587 and later are therefore not in ULIS.
+  - The listing pages are HTML tables whose layout was not mapped to fields.
+status: planned
+connector: null
+parser: null

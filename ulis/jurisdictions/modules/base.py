@@ -92,6 +92,10 @@ class JurisdictionModule:
     def provision_citation(self, c: ProvisionCitationInput) -> str:
         return f"{c.instrument_title}, {self.pinpoint(c)}"
 
+    def judgment_unit_label(self, num: str | None, part: str, ext: dict[str, Any] | None) -> str:
+        """How a search hit names the unit of a judgment (default: a numbered paragraph)."""
+        return f"para {num}"
+
     def judgment_citation(self, c: JudgmentCitationInput) -> str:
         reference = c.neutral_citation or f"({c.court_name}, {c.decision_date.isoformat()})"
         pin = f", para {c.paragraph}" if c.paragraph else ""

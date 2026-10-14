@@ -1,0 +1,650 @@
+<mods xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" version="3.3" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd" ID="P0b002ee1e89e787e">
+    <name type="corporate">
+         <namePart>United States Government Publishing Office</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">publisher</roleTerm>
+              <roleTerm authority="marcrelator" type="code">pbl</roleTerm>
+        </role>
+         <role>
+              <roleTerm authority="marcrelator" type="text">distributor</roleTerm>
+              <roleTerm authority="marcrelator" type="code">dst</roleTerm>
+        </role>
+    </name>
+    <name type="corporate">
+         <namePart>United States</namePart>
+         <namePart>United States Supreme Court</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">author</roleTerm>
+              <roleTerm authority="marcrelator" type="code">aut</roleTerm>
+        </role>
+         <description>Government Organization</description>
+    </name>
+    <typeOfResource>text</typeOfResource>
+    <genre authority="marcgt">government publication</genre>
+    <language>
+         <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+    </language>
+    <extension>
+         <collectionCode>USREPORTS</collectionCode>
+         <category>Judicial Publications</category>
+         <branch>judicial</branch>
+         <dateIngested>2026-09-28</dateIngested>
+    </extension>
+    <titleInfo>
+         <title>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019</title>
+    </titleInfo>
+    <classification authority="sudocs">JU 6.8:586</classification>
+    <name type="corporate">
+         <namePart>United States</namePart>
+         <namePart>Supreme Court</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">author</roleTerm>
+              <roleTerm authority="marcrelator" type="code">aut</roleTerm>
+        </role>
+    </name>
+    <identifier type="uri">https://www.govinfo.gov/content/pkg/USREPORTS-586</identifier>
+    <location>
+         <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586</url>
+         <url displayLabel="PDF rendition" access="raw object">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586.pdf</url>
+         <url displayLabel="Text rendition" access="raw object">https://www.govinfo.gov/content/pkg/USREPORTS-586/text/USREPORTS-586.txt</url>
+    </location>
+    <extension>
+         <searchtitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019</searchtitle>
+         <docClass>USREPORTS</docClass>
+         <accessId>USREPORTS-586</accessId>
+         <volume>586</volume>
+         <dateIssued notSpecified="day-month">2026</dateIssued>
+         <reporter name="Christine Luchok Fallon"></reporter>
+         <courtTerm>2018</courtTerm>
+    </extension>
+                            
+    <titleInfo>
+                                    
+         <title>United States Reports, 586</title>
+                                    
+         <subTitle>cases adjudged in the Supreme Court at October Term 2018</subTitle>
+                                
+    </titleInfo>
+                            
+    <titleInfo type="alternative">
+                                    
+         <title>Cases adjudged in the Supreme Court at</title>
+                                
+    </titleInfo>
+                            
+    <titleInfo displayLabel="Also known as:" type="alternative">
+                                    
+         <title>U.S. reports</title>
+                                
+    </titleInfo>
+                            
+    <titleInfo type="uniform">
+                                    
+         <title>United States reports (Washington, D.C.)</title>
+                                
+    </titleInfo>
+                            
+    <name type="corporate">
+                                    
+         <namePart>United States</namePart>
+                                    
+         <namePart>Supreme Court.</namePart>
+                                    
+         <role>
+                                            
+              <roleTerm authority="marcrelator" type="text">creator</roleTerm>
+                                        
+        </role>
+                                
+    </name>
+                            
+    <typeOfResource>text</typeOfResource>
+                            
+    <genre authority="marcgt">law report or digest</genre>
+                            
+    <genre authority="fast">Digests.</genre>
+                            
+    <genre authority="fast">Periodicals.</genre>
+                            
+    <originInfo>
+                                    
+         <place>
+                                            
+              <placeTerm authority="marccountry" type="code">dcu</placeTerm>
+                                        
+        </place>
+                                    
+         <place>
+                                            
+              <placeTerm type="text">Washington, D.C.]</placeTerm>
+                                        
+        </place>
+                                    
+         <publisher>U.S. Supreme Court</publisher>
+                                    
+         <dateIssued>2026</dateIssued>
+                                    
+         <dateCreated encoding="marc" point="start">1883</dateCreated>
+                                    
+         <dateCreated encoding="marc" point="end">9999</dateCreated>
+                                    
+         <issuance>continuing</issuance>
+                                    
+         <frequency>Irregular</frequency>
+                                
+    </originInfo>
+                            
+    <language>
+                                    
+         <languageTerm authority="iso639-2b" type="code">eng</languageTerm>
+                                
+    </language>
+                            
+    <physicalDescription>
+                                    
+         <extent>1 online resource (volumes)</extent>
+                                
+    </physicalDescription>
+                            
+    <note type="date/sequential designation">Print began with: [Vol. 108] (Oct. term 1882 ... Oct. term 1883).</note>
+                            
+    <subject>
+                                    
+         <geographicCode authority="marcgac">n-us---</geographicCode>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <name type="corporate">
+                                            
+              <namePart>United States.</namePart>
+                                            
+              <namePart>Supreme Court</namePart>
+                                        
+        </name>
+                                    
+         <genre>Periodicals</genre>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Law reports, digests, etc</topic>
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Constitutional law</topic>
+                                    
+         <geographic>United States</geographic>
+                                    
+         <genre>Digests</genre>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Judicial opinions</topic>
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <name type="corporate">
+                                            
+              <namePart>United States.</namePart>
+                                            
+              <namePart>Supreme Court.</namePart>
+                                        
+        </name>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Constitutional law</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Judicial opinions</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Law reports, digests, etc</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <classification authority="lcc">ISSN RECORD</classification>
+                            
+    <classification authority="ddc" edition="14">348</classification>
+                            
+    <classification authority="sudocs">JU 6.8:586</classification>
+                            
+    <relatedItem displayLabel="Print version:" type="otherFormat">
+                                    
+         <titleInfo>
+                                            
+              <title>United States reports</title>
+                                        
+        </titleInfo>
+                                    
+         <name>
+                                            
+              <namePart>United States. Supreme Court.</namePart>
+                                        
+        </name>
+                                    
+         <identifier type="issn">0891-6845</identifier>
+                                    
+         <identifier type="local">(DLC) 01026074</identifier>
+                                    
+         <identifier type="local">(OCoLC)4384322</identifier>
+                                
+    </relatedItem>
+                            
+    <relatedItem displayLabel="Microfiche version:" type="otherFormat">
+                                    
+         <titleInfo>
+                                            
+              <title>United States reports</title>
+                                        
+        </titleInfo>
+                                    
+         <name>
+                                            
+              <namePart>United States. Supreme Court.</namePart>
+                                        
+        </name>
+                                    
+         <identifier type="local">(OCoLC)26859335</identifier>
+                                
+    </relatedItem>
+                            
+    <identifier type="sudoc-item-number">0741-A (online)</identifier>
+                            
+    <identifier type="issn">2150-2331</identifier>
+                            
+    <identifier type="lccn">2009231052</identifier>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-" usage="primary display">https://purl.fdlp.gov/GPO/LPS30185</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-">http://www.supremecourt.gov/opinions/boundvolumes.aspx</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-vol. 552, 2007 term (UNT Digital Library)">https://purl.fdlp.gov/GPO/gpo54225</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-vol. 552, 2007 term (UNT Digital Library)">https://digital.library.unt.edu/explore/collections/USREP/browse/</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="[Vol.] 108, Oct. term 1882-vol. 542, 2003 term (Library of Congress Digital Collections by agreement with the William S. Hein &amp; Co., Inc.)">https://purl.fdlp.gov/GPO/gpo94050</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="[Vol.] 108, Oct. term 1882-vol. 542, 2003 term (Library of Congress Digital Collections by agreement with the William S. Hein &amp; Co., Inc.)">https://www.loc.gov/collections/united-states-reports/</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="(online)">https://catalog.gpo.gov/fdlpdir/locate.jsp?ItemNumber=0741-A&amp;SYS=000641007</url>
+                                
+    </location>
+                        
+    <originInfo>
+         <publisher>U.S. Government Publishing Office</publisher>
+         <dateIssued encoding="w3cdtf">2026-01-01</dateIssued>
+         <issuance>continuing</issuance>
+         <frequency authority="marcfrequency">Completely irregular</frequency>
+    </originInfo>
+    <physicalDescription>
+         <note type="source content type">converted</note>
+         <digitalOrigin>reformatted digital</digitalOrigin>
+         <extent>1162 digital object pages</extent>
+    </physicalDescription>
+    <classification authority="sudocs">JU 6.8:586</classification>
+    <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586</identifier>
+    <identifier type="local">P0b002ee1e89e787e</identifier>
+    <identifier type="ILS system id">000641007</identifier>
+    <recordInfo>
+         <recordContentSource authority="marcorg">DGPO</recordContentSource>
+         <recordCreationDate encoding="w3cdtf">2026-09-28</recordCreationDate>
+         <recordChangeDate encoding="w3cdtf">2026-09-28</recordChangeDate>
+         <recordIdentifier source="DGPO">USREPORTS-586</recordIdentifier>
+         <recordOrigin>machine generated</recordOrigin>
+         <languageOfCataloging>
+              <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+        </languageOfCataloging>
+    </recordInfo>
+    <accessCondition type="GPO scope determination">fdlp</accessCondition>
+    <extension>
+         <docClass>USREPORTS</docClass>
+         <accessId>USREPORTS-586</accessId>
+         <volume>586</volume>
+         <dateIssued notSpecified="day-month">2026</dateIssued>
+         <reporter name="Christine Luchok Fallon"></reporter>
+         <courtTerm>2018</courtTerm>
+    </extension>
+    <relatedItem type="constituent" ID="id-USREPORTS-586-FrontMatter-7" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-FrontMatter-7/mods.xml">
+         <titleInfo>
+              <title>Title Page</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-7</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-7.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f55fd</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;Title Page</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-586-FrontMatter-7</accessId>
+              <sequenceNumber>1</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-7</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-7.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-586-FrontMatter" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-FrontMatter/mods.xml">
+         <titleInfo>
+              <title>Justices of the Supreme Court</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f71fc</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;Justices of the Supreme Court</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-586-FrontMatter</accessId>
+              <sequenceNumber>2</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-586-FrontMatter-2" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-FrontMatter-2/mods.xml">
+         <titleInfo>
+              <title>Notes</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-2</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-2.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f55fa</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;Notes</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-586-FrontMatter-2</accessId>
+              <sequenceNumber>3</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-2</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-2.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-586-FrontMatter-5" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-FrontMatter-5/mods.xml">
+         <titleInfo>
+              <title>Allotment of Justices</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-5</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-5.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f71f0</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;Allotment of Justices</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-586-FrontMatter-5</accessId>
+              <sequenceNumber>4</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-5</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-5.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-586-FrontMatter-3" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-FrontMatter-3/mods.xml">
+         <titleInfo>
+              <title>Appointment of Justice Kavanaugh</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-3</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-3.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f71df</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;Appointment of Justice Kavanaugh</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-586-FrontMatter-3</accessId>
+              <sequenceNumber>5</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-3</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-3.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-586-FrontMatter-4" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-FrontMatter-4/mods.xml">
+         <titleInfo>
+              <title>Retirement of Justice Kennedy</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-4</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-4.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f71ee</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;Retirement of Justice Kennedy</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-586-FrontMatter-4</accessId>
+              <sequenceNumber>6</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-4</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-4.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-586-FrontMatter-6" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-FrontMatter-6/mods.xml">
+         <titleInfo>
+              <title>Table of Cases Reported</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-6</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-6.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f71e1</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;Table of Cases Reported</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-586-FrontMatter-6</accessId>
+              <sequenceNumber>7</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-FrontMatter-6</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-FrontMatter-6.pdf</url>
+        </location>
+    </relatedItem>
+    
+    
+    <relatedItem type="constituent" ID="id-USREPORTS-586-27" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-27/mods.xml">
+         <titleInfo>
+              <title>United States v. Stitt, 586 U.S. 27 (2018)</title>
+              <partNumber>586 U.S. 27</partNumber>
+              <partName>Case</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-27</identifier>
+         <identifier type="preferred citation">586 U.S. 27 (2018)</identifier>
+         <identifier type="United States Reports citation">586 U.S. 27</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-27.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f71e9</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;United States v. Stitt, 586 U.S. 27 (2018);586 U.S. 27</searchTitle>
+              <granuleClass>CASE</granuleClass>
+              <accessId>USREPORTS-586-27</accessId>
+              <reportNumber>27</reportNumber>
+              <sequenceNumber>10</sequenceNumber>
+              <pagePosition>1</pagePosition>
+              <decisionDate notSpecified="day-month">2018-01-01</decisionDate>
+              <usCitation>586 U.S. 27</usCitation>
+              <fullCitation>586 U.S. 27 (2018)</fullCitation>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-27</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-27.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-586-38" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-38/mods.xml">
+         <titleInfo>
+              <title>City of Escondido, California et al. v. Emmons, 586 U.S. 38 (2019)</title>
+              <partNumber>586 U.S. 38</partNumber>
+              <partName>Case</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-38</identifier>
+         <identifier type="preferred citation">586 U.S. 38 (2019)</identifier>
+         <identifier type="United States Reports citation">586 U.S. 38</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-38.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f71fa</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;City of Escondido, California et al. v. Emmons, 586 U.S. 38 (2019);586 U.S. 38</searchTitle>
+              <granuleClass>CASE</granuleClass>
+              <accessId>USREPORTS-586-38</accessId>
+              <reportNumber>38</reportNumber>
+              <sequenceNumber>11</sequenceNumber>
+              <pagePosition>1</pagePosition>
+              <decisionDate notSpecified="day-month">2019-01-01</decisionDate>
+              <usCitation>586 U.S. 38</usCitation>
+              <fullCitation>586 U.S. 38 (2019)</fullCitation>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-38</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-38.pdf</url>
+        </location>
+    </relatedItem>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <relatedItem type="constituent" ID="id-USREPORTS-586-BackMatter-3" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-BackMatter-3/mods.xml">
+         <titleInfo>
+              <title>Reporter&apos;s Note, 586 U.S. 495a (2018)</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-BackMatter-3</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-BackMatter-3.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f7202</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;Reporter&apos;s Note, 586 U.S. 495a (2018)</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-586-BackMatter-3</accessId>
+              <sequenceNumber>34</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-BackMatter-3</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-BackMatter-3.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-586-BackMatter" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-BackMatter/mods.xml">
+         <titleInfo>
+              <title>Orders for October 1, 2018, through March 25, 2019</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-BackMatter</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-BackMatter.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f71ea</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;Orders for October 1, 2018, through March 25, 2019</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-586-BackMatter</accessId>
+              <sequenceNumber>35</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-BackMatter</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-BackMatter.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-586-BackMatter-2" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-586/USREPORTS-586-BackMatter-2/mods.xml">
+         <titleInfo>
+              <title>Index</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-BackMatter-2</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-BackMatter-2.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1e89f7201</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 2018, beginning of term, October 1, 2018, through March 25, 2019;Index</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-586-BackMatter-2</accessId>
+              <sequenceNumber>36</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-586/USREPORTS-586-BackMatter-2</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-586/pdf/USREPORTS-586-BackMatter-2.pdf</url>
+        </location>
+    </relatedItem>
+</mods>

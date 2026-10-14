@@ -1,0 +1,826 @@
+<mods xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" version="3.3" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd" ID="P0b002ee1d4bb0581">
+    <name type="corporate">
+         <namePart>United States Government Publishing Office</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">publisher</roleTerm>
+              <roleTerm authority="marcrelator" type="code">pbl</roleTerm>
+        </role>
+         <role>
+              <roleTerm authority="marcrelator" type="text">distributor</roleTerm>
+              <roleTerm authority="marcrelator" type="code">dst</roleTerm>
+        </role>
+    </name>
+    <name type="corporate">
+         <namePart>United States</namePart>
+         <namePart>United States Supreme Court</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">author</roleTerm>
+              <roleTerm authority="marcrelator" type="code">aut</roleTerm>
+        </role>
+         <description>Government Organization</description>
+    </name>
+    <typeOfResource>text</typeOfResource>
+    <genre authority="marcgt">government publication</genre>
+    <language>
+         <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+    </language>
+    <extension>
+         <collectionCode>USREPORTS</collectionCode>
+         <category>Judicial Publications</category>
+         <branch>judicial</branch>
+         <dateIngested>2025-07-08</dateIngested>
+    </extension>
+    <titleInfo>
+         <title>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973</title>
+    </titleInfo>
+    <classification authority="sudocs">JU 6.8:410</classification>
+    <name type="corporate">
+         <namePart>United States</namePart>
+         <namePart>Supreme Court</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">author</roleTerm>
+              <roleTerm authority="marcrelator" type="code">aut</roleTerm>
+        </role>
+    </name>
+    <identifier type="uri">https://www.govinfo.gov/content/pkg/USREPORTS-410</identifier>
+    <location>
+         <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410</url>
+         <url displayLabel="PDF rendition" access="raw object">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410.pdf</url>
+         <url displayLabel="Text rendition" access="raw object">https://www.govinfo.gov/content/pkg/USREPORTS-410/text/USREPORTS-410.txt</url>
+    </location>
+    <extension>
+         <searchtitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973</searchtitle>
+         <docClass>USREPORTS</docClass>
+         <accessId>USREPORTS-410</accessId>
+         <volume>410</volume>
+         <dateIssued notSpecified="day-month">1974</dateIssued>
+         <reporter name="Henry Putzel, Jr."></reporter>
+         <courtTerm>1972</courtTerm>
+    </extension>
+                            
+    <titleInfo>
+                                    
+         <title>United States reports, 410</title>
+                                    
+         <subTitle>cases adjudged in the Supreme Court at</subTitle>
+                                
+    </titleInfo>
+                            
+    <titleInfo type="alternative">
+                                    
+         <title>Cases adjudged in the Supreme Court at</title>
+                                
+    </titleInfo>
+                            
+    <titleInfo displayLabel="Also known as:" type="alternative">
+                                    
+         <title>U.S. reports</title>
+                                
+    </titleInfo>
+                            
+    <titleInfo type="uniform">
+                                    
+         <title>United States reports (Washington, D.C.)</title>
+                                
+    </titleInfo>
+                            
+    <name type="corporate">
+                                    
+         <namePart>United States</namePart>
+                                    
+         <namePart>Supreme Court.</namePart>
+                                    
+         <role>
+                                            
+              <roleTerm authority="marcrelator" type="text">creator</roleTerm>
+                                        
+        </role>
+                                
+    </name>
+                            
+    <typeOfResource>text</typeOfResource>
+                            
+    <genre authority="marcgt">law report or digest</genre>
+                            
+    <genre authority="fast">Digests.</genre>
+                            
+    <genre authority="fast">Periodicals.</genre>
+                            
+    <originInfo>
+                                    
+         <place>
+                                            
+              <placeTerm authority="marccountry" type="code">dcu</placeTerm>
+                                        
+        </place>
+                                    
+         <place>
+                                            
+              <placeTerm type="text">Washington, D.C.]</placeTerm>
+                                        
+        </place>
+                                    
+         <publisher>U.S. Supreme Court</publisher>
+                                    
+         <dateIssued>1974</dateIssued>
+                                    
+         <dateCreated encoding="marc" point="start">1883</dateCreated>
+                                    
+         <dateCreated encoding="marc" point="end">9999</dateCreated>
+                                    
+         <issuance>continuing</issuance>
+                                    
+         <frequency>Irregular</frequency>
+                                
+    </originInfo>
+                            
+    <language>
+                                    
+         <languageTerm authority="iso639-2b" type="code">eng</languageTerm>
+                                
+    </language>
+                            
+    <physicalDescription>
+                                    
+         <extent>1 online resource (volumes)</extent>
+                                
+    </physicalDescription>
+                            
+    <note type="date/sequential designation">Print began with: [Vol. 108] (Oct. term 1882 ... Oct. term 1883).</note>
+                            
+    <subject>
+                                    
+         <geographicCode authority="marcgac">n-us---</geographicCode>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <name type="corporate">
+                                            
+              <namePart>United States.</namePart>
+                                            
+              <namePart>Supreme Court</namePart>
+                                        
+        </name>
+                                    
+         <genre>Periodicals</genre>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Law reports, digests, etc</topic>
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Constitutional law</topic>
+                                    
+         <geographic>United States</geographic>
+                                    
+         <genre>Digests</genre>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Judicial opinions</topic>
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <name type="corporate">
+                                            
+              <namePart>United States.</namePart>
+                                            
+              <namePart>Supreme Court.</namePart>
+                                        
+        </name>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Constitutional law</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Judicial opinions</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Law reports, digests, etc</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <classification authority="lcc">ISSN RECORD</classification>
+                            
+    <classification authority="ddc" edition="14">348</classification>
+                            
+    <classification authority="sudocs">JU 6.8:410</classification>
+                            
+    <relatedItem displayLabel="Print version:" type="otherFormat">
+                                    
+         <titleInfo>
+                                            
+              <title>United States reports</title>
+                                        
+        </titleInfo>
+                                    
+         <name>
+                                            
+              <namePart>United States. Supreme Court.</namePart>
+                                        
+        </name>
+                                    
+         <identifier type="issn">0891-6845</identifier>
+                                    
+         <identifier type="local">(DLC) 01026074</identifier>
+                                    
+         <identifier type="local">(OCoLC)4384322</identifier>
+                                
+    </relatedItem>
+                            
+    <relatedItem displayLabel="Microfiche version:" type="otherFormat">
+                                    
+         <titleInfo>
+                                            
+              <title>United States reports</title>
+                                        
+        </titleInfo>
+                                    
+         <name>
+                                            
+              <namePart>United States. Supreme Court.</namePart>
+                                        
+        </name>
+                                    
+         <identifier type="local">(OCoLC)26859335</identifier>
+                                
+    </relatedItem>
+                            
+    <identifier type="sudoc-item-number">0741-A (online)</identifier>
+                            
+    <identifier type="issn">2150-2331</identifier>
+                            
+    <identifier type="lccn">2009231052</identifier>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-" usage="primary display">https://purl.fdlp.gov/GPO/LPS30185</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-">http://www.supremecourt.gov/opinions/boundvolumes.aspx</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-vol. 552, 2007 term (UNT Digital Library)">https://purl.fdlp.gov/GPO/gpo54225</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-vol. 552, 2007 term (UNT Digital Library)">https://digital.library.unt.edu/explore/collections/USREP/browse/</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="[Vol.] 108, Oct. term 1882-vol. 542, 2003 term (Library of Congress Digital Collections by agreement with the William S. Hein &amp; Co., Inc.)">https://purl.fdlp.gov/GPO/gpo94050</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="[Vol.] 108, Oct. term 1882-vol. 542, 2003 term (Library of Congress Digital Collections by agreement with the William S. Hein &amp; Co., Inc.)">https://www.loc.gov/collections/united-states-reports/</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="(online)">https://catalog.gpo.gov/fdlpdir/locate.jsp?ItemNumber=0741-A&amp;SYS=000641007</url>
+                                
+    </location>
+                        
+    <originInfo>
+         <publisher>U.S. Government Printing Office</publisher>
+         <dateIssued encoding="w3cdtf">1974-01-01</dateIssued>
+         <issuance>continuing</issuance>
+         <frequency authority="marcfrequency">Completely irregular</frequency>
+    </originInfo>
+    <physicalDescription>
+         <note type="source content type">converted</note>
+         <digitalOrigin>reformatted digital</digitalOrigin>
+         <extent>996 digital object pages</extent>
+    </physicalDescription>
+    <classification authority="sudocs">JU 6.8:410</classification>
+    <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410</identifier>
+    <identifier type="local">P0b002ee1d4bb0581</identifier>
+    <identifier type="ILS system id">000641007</identifier>
+    <recordInfo>
+         <recordContentSource authority="marcorg">DGPO</recordContentSource>
+         <recordCreationDate encoding="w3cdtf">2025-07-08</recordCreationDate>
+         <recordChangeDate encoding="w3cdtf">2025-07-08</recordChangeDate>
+         <recordIdentifier source="DGPO">USREPORTS-410</recordIdentifier>
+         <recordOrigin>machine generated</recordOrigin>
+         <languageOfCataloging>
+              <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+        </languageOfCataloging>
+    </recordInfo>
+    <accessCondition type="GPO scope determination">fdlp</accessCondition>
+    <extension>
+         <docClass>USREPORTS</docClass>
+         <accessId>USREPORTS-410</accessId>
+         <volume>410</volume>
+         <dateIssued notSpecified="day-month">1974</dateIssued>
+         <reporter name="Henry Putzel, Jr."></reporter>
+         <courtTerm>1972</courtTerm>
+    </extension>
+    <relatedItem type="constituent" ID="id-USREPORTS-410-FrontMatter-6" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-410/USREPORTS-410-FrontMatter-6/mods.xml">
+         <titleInfo>
+              <title>Title Page</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-6</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-6.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4d488e2</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973;Title Page</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-410-FrontMatter-6</accessId>
+              <sequenceNumber>1</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-6</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-6.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-410-FrontMatter-5" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-410/USREPORTS-410-FrontMatter-5/mods.xml">
+         <titleInfo>
+              <title>Reporter&apos;s Note</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-5</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-5.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4d488fd</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973;Reporter&apos;s Note</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-410-FrontMatter-5</accessId>
+              <sequenceNumber>2</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-5</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-5.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-410-FrontMatter" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-410/USREPORTS-410-FrontMatter/mods.xml">
+         <titleInfo>
+              <title>Justices of the Supreme Court</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4d4889a</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973;Justices of the Supreme Court</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-410-FrontMatter</accessId>
+              <sequenceNumber>3</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-410-FrontMatter-4" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-410/USREPORTS-410-FrontMatter-4/mods.xml">
+         <titleInfo>
+              <title>Supreme Court of the United States</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-4</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-4.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4d488fe</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973;Supreme Court of the United States</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-410-FrontMatter-4</accessId>
+              <sequenceNumber>4</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-4</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-4.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-410-FrontMatter-2" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-410/USREPORTS-410-FrontMatter-2/mods.xml">
+         <titleInfo>
+              <title>Table of Cases Reported</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-2</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-2.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4d488aa</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973;Table of Cases Reported</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-410-FrontMatter-2</accessId>
+              <sequenceNumber>5</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-2</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-2.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-410-FrontMatter-3" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-410/USREPORTS-410-FrontMatter-3/mods.xml">
+         <titleInfo>
+              <title>Table of Cases Cited</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-3</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-3.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4d488b1</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973;Table of Cases Cited</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-410-FrontMatter-3</accessId>
+              <sequenceNumber>6</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-3</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-3.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-410-FrontMatter-7" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-410/USREPORTS-410-FrontMatter-7/mods.xml">
+         <titleInfo>
+              <title>Table of Statutes</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-7</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-7.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4d488af</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973;Table of Statutes</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-410-FrontMatter-7</accessId>
+              <sequenceNumber>7</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-FrontMatter-7</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-FrontMatter-7.pdf</url>
+        </location>
+    </relatedItem>
+    
+    
+    
+    
+    <relatedItem type="constituent" ID="id-USREPORTS-410-113" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-410/USREPORTS-410-113/mods.xml">
+         <titleInfo>
+              <title>Roe v. Wade, 410 U.S. 113 (1973)</title>
+              <partNumber>410 U.S. 113</partNumber>
+              <partName>Case</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-113</identifier>
+         <identifier type="preferred citation">410 U.S. 113 (1973)</identifier>
+         <identifier type="United States Reports citation">410 U.S. 113</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-113.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4d488e6</identifier>
+        </relatedItem>
+         <subject>
+              <topic>Family Planning and Birth Control</topic>
+              <topic>Abstention</topic>
+              <topic>Pregnancy</topic>
+              <topic>Standing</topic>
+              <topic>Right to Privacy</topic>
+              <topic>Due Process</topic>
+              <topic>Human Rights and Civil Liberties</topic>
+              <topic>Health</topic>
+              <topic>Constitutional Law</topic>
+              <topic>Contraceptive Failure</topic>
+              <topic>Justiciability</topic>
+              <topic>Unpreparedness for Parenthood</topic>
+              <topic>Abortion</topic>
+              <topic>Fourteenth Amendment</topic>
+              <topic>Mootness</topic>
+              <topic>Women&apos;s Rights</topic>
+              <topic>Women&apos;s Health</topic>
+              <topic>Patients&apos; Rights</topic>
+              <topic>Abortion: Including Contraceptives</topic>
+              <topic>Privacy</topic>
+        </subject>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973;Roe v. Wade, 410 U.S. 113 (1973);410 U.S. 113</searchTitle>
+              <granuleClass>CASE</granuleClass>
+              <accessId>USREPORTS-410-113</accessId>
+              <reportNumber>113</reportNumber>
+              <sequenceNumber>12</sequenceNumber>
+              <pagePosition>1</pagePosition>
+              <decisionDate>1973-01-22</decisionDate>
+              <courtTerm>1972</courtTerm>
+              <usCitation>410 U.S. 113</usCitation>
+              <fullCitation>410 U.S. 113 (1973)</fullCitation>
+              <subject authority="llc" uri="https://www.loc.gov/research-centers/law-library-of-congress/about-this-research-center">
+                                        
+                   <topic>Family Planning and Birth Control</topic>
+                                        
+                   <topic>Abstention</topic>
+                                        
+                   <topic>Pregnancy</topic>
+                                        
+                   <topic>Standing</topic>
+                                        
+                   <topic>Right to Privacy</topic>
+                                        
+                   <topic>Due Process</topic>
+                                        
+                   <topic>Human Rights and Civil Liberties</topic>
+                                        
+                   <topic>Health</topic>
+                                        
+                   <topic>Constitutional Law</topic>
+                                        
+                   <topic>Contraceptive Failure</topic>
+                                        
+                   <topic>Justiciability</topic>
+                                        
+                   <topic>Unpreparedness for Parenthood</topic>
+                                        
+                   <topic>Abortion</topic>
+                                        
+                   <topic>Fourteenth Amendment</topic>
+                                        
+                   <topic>Mootness</topic>
+                                        
+                   <topic>Women&apos;s Rights</topic>
+                                        
+                   <topic>Women&apos;s Health</topic>
+                                        
+                   <topic>Patients&apos; Rights</topic>
+                                    
+            </subject>
+              <subject authority="scdb" uri="http://scdb.wustl.edu/documentation.php?var=issue">
+                                        
+                   <topic>Abortion: Including Contraceptives</topic>
+                                        
+                   <topic>Privacy</topic>
+                                    
+            </subject>
+              <docketId>1972-048-01</docketId>
+              <petitioner>Female</petitioner>
+              <respondent state="Texas">State</respondent>
+              <jurisdiction>Appeal</jurisdiction>
+              <caseOrigin>Texas Northern U.S. District Court</caseOrigin>
+              <caseSource>Texas Northern U.S. District Court</caseSource>
+              <certReason>Case did not arise on cert or cert not granted</certReason>
+              <chiefJustice>Warren Earl Burger</chiefJustice>
+              <dateArgument>1971-12-13</dateArgument>
+              <dateRearg>1972-10-11</dateRearg>
+              <authorityDecision>Judicial review (state level)</authorityDecision>
+              <law>
+                                        
+                   <type>Constitutional Amendment</type>
+                                        
+                   <legalProvisions>Fourteenth Amendment (due process)</legalProvisions>
+                                    
+            </law>
+              <decisionType>Opinion of the court (orally argued)</decisionType>
+              <unconstitutionality>State or territorial law, reg, or const provision unconstitutional</unconstitutionality>
+              <disposition>Reversed</disposition>
+              <partyWinning>Petitioning party received a favorable disposition</partyWinning>
+              <majorityOpinion>
+                                        
+                   <writer>Harry A. Blackmun</writer>
+                                        
+                   <assigner>Warren Earl Burger</assigner>
+                                    
+            </majorityOpinion>
+              <votes>
+                                        
+                   <majority>7</majority>
+                                        
+                   <minority>2</minority>
+                                    
+            </votes>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-113</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-113.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-410-179" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-410/USREPORTS-410-179/mods.xml">
+         <titleInfo>
+              <title>Doe v. Bolton, 410 U.S. 179 (1972)</title>
+              <partNumber>410 U.S. 179</partNumber>
+              <partName>Case</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-179</identifier>
+         <identifier type="preferred citation">410 U.S. 179 (1972)</identifier>
+         <identifier type="United States Reports citation">410 U.S. 179</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-179.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4d488c0</identifier>
+        </relatedItem>
+         <subject>
+              <topic>Pregnancy</topic>
+              <topic>Right to Privacy</topic>
+              <topic>Patients&apos; Rights</topic>
+              <topic>Human Rights and Civil Liberties</topic>
+              <topic>Health</topic>
+              <topic>Abortion</topic>
+              <topic>Fourteenth Amendment</topic>
+              <topic>Constitutional Law</topic>
+              <topic>Women&apos;s Rights</topic>
+              <topic>Abortion: Including Contraceptives</topic>
+              <topic>Privacy</topic>
+        </subject>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973;Doe v. Bolton, 410 U.S. 179 (1972);410 U.S. 179</searchTitle>
+              <granuleClass>CASE</granuleClass>
+              <accessId>USREPORTS-410-179</accessId>
+              <reportNumber>179</reportNumber>
+              <sequenceNumber>13</sequenceNumber>
+              <pagePosition>1</pagePosition>
+              <decisionDate>1973-01-22</decisionDate>
+              <courtTerm>1972</courtTerm>
+              <usCitation>410 U.S. 179</usCitation>
+              <fullCitation>410 U.S. 179 (1972)</fullCitation>
+              <subject authority="llc" uri="https://www.loc.gov/research-centers/law-library-of-congress/about-this-research-center">
+                                        
+                   <topic>Pregnancy</topic>
+                                        
+                   <topic>Right to Privacy</topic>
+                                        
+                   <topic>Patients&apos; Rights</topic>
+                                        
+                   <topic>Human Rights and Civil Liberties</topic>
+                                        
+                   <topic>Health</topic>
+                                        
+                   <topic>Abortion</topic>
+                                        
+                   <topic>Fourteenth Amendment</topic>
+                                        
+                   <topic>Constitutional Law</topic>
+                                        
+                   <topic>Women&apos;s Rights</topic>
+                                    
+            </subject>
+              <subject authority="scdb" uri="http://scdb.wustl.edu/documentation.php?var=issue">
+                                        
+                   <topic>Abortion: Including Contraceptives</topic>
+                                        
+                   <topic>Privacy</topic>
+                                    
+            </subject>
+              <docketId>1972-049-01</docketId>
+              <petitioner>Female</petitioner>
+              <respondent state="Georgia">State</respondent>
+              <jurisdiction>Appeal</jurisdiction>
+              <caseOrigin>Georgia Northern U.S. District Court</caseOrigin>
+              <caseSource>Georgia Northern U.S. District Court</caseSource>
+              <certReason>Case did not arise on cert or cert not granted</certReason>
+              <chiefJustice>Warren Earl Burger</chiefJustice>
+              <dateArgument>1971-12-13</dateArgument>
+              <dateRearg>1972-10-11</dateRearg>
+              <authorityDecision>Judicial review (state level)</authorityDecision>
+              <law>
+                                        
+                   <type>Constitutional Amendment</type>
+                                        
+                   <legalProvisions>Fourteenth Amendment (due process)</legalProvisions>
+                                    
+            </law>
+              <decisionType>Opinion of the court (orally argued)</decisionType>
+              <unconstitutionality>State or territorial law, reg, or const provision unconstitutional</unconstitutionality>
+              <disposition>Affirmed (includes modified)</disposition>
+              <partyWinning>No favorable disposition for petitioning party apparent</partyWinning>
+              <majorityOpinion>
+                                        
+                   <writer>Harry A. Blackmun</writer>
+                                        
+                   <assigner>Warren Earl Burger</assigner>
+                                    
+            </majorityOpinion>
+              <votes>
+                                        
+                   <majority>7</majority>
+                                        
+                   <minority>2</minority>
+                                    
+            </votes>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-179</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-179.pdf</url>
+        </location>
+    </relatedItem>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <relatedItem type="constituent" ID="id-USREPORTS-410-BackMatter" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-410/USREPORTS-410-BackMatter/mods.xml">
+         <titleInfo>
+              <title>Orders</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-BackMatter</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-BackMatter.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4d488fb</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973;Orders</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-410-BackMatter</accessId>
+              <sequenceNumber>47</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-BackMatter</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-BackMatter.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-410-BackMatter-2" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-410/USREPORTS-410-BackMatter-2/mods.xml">
+         <titleInfo>
+              <title>Index</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-BackMatter-2</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-BackMatter-2.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4d488a1</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1972, January 22 through (in part) March 21, 1973;Index</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-410-BackMatter-2</accessId>
+              <sequenceNumber>48</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-410/USREPORTS-410-BackMatter-2</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-410/pdf/USREPORTS-410-BackMatter-2.pdf</url>
+        </location>
+    </relatedItem>
+</mods>
