@@ -131,6 +131,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "us-gpo-uslm-samples",
         "us-uscode-house",
         "gb-legislation-gov-uk",
+        "gb-uksc-judgments",
         "ca-justice-laws-xml",
         "ch-fedlex",
         "de-gesetze-im-internet",

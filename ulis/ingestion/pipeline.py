@@ -55,6 +55,7 @@ from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
 from ulis.sources.connectors.ris_ogd import RisOgdConnector
+from ulis.sources.connectors.uksc import UkscConnector
 from ulis.sources.connectors.uscode_house import UscodeHouseConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef, ParseSkipped
 from ulis.sources.parsers import (
@@ -83,6 +84,7 @@ from ulis.sources.parsers import (
     riigi_teataja,
     riksdagen_sfs,
     ris,
+    uksc_html,
     uslm,
 )
 from ulis.sources.registry import SourceDescriptor, licence_gate
@@ -108,6 +110,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "bwb_xml": bwb.parse_bwb,
     "rechtspraak_xml": rechtspraak.parse_rechtspraak,
     "rattspraxis_se_json": rattspraxis_se.parse_rattspraxis,
+    "uksc_html": uksc_html.parse_uksc,
     "moj_law_html": moj_law.parse_moj_law,
     "riksdagen_sfs_json": riksdagen_sfs.parse_riksdagen_sfs,
     "retsinformation_lexdania": retsinformation.parse_retsinformation,
@@ -136,6 +139,7 @@ PARSER_VERSIONS = {
     "bwb_xml": bwb.PARSER_VERSION,
     "rechtspraak_xml": rechtspraak.PARSER_VERSION,
     "rattspraxis_se_json": rattspraxis_se.PARSER_VERSION,
+    "uksc_html": uksc_html.PARSER_VERSION,
     "moj_law_html": moj_law.PARSER_VERSION,
     "riksdagen_sfs_json": riksdagen_sfs.PARSER_VERSION,
     "retsinformation_lexdania": retsinformation.PARSER_VERSION,
@@ -196,6 +200,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "bwb": BwbConnector,
     "rechtspraak": RechtspraakConnector,
     "rattspraxis_se": RattspraxisConnector,
+    "uksc": UkscConnector,
     "moj_laws": MojLawsConnector,
     "riksdagen_sfs": RiksdagenSfsConnector,
     "retsinformation": RetsinformationConnector,

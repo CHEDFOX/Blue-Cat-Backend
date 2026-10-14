@@ -1,0 +1,82 @@
+# Judgments of the UK Supreme Court published as HTML on the Court's own website. Terms and access rules read on 2026-10-14
+# from the publisher's own pages (cached under var/sources/):
+#   https://www.supremecourt.uk/robots.txt and https://supremecourt.uk/robots.txt (200) - "User-agent: *" / "Disallow:
+#        /contact-us/book-room-hearing"; https://jcpc.uk/robots.txt reads the same. Judgments and the sitemap are allowed.
+#   https://www.supremecourt.uk/about/terms-and-conditions - "Using copyright: You may use and re-use Crown copyright material from
+#        this website, other than the Royal Arms and departmental logos, under the terms of the Open Government Licence, provided it is
+#        reproduced accurately and not in a misleading context. The above does not extend to material identified as copyright of a third
+#        party or video footage of past proceedings." The Court's video footage has its own licence (Open Supreme Court Licence).
+#   https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/ - OGL v3.0: "You are free to: copy, publish, distribute
+#        and transmit the Information; adapt the Information; exploit the Information commercially and non-commercially"; "You must ...
+#        acknowledge the source ... by including or linking to any attribution statement specified by the Information Provider(s) ... If the
+#        Information Provider does not provide a specific attribution statement, you must use: Contains public sector information licensed
+#        under the Open Government Licence v3.0." Exemptions: personal data in the Information, third party rights the Information
+#        Provider is not authorised to license, logos and the Royal Arms; no endorsement; licensed "as is".
+#   https://supremecourt.uk/sitemap.xml (508 KB) - lists 1,583 case pages (/cases/uksc-<year>-<number>, 2009 to 2026) and 156
+#        judgment pages /cases/judgments/uksc-<year>-<number> (2021-2026), each holding the whole judgment as HTML with its
+#        numbered paragraphs and hyperlinks to legislation.gov.uk. Earlier judgments are linked as PDFs only (/uploads/...pdf), as
+#        are the Court's press summaries; the case pages also link to the National Archives and BAILII copies.
+#   Not used: the National Archives' Find Case Law (computational analysis needs a licence, see gb-find-case-law) and BAILII
+#        (https://www.bailii.org/robots.txt, 2026-10-14: "User-agent: *" disallows /uk/, /ew/, /ie/, /scot/, /wales/, /eu/).
+schema_version: 1
+id: gb-uksc-judgments
+name: UK Supreme Court judgments (supremecourt.uk, HTML)
+publisher: The Supreme Court of the United Kingdom
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [GB]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  The 156 judgments of the UK Supreme Court (2021 to 2026, neutral citations [2022] UKSC ... to [2026] UKSC 33) that the Court
+  publishes in full as HTML on its website, with the case's parties, the decision appealed, the justices, hearing dates, the
+  numbered paragraphs and the Court's hyperlinks to legislation. Earlier judgments (PDF only), press summaries and the Judicial
+  Committee of the Privy Council (jcpc.uk) are not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/gb-uksc-judgments.yaml
+  authentication: none
+update_frequency: >-
+  When the Court hands down a judgment; ULIS re-reads the sitemap and extends the manifest (a page is fetched again only with an
+  empty cache).
+rate_limits: >-
+  None published. ULIS makes one request at a time, 5 s apart (156 pages: about 13 minutes), with an identifying User-Agent, and
+  caches every page under var/sources/.
+licence:
+  id: OGL-UK-3.0
+  name: Open Government Licence v3.0 (Crown copyright material on the Supreme Court's website)
+  url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the Court's terms and conditions page, its robots.txt and the licence text (read 2026-10-14). The Court's
+    statement covers "Crown copyright material from this website"; judgments are Crown copyright (to verify). Not reviewed by counsel.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: true
+  attribution_text: >-
+    Contains public sector information licensed under the Open Government Licence v3.0. Source: The Supreme Court of the United
+    Kingdom (www.supremecourt.uk). Judgment text as published on the Court's website; not the signed judgment. Structure normalised
+    by ULIS.
+  conditions:
+    - Acknowledge the source with the OGL attribution statement and a link to the licence; reproduce the text accurately and not in a misleading context (the Court's condition).
+    - The licence does not cover personal data in the Information or third-party rights; some judgments carry reporting restrictions (anonymity orders), which ULIS leaves as published.
+    - No endorsement by the Court or the Crown may be suggested.
+  notes: >-
+    The Court's terms grant OGL for its website content; no restriction on automated access or computational analysis is stated
+    on the Court's site or in robots.txt. The Find Case Law licence question concerns the National Archives' own service.
+    Counsel review recommended before production use.
+provenance: >-
+  https://www.supremecourt.uk/cases/judgments/uksc-<year>-<number> fetched with an identifying User-Agent; every page is cached
+  byte for byte with its URL and retrieval time under var/sources/www.supremecourt.uk/ and stored unchanged.
+known_limitations:
+  - 156 judgments from 2021 on; the Court's earlier judgments (since 2009) exist on the site only as PDFs and are not ingested (a PDF text parser would be needed).
+  - Website version of the judgment, not the signed judgment; the page layout is the Court's current one (element ids), a redesign would need a parser update.
+  - Paragraph numbers are read from the text (1, 2, 3 ...); quoted numbered passages stay unnumbered. Footnotes, if any, are not separated.
+  - Links to other judgments are by the pattern "[yyyy] UKSC n" only; links to legislation are the Court's own hyperlinks, resolved only where that Act is ingested. Later treatment of a judgment is not recorded.
+  - Only the Supreme Court (GB-UKSC); the Privy Council's judgments (jcpc.uk, same terms) are not ingested.
+status: active
+connector: uksc
+parser: uksc_html
