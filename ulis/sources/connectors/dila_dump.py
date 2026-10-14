@@ -13,8 +13,8 @@ Rules built in (see ``docs/onboarding-a-jurisdiction.md`` and ``docs/jurisdictio
   means no restriction); the identifying User-Agent of :mod:`polite_http` is used for every request;
 * a pause of at least ``crawl_delay`` (5 s) between requests; back-off on 429/5xx; any other refusal
   (401/403/451...) stops the run, nothing is worked around;
-* the archives are downloaded **once** into ``<cache>/echanges.dila.gouv.fr/OPENDATA/<DB>/`` (streamed to disk, never held
-  in memory, resumed with a ``Range`` request after an interrupted transfer) and every later run reads the cache;
+* the archives are downloaded **once** into the cache (``<cache>/echanges.dila.gouv.fr/OPENDATA/<DB>/``), streamed to
+  disk and never held in memory, resumed with a ``Range`` request after an interruption; later runs read the cache;
 * the archives are read as streams (:func:`iter_tar_files`); nothing is extracted to disk by member name.
 """
 
@@ -175,9 +175,9 @@ class DilaArchives:
             if expected_bytes is not None and dest.stat().st_size != expected_bytes:
                 raise FetchError(f"{dest} has {dest.stat().st_size} bytes, the manifest pins {expected_bytes}")
             return dest
+        self._allowed(f"{BASE_PATH}/{self.database}/{name}")
         if self.offline:
             raise FetchError(f"offline and not cached: {name}")
-        self._allowed(f"{BASE_PATH}/{self.database}/{name}")
         dest.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
         part = dest.with_name(name + ".part")
         url = f"https://{HOST}{BASE_PATH}/{self.database}/{urllib.parse.quote(name)}"

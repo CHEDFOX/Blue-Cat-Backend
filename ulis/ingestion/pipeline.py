@@ -33,6 +33,7 @@ from ulis.sources.connectors.au_federal_register import FederalRegisterConnector
 from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.bwb import BwbConnector
+from ulis.sources.connectors.dila_legi import DilaLegiConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
 from ulis.sources.connectors.eli_sejm import EliSejmConnector
 from ulis.sources.connectors.eu_cellar import CellarConnector
@@ -60,6 +61,7 @@ from ulis.sources.parsers import (
     au_federal_register,
     boe_consolidada,
     bwb,
+    dila_legi,
     egov_law,
     eli_sejm,
     eu_cellar,
@@ -101,6 +103,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "finlex_akn": finlex.parse_finlex,
     "frl_epub": au_federal_register.parse_federal_register,
     "bwb_xml": bwb.parse_bwb,
+    "dila_legi_xml": dila_legi.parse_dila_legi,
     "rechtspraak_xml": rechtspraak.parse_rechtspraak,
     "moj_law_html": moj_law.parse_moj_law,
     "riksdagen_sfs_json": riksdagen_sfs.parse_riksdagen_sfs,
@@ -127,6 +130,7 @@ PARSER_VERSIONS = {
     "finlex_akn": finlex.PARSER_VERSION,
     "frl_epub": au_federal_register.PARSER_VERSION,
     "bwb_xml": bwb.PARSER_VERSION,
+    "dila_legi_xml": dila_legi.PARSER_VERSION,
     "rechtspraak_xml": rechtspraak.PARSER_VERSION,
     "moj_law_html": moj_law.PARSER_VERSION,
     "riksdagen_sfs_json": riksdagen_sfs.PARSER_VERSION,
@@ -185,6 +189,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "finlex": FinlexConnector,
     "au_federal_register": FederalRegisterConnector,
     "bwb": BwbConnector,
+    "dila_legi": DilaLegiConnector,
     "rechtspraak": RechtspraakConnector,
     "moj_laws": MojLawsConnector,
     "riksdagen_sfs": RiksdagenSfsConnector,

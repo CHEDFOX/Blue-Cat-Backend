@@ -330,13 +330,13 @@ def parse_dila_legi(content: bytes) -> list[ParsedDocument]:
                 kids, order = _children(root, "STRUCTURE_TA")
                 for kid in kids:
                     secs.setdefault(kid.id, kid)
-                sec = secs.get(ident)
-                if sec is None:  # a section no listing names: it has no period, so it cannot be placed
+                own = secs.get(ident)
+                if own is None:  # a section no listing names: it has no period, so it cannot be placed
                     continue
-                sec.children, sec.has_file = order, True
+                own.children, own.has_file = order, True
                 title = _text_of(root, "TITRE_TA")
                 if title:
-                    sec.title = title
+                    own.title = title
     return _assemble(meta, version_root, arts, secs, top_order)
 
 
@@ -438,11 +438,11 @@ def _assemble(
 
     # ---- provisions
     provisions: list[tuple[int, int, ParsedProvision]] = []
-    for cid_key, versions in sec_chains.items():
+    for cid_key, sec_versions in sec_chains.items():
         node = f"sec:{cid_key}"
         eid = section_eid(cid_key)
         parent_cid = parent_of[node]
-        for v in sorted(versions, key=lambda x: (x.debut or date.min, x.id)):
+        for v in sorted(sec_versions, key=lambda x: (x.debut or date.min, x.id)):
             if not _kept(v.etat, v.debut, v.fin) or not v.title:
                 continue
             kind, num_path = section_kind(v.title)
@@ -550,7 +550,7 @@ def _article_provisions(
     chosen = [by_start[d] for d in sorted(by_start)] + list(undated.values())
     num = max(versions, key=lambda v: (v.debut or date.min, v.id)).num
     # periods of every non-skipped version the chains list (also those whose file is not in the dump)
-    listed_periods: list[tuple[str, date | None, date | None]] = []
+    listed_periods: list[tuple[str, date, date | None]] = []
     for key in keys:
         for v in chains[key]:
             for debut_s, etat, fin_s, ident in v.listed:
@@ -593,7 +593,8 @@ def _article_provisions(
         )
         if v.fin is not None and status == "in_force":
             covered = any(
-                ident != v.id and start <= v.fin and (end is None or end > v.fin) for ident, start, end in listed_periods
+                ident != v.id and start <= v.fin and (end is None or end > v.fin)
+                for ident, start, end in listed_periods
             )
             if not covered and v.fin not in marker_dates:
                 marker_dates.add(v.fin)

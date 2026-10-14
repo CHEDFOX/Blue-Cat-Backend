@@ -1,0 +1,95 @@
+# LEGI: consolidated French legislation (codes, laws, ordinances, decrees, orders) published as open data by the Direction de
+# l'information légale et administrative (DILA). Terms and access rules read on 2026-10-14 from the publisher's own pages
+# (cached under var/sources/); details in docs/jurisdictions/fr.md:
+#   https://echanges.dila.gouv.fr/robots.txt -> 404 (none published, so no restrictions); the directory
+#        https://echanges.dila.gouv.fr/OPENDATA/LEGI/ is an open Apache index: one stock (Freemium_legi_global_20250713-140000.tar.gz,
+#        1,171,027,316 bytes) and one incremental archive per publication day (LEGI_<date>.tar.gz), no login.
+#   https://echanges.dila.gouv.fr/OPENDATA/LEGI/DILA_LEGI_Presentation_20170824.pdf - DILA data sheet "LEGI, codes, lois et
+#        règlements consolidés", updated 24 August 2017: "Les données sont réutilisables gratuitement sous licence ouverte
+#        v2.0. Les réutilisateurs s'obligent à mentionner : la paternité des données (DILA) ; l'URL d'accès longue de
+#        téléchargement ; le nom du fichier téléchargé ainsi que la date du fichier." Update: daily ("au plus tard dans les 3
+#        jours ouvrés après publication au JORF, sauf textes particulièrement volumineux"); "Les versions modifiées ou abrogées
+#        sont présentes dans le fonds documentaire au même titre que les versions en vigueur"; a new stock at least once a year,
+#        and "L'utilisateur qui souhaite intégrer et/ou rediffuser les données pour la première fois s'oblige à utiliser le
+#        dernier stock mis à disposition"; XML with the DTD of Légifrance; contact Donnees-Dila [at] dila.gouv.fr.
+#   https://www.dila.gouv.fr/home/open-data-et-api (updated 11 February 2026): "Les données de Légifrance sont mises à
+#        disposition pour une réutilisation gratuite comme disposé par l'Arrêté du 24 juin 2014 relatif à la gratuité de la
+#        réutilisation des bases de données juridiques de la direction de l'information légale et administrative."
+#   https://www.dila.gouv.fr/services/repertoire-des-informations-publiques/les-donnees-juridiques - lists LEGI among the legal
+#        data covered by that arrêté (JORF, LEGI, KALI, JADE, CONSTIT, CASS, INCA, CAPP, CNIL, CIRCULAIRES).
+#   https://www.dila.gouv.fr/robots.txt (the DILA's own website): "User-agent: *", Disallow only /ecrire/, /lib/, /prive/ and
+#        login/API actions, Crawl-delay: 1; the pages above are not disallowed.
+#   https://www.legifrance.gouv.fr (the public site) answers automated requests with a Cloudflare challenge, so ULIS does not
+#        fetch it at all and takes nothing from it; the Licence Ouverte text (Etalab) is cited, not fetched.
+schema_version: 1
+id: fr-dila-legi
+name: LEGI - Codes, lois et règlements consolidés (DILA open data)
+publisher: >-
+  Direction de l'information légale et administrative (DILA), services of the Prime Minister; published on Légifrance
+authority: official_non_authentic
+kind: official_legislation_portal
+jurisdictions: [FR]
+document_kinds: [legislation]
+languages: [fr]
+coverage: >-
+  The consolidated text of French legislation as in Légifrance: the Constitutions, the codes (in force and repealed), laws,
+  organic laws, constitutional laws, ordinances, decree-laws, decrees and orders, each article with all its versions and the
+  period of each (DATE_DEBUT, DATE_FIN, ETAT). ULIS ingests the selection in the manifest (all codes, the Constitutions, laws,
+  organic and constitutional laws, ordinances and decree-laws); decrees and orders that are not codified are not selected.
+access:
+  method: bulk_download
+  endpoint: config/manifests/fr-dila-legi.yaml
+  authentication: none
+update_frequency: >-
+  Daily (DILA data sheet: within three working days of publication in the JORF); a new stock at least once a year. ULIS applies
+  the daily archives published after the pinned stock; a re-run applies the new ones.
+rate_limits: >-
+  None published for the host. ULIS downloads the stock once (a single resumable request series), then one request per daily
+  archive, at least 5 s apart, with an identifying User-Agent, and caches everything.
+licence:
+  id: Etalab-Licence-Ouverte-2.0
+  name: >-
+    Licence Ouverte / Open Licence version 2.0 (Etalab), as stated by the DILA data sheet; free reuse of the DILA legal
+    databases (Arrêté du 24 juin 2014 on the free reuse of the legal databases of the DILA)
+  url: https://www.etalab.gouv.fr/licence-ouverte-open-licence/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the DILA data sheet for LEGI (echanges.dila.gouv.fr/OPENDATA/LEGI/DILA_LEGI_Presentation_20170824.pdf: free
+    reuse under licence ouverte v2.0 with the attribution it lists), the DILA pages "Open data et API" and "Les données
+    juridiques" (the arrêté of 24 June 2014) and the host's robots.txt (none). Not reviewed by counsel.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Source: Direction de l'information légale et administrative (DILA), base LEGI "Codes, lois et règlements consolidés",
+    Licence Ouverte 2.0. Téléchargé sur https://echanges.dila.gouv.fr/OPENDATA/LEGI/Freemium_legi_global_20250713-140000.tar.gz
+    (fichier Freemium_legi_global_20250713-140000.tar.gz du 13 juillet 2025) et les archives quotidiennes LEGI_<date>.tar.gz du
+    même répertoire. ULIS n'est pas lié à la DILA; la DILA n'endosse pas ce traitement.
+  conditions:
+    - "Mention the paternity of the data (DILA), the long download URL, and the name and date of the downloaded file (DILA data sheet); the bundles ULIS stores carry the stock and last-archive names and dates (bundle.json)."
+    - "Use the latest stock when first integrating the data (DILA data sheet); the manifest pins the stock and the ingestion must be redone when a newer one is published."
+    - "The Licence Ouverte 2.0 conditions apply (attribution, no suggestion of official endorsement); to be read in full by counsel before production use."
+    - "The consolidated texts are not the authentic texts (only the publication in the Journal officiel is authentic) and may contain errors; the database is updated within about three working days."
+  notes: >-
+    The DILA data sheet is dated 2017 and the licence text itself (Etalab) was not fetched (etalab.gouv.fr was not reachable
+    through the project's proxy); the statement that the data are reusable under Licence Ouverte v2.0, with the attribution
+    listed, comes from the DILA's own data sheet, and the free-reuse basis (arrêté of 24 June 2014) from the DILA's current
+    pages. Whether the consolidated texts are "official" is not stated by the data sheet: ULIS treats them as non-authentic
+    (official_consolidation). Counsel review recommended before production use.
+provenance: >-
+  The publisher's own open-data archives. The stock and each daily archive are stored as received (cache under var/sources/);
+  each consolidated text is stored as one bundle holding the publisher's XML files byte for byte, plus bundle.json with the
+  archives applied. Raw bundles are addressed by SHA-256; every provision version points to the XML file it was read from.
+known_limitations:
+  - "Consolidated versions are the DILA's consolidation, not the authentic text (only the JORF publication is); errors in consolidation are possible and corrected by the DILA over time."
+  - "Decrees and orders that are not codified, collective agreements (KALI), the Journal officiel itself, circulars and other DILA databases are not ingested."
+  - "Versions in the states ANNULE (annulled retroactively) and MODIFIE_MORT_NE (never in force) are not ingested; articles are the unit of text (no split into paragraphs)."
+  - "The stock holds 11 selected texts in both its in-force and its not-in-force tree with differing states; the first copy is kept."
+  - "Versions the database lists but whose files are missing from the dump (for example early versions of some Code civil articles) are not ingested: a history gap, not a repeal."
+  - "Territorial applicability, the link graph between texts and the visas/signatures/preparatory works are not ingested."
+status: active
+connector: dila_legi
+parser: dila_legi_xml

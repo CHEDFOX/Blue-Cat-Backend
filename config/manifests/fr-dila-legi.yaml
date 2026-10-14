@@ -1,0 +1,48 @@
+# French consolidated legislation from the DILA "LEGI" open data (https://echanges.dila.gouv.fr/OPENDATA/LEGI/).
+#
+# The directory holds ONE stock (Freemium_legi_global_<date>.tar.gz: the whole database at that moment, 1.1 GB, 5.5 million
+# files) and one small incremental archive per publication day (LEGI_<date>.tar.gz). The connector downloads the stock once
+# (resumable, cached under var/sources/echanges.dila.gouv.fr/), reads it as a stream and keeps only the texts selected below,
+# then applies the incremental archives published after the stock, one request each, at least 5 s apart. robots.txt of the host
+# is read first (it publishes none: 404, which means no restrictions).
+#
+# The stock is pinned by size and SHA-256 (computed on the file downloaded on 2026-10-14). DILA's data sheet obliges a new
+# user to use the latest stock; when a newer stock appears, change `stock` and run the ingestion again (new expressions are
+# added, nothing is overwritten).
+#
+# Selection (stream rules, no text is listed one by one):
+#   required - texts that must be in the stock (a missing one is reported as a run error): the Constitution of 4 October
+#              1958, the main codes and the data-protection law (Loi n° 78-17);
+#   natures  - every text of these natures, in force or not: CODE (108 codes incl. 31 repealed ones), CONSTITUTION (3),
+#              LOI, LOI_ORGANIQUE, LOI_CONSTIT, ORDONNANCE, DECRET_LOI.
+#   Decrees (DECRET) and orders (ARRETE) are not selected: they are about 140,000 texts with 1.1 million article versions in
+#   the stock. To ingest them, add DECRET and/or ARRETE to `natures` (the ingestion is then proportionally longer).
+schema_version: 1
+source_id: fr-dila-legi
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+stock:
+  file: Freemium_legi_global_20250713-140000.tar.gz
+  date: 2025-07-13
+  bytes: 1171027316
+  sha256: f862b4a2238e11ec3c48ec70f3b1c68bac0bb1985907841666b98608653d4eca
+incrementals:
+  enabled: true
+  through: null   # every archive the host lists after the stock; set a date to stop there
+select:
+  required:
+    - {cid: JORFTEXT000000571356, title: Constitution du 4 octobre 1958}
+    - {cid: LEGITEXT000006070721, title: Code civil}
+    - {cid: LEGITEXT000006070719, title: Code pénal}
+    - {cid: LEGITEXT000006072050, title: Code du travail}
+    - {cid: LEGITEXT000005634379, title: Code de commerce}
+    - {cid: LEGITEXT000006070716, title: Code de procédure civile}
+    - {cid: LEGITEXT000006071154, title: Code de procédure pénale}
+    - {cid: LEGITEXT000006069565, title: Code de la consommation}
+    - {cid: LEGITEXT000006069414, title: Code de la propriété intellectuelle}
+    - {cid: LEGITEXT000006069577, title: Code général des impôts}
+    - {cid: LEGITEXT000006070933, title: Code de justice administrative}
+    - {cid: LEGITEXT000031366350, title: Code des relations entre le public et l'administration}
+    - {cid: JORFTEXT000000886460, title: "Loi n° 78-17 du 6 janvier 1978 relative à l'informatique, aux fichiers et aux libertés"}
+  natures: [CODE, CONSTITUTION, LOI, LOI_ORGANIQUE, LOI_CONSTIT, ORDONNANCE, DECRET_LOI]
+  exclude: []
