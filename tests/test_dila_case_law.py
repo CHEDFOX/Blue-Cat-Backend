@@ -81,7 +81,12 @@ def test_constitutional_decision() -> None:
     assert doc.paragraphs[0].part == "header" and doc.paragraphs[0].text.startswith(
         "LE CONSEIL CONSTITUTIONNEL A ÉTÉ SAISI"
     )
-    # a text with a paragraph the publisher numbers "1." in a different block of the same decision keeps its words
+    # the headings "- Sur le fond :" are units of their own, not the end of the paragraph before them
+    assert [p.text for p in doc.paragraphs if p.part == "heading"] == [
+        "- Sur l'admission des interventions :",
+        "- Sur le fond :",
+    ]
+    assert not para(doc, "para-7").text.endswith(":") and para(doc, "decision-1").text.startswith("Jugé par le Conseil")
     assert para(doc, "para-1").text.startswith("La question prioritaire de constitutionnalité doit être considérée")
 
 
@@ -197,6 +202,7 @@ def test_numbered_paragraphs_must_run_in_sequence() -> None:
         "suite du premier",
         "5. mai est un mois.",
         "2. Deuxième.",
+        "- Sur le fond :",
         "Décide :",
         "Article 1er : rejet",
     ]
@@ -205,6 +211,7 @@ def test_numbered_paragraphs_must_run_in_sequence() -> None:
         ("header", None, "Vu la loi."),
         ("considerations", "1", "Premier.\nsuite du premier\n5. mai est un mois."),
         ("considerations", "2", "Deuxième."),
+        ("heading", None, "- Sur le fond :"),
         ("decision", None, "Décide :\nArticle 1er : rejet"),
     ]
 
@@ -218,6 +225,16 @@ def test_references_are_strict() -> None:
     assert civil("l'article 1240 du code civil, alinéa 2, et") == ["art-1240"]
     # several texts in one phrase, "même code", unknown codes: no link
     assert civil("l'article 12 du code de la mer") == [] and civil("l'article 12 du même code") == []
+    # another country's code, an earlier Constitution
+    assert civil("l'article 12 du code civil suisse") == [] and civil("l'article 12 du code civil du Québec") == []
+    assert (
+        civil("l'article 3 de la Constitution de 1946") == []
+        and civil("l'article 6 de la Constitution du 27 octobre 1946") == []
+    )
+    assert civil("l'article 3 de la Constitution du 4 octobre 1958") == ["art-3"]
+    assert civil("l'article 3 de la Constitution, qui") == ["art-3"] and civil("l'article 3 du code civil.") == [
+        "art-3"
+    ]
     assert civil("les articles L. 441-1 et suivants du code civil") == []
     assert fr_texts.statute_refs("article 1240 du code civil", None)[0].href.endswith("/~art-1240")
     # the same words from 1989 are about the earlier Code pénal

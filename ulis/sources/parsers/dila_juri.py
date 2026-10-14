@@ -21,7 +21,8 @@ What a judgment becomes:
   headnotes (``SOMMAIRE``: ``SCT``/``ANA``) and the related decisions (``CITATION_JP``). Then the decision: the
   text before the first numbered paragraph is one ``header`` unit (or one unit per block of lines when no paragraph
   is numbered); each numbered paragraph (``1. ...``, numbers in sequence; the number is split off into ``num``) is a
-  ``considerations`` unit with its continuation lines;
+  ``considerations`` unit with its continuation lines, except a line such as "- Sur le fond :" which is a ``heading``
+  unit of its own;
   everything from the operative part ("Décide", "PAR CES MOTIFS", "Article 1er") to the end is one ``decision`` unit.
 * **references** (citation links, never guessed): articles of the French codes, the Constitution and laws that the
   decision names with a strict pattern (``articles 1569, 1570 du code civil``), or that the Cour de cassation lists in
@@ -54,6 +55,7 @@ OPERATIVE = re.compile(
     r"^(?:D\s?[ÉE]\s?C\s?I\s?D\s?E|DÉCIDE|Décide|PAR CES MOTIFS|Par ces motifs|DISPOSITIF|Dispositif|"
     r"Article (?:1er|premier|1)\s*:|(?:Jugé|Délibéré) par le Conseil constitutionnel)",
 )
+HEADING = re.compile(r"^(?:[-–—]\s*)?(?:Sur|Quant|En ce qui concerne|S'agissant)\b.*:$")
 MAX_PARAGRAPH = 2_000_000
 
 
@@ -168,15 +170,24 @@ def _units(lines: list[str]) -> list[tuple[str, str | None, str]]:
         units.append(("header", None, "\n".join(line for line in lines[:first] if line)))
         number: str | None = None
         body: list[str] = []
+
+        def flush() -> None:
+            text = "\n".join(x for x in body if x)
+            if text:
+                units.append(("considerations", number, text))
+
         for i in range(first, end_body):
+            line = lines[i]
             if i in starts:
-                if number is not None:
-                    units.append(("considerations", number, "\n".join(x for x in body if x)))
+                flush()
                 number, body = starts[i][0], [starts[i][1]]
+            elif HEADING.match(line) and len(line) < 250:  # "- Sur le fond :" heads what follows, not what precedes
+                flush()
+                units.append(("heading", None, line))
+                number, body = None, []
             else:
-                body.append(lines[i])
-        if number is not None:
-            units.append(("considerations", number, "\n".join(x for x in body if x)))
+                body.append(line)
+        flush()
     else:
         units.extend(("header" if i == 0 else "text", None, block) for i, block in enumerate(_blocks(lines[:end_body])))
     if operative is not None:

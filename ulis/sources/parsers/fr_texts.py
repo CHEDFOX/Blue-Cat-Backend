@@ -41,8 +41,15 @@ def _name_pattern(name: str) -> str:
 
 
 _CODE_NAMES = "|".join(_name_pattern(n) for n in sorted(CODES, key=len, reverse=True))
-CODE_REFERENCE = re.compile(rf"{_TARGET_PREFIX}(?P<code>{_CODE_NAMES})(?![\w-])", re.I)
-CONSTITUTION_REFERENCE = re.compile(rf"{_TARGET_PREFIX}Constitution(?![\w-])", re.I)
+# "code civil suisse", "code civil du Québec": another country's code of the same name is not ours
+_FOREIGN = (
+    r"(?!\s+(?:allemand|suisse|italien|espagnol|belge|portugais|n[ée]erlandais|qu[ée]b[ée]cois|local|autrichien|"
+    r"luxembourgeois|du\s+qu[ée]bec|de\s+(?:la\s+)?(?:suisse|belgique|louisiane)))"
+)
+# "Constitution de 1946", "Constitution du 27 octobre 1946": an earlier Constitution; only that of 1958 is ingested
+_OTHER_CONSTITUTION = r"(?!\s+(?:du|de)\s+(?!(?:4\s+octobre\s+)?1958)|\s+d['’](?!1958))"
+CODE_REFERENCE = re.compile(rf"{_TARGET_PREFIX}(?P<code>{_CODE_NAMES})(?![\w-]){_FOREIGN}", re.I)
+CONSTITUTION_REFERENCE = re.compile(rf"{_TARGET_PREFIX}Constitution(?![\w-]){_OTHER_CONSTITUTION}", re.I)
 _LAW_KINDS = "loi organique|loi constitutionnelle|loi|ordonnance|décret-loi"
 LAW_REFERENCE = re.compile(
     rf"{_TARGET_PREFIX}(?P<kind>{_LAW_KINDS})\s+n\s*°\s*(?P<ref>\d{{2,4}}-\d+)",
