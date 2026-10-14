@@ -81,7 +81,7 @@ TREATIES: dict[str, Treaty] = {
 }
 
 ORIGINAL = {"texte original", "originaltext", "testo originale"}
-TRANSLATION = {"übersetzung", "traduction", "traduzione"}
+TRANSLATION = ("übersetzung", "traduction", "traduzione")
 
 # State -> jurisdiction id of the profiles that exist today, in the language of the scope table. A State
 # with no entry here is not stored as a party. To add a State once its profile exists, add a row and
@@ -161,11 +161,29 @@ def _date_of(first: str, second: str) -> tuple[date | None, str | None]:
         raise FedlexParseError(f"invalid date {text!r} in the scope table") from exc
 
 
+SCOPE_WORDS = ("geltungsbereich", "champ d’application", "champ d'application", "campo d’applicazione", "campo d'applicazione")
+
+
+def _is_scope(doc: Element) -> bool:
+    """The component document that holds the scope table. Two Italian files give it the name "annex" instead
+    of "scope"; it is then recognised by its mainBody being a table and its header naming the scope."""
+    if doc.get("name") == "scope":
+        return True
+    body = doc.find(_a("mainBody"))
+    if doc.get("name") != "annex" or body is None or body.find(_a("table")) is None:
+        return False
+    return any(w in _ws(_flat_all(doc)).lower() for w in SCOPE_WORDS)
+
+
+def _flat_all(el: Element) -> str:
+    return "".join(el.itertext())
+
+
 def _parties(act: Element, treaty: Treaty, language: str) -> tuple[list[ParsedTreatyParty], int]:
     """Parties of the treaty with a profile, and the number of States in the table."""
     table = None
     for doc in act.iter(_a("doc")):
-        if doc.get("name") == "scope":
+        if _is_scope(doc) and table is None:
             table = doc.find(f".//{_a('table')}")
     if table is None:
         raise FedlexParseError("the file has no scope table")
@@ -173,8 +191,8 @@ def _parties(act: Element, treaty: Treaty, language: str) -> tuple[list[ParsedTr
     states = 0
     for tr in table.iter(_a("tr")):
         cells = list(tr)
-        if len(cells) < 3 or any(_local(c.tag) != "td" for c in cells) or cells[0].get("colspan"):
-            continue  # header, spacer and footnote rows
+        if len(cells) < 3 or any(_local(c.tag) != "td" for c in cells) or int(cells[0].get("colspan") or 1) >= 4:
+            continue  # header, spacer and footnote rows (a footnote cell spans the table)
         name = _state_name(cells[0])
         if not name:
             continue
@@ -196,6 +214,8 @@ def _parties(act: Element, treaty: Treaty, language: str) -> tuple[list[ParsedTr
         if jid in parties:
             raise FedlexParseError(f"{name} appears twice in the scope table")
         consented = values.get("consent")
+        if consented is None and values.get("eif") is None:
+            continue  # a row without dates (e.g. the Kingdom of the Netherlands, listed by territory in one file)
         parties[jid] = ParsedTreatyParty(
             party=jid,
             signed_on=None,
@@ -210,10 +230,10 @@ def _parties(act: Element, treaty: Treaty, language: str) -> tuple[list[ParsedTr
 
 def _marker(preface: Element | None) -> bool:
     """True for the original-language text, False for a translation."""
-    found = {_ws(_flat(p)).lower() for p in (preface.iter(_a("p")) if preface is not None else [])}
-    if found & ORIGINAL:
+    found = [_ws(_flat(p)).lower() for p in (preface.iter(_a("p")) if preface is not None else [])]
+    if any(f in ORIGINAL for f in found):
         return True
-    if found & TRANSLATION:
+    if any(f.startswith(TRANSLATION) for f in found):
         return False
     raise FedlexParseError("the preface says neither that this is the original text nor a translation")
 
@@ -250,14 +270,18 @@ def parse_fedlex_treaty(content: bytes) -> list[ParsedDocument]:
     version_date = _frbr_date(work, "jolux:dateApplicability")
     if version_date is None or version_date.strftime("%Y%m%d") != m.group(2):
         raise FedlexParseError("missing or inconsistent jolux:dateApplicability")
+    preface = act.find(_a("preface"))
+    doc_number = preface.find(f".//{_a('docNumber')}") if preface is not None else None
     number_el = work.find(_a("FRBRnumber"))
-    if number_el is None or number_el.get("value") != treaty.sr:
-        raise FedlexParseError(f"{eli}: SR number is not {treaty.sr}")
+    sr = _ws(_flat(doc_number)) if doc_number is not None else ""
+    sr = sr or (number_el.get("value", "") if number_el is not None else "")
+    if sr != treaty.sr:
+        raise FedlexParseError(f"{eli}: SR number {sr!r} is not {treaty.sr}")
     name_el = next((el for el in work.findall(_a("FRBRname")) if el.get(XML_LANG) == language), None)
     if name_el is None or not name_el.get("value"):
         raise FedlexParseError(f"no FRBRname in {language}")
     title = _ws(name_el.get("value", ""))
-    original = _marker(act.find(_a("preface")))
+    original = _marker(preface)
     adopted = _frbr_date(work, "jolux:dateDocument")
     swiss_in_force = _frbr_date(work, "jolux:dateEntryInForce")
 
@@ -267,7 +291,7 @@ def parse_fedlex_treaty(content: bytes) -> list[ParsedDocument]:
     reader = _Reader()
     reader.walk(body, "", [], None)
     for doc in act.iter(_a("doc")):
-        if doc.get("name") == "annex":
+        if doc.get("name") == "annex" and not _is_scope(doc):
             reader.annex(doc)
     if not reader.nodes:
         raise FedlexParseError("no provisions found")

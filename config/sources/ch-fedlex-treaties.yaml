@@ -1,0 +1,94 @@
+# International treaties as published by Switzerland in the Classified Compilation (SR chapter 0) on Fedlex.
+# Same platform, files, licence and politeness rules as ch-fedlex; what differs is the instrument (a
+# treaty of the Council of Europe or of the international legal order, not Swiss law) and the parser, which
+# also reads each file's scope table into treaty parties. Used because the treaty offices and courts that
+# publish these texts themselves (Council of Europe, UN, ICC, ICJ) are blocked or restrict reuse; see
+# coe-treaty-office, un-web-treaties, icc-legal-texts, icj-cij and docs/jurisdictions/coe.md.
+schema_version: 1
+id: ch-fedlex-treaties
+name: "Fedlex - treaties in the Classified Compilation of Federal Legislation (SR 0.x): ECHR and Protocols, Statute of the Council of Europe, UN Charter, ICJ Statute, Vienna Convention on the Law of Treaties, Rome Statute"
+publisher: Swiss Federal Chancellery (Bundeskanzlei / Chancellerie fédérale / Cancelleria federale)
+kind: official_treaty_repository
+authority: official_non_authentic
+jurisdictions: [COE, INT]
+document_kinds: [treaty]
+languages: [de, fr, it]
+coverage: >-
+  The Swiss publication of eleven multilateral treaties, as SR consolidations in Akoma Ntoso XML, German,
+  French and Italian (see the manifest): the European Convention on Human Rights (SR 0.101) and Protocols
+  No 6, 7, 13, 14 and 15, the Statute of the Council of Europe (0.192.030), the Charter of the United
+  Nations (0.120), the Statute of the International Court of Justice (0.193.501), the Vienna Convention
+  on the Law of Treaties (0.111) and the Rome Statute of the International Criminal Court (0.312.1). The
+  French file is the original-language text, the German and Italian files are Swiss translations (the
+  preface says so). Each file ends with the treaty's scope table (parties with ratification and entry-into-force
+  dates), read into treaty parties for the States that have a profile. Protocols No 1, 4, 12 and 16, which the SR does
+  not carry (SPARQL listing of SR 0.101.*, 2026-10-14), and all other treaties are not ingested.
+access:
+  method: api
+  endpoint: config/manifests/ch-fedlex-treaties.yaml
+update_frequency: >-
+  A new consolidation for every amendment and every change of the scope table; rebuild the manifest
+  (scripts/build_fedlex_treaties_manifest.py) and re-ingest to refresh.
+rate_limits: >-
+  As ch-fedlex: www.fedlex.admin.ch/robots.txt allows everything except print views; fedlex.data.admin.ch
+  disallows /filestore/* (ULIS uses the SPARQL endpoint there and downloads the XML files from
+  www.fedlex.admin.ch/filestore/, the website's own public mapping); no Crawl-delay; ULIS waits at least
+  5 s between requests, identifying User-Agent, cache.
+licence:
+  id: CH-URG-ART5-PUBLV-ART49
+  name: >-
+    Official enactments are not protected by copyright (Art. 5 Copyright Act, SR 231.1); reuse subject
+    to the conditions of Art. 49 para. 1 Publications Ordinance (PublO, SR 170.512.1)
+  url: https://www.fedlex.admin.ch/en/legal-information
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-14. The licence review of ch-fedlex (same platform, same files, same day) applies;
+    the Fedlex legal information page was read again for this source
+    (https://www.fedlex.admin.ch/api/assets/editable-items/editable-pages/de/legal-information.html):
+    "Die Inhalte der Publikationsplattform stellen keine geschützten Werke im Sinne des Urheberrechts dar
+    (siehe Art. 5 des Urheberrechtsgesetzes vom 9. Oktober 1992). Die Konsultation sowie das Herunterladen
+    von Daten zu Verwertungszwecken ist unentgeltlich (siehe Art. 19 Abs. 1 PublG und Art. 48 Abs. 2 PublV).
+    Für die Verwertung gelten jedoch die Auflagen gemäss Art. 49 PublV." and that only the PDF of the Official
+    Compilation (AS) is authoritative. To verify (not read in this session): that Art. 5 URG names
+    international treaties among the unprotected official texts.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Dies ist keine amtliche Veröffentlichung. Massgebend ist allein die Veröffentlichung durch die
+    Bundeskanzlei. | Ceci n’est pas une publication officielle. Seule la publication opérée par la
+    Chancellerie fédérale fait foi | Il presente documento non è una pubblicazione ufficiale. Fa
+    unicamente fede la pubblicazione della Cancelleria federale. (Source: Fedlex, Swiss Federal
+    Chancellery, https://www.fedlex.admin.ch)
+  conditions:
+    - Art. 49 para. 1 let. a PublO - the data must not be altered in content (ULIS stores the exact text; footnotes are kept separately as notes; the scope table is read into treaty parties and is not stored as text).
+    - Art. 49 para. 1 let. b PublO - law text, notes and limitations are returned as separate fields; clients must keep them apart.
+    - Art. 49 para. 1 let. c PublO - the notice "Dies ist keine amtliche Veröffentlichung. Massgebend ist allein die Veröffentlichung durch die Bundeskanzlei." is shown as attribution on every result.
+    - Art. 49 para. 1 let. e PublO - no impression may be given that this is an official publication; and the text is not the treaty's authentic text (the depositary's is).
+    - Art. 49 para. 1 let. h PublO - redistribution or access for a fee only in a value-added (refined) form.
+    - Follow robots.txt of each Fedlex host; do not fetch fedlex.data.admin.ch/filestore/.
+  notes: >-
+    The Swiss text of a treaty is not the treaty's authentic text. The French file is marked "Texte original" and
+    reproduces the original French text; the German and Italian files are Swiss translations (the German ECHR is
+    a "bereinigte Übersetzung ... zwischen Deutschland, Liechtenstein, Österreich und der Schweiz abgestimmte
+    Fassung"). The English text, authentic for the ECHR, UN Charter, ICJ Statute, VCLT and Rome Statute, is not
+    published in the SR. Counsel review recommended, in particular of using one State's publication as the text of
+    a multilateral treaty.
+provenance: >-
+  Fedlex, the publication platform of the Swiss Confederation. Each SR consolidation is identified by its ELI
+  (for example https://fedlex.data.admin.ch/eli/cc/1974/2151_2151_2151 for the ECHR) and its date of
+  applicability; the file URLs come from the JOLux linked data (SPARQL).
+known_limitations:
+  - Swiss publication, not the depositary's text; the English text is absent; German and Italian are translations.
+  - Only the treaties the SR carries; there is no Protocol No 1, 4, 12 or 16 to the ECHR in it (SPARQL listing of SR 0.101.*, 2026-10-14).
+  - Parties are recorded only for the States that have a jurisdiction profile (STATES in the parser), with the ratification, accession or succession date and entry-into-force date of the scope table; signature dates are not in the table; withdrawals are not modelled (a State that left is simply absent from a later consolidation).
+  - The scope table is as of each consolidation; reservations, declarations and objections are not published in the SR and are not recorded.
+  - Preamble, final formulas, signatures and the Swiss declaration component are not indexed.
+  - Earlier consolidations are ingested only where Fedlex has XML in all three languages without a gap (the ECHR from 2012-02-23, the Rome Statute from 2018-08-02); older dates are a history gap.
+  - In the Italian Rome Statute file some lists are encoded differently from the German and French files, so a few eIds differ between languages.
+status: active
+connector: fedlex
+parser: fedlex_treaty

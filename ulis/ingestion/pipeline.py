@@ -65,6 +65,7 @@ from ulis.sources.parsers import (
     eu_cellar,
     eu_cellar_case_law,
     fedlex,
+    fedlex_treaty,
     finlex,
     gesetze_im_internet,
     infoleg_ar,
@@ -98,6 +99,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "eu_cellar": eu_cellar.parse_eu_cellar,
     "eu_cellar_case_law": eu_cellar_case_law.parse_eu_case_law,
     "fedlex_akn": fedlex.parse_fedlex,
+    "fedlex_treaty": fedlex_treaty.parse_fedlex_treaty,
     "finlex_akn": finlex.parse_finlex,
     "frl_epub": au_federal_register.parse_federal_register,
     "bwb_xml": bwb.parse_bwb,
@@ -124,6 +126,7 @@ PARSER_VERSIONS = {
     "eu_cellar": eu_cellar.PARSER_VERSION,
     "eu_cellar_case_law": eu_cellar_case_law.PARSER_VERSION,
     "fedlex_akn": fedlex.PARSER_VERSION,
+    "fedlex_treaty": fedlex_treaty.PARSER_VERSION,
     "finlex_akn": finlex.PARSER_VERSION,
     "frl_epub": au_federal_register.PARSER_VERSION,
     "bwb_xml": bwb.PARSER_VERSION,
@@ -228,6 +231,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or egov_law.resolve_uri(uri)
         or eu_cellar.resolve_uri(uri)
         or eu_cellar_case_law.resolve_uri(uri)
+        or fedlex_treaty.resolve_uri(uri)
         or fedlex.resolve_uri(uri)
         or finlex.resolve_uri(uri)
         or au_federal_register.resolve_uri(uri)

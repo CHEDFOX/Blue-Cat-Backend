@@ -31,6 +31,7 @@ from ulis.jurisdictions.modules.lv import LvModule
 from ulis.jurisdictions.modules.nl import NlModule
 from ulis.jurisdictions.modules.pl import PlModule
 from ulis.jurisdictions.modules.se import SeModule
+from ulis.jurisdictions.modules.treaties import CoeModule, IntModule
 from ulis.jurisdictions.modules.tw import TwModule
 from ulis.jurisdictions.modules.us import UsModule
 
@@ -47,6 +48,8 @@ MODULES: dict[str, JurisdictionModule] = {
         BorealisModule(),
         CaModule(),
         ChModule(),
+        CoeModule(),
+        IntModule(),
         DeModule(),
         DkModule(),
         EeModule(),

@@ -1,28 +1,40 @@
-# Root of the jurisdiction tree. It carries no corpus: it exists so that sovereign
-# states and regional organisations have a common parent and so that treaties have
-# a home when they are not concluded under a regional organisation.
+# Root of the jurisdiction tree. It exists so that sovereign states and regional organisations have a
+# common parent and so that treaties have a home when they are not concluded under a regional
+# organisation. Since 1.1.0 it holds a small pilot of multilateral treaties (UN Charter, ICJ Statute,
+# Vienna Convention on the Law of Treaties, Rome Statute) as published by Switzerland.
 schema_version: 1
 id: INT
-profile_version: 1.0.0
+profile_version: 1.1.0
 name: International legal order
 kind: international_legal_order
 parent: null
 fictional: false
 verification:
   status: draft_unverified
-  notes: Structural node only. Contains no statements of substantive law.
+  notes: Structural node. Contains no statements of substantive law beyond the treaty texts it holds.
 official_languages: []
 legal_system:
   families: [international]
   structure: international_legal_order
   treaty_reception: not_applicable
 instrument_types: [treaty]
+norm_hierarchy: [treaty]
 precedent:
   doctrine: no_formal_precedent
   vertical_binding: false
   notes: No general doctrine of binding precedent between international courts and tribunals is assumed.
+citation:
+  module: int
+  notes: Treaty provisions are cited as the Swiss publication does, with the title of the language version (no short form is published for these treaties).
+  examples:
+    - "art. 2 al. 4 Charte des Nations Unies du 26 juin 1945"
+    - "Art. 2 Abs. 4 Charta der Vereinten Nationen vom 26. Juni 1945"
+publication:
+  official_sources: [ch-fedlex-treaties, un-web-treaties, icj-cij, icc-legal-texts, iacthr-judgments, african-court-decisions]
 coverage:
-  corpus_status: none
+  corpus_status: pilot
   known_gaps:
-    - No multilateral treaty collection has been ingested.
+    - Only four multilateral treaties are ingested, as published by Switzerland in German, French and Italian (not the depositary's text, and no English). They are the Charter of the United Nations, the Statute of the International Court of Justice, the Vienna Convention on the Law of Treaties and the Rome Statute. No other multilateral treaty collection has been ingested; the UN Treaty Collection and the UN web sites forbid it (source un-web-treaties).
+    - No case law of any international court or tribunal is ingested - International Court of Justice (all rights reserved, no commercial use), International Criminal Court (terms page blocked), Inter-American Court of Human Rights (CC BY-NC-ND 3.0), African Court (all rights reserved) - see the planned sources.
+    - Treaty parties are recorded only for States that have a profile in ULIS.
     - No customary international law or general principles are represented.
