@@ -48,6 +48,9 @@ class LuExt(BaseModel):
     # The act the consolidation belongs to (jolux:isMemberOf), e.g. the law of 21 March 1804 for the Code civil.
     base_act: str | None = Field(default=None, pattern=r"^http://data\.legilux\.public\.lu/eli/etat/leg/.+$")
     entry_into_force: str | None = Field(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$")
+    # The jolux:dateApplicability stated inside the file when it differs from the date of the consolidation (the
+    # ELI date): the file then carries another consolidation's metadata.
+    metadata_date: str | None = Field(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$")
 
 
 def paragraph_label(key: str) -> str:

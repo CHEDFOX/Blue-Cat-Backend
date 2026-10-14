@@ -27,6 +27,7 @@ Reading rules:
 
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass, field
 from datetime import date, timedelta
@@ -38,6 +39,7 @@ from ulis.ingestion.snapshots import SNAPSHOT_BASIS
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef
 
 PARSER_VERSION = "1.0.0"
+BUNDLE_SCHEMA = "ulis-lu-legilux-bundle/1"
 AKN = "http://docs.oasis-open.org/legaldocml/ns/akn/3.0/CSD13"
 SCL = "http://www.scl.lu"
 ELI_BASE = "http://data.legilux.public.lu"
@@ -448,7 +450,23 @@ def _iso(value: str | None) -> date | None:
         return None
 
 
+def _unbundle(content: bytes) -> tuple[bytes, date | None]:
+    """The XML and the consolidation date of a connector bundle; a bare XML file has no date of its own."""
+    if not content.lstrip().startswith(b"{"):
+        return content, None
+    try:
+        bundle = json.loads(content)
+        if bundle["schema"] != BUNDLE_SCHEMA:
+            raise LegiluxParseError(f"unsupported bundle schema {bundle['schema']!r}")
+        return bundle["xml"].encode("utf-8"), date.fromisoformat(bundle["consolidation"])
+    except (ValueError, KeyError, TypeError, AttributeError) as exc:
+        if isinstance(exc, LegiluxParseError):
+            raise
+        raise LegiluxParseError(f"not a Legilux bundle: {exc}") from exc
+
+
 def parse_legilux(content: bytes) -> list[ParsedDocument]:
+    content, consolidation = _unbundle(content)
     try:
         root = fromstring(content, forbid_dtd=True)
     except Exception as exc:
@@ -473,11 +491,16 @@ def parse_legilux(content: bytes) -> list[ParsedDocument]:
     uri = resolved[0]
     path = uri.removeprefix("/lu/")
     meta = _jolux(act)
-    applic = _iso(_first(meta, "dateApplicability"))
+    stated = _iso(_first(meta, "dateApplicability"))
+    # The date of the consolidation is the one in its ELI (carried by the connector's bundle); the file's own
+    # jolux:dateApplicability is used only for a bare file. When they differ the file carries another consolidation's
+    # metadata: the stated date is kept in ext (metadata_date) and the stated end date is not trusted.
+    applic = consolidation or stated
     if applic is None:
         raise LegiluxParseError("missing jolux:dateApplicability")
+    mismatch = consolidation is not None and stated != consolidation
     # The last day the text applied (inclusive); provision periods are half-open, so it ends on the next day.
-    last_day = _iso(_first(meta, "dateEndApplicability"))
+    last_day = None if mismatch else _iso(_first(meta, "dateEndApplicability"))
     end = last_day + timedelta(days=1) if last_day is not None else None
     if end is not None and end <= applic:
         raise LegiluxParseError("jolux:dateEndApplicability is before jolux:dateApplicability")
@@ -536,6 +559,7 @@ def parse_legilux(content: bytes) -> list[ParsedDocument]:
                 "act_type": act_type,
                 "base_act": base,
                 "entry_into_force": in_force.isoformat() if in_force else None,
+                "metadata_date": stated.isoformat() if mismatch and stated else None,
             },
             events=events,
             provisions=_provisions(reader, applic, end),

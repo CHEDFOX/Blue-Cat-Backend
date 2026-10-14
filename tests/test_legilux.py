@@ -26,7 +26,7 @@ from ulis.retrieval.lookup import provision_at
 from ulis.retrieval.search import SearchRequest, search
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import RawDocument
-from ulis.sources.connectors.legilux import ROBOTS_URL, LegiluxConnector, file_url
+from ulis.sources.connectors.legilux import ROBOTS_URL, LegiluxConnector, bundle_bytes, file_url
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
 from ulis.sources.parsers.legilux import LegiluxParseError, parse_legilux, resolve_uri, skipped_blocks
@@ -41,6 +41,10 @@ CONSTITUTION_TITLE = "Constitution du Grand-Duché de Luxembourg"
 
 def _read(name: str) -> bytes:
     return gzip.decompress((FIX / f"{name}.xml.gz").read_bytes())
+
+
+def _bundle(path: str, day: str, name: str) -> bytes:
+    return bundle_bytes(path, day, file_url(path, day), _read(name).decode("utf-8"))
 
 
 def _doc(name: str):  # type: ignore[no-untyped-def]
@@ -144,6 +148,26 @@ def test_law_consolidation_and_code_du_travail_labels() -> None:
     assert art.note is not None and art.note.startswith("(L. 24 juillet 2024)")  # amendment reference: note, not text
     assert not art.text.startswith("(")
     assert skipped_blocks(_read("code-travail-20260726-excerpt"))[0].startswith("annex")
+
+
+def test_the_consolidation_date_of_the_bundle_overrides_stale_file_metadata() -> None:
+    # The file served for the Code du travail consolidation of 2026-07-26 states dateApplicability 2026-07-01.
+    bare = parse_legilux(_read("code-travail-20260726-excerpt"))[0]
+    assert bare.version_date == date(2026, 7, 1) and bare.ext.get("metadata_date") is None
+    doc = parse_legilux(_bundle("code/travail", "2026-07-26", "code-travail-20260726-excerpt"))[0]
+    assert doc.version_date == date(2026, 7, 26) and doc.expression_uri == "/lu/code/travail/fr@2026-07-26"
+    assert doc.ext["metadata_date"] == "2026-07-01"
+    assert {p.valid_from for p in doc.provisions} == {date(2026, 7, 26)}
+    assert [p.text for p in doc.provisions] == [p.text for p in bare.provisions]
+    # A consistent file keeps its stated end date; with another date the stated end is not trusted.
+    fine = parse_legilux(_bundle(CONSTITUTION, "2009-01-01", "constitution-20090101"))[0]
+    assert fine.ext.get("metadata_date") is None and {p.valid_to for p in fine.provisions} == {date(2009, 3, 16)}
+    stale = parse_legilux(_bundle(CONSTITUTION, "2009-01-02", "constitution-20090101"))[0]
+    assert stale.ext["metadata_date"] == "2009-01-01" and {p.valid_to for p in stale.provisions} == {None}
+    with pytest.raises(LegiluxParseError, match="unsupported bundle"):
+        parse_legilux(b'{"schema": "other/1"}')
+    with pytest.raises(LegiluxParseError, match="not a Legilux bundle"):
+        parse_legilux(b'{"schema": "ulis-lu-legilux-bundle/1", "consolidation": "soon", "xml": "<a/>"}')
 
 
 def test_unsupported_documents_are_rejected_loudly() -> None:
@@ -280,9 +304,10 @@ def test_connector_reads_the_cache_offline_in_chronological_order(tmp_path: Path
     )
     docs = list(connector.fetch())
     assert [d.metadata["consolidation"] for d in docs] == ["2009-01-01", "2009-03-16"]
-    assert docs[0].external_id == f"legilux:{CONSTITUTION}@2009-01-01" and docs[0].content == _read(
-        "constitution-20090101"
-    )
+    assert docs[0].external_id == f"legilux:{CONSTITUTION}@2009-01-01"
+    # The stored raw document carries the manifest's consolidation date and the file's text exactly as received.
+    assert docs[0].content == _bundle(CONSTITUTION, "2009-01-01", "constitution-20090101")
+    assert json.loads(docs[0].content)["xml"].encode("utf-8") == _read("constitution-20090101")
     assert docs[0].uri is not None and docs[0].uri.startswith(
         "https://legilux.public.lu/filestore/"
     )  # never data.legilux
@@ -361,8 +386,8 @@ def _raw(path: str, day: str, name: str) -> RawDocument:
     return RawDocument(
         external_id=f"legilux:{path}@{day}",
         uri=file_url(path, day),
-        media_type="application/akn+xml",
-        content=_read(name),
+        media_type="application/json",
+        content=_bundle(path, day, name),
         retrieved_at=datetime(2026, 10, 14, tzinfo=UTC),
         metadata={"consolidation": day, "language": "fr"},
     )

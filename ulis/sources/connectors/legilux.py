@@ -16,11 +16,16 @@ Access rules (see ``config/sources/lu-legilux.yaml``):
   any other refusal stops the run, cache under ``var/sources/legilux.public.lu/``;
 * consolidations are yielded per work in chronological order, so each later consolidation is compared with the
   versions already recorded (see ``ulis/ingestion/snapshots.py``);
-* a file that is missing (404) is recorded in ``fetch_errors`` and the run continues.
+* a file that is missing (404) is recorded in ``fetch_errors`` and the run continues;
+* the date inside a file is not always the date of its consolidation (a code's file can carry the metadata of the
+  previous consolidation, and two ELIs can serve the same file), while the date in the ELI is the one the linked
+  data states as ``jolux:dateApplicability``. The stored raw document is therefore a small JSON bundle holding the
+  consolidation date from the manifest and the file's text exactly as received (``xml``, a UTF-8 string).
 """
 
 from __future__ import annotations
 
+import json
 import re
 import time
 from collections.abc import Iterator
@@ -34,6 +39,7 @@ from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.moj_laws import robots_allows
 from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
+from ulis.sources.parsers.legilux import BUNDLE_SCHEMA
 
 USER_AGENT = "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
 HOST = "legilux.public.lu"
@@ -43,11 +49,18 @@ ELI_PREFIX = "http://data.legilux.public.lu/eli/etat/leg/"
 # A consolidated work: ``code/civil``, ``constitution/1868/10/17/n1/consolide``, ``loi/2018/08/01/a686/consolide``.
 _WORK_PATH = re.compile(r"^[a-z]{1,12}(?:/[A-Za-z0-9_.-]+)+$")
 
-__all__ = ["FetchError", "LegiluxConnector", "file_url", "work_eli"]
+
+__all__ = ["BUNDLE_SCHEMA", "FetchError", "LegiluxConnector", "bundle_bytes", "file_url", "work_eli"]
 
 
 def work_eli(path: str) -> str:
     return ELI_PREFIX + path
+
+
+def bundle_bytes(path: str, day: str, url: str, xml: str) -> bytes:
+    """The raw document ULIS stores: the manifest's consolidation date and the file's text, exactly as received."""
+    bundle = {"schema": BUNDLE_SCHEMA, "path": path, "consolidation": day, "source_url": url, "xml": xml}
+    return json.dumps(bundle, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
 
 
 def file_url(path: str, day: date | str) -> str:
@@ -129,11 +142,16 @@ class LegiluxConnector:
                         f"legilux:{path}@{day}: {url}: answer is not XML ({meta.get('content_type')}); not ingested"
                     )
                     continue
+                try:
+                    xml = content.decode("utf-8")
+                except UnicodeDecodeError:
+                    self.fetch_errors.append(f"legilux:{path}@{day}: {url}: not UTF-8 text; not ingested")
+                    continue
                 yield RawDocument(
                     external_id=f"legilux:{path}@{day}",
                     uri=meta.get("final_url") or meta["url"],
-                    media_type="application/akn+xml",
-                    content=content,
+                    media_type="application/json",
+                    content=bundle_bytes(path, str(day), url, xml),
                     retrieved_at=datetime.fromisoformat(meta["retrieved_at"]),
                     metadata={
                         "eli": work_eli(path),

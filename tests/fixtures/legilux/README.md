@@ -14,6 +14,10 @@ Consolidated texts have no legal value; the Mémorial A is authentic. Stored gzi
 | `code-civil-20251226-excerpt.xml.gz` | Code civil, applicable 2025-12-26 | the same excerpt; `art_59`, `art_86`, `art_359`, `art_1165` have changed wording |
 | `code-travail-20260726-excerpt.xml.gz` | Code du travail, applicable 2026-07-01 | **excerpt**: `art_l_010-1`, `art_l_010-2` |
 
+The Code du travail excerpt is the file served for the consolidation of 2026-07-26 (ELI date), whose own
+`jolux:dateApplicability` says 2026-07-01: Legilux files sometimes carry the metadata of the previous consolidation,
+which is why the connector stores the consolidation date from the ELI next to the file's text (see the connector).
+
 Excerpts were made by deleting `article` elements (and wrappers left empty) from the downloaded file with
 ElementTree; the remaining elements and text are the publisher's, but the bytes are re-serialised, so an excerpt is
 not byte-identical to the download. Whole files are the downloaded bytes.
