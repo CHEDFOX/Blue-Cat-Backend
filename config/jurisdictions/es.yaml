@@ -2,7 +2,7 @@
 # profiled yet; their legislation is out of scope.
 schema_version: 1
 id: ES
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Spain
 names: {en: Spain, es: España}
 kind: sovereign_state
@@ -85,6 +85,10 @@ publication:
   repeal: >-
     Express repeal (shown in the consolidated text as "(Derogado)", "(Suprimido)", "(Sin
     contenido)"); tacit repeal (art. 2.2 CC) is not reflected in consolidated texts.
+memberships:
+  # Accession to the European Communities on 1 January 1986 (to verify).
+  - organisation: EU
+    from_date: 1986-01-01
 coverage:
   corpus_status: pilot
   known_gaps:

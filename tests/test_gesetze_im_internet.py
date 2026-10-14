@@ -368,8 +368,13 @@ def test_search_finds_exact_text_with_citation_and_limitations(
     assert de_ingested.errors == [] and de_ingested.conflicts == []
     assert de_ingested.instruments_created == 4
     res = _search(session, catalog, q="Würde des Menschen unantastbar", as_of=date(2026, 10, 14))
-    hit = res["results"][0]
-    assert hit["citation"] == "Art. 1 Abs. 1 GG"
+    hit = next(h for h in res["results"] if h["citation"] == "Art. 1 Abs. 1 GG")
+    # Germany is an EU member: EU law (e.g. the Charter, if ingested) is in scope, classified as such.
+    assert all(
+        h["authority"]["category"] in ("regional_law", "regional_directive")
+        for h in res["results"]
+        if h["jurisdiction"]["id"] == "EU"
+    )
     assert hit["text"].startswith("Die Würde des Menschen ist unantastbar.")
     assert hit["authority"]["category"] == "applicability_unverified"
     codes = {lim["code"] for lim in hit["limitations"]}

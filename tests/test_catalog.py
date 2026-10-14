@@ -40,6 +40,7 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "DE",
         "ES",
         "JP",
+        "EU",
     }
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"
@@ -118,6 +119,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "de-gesetze-im-internet",
         "es-boe-consolidada",
         "jp-egov-laws",
+        "eu-eur-lex",
     }
     for source_id in approved:
         licence_gate(catalog.sources.get(source_id))

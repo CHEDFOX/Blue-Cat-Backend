@@ -1,0 +1,97 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. The European Union's own legal order (primary and
+# secondary EU law). How EU law applies inside each Member State (primacy, direct effect,
+# Member State memberships) is NOT modelled here.
+schema_version: 1
+id: EU
+profile_version: 0.1.0
+name: European Union
+names:
+  en: European Union
+  fr: Union européenne
+  de: Europäische Union
+kind: regional_organisation
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [bg, cs, da, de, el, en, es, et, fi, fr, ga, hr, hu, it, lt, lv, mt, nl, pl, pt, ro, sk, sl, sv]
+legal_system:
+  families: [sui_generis]
+  structure: international_organisation
+  treaty_reception: monist
+  notes: >-
+    To verify - a legal order founded on the Treaty on European Union and the Treaty on the
+    Functioning of the European Union, which have the same legal value (TFEU, art 1(2)); the
+    Charter of Fundamental Rights has the same legal value as the Treaties (TEU, art 6(1)).
+    The Treaty texts are equally authentic in 24 languages (TEU, art 55(1)). Agreements
+    concluded by the Union are binding upon its institutions and on its Member States (TFEU,
+    art 216(2)); "monist" is recorded on that basis and must be confirmed. A regulation is
+    binding in its entirety and directly applicable in all Member States; a directive is
+    binding, as to the result to be achieved, upon each Member State to which it is addressed
+    (TFEU, art 288). The effect of EU law in Member State law (primacy, direct effect,
+    transposition) is not modelled in ULIS yet.
+legislative_institutions:
+  - id: EU-EP
+    name: European Parliament
+    instrument_types: [regulation, directive, decision]
+  - id: EU-COUNCIL
+    name: Council of the European Union
+    instrument_types: [regulation, directive, decision]
+  - id: EU-COM
+    name: European Commission
+    instrument_types: [regulation, directive, decision]
+# founding_treaty = TEU and TFEU; charter = Charter of Fundamental Rights. Both are primary law
+# of the same rank (see notes); a list cannot express a tie, so the Charter is listed second.
+instrument_types: [founding_treaty, charter, regulation, directive, decision]
+norm_hierarchy: [founding_treaty, charter, regulation, directive, decision]
+courts:
+  - id: EU-CJEU
+    name: Court of Justice
+    rank: 1
+  - id: EU-GC
+    name: General Court
+    rank: 2
+    appeals_to: [EU-CJEU]
+precedent:
+  doctrine: jurisprudence_constante
+  vertical_binding: false
+  notes: >-
+    To verify - the Court of Justice is not formally bound by its earlier judgments but
+    follows its settled case law; a preliminary ruling (TFEU, art 267) binds the referring
+    court, and national courts of last instance must refer questions of EU law. Decisions of
+    the General Court may be appealed to the Court of Justice on points of law only (TFEU,
+    art 256(1)). No case law is ingested yet.
+citation:
+  module: eu
+  examples:
+    - "Regulation (EU) 2016/679, art 6(1)(a)"
+    - "Règlement (UE) 2016/679, art. 6, par. 1, point a)"
+    - "Verordnung (EU) 2016/679, Art. 6 Abs. 1 Buchst. a"
+    - "Regulation (EC) No 593/2008, art 4(1)(a)"
+    - "Directive 2011/83/EU, art 6(1)(h)"
+    - "TFEU, art 101(1)(a)"
+    - "Charter of Fundamental Rights of the European Union, art 8(1)"
+publication:
+  official_sources: [eu-eur-lex]
+  commencement: >-
+    Legislative acts are published in the Official Journal and enter into force on the date
+    they specify or, failing that, on the twentieth day following their publication (TFEU,
+    art 297(1)). Many acts apply from a later date of application, sometimes with different
+    dates for different provisions. Since 1 July 2013 only the electronic edition of the
+    Official Journal is authentic (Regulation (EU) No 216/2013).
+  amendment: >-
+    Textual amendment by later acts; corrigenda correct individual language versions. The
+    Publications Office publishes consolidated versions as documentation without legal effect.
+  repeal: Express or implicit repeal by later acts, recorded in the Publications Office metadata.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only a hand-picked selection is ingested (see the source manifest) - TEU, TFEU, the Charter, four regulations and one directive - in English, French and German only; the other 21 official languages are not ingested.
+    - Original Official Journal texts only. Amendments and corrigenda listed in the Publications Office metadata are reported as outstanding changes but not applied; provisions the metadata shows as replaced, deleted or added to end on the amendment's start of validity and their later wording is not indexed. Consolidated versions of acts are not ingested.
+    - The TEU and TFEU are the 2016 consolidated versions (documentation); they are attested only at their publication date (7 June 2016). Protocols, annexes, declarations and tables of equivalences are not ingested; earlier Treaty versions are not indexed.
+    - Validity runs from each act's general date of application (else its entry into force) as recorded in the metadata. Partial application dates (e.g. Artificial Intelligence Act, art 113) are only noted; which provisions they concern is not modelled.
+    - Artificial Intelligence Act - provisions whose original wording was replaced by Regulation (EU) 2026/1744 with effect from 27 July 2026, before the Act's general date of application, have no indexed version.
+    - Recitals, citations, final formulas and signatures are not indexed.
+    - No case law of the Court of Justice or the General Court, no international agreements of the Union, no delegated or implementing acts, no national transposing measures.
+    - How EU law applies within Member States (primacy, direct effect, membership dates) is not modelled.

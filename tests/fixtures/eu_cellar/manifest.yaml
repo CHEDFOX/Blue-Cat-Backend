@@ -1,0 +1,12 @@
+# Test manifest: a subset of config/manifests/eu-eur-lex.yaml whose Cellar responses are stored
+# (gzip-compressed, unmodified) under cache/. The tests run the connector offline against them.
+schema_version: 1
+source_id: eu-eur-lex
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+languages: [en, fr, de]
+works:
+  - {celex: "12016M/TXT", format: xhtml}   # TEU, consolidated version 2016
+  - {celex: "12016P/TXT", format: fmx4}    # Charter of Fundamental Rights
+  - {celex: "32008R0593", format: fmx4}    # Rome I Regulation
+  - {celex: "32011L0083", format: fmx4}    # Consumer Rights Directive (amended)

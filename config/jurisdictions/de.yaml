@@ -2,7 +2,7 @@
 # profiled yet. EU membership is deliberately not recorded here (no EU profile in this branch).
 schema_version: 1
 id: DE
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Germany
 names: {de: Bundesrepublik Deutschland, en: Federal Republic of Germany}
 kind: sovereign_state
@@ -84,6 +84,10 @@ publication:
     Amending Acts promulgated in the Bundesgesetzblatt contain amendment instructions; consolidated
     texts (Gesetze im Internet, publishers) are not official versions.
   repeal: Express repeal; the consolidation keeps the number with "(weggefallen)".
+memberships:
+  # Founding member of the European Economic Community (1958); the EU continues it (to verify).
+  - organisation: EU
+    from_date: 1958-01-01
 coverage:
   corpus_status: pilot
   known_gaps:

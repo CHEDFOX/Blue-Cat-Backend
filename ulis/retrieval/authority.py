@@ -18,7 +18,7 @@ CATEGORIES: dict[str, tuple[str, float]] = {
     "binding_regulation": ("Binding: regulation in force", 1.2),
     "binding_precedent": ("Binding precedent for the forum court", 1.2),
     "precedent_vertical": ("Precedent: binds courts below the deciding court", 1.1),
-    "regional_law": ("Binding: law of a regional organisation of which the State is a member", 1.2),
+    "regional_law": ("Law of a regional organisation of which the State is a member", 1.0),
     "regional_case_law": ("Court of a regional organisation of which the State is a member", 1.05),
     "treaty_obligation": ("Treaty in force for the State", 1.0),
     "regional_directive": ("Directive: binds the State as to the result; applies through national law", 0.95),
@@ -133,9 +133,9 @@ def classify_provision(
             )
         return _make(
             "regional_law",
-            f"{doc_type.capitalize()} of {org}, of which {state} is a member on {as_of.isoformat()} (per profile): "
-            f"applies in {state} without national implementation where the organisation's rules so provide "
-            "(to verify).",
+            f"{doc_type.capitalize()} of {org}, of which {state} is a member on {as_of.isoformat()} (per profile). "
+            f"Whether and how it applies in {state} (direct applicability, scope, primacy) depends on the instrument "
+            "and the organisation's rules; check its own scope provisions (to verify).",
         )
     if doc_type == "regulation":
         return _make("binding_regulation", f"Regulation of {passage_jurisdiction} in force on {as_of.isoformat()}.")
