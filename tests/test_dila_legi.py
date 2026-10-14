@@ -318,7 +318,7 @@ def test_citations_in_french_style() -> None:
 def test_profile_and_catalog_declare_france(catalog: Catalog) -> None:
     profile = catalog.jurisdictions.get("FR")
     assert profile.verification.status == "draft_unverified" and profile.official_languages == ["fr"]
-    assert "code" in profile.instrument_types and {c.id for c in profile.courts} >= {"FR-CC", "FR-CE", "FR-CCASS"}
+    assert [m.organisation for m in profile.memberships] == ["EU"]  # added by the lead (EU member since 1958)
     assert profile.memberships == []  # left to the lead (EU membership is not recorded by this source)
     abbreviations = profile.extensions["fr"]["abbreviations"]
     assert abbreviations[CIVIL] == {"title": "Code civil", "cite_as": "C. civ."}
