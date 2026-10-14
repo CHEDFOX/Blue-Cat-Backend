@@ -1,0 +1,60 @@
+# PLANNED - NOT INGESTED. The Supreme Court's precedents (KKO) are not in Finlex's open data (API or download packages), and the
+# Court's own site reserves its rights (quotation with source only). Read on 2026-10-14 (docs/jurisdictions/court-decisions-survey.md):
+#   Finlex open data: the judgment types of the API (OpenAPI v0.4.0, https://opendata.finlex.fi/Finlex_avoin_data_v0_4_0.yaml,
+#        confirmed by https://opendata.finlex.fi/finlex/avoindata/v1/akn/fi/judgment/supreme-court-precedent/list and .../kko/list
+#        answering 404) are chancellor-of-justice-decision, data-protection-ombudsman-decision and parliamentary-ombudsman-decision
+#        only (ingested by fi-finlex-decisions). The download page https://www.finlex.fi/en/open-data/download-materials offers no
+#        court decisions; under "Case law" only the legal literature references. Finlex shows KKO/KHO/court decisions on its website
+#        (https://www.finlex.fi/en/case-law/supreme-court/precedents, KKO 1926-1979 as titles, full text from 1980), rendered by script
+#        (the text is embedded in a Next.js payload, not served as documents); www.finlex.fi/robots.txt disallows only /_next/image.
+#   https://www.korkeinoikeus.fi/robots.txt (Yoast defaults: only /wp/wp-admin/ disallowed) and the Court's own site
+#        https://www.korkeinoikeus.fi/ennakkopaatokset/ennakkopaatokset-vuosittain/ (server-rendered; 358 precedents KKO:2023-KKO:2026
+#        in one list, each at .../kko<year><number>/ with ECLI, diary number, date, headnote, numbered paragraphs, statute references;
+#        an RSS feed of the same at .../feed/).
+#   https://www.korkeinoikeus.fi/tietoa-sivustosta/ - "Korkeimmalla oikeudella on kaikki oikeudet verkkopalvelussa julkaistavaan
+#        aineistoon, ellei muuta ole mainittu tai tekijänoikeuslaissa säädetty. Verkkopalvelussa oleviin teksteihin saa vapaasti
+#        linkittää ja tekstiä voi lainata, mutta tällöin lähde on mainittava."
+#   Copyright Act 404/1961, 9 § 1 mom. 4 kohta (read in the Finlex consolidation fin@latest, 2026-10-14): "Tekijänoikeutta ei ole: ...
+#        4) viranomaisen tai muun julkisen toimielimen päätöksiin ja lausumiin". That covers the decisions' texts, but the headnotes
+#        (otsikko, seloste) are the Court's editorial text and the site's notice reserves everything not provided by the Act.
+#   https://www.finlex.fi/en/faq: "There are no restrictions on use ... of the data published in Finlex" (general; see fi-finlex).
+schema_version: 1
+id: fi-kko-precedents
+name: Korkein oikeus (Finnish Supreme Court) precedents - korkeinoikeus.fi / Finlex
+publisher: Korkein oikeus (Supreme Court of Finland); also published in Finlex (Ministry of Justice)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [FI]
+document_kinds: [judgment]
+languages: [fi, sv]
+coverage: >-
+  KKO precedents (ennakkopäätökset): full texts from 1980 on Finlex, 2023 onwards on the Court's own site (358 on
+  2026-10-14). Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.korkeinoikeus.fi/ennakkopaatokset/ennakkopaatokset-vuosittain/
+update_frequency: on the day of delivery
+rate_limits: No robots.txt restriction; no stated limit.
+licence:
+  id: FI-KKO-site-rights
+  name: Court website notice (all rights reserved except the Copyright Act; quotation with source) and Copyright Act 9 § 1 mom. 4 kohta
+  url: https://www.korkeinoikeus.fi/tietoa-sivustosta/
+  review_status: pending_review
+  reviewed_by: ULIS project, from the Court's notice and the Copyright Act (read 2026-10-14). Not reviewed by counsel.
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: >-
+    The decisions themselves have no copyright (Copyright Act 9 § 1 mom. 4 kohta), but the Court's site claims "all rights"
+    to its published material beyond what the Act allows, and the headnotes are its editorial text. Finlex's open-data licence
+    (CC BY 4.0) does not cover court decisions because they are not in the open data. To proceed: ask the Supreme Court
+    (korkein.oikeus(at)oikeus.fi) or the Legal Register Centre (finlex-tuki(at)om.fi) to confirm that the precedents and their
+    headnotes may be reused automatically (Finlex's court decisions would then be the natural bulk channel).
+provenance: Official court website and Finlex. Not retrieved beyond the pages above.
+known_limitations:
+  - Not ingested - reuse of the Court's published texts not confirmed (2026-10-14); no Finnish court decisions in ULIS (the Finlex ombudsman and Chancellor of Justice decisions are a separate source).
+status: planned
+connector: null
+parser: null

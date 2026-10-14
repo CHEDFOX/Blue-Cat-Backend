@@ -1,0 +1,65 @@
+# PLANNED - NOT INGESTED. The Courts Service permits re-use of judgments, but its robots.txt allows bots to see only the
+# judgment lists and the metadata "view" pages: the judgment texts (PDF/DOCX under /acc/alfresco/) are disallowed.
+# Read on 2026-10-14 (docs/jurisdictions/court-decisions-survey.md):
+#   https://www.courts.ie/robots.txt - "Crawl-delay: 10"; disallows /docs/, /search/, /admin/, /login/ ...
+#   https://www.courts.ie/Judgments -> 301 to https://www2.courts.ie/judgments (the judgments site).
+#   https://www2.courts.ie/robots.txt - "User-agent: *" with "Allow:" for /judgments, /determinations, /view/judgments,
+#        /view/determinations, /ga/... (Irish-language paths), /legal-diary, some theme assets and /sitemap.xml, then
+#        "Everything else - blocked: Disallow: /". The judgment lists link each judgment's text at
+#        /acc/alfresco/<uuid>/<name>.pdf/pdf (also the "Download" and the .docx links on the view page): that path is NOT in
+#        the allow list, so it is disallowed for every robot.
+#   https://www2.courts.ie/view/judgments/<uuid>/<uuid>/2026_IESC_42.pdf/pdf (allowed, fetched once) - an HTML page with the
+#        metadata (judge, court, date delivered, status, neutral citation [2026] IESC 42, record number, composition of the
+#        court, result) and the response header "X-Robots-Tag: noindex, nofollow, noarchive"; no judgment text.
+#   https://www.courts.ie/organisation-information/re-use-of-information - "You may reproduce and re-use judgments posted on this
+#        website free of charge, provided the Courts Service is identified as the source. Where you use extracts from a judgment,
+#        this must be expressly stated. The Courts Service reserves the right to block spiders and other automated agents from
+#        accessing judgments, in line with the Robots Exclusion Protocol. If you reproduce judgments, you are required to apply
+#        the same restrictions." Also: "Court judgments are the copyright of the courts"; general re-use "subject to the latest
+#        PSI licence available at www.psi.gov.ie" (Re-use of Public Sector Information Regulations 2005, S.I. 279/2005).
+#   https://www.courts.ie/organisation-information/disclaimer - no reuse terms (accuracy disclaimer only).
+schema_version: 1
+id: ie-courts-judgments
+name: Courts Service of Ireland - judgments (www2.courts.ie/judgments)
+publisher: Courts Service of Ireland
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [IE]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  Judgments of the Supreme Court, Court of Appeal, High Court, Court of Criminal Appeal, Central Criminal Court, Special
+  Criminal Court, Circuit and District Courts published by the Courts Service (neutral citations such as [2026] IESC 42),
+  with determinations of the Supreme Court on leave to appeal. Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www2.courts.ie/judgments
+update_frequency: daily (new judgments are uploaded as delivered)
+rate_limits: "robots.txt of www.courts.ie: Crawl-delay 10 s (www2 states none). Judgment texts are disallowed for robots."
+licence:
+  id: IE-Courts-Service-reuse
+  name: Courts Service re-use of information (judgments free of charge with source named; spiders may be blocked)
+  url: https://www.courts.ie/organisation-information/re-use-of-information
+  review_status: pending_review
+  reviewed_by: ULIS project, from the Courts Service's own pages (read 2026-10-14). Not reviewed by counsel.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: unknown
+  conditions:
+    - Identify the Courts Service as the source and say expressly where only an extract is used.
+    - Apply the same restrictions on automated access when reproducing judgments.
+  notes: >-
+    Reuse is permitted, automated access to the texts is not: robots.txt disallows /acc/alfresco/, where every judgment
+    PDF lives, and the Courts Service says it blocks "spiders and other automated agents" in line with the Robots
+    Exclusion Protocol. ULIS fetched only robots.txt, the judgment list, one allowed view page, the re-use page and the
+    disclaimer. To proceed: written permission from the Courts Service (the re-use page names FOI@courts.ie) for an
+    identified research bot to fetch /acc/alfresco/ files, or a bulk/feed channel.
+provenance: Official court judgments. Not retrieved (texts disallowed).
+known_limitations:
+  - Not ingested - robots.txt disallows the judgment documents (2026-10-14); no Irish case law in ULIS.
+  - BAILII (https://www.bailii.org/robots.txt, 2026-10-14) disallows /ie/ and /uk/ and /ew/ for all robots, so it is no alternative.
+status: planned
+connector: null
+parser: null

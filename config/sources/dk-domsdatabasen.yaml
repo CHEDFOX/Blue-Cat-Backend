@@ -1,0 +1,51 @@
+# PLANNED - NOT INGESTED. Domsdatabasen's machine access (a REST API with bulk lists and change feeds) is granted by
+# application only, for a "recognisable purpose". Read on 2026-10-14 (docs/jurisdictions/court-decisions-survey.md):
+#   https://domsdatabasen.dk/robots.txt - 404 (none published, so no restrictions on the public pages).
+#   https://domsdatabasen.dk/ - an application whose case pages are routed by script (https://domsdatabasen.dk/#sag/<id>); the
+#        service has published decisions since 6 January 2022, "ca. 8.415 afgørelser" on 8 July 2026 ("Brug af Domsdatabasen
+#        andet kvartal 2026"); the decisions are pseudonymised ("Afgørelserne i Domsdatabasen er pseudonymiserede").
+#   https://domsdatabasen.dk/spoergsmaal-og-svar/api-adgang-til-domsdatabasen/ - "Domsdatabasen udstiller et API ... baseret på
+#        Restful Services, hvorigennem det er muligt at hente sager fra Domsdatabasen og senere ændringer i databasen." "Der skal
+#        ansøges om API-adgang til Domsdatabasen ... Det vil dog være et krav, at ansøgeren har et anerkendelsesværdigt formål";
+#        the application form and guidance are linked from that page. The public site offers RSS feeds only
+#        (https://domsdatabasen.dk/abonner-paa-domme/), not the documents in bulk.
+schema_version: 1
+id: dk-domsdatabasen
+name: Domsdatabasen - Danish court decisions (Domstolsstyrelsen)
+publisher: Domstolsstyrelsen (Danish Court Administration)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [DK]
+document_kinds: [judgment]
+languages: [da]
+coverage: >-
+  Selected judgments of the Danish and Greenlandic courts (civil and criminal; all instances) published since January
+  2022, pseudonymised, with case metadata. Nothing is ingested.
+access:
+  method: api
+  endpoint: https://domsdatabasen.dk/spoergsmaal-og-svar/api-adgang-til-domsdatabasen/
+  authentication: application to Domstolsstyrelsen (permit holder)
+update_frequency: continuous (RSS feeds on the public site; change download in the API)
+rate_limits: Not published (set in the permit).
+licence:
+  id: DK-Domsdatabasen-API-permit
+  name: Domsdatabasen API access by permit (application, "anerkendelsesværdigt formål")
+  url: https://domsdatabasen.dk/spoergsmaal-og-svar/api-adgang-til-domsdatabasen/
+  review_status: pending_review
+  reviewed_by: ULIS project, from the service's FAQ page (read 2026-10-14). The application guidance was not read.
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: unknown
+  notes: >-
+    No open bulk channel exists; the only machine access is the permit-based API, whose terms come with the permit.
+    ULIS does not scrape the script-driven public site. To proceed: apply for API access (domsdatabasen@domstolsstyrelsen.dk)
+    describing ULIS as a legal research service; record the permit's terms here.
+provenance: Official court database. Not retrieved.
+known_limitations:
+  - Not ingested - API access needs a permit (2026-10-14); no Danish case law in ULIS.
+  - Only a selection of decisions is published, since January 2022.
+status: planned
+connector: null
+parser: null
