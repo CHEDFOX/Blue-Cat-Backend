@@ -26,6 +26,8 @@ import time
 from collections.abc import Iterator
 from pathlib import Path
 
+from sqlalchemy.exc import OperationalError
+
 from ulis.catalog import Catalog
 from ulis.db import make_engine, make_session_factory, session_scope
 from ulis.ingestion.catalog_sync import sync_catalog
@@ -84,10 +86,18 @@ def main(argv: list[str]) -> int:
         chunk = list(itertools.islice(documents, args.batch))
         if not chunk:
             break
-        with session_scope(sessions) as session:
-            report = Ingestor(session, catalog, store, cache_dir=settings.source_cache_dir).ingest_source(
-                args.source_id, actor=args.actor, connector=_Chunk(chunk)
-            )
+        for attempt in range(1, 4):  # a lost database connection (the batch is rolled back) is retried
+            try:
+                with session_scope(sessions) as session:
+                    report = Ingestor(session, catalog, store, cache_dir=settings.source_cache_dir).ingest_source(
+                        args.source_id, actor=args.actor, connector=_Chunk(chunk)
+                    )
+                break
+            except OperationalError as exc:
+                if attempt == 3:
+                    raise
+                print(f"batch {batches + 1}: database error, retrying ({type(exc).__name__})", flush=True)
+                time.sleep(30)
         batches += 1
         for key, value in report.as_dict().items():
             if isinstance(value, int):

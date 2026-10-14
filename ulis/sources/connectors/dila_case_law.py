@@ -204,8 +204,9 @@ class DilaCaseLawConnector:
                     counts["superseded"] += 1
                     continue
                 content = read()
-                if archive is not stock:  # the stock is read last: nothing older needs this list
-                    seen.add(ident)  # the newest copy decides, selected or not
+                # The newest copy decides, selected or not. A decision listed twice in one archive (the CASS stock
+                # does so for some) keeps the first copy: the pipeline refuses two different texts for one decision.
+                seen.add(ident)
                 if not self._wanted(manifest.select, header_fields(content)):
                     continue
                 counts["selected"] += 1

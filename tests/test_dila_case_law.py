@@ -414,6 +414,22 @@ def test_newest_archive_wins_and_deletions_are_honoured(tmp_path: Path) -> None:
     assert sorted(d.external_id for d in stock_only) == sorted([CASS85, CASS24])
 
 
+def test_a_decision_listed_twice_in_one_archive_keeps_the_first_copy(tmp_path: Path) -> None:
+    # The CASS stock lists some decisions twice (two chamber folders) with slightly different bytes.
+    cache = tmp_path / "cache"
+    seed_cache(cache)
+    directory = cache / "echanges.dila.gouv.fr" / "OPENDATA" / "CASS"
+    directory.mkdir(parents=True)
+    first_name = dump_name(CASS24, "cass", stock=True)
+    second_name = first_name.replace("/civile/", "/commerciale/")
+    changed = raw(CASS24).replace(b"</TEXTE_JURI_JUDI>", b"</TEXTE_JURI_JUDI>\n")  # synthetic, mechanism test only
+    stock = directory / CASS_STOCK
+    build_archive(stock, {first_name: raw(CASS24), second_name: changed})
+    connector, docs = run(manifest_file(tmp_path, "CASS", CASS_STOCK, stock.stat().st_size), cache)
+    assert [d.content for d in docs] == [raw(CASS24)]
+    assert connector.report["superseded"] == 1 and connector.report["selected"] == 1
+
+
 def test_manifests_are_validated(tmp_path: Path) -> None:
     cache, size = cass_cache(tmp_path)
 
@@ -532,7 +548,23 @@ def test_search_finds_a_decision_with_its_citation(
     hits = [h for h in res["results"] if h["citation"].startswith("Cons. const.")]
     assert hits, [h["citation"] for h in res["results"]]
     top = hits[0]
-    assert top["citation"].startswith("Cons. const., 7 janv. 2022, n° 2021-960 QPC, § ")
+    # the best hit may be the title block (no paragraph number) or a numbered paragraph ("§ 5")
+    assert top["citation"] == "Cons. const., 7 janv. 2022, n° 2021-960 QPC" or top["citation"].startswith(
+        "Cons. const., 7 janv. 2022, n° 2021-960 QPC, § "
+    )
+    pinpoint = search(
+        session,
+        catalog,
+        SearchRequest(
+            q="association requérante reproche dispositions définir notion substance vénéneuse",
+            jurisdiction="FR",
+            as_of=date(2026, 6, 1),
+            query_language="fr",
+        ),
+        today=date(2026, 10, 14),
+    )
+    cited = [h["citation"] for h in pinpoint["results"] if h["citation"].startswith("Cons. const.")]
+    assert cited and cited[0] == "Cons. const., 7 janv. 2022, n° 2021-960 QPC, § 5", cited
     assert top["source"]["attribution"].startswith(
         "Source: Direction de l'information légale et administrative (DILA), base CONSTIT"
     )

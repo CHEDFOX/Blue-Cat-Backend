@@ -212,6 +212,65 @@ def test_bundle_must_be_a_bundle(tmp_path: Path) -> None:
         parser.parse_dila_legi(buffer.getvalue())
 
 
+def _rewritten(name: str, replace: dict[str, tuple[str, str]], add: dict[str, bytes]) -> bytes:
+    """A fixture bundle with some members edited (member -> (old, new)) and others added: mechanism tests only."""
+    source = zipfile.ZipFile(FIX / name)
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as zf:
+        for member in source.namelist():
+            data = source.read(member)
+            if member in replace:
+                old, new = replace[member]
+                assert old.encode() in data
+                data = data.replace(old.encode(), new.encode())
+            zf.writestr(member, data)
+        for member, data in add.items():
+            zf.writestr(member, data)
+    return buffer.getvalue()
+
+
+def test_a_text_with_several_version_files_is_named_by_the_latest() -> None:
+    # A text can hold the versions of its successive titles ("Code rural", then "Code rural et de la pêche maritime").
+    source = zipfile.ZipFile(FIX / "loi-78-17.zip")
+    version = source.read("version/LEGITEXT000006068624.xml").decode()
+    older = (
+        version.replace("<ETAT>VIGUEUR</ETAT>", "<ETAT>MODIFIE</ETAT>")
+        .replace("<DATE_DEBUT>1978-01-07</DATE_DEBUT>", "<DATE_DEBUT>1900-01-01</DATE_DEBUT>")
+        .replace("<DATE_FIN>2999-01-01</DATE_FIN>", "<DATE_FIN>1978-01-07</DATE_FIN>")
+        .replace("<TITREFULL>Loi n°", "<TITREFULL>Ancienne loi n°")
+    )
+    assert older != version
+    content = _rewritten(
+        "loi-78-17.zip",
+        {},
+        {
+            "version/LEGITEXT000000000001.xml": older.encode(),
+            "struct/LEGITEXT000000000001.xml": source.read("struct/LEGITEXT000006068624.xml"),
+        },
+    )
+    (doc,) = parser.parse_dila_legi(content)
+    plain = parse("loi-78-17.zip")
+    assert doc.title == plain.title and doc.ext["legitext"] == "LEGITEXT000006068624"
+    assert [(p.eid, p.status, p.valid_from) for p in doc.provisions] == [
+        (p.eid, p.status, p.valid_from) for p in plain.provisions
+    ]
+
+
+def test_section_versions_starting_the_same_day_keep_the_longest() -> None:
+    struct = zipfile.ZipFile(FIX / "loi-78-17.zip").read("struct/LEGITEXT000006068624.xml").decode()
+    line = next(row for row in struct.splitlines() if 'id="LEGISCTA000006095881"' in row)
+    shorter = line.replace('id="LEGISCTA000006095881"', 'id="LEGISCTA000099999999"').replace(
+        'fin="2019-06-01"', 'fin="2010-01-01"'
+    )
+    content = _rewritten("loi-78-17.zip", {"struct/LEGITEXT000006068624.xml": (line, line + "\n" + shorter)}, {})
+    (doc,) = parser.parse_dila_legi(content)
+    keys = [(p.eid, p.status, p.valid_from) for p in doc.provisions]
+    assert len(keys) == len(set(keys))
+    periods = [(p.valid_from, p.valid_to) for p in doc.provisions if p.eid == "sec-6095881"]
+    assert periods == [(date(1978, 7, 23), date(2019, 6, 1)), (date(2019, 6, 1), None)]
+    assert periods == [(p.valid_from, p.valid_to) for p in parse("loi-78-17.zip").provisions if p.eid == "sec-6095881"]
+
+
 # ------------------------------------------------------------------------------------------------------ citations
 def _cite(module: FrModule, doc: ParsedDocument, eid: str, extensions: dict[str, Any] | None = None) -> str:
     p = versions(doc, eid)[-1]

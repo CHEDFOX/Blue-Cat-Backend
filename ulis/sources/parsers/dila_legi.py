@@ -290,6 +290,12 @@ def _suffix(chain: str) -> str:
 
 
 # ---------------------------------------------------------------------------------------------------- parser
+def _version_rank(root: Element, name: str) -> tuple[date, bool, str]:
+    spec = root.find("META/META_SPEC/META_TEXTE_VERSION")
+    start, _ = parse_date(_text_of(spec, "DATE_DEBUT"))
+    return (start or date.min, _text_of(spec, "ETAT") == "VIGUEUR", name)
+
+
 def parse_dila_legi(content: bytes) -> list[ParsedDocument]:
     try:
         zf = zipfile.ZipFile(io.BytesIO(content))
@@ -310,15 +316,28 @@ def parse_dila_legi(content: bytes) -> list[ParsedDocument]:
             raise ValueError("unknown bundle format")
         version_names = [n for n in names if n.startswith("version/")]
         struct_names = [n for n in names if n.startswith("struct/")]
-        if len(version_names) != 1 or len(struct_names) != 1:
-            raise ValueError("a bundle holds exactly one version file and one struct file")
-        version_root = fromstring(zf.read(version_names[0]), forbid_dtd=True)
-        struct_root = fromstring(zf.read(struct_names[0]), forbid_dtd=True)
+        if not version_names or not struct_names:
+            raise ValueError("a bundle needs a version file and a struct file")
+        # A text can hold several version files (its successive titles, e.g. "Code rural" then "Code rural et de la
+        # pêche maritime"): the latest one (the one in force, else the one that starts last) names the instrument.
+        roots = {n: fromstring(zf.read(n), forbid_dtd=True) for n in version_names}
+        chosen = max(version_names, key=lambda n: _version_rank(roots[n], n))
+        version_root = roots[chosen]
+        # Its struct file has the same name; the others (older versions) only add sections the chosen one lacks.
+        own_struct = "struct/" + chosen[len("version/") :]
+        if own_struct not in struct_names:
+            if len(struct_names) != 1:
+                raise ValueError(f"no struct file for {chosen}")
+            own_struct = struct_names[0]
+        struct_roots = [own_struct, *[n for n in struct_names if n != own_struct]]
         arts: dict[str, _Art] = {}
         secs: dict[str, _Sec] = {}
-        top_sections, top_order = _children(struct_root, "STRUCT")
-        for sec in top_sections:
-            secs.setdefault(sec.id, sec)
+        top_order: list[tuple[str, str]] = []
+        for struct_name in struct_roots:
+            top_sections, order = _children(fromstring(zf.read(struct_name), forbid_dtd=True), "STRUCT")
+            for sec in top_sections:
+                secs.setdefault(sec.id, sec)
+            top_order.extend(order)
         for name in names:
             if name.startswith("article/"):
                 ident = name[len("article/") : -len(".xml")]
@@ -442,9 +461,17 @@ def _assemble(
         node = f"sec:{cid_key}"
         eid = section_eid(cid_key)
         parent_cid = parent_of[node]
-        for v in sorted(sec_versions, key=lambda x: (x.debut or date.min, x.id)):
+        # Two section files can start the same day (the source restores a wording): keep the one that runs longest
+        # (an open end is the longest), then the later identifier, as for articles.
+        chosen: dict[tuple[date | None, str], _Sec] = {}
+        for v in sorted(sec_versions, key=lambda x: x.id):
             if not _kept(v.etat, v.debut, v.fin) or not v.title:
                 continue
+            slot = (v.debut, v.debut_kind)
+            old = chosen.get(slot)
+            if old is None or (v.fin is None, v.fin or date.min) >= (old.fin is None, old.fin or date.min):
+                chosen[slot] = v
+        for v in sorted(chosen.values(), key=lambda x: (x.debut or date.min, x.id)):
             kind, num_path = section_kind(v.title)
             provisions.append(
                 (
