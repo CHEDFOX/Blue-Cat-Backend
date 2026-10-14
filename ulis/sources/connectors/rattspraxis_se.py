@@ -3,7 +3,8 @@
 ``https://rattspraxis.etjanst.domstol.se/api/v1/publiceringar`` lists publications (the OpenAPI file is at
 ``/openapi/puh-openapi.yaml``; the dataset is listed in Sveriges dataportal with licence CC0 1.0). For each court
 in the manifest the connector pages through ``GET /api/v1/publiceringar?domstolkod=<code>&publiceringsformer=REFERAT``
-(oldest decision first, ``page`` starting at 0, ``pagesize`` at most 100) until a page is short, and yields every
+(``sortorder=avgorandedatum``, oldest decision first with ``asc=true``, ``page`` starting at 0,
+``pagesize`` at most 100) until a page is short, and yields every
 publication as its own document: the JSON object exactly as the API returned it, re-serialised canonically (sorted
 keys, UTF-8, no added whitespace). The page response itself is kept byte for byte in the cache.
 
@@ -49,8 +50,12 @@ __all__ = ["FetchError", "RattspraxisConnector", "page_url", "publication_bytes"
 
 
 def page_url(court: str, page: int, size: int, *, ascending: bool, form: str = "REFERAT") -> str:
+    # The API ignores `asc` unless `sortorder` is given (it then orders newest first); the decision date is explicit.
     asc = "true" if ascending else "false"
-    return f"{API}?domstolkod={court}&publiceringsformer={form}&asc={asc}&pagesize={size}&page={page}"
+    return (
+        f"{API}?domstolkod={court}&publiceringsformer={form}&sortorder=avgorandedatum&asc={asc}"
+        f"&pagesize={size}&page={page}"
+    )
 
 
 def publication_bytes(item: dict[str, Any]) -> bytes:
@@ -135,7 +140,7 @@ class RattspraxisConnector:
             for page in range(MAX_PAGES):
                 url = page_url(court, page, size, ascending=ascending)
                 content, meta = self._get(
-                    url, f"referat/{court}/{'asc' if ascending else 'desc'}-{size}-{page:05d}.json"
+                    url, f"referat/{court}/date-{'asc' if ascending else 'desc'}-{size}-{page:05d}.json"
                 )
                 try:
                     items = json.loads(content)

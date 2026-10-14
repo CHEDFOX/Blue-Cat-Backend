@@ -57,9 +57,9 @@ noted in the text's introduction at best.
 
 `migrate`, `sync-catalog`, `ingest fi-finlex-dpo-decisions`: 396 documents, 385 judgments, 23,446 paragraphs and passages, 1,581
 statute links, no errors (1 min). With the seven Acts of `fi-finlex` ingested from the local cache, 730 links resolve (Tietosuojalaki
-1050/2018: 478; Hallintolaki 434/2003: 246; others not ingested). `verify-sources`: all documents pass (see the survey page for the
-final total). Searches (`FI`): "tietoturvaloukkaus ilmoitus" -> decision 23.3.2022, dnro 2437/161/22; "henkilötunnus kuluttajalasku" ->
+1050/2018: 478; Hallintolaki 434/2003: 246; others not ingested). `verify-sources`: 935 pass, 0 fail in the dev DB (396 of them these decisions). Searches (`FI`): "tietoturvaloukkaus ilmoitus" -> decision 23.3.2022, dnro 2437/161/22; "henkilötunnus kuluttajalasku" ->
 decision 14.5.2020, dnro 8205/154/18; "personuppgifter insyn rätt" -> the Dataskyddslag 38 § 3 mom. and decision 20.7.2022 (dnr 1601/452/18).
+Tests: 14 in `tests/test_finlex_decisions.py`; full suite 780 passed (434 s); ruff check, ruff format --check, mypy clean.
 
 ## Known gaps
 

@@ -9,9 +9,9 @@ stopped the work on that host). Full findings with URLs are in the `licence`/hea
 
 | Country | Publisher | Outcome | Source id |
 |---|---|---|---|
-| SE | Domstolsverket "Sök rättspraxis" open data API (CC0 on Sveriges dataportal) | **Ingested** (see [se-case-law.md](se-case-law.md)) | `se-rattspraxis` |
-| FI | Finlex open data: decisions of the Chancellor of Justice and the two Ombudsmen (CC BY 4.0, bulk zips) | **Ingested**, but these are not courts (see [fi-decisions.md](fi-decisions.md)) | `fi-finlex-decisions` |
-| GB | UK Supreme Court's own site, Open Government Licence | **Ingested** (PDF judgments; see [gb-case-law.md](gb-case-law.md)) | `gb-uksc` |
+| SE | Domstolsverket "Sök rättspraxis" open data API (CC0 on Sveriges dataportal) | **Ingested**: the case reports (referat), 16,505 in the manifest; see [se-case-law.md](se-case-law.md) | `se-rattspraxis` |
+| FI | Finlex open data: decisions of the Data Protection Ombudsman (CC BY 4.0, bulk zip); the Chancellor of Justice and Parliamentary Ombudsman decisions are PDFs | **Ingested**, but these are not courts (see [fi-decisions.md](fi-decisions.md)) | `fi-finlex-dpo-decisions` |
+| GB | UK Supreme Court's own site, Open Government Licence | **Ingested**: 126 judgments published as HTML (2021-2026); see [gb-case-law.md](gb-case-law.md) | `gb-uksc-judgments` |
 | CA | Supreme Court of Canada (decisions.scc-csc.ca) and Federal Court (same platform) | Planned: terms favourable (Reproduction of Federal Law Order), but the Lexum platform answered with a CAPTCHA (403) on the fifth request | `ca-scc-decisions` |
 | AU | High Court (hcourt.gov.au), Federal Court, AustLII | Planned: High Court drops the connection, Federal Court and AustLII show a Cloudflare challenge, even for robots.txt | `au-hca-judgments` |
 | IE | Courts Service (www2.courts.ie) | Planned: re-use of judgments permitted, but robots.txt disallows `/acc/alfresco/` where the texts are | `ie-courts-judgments` |
@@ -34,3 +34,24 @@ stopped the work on that host). Full findings with URLs are in the `licence`/hea
   numbers and the full report as HTML; and an official OpenAPI file, CC0 in the data portal's metadata.
 - Ireland and Canada both permit re-use in words but block robots in practice; permission requests belong in
   `docs/permission-requests.md` (not edited here).
+
+## What was built and run (dev DB `ulis_courts`; test DB `ulis_test_courts`)
+
+| Source | Ingested here | Verify | New tests |
+|---|---|---|---|
+| `se-rattspraxis` | 200 reports (newest 25 of 8 courts) of 16,505 in the committed manifest; 17,530 paragraphs | 200 pass | 16 |
+| `fi-finlex-dpo-decisions` | whole package: 396 documents, 385 decisions, 23,446 paragraphs | 396 pass | 14 |
+| `gb-uksc-judgments` | whole manifest: 126 judgments, 26,877 paragraphs | 126 pass | 13 |
+
+`verify-sources` over the dev DB: 935 pass, 0 fail. Full suite 780 passed in 434 s; `ruff check`, `ruff format --check` and `mypy` clean.
+No change to core semantics, the schema or `PoliteHttp`. Shared files touched (additive): `ulis/ingestion/pipeline.py`
+(registrations), `tests/test_catalog.py` (approved set), the FI, SE and GB profiles and modules (courts, gaps, version bumps,
+judgment citations and ext models). Not edited (as instructed): `docs/sources-and-licensing.md` and `docs/permission-requests.md`;
+the lead should add rows for the planned sources above, in particular `ca-scc-decisions` (Deputy Registrar or Lexum),
+`ie-courts-judgments` (Courts Service), `dk-domsdatabasen` (API application), `fi-kko-precedents`, `de-bverfg-decisions`,
+`pl-saos-judgments`, `nz-courts-judgments`, `au-hca-judgments` and `ch-bger-decisions`.
+
+Not done although open: UK Supreme Court judgments before 2021 (PDF only; needs a PDF text parser), the Privy Council
+(`jcpc.uk`, same terms, 140 HTML judgments), Sweden's judgments and decisions (PDF attachments) and the Chancellor of Justice and
+Parliamentary Ombudsman decisions in Finland (PDF).
+

@@ -56,10 +56,12 @@ only"); the rationale quotes the profile's note that prejudikat are followed in 
 ## Real run and tests (dev DB `ulis_courts`)
 
 See the counts above; `ingest se-riksdagen-sfs` (8 statutes, from the local cache) then the slice: no errors; of 227 links, 34 resolved
-(Rättegångsbalken 1942:740: 14, Brottsbalken 1962:700: 8 ...; the other referenced statutes are not ingested). Searches (`SE`): "skadestånd
+(Rättegångsbalken 1942:740: 14, Brottsbalken 1962:700: 8; the other referenced statutes are not ingested). Searches (`SE`): "skadestånd
 kränkning skälig tid" -> NJA 2026 s. 347; "uppsägning arbetsbrist turordning" -> 22 § lagen (1982:80) om anställningsskydd;
-"uppehållstillstånd anknytning" -> MIG 2025:10 / MIG 2026:2. Tests: see the final figures in the commit message and
-[court-decisions-survey.md](court-decisions-survey.md).
+"uppehållstillstånd anknytning" -> MIG 2025:10 / MIG 2026:2. `verify-sources`: 935 pass, 0 fail in the dev DB (200 of them
+reports). Tests: 16 in `tests/test_rattspraxis_se.py`; full suite 780 passed (434 s); ruff check, ruff format --check, mypy clean.
+The API ignores `asc` unless `sortorder` is given (it then lists newest first), so the connector always sends
+`sortorder=avgorandedatum`.
 
 ## Known gaps
 

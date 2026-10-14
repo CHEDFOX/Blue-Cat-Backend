@@ -63,6 +63,7 @@ construction contract adjudication" -> `Abbey Healthcare ... [2024] UKSC 23 [32]
 `In the Petition of DM No 1 [2026] UKSC 32 [108]`; "public authority acting incompatibly with Convention rights" -> Human Rights Act
 1998 s 6(1) and `... (Respondent) (Scotland) [2025] UKSC 38 [1]`. Authority: "Precedent: binds courts below the deciding court", listing
 the courts of the three UK legal systems whose appeals lie to the Supreme Court (from the GB child profiles).
+Tests: 13 in `tests/test_uksc.py`; full suite 780 passed (434 s); ruff check, ruff format --check, mypy clean.
 
 ## Known gaps
 

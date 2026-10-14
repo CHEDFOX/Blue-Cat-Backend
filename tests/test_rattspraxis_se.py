@@ -251,7 +251,7 @@ def test_committed_manifest_is_valid_and_covers_every_court_with_reports(tmp_pat
 def _write_page(cache: Path, court: str, page: int, items: list[dict[str, Any]], size: int, asc: bool = True) -> None:
     http = PoliteHttp(cache, UA, allowed_hosts={HOST})
     url = page_url(court, page, size, ascending=asc)
-    key = f"referat/{court}/{'asc' if asc else 'desc'}-{size}-{page:05d}.json"
+    key = f"referat/{court}/date-{'asc' if asc else 'desc'}-{size}-{page:05d}.json"
     path = http.cache_path(url, key)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(json.dumps(items, ensure_ascii=False).encode())
@@ -335,7 +335,7 @@ def test_connector_skips_and_reports_wrong_and_repeated_entries_and_refuses_bad_
         _write_robots(bad, None)
         _write_page(bad, "HDO", 0, [], 2)
         http = PoliteHttp(bad, UA, allowed_hosts={HOST})
-        http.cache_path(page_url("HDO", 0, 2, ascending=True), "referat/HDO/asc-2-00000.json").write_bytes(content)
+        http.cache_path(page_url("HDO", 0, 2, ascending=True), "referat/HDO/date-asc-2-00000.json").write_bytes(content)
         with pytest.raises(FetchError, match=message):
             list(_connector(tmp_path, bad, courts=["HDO"]).fetch())
 

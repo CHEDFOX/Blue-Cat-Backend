@@ -201,8 +201,10 @@ def test_profile_source_and_manifest(catalog: Catalog, tmp_path: Path) -> None:
     manifest = UkscConnector(REPO_ROOT / source.access.endpoint, SOURCE, tmp_path)._manifest()
     cases = manifest["cases"]
     assert len(cases) == len(set(cases)) == 126 and cases == sorted(cases)  # one page per judgment (156 pages)
-    assert cases[0] == "UKSC/2021/0098" and cases[-1] == "UKSC/2026/0080" and ABBEY.replace("_", "/") not in cases
-    assert _id(ABBEY) in cases and _id(FORTHWELL) in cases and _id(DM) in cases
+    assert cases[0] == "UKSC/2021/0098" and cases[-1] == "UKSC/2026/0074"
+    assert _id(ABBEY) in cases and _id(FORTHWELL) in cases
+    # The DM fixture is the page of the second case number of [2026] UKSC 32: only the first, UKSC/2026/0074, is listed.
+    assert _id(DM) not in cases and "UKSC/2026/0074" in cases
     assert manifest["crawl_delay_seconds"] >= 5 and "(" in manifest["user_agent"]
     # The sources that could not be used are recorded, not ingested.
     for planned in ("gb-find-case-law", "ie-courts-judgments", "ca-scc-decisions", "au-hca-judgments"):
