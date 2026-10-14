@@ -44,9 +44,27 @@ Judgment paragraphs: headnotes (`SOMMAIRE`), the numbered `§` of the decision, 
 
 ## Known gaps
 No decrees/orders, KALI, JORF, treaties, territorial applicability, link graph between legislative texts; visas and signatures not stored; articles not split into
-alinéas; versions listed by the DILA but missing from the dump are a history gap; 11 texts present in both trees of the stock keep the first copy; some JADE headnotes
+alinéas; versions listed by the DILA but missing from the dump are a history gap; 11 texts present in both trees of the stock keep the first copy; a text that
+holds several consolidated-version files (successive titles, e.g. Code rural) is named by the latest, and earlier titles are not kept; a decision listed twice in
+one archive (some in the CASS stock) keeps the first copy; some JADE headnotes
 are published with broken characters and stored as published; no names of judges, lawyers or parties are stored outside the text; INCA/JADE stocks were not
-downloaded in the build environment (parser checked on daily archives); case law of cours d'appel and first instance, and subsequent history, are not covered.
+downloaded in the build environment (disk; parser checked on daily archives); case law of cours d'appel and first instance, and subsequent history, are not covered.
+A corrected republication of a decision already ingested is refused by the pipeline ("already recorded from different source bytes"): load a source in one run.
 
 ## Numbers from the build run (2026-10-14)
-RESULTS_PLACEHOLDER
+Development database (PostgreSQL 16), sync-catalog, ingestion in batches (`scripts/ingest_in_batches.py`), then `verify-sources` and searches.
+- **Legislation**: stock of 2025-07-13 plus the 18 daily archives to 2025-07-31 (the increments up to 2026-10-13 are not applied in this run). All 5,285 selected
+  texts ingested, 0 errors: 5,275 stored (10 texts without any article text are skipped), 5,275 expressions: 3,564 laws, 1,437 ordinances, 111 organic acts,
+  108 codes, 33 decree-laws, 19 constitutional acts, 3 constitutions. 464,202 provisions, **861,397 provision versions** (744,895 in force, 116,313 `repealed`
+  markers, 189 prospective; 427,220 with a stated end, 424,379 open, 9,798 ended by a successor), 622,134 passages, 1.2 GB of raw bundles; the earliest version
+  starts in 1539. 2,667 texts have an article with more than one version. Ingestion took about 40 minutes in several resumable runs (13 required texts: 697 s).
+- **Case law** (dev database): CONSTIT all 7,408 decisions (1958-11-22 to 2026-10-01; 88,291 paragraphs); CASS 5,474 decisions of 2022-01-04 to 2026-09-17
+  (106,679 paragraphs; a slice of the committed manifest, which starts in 2000); JADE 682 decisions of two daily archives of July 2025 (626 CAA, 55 CE, 1 TC;
+  the stock was not downloaded); INCA none (stock not downloaded). 207,463 paragraphs, 104,203 links to provisions of which 103,273 (99.1%) resolve to an
+  ingested article (6,845 from the Cour de cassation's own list, 96,428 from strict patterns).
+- **Searches** (`as_of`): "tout fait quelconque de l'homme qui cause à autrui un dommage" gives `C. civ., art. 1240` at 2026-01-01 and `C. civ., art. 1382` at
+  2010-01-01; "responsable du traitement données à caractère personnel" gives `Loi n° 78-17 du 6 janvier 1978, art. 112` first; "la souveraineté nationale
+  appartient au peuple" gives `Constitution du 4 octobre 1958, art. 3` then `Cons. const., 9 avr. 1992, n° 92-308 DC, § 10`; "période d'essai contrat de travail
+  renouvellement" gives `C. trav., art. L. 1221-23`.
+- **verify-sources**: VERIFY_RESULT
+- Tests: 789 passed in the whole suite (`tests/test_dila_legi.py` and `tests/test_dila_case_law.py` hold the French ones); ruff and mypy clean.
