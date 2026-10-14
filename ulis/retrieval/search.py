@@ -162,10 +162,10 @@ def _expansions(
     return [{"concept": k, "labels": v} for k, v in report.items()], by_config
 
 
-def _scope(session: Session, catalog: Catalog, target: str | None) -> dict[str, Any]:
+def _scope(session: Session, catalog: Catalog, target: str | None, as_of: date) -> dict[str, Any]:
     reg = catalog.jurisdictions
     if target is None:
-        return {"target": None, "chain": [], "case_law": [], "treaty_ids": [], "treaties": []}
+        return {"target": None, "chain": [], "case_law": [], "treaty_ids": [], "treaties": [], "regional": []}
     chain = reg.chain(target)
     sovereign = reg.sovereign(target)
     case_law = [sovereign, *reg.descendants(sovereign)] if sovereign else chain
@@ -184,6 +184,8 @@ def _scope(session: Session, catalog: Catalog, target: str | None) -> dict[str, 
         "case_law": case_law,
         "treaty_ids": [t[0] for t in treaties],
         "treaties": [t[1] for t in treaties],
+        # Law and courts of regional organisations the State is a member of on the date.
+        "regional": reg.organisations_on(target, as_of),
     }
 
 
@@ -236,9 +238,12 @@ def _candidates(
             "  AND (cardinality(p.extent) = 0 OR CAST(p.extent AS text[]) && CAST(:chain AS text[])))"
             " OR (p.kind = 'provision' AND p.instrument_id = ANY(CAST(:treaty_ids AS uuid[])))"
             " OR (p.kind = 'judgment_paragraph' AND p.jurisdiction_id = ANY(CAST(:system AS text[])))"
+            " OR (p.doc_type <> 'treaty' AND p.jurisdiction_id = ANY(CAST(:regional AS text[])))"
             ")"
         )
-        params.update(chain=scope["chain"], treaty_ids=scope["treaty_ids"], system=scope["case_law"])
+        params.update(
+            chain=scope["chain"], treaty_ids=scope["treaty_ids"], system=scope["case_law"], regional=scope["regional"]
+        )
 
     sql = (
         "SELECT p.id, p.kind, p.provision_version_id, p.judgment_paragraph_id, p.instrument_id, p.judgment_id,"
@@ -324,6 +329,7 @@ def _classify(
                 court_id=courts[c.judgment_id],
                 forum_court=req.forum_court,
                 overruled_by=overruled.get(c.judgment_id),
+                as_of=as_of,
             )
             c.group_key = (
                 "j",
@@ -370,7 +376,7 @@ def search(
     _validate(catalog, req)
     as_of = req.as_of or today
     expansion_report, expansions = _expansions(session, req.q, req.query_language)
-    scope = _scope(session, catalog, req.jurisdiction)
+    scope = _scope(session, catalog, req.jurisdiction, as_of)
     candidates = _candidates(session, req, as_of, scope, expansions, candidate_budget)
     _classify(session, catalog, req, as_of, candidates)
     candidates.sort(key=lambda c: (-c.final, str(c.passage_id)))

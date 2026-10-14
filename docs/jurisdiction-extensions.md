@@ -19,7 +19,7 @@ A profile is the explicit, reviewable description of a jurisdiction. Schema:
 | `precedent` | doctrine (stare decisis / jurisprudence constante / none), `vertical_binding`, notes | Authority classifier |
 | `citation.module` | Jurisdiction module id | Citation formatting, `ext` validation |
 | `publication` | Official sources; commencement, amendment and repeal practice | Source planning; documentation |
-| `memberships` | Regional organisations | Regional-law applicability (Phase 6) |
+| `memberships` | Regional organisations, with accession (and exit) dates | Search scope and authority: a member State's searches include the organisation's law and courts from the accession date; directives are marked as applying through national law |
 | `coverage` | `corpus_status` and **known gaps** | Coverage reporting on every response |
 | `extensions` | Module-specific settings, validated by the module | Module |
 

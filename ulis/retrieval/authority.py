@@ -18,7 +18,10 @@ CATEGORIES: dict[str, tuple[str, float]] = {
     "binding_regulation": ("Binding: regulation in force", 1.2),
     "binding_precedent": ("Binding precedent for the forum court", 1.2),
     "precedent_vertical": ("Precedent: binds courts below the deciding court", 1.1),
+    "regional_law": ("Binding: law of a regional organisation of which the State is a member", 1.2),
+    "regional_case_law": ("Court of a regional organisation of which the State is a member", 1.05),
     "treaty_obligation": ("Treaty in force for the State", 1.0),
+    "regional_directive": ("Directive: binds the State as to the result; applies through national law", 0.95),
     "applicability_unverified": ("In force at the source date; applicability on the requested date unverified", 0.9),
     "persuasive_precedent": ("Persuasive only", 0.85),
     "historical_legislation": ("Historical version: not the version in force on the date", 0.6),
@@ -103,8 +106,11 @@ def classify_provision(
         else:
             note = f"Domestic effect in {state} depends on its treaty-reception rules ({reception})."
         return _make("treaty_obligation", f"In force for {state} since {party.entry_into_force_on}. {note}")
-    if passage_jurisdiction not in reg.chain(home):
-        return _make("foreign", f"Legislation of {passage_jurisdiction} does not apply in {home}.")
+    regional = passage_jurisdiction not in reg.chain(home) and passage_jurisdiction in reg.organisations_on(home, as_of)
+    if passage_jurisdiction not in reg.chain(home) and not regional:
+        return _make(
+            "foreign", f"Legislation of {passage_jurisdiction} does not apply in {home} on {as_of.isoformat()}."
+        )
     if status == "prospective":
         return _make("prospective_legislation", "Enacted, but no commencement has been recorded.")
     if applies_on_date is None:
@@ -116,6 +122,21 @@ def classify_provision(
         )
     if not applies_on_date:
         return _make("historical_legislation", f"This version did not apply on {as_of.isoformat()}.")
+    if regional:
+        state = reg.sovereign(home)
+        org = reg.get(passage_jurisdiction).name
+        if doc_type == "directive":
+            return _make(
+                "regional_directive",
+                f"Directive of {org}: binds {state} as to the result to be achieved and normally applies through "
+                "national transposing law, which is not linked here; direct effect is limited (to verify).",
+            )
+        return _make(
+            "regional_law",
+            f"{doc_type.capitalize()} of {org}, of which {state} is a member on {as_of.isoformat()} (per profile): "
+            f"applies in {state} without national implementation where the organisation's rules so provide "
+            "(to verify).",
+        )
     if doc_type == "regulation":
         return _make("binding_regulation", f"Regulation of {passage_jurisdiction} in force on {as_of.isoformat()}.")
     if doc_type == "constitution":
@@ -134,10 +155,18 @@ def classify_judgment(
     court_id: str,
     forum_court: str | None,
     overruled_by: str | None,
+    as_of: date | None = None,
 ) -> Authority:
     home = target or judgment_jurisdiction
     court_profile = reg.get(reg.court_jurisdiction(court_id))
     court_name = reg.courts()[court_id].name
+    if judgment_jurisdiction in reg.organisations_on(home, as_of or date.today()):
+        org = reg.get(judgment_jurisdiction).name
+        return _make(
+            "regional_case_law",
+            f"Decision of {court_name} ({org}); {reg.sovereign(home)} is a member of {org}. Its weight on questions "
+            f"of {org} law follows the organisation's rules (see the {judgment_jurisdiction} profile; to verify).",
+        )
     if reg.sovereign(judgment_jurisdiction) != reg.sovereign(home):
         return _make(
             "foreign",

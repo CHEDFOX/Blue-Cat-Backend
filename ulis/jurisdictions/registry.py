@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 
 import yaml
@@ -100,6 +101,17 @@ class JurisdictionRegistry:
             if self.profiles[node].kind == "sovereign_state":
                 return node
         return None
+
+    def organisations_on(self, jurisdiction_id: str, when: date) -> list[str]:
+        """Regional organisations the jurisdiction's State is a member of on ``when`` (per profile)."""
+        state = self.sovereign(jurisdiction_id)
+        if state is None:
+            return []
+        return [
+            m.organisation
+            for m in self.profiles[state].memberships
+            if (m.from_date is None or m.from_date <= when) and (m.to_date is None or when < m.to_date)
+        ]
 
     def domestic_chain(self, jurisdiction_id: str) -> list[str]:
         """The chain up to (and including) the sovereign state; excludes international roots."""

@@ -180,3 +180,22 @@ def test_unindexed_history_is_not_reported_as_not_yet_in_force() -> None:
     assert gap.status == "history_not_indexed" and gap.version is None
     assert before.status == "not_yet_in_force"
     assert resolve_at(versions, D(1980, 1, 1)).status == "not_yet_in_force"  # no history information given
+
+
+def test_law_of_a_regional_organisation_applies_only_to_members_and_only_from_accession(catalog: Catalog) -> None:
+    reg = catalog.jurisdictions
+    base = {"passage_jurisdiction": "XR", "status": "in_force", "applies_on_date": True}
+    member = classify_provision(reg, target="XA", doc_type="regulation", as_of=date(2020, 1, 1), **base)  # type: ignore[arg-type]
+    assert member.category == "regional_law"
+    directive = classify_provision(reg, target="XA", doc_type="directive", as_of=date(2020, 1, 1), **base)  # type: ignore[arg-type]
+    assert directive.category == "regional_directive" and "transposing" in directive.rationale
+    # XA joined XR on 2008-01-01 (profile); before that, and for non-members, XR law is foreign.
+    assert (
+        classify_provision(reg, target="XA", doc_type="regulation", as_of=date(2005, 1, 1), **base).category
+        == "foreign"
+    )  # type: ignore[arg-type]
+    assert (
+        classify_provision(reg, target="XB", doc_type="regulation", as_of=date(2020, 1, 1), **base).category
+        == "foreign"
+    )  # type: ignore[arg-type]
+    assert reg.organisations_on("XA-NP", date(2020, 1, 1)) == ["XR"]  # provinces share the State's memberships
