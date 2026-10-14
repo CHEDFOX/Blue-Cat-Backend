@@ -1,0 +1,70 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. The Council of Europe (not the European Union) and the European
+# Court of Human Rights. Holds the treaties made under it (the European Convention on Human Rights, its
+# Protocols, the Statute). The Court's case law is NOT ingested: HUDOC's terms do not allow it (see
+# config/sources/coe-echr-hudoc.yaml and docs/jurisdictions/coe.md). Memberships of States are added to the
+# States' profiles by the lead, not here.
+schema_version: 1
+id: COE
+profile_version: 0.1.0
+name: Council of Europe
+names:
+  en: Council of Europe
+  fr: Conseil de l'Europe
+  de: Europarat
+kind: regional_organisation
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en, fr]
+legal_system:
+  families: [international]
+  structure: international_organisation
+  treaty_reception: not_applicable
+  notes: >-
+    To verify - an intergovernmental organisation founded by the Statute of the Council of Europe (London, 5 May
+    1949); its official languages are English and French (Statute, art 12, read in the ingested French text);
+    seat Strasbourg (art 11). Its treaties bind only the States that become parties to them; how a treaty
+    applies inside a State depends on that State (monist or dualist) and is not modelled here.
+legislative_institutions: []
+instrument_types: [treaty]
+norm_hierarchy: [treaty]
+courts:
+  - id: COE-ECTHR
+    name: European Court of Human Rights
+    rank: 1
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - the Convention provides for a Court (art 19) whose final
+    judgments the High Contracting Parties undertake to abide by in cases to which they are parties (art 46(1)).
+    It does not provide for binding precedent; the Court's practice of following its own case law, and the
+    effect of its judgments on States that were not parties, are not modelled. No judgment is ingested.
+citation:
+  module: coe
+  notes: >-
+    Treaty provisions are cited as the Swiss publication does, with the short form of the language version
+    (ECHR: CEDH / EMRK / CEDU) when the file has one, else the title.
+  examples:
+    - "art. 8 al. 1 CEDH"
+    - "Art. 8 Abs. 1 EMRK"
+    - "art. 8 cpv. 1 CEDU"
+publication:
+  official_sources: [ch-fedlex-treaties, coe-treaty-office, coe-echr-hudoc]
+  commencement: >-
+    To verify - a treaty enters into force as its own final clauses provide; for each State on the date of its
+    ratification or accession plus any period the treaty sets. The scope table in the Swiss publication records
+    the dates for each State party.
+  amendment: >-
+    By protocol or amending protocol (for example Protocols No 11, 14 and 15 to the Convention), which the
+    Swiss publication consolidates into the text where in force.
+  repeal: Not applicable to a treaty text; a State may denounce or cease to be a party (the scope table then omits it).
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only the Swiss publication of the Convention (SR 0.101), Protocols No 6, 7, 13, 14 and 15 and the Statute of the Council of Europe is ingested (German, French and Italian; the French file is the original-language text, the others Swiss translations). The English text, the other Protocols (No 1, 4, 12, 16) and all other Council of Europe treaties are not ingested.
+    - No case law of the European Court of Human Rights, no decisions of the Commission, no Committee of Ministers resolutions, because HUDOC's terms (reproduction for private use or information and education, other use only with written permission) do not allow automated retrieval or commercial use. The Council of Europe sites answered ULIS with a block.
+    - Treaty parties are recorded only for States that have a profile in ULIS, with the dates in the Swiss scope table; reservations and declarations are not recorded; memberships of the organisation are not yet in the States' profiles.
+    - The Swiss consolidations start in 2012 for the Convention; earlier versions of the text are a history gap.

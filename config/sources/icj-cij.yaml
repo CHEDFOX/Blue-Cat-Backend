@@ -1,0 +1,54 @@
+# International Court of Justice website (www.icj-cij.org). PLANNED, NOT INGESTED: the site's Disclaimer
+# says its information and data "may not be reproduced or used for commercial purposes" and the footer says
+# "All rights reserved"; no licence for reuse is given. Read 2026-10-14; robots.txt allows /decisions.
+schema_version: 1
+id: icj-cij
+name: International Court of Justice - judgments, advisory opinions and orders; Statute and basic documents
+publisher: International Court of Justice
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [INT]
+document_kinds: [judgment, treaty]
+languages: [en, fr]
+coverage: >-
+  Judgments, advisory opinions and orders of the ICJ and the PCIJ series, pleadings, and the basic documents
+  (Charter of the United Nations, Statute of the Court, Rules of Court). ULIS ingests nothing from it. The
+  Statute of the Court is ingested instead as published by Switzerland (source ch-fedlex-treaties,
+  /int/treaty/ch-sr-0.193.501).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.icj-cij.org/decisions
+update_frequency: on delivery of decisions
+rate_limits: >-
+  https://www.icj-cij.org/robots.txt (HTTP 200, "User-agent: *", read 2026-10-14) disallows only /core/,
+  /profiles/, admin, search, user and comment paths; no Crawl-delay. /decisions and /basic-documents are
+  not disallowed. The identifying User-Agent was accepted (HTTP 200 on /home and /disclaimer).
+licence:
+  id: ICJ-DISCLAIMER
+  name: ICJ website Disclaimer - no reproduction or use for commercial purposes
+  url: https://www.icj-cij.org/disclaimer
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14, from https://www.icj-cij.org/disclaimer: "Information or data contained on
+    this site and on the Court's social network accounts may not be reproduced or used for commercial
+    purposes. The consultation or use of ICJ data shall automatically constitute full acceptance of this
+    disclaimer of liability. The electronic version of the Court's publications is provided as a courtesy.
+    The printed version of the Court's publications is the official version and shall govern any
+    discrepancies between the two." The site footer reads "© International Court of Justice 2017-2026 -
+    All rights reserved". No reuse licence, API or data terms were found.
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: not_allowed
+  conditions:
+    - No reproduction or use for commercial purposes. Non-commercial reproduction is not expressly granted either.
+    - The printed publication is the official version.
+  notes: >-
+    NOT approved: all rights reserved and a ban on commercial reproduction and use. ULIS's intended use
+    (possibly a commercial service) is for the owner to decide; ask the Registry for written permission
+    before any retrieval.
+provenance: robots.txt, /home and /disclaimer read on 2026-10-14. Nothing else retrieved, nothing stored.
+known_limitations:
+  - Not ingested. No ICJ judgment, advisory opinion or order is available in ULIS.
+status: planned

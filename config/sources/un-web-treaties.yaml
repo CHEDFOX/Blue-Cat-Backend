@@ -1,0 +1,61 @@
+# United Nations web sites (un.org, legal.un.org) and the UN Treaty Collection (treaties.un.org). REJECTED for
+# ULIS: the UN-wide Terms and Conditions of Use grant "personal, non-commercial use, without any right to
+# resell or redistribute ... or to compile or create derivative works"; the Treaty Collection publishes
+# treaty texts as images and sets a 215 s crawl delay. Read 2026-10-14. The Charter of the United Nations,
+# the Statute of the ICJ and the Vienna Convention on the Law of Treaties are ingested instead as published
+# by Switzerland (source ch-fedlex-treaties).
+schema_version: 1
+id: un-web-treaties
+name: United Nations web sites - Charter of the United Nations, legal texts and the UN Treaty Collection
+publisher: United Nations
+kind: international_organisation
+authority: official_non_authentic
+jurisdictions: [INT]
+document_kinds: [treaty]
+languages: [en, fr, es, ru, zh, ar]
+coverage: >-
+  The Charter (un.org/en/about-us/un-charter), the treaty texts on legal.un.org (for example the Vienna
+  Convention on the Law of Treaties) and the depositary information and United Nations Treaty Series of
+  treaties.un.org. ULIS ingests nothing from these hosts.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.un.org/
+update_frequency: unknown
+rate_limits: >-
+  https://www.un.org/robots.txt (HTTP 200, read 2026-10-14): "User-agent: *", "Crawl-delay: 10", Drupal
+  system paths disallowed. https://legal.un.org/robots.txt does not exist (the host redirects to the un.org
+  "page not found" page). https://treaties.un.org/robots.txt (HTTP 200): "User-agent: *", "Crawl-delay: 215".
+licence:
+  id: UN-WEB-TERMS
+  name: Terms and Conditions of Use of United Nations Web Sites (personal, non-commercial use only)
+  url: https://www.un.org/en/about-us/terms-of-use
+  review_status: rejected
+  reviewed_by: >-
+    ULIS project, 2026-10-14. (1) https://www.un.org/en/about-us/terms-of-use, "General (a)": "The United
+    Nations grants permission to Users to visit the Site and to download and copy the information,
+    documents and materials (collectively, "Materials") from the Site for the User's personal,
+    non-commercial use, without any right to resell or redistribute them or to compile or create
+    derivative works therefrom, subject to the terms and conditions outlined below, and also subject to
+    more specific restrictions that may apply to specific Material within this Site." (2)
+    https://www.un.org/en/about-us/copyright: "Copyright (c) United Nations All rights reserved. None of
+    the materials provided on this web site may be used, reproduced or transmitted, in whole or in part,
+    in any form or by any means ... except as provided for in the Terms and Conditions of Use of United
+    Nations Web Sites, without permission in writing from the publisher." (3) UN Treaty Collection
+    disclaimer (https://treaties.un.org/pages/Overview.aspx?path=overview/disclaimer/page1_en.xml): "made
+    available for information purposes only"; its COPYRIGHT and TERMS OF USE links are the UN-wide pages
+    above; the texts of the United Nations Treaty Series are "in image format".
+  reviewed_on: 2026-10-14
+  redistribution: not_allowed
+  bulk_download: not_allowed
+  automated_processing: unknown
+  commercial_use: not_allowed
+  conditions:
+    - Personal, non-commercial use only; no resale, no redistribution, no compilation or derivative works. ULIS stores, indexes and serves text, which these terms do not allow without the UN's written permission.
+  notes: >-
+    Rejected until the United Nations (Publications - Rights and Permissions) gives written permission.
+    Only two pages of un.org, one of treaties.un.org and the robots.txt files were fetched to read the
+    terms; nothing from the Treaty Collection database was touched.
+provenance: Pages and robots.txt files named above, read on 2026-10-14 (about six requests, none to a treaty text). Nothing stored.
+known_limitations:
+  - Not ingested.
+status: rejected
