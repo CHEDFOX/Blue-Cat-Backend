@@ -1,0 +1,45 @@
+# PLANNED - NOT INGESTED. Justia's terms of service could not be read: the page answered HTTP 403 to the ULIS bot.
+# Checked on 2026-10-14 (details in docs/jurisdictions/us-case-law.md):
+#   https://supreme.justia.com/robots.txt - "User-agent: *" / "Allow: /" and a sitemap index; https://www.justia.com/robots.txt -
+#        "User-agent: *" / "Disallow:" (nothing disallowed). robots.txt grants no reuse right by itself.
+#   https://www.justia.com/terms-of-service/ - HTTP 403 (a bot-challenge page). Refused, so ULIS stopped: no other user
+#        agent or browser was tried and no opinion page was requested.
+schema_version: 1
+id: us-justia-supreme-court
+name: Justia, US Supreme Court Center
+publisher: Justia Inc. Not an official court publication.
+kind: open_data_repository
+authority: unofficial
+jurisdictions: [US]
+document_kinds: [judgment]
+languages: [en]
+coverage: Supreme Court (and other US) opinions as republished by Justia. Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://supreme.justia.com/
+  authentication: none
+update_frequency: not examined
+rate_limits: Not known; robots.txt names no crawl delay. The terms page could not be read (HTTP 403).
+licence:
+  id: unknown
+  name: Not read - Justia's terms of service answered HTTP 403
+  url: https://www.justia.com/terms-of-service/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project - robots.txt of supreme.justia.com and www.justia.com (both allow all); the terms of service returned HTTP 403 (2026-10-14).
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: not_allowed
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  conditions:
+    - Read Justia's terms of service (or obtain written permission for an identified research bot) before any retrieval; the "not_allowed" records that the terms could not be read, not a finding about them.
+  notes: >-
+    The primary texts of the Supreme Court are taken from GovInfo (us-govinfo-usreports) instead. Justia was not used for any text.
+provenance: Not retrieved.
+known_limitations:
+  - Not ingested - the terms of service could not be read (HTTP 403); primary texts come from GovInfo.
+status: planned
+connector: null
+parser: null

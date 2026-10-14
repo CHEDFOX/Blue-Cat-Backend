@@ -1,0 +1,57 @@
+# REJECTED - NOT INGESTED. Cornell's Legal Information Institute (LII) holds Supreme Court opinions, but its terms do not
+# allow commercial redistribution of its compilation and markup, and the same primary texts are available from the
+# government sources ULIS uses. Checked on 2026-10-14 (details in docs/jurisdictions/us-case-law.md):
+#   https://www.law.cornell.edu/robots.txt - "User-agent: *", "Crawl-delay: 10", Drupal admin/search/user paths disallowed;
+#        no rule names AI or research bots and nothing there grants permission.
+#   https://www.law.cornell.edu/lii/terms/documentation ("Site Documentation") - "The compilation of materials gathered here
+#        by the editors of the LII and the pages holding them are protected by copyright, with the copyright held by
+#        Cornell University. Distribution of these pages on the Internet does not constitute consent to any use of this
+#        material for commercial redistribution"; where "the underlying texts are government documents, those texts lie in
+#        the public domain. The LII does not assert copyright in US Government works, but we do claim copyright in markup,
+#        navigation apparatus, and other value-added features ... covered by a Creative Commons license" CC BY-NC-SA 2.5
+#        (credit LII, no commercial use, share alike); "Potential commercial users/licensors should contact us at
+#        permissions@liicornell.org".
+#   Only robots.txt, the home page and this terms page were requested; no opinion page was fetched.
+schema_version: 1
+id: us-cornell-lii
+name: Legal Information Institute, Cornell Law School (Supreme Court opinions)
+publisher: Legal Information Institute, Cornell University. Not an official court publication.
+kind: open_data_repository
+authority: unofficial
+jurisdictions: [US]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  Supreme Court opinions (and statutes, rules, regulations) as edited by LII. Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.law.cornell.edu/
+  authentication: none
+update_frequency: not examined
+rate_limits: "robots.txt (2026-10-14): Crawl-delay: 10."
+licence:
+  id: CC-BY-NC-SA-2.5
+  name: LII markup and value-added features CC BY-NC-SA 2.5; the underlying US Government texts are public domain
+  url: https://www.law.cornell.edu/lii/terms/documentation
+  review_status: rejected
+  reviewed_by: >-
+    ULIS project - LII Site Documentation page and robots.txt (2026-10-14). Neither explicitly allows bulk or automated
+    retrieval, and the terms exclude commercial use of the LII compilation.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: not_allowed
+  automated_processing: unknown
+  commercial_use: not_allowed
+  attribution_required: true
+  attribution_text: Legal Information Institute, Cornell Law School (https://www.law.cornell.edu/)
+  conditions:
+    - Non-commercial use only for LII's compilation and markup (CC BY-NC-SA 2.5); contact permissions@liicornell.org for commercial use.
+  notes: >-
+    The public-domain primary texts are taken from GovInfo instead (us-govinfo-usreports), which needs no
+    non-commercial restriction. LII was not used for any text.
+provenance: Not retrieved.
+known_limitations:
+  - Not ingested - terms restrict commercial use of the compilation and do not explicitly allow automated retrieval; primary texts come from GovInfo.
+status: rejected
+connector: null
+parser: null
