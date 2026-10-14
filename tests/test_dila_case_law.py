@@ -116,11 +116,15 @@ def test_recent_decision_of_the_cour_de_cassation() -> None:
     doc = parse(CASS24)
     assert doc.judgment is not None and doc.judgment.neutral_citation == "ECLI:FR:CCASS:2024:CO00516"
     assert [p.num for p in doc.paragraphs if p.num] == [str(i) for i in range(1, 13)]
-    refs = {r.href: r.extraction_method for p in doc.paragraphs for r in p.refs}
-    assert refs == {
-        f"/fr/legi/{CIVIL}/~art-1353": "pattern",
-        f"/fr/legi/{CIVIL}/~art-2313": "pattern",
-    } or all(href.startswith("/fr/legi/") for href in refs)
+    refs = {(p.eid, r.href.rpartition("~")[2], r.extraction_method) for p in doc.paragraphs for r in p.refs}
+    assert refs >= {
+        ("para-5", "art-1353", "pattern"),
+        ("para-5", "art-2313", "pattern"),
+        ("para-5", "art-L643-1", "pattern"),
+        ("header-1", "art-R431-5", "pattern"),
+    }
+    commerce = "LEGITEXT000005634379"  # "articles L. 643-1 ... du code de commerce"
+    assert f"/fr/legi/{commerce}/~art-L643-1" in {r.href for p in doc.paragraphs for r in p.refs}
 
 
 def test_the_courts_list_of_texts_applied_is_source_markup() -> None:
@@ -131,9 +135,10 @@ def test_the_courts_list_of_texts_applied_is_source_markup() -> None:
     marked = [(r.href, r.extraction_method) for r in first.refs]
     assert marked == [(f"/fr/legi/{CIVIL}/~art-{n}", "source_markup") for n in (1569, 1570, 1571, 1574)]
     assert first.refs[0].text == "Articles 1569, 1570, 1571 et 1574 du code civil"
-    # the same articles named in the body of the avis are found by the strict pattern, once each
-    body = [r for p in doc.paragraphs[1:] for r in p.refs]
-    assert {r.extraction_method for r in body} == {"pattern"} and len({r.href for r in body}) == len(body) or not body
+    # the body of the avis names article 1569 and (in the operative part) article R. 431-5 of the Code de l'organisation
+    # judiciaire: found by the strict pattern, not by the court's markup
+    body = {(p.eid, r.href.rpartition("~")[2], r.extraction_method) for p in doc.paragraphs[1:] for r in p.refs}
+    assert body == {("para-3", "art-1569", "pattern"), ("decision-1", "art-R431-5", "pattern")}
 
 
 def test_administrative_decisions() -> None:

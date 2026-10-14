@@ -19,8 +19,8 @@
 #        data covered by that arrêté (JORF, LEGI, KALI, JADE, CONSTIT, CASS, INCA, CAPP, CNIL, CIRCULAIRES).
 #   https://www.dila.gouv.fr/robots.txt (the DILA's own website): "User-agent: *", Disallow only /ecrire/, /lib/, /prive/ and
 #        login/API actions, Crawl-delay: 1; the pages above are not disallowed.
-#   https://www.legifrance.gouv.fr (the public site) answers automated requests with a Cloudflare challenge, so ULIS does not
-#        fetch it at all and takes nothing from it; the Licence Ouverte text (Etalab) is cited, not fetched.
+#   https://www.legifrance.gouv.fr (the public site) answered the one request made (its robots.txt) with a Cloudflare challenge:
+#        ULIS made no further request to it and takes nothing from it; the Licence Ouverte text (Etalab) is cited, not fetched.
 schema_version: 1
 id: fr-dila-legi
 name: LEGI - Codes, lois et règlements consolidés (DILA open data)

@@ -12,7 +12,7 @@ sources `fr-dila-constit`, `fr-dila-cass`, `fr-dila-inca`, `fr-dila-jade`. EU me
   reusers to cite the DILA, the long download URL, and the name and date of the downloaded file; a first integration must use the latest
   stock. `https://www.dila.gouv.fr/home/open-data-et-api` bases the free reuse on the arrêté of 24 June 2014. Case-law sheets add that
   names of natural persons are pseudonymised (CNIL recommendation of 29 November 2001) and refer to an "Avertissement" document not found.
-  `legifrance.gouv.fr` answers bots with a Cloudflare challenge: it is never fetched. The Etalab licence text was not reachable here.
+  `legifrance.gouv.fr` answered the one request made (robots.txt) with a Cloudflare challenge: nothing more was requested from it. The Etalab licence text was not reachable here.
   Conclusion: reuse allowed with attribution (`attribution_text` in each source file carries it); counsel review recommended.
 - Consolidated texts are the DILA's consolidation, not authentic (`official_consolidation`, `authoritative = false`); decisions are pseudonymised publications.
 

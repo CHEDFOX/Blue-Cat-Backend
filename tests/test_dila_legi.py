@@ -485,11 +485,6 @@ def test_incrementals_stop_at_the_date_in_the_manifest(tmp_path: Path) -> None:
     law = list(DilaLegiConnector(manifest, "fr-dila-legi", cache, offline=True, sleep=lambda _s: None).fetch())[0]
     with zipfile.ZipFile(io.BytesIO(law.content)) as zf:
         assert json.loads(zf.read("bundle.json"))["last_archive"]["name"] == INC1 and zf.read(changed) == new
-    manifest = manifest_file(tmp_path / "off", size)  # incrementals disabled: the stock alone
-    stock_only = (
-        list(DilaLegiConnector(manifest, "fr-dila-legi", tmp_path / "cache2", offline=True).fetch()) if False else []
-    )
-    assert stock_only == []
 
 
 def test_manifest_validation(tmp_path: Path) -> None:
