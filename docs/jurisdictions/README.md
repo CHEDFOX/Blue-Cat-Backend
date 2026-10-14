@@ -17,3 +17,4 @@ gaps and the actual test and ingestion results. See
 | Finland | Finlex open data | [fi.md](fi.md) |
 | Australia (Commonwealth) | Federal Register of Legislation | [au.md](au.md) |
 | Netherlands | Basiswettenbestand (BWB) | [nl.md](nl.md) |
+| Taiwan | Laws & Regulations Database (MOJ) | [tw.md](tw.md) |

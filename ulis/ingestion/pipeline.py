@@ -41,6 +41,7 @@ from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnect
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
+from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
 from ulis.sources.parsers import (
     akn,
@@ -54,6 +55,7 @@ from ulis.sources.parsers import (
     gesetze_im_internet,
     justice_canada,
     legislation_gov_uk,
+    moj_law,
     uslm,
 )
 from ulis.sources.registry import SourceDescriptor, licence_gate
@@ -75,6 +77,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "finlex_akn": finlex.parse_finlex,
     "frl_epub": au_federal_register.parse_federal_register,
     "bwb_xml": bwb.parse_bwb,
+    "moj_law_html": moj_law.parse_moj_law,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -89,6 +92,7 @@ PARSER_VERSIONS = {
     "finlex_akn": finlex.PARSER_VERSION,
     "frl_epub": au_federal_register.PARSER_VERSION,
     "bwb_xml": bwb.PARSER_VERSION,
+    "moj_law_html": moj_law.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -133,6 +137,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "finlex": FinlexConnector,
     "au_federal_register": FederalRegisterConnector,
     "bwb": BwbConnector,
+    "moj_laws": MojLawsConnector,
 }
 
 

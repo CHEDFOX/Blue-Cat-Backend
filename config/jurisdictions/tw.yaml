@@ -1,0 +1,106 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Taiwan: the laws of the Republic of China in force in
+# Taiwan (central government law). Special municipalities, counties and cities (local
+# self-government regulations, 自治法規) are not profiled.
+# Naming is neutral: "Taiwan", with the official designation in `names`. `kind: other` records no
+# position on international status; the profile describes the legal order as its own sources do.
+schema_version: 1
+id: TW
+profile_version: 0.1.0
+name: Taiwan
+names: {en: Republic of China (Taiwan), zh-Hant: 中華民國}
+kind: other
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [zh-Hant]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: unknown
+  notes: >-
+    To verify - civil-law system of codes (六法); the Constitution of the Republic of China (1947)
+    applies with the Additional Articles (憲法增修條文, last amended 2005), which govern the
+    "free area of the Republic of China" (中華民國自由地區, the Additional Articles' term) and suspend
+    or replace several articles of the Constitution. Laws must not contravene the Constitution and
+    orders must not contravene the Constitution or laws (Constitution arts 171-172; 中央法規標準法
+    art 11). Treaty reception (treaties approved by the Legislative Yuan, 條約締結法; implementing
+    acts for the UN human rights covenants) is not modelled here. official_languages lists the
+    language of the legislation (Chinese, Traditional script); the National Languages Development
+    Act (國家語言發展法, 2019) recognises other national languages (to verify).
+legislative_institutions:
+  - id: TW-LY
+    name: Legislative Yuan (立法院); constitutional amendments are proposed by it and approved by referendum (Additional Articles art 12)
+    instrument_types: [constitution, act]
+  - id: TW-EXEC
+    name: Executive Yuan and central government agencies (orders, 命令)
+    instrument_types: [regulation]
+instrument_types: [constitution, act, regulation]
+norm_hierarchy: [constitution, act, regulation]
+courts:
+  - id: TW-CC
+    name: Constitutional Court (憲法法庭)
+    rank: 1
+  - id: TW-SC
+    name: Supreme Court (最高法院)
+    rank: 2
+  - id: TW-SAC
+    name: Supreme Administrative Court (最高行政法院)
+    rank: 2
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal stare decisis. Judgments of the Constitutional Court (憲法法庭, since
+    2022 under the Constitutional Court Procedure Act, 憲法訴訟法) bind all organs of the state and
+    the people (憲法訴訟法 art 38(1)); earlier Interpretations of the Justices of the Judicial Yuan
+    (司法院大法官解釋, 釋字) bind all state organs (Interpretation No. 185). The Supreme Court and the
+    Supreme Administrative Court head separate branches (civil and criminal; administrative). Their
+    former "precedents" (判例) system was abolished in 2019: since then legal questions on which
+    panels diverge go to a Grand Chamber (大法庭), whose ruling binds the referring panel in that case
+    (法院組織法 art 51-10; 行政法院組織法), and earlier precedents with a traceable judgment have the
+    effect of an ordinary final judgment (法院組織法 art 57-1). Lower courts follow the supreme courts
+    in practice. The Constitutional Court is not an appellate court above them, although it can
+    review final judgments on a constitutional complaint (憲法訴訟法 art 59); rank 2 only orders the
+    supreme courts after it. High courts, district courts and administrative courts below the
+    supreme courts are not profiled.
+citation:
+  module: tw
+  notes: >-
+    Article, paragraph (項, unnumbered in print), item (款) and sub-item (目) in Arabic numerals;
+    第1項 omitted for an article with a single paragraph; inserted articles 第N條之M. 中華民國刑法,
+    中華民國憲法 and 中華民國憲法增修條文 are cited without 中華民國 (刑法, 憲法, 憲法增修條文).
+  examples:
+    - "民法第184條第1項"
+    - "刑法第271條第1項"
+    - "個人資料保護法第6條第1項第2款"
+    - "個人資料保護法第2條第1款"
+    - "勞動基準法第59條第4款第1目"
+    - "憲法增修條文第2條第1項"
+publication:
+  official_sources: [tw-moj-laws]
+  commencement: >-
+    A law is promulgated by the President in the Presidential Office Gazette (總統府公報). A law
+    stating that it applies from promulgation takes effect from the third day counted from the day
+    of promulgation (中央法規標準法 art 13); a law with a specified date, or a date fixed by order,
+    from that date (art 14). To verify.
+  amendment: >-
+    Textual amendment by later laws promulgated in the Gazette; the Ministry of Justice database
+    publishes the consolidated text (not authentic) with the history of amendments (沿革).
+  repeal: >-
+    A repealed article keeps its number with the text 「（刪除）」; whole laws are repealed
+    (廢止) by the procedure of 中央法規標準法 arts 21-22 (to verify).
+memberships: []
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only a hand-picked sample of 8 laws (the Constitution, its Additional Articles and 6 laws) is ingested (see the source manifest).
+    - Current consolidation only, with no per-article dates in the source; each text is attested only at the database's consolidation cut-off date. Earlier dates are a history gap, reported as such.
+    - Articles amended but not yet in force are recorded only in their amended (prospective) wording; the wording still in force for them is not ingested (Personal Data Protection Act - 26 articles of the 2023 and 2025 amendments; Civil Code arts 166-1 and 1223).
+    - Amendment histories (沿革) and the original promulgation dates of amended laws are not ingested.
+    - The Constitution is shown as promulgated; the Additional Articles suspend or replace several of its articles (e.g. arts 25-34 and 135, Additional Articles art 1(2)) - the two are not linked.
+    - No orders (命令), local self-government regulations, treaties or cross-strait agreements; no case law, no Constitutional Court judgments or Judicial Yuan interpretations.
+    - Official English translations are not ingested (robots.txt disallows them; the Chinese text prevails).
+    - Article attachments (附件, e.g. Criminal Code art 185-3) are not ingested.
+    - Chinese text is searched as character bigrams with the simple configuration (no word segmentation, no handling of variant characters such as 臺/台).

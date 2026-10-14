@@ -1,0 +1,19 @@
+# Laws fetched from 全國法規資料庫 (Laws & Regulations Database, Ministry of Justice), one
+# full-text page (所有條文) per law: https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=<PCode>.
+# Licence: 政府資料開放授權條款－第1版 (Open Government Data License, version 1.0, compatible with
+# CC BY 4.0); see config/sources/tw-moj-laws.yaml. Only /LawClass/LawAll.aspx is allowed by the
+# site's robots.txt, and the connector checks robots.txt before every page.
+schema_version: 1
+source_id: tw-moj-laws
+base_url: https://law.moj.gov.tw
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+laws:
+  - {pcode: A0000001}  # 中華民國憲法 (Constitution of the Republic of China)
+  - {pcode: A0000002}  # 中華民國憲法增修條文 (Additional Articles of the Constitution)
+  - {pcode: B0000001}  # 民法 (Civil Code)
+  - {pcode: C0000001}  # 中華民國刑法 (Criminal Code)
+  - {pcode: B0010001}  # 民事訴訟法 (Code of Civil Procedure)
+  - {pcode: A0030055}  # 行政程序法 (Administrative Procedure Act)
+  - {pcode: I0050021}  # 個人資料保護法 (Personal Data Protection Act)
+  - {pcode: N0030001}  # 勞動基準法 (Labor Standards Act)

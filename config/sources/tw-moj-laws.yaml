@@ -1,0 +1,90 @@
+# Pages read for this review (2026-10-14), before any law text was fetched:
+#   https://law.moj.gov.tw/robots.txt              - "User-agent: *", "Disallow: /", then
+#       "Allow: /News/NewsDetail.aspx", "Allow: /LawClass/LawAll.aspx", "Allow: /SearchEngineSitemap.aspx";
+#       no Crawl-delay. Only the law full-text page is fetched by ULIS.
+#   https://law.moj.gov.tw/Service/Copyright.aspx  - 政府網站資料開放宣告 (open data declaration)
+#   https://data.gov.tw/license                    - 政府資料開放授權條款－第1版 (Open Government Data License 1.0)
+#   https://law.moj.gov.tw/api/swagger/index.html and /api/swagger/docs/v1 - Open API (bulk ZIP downloads only)
+#   https://law.moj.gov.tw/Index.aspx              - site footer (cut-off date, update frequency, disclaimer)
+# The licence and API pages are themselves under robots.txt "Disallow: /"; each was read once, by
+# hand, for this review only (no crawling).
+schema_version: 1
+id: tw-moj-laws
+name: 全國法規資料庫 (Laws & Regulations Database of the Republic of China (Taiwan))
+publisher: Ministry of Justice (法務部), 全國法規資料庫工作小組
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [TW]
+document_kinds: [constitution, act]
+languages: [zh-Hant]
+coverage: >-
+  The central government's laws (法律) and orders (命令), judicial interpretations, treaties and
+  cross-strait agreements, as consolidated by the Ministry of Justice (current text, with
+  history pages and English translations of selected laws). ULIS ingests a selected list of laws
+  in Chinese from each law's full-text page (所有條文), the one law path robots.txt allows.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/tw-moj-laws.yaml
+update_frequency: >-
+  Weekly. Site footer: 全國法規資料庫之內容每週五定期更新，當週發布之法律、命令資料，將於完成法規整編作業後，於下週五更新上線
+  (updated every Friday; laws and orders issued in a week go online the following Friday after
+  consolidation). Each page states 法規整編資料截止日 (consolidation cut-off date), 2026-10-02 on 2026-10-14.
+rate_limits: >-
+  No published numeric limit. robots.txt sets no Crawl-delay, so the ULIS default of one request
+  every 5 seconds applies; the connector re-checks robots.txt and fetches only
+  /LawClass/LawAll.aspx (9 requests for the whole manifest). The Open API (/api/ch/law/json, one
+  ZIP of every law) is under robots.txt "Disallow: /" and is not used.
+licence:
+  id: OGDL-TW-1.0
+  name: 政府資料開放授權條款－第1版 / Open Government Data License, version 1.0 (compatible with CC BY 4.0)
+  url: https://data.gov.tw/license
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - 政府網站資料開放宣告 (https://law.moj.gov.tw/Service/Copyright.aspx), item 1:
+    all data and material on the Ministry of Justice website, to the extent protected by
+    copyright, are released under 政府資料開放授權條款－第1版, free of charge, non-exclusively and
+    sublicensably; users may reproduce, adapt, edit, publicly transmit or otherwise use them
+    without limit of time or territory, to develop products or services, without further
+    authorisation, but must state the source (使用時應註明出處). Items 2-5: copyright only (no
+    trademarks or agency logos); personal data remain subject to the Personal Data Protection Act;
+    moral rights of third parties are respected; data may not be maliciously altered; the
+    declaration does not imply endorsement. OGDL 1.0 (https://data.gov.tw/license), s 2: use for
+    any purpose, including commercial, reproduction, distribution, public transmission, editing
+    and adaptation; s 3(2): attribution in the form of the annex (顯名聲明), failing which the
+    licence is deemed never granted; s 4(2): compatible with CC BY 4.0.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed
+  attribution_required: true
+  attribution_text: >-
+    法務部 2026 全國法規資料庫（https://law.moj.gov.tw/）。此開放資料依政府資料開放授權條款 (Open Government
+    Data License) 進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。政府資料開放授權條款：https://data.gov.tw/license
+    （ULIS 為結構化及索引加工，非法務部之認可。Source: Ministry of Justice, Laws & Regulations Database,
+    Open Government Data License v1.0; structured and indexed by ULIS, not endorsed by the Ministry.）
+  conditions:
+    - Attribution in the form of the OGDL annex (顯名聲明) on every result; without it the licence is deemed never granted (OGDL s 3(2)).
+    - Do not alter the data maliciously; ULIS keeps the raw pages unchanged and re-derives every text from them (declaration item 4).
+    - Do not suggest endorsement by the Ministry of Justice (declaration item 5; OGDL s 6(1)).
+    - Do not represent the text as the authentic law - the site states that the published text of the competent authority prevails (footer).
+    - Follow robots.txt - only /LawClass/LawAll.aspx is fetched; the Open API, history, old-version and English pages are disallowed and not fetched.
+  notes: >-
+    The Constitution, laws and orders are not subject to copyright (著作權法 art 9(1)(i), to verify);
+    the licence covers the database and site. Counsel review still recommended before production use.
+provenance: >-
+  https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=<PCode> (one page per law, HTML), fetched
+  with PoliteHttp and stored unchanged. Footer: 本網站法規資料係由政府各機關提供之電子檔或書面文字登打製作，若與各法規主管機關之公布文字有所不同，仍以各法規主管機關之公布資料為準
+  (the data is made from electronic files or printed text supplied by the agencies; where it
+  differs from the text published by the competent authority, the published text prevails). The
+  authentic text of a law is its promulgation in the Presidential Office Gazette (總統府公報).
+known_limitations:
+  - Not the authentic text; the text published by the competent authority (for laws, the Presidential Office Gazette) prevails.
+  - Current consolidation only, without per-article dates; each text is attested at the consolidation cut-off date (法規整編資料截止日).
+  - For articles amended but not yet in force the page shows only the amended wording (recorded as prospective); the wording still in force is on the old-version page (LawOldVer.aspx), which robots.txt disallows.
+  - Amendment history (沿革) and original promulgation dates of amended laws are on LawHistory.aspx, which robots.txt disallows; not ingested.
+  - Official English translations (/ENG/ pages, API /api/en/...) are disallowed by robots.txt and not ingested; the Chinese text prevails over them in any case.
+  - Article attachments (附件) are separate files and are not ingested.
+status: active
+connector: moj_laws
+parser: moj_law_html

@@ -22,12 +22,14 @@ from ulis.jurisdictions.modules.fictional import AureliaModule, BorealisModule
 from ulis.jurisdictions.modules.gb import GbModule
 from ulis.jurisdictions.modules.jp import JpModule
 from ulis.jurisdictions.modules.nl import NlModule
+from ulis.jurisdictions.modules.tw import TwModule
 from ulis.jurisdictions.modules.us import UsModule
 
 MODULES: dict[str, JurisdictionModule] = {
     m.id: m
     for m in (
         JurisdictionModule(),
+        TwModule(),
         EuModule(),
         JpModule(),
         AureliaModule(),

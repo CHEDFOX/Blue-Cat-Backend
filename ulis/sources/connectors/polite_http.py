@@ -16,6 +16,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import ssl
 import time
 import urllib.error
 import urllib.parse
@@ -40,9 +41,12 @@ class PoliteHttp:
         offline: bool = False,
         sleep: Any = time.sleep,
         timeout: float = 120.0,
+        ssl_context: ssl.SSLContext | None = None,
     ):
         if not user_agent or "(" not in user_agent:
             raise ValueError("an identifying user_agent with contact details is required")
+        if ssl_context is not None and (ssl_context.verify_mode != ssl.CERT_REQUIRED or not ssl_context.check_hostname):
+            raise ValueError("an ssl_context must verify certificates and host names")
         self.cache_dir = cache_dir
         self.user_agent = user_agent
         self.allowed_hosts = allowed_hosts
@@ -50,6 +54,10 @@ class PoliteHttp:
         self.offline = offline
         self._sleep = sleep
         self.timeout = timeout
+        # None: Python's default verification. A connector may pass its own context (still
+        # verifying the chain and host name), e.g. for a publisher whose trusted root CA predates
+        # the strict X.509 checks Python 3.13 enables by default.
+        self.ssl_context = ssl_context
         self._last_request = 0.0
         self.requests_made = 0
 
@@ -86,8 +94,10 @@ class PoliteHttp:
             self._last_request = time.monotonic()
             self.requests_made += 1
             request = urllib.request.Request(url, headers={"User-Agent": self.user_agent, **(headers or {})})  # noqa: S310
+            # Only pass a context when one is configured, so the default call is unchanged.
+            extra: dict[str, Any] = {"context": self.ssl_context} if self.ssl_context is not None else {}
             try:
-                with urllib.request.urlopen(request, timeout=self.timeout) as response:  # noqa: S310 - https only
+                with urllib.request.urlopen(request, timeout=self.timeout, **extra) as response:  # noqa: S310 - https only
                     data = response.read()
                     meta = {
                         "url": url,

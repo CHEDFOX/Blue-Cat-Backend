@@ -107,6 +107,7 @@ tests/             unit + PostgreSQL integration tests
 | `fi-finlex` | FI | 7 Acts in Finnish and Swedish (consolidated): Constitution, Criminal Code, Contracts Act, Inheritance Code, Employment Contracts Act, Administrative Procedure Act, Data Protection Act; history for two ([notes](docs/jurisdictions/fi.md)) | Real, CC BY 4.0; consolidations are not authentic |
 | `au-federal-register` | AU (Commonwealth) | 8 titles: Constitution, Acts Interpretation Act, Crimes Act, Privacy Act, Family Law Act, Criminal Code Act, Insurance Contracts Act, Electronic Transactions Act; full compilation history for four ([notes](docs/jurisdictions/au.md)) | Real, CC BY 4.0; only the stamped PDF is the authorised version |
 | `nl-bwb` | NL | 6 Acts: Grondwet and UAVG with every consolidated version since 2002/2018, BW Boek 1 and 6, Wetboek van Strafrecht, Awb ([notes](docs/jurisdictions/nl.md)) | Real, CC0 1.0; consolidations are not official |
+| `tw-moj-laws` | TW | 8 laws in Traditional Chinese, current text: Constitution, Additional Articles, Civil Code, Criminal Code, Code of Civil Procedure, Administrative Procedure Act, Personal Data Protection Act, Labor Standards Act ([notes](docs/jurisdictions/tw.md)) | Real, Open Government Data License 1.0; the Presidential Office Gazette is authentic |
 | `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
 
 Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO
