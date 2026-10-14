@@ -1,8 +1,9 @@
 # United States Reports (Supreme Court of the United States), volumes 2-586, from GovInfo (collection USREPORTS).
 # For each volume the connector requests two keyless files from https://www.govinfo.gov, one request at a time, at
-# least 5 s apart (about 1,170 requests, roughly 1.7 GB, about two hours of network time plus transfer):
+# least 5 s apart (about 1,170 requests, roughly 2 GB, about two hours of network time plus transfer):
 #   /metadata/pkg/USREPORTS-<volume>/mods.xml        (package metadata: every case with title, citation, date, first page)
 #   /content/pkg/USREPORTS-<volume>/text/USREPORTS-<volume>.txt   (the "Text rendition" that the MODS links: OCR text of the volume)
+#   or, when the MODS links no text rendition (the later volumes), /content/pkg/USREPORTS-<volume>/pdf/USREPORTS-<volume>.pdf
 # robots.txt of www.govinfo.gov is read first and applies to every URL (it disallows only /core/, /profiles/, search
 # paths and /app/search/*; it lists the collection sitemaps). The JSON API (api.govinfo.gov, api key) is not used.
 #

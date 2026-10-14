@@ -154,11 +154,11 @@ CAPS_TITLE = re.compile(
     r"^[A-Z0-9 .,'’&\-–—\[\]()/]*\s(?:v\.|ET AL\.?)\s?[A-Za-z0-9 .,'’&\-–—\[\]()/]*$|^[A-Z0-9 .,'’&\-–—\[\]()/]{5,70}$"
 )
 LABEL = re.compile(
-    r"^(?:\d{1,4}\s+)?"
+    r"^(?:\d{1,4}\.?[\s\t]+)?(?:U\.?\s?S\.?[\s\t]+)?"
     r"(?P<label>Syllabus|Opinion of the Court|Per Curiam|Appendix[A-Za-z ,.']*"
     r"|Opinion of [A-Z][A-Za-z.' -]+, (?:C\. ?)?J\."
     r"|[A-Z][A-Za-z.' -]+, (?:C\. ?)?J\.(?:,? (?:concurring|dissenting)[A-Za-z ,]*)?"
-    r"|Argument for [A-Za-z ,.']+|Statement of the Case)\.?"
+    r"|Argument for [A-Za-z ,.']+|Counsel for [A-Za-z ,.']+|Statement of the Case)\.?"
     r"(?:\s+\d{0,3}\s?U\.? ?S\.?)?\s*$"
 )
 CAPTION = re.compile(
@@ -168,7 +168,12 @@ CAPTION = re.compile(
 )
 BACKMATTER = re.compile(r"^(?:MISCELLANEOUS )?ORDERS?\b[A-Z ,0-9.-]*$")
 # Typesetter's slugs that the volume PDFs of the later volumes carry on every page ("550US1", "Unit: $U28", ...).
-SLUG = re.compile(r"^(?:\d+US\d+|Unit: \$\w+|\[\d\d-\d\d-\d\d \d\d:\d\d:\d\d\] PAGES PGT: .*)$")
+SLUG = re.compile(
+    r"^(?:\d+US\d+|Unit: \$+\w+|\[\d\d-\d\d-\d\d \d\d:\d\d:\d\d\] PAGES .*"
+    r"|\d+[A-Za-z]{2}\d+\$\w+ \d\d-\d\d-\d\d \d\d:\d\d:\d\d PAGES \w+)$"
+)
+# The Government Printing Office job mark at the foot of the pages of the OCR text ("741700 0-47-11").
+PRINT_MARK = re.compile(r"^\d{5,7}\s+\S{1,3}\s*[-–—]+\s*\d{2}\s*[-–—]+\s*\d{1,3}$")
 MAX_SKIP = 12  # pages whose running head is missing between two recognised ones
 
 
@@ -251,9 +256,12 @@ def head_block(lines: list[str], marker: int, lower: int, upper: int) -> tuple[i
 
 # --------------------------------------------------------------------------- slicing
 
+# What follows the caption of a case: "CERTIORARI TO THE UNITED STATES COURT OF APPEALS ...", "ON REHEARING", or the
+# line "No. 26. Argued October 20, 1955--Decided November 7, 1955." / "No. 11, Original."; at the start of the line.
 CAPTION_TAIL = re.compile(
-    r"(?:appeal from|certiorari to|error to|on (?:writ|petition|appeal|certificate|application)|petition for"
-    r"|original)\b",
+    r"^(?:nos?\.?\s*[\w\-–—,& ]{1,24}?\.\s*)?(?:appeals? from|certiorari to|error to|on (?:writ|petition|appeal"
+    r"|certificate|application|motion|bill|rehearing|exceptions)|petition for|application for|motion for)\b"
+    r"|^nos?\.?\s*[\w\-–—,& ]{1,24}?,?\s*(?:orig(?:inal|\.)|(?:argued|submitted|reargued|decided)\b)",
     re.IGNORECASE,
 )
 FRONT_BOILERPLATE = re.compile(r"^CASES ADJUDGED\s*$")
@@ -288,7 +296,7 @@ def _is_caption_line(line: str) -> bool:
 
 def _starts_caption(lines: list[str], j: int) -> bool:
     """Capitals, followed within five lines by "CERTIORARI TO ..." or similar: the caption of a case."""
-    return _is_caption_line(lines[j]) and any(CAPTION_TAIL.search(x) for x in lines[j + 1 : j + 6])
+    return _is_caption_line(lines[j]) and any(CAPTION_TAIL.match(x.strip()) for x in lines[j + 1 : j + 6])
 
 
 def _find_caption(lines: list[str], begin: int, upper: int, name: str = "") -> int | None:
@@ -379,8 +387,11 @@ def _units(lines: list[str], loc: Located, chain: dict[int, int]) -> list[tuple[
         body_lines = [ln.rstrip() for ln in lines[h_end:stop]]
         while body_lines and not body_lines[-1].strip():
             body_lines.pop()
-        if body_lines and BARE.match(body_lines[-1]) and int(BARE.match(body_lines[-1]).group(1)) == page:  # type: ignore[union-attr]
+        foot = BARE.match(body_lines[-1]) if body_lines else None
+        if foot and int(foot.group(1)) == page:
             body_lines.pop()  # a first page without running head carries its page number at the foot
+        if body_lines and PRINT_MARK.match(body_lines[-1].strip()):
+            body_lines.pop()  # the printer's job mark is not part of the opinion
         body = "\n".join(body_lines).strip()
         if not body:
             continue

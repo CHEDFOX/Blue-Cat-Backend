@@ -21,9 +21,13 @@
 #        Government Printing Office, "reformatted digital" (converted from print), a "Text rendition"
 #        (/content/pkg/USREPORTS-410/text/USREPORTS-410.txt) and a "PDF rendition" of the volume, and one constituent per
 #        case with title, citation (usCitation), decisionDate, reportNumber (first page) and subject topics.
+#   Text renditions exist only for the older volumes (found for volumes up to 500; the MODS of volumes 540, 550 and 570 link
+#        only a PDF rendition, about 4 MB, a typeset PDF with a text layer; guessed text URLs for 520 and 530 returned an
+#        HTML page). The connector therefore reads each package's MODS and takes the text rendition if linked, else the PDF.
 #   Request history (all 2026-10-14, sequential, identified User-Agent): robots.txt, /about/policies, /bulkdata/,
 #        /sitemaps, /developers, the USCOURTS and USREPORTS sitemap indexes and 168 USREPORTS year sitemaps, a few USCOURTS
-#        pages, and for volumes 3, 100, 250, 330, 410 and 586 the package MODS and text rendition.
+#        pages, the package MODS of about 20 volumes with the text rendition or PDF of 20 of them, and two HEAD requests
+#        for the sizes of PDF and text URLs.
 schema_version: 1
 id: us-govinfo-usreports
 name: United States Reports on GovInfo (USREPORTS)
@@ -38,8 +42,9 @@ languages: [en]
 coverage: >-
   The bound volumes of the United States Reports in GovInfo: volumes 2 to 586 (1790s to the 2018 Term; GovInfo lists
   no volume 1 and no volume 465), each with a package of metadata for every case (title, citation, decision date,
-  first page) and a text rendition of the whole volume. ULIS ingests the cases that its parser can cut out of the OCR
-  text (see known_limitations): the Syllabus, the Court's opinion, concurrences and dissents page by page.
+  first page) and a rendition of the whole volume: OCR text for the older volumes, a typeset PDF with a text layer for
+  the later ones. ULIS ingests the cases that its parser can cut out of that text (see known_limitations): the Syllabus,
+  the Court's opinion, concurrences and dissents page by page.
   Opinions after 586 U.S. (2019 Term onwards) are not in this collection (the Supreme Court's own site has them as
   PDF files; see us-supremecourt-gov-opinions).
 access:
@@ -52,7 +57,7 @@ update_frequency: >-
 rate_limits: >-
   Published: none (robots.txt has no Crawl-delay; GovInfo invites sitemap crawling). ULIS makes sequential requests at
   least 5 s apart (about 0.2 per second), identifies itself, and caches every response; the manifest needs about 1,170
-  requests and 1.7 GB.
+  requests (a package's MODS, then its text or PDF) and about 2 GB, i.e. roughly two hours of waiting plus transfer.
 licence:
   id: US-PD-17USC105
   name: >-
@@ -72,7 +77,7 @@ licence:
   attribution_required: false
   attribution_text: >-
     Supreme Court of the United States, United States Reports, as published by the U.S. Government Publishing Office
-    on GovInfo (https://www.govinfo.gov/app/collection/usreports). Text from OCR of the printed volumes.
+    on GovInfo (https://www.govinfo.gov/app/collection/usreports). Text from OCR of the printed volumes (older volumes) or the text layer of GovInfo's PDF (later volumes).
   conditions:
     - Use only keyless routes (sitemaps, /metadata/pkg/..., /content/pkg/...), never the api.data.gov-key API; respect robots.txt and request sequentially, at least 5 s apart.
     - GovInfo warns that government publications may contain copyrighted material used with permission; nothing in the cases read is marked as such, but a reviewer should check for quoted third-party material before republishing text.
@@ -84,11 +89,12 @@ licence:
     confirmed by counsel. The commercial_use value is the same inference.
 provenance: >-
   The bound volumes were scanned and converted (MODS: "reformatted digital") by GPO; the text rendition is OCR text of
-  the whole volume without page breaks. ULIS stores each volume's MODS and text byte-for-byte inside one JSON bundle
-  (SHA-256 per volume) with the URLs and retrieval times. The PDF of the volume is the better image of the print
-  edition; the OCR text keeps its errors.
+  the whole volume without page breaks; the later volumes exist as typeset PDFs. ULIS stores each volume's MODS and
+  text (or PDF, base64) byte-for-byte inside one JSON bundle (SHA-256 per volume) with the URLs and retrieval times;
+  PDF text is extracted with pdftotext at parse time. The OCR text keeps its errors.
 known_limitations:
-  - The OCR text has errors (for example the missing "fi" and "fl" ligatures in some volumes, as in "defnition" and "affrmed") and a reading order that is not always the page order; text is stored as the source gives it, without correction, so exact-phrase searches can miss.
+  - Volumes read from PDF need pdftotext (poppler-utils) on the ingesting machine. The typesetter's slugs on every page (a volume and page code, a unit code and a time stamp) are left out, soft hyphens are joined and fi/fl ligature glyphs expanded.
+  - For the text renditions the OCR text has errors (for example the missing "fi" and "fl" ligatures in some volumes, as in "defnition" and "affrmed") and a reading order that is not always the page order; text is stored as the source gives it, without correction, so exact-phrase searches can miss.
   - The cases are cut out of the volume text by their page headers; a case is ingested only if the headers of its first page and of the next case's first page, a caption and a word of the case name are found. Many cases of older volumes (mostly before 1900) and some of newer ones are not found; each judgment's ext records volume_cases_listed and volume_cases_located. The last case of a volume is ingested only when an "ORDERS" heading ends it.
   - Units are printed pages; a page whose running head is missing in the OCR is merged with the next (num "153-154"). Footnotes stay where the OCR puts them, at the end of the page. Page labels (Syllabus, Opinion of the Court, "X, J., dissenting") come from the running heads and are "text" where none is recognised.
   - Decision dates are the MODS values; some are YYYY-01-01 (year only in practice), flagged in ext.decision_date_caveat. Case names are the MODS titles, with the source's own artefacts (for example "&(and)").
