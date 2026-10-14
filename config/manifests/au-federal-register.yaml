@@ -1,0 +1,18 @@
+# Commonwealth Acts fetched from the Federal Register of Legislation API (EPUB compilations).
+# Licence: CC BY 4.0 (www.legislation.gov.au/terms-of-use). Automated downloading is allowed
+# if robots.txt's Crawl-delay (10 s) is respected (help page "Data share and reuse").
+# history: true fetches every registered compilation of the title; otherwise only the latest.
+schema_version: 1
+source_id: au-federal-register
+api_base: https://api.prod.legislation.gov.au/v1
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 10
+works:
+  - {title_id: C2004Q00685, history: true}    # Commonwealth of Australia Constitution Act
+  - {title_id: C1901A00002, history: true}    # Acts Interpretation Act 1901
+  - {title_id: C2004A00553, history: true}    # Electronic Transactions Act 1999
+  - {title_id: C2004A02944, history: true}    # Insurance Contracts Act 1984
+  - {title_id: C1914A00012, history: false}   # Crimes Act 1914
+  - {title_id: C2004A03712, history: false}   # Privacy Act 1988
+  - {title_id: C2004A00275, history: false}   # Family Law Act 1975
+  - {title_id: C2004A04868, history: false}   # Criminal Code Act 1995

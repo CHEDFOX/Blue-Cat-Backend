@@ -1,0 +1,89 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Australia (the Commonwealth). States and territories
+# are not profiled yet.
+schema_version: 1
+id: AU
+profile_version: 0.1.0
+name: Australia
+names: {en: Commonwealth of Australia}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: federal
+  treaty_reception: dualist
+  notes: >-
+    To verify - federation of six States plus Territories under the Commonwealth Constitution;
+    the Commonwealth Parliament legislates on the matters the Constitution confers (notably s 51);
+    common law with a single common law of Australia declared by the High Court. Treaties need
+    implementing legislation to change domestic law.
+legislative_institutions:
+  - id: AU-PARL
+    name: Parliament of the Commonwealth of Australia
+    instrument_types: [act]
+instrument_types: [constitution, act, legislative_instrument, bill]
+norm_hierarchy: [constitution, act, legislative_instrument]
+courts:
+  - id: AU-HCA
+    name: High Court of Australia
+    rank: 1
+  - id: AU-FCAFC
+    name: Federal Court of Australia (Full Court)
+    rank: 2
+    appeals_to: [AU-HCA]
+  - id: AU-FCFCOA-1
+    name: Federal Circuit and Family Court of Australia (Division 1)
+    rank: 2
+    appeals_to: [AU-HCA]
+  - id: AU-FCA
+    name: Federal Court of Australia (single judge)
+    rank: 3
+    appeals_to: [AU-FCAFC]
+  - id: AU-FCFCOA-2
+    name: Federal Circuit and Family Court of Australia (Division 2)
+    rank: 4
+    appeals_to: [AU-FCA, AU-FCFCOA-1]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+  notes: >-
+    To verify - High Court decisions bind all Australian courts; the High Court is not strictly
+    bound by its own decisions, and a Full Court of the Federal Court ordinarily follows its own
+    earlier decisions unless satisfied they are plainly wrong (binds_self is therefore false).
+    Appeals from Division 2 of the Federal Circuit and Family Court lie to the Federal Court
+    (general federal law) or to Division 1 (family law); Division 1 appeals lie to the High
+    Court by special leave. State and Territory courts (which also exercise federal jurisdiction)
+    are outside this profile.
+citation:
+  module: au
+  notes: >-
+    AGLC-style forms (to verify). Covering clauses of the Imperial Act are cited
+    "Commonwealth of Australia Constitution Act 1900 (Imp) s 5" without the regnal year
+    (63 & 64 Vict, c 12), which the source documents do not state.
+  examples:
+    - "Privacy Act 1988 (Cth) s 6(1) (definition of ‘agency’)"
+    - "Privacy Act 1988 (Cth) sch 1 cl 1.2(a)"
+    - "Criminal Code (Cth) s 11.1(1)"
+    - "Australian Constitution s 51(xx)"
+publication:
+  official_sources: [au-federal-register]
+  commencement: >-
+    As the Act provides; otherwise an Act (other than one altering the Constitution) commences on
+    the 28th day after Royal Assent (Acts Interpretation Act 1901 s 3A(2)).
+  amendment: >-
+    Textual amendment by later Acts; the Office of Parliamentary Counsel registers compilations
+    (the law as amended and in force on a compilation date) on the Federal Register of Legislation.
+  repeal: Express repeal; repealed provisions are omitted from later compilations (details in the endnotes).
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only a hand-picked selection of Commonwealth Acts and the Constitution is ingested (see the source manifest); no legislative instruments, notifiable instruments or bills.
+    - Compilation history is fetched for a few titles only; the others start at their latest registered compilation, so earlier dates are reported as history not indexed.
+    - Acts as made, and periods covered by versions without a registered compilation, have no text.
+    - The source dates compilations, not individual provisions; repealed provisions are not recorded as repealed (they are omitted from compilations).
+    - No State or Territory law, no case law.
+    - Text with non-breaking hyphens (e.g. "Governor‑General") is stored as published; a search typed with an ordinary hyphen does not match it (search without the hyphen).

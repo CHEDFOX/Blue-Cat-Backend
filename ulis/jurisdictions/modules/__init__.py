@@ -6,6 +6,7 @@ it in ``MODULES``.  A profile selects it with ``citation.module: <id>``.
 
 from __future__ import annotations
 
+from ulis.jurisdictions.modules.au import AuModule
 from ulis.jurisdictions.modules.base import (
     JudgmentCitationInput,
     JurisdictionModule,
@@ -37,6 +38,7 @@ MODULES: dict[str, JurisdictionModule] = {
         FiModule(),
         GbModule(),
         UsModule(),
+        AuModule(),
     )
 }
 

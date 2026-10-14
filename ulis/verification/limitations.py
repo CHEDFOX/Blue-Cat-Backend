@@ -61,6 +61,27 @@ def jurisdiction_limitations(catalog: Catalog, jurisdiction_id: str) -> list[Lim
     return out
 
 
+def _snapshot_dates(data: ProvisionData) -> Limitation:
+    """Sources that date whole-instrument snapshots (``validity_basis = revision_snapshot``), not provisions."""
+    v = data.version
+    period = f"from {v.valid_from}" + (f" until {v.valid_to}" if v.valid_to else "")
+    if any(t.valid_to == v.valid_from and t.id != str(v.id) for t in data.timeline):
+        return Limitation(
+            "SNAPSHOT_DATES",
+            "info",
+            "The source dates versions of the whole instrument (compilations or revisions), not individual "
+            f"provisions. This wording appears in the versions in force {period}; the version that ended on "
+            f"{v.valid_from} had a different wording (the difference may be an editorial change).",
+        )
+    return Limitation(
+        "SNAPSHOT_DATES",
+        "warning",
+        "The source dates versions of the whole instrument (compilations or revisions), not individual "
+        f"provisions. This wording appears in the versions in force {period}; it may have applied before "
+        f"{v.valid_from}, the start of the earliest indexed version that contains it.",
+    )
+
+
 def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Authority, as_of: date) -> list[Limitation]:
     v = data.version
     j = data.instrument.jurisdiction_id
@@ -133,6 +154,8 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
                     "for the change. It took effect on or before that date.",
                 )
             )
+        if v.valid_from is not None and iv.validity_basis == "revision_snapshot":
+            out.append(_snapshot_dates(data))
         if v.valid_from is None and iv.validity_basis == "attested_at_edition":
             out.append(
                 Limitation(

@@ -15,3 +15,4 @@ gaps and the actual test and ingestion results. See
 | Japan | e-Gov 法令検索 | [jp.md](jp.md) |
 | Switzerland (federal) | Fedlex | [ch.md](ch.md) |
 | Finland | Finlex open data | [fi.md](fi.md) |
+| Australia (Commonwealth) | Federal Register of Legislation | [au.md](au.md) |

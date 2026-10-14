@@ -29,6 +29,7 @@ from ulis.db import models as m
 from ulis.ingestion import snapshots
 from ulis.retrieval.indexer import rebuild_passages
 from ulis.settings import REPO_ROOT
+from ulis.sources.connectors.au_federal_register import FederalRegisterConnector
 from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
@@ -42,6 +43,7 @@ from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
 from ulis.sources.parsers import (
     akn,
+    au_federal_register,
     boe_consolidada,
     egov_law,
     eu_cellar,
@@ -69,6 +71,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "eu_cellar": eu_cellar.parse_eu_cellar,
     "fedlex_akn": fedlex.parse_fedlex,
     "finlex_akn": finlex.parse_finlex,
+    "frl_epub": au_federal_register.parse_federal_register,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -81,6 +84,7 @@ PARSER_VERSIONS = {
     "eu_cellar": eu_cellar.PARSER_VERSION,
     "fedlex_akn": fedlex.PARSER_VERSION,
     "finlex_akn": finlex.PARSER_VERSION,
+    "frl_epub": au_federal_register.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -123,6 +127,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "eu_cellar": CellarConnector,
     "fedlex": FedlexConnector,
     "finlex": FinlexConnector,
+    "au_federal_register": FederalRegisterConnector,
 }
 
 
@@ -155,6 +160,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or eu_cellar.resolve_uri(uri)
         or fedlex.resolve_uri(uri)
         or finlex.resolve_uri(uri)
+        or au_federal_register.resolve_uri(uri)
         or (uri, None)
     )
 
@@ -502,7 +508,8 @@ class Ingestor:
         text_sha = _sha(prov.text)
         if previous is not None:  # revision snapshot: an unchanged wording continues the previous version
             before = previous.get(row.id)
-            if before is not None and snapshots.continues(before, prov.status, prov.heading, text_sha):
+            if before is not None and snapshots.continues(before, prov.status, prov.heading, text_sha, prov.valid_from):
+                snapshots.carry_end(before, prov.valid_to)
                 s.add(
                     m.ProvisionVersionSource(
                         provision_version_id=before.id,

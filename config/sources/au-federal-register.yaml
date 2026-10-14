@@ -1,0 +1,93 @@
+schema_version: 1
+id: au-federal-register
+name: Federal Register of Legislation (compilations, EPUB)
+publisher: Office of Parliamentary Counsel (Australian Government)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [AU]
+document_kinds: [act, constitution]
+languages: [en]
+coverage: >-
+  The Federal Register of Legislation (www.legislation.gov.au) is the Australian Government's
+  website for Commonwealth legislation, managed by the Office of Parliamentary Counsel under the
+  Legislation Act 2003. ULIS fetches compilations (the law "as amended and in force" on a
+  compilation date) of a selected list of titles through the Register's public API, as EPUB
+  documents with their version metadata; for some titles every registered compilation.
+access:
+  method: api
+  endpoint: config/manifests/au-federal-register.yaml
+update_frequency: continuous (a compilation is registered when amendments commence); re-fetch to refresh
+rate_limits: >-
+  robots.txt (https://www.legislation.gov.au/robots.txt, retrieved 2026-10-14): "Crawl-delay: 10",
+  only /assets/ disallowed; https://api.prod.legislation.gov.au/robots.txt does not exist (404).
+  The "Data share and reuse" help page allows automated downloading or spidering if the
+  robots.txt crawl delay is respected, asks users to contact the Register 1-2 weeks before a full
+  site crawl or anything that may use significant resources, prefers incremental crawls outside
+  08:00-20:00 Australian time (UTC+10), and warns that users imposing a large load may be blocked.
+  The API needs no key. ULIS uses a 10-second delay for both hosts and fetches a few hundred
+  documents at most.
+licence:
+  id: CC-BY-4.0
+  name: Creative Commons Attribution 4.0 International
+  url: https://creativecommons.org/licenses/by/4.0/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - https://www.legislation.gov.au/terms-of-use (section "Copyright") states: "With
+    the exception of the Commonwealth Coat of Arms, and where otherwise noted, all content on the
+    Federal Register of Legislation (the Legislation Register) is provided under Creative Commons
+    Attribution 4.0 International (the CC BY 4.0 licence)", which allows sharing and adapting "for
+    any purpose, even commercially". The help page
+    https://www.legislation.gov.au/help-and-resources/using-the-legislation-register/data-share-and-reuse
+    states that the Register "allows commercial reuse of our data" and "allowing data and documents
+    to be programmatically downloaded", and documents the API (https://api.prod.legislation.gov.au/v1/,
+    specification at https://api.prod.legislation.gov.au/swagger/index.html, whose termsOfService
+    field gives https://www.legislation.gov.au/Content/Disclaimer; the site footer's "Terms of use"
+    link is /terms-of-use, read above).
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Based on content from the Federal Register of Legislation at [date of download: see the source
+    document's retrieval date]. For the latest information on Australian Government legislation
+    please go to https://www.legislation.gov.au. Licensed under CC BY 4.0
+    (https://creativecommons.org/licenses/by/4.0/); changes: text extracted from the EPUB
+    compilation and divided into provisions.
+  conditions:
+    - >-
+      Attribution as required by the terms of use: a link to the relevant Register pages, the words
+      "Based on content from the Federal Register of Legislation at [full date of download]. For the
+      latest information on Australian Government legislation please go to https://www.legislation.gov.au."
+      (content changed) or "Sourced from the Federal Register of Legislation at [full date of download]. ..."
+      (unchanged), a link to the CC BY 4.0 licence and an indication of changes. ULIS restructures the
+      text into provisions, so it uses the "Based on content" form.
+    - Do not suggest that the Office of Parliamentary Counsel endorses ULIS or its use.
+    - The Commonwealth Coat of Arms and material identified as third-party copyright are not covered (the Coat of Arms image in each EPUB is not reproduced).
+    - Respect robots.txt (Crawl-delay 10); contact the Register 1-2 weeks before any full-site crawl; prefer incremental fetching outside 08:00-20:00 Australian time (UTC+10).
+  notes: >-
+    Authorised versions: "The latest version of all in force laws as well as some other laws on
+    the Register have an authorised version that can be relied on for the purpose of court
+    proceedings under sections 15ZA and 15ZB of the [Legislation Act 2003]. Authorised versions
+    are always in Adobe Acrobat (PDF) format" and are stamped "Authorised version"
+    (https://www.legislation.gov.au/help-and-resources/using-the-legislation-register/about-the-federal-register-of-legislation).
+    ULIS parses the EPUB of the same compilation (the API reports isAuthorised only for PDFs), so
+    its text is a reproduction, not an authorised version. Counsel review still recommended before
+    production use.
+provenance: >-
+  Official register of Commonwealth legislation maintained by the Office of Parliamentary Counsel
+  (Legislation Act 2003). Compilations are prepared by First Parliamentary Counsel, who may make
+  editorial and presentational changes (stated in each compilation's front matter and endnotes).
+  Each raw document is the API response for one compilation document (EPUB in base64, with the
+  version's start and end dates), stored unmodified with its SHA-256.
+known_limitations:
+  - ULIS parses the EPUB rendering of each compilation; only the PDF stamped "Authorised version" can be relied on in court proceedings.
+  - The Register dates compilations, not provisions. A provision's text is known to apply during the period of the compilations that show it (adjacent compilations with identical wording are joined); per-provision commencement dates are not given.
+  - Uncommenced amendments are not shown in compilations; a later version of a title without a registered compilation, and the Register's "unincorporated amendments" flag, are reported as outstanding changes but not applied.
+  - Acts "as made" (compilation number 0) are not ingested; periods covered by versions without a registered compilation have no text.
+  - Repealed provisions are omitted from compilations and are not recorded as repealed; text placed directly under Part or Division headings (outside a section) and images (formulas) are not reproduced.
+  - Endnotes (legislation history, amendment history, editorial changes) are not ingested.
+status: active
+connector: au_federal_register
+parser: frl_epub

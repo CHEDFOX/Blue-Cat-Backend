@@ -14,6 +14,13 @@ snapshot. Three rules then keep the history honest:
 * **Order matters.** Snapshots of an instrument are recorded oldest first; a snapshot older than
   one already recorded is refused, because it could split an existing version.
 
+Some sources also state when each snapshot ends (the Federal Register of Legislation in Australia
+gives every compilation the start of the next version of the Act as its end date, and some
+versions have no compilation at all). Their parsers give every provision the snapshot's end as
+``valid_to``. Then a continued wording ends where the latest snapshot showing it ends, and a
+wording does not continue across a gap: if the previous snapshot ended before this one starts,
+the wording that applied in between is unknown, so a new version starts.
+
 A *change report* (``consolidation_kind = "change_report"``) is a source document that lists,
 for an expression already recorded, the changes not yet applied to it (e.g. amendments
 promulgated but not yet in force). It records no text: it replaces the expression's outstanding
@@ -73,14 +80,37 @@ def attested_by(session: Session, version: m.InstrumentVersion) -> dict[Any, m.P
     return {pv.provision_id: pv for pv in rows}
 
 
-def continues(previous: m.ProvisionVersion | None, status: str, heading: str | None, text_sha: str) -> bool:
-    """Whether a snapshot's wording is the one the previous snapshot attested."""
+def continues(
+    previous: m.ProvisionVersion | None,
+    status: str,
+    heading: str | None,
+    text_sha: str,
+    start: date | None = None,
+) -> bool:
+    """Whether a snapshot (starting on ``start``) continues the wording the previous snapshot attested.
+
+    A previous version that ends before ``start`` (its snapshot's stated end, with no snapshot for
+    the gap) is not continued.
+    """
     return (
         previous is not None
         and previous.status == status
         and previous.text_sha256 == text_sha
         and (previous.heading or None) == (heading or None)
+        and (start is None or previous.valid_to is None or previous.valid_to >= start)
     )
+
+
+def carry_end(previous: m.ProvisionVersion, end: date | None) -> None:
+    """A continued version ends where the snapshot that continues it ends.
+
+    ``end`` is the end the source states for that snapshot (``None``: open-ended). Sources that
+    state no ends never give a version an explicit end here, so their versions are unaffected.
+    """
+    if end is not None:
+        previous.valid_to, previous.valid_to_basis = end, "explicit"
+    elif previous.valid_to is not None and previous.valid_to_basis == "explicit":
+        previous.valid_to, previous.valid_to_basis = None, "open"
 
 
 def end_absent(previous: dict[Any, m.ProvisionVersion], present: set[Any], start: date) -> int:
