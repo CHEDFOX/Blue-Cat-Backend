@@ -319,6 +319,47 @@ def test_connector_refuses_bad_manifests_and_uncached_downloads(tmp_path: Path) 
         parse_selection({})
 
 
+class _Response:
+    def __init__(self, status: int, headers: dict[str, str], data: bytes) -> None:
+        self.status, self.headers, self._data = status, headers, data
+
+    def __enter__(self) -> _Response:
+        return self
+
+    def __exit__(self, *exc: object) -> None:
+        return None
+
+    def read(self, n: int = -1) -> bytes:
+        chunk, self._data = self._data[:n], self._data[n:]
+        return chunk
+
+
+def test_download_resumes_after_a_cut_connection_and_identifies_itself(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    payload = b"0123456789" * 10
+    seen: list[dict[str, str]] = []
+
+    def fake_urlopen(request: Any, timeout: float = 0) -> _Response:
+        assert request.full_url == "https://opendata.eselpoint.gov.cz/datove-sady-esbirka/" + DATASETS["metadata"]
+        seen.append({k.lower(): v for k, v in request.header_items()})
+        if "range" not in seen[-1]:  # first try: the connection is cut after 40 bytes
+            return _Response(200, {"Content-Length": "100", "ETag": '"abc"'}, payload[:40])
+        assert seen[-1]["range"] == "bytes=40-"
+        return _Response(206, {"Content-Length": "60", "ETag": '"abc"'}, payload[40:])
+
+    monkeypatch.setattr("ulis.sources.connectors.esbirka_opendata.urllib.request.urlopen", fake_urlopen)
+    manifest = yaml.safe_load(_manifest(tmp_path, full_history=["sb/2019/110"]).read_text())
+    conn = EsbirkaOpenDataConnector(tmp_path / "m.yaml", SOURCE, tmp_path / "cache", sleep=lambda _s: None)
+    path = conn._download("metadata", manifest)  # noqa: SLF001
+    assert path.read_bytes() == payload and conn.requests_made == 2
+    assert all(h["user-agent"] == UA for h in seen)
+    meta = json.loads(path.with_name(path.name + ".meta.json").read_text())
+    assert meta["etag"] == '"abc"' and meta["content_length"] == 100 and meta["status"] == 206
+    # Cached: a second call makes no request.
+    assert conn._download("metadata", manifest) == path and conn.requests_made == 2  # noqa: SLF001
+
+
 def test_dump_reader_streams_items_and_detects_truncation() -> None:
     dump = gzip.decompress((FIX / "dumps" / DATASETS["metadata"]).read_bytes())
     items = list(iter_records([dump[i : i + 700] for i in range(0, len(dump), 700)]))

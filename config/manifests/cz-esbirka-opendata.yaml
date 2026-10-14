@@ -1,9 +1,11 @@
 # Czech Collection of Laws (e-Sbírka) from the publisher's open-data dumps, https://opendata.eselpoint.gov.cz/datove-sady-esbirka/.
 # The connector downloads four dumps once (about 1.9 GB compressed: 001PravniAktZneni = versions of acts,
 # 003PravniAktZneniFragment = fragments of every version, 004PravniAktFragment = fragment texts, 006PravniAktMetadata =
-# titles and kinds), reads them as streams and keeps only the versions selected here in a small SQLite slice under the
-# cache directory (about 10 minutes and 1-3 GB of disk; later runs reuse the slice). One raw document is one version of one
-# act, oldest first within an act.
+# titles and kinds), reads them as streams and keeps only the versions selected here in a SQLite slice under the cache
+# directory; later runs reuse the slice. With the switches below on the dumps of 2026-10-14 the slice has 24,809 acts, 26,327
+# versions and 6.75 million version-fragments: about 10 minutes and 4.9 GB of disk (plus 1.9 GB for the dumps; both can be
+# deleted after the ingest). One raw document is one version of one act, oldest first within an act. To ingest less, set
+# `in_force: false` (only the lists) or `in_force_years: [first, last]`.
 #   full_history  every version up to as_of of these acts (id = <collection>/<year>/<number>, e.g. sb/2012/89 for 89/2012 Sb.)
 #   current       only the version in force on as_of
 #   in_force      true: also the version in force on as_of of every other act of the Sbírka zákonů (`sb`) - this is the

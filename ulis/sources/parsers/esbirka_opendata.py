@@ -174,18 +174,21 @@ def parse_esbirka(content: bytes) -> list[ParsedDocument]:
     def is_provision(row: _Row) -> bool:
         return (row.type or "") in NUMBERED and row.label_number not in (None, "")
 
-    def text_of(row: _Row, acc: list[str], marks: list[str]) -> None:
+    def text_of(row: _Row, acc: list[str], marks: list[str], inherited: date) -> None:
         """Text of ``row``'s descendants that are not provisions (or headings, containers) of their own."""
         for child in row.children:
             if is_provision(child) or child.type in CONTAINERS or child.type in SKIPPED:
                 continue
             if child.type in ("Nadpis_pod", "Nadpis_nad"):
                 continue
+            from_date = effective(child, inherited)
+            if valid_to is not None and from_date >= valid_to:
+                continue
             piece = _clean(child.text, keep_label=True)
             if piece:
                 acc.append(piece)
                 marks += FOOTNOTE_MARK.findall(child.text or "")
-            text_of(child, acc, marks)
+            text_of(child, acc, marks, from_date)
 
     def numbered_below(row: _Row) -> list[_Row]:
         out: list[_Row] = []
@@ -252,7 +255,7 @@ def parse_esbirka(content: bytes) -> list[ParsedDocument]:
         own = _clean(row.text)
         marks = FOOTNOTE_MARK.findall(row.text or "")
         parts = [own] if own else []
-        text_of(row, parts, marks)
+        text_of(row, parts, marks, from_date)
         text = "\n".join(parts)
         repealed = bool(REPEALED.match(text))
         title = heading_of(row)
@@ -349,6 +352,27 @@ def parse_esbirka(content: bytes) -> list[ParsedDocument]:
     for top in roots:
         if top.type == "Virtual_Document":
             walk(top, None, None, start)
+    if not any(p.kind != "annex" for p in provisions):
+        # A notice, resolution or similar act has no numbered provisions: its text is the unnumbered paragraphs.
+        parts: list[str] = []
+        for top in roots:
+            for part in top.children:
+                if part.type in ("Virtual_Norma", "Virtual_Novela"):
+                    text_of(part, parts, [], start)
+        if parts:
+            add(
+                "text",
+                "text",
+                ["body:text"],
+                "section",
+                None,
+                "\n".join(parts),
+                None,
+                status="in_force",
+                from_date=start,
+                note=None,
+                context=None,
+            )
     if not provisions:
         raise ParseSkipped(f"{act_id}: no provision of the version {eli_date} applies while it does")
 

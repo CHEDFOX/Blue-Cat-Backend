@@ -32,12 +32,12 @@ NAMES = {
     "1961/141": "trestního řádu",
     "2012/90": "zákona o obchodních korporacích",
     "2002/150": "soudního řádu správního",
-    "2006/500": "správního řádu",
+    "2004/500": "správního řádu",
     "2000/121": "autorského zákona",
     "2009/280": "daňového řádu",
 }
 PINPOINT = {"art": "čl.", "sec": "§", "sub": "odst.", "item": "bod"}
-BARE = {"preamble": "preambule", "annex": "příloha"}
+BARE = {"preamble": "preambule", "annex": "příloha", "body": "text"}
 KINDS = {
     "constitutional_act": "ústavního zákona",
     "act": "zákona",
