@@ -3,13 +3,11 @@
 Jurisdiction-aware legal corpus, retrieval and verification backend (Python, FastAPI,
 PostgreSQL). The frontend is in [`Blue-Cat-Web`](https://github.com/CHEDFOX/Blue-Cat-Web).
 
-> **Status:** Phase 1 foundations plus a working Phase 2 slice. Real data: **UK legislation**
-> from legislation.gov.uk (9 Acts and instruments of the UK, Scottish and Welsh legislatures,
-> each with its full point-in-time history), **Canadian federal Acts** in English and French
-> (9 Acts from the Department of Justice consolidation), and a **sample of US federal law**
-> from the US Government Publishing Office (96 official USLM files). Plus a fictional
-> multi-jurisdiction test corpus. Coverage is partial and stated on every response; ULIS
-> makes no claim of legal competence. Research aid only, not legal advice.
+> **Status:** a working backend with real law from 19 countries and the EU (see the corpora table
+> below), 61 court decisions, an LLM research assistant and a one-server deployment kit. Coverage is
+> partial and stated on every response; ULIS makes no claim of legal competence, and the real
+> language-model path and the Docker/Caddy/systemd kit have not yet been run end to end. Research
+> aid only, not legal advice. **To run it on a server: [docs/deployment.md](docs/deployment.md).**
 
 ## What works today
 
@@ -31,6 +29,13 @@ PostgreSQL). The frontend is in [`Blue-Cat-Web`](https://github.com/CHEDFOX/Blue
   language versions, treaty domestic effect, foreign authority, and no-corpus warnings.
 - **Verification**: quote exactness, and source integrity (re-derive and compare; detects
   tampering).
+- **Research assistant** (`POST /v1/research`): a question or pasted case file plus a country goes
+  through understanding, searching the corpus, drafting and a verification pass that re-reads every
+  cited authority and removes any claim whose quote is not in the source. Case text is never stored
+  or logged. See [docs/research-assistant.md](docs/research-assistant.md).
+- **Operations**: `load-all` (every active source, smallest first, resumable), `status`, backups,
+  restore, corpus export/import, API keys, rate limits, `/ready`, JSON logs. See
+  [docs/deployment.md](docs/deployment.md).
 
 ## Quick start
 
@@ -69,6 +74,8 @@ ruff check ulis tests && mypy ulis
 | GET | `/v1/sources`, `/v1/coverage`, `/v1/source-documents` | Source register, coverage, raw documents |
 | POST | `/v1/verify/quote` | Exact-quote check against a provision version or paragraph |
 | POST | `/v1/verify/source-documents/{id}` | Integrity re-derivation |
+| POST | `/v1/research` | Start a research job (question, optional case text, jurisdiction, as-of date, depth); returns an id |
+| GET | `/v1/research/{id}` | Job status and, when done, the answer with citations and the verification report (kept 24 h) |
 
 ## Layout
 
@@ -90,7 +97,8 @@ tests/             unit + PostgreSQL integration tests
 [Multilingual retrieval](docs/multilingual-retrieval.md) ·
 [Temporal model](docs/temporal-model.md) · [Roadmap](docs/roadmap.md) ·
 [Security and evaluation](docs/security-and-evaluation.md) ·
-[Test results](docs/test-results.md)
+[Research assistant](docs/research-assistant.md) · [Deployment](docs/deployment.md) ·
+[Onboarding a jurisdiction](docs/onboarding-a-jurisdiction.md) · [Test results](docs/test-results.md)
 
 ## Corpora
 
@@ -98,8 +106,8 @@ tests/             unit + PostgreSQL integration tests
 |---|---|---|---|
 | `us-gpo-uslm-samples` | US (federal) | 96 official GPO USLM files pinned to commit `4ec9db2`: 14 public laws as enacted, 11 statute compilations, 7 CFR edition volumes (221 parts), 64 bill/resolution versions; 12 files excluded with recorded reasons | Real, public domain; sample only |
 | `gb-legislation-gov-uk` | GB, England and Wales, Scotland, Wales | 9 works with every point-in-time version (159 versions): Theft Act 1968, Interpretation Act 1978, Human Rights Act 1998, Consumer Rights Act 2015, Data Protection Act 2018, an SI, a Scottish Act, a Welsh Measure and a Welsh Act; territorial extent, repeals, outstanding effects | Real, Open Government Licence v3.0; selection only |
-| `ca-justice-laws-xml` | CA (federal) | 9 Acts in English and French (18 files), current consolidation: Criminal Code, Canada Labour Code, Canada Business Corporations Act, Copyright Act, Divorce Act, Immigration and Refugee Protection Act, Access to Information Act, Privacy Act, PIPEDA | Real, Open Government Licence – Canada; not an official version |
-| `de-gesetze-im-internet` | DE (federal) | 10 laws, current consolidation, German: GG, BGB, StGB, ZPO, StPO, HGB, VwVfG, BDSG, KSchG, GewStG ([notes](docs/jurisdictions/de.md)) | Real, free reuse (§ 5 UrhG; site terms); not the authentic text |
+| `ca-justice-laws-xml` | CA (federal) | **All 953 consolidated Acts** in English and French (1,906 files) pinned to commit `b7292cf`: about 515,000 provision versions; two duplicate-identifier conflicts recorded (N-16.62) | Real, Open Government Licence – Canada; not an official version |
+| `de-gesetze-im-internet` | DE (federal) | Manifest lists all 6,139 federal laws and ordinances (current consolidation, German); about 2.6% carry no text and are skipped and counted; a first load needs at least 8.5 h of polite downloading ([notes](docs/jurisdictions/de.md)) | Real, free reuse (§ 5 UrhG; site terms); not the authentic text |
 | `eu-eur-lex` | EU | 8 instruments in English, French and German: GDPR, Rome I, Brussels Ia, Consumer Rights Directive, AI Act (OJ texts as adopted), Charter, TEU and TFEU (2016 consolidated, documentation only); applies inside member States from accession ([notes](docs/jurisdictions/eu.md)) | Real, reuse under Decision 2011/833/EU; amendments listed, not applied |
 | `es-boe-consolidada` | ES (State) | 6 norms with every consolidated version: Constitución, Código Civil, Código Penal, LOPDGDD, Ley 39/2015, Estatuto de los Trabajadores ([notes](docs/jurisdictions/es.md)) | Real, BOE reuse licence; informative, not the official text |
 | `jp-egov-laws` | JP | 7 laws in Japanese: Constitution, Civil Code, Penal Code (14 revisions), Code of Civil Procedure, Personal Information Protection Act (24 revisions), Labour Standards Act, Companies Act ([notes](docs/jurisdictions/jp.md)) | Real, Public Data License 1.0; the Official Gazette prevails |

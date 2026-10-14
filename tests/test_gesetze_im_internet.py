@@ -29,7 +29,7 @@ from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
-from ulis.sources.normalized import ParsedDocument, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkipped
 from ulis.sources.parsers.gesetze_im_internet import (
     GiiParseError,
     gii_slug,
@@ -305,6 +305,8 @@ def test_connector_offline_from_cache(tmp_path: Path) -> None:
 def test_connector_refuses_bad_manifests_and_non_zip_responses(tmp_path: Path) -> None:
     for laws, extra, message in (
         ([{"abbr": "../etc"}], {}, "invalid law path"),
+        ([{"abbr": "_ag/../x"}], {}, "invalid law path"),
+        ([{"abbr": "Bgb"}], {}, "invalid law path"),
         ([{"abbr": "gg"}], {"base_url": "http://www.gesetze-im-internet.de"}, "base_url"),
         ([{"abbr": "gg"}], {"user_agent": "python-urllib"}, "user_agent"),
         ([], {}, "no laws"),
@@ -317,12 +319,9 @@ def test_connector_refuses_bad_manifests_and_non_zip_responses(tmp_path: Path) -
     page.write_bytes(b"<html>Fehler</html>")
     meta = {"url": "x", "status": 200, "content_type": "text/html", "retrieved_at": "2026-10-14T00:00:00+00:00"}
     page.with_name("xml.zip.meta.json").write_text(json.dumps(meta))
-    with pytest.raises(FetchError, match="not a zip archive"):
-        list(
-            GesetzeImInternetConnector(
-                _manifest(tmp_path, [{"abbr": "gg"}]), SOURCE, tmp_path / "c", offline=True
-            ).fetch()
-        )
+    connector = GesetzeImInternetConnector(_manifest(tmp_path, [{"abbr": "gg"}]), SOURCE, tmp_path / "c", offline=True)
+    assert list(connector.fetch()) == []  # skipped, not aborted ...
+    assert len(connector.fetch_errors) == 1 and "not a zip archive" in connector.fetch_errors[0]  # ... and reported
 
 
 def test_source_uses_this_connector(catalog: Catalog) -> None:
@@ -454,3 +453,57 @@ def test_a_newer_edition_with_new_wording_is_a_new_version_not_a_conflict(
     assert after["status_on_date"] == "in_force" and "neue Fassung" in after["version"]["text"]
     assert after["version"]["valid_from"] == "2026-06-01" and after["version"]["valid_from_basis"] == "observed"
     assert unchanged["version"]["text"] == "Unverändert."  # same wording in both editions: one version
+
+
+# --------------------------------------------------------------------------- laws without text are skipped, not errors
+
+
+def _empty_law_zip() -> bytes:
+    """A real kind of file: an amendment act whose articles have no text (synthetic, edge case only)."""
+    body = (
+        '<norm doknr="BJNRTEST1"><metadaten><jurabk>TestG</jurabk><gliederungseinheit>'
+        "<gliederungskennzahl>010</gliederungskennzahl><gliederungsbez>Art 1</gliederungsbez></gliederungseinheit>"
+        '</metadaten><textdaten><text format="XML"><Content><P/></Content></text></textdaten></norm>'
+    )
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as z:
+        z.writestr("BJNRTEST.xml", _gii(body))
+    return buf.getvalue()
+
+
+def test_every_law_in_the_committed_manifest_passes_the_connector_validation() -> None:
+    laws = yaml.safe_load((REPO_ROOT / "config/manifests/de-gesetze-im-internet.yaml").read_text())["laws"]
+    connector = GesetzeImInternetConnector(
+        REPO_ROOT / "config/manifests/de-gesetze-im-internet.yaml", SOURCE, Path("/nonexistent")
+    )
+    assert len(connector._manifest()["laws"]) == len(laws) > 1000  # includes the 35 laws whose path begins with "_"
+    assert "_ag" in {law["abbr"] for law in laws}
+
+
+def test_a_law_without_any_text_is_a_skip_not_a_parse_error() -> None:
+    with pytest.raises(ParseSkipped) as caught:
+        parse_gesetze_im_internet(_empty_law_zip())
+    assert isinstance(caught.value, GiiParseError) and "no text" in str(caught.value)
+
+
+@pytest.mark.db
+def test_pipeline_counts_text_less_laws_as_skipped_and_still_ingests_the_rest(
+    session_factory: sessionmaker[Session], catalog: Catalog, store: LocalObjectStore, ingested: IngestionReport
+) -> None:
+    class _Mixed:
+        fetch_errors = ["gesetze-im-internet:gone: https://example.invalid/gone/xml.zip: not found (404)"]
+
+        def fetch(self) -> Iterator[RawDocument]:
+            now = datetime(2026, 10, 14, tzinfo=UTC)
+            yield RawDocument(
+                "gesetze-im-internet:leer", "https://www.gesetze-im-internet.de/leer/xml.zip",
+                "application/zip", _empty_law_zip(), now, {"abbr": "leer"},
+            )  # fmt: skip
+            yield from _Fixtures().fetch()
+
+    with session_factory() as session:
+        report = Ingestor(session, catalog, store).ingest_source(SOURCE, actor="pytest", connector=_Mixed())
+        session.rollback()
+    assert report.documents_skipped == 1 and report.skipped[0].startswith("gesetze-im-internet:leer")
+    assert report.documents_new + report.documents_unchanged == len(LAWS)
+    assert report.errors == _Mixed.fetch_errors  # a connector's skipped fetches are reported, parse skips are not

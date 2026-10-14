@@ -12,10 +12,10 @@ ULIS is a research aid for lawyers, never legal advice.
 
 ## 1. Requirements
 
-| | Minimum for the current corpus (about 600k provisions) | Notes |
+| | Minimum for the current corpus (about 740k provisions, more with all of Germany) | Notes |
 |---|---|---|
 | CPU / RAM | 4 vCPU / 8 GB | ingestion is CPU-bound for hours; PostgreSQL gets 2 GB `shared_buffers` (`.env`) |
-| Disk | 100 GB SSD | estimate: 10-15 GB database, 5-10 GB raw documents and download cache, the rest for images, WAL and 3+ dumps; extrapolated from ~1.2 GB measured for ~150k passages, not measured at full scale |
+| Disk | 100 GB SSD | measured in the build container with 741k provisions and 962k passages loaded: database 2.6 GB, raw documents 0.8 GB, download cache 1.1 GB; the full German corpus adds an estimated 2-3 GB more (extrapolated). The rest is for images, WAL and 3+ dumps |
 | Bulk loads (e.g. all German federal laws, more countries) | 8 vCPU / 16 GB / 200 GB | raise `PG_SHARED_BUFFERS` to 25% of RAM |
 | OS | Ubuntu 24.04 or Debian 12, x86-64 | Docker Engine 24+ with the compose plugin |
 | Network | public IPv4, ports 22/80/443 | outbound HTTPS to the publishers |
@@ -76,11 +76,14 @@ docker compose --profile tools run --rm cli status                  # per-jurisd
   checkout the network floor of everything except Germany is about 25 min; expect 1-3 hours in total. **Germany** (all federal
   laws, about 6,100 `xml.zip` files at one request per 5 s) is at least **8.5 hours** of downloading plus parsing,
   so allow a day for a complete first load. Run `VACUUM ANALYZE` afterwards.
-* German bulk loaders (`scripts/bulk_fetch_gii.py` downloads the table of contents and every law into the cache;
-  `scripts/build_gii_manifest.py` writes `config/manifests/de-gesetze-im-internet.yaml` from the cache) are run from a
-  checkout with a virtualenv, not inside the image. Cache layout is identical (`var/sources/<host>/...`), so a cache
-  downloaded on another machine can be rsynced into `/srv/ulis/sources` (then `chown -R 10001:10001`) and `load-all`
-  will not download it again. If the committed manifest already lists the laws, `load-all` alone suffices.
+* **Germany**: the committed manifest (`config/manifests/de-gesetze-im-internet.yaml`) lists all 6,139 federal laws,
+  so `load-all` alone fetches and loads them (a law the site no longer serves is reported as a run error and skipped; a
+  refusal such as 403/429 stops the source and is respected). About 2.6% of the files hold no text (consumed
+  amendment acts); they are counted as `documents_skipped`, not errors. `scripts/bulk_fetch_gii.py` (download only,
+  resumable) and `scripts/build_gii_manifest.py [--all]` exist for running the download separately from a checkout with a
+  virtualenv. The cache layout is identical (`var/sources/<host>/...`), so a cache downloaded on another machine can be
+  rsynced into `/srv/ulis/sources` (then `chown -R 10001:10001`) and `load-all` will not download it again. A
+  1,101-law trial from the cache ingested in 191 s.
 * **Skip the wait**: on a machine that already holds the data run `deploy/export-corpus.sh --with-objects`, copy the
   `ulis-corpus-*` files over and run `deploy/import-corpus.sh --objects ...-objects.tar.gz ...dump` on the new server.
   The export holds the corpus tables only (audit events, verification records and research results stay behind);

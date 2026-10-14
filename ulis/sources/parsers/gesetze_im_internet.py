@@ -47,7 +47,7 @@ from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing use
 
 from defusedxml.ElementTree import fromstring
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "gii_norm_xml"
 PARSER_VERSION = "1.0.0"
@@ -73,6 +73,11 @@ Part = tuple[str, object]  # ("t", text) or ("e", element), in document order
 
 class GiiParseError(ValueError):
     pass
+
+
+class GiiNoText(ParseSkipped, GiiParseError):
+    """The file is a real law but none of its norms carries text (an amendment act whose articles were
+    consumed or emptied): there is nothing to store."""
 
 
 # --------------------------------------------------------------------------- input
@@ -511,7 +516,7 @@ def parse_gesetze_im_internet(content: bytes) -> list[ParsedDocument]:
         context = " – ".join(outline[k] for k in sorted(outline)) or None
         add(unit, None, [], kind, None if heading in WEGGEFALLEN else heading, note, context, repealed)
     if not provisions:
-        raise GiiParseError("no provisions found")
+        raise GiiNoText("no provisions found: the law carries no text")
 
     events = [ParsedEvent("version_change", build, None, "Build date of the XML file", "dokumente/@builddate")]
     if enacted:

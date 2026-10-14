@@ -54,7 +54,7 @@ from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
 from ulis.sources.connectors.ris_ogd import RisOgdConnector
 from ulis.sources.connectors.uscode_house import UscodeHouseConnector
-from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
+from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef, ParseSkipped
 from ulis.sources.parsers import (
     akn,
     au_federal_register,
@@ -153,6 +153,7 @@ class IngestionReport:
     documents_seen: int = 0
     documents_new: int = 0
     documents_unchanged: int = 0
+    documents_skipped: int = 0
     instruments_created: int = 0
     instrument_versions_created: int = 0
     provision_versions_created: int = 0
@@ -165,6 +166,7 @@ class IngestionReport:
     passages_indexed: int = 0
     conflicts: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    skipped: list[str] = field(default_factory=list)  # documents with nothing to ingest (not errors)
 
     def as_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -306,6 +308,9 @@ class Ingestor:
                     )
                     self.session.flush()
                 report.documents_new += 1
+            except ParseSkipped as exc:
+                report.documents_skipped += 1
+                report.skipped.append(f"{raw.external_id}: {exc}")
             except Exception as exc:  # recorded, then the run continues with the next document
                 report.errors.append(f"{raw.external_id}: {exc}")
                 self.session.add(
@@ -320,6 +325,7 @@ class Ingestor:
                 )
 
         self.session.flush()
+        report.errors.extend(getattr(connector, "fetch_errors", []))  # documents a connector skipped on purpose
         for instrument_id in touched_instruments:
             self._recompute_validity(instrument_id)
         report.citation_links_resolved = self.resolve_citations()

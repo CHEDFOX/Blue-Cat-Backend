@@ -11,6 +11,11 @@ from datetime import date
 from typing import Any, Literal
 
 
+class ParseSkipped(Exception):
+    """A parser's way of saying "this document is well formed but holds nothing to ingest" (for example a law
+    whose text has been removed). The pipeline counts it as skipped, not as an error, and stores nothing."""
+
+
 @dataclass(frozen=True)
 class ParsedRef:
     href: str

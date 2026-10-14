@@ -1,26 +1,51 @@
 # Test results
 
-Recorded on 2026-10-14 in the build container (updated after adding the Canadian corpus): Python 3.13.16, PostgreSQL 16.15, Node 22,
-Chromium (Playwright 1.56.1). These are the actual outputs of the runs, not targets.
+Recorded on 2026-10-14 in the build container: Python 3.13.16, PostgreSQL 16.15, Node 22, Chromium
+(Playwright 1.56.1). These are the actual outputs of the runs, not targets. Older per-corpus sections below
+keep their original numbers; the first table is the current state.
 
-## Backend (`Blue-Cat-Backend`)
+## Backend (`Blue-Cat-Backend`), current
 
 | Check | Command | Result |
 |---|---|---|
-| Lint | `ruff check ulis tests migrations scripts` | All checks passed |
-| Format | `ruff format --check ...` | 75 files already formatted |
-| Types | `mypy ulis` | No issues in 51 source files |
-| Config | `python -m ulis.cli validate-config` | 15 jurisdictions, 8 sources, 4 concepts |
-| Migrations | `alembic upgrade head` (0001 core schema, 0002 validity basis, 0003 valid-from basis, 0004 expression short title) | Applied cleanly |
-| Unit tests (no DB) | `pytest -q` without `ULIS_TEST_DATABASE_URL` | 62 passed, 55 skipped (DB tests skip cleanly) |
-| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q` | **117 passed** in about 23 s |
+| Lint, format, types | `ruff check`, `ruff format --check`, `mypy ulis` | clean (mypy: no issues in 133 source files) |
+| Config | `python -m ulis.cli validate-config` | 34 jurisdictions, 31 sources |
+| Migrations | `alembic upgrade head` (0001-0006: core schema, validity basis, valid-from basis, expression short title, search text for unspaced scripts, research jobs) | applied cleanly |
+| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q` | **737 passed** in 284 s |
 
-Tests per file: `test_catalog.py` 14 · `test_parser_and_storage.py` 11 · `test_rules.py` 13 ·
+Real data in the development database: 26 jurisdiction ids, 2,463 instruments, 741,226 provisions, 961,804
+passages, 3,696 source documents, all re-derived from raw bytes by `verify-sources` (`cli status`). The
+fictional jurisdictions (XA, XA-NP, XB, XR) are invented test data.
+
+Known gaps and conflicts, stated rather than hidden:
+
+* Canada: 953 Acts in both languages ingested with **0 errors and 2 conflicts** (a duplicate provision identifier
+  in N-16.62, section 15.1-2, in both languages); the second occurrence is not stored.
+* Germany: a 1,101-law trial from the download cache ingested in 191 s: 1,064 laws, about 102,000 provisions, 27
+  laws that contain no text skipped and counted (not errors), **0 errors**. The full 6,139-law load has not been run
+  (the download is at one request per 5 s, at least 8.5 h).
+* Not run here: the Docker image, `docker compose up`, Caddy, systemd, the real language-model path (no API key in
+  the sandbox) and any load test. The research pipeline was run end to end with a scripted stand-in for the model on
+  the real database (verifier removes invented claims), and the website was run against the real API in the same
+  way (login, job, polling, result).
+* Search quality is uneven: Spanish ranking is weak because the instrument title in the context boosts every
+  provision of that law; Japanese and Chinese search uses character pairs (no morphological analysis).
+
+## Backend, older breakdown (at the Canada stage)
+
+| Check | Command | Result |
+|---|---|---|
+| Config | `python -m ulis.cli validate-config` | 15 jurisdictions, 8 sources, 4 concepts |
+| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q` | 117 passed in about 23 s |
+
+Tests per file at that stage: `test_catalog.py` 14 · `test_parser_and_storage.py` 11 · `test_rules.py` 13 ·
 `test_ingestion.py` 8 · `test_search.py` 17 · `test_lookup_and_verification.py` 7 ·
 `test_api.py` 7 · `test_uslm.py` 15 · `test_us_federal.py` 10 (real US documents, fixtures in
 `tests/fixtures/uslm`) · `test_legislation_gov_uk.py` 10 (real UK documents, fixtures in
 `tests/fixtures/legislation_gov_uk`) · `test_justice_canada.py` 5 (real Canadian documents in
-both languages, fixtures in `tests/fixtures/justice_canada`).
+both languages, fixtures in `tests/fixtures/justice_canada`). Every country added since has its own test
+file named after its source (`tests/test_<source>.py`), plus the research assistant (`test_assistant_*.py`),
+API hardening (`test_security.py`) and operations (`test_ops_cli.py`).
 
 ## Real Canadian corpus (dev database, full manifest)
 
