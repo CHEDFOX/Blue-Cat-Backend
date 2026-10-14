@@ -111,7 +111,10 @@ def test_source_is_active_licence_approved_registered_and_never_uses_the_ecfr_ap
     assert CONNECTORS[source.connector or ""] is EcfrConnector and source.parser in PARSERS
     assert SOURCE in catalog.jurisdictions.get("US").publication.official_sources
     # The eCFR site's robots.txt closes its full-text API to every robot: such a request is never made ...
-    for closed in ("/api/versioner/v1/full/2026-10-09/title-12.xml", "/api/renderer/v1/content/enhanced/2026-10-09/title-12"):
+    for closed in (
+        "/api/versioner/v1/full/2026-10-09/title-12.xml",
+        "/api/renderer/v1/content/enhanced/2026-10-09/title-12",
+    ):
         assert not robots_allows(ECFR_GOV_ROBOTS, USER_AGENT, f"https://www.ecfr.gov{closed}")
     assert robots_allows(ECFR_GOV_ROBOTS, USER_AGENT, "https://www.ecfr.gov/api/versioner/v1/titles.json")
     # ... and the shared fetcher would refuse the host anyway: only www.govinfo.gov is allowed.
@@ -225,7 +228,9 @@ def test_labels_inside_one_paragraph_and_italic_levels_and_tables() -> None:
     assert defs.text.startswith("Government securities means:\nIf . . . | Then . . .")  # one table row per line
     assert "|" in defs.text
     multi = _by_eid(_docs(12)["21"])["sec_21.3__para_a"]
-    assert multi.heading == "Contents of security program." and multi.text.startswith("Contents of security program.\n(1) ")
+    assert multi.heading == "Contents of security program." and multi.text.startswith(
+        "Contents of security program. The security program shall:\n(1) "
+    )
 
 
 def test_every_source_paragraph_is_in_the_text_of_its_section() -> None:
@@ -272,13 +277,38 @@ def test_appendix_footnote_and_notes() -> None:
     assert ed["sec_700.1"].note.startswith("Source credit: [78 FR 32543, May 31, 2013]")
 
 
+def test_a_long_appendix_without_a_number_is_cut_at_its_headings() -> None:
+    """'Supplement I to Part N' has an empty N in the XML; its text, hundreds of kilobytes in real parts, is cut into
+    blocks that start at HD1/HD2 headings (or at a size limit), so that a search hit is a passage, not the appendix."""
+    heading = lambda n: f"<HD1>Section {n} Definitions</HD1>"  # noqa: E731
+    body = "<P>" + "1. The term includes devices of every kind that a consumer may use. " * 40 + "</P>"
+    supplement = "".join(heading(n) + body + f"<HD2>{n}(a) Account</HD2>" + body for n in range(1, 8))
+    xml = (
+        '<ecfr-part title-number="12" last-modified="2026-10-06T21:51:17+00:00" source-url="https://x"><amddate/>'
+        '<DIV5 N="1005" TYPE="PART"><HEAD>PART 1005—ELECTRONIC FUND TRANSFERS (REGULATION E)</HEAD>'
+        f'<DIV9 N="" TYPE="APPENDIX"><HEAD>Supplement I to Part 1005—Official Interpretations</HEAD>{supplement}</DIV9>'
+        '<DIV9 N="Appendix B" TYPE="APPENDIX"><HEAD>Appendix B to Part 1005 [Reserved]</HEAD></DIV9>'
+        "</DIV5></ecfr-part>"
+    ).encode()
+    doc = parse_ecfr(xml)[0]
+    by = _by_eid(doc)
+    top = by["app_Supplement_I"]
+    assert top.num_path == ["Supplement I"] and not top.is_leaf and not top.indexable
+    blocks = [p for p in doc.provisions if p.parent_eid == "app_Supplement_I"]
+    assert len(blocks) == 14 and blocks[0].heading == "Section 1 Definitions" and blocks[1].heading == "1(a) Account"
+    assert all(b.is_leaf and b.indexable and b.num_path == ["Supplement I", ""] for b in blocks)
+    assert blocks[0].eid == "app_Supplement_I__blk_1" and len(blocks[0].text) < 3000
+    assert _cite(doc, "app_Supplement_I__blk_3") == "12 CFR part 1005, supplement I"
+    assert len(doc.provisions) == 15  # the reserved appendix has no text
+
+
 def test_label_sequences() -> None:
     def levels(*labels: str, gaps: list[bool] | None = None) -> list[int] | None:
         tokens = [ecfr._Token(label, False) for label in labels]
         return ecfr._assign_levels([ecfr._readings(t) for t in tokens], gaps or [False] * len(labels))
 
     assert levels("a", "1", "2", "b", "1", "i", "ii", "2") == [1, 2, 2, 1, 2, 3, 3, 2]
-    assert levels("h", "i") == [1, 1]  # (i) after (h) is the ninth letter ...
+    assert levels(*"abcdefghi") == [1] * 9  # (i) after (h) is the ninth letter ...
     assert levels("a", "1", "i", "ii", "2") == [1, 2, 3, 3, 2]  # ... and after (1) it is the roman numeral
     assert levels("a", "i", "ii") is None  # a roman level directly under (a), with no (1) between: not guessed
     assert levels("1", "2", "i") == [2, 2, 3]  # a section may start at "(1)"
@@ -316,7 +346,14 @@ def test_citations_follow_the_federal_register_form_and_the_annual_edition_form_
     sample = {"cfr_title": 27, "cfr_part": "478"}
     old = UsModule().provision_citation(
         ProvisionCitationInput(
-            "27 CFR Part 478", "regulation", "US", "section", ["478.11", "b"], "en", sample, version_date=date(2018, 4, 1)
+            "27 CFR Part 478",
+            "regulation",
+            "US",
+            "section",
+            ["478.11", "b"],
+            "en",
+            sample,
+            version_date=date(2018, 4, 1),
         )
     )
     assert old == "27 C.F.R. § 478.11(b) (2018)"
@@ -477,9 +514,11 @@ def test_ingestion_of_the_fixtures(ecfr_db: tuple[Session, IngestionReport, Inge
     assert report.errors == [] and report.conflicts == [] and report.documents_new == 28 + 5 + 1
     assert report.documents_skipped == 0 and report.instruments_created == 34
     rows = session.execute(
-        select(m.Instrument.uri, m.Instrument.instrument_type).where(m.Instrument.uri.in_(["/us/cfr/t12/p220", "/us/cfr/t1/p1"]))
+        select(m.Instrument.uri, m.Instrument.instrument_type).where(
+            m.Instrument.uri.in_(["/us/cfr/t12/p220", "/us/cfr/t1/p1"])
+        )
     ).all()
-    assert sorted(rows) == [("/us/cfr/t12/p220", "regulation"), ("/us/cfr/t1/p1", "regulation")]
+    assert sorted(rows) == [("/us/cfr/t1/p1", "regulation"), ("/us/cfr/t12/p220", "regulation")]
     versions = session.scalars(
         select(m.InstrumentVersion).join(m.Instrument).where(m.Instrument.uri == "/us/cfr/t12/p220")
     ).all()
@@ -496,12 +535,14 @@ def test_search_finds_a_paragraph_with_the_federal_register_citation_and_limitat
     res = _search(
         session,
         catalog,
-        q="margin account and four special purpose accounts to record all financial relations between a customer and a creditor",
+        q="margin account and four special purpose accounts to record financial relations of a customer and a creditor",
     )
     hit = next(h for h in res["results"] if h["document"]["uri"] == "/us/cfr/t12/p220")
     assert hit["citation"] == "12 CFR 220.1(b)(1)"
     assert hit["text"].startswith("This part provides a margin account and four special purpose accounts")
-    assert hit["version"]["currency_date"] == "2026-10-06" and hit["version"]["consolidation"] == "editorial_compilation"
+    assert (
+        hit["version"]["currency_date"] == "2026-10-06" and hit["version"]["consolidation"] == "editorial_compilation"
+    )
     assert {
         "ATTESTED_ONLY_AT",
         "AS_OF_AFTER_CURRENCY",
@@ -546,8 +587,15 @@ def test_a_refreshed_file_restates_a_changed_wording_and_ignores_an_unchanged_on
     for raw in connector.fetch():
         if raw.external_id == "ecfr:t12:p700":
             text = raw.content.decode()
-            assert "Scope" in text
-            raw = RawDocument(raw.external_id, raw.uri, raw.media_type, text.replace("Scope.", "Range.", 1).encode(), raw.retrieved_at, {})
+            assert "apply to terms used" in text
+            raw = RawDocument(
+                raw.external_id,
+                raw.uri,
+                raw.media_type,
+                text.replace("apply to terms used", "apply to words used", 1).encode(),
+                raw.retrieved_at,
+                {},
+            )
         changed.append(raw)
 
     class _Later:
@@ -558,12 +606,14 @@ def test_a_refreshed_file_restates_a_changed_wording_and_ignores_an_unchanged_on
     assert report.errors == [] and report.conflicts == [] and report.documents_new == 5
     assert report.provision_versions_restated == 1 and report.provision_versions_corroborated > 100
     rows = session.execute(
-        select(m.ProvisionVersion.heading, m.ProvisionVersion.valid_from, m.ProvisionVersion.valid_from_basis)
+        select(m.ProvisionVersion.text, m.ProvisionVersion.valid_from, m.ProvisionVersion.valid_from_basis)
         .join(m.Provision)
         .where(m.Provision.uri == "/us/cfr/t12/p700/~sec_700.1")
         .order_by(m.ProvisionVersion.valid_from.nulls_first())
     ).all()
-    assert rows == [("Scope.", None, "explicit"), ("Range.", date(2026, 10, 9), "observed")] or len(rows) == 2
+    assert len(rows) == 2 and rows[0][1] is None and "apply to terms used" in rows[0][0]
+    # the new wording certainly applied on the date of the later file; the source does not say since when
+    assert (rows[1][1], rows[1][2]) == (date(2026, 10, 9), "observed") and "apply to words used" in rows[1][0]
 
 
 @pytest.mark.db
@@ -577,6 +627,9 @@ def test_stored_envelopes_rederive_from_their_raw_documents(
         result = verify_source_document(session, catalog, store, doc.id, checker="pytest")
         assert result["result"] == "pass" and result["checked_units"] > 0, result["problems"][:3]
     paragraphs = session.scalar(
-        select(func.count()).select_from(m.Provision).join(m.Instrument).where(m.Instrument.uri.like("/us/cfr/t1/%"), m.Provision.kind == "paragraph")
+        select(func.count())
+        .select_from(m.Provision)
+        .join(m.Instrument)
+        .where(m.Instrument.uri.like("/us/cfr/t1/%"), m.Provision.kind == "paragraph")
     )
     assert paragraphs and paragraphs > 1000

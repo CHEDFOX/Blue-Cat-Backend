@@ -82,7 +82,8 @@ class UsModule(JurisdictionModule):
             return f"{title} CFR part {part}"
         tail = "".join(subdivision(p) for p in parts[1:])
         if c.top_kind == "appendix":
-            return f"{title} CFR part {part}, appendix {parts[0]}{tail}"
+            what = parts[0][0].lower() + parts[0][1:] if parts[0].startswith("Supplement") else f"appendix {parts[0]}"
+            return f"{title} CFR part {part}, {what}{tail}"
         return f"{title} CFR {parts[0]}{tail}"
 
     def provision_citation(self, c: ProvisionCitationInput) -> str:

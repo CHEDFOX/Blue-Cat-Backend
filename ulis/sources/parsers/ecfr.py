@@ -31,6 +31,8 @@ from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkippe
 
 PARSER_ID = "ecfr_xml"
 PARSER_VERSION = "1.0.0"
+APPENDIX_SPLIT = 30_000  # an appendix with more text than this (characters) is cut into blocks ...
+APPENDIX_BLOCK = 20_000  # ... of about this size, starting at its headings
 MAX_LABELLED = 3000  # more labelled paragraphs in one section than this: not split into paragraphs
 
 AMBIGUOUS = (
@@ -41,7 +43,9 @@ ITALIC_ON, ITALIC_OFF = "\x01", "\x02"
 GRAPHICS = {"img", "MATH", "GPH", "GID", "LDRFIG"}
 NOTE_TAGS = {"CITA": "Source credit", "SECAUTH": "Section authority", "EDNOTE": None, "EFFDNOT": None}
 PARA_TAGS = {"P", "P-1"}  # the elements whose leading "(a)" labels may open a paragraph provision
-MONTHS = {m: i for i, m in enumerate("jan feb mar apr may jun jul aug sep oct nov dec".split(), start=1)}
+MONTHS = {
+    m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)
+}
 SMALL_WORDS = {"a", "an", "and", "as", "at", "by", "for", "in", "of", "on", "or", "the", "to", "with"}
 _TOKEN = re.compile(rf"\({ITALIC_ON}?([A-Za-z0-9]{{1,6}}){ITALIC_OFF}?\)\s*")
 _CAPTION = re.compile(rf"{ITALIC_ON}([^{ITALIC_ON}{ITALIC_OFF}]*){ITALIC_OFF}\s*")
@@ -139,7 +143,9 @@ def _lines(el: Element, ctx: _Ctx) -> list[str]:
         return []
     if tag in ("TABLE", "GPOTABLE"):
         return _table_lines(el, ctx)
-    if tag in ("EXTRACT", "NOTE", "EXAMPLE", "LIST", "DIV", "FP-DASH-GROUP") or (len(el) and any(c.tag == "P" for c in el)):
+    if tag in ("EXTRACT", "NOTE", "EXAMPLE", "LIST", "DIV", "FP-DASH-GROUP") or (
+        len(el) and any(c.tag == "P" for c in el)
+    ):
         out = [_ws(el.text or "")] if (el.text or "").strip() else []
         for child in el:
             out.extend(_lines(child, ctx))
@@ -314,7 +320,10 @@ class _Node:
                 lines.append(b)
             else:
                 body = b.composite()
-                lines.append(f"({b.label}) {body}".rstrip() if body else f"({b.label})")
+                if b.label is None:  # a block of an appendix: not a numbered paragraph
+                    lines.append(body)
+                else:
+                    lines.append(f"({b.label}) {body}".rstrip() if body else f"({b.label})")
         return "\n".join(lines)
 
 
@@ -381,11 +390,32 @@ def _sanitize(value: str) -> str:
     return re.sub(r"[^A-Za-z0-9.-]", "_", value)
 
 
+def _appendix_root(lines: list[str], heads: set[str]) -> _Node:
+    """An appendix as one text, or, when long, as blocks that start at its HD1/HD2 headings or at a size limit."""
+    root = _Node()
+    if sum(len(x) for x in lines) <= APPENDIX_SPLIT:
+        root.blocks = list(lines)
+        return root
+    block: _Node | None = None
+    size, body = 0, False
+    for line in lines:
+        head = line in heads
+        if block is None or (head and body) or size + len(line) > APPENDIX_BLOCK:
+            block = _Node(heading=line if head else None)
+            root.blocks.append(block)
+            size, body = 0, False
+        block.blocks.append(line)
+        size += len(line)
+        body = body or not head
+    return root
+
+
 class _PartBuilder:
     def __init__(self) -> None:
         self.provisions: list[ParsedProvision] = []
         self.eids: dict[str, int] = {}
         self.unstructured = 0
+        self.unnumbered = 0
 
     def _eid(self, base: str) -> tuple[str, bool]:
         self.eids[base] = self.eids.get(base, 0) + 1
@@ -398,6 +428,7 @@ class _PartBuilder:
         head_text = _ws(_flat(heading_el, ctx)) if heading_el is not None else ""
         notes: list[str] = []
         items: list[tuple[str, Any]] = []  # ("para", text with italic marks) or ("lines", [text, ...])
+        heads: set[str] = set()  # lines of an appendix that are HD1/HD2 headings
         for child in el:
             tag = child.tag
             if tag == "HEAD":
@@ -413,6 +444,8 @@ class _PartBuilder:
                 lines = _lines(child, ctx)
                 if lines:
                     items.append(("lines", lines))
+                    if tag in ("HD1", "HD2"):
+                        heads.add(lines[0])
         number_attr = (el.get("N") or "").strip()
         if kind == "section":
             m = re.match(r"^§\s*(\S+)$", number_attr)  # "§§ 3.4-3.9" (a reserved range) does not match
@@ -420,15 +453,21 @@ class _PartBuilder:
             heading = re.sub(r"^§+\s*\S+\s*", "", head_text).strip() or None
             root = _build_tree(items)
         else:
-            num = re.sub(r"^Appendix\s+", "", number_attr).strip() or f"unnumbered{len(self.provisions) + 1}"
+            named = re.match(r"^(?:Appendix|Supplement)\s+\S+", head_text)  # "Supplement I to Part 1005" has no N
+            num = re.sub(r"^Appendix\s+", "", number_attr or (named.group(0) if named else "")).strip()
+            if not num:
+                self.unnumbered += 1
+                num = f"unnumbered{self.unnumbered}"
             heading = head_text or None
-            root = _Node(blocks=[line for _, value in items for line in value])
+            root = _appendix_root([line for _, value in items for line in value], heads)
         if root is None:
             self.unstructured += 1
             root = _Node()
             for k, v in items:
                 root.blocks.extend([_ws(_strip_marks(v))] if k == "para" else v)
-            notes.insert(0, "Paragraph levels were not derived for this section (its labels are not in regular sequence).")
+            notes.insert(
+                0, "Paragraph levels were not derived for this section (its labels are not in regular sequence)."
+            )
         if not num or not root.composite().strip():
             return  # a reserved or removed section or range: no text, not a provision
         if ctx.graphics:
@@ -476,12 +515,19 @@ class _PartBuilder:
                 context_heading=context_heading,
             )
         )
+        blocks = 0
         for child in children:
-            child_eid, duplicate = self._eid(f"{eid}__para_{_sanitize(child.label or '')}")
+            if child.label is None:  # a block of a long appendix: cited as the appendix
+                blocks += 1
+                child_eid, duplicate = self._eid(f"{eid}__blk_{blocks}")
+                child_path = [*num_path, ""]
+            else:
+                child_eid, duplicate = self._eid(f"{eid}__para_{_sanitize(child.label)}")
+                child_path = [*num_path, child.label]
             self._add(
                 child_eid,
                 "paragraph",
-                [*num_path, child.label or ""],
+                child_path,
                 top_kind,
                 child.heading,
                 child,
@@ -532,12 +578,12 @@ def parse_ecfr(content: bytes) -> list[ParsedDocument]:
     for anc in root.findall("ancestor"):
         if anc.get("type") == "CHAPTER" and anc.find("HEAD") is not None:
             chapter = anc.get("n") or None
-            name = re.sub(r"^CHAPTER\s+\S+\s*[—–-]\s*", "", _ws(_flat(anc.find("HEAD"), ctx)))
-            agency = _display_case(re.sub(r"\s*\(continued\)\s*$", "", name, flags=re.I).strip())
+            chapter_name = re.sub(r"^CHAPTER\s+\S+\s*[—–-]\s*", "", _ws(_flat(anc.find("HEAD"), ctx)))
+            agency = _display_case(re.sub(r"\s*\(continued\)\s*$", "", chapter_name, flags=re.I).strip())
     amended = _parse_amddate(root.findtext("amddate") or "")
     authority_el = part_el.find("AUTH")
-    authority = _ws(_flat(authority_el, ctx)) if authority_el is not None else ""
-    authority = re.sub(r"^Authority:\s*", "", authority) or None
+    authority_text = _ws(_flat(authority_el, ctx)) if authority_el is not None else ""
+    authority = re.sub(r"^Authority:\s*", "", authority_text) or None
 
     work_uri = f"/us/cfr/t{title_no}/p{part_no}"
     name = f"{title_no} CFR Part {part_no}"

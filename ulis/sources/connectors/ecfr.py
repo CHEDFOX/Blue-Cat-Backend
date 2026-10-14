@@ -213,7 +213,9 @@ class EcfrConnector:
             try:
                 last_modified = parsedate_to_datetime(str(meta.get("last_modified")))
             except (TypeError, ValueError):
-                self.fetch_errors.append(f"title {number}: no usable Last-Modified header; skipped, never dated by a guess")
+                self.fetch_errors.append(
+                    f"title {number}: no usable Last-Modified header; skipped, never dated by a guess"
+                )
                 continue
             if last_modified.tzinfo is None:
                 last_modified = last_modified.replace(tzinfo=UTC)
@@ -231,4 +233,8 @@ class EcfrConnector:
             self.empty_parts[number] = split.empty_parts
             if split.outside_parts:
                 self.outside_parts[number] = split.outside_parts
-                LOG.warning("eCFR title %s: %s sections/appendices outside any part were not ingested", number, split.outside_parts)
+                LOG.warning(
+                    "eCFR title %s: %s sections/appendices outside any part were not ingested",
+                    number,
+                    split.outside_parts,
+                )
