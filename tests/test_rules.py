@@ -203,7 +203,13 @@ def test_law_of_a_regional_organisation_applies_only_to_members_and_only_from_ac
 
 @pytest.mark.parametrize(
     ("state", "joined"),
-    [("LU", date(1958, 1, 1)), ("PT", date(1986, 1, 1)), ("CZ", date(2004, 5, 1)), ("SK", date(2004, 5, 1))],
+    [
+        ("FR", date(1958, 1, 1)),
+        ("LU", date(1958, 1, 1)),
+        ("PT", date(1986, 1, 1)),
+        ("CZ", date(2004, 5, 1)),
+        ("SK", date(2004, 5, 1)),
+    ],
 )
 def test_eu_membership_dates_of_added_member_states(catalog: Catalog, state: str, joined: date) -> None:
     reg = catalog.jurisdictions

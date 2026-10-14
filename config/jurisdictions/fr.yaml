@@ -102,6 +102,10 @@ publication:
     (DILA data sheet).
   repeal: >-
     Express or implied repeal; the database keeps the repealed wording with the state ABROGE and the date it ended.
+memberships:
+  # Founding member of the European Economic Community (1958); the EU continues it (to verify).
+  - organisation: EU
+    from_date: 1958-01-01
 coverage:
   corpus_status: partial
   known_gaps:
