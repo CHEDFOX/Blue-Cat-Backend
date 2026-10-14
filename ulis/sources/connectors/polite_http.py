@@ -14,6 +14,7 @@ Rules built in (see docs/onboarding-a-jurisdiction.md):
 from __future__ import annotations
 
 import hashlib
+import http.cookiejar
 import json
 import re
 import ssl
@@ -42,6 +43,7 @@ class PoliteHttp:
         sleep: Any = time.sleep,
         timeout: float = 120.0,
         ssl_context: ssl.SSLContext | None = None,
+        cookies: bool = False,
     ):
         if not user_agent or "(" not in user_agent:
             raise ValueError("an identifying user_agent with contact details is required")
@@ -58,6 +60,9 @@ class PoliteHttp:
         # verifying the chain and host name), e.g. for a publisher whose trusted root CA predates
         # the strict X.509 checks Python 3.13 enables by default.
         self.ssl_context = ssl_context
+        # Off by default. A connector for a site whose downloads need the session its own pages
+        # start (Normattiva) turns it on; cookies are kept for the lifetime of this object only.
+        self.cookie_jar: http.cookiejar.CookieJar | None = http.cookiejar.CookieJar() if cookies else None
         self._last_request = 0.0
         self.requests_made = 0
 
@@ -94,11 +99,15 @@ class PoliteHttp:
             self._last_request = time.monotonic()
             self.requests_made += 1
             request = urllib.request.Request(url, headers={"User-Agent": self.user_agent, **(headers or {})})  # noqa: S310
+            if self.cookie_jar is not None:
+                self.cookie_jar.add_cookie_header(request)
             # Only pass a context when one is configured, so the default call is unchanged.
             extra: dict[str, Any] = {"context": self.ssl_context} if self.ssl_context is not None else {}
             try:
                 with urllib.request.urlopen(request, timeout=self.timeout, **extra) as response:  # noqa: S310 - https only
                     data = response.read()
+                    if self.cookie_jar is not None:
+                        self.cookie_jar.extract_cookies(response, request)
                     meta = {
                         "url": url,
                         "final_url": response.geturl(),

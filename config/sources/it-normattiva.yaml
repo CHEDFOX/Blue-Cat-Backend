@@ -1,0 +1,103 @@
+schema_version: 1
+id: it-normattiva
+name: Normattiva - Il portale della legge vigente, Akoma Ntoso export of acts
+publisher: Istituto Poligrafico e Zecca dello Stato S.p.A. (IPZS) for the Presidenza del Consiglio dei Ministri
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [IT]
+document_kinds: [constitution, code, act, legislative_decree]
+languages: [it]
+coverage: >-
+  Normattiva publishes the numbered State acts printed in the Gazzetta Ufficiale (GU) and in the
+  Raccolta ufficiale delle leggi e dei decreti, in their original text and in a "multivigente" (amended)
+  text, and exports any act, as it applies on a chosen date, in HTML, XML, PDF, EPUB and Akoma Ntoso
+  ("esporta in Akoma ntoso", /do/atto/caricaAKN). ULIS ingests six instruments through that export: the
+  Constitution (the original text and the series of versions that amendments produced), the Codice civile,
+  the Codice penale, the d.lgs. 196/2003 (privacy code), the L. 300/1970 (Statuto dei lavoratori) and the
+  L. 241/1990 (administrative procedure), the last five as they apply on 2026-10-14.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/it-normattiva.yaml
+update_frequency: >-
+  Normattiva updates the multivigente texts after each amendment, not in real time (its FAQ "Regole di
+  aggiornamento"); change the date in the manifest and re-ingest to refresh.
+rate_limits: >-
+  No published rate limit and no Crawl-delay. www.normattiva.it/robots.txt (read 2026-10-14) allows
+  everything for all user agents except /ricerca/ and /mfr/ricerca/ (and lists a sitemap). ULIS never
+  requests those paths, uses an identifying User-Agent, waits 6 s between requests and an ingest makes 40
+  requests (29 for the Constitution's versions, 2 per other act, one of which is the act's page
+  that starts the session the export needs). The open-data host dati.normattiva.it is not used: its
+  robots.txt request was answered with HTTP 409 and the message "La pagina richiesta è stata bloccata dai
+  sistemi di protezione del Poligrafico e Zecca dello Stato Italiano" (2026-10-14), so ULIS stopped there and
+  did not read its terms or try again in another way.
+licence:
+  id: IT-NORMATTIVA-NOTE-LEGALI
+  name: >-
+    Normattiva "Avviso legale" (note legali): reproduction of the electronic texts is permitted if the source,
+    the non-authentic character and the free-of-charge character are stated
+  url: https://www.normattiva.it/staticPage/legal
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the publisher's own pages, read 2026-10-14:
+    (1) Note legali (https://www.normattiva.it/staticPage/legal), "Avviso legale": "I testi presenti nella
+    banca dati "Normattiva" non hanno carattere di ufficialità. L'unico testo ufficiale e definitivo è quello
+    pubblicato sulla Gazzetta Ufficiale Italiana a mezzo stampa, che prevale in casi di discordanza. La
+    riproduzione dei testi forniti nel formato elettronico è consentita purchè venga menzionata la fonte, il
+    carattere non autentico e gratuito. I Testi sono disponibili agli utenti al solo scopo informativo. La
+    raccolta, per quanto vasta, è frutto di una selezione redazionale. La Presidenza del Consiglio dei Ministri
+    e l'Istituto Poligrafico e Zecca dello Stato S.p.A., non sono responsabili di eventuali errori o
+    imprecisioni, nonchè di danni conseguenti ad azioni o determinazioni assunte in base alla consultazione del
+    portale."
+    (2) FAQ (https://www.normattiva.it/staticPage/faq): "I testi normativi che trovo in Normattiva possono essere
+    prelevati e ripubblicati liberamente altrove? La riproduzione dei testi forniti nel formato elettronico è
+    consentita purché venga menzionata la fonte, il carattere non autentico e gratuito."; and "Posso esportare e
+    scaricare l'intero testo di un provvedimento? Nella fase di visualizzazione dell'atto, Normattiva consente,
+    selezionando il tasto "esporta" [...] di scaricare il testo dell'atto in formato HTML, XML, PDF ed EPUB. [...]
+    E' possibile esportare, completamente o parzialmente, il testo dell'atto nella versione vigente ad una
+    qualunque data".
+    (3) Act pages (e.g. https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:costituzione:1947-12-27) offer the
+    link "esporta in Akoma ntoso" (/do/atto/caricaAKN?dataGU=...&codiceRedaz=...&dataVigenza=...).
+    (4) Utilità (https://www.normattiva.it/staticPage/utilita): the project provides the texts "anche nel formato
+    XML" and cites the URN:NIR and XML:NIR standards.
+    (5) robots.txt of www.normattiva.it (see rate_limits). dati.normattiva.it (the open-data portal) could not
+    be read: HTTP 409 from its protection system; its licence (if any) is therefore not relied on.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Fonte: Normattiva (Istituto Poligrafico e Zecca dello Stato S.p.A. per la Presidenza del Consiglio dei
+    Ministri), https://www.normattiva.it. Testo non autentico e non ufficiale, fornito a titolo gratuito;
+    l'unico testo ufficiale e definitivo è quello pubblicato sulla Gazzetta Ufficiale.
+  conditions:
+    - Name the source (Normattiva), the non-authentic character and the free-of-charge character of the text wherever it is reproduced (shown as attribution on every result).
+    - Do not present the text as the official one; only the Gazzetta Ufficiale is authentic and prevails if the texts differ (ULIS states this in the source authority, the profile and the limitations).
+    - The texts are offered for information only; ULIS keeps them exact and returns notes and limitations as separate fields.
+    - Only a small, selected set of acts is retrieved, politely (robots.txt respected, 6 s between requests, identifying User-Agent); no mass harvesting of the database.
+    - Do not use /ricerca/ or /mfr/ricerca/ (robots.txt); do not work around a refusal or protection page.
+  notes: >-
+    Legal status of the text: Normattiva states its texts "non hanno carattere di ufficialità"; the Gazzetta
+    Ufficiale printed edition is the only official and final text. The "multivigente" text is an editorial
+    consolidation prepared by Normattiva, and the version "as first published" (originale) is a reproduction.
+    The notice does not mention commercial use or machine processing; the export is offered by the site for
+    download, and this use is small and polite, but counsel review is recommended before production use, in
+    particular of the open-data position (dati.normattiva.it could not be read) and of commercial use. To
+    verify - Art. 5 of Legge 22 aprile 1941, n. 633 (copyright law) excludes the texts of official acts of the
+    State from copyright; not checked against the publisher's pages in this review.
+provenance: >-
+  Official portal run by the Istituto Poligrafico e Zecca dello Stato with the Presidency of the Council of
+  Ministers, the Chamber of Deputies, the Senate and the Corte di cassazione. Each act is identified by its
+  Gazzetta Ufficiale date and redactional code (e.g. 047U0001) and by its URN:NIR; the export names the version
+  it contains in its ELI (eli/id/<GU date>/<code>/CONSOLIDATED/<YYYYMMDD> or ORIGINAL).
+known_limitations:
+  - The text is not official or authentic; only the Gazzetta Ufficiale is. Normattiva updates its texts after the amendments, not in real time.
+  - The export carries no date for individual provisions, only for the version of the whole act; a provision therefore starts, in ULIS, on the date of the first ingested version that contains its wording. Acts other than the Constitution have one version (the text applicable on 2026-10-14).
+  - The export does not give the date a provision was repealed (the marker names the repealing act, not the day its effect began); a repealed provision therefore starts, in ULIS, on the date of the first ingested version that shows it repealed, and the earlier wording ends there only where an earlier version was ingested.
+  - The structural divisions (books, parts, titles, chapters) are not in the export in a usable form, nor is the book structure of the codes.
+  - Normattiva writes accented vowels as vowel plus apostrophe in older texts (e' for è, puo' for può); the text is kept exactly so.
+  - Only six acts are ingested; the annexes of the d.lgs. 196/2003 and the decrees that approve the codes are not read.
+status: active
+connector: normattiva
+parser: normattiva_akn

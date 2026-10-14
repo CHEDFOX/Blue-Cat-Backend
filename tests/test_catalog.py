@@ -48,6 +48,7 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "TW",
         "SE",
         "DK",
+        "IT",
         "IE",
     }
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
@@ -135,6 +136,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "tw-moj-laws",
         "se-riksdagen-sfs",
         "dk-retsinformation",
+        "it-normattiva",
         "ie-irish-statute-book",
     }
     for source_id in approved:

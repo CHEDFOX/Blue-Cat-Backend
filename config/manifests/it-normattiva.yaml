@@ -1,0 +1,78 @@
+# Italian legislation from Normattiva, exported as Akoma Ntoso ("esporta in Akoma ntoso").
+# Each work is requested, for every date in `vigenza`, with
+#   https://www.normattiva.it/do/atto/caricaAKN?dataGU=<GU date>&codiceRedaz=<code>&dataVigenza=<date>
+# after its page (https://www.normattiva.it/uri-res/N2Ls?<urn>) has started the session the export needs.
+# The server answers with the version of the act that applies on the requested date (the version's own
+# date is in the file); dates that fall in the same version yield it once. Dates are listed oldest first.
+# "Current" is the text applicable on 2026-10-14, the date this manifest was written: to refresh, change
+# that date and re-ingest (the cache is keyed by the request).
+# I testi presenti nella banca dati "Normattiva" non hanno carattere di ufficialità: l'unico testo
+# ufficiale e definitivo è quello pubblicato sulla Gazzetta Ufficiale (note legali, www.normattiva.it/staticPage/legal).
+schema_version: 1
+source_id: it-normattiva
+built_on: '2026-10-14'
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 6
+works:
+- code: 047U0001
+  label: Costituzione della Repubblica Italiana (Cost.)
+  gazzetta_date: '1947-12-27'
+  urn: urn:nir:stato:costituzione:1947-12-27
+  # The text as first published, then one request 30 days after the Gazzetta Ufficiale publication of each
+  # later amendment (the lifecycle list of the current export), then the current text. Amendments that
+  # take effect within 30 days of one another may share a version.
+  vigenza:
+  - '1948-01-01'
+  - '1948-02-02'
+  - '1953-04-13'
+  - '1958-05-01'
+  - '1963-03-14'
+  - '1964-02-03'
+  - '1967-08-02'
+  - '1967-12-25'
+  - '1989-02-16'
+  - '1991-12-08'
+  - '1992-04-08'
+  - '1993-11-29'
+  - '2000-01-21'
+  - '2000-01-22'
+  - '2000-02-19'
+  - '2001-02-23'
+  - '2001-11-23'
+  - '2002-11-25'
+  - '2003-07-12'
+  - '2006-08-24'
+  - '2007-11-09'
+  - '2012-05-23'
+  - '2017-03-09'
+  - '2020-11-20'
+  - '2021-11-19'
+  - '2022-03-24'
+  - '2022-12-15'
+  - '2023-11-06'
+  - '2026-10-14'
+- code: 042U0262
+  label: Codice civile (c.c.), approved by R.D. 16 marzo 1942, n. 262
+  gazzetta_date: '1942-04-04'
+  urn: urn:nir:stato:regio.decreto:1942-03-16;262
+  vigenza: ['2026-10-14']
+- code: 030U1398
+  label: Codice penale (c.p.), approved by R.D. 19 ottobre 1930, n. 1398
+  gazzetta_date: '1930-10-26'
+  urn: urn:nir:stato:regio.decreto:1930-10-19;1398
+  vigenza: ['2026-10-14']
+- code: 003G0218
+  label: Codice in materia di protezione dei dati personali (d.lgs. 30 giugno 2003, n. 196)
+  gazzetta_date: '2003-07-29'
+  urn: urn:nir:stato:decreto.legislativo:2003-06-30;196
+  vigenza: ['2026-10-14']
+- code: 070U0300
+  label: Statuto dei lavoratori (L. 20 maggio 1970, n. 300)
+  gazzetta_date: '1970-05-27'
+  urn: urn:nir:stato:legge:1970-05-20;300
+  vigenza: ['2026-10-14']
+- code: 090G0294
+  label: Procedimento amministrativo (L. 7 agosto 1990, n. 241)
+  gazzetta_date: '1990-08-18'
+  urn: urn:nir:stato:legge:1990-08-07;241
+  vigenza: ['2026-10-14']

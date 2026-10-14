@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:eli="http://data.europa.eu/eli/ontology#" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:gu="http://www.gazzettaufficiale.it/eli/" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:na="http://www.normattiva.it/eli/" xmlns:nakn="http://normattiva.it/akn/vocabulary" xmlns:nrdfa="http://www.normattiva.it/rdfa/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfa="http://www.w3.org/1999/xhtml#">
+    <act name="monovigente">
+        <meta>
+            <identification source="">
+                <FRBRWork>
+                    <FRBRthis value="/akn/it/act/legge/stato/1970-05-20/300/!main"/>
+                    <FRBRuri value="/akn/it/act/legge/stato/1970-05-20/300"/>
+                    <FRBRalias name="urn:nir" value="urn:nir:stato:legge:1970-05-20;300"/>
+                    <FRBRalias name="eli" value="eli/id/1970/05/27/070U0300/CONSOLIDATED/20251106"/>
+                    <FRBRdate date="1970-05-20" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1970/05/27/070U0300/CONSOLIDATED/20251106" aknrelname="eli/id/1970/05/27/070U0300/CONSOLIDATED/20251106">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalResource"/>
+                            <nrdfa:span content="Norme sulla tutela della liberta' e dignita' dei lavoratori, della liberta' sindacale e dell'attivita' sindacale, nei luoghi di lavoro e norme sul collocamento. " lang="it" property="eli:title" xml:lang="it"/>
+                            <nrdfa:span content="http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}" property="eli:uri_schema"/>
+                            <nrdfa:span content="070U0300" property="eli:id_local"/>
+                            <nrdfa:span property="eli:type_document" resource="gu:tables/resource-type#LEGGE"/>
+                            <nrdfa:span content="1970-05-20" datatype="xsd:date" property="eli:date_document"/>
+                            <nrdfa:span property="eli:version" resource="gu:tables/versions#ORIGINAL"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRcountry value="it"/>
+                </FRBRWork>
+                <FRBRExpression>
+                    <FRBRthis value="/akn/it/act/legge/stato/1970-05-20/300/ita@2025-11-06/!main"/>
+                    <FRBRuri value="/akn/it/act/legge/stato/1970-05-20/300/ita@2025-11-06"/>
+                    <FRBRdate date="2025-11-06" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1970/05/27/070U0300/CONSOLIDATED/20251106/ita">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalExpression"/>
+                            <nrdfa:span property="eli:realizes" resource="na:id/1970/05/27/070U0300/CONSOLIDATED/20251106"/>
+                            <nrdfa:span property="eli:is_embodied_by" resource="na:id/1970/05/27/070U0300/CONSOLIDATED/20251106/ita/akn"/>
+                            <nrdfa:span property="eli:language" resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                            <nrdfa:span property="eli:publisher_agent" resource="http://www.ipzs.it"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRlanguage language="ita"/>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <FRBRthis value="/akn/it/act/legge/stato/1970-05-20/300/ita@2025-11-06/!main.xml"/>
+                    <FRBRuri value="/akn/it/act/legge/stato/1970-05-20/300/ita@2025-11-06.xml"/>
+                    <FRBRdate date="1970-05-20" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1970/05/27/070U0300/CONSOLIDATED/20251106/ita/akn">
+                            <nrdfa:span property="rdf:type" resource="eli:Format"/>
+                            <nrdfa:span property="eli:format" resource="http://www.iana.org/assignments/media-types/xml"/>
+                        </nrdfa:eli>
+                    </preservation>
+                </FRBRManifestation>
+            </identification>
+            <publication date="1970-05-27" name="" number="131" showAs=""/>
+            <lifecycle source="">
+                <eventRef date="1970-05-27" eId="eventRef_0" source="ro1"/>
+                <eventRef date="1974-03-04" eId="eventRef_1" source="rp1"/>
+                <eventRef date="1977-11-28" eId="eventRef_2" source="rp2"/>
+                <eventRef date="1977-12-17" eId="eventRef_3" source="rp3"/>
+                <eventRef date="1979-08-20" eId="eventRef_4" source="rp4"/>
+                <eventRef date="1982-12-09" eId="eventRef_5" source="rp5"/>
+                <eventRef date="1986-01-10" eId="eventRef_6" source="rp6"/>
+                <eventRef date="1987-04-08" eId="eventRef_7" source="rp7"/>
+                <eventRef date="1989-08-02" eId="eventRef_8" source="rp8"/>
+                <eventRef date="1990-05-11" eId="eventRef_9" source="rp9"/>
+                <eventRef date="1990-06-14" eId="eventRef_10" source="rp10"/>
+                <eventRef date="1991-02-06" eId="eventRef_11" source="rp11"/>
+                <eventRef date="1991-07-27" eId="eventRef_12" source="rp12"/>
+                <eventRef date="1991-07-31" eId="eventRef_13" source="rp13"/>
+                <eventRef date="1992-07-11" eId="eventRef_14" source="rp14"/>
+                <eventRef date="1994-12-30" eId="eventRef_15" source="rp15"/>
+                <eventRef date="1995-07-29" eId="eventRef_16" source="rp16"/>
+                <eventRef date="1995-07-29" eId="eventRef_17" source="rp17"/>
+                <eventRef date="1997-01-07" eId="eventRef_18" source="rp18"/>
+                <eventRef date="1998-06-24" eId="eventRef_19" source="rp19"/>
+                <eventRef date="2000-04-11" eId="eventRef_20" source="rp20"/>
+                <eventRef date="2000-06-30" eId="eventRef_21" source="rp21"/>
+                <eventRef date="2003-01-15" eId="eventRef_22" source="rp22"/>
+                <eventRef date="2003-07-14" eId="eventRef_23" source="rp23"/>
+                <eventRef date="2003-07-29" eId="eventRef_24" source="rp24"/>
+                <eventRef date="2003-08-13" eId="eventRef_25" source="rp25"/>
+                <eventRef date="2007-12-31" eId="eventRef_26" source="rp26"/>
+                <eventRef date="2012-07-03" eId="eventRef_27" source="rp27"/>
+                <eventRef date="2013-07-31" eId="eventRef_28" source="rp28"/>
+                <eventRef date="2015-09-23" eId="eventRef_29" source="rp29"/>
+                <eventRef date="2016-10-07" eId="eventRef_30" source="rp30"/>
+                <eventRef date="2021-04-07" eId="eventRef_31" source="rp31"/>
+                <eventRef date="2022-01-17" eId="eventRef_32" source="rp32"/>
+                <eventRef date="2022-05-25" eId="eventRef_33" source="rp33"/>
+                <eventRef date="2025-11-05" eId="eventRef_34" source="rp34"/>
+            </lifecycle>
+            <workflow source="">
+                <step by="#senato" date="1970-05-20" refersTo="#S.738"/>
+                <step by="#camera" date="1970-05-20" refersTo="#C.2133"/>
+            </workflow>
+            
+            <references source="">
+                <original eId="ro1" href="/akn/it/act/LEGGE/stato/1970-05-20/300/!main" showAs=""/>
+                <passiveRef eId="rp1" href="/akn/it/act/DECRETO-LEGGE/stato/1974-03-02/30/!main" showAs=""/>
+                <passiveRef eId="rp2" href="/akn/it/act/LEGGE/stato/1977-11-08/847/!main" showAs=""/>
+                <passiveRef eId="rp3" href="/akn/it/act/LEGGE/stato/1977-12-09/903/!main" showAs=""/>
+                <passiveRef eId="rp4" href="/akn/it/act/LEGGE/stato/1979-08-13/384/!main" showAs=""/>
+                <passiveRef eId="rp5" href="" showAs=""/>
+                <passiveRef eId="rp6" href="/akn/it/act/LEGGE/stato/1985-12-27/816/!main" showAs=""/>
+                <passiveRef eId="rp7" href="" showAs=""/>
+                <passiveRef eId="rp8" href="" showAs=""/>
+                <passiveRef eId="rp9" href="/akn/it/act/LEGGE/stato/1990-05-11/108/!main" showAs=""/>
+                <passiveRef eId="rp10" href="/akn/it/act/LEGGE/stato/1990-06-12/146/!main" showAs=""/>
+                <passiveRef eId="rp11" href="" showAs=""/>
+                <passiveRef eId="rp12" href="/akn/it/act/LEGGE/stato/1991-07-23/223/!main" showAs=""/>
+                <passiveRef eId="rp13" href="" showAs=""/>
+                <passiveRef eId="rp14" href="/akn/it/act/DECRETO-LEGGE/stato/1992-07-11/333/!main" showAs=""/>
+                <passiveRef eId="rp15" href="/akn/it/act/LEGGE/stato/1994-12-23/724/!main" showAs=""/>
+                <passiveRef eId="rp16" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1995-07-28/312/!main" showAs=""/>
+                <passiveRef eId="rp17" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1995-07-28/313/!main" showAs=""/>
+                <passiveRef eId="rp18" href="/akn/it/act/CIRCOLARE/MINISTERO_DEL_LAVORO_E_DELLA_PREVIDENZA_SOCIALE/1996-12-04/162/!main" showAs=""/>
+                <passiveRef eId="rp19" href="" showAs=""/>
+                <passiveRef eId="rp20" href="/akn/it/act/LEGGE/stato/2000-04-11/83/!main" showAs=""/>
+                <passiveRef eId="rp21" href="" showAs=""/>
+                <passiveRef eId="rp22" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2002-12-19/297/!main" showAs=""/>
+                <passiveRef eId="rp23" href="" showAs=""/>
+                <passiveRef eId="rp24" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2003-06-30/196/!main" showAs=""/>
+                <passiveRef eId="rp25" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2003-07-09/216/!main" showAs=""/>
+                <passiveRef eId="rp26" href="/akn/it/act/DECRETO-LEGGE/stato/2007-12-31/248/!main" showAs=""/>
+                <passiveRef eId="rp27" href="/akn/it/act/LEGGE/stato/2012-06-28/92/!main" showAs=""/>
+                <passiveRef eId="rp28" href="" showAs=""/>
+                <passiveRef eId="rp29" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2015-09-14/151/!main" showAs=""/>
+                <passiveRef eId="rp30" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2016-09-24/185/!main" showAs=""/>
+                <passiveRef eId="rp31" href="" showAs=""/>
+                <passiveRef eId="rp32" href="/akn/it/act/LEGGE/stato/2021-12-23/238/!main" showAs=""/>
+                <passiveRef eId="rp33" href="" showAs=""/>
+                <passiveRef eId="rp34" href="" showAs=""/>
+                <passiveRef eId="S.738" href="/akn/it/l" showAs=""/>
+                <passiveRef eId="C.2133" href="/akn/it/camera-it:parlamento:scheda.progetto.legge:camera;5.legislatura;2133" showAs=""/>
+            </references>
+            <proprietary source="">
+                <rdf:RDF>
+                    <rdf:Description rdf:about="na:id/1970/05/27/070U0300/CONSOLIDATED/20251106">
+                        <rdf:type rdf:resource="eli:LegalResource"/>
+                        <eli:title xml:lang="it">Norme sulla tutela della liberta' e dignita' dei lavoratori, della liberta' sindacale e dell'attivita' sindacale, nei luoghi di lavoro e norme sul collocamento. </eli:title>
+                        <eli:uri_schema>http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}</eli:uri_schema>
+                        <eli:id_local>070U0300</eli:id_local>
+                        <eli:type_document rdf:resource="gu:tables/resource-type#LEGGE"/>
+                        <eli:date_document rdf:datatype="xsd:date">1970-05-20</eli:date_document>
+                        <eli:version rdf:resource="gu:tables/versions#ORIGINAL"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1970/05/27/070U0300/CONSOLIDATED/20251106/ita">
+                        <rdf:type rdf:resource="eli:LegalExpression"/>
+                        <eli:realizes rdf:resource="na:id/1970/05/27/070U0300/CONSOLIDATED/20251106"/>
+                        <eli:is_embodied_by rdf:resource="na:id/1970/05/27/070U0300/CONSOLIDATED/20251106/ita/akn"/>
+                        <eli:language rdf:resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                        <eli:publisher_agent rdf:resource="http://www.ipzs.it"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1970/05/27/070U0300/CONSOLIDATED/20251106/ita/akn">
+                        <rdf:type rdf:resource="eli:format"/>
+                        <eli:format rdf:resource="http://www.iana.org/assignments/media-types/xml"/>
+                    </rdf:Description>
+                </rdf:RDF>
+            </proprietary>
+        </meta>
+        <preface>
+            <p>
+                <docType>LEGGE</docType>
+                <docDate date="1970-05-20">20 maggio 1970</docDate>
+                <docNumber>300</docNumber>
+                <docTitle>Norme sulla tutela della liberta' e dignita' dei lavoratori, della liberta' sindacale e dell'attivita' sindacale, nei luoghi di lavoro e norme sul collocamento.
+</docTitle>
+            </p>
+        </preface>
+        <preamble>
+            <formula name="primaDiFormulaInizialePreambolo">
+                <p>La Camera dei deputati ed il Senato della Repubblica hanno approvato;</p>
+            </formula>
+            <formula name="formulaInizialePreambolo">
+                <p>IL PRESIDENTE DELLA REPUBBLICA</p>
+            </formula>
+            <formula name="formulaFinalePreambolo">
+                <p>PROMULGA la seguente legge:</p>
+            </formula>
+        </preamble>
+        <body><chapter eId="chp_I">
+                <num>TITOLO I</num>
+                <heading>DELLA LIBERTA' E DIGNITA' DEL LAVORATORE</heading>
+                <article eId="art_1">
+                    <num>Art. 1.</num>
+                    <heading>(Liberta' di opinione)</heading>
+                    <paragraph>
+                        <content>
+                            <p>
+
+ I lavoratori, senza distinzione di opinioni politiche, sindacali e di fede religiosa, hanno diritto, nei luoghi dove prestano la loro opera, di manifestare liberamente il proprio pensiero, nel rispetto dei principi della Costituzione e delle norme della presente legge.
+</p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_18">
+                    <num>Art. 18.</num>
+                    <heading> Tutela del lavoratore in caso di licenziamento illegittimo</heading>
+                    <paragraph>
+                        <content>
+                            <p>
+ 
+ Il giudice, con la sentenza con la quale dichiara la nullita' del licenziamento perche' discriminatorio ai sensi dell'<ref eId="content__ref_13" href="/akn/it/act/legge/stato/1990-05-11/108/!main#art_3">articolo 3 della legge 11 maggio 1990, n. 108</ref>, ovvero intimato in concomitanza col matrimonio ai sensi dell'<ref eId="content__ref_14" href="/akn/it/act/decretoLegislativo/stato/2006-04-11/198/!main#art_35">articolo 35 del codice delle pari opportunita' tra uomo e donna</ref>, di cui al <ref eId="content__ref_15" href="/akn/it/act/decretoLegislativo/stato/2006-04-11/198/!main">decreto legislativo 11 aprile 2006, n. 198</ref>, o in violazione dei divieti di licenziamento di cui all'articolo 54, commi 1, 6, 7 e 9, del testo unico delle disposizioni legislative in materia di tutela e sostegno della maternita' e della paternita', di cui al <ref eId="content__ref_16" href="/akn/it/act/decretoLegislativo/stato/2001-03-26/151/!main">decreto legislativo 26 marzo 2001, n. 151</ref>, e successive modificazioni, ovvero perche' riconducibile ad altri casi di nullita' previsti dalla legge o determinato da un motivo illecito determinante ai sensi dell'<ref eId="content__ref_17" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main#art_1345">articolo 1345 del codice civile</ref>, ordina al datore di lavoro, imprenditore o non imprenditore, la reintegrazione del lavoratore nel posto di lavoro, indipendentemente dal motivo formalmente addotto e quale che sia il numero dei dipendenti occupati dal datore di lavoro. La presente disposizione si applica anche ai dirigenti. A seguito dell'ordine di reintegrazione, il rapporto di lavoro si intende risolto quando il lavoratore non abbia ripreso servizio entro trenta giorni dall'invito del datore di lavoro, salvo il caso in cui abbia richiesto l'indennita' di cui al terzo comma del presente articolo.Il regime di cui al presente articolo si applica anche al licenziamento dichiarato inefficace perche' intimato in forma orale. 
+ Il giudice, con la sentenza di cui al primo comma, condanna altresi' il datore di lavoro al risarcimento del danno subito dal lavoratore per il licenziamento di cui sia stata accertata la nullita', stabilendo a tal fine un'indennita' commisurata all'ultima retribuzione globale di fatto maturata dal giorno del licenziamento sino a quello dell'effettiva reintegrazione, dedotto quanto percepito, nel periodo di estromissione, per lo svolgimento di altre attivita' lavorative. In ogni caso la misura del risarcimento non potra' essere inferiore a cinque mensilita' della retribuzione globale di fatto. Il datore di lavoro e' condannato inoltre, per il medesimo periodo, al versamento dei contributi previdenziali e assistenziali. 
+ Fermo restando il diritto al risarcimento del danno come previsto al secondo comma, al lavoratore e' data la facolta' di chiedere al datore di lavoro, in sostituzione della reintegrazione nel posto di lavoro, un'indennita' pari a quindici mensilita' dell'ultima retribuzione globale di fatto, la cui richiesta determina la risoluzione del rapporto di lavoro, e che non e' assoggettata a contribuzione previdenziale. La richiesta dell'indennita' deve essere effettuata entro trenta giorni dalla comunicazione del deposito della sentenza, o dall'invito del datore di lavoro a riprendere servizio, se anteriore alla predetta comunicazione. 
+ Il giudice, nelle ipotesi in cui accerta che non ricorrono gli estremi del giustificato motivo soggettivo o della giusta causa addotti dal datore di lavoro, per insussistenza del fatto contestato ovvero perche' il fatto rientra tra le condotte punibili con una sanzione conservativa sulla base delle previsioni dei contratti collettivi ovvero dei codici disciplinari applicabili, annulla il licenziamento e condanna il datore di lavoro alla reintegrazione nel posto di lavoro di cui al primo comma e al pagamento di un'indennita' risarcitoria commisurata all'ultima retribuzione globale di fatto dal giorno del licenziamento sino a quello dell'effettiva reintegrazione, dedotto quanto il lavoratore ha percepito, nel periodo di estromissione, per lo svolgimento di altre attivita' lavorative, nonche' quanto avrebbe potuto percepire dedicandosi con diligenza alla ricerca di una nuova occupazione. In ogni caso la misura dell'indennita' risarcitoria non puo' essere superiore a dodici mensilita' della retribuzione globale di fatto. Il datore di lavoro e' condannato, altresi', al versamento dei contributi previdenziali e assistenziali dal giorno del licenziamento fino a quello della effettiva reintegrazione, maggiorati degli interessi nella misura legale senza applicazione di sanzioni per omessa o ritardata contribuzione, per un importo pari al differenziale contributivo esistente tra la contribuzione che sarebbe stata maturata nel rapporto di lavoro risolto dall'illegittimo licenziamento e quella accreditata al lavoratore in conseguenza dello svolgimento di altre attivita' lavorative. In quest'ultimo caso, qualora i contributi afferiscano ad altra gestione previdenziale, essi sono imputati d'ufficio alla gestione corrispondente all'attivita' lavorativa svolta dal dipendente licenziato, con addebito dei relativi costi al datore di lavoro. A seguito dell'ordine di reintegrazione, il rapporto di lavoro si intende risolto quando il lavoratore non abbia ripreso servizio entro trenta giorni dall'invito del datore di lavoro, salvo il caso in cui abbia richiesto l'indennita' sostitutiva della reintegrazione nel posto di lavoro ai sensi del terzo comma. 
+ Il giudice, nelle altre ipotesi in cui accerta che non ricorrono gli estremi del giustificato motivo soggettivo o della giusta causa addotti dal datore di lavoro, dichiara risolto il rapporto di lavoro con effetto dalla data del licenziamento e condanna il datore di lavoro al pagamento di un'indennita' risarcitoria onnicomprensiva determinata tra un minimo di dodici e un massimo di ventiquattro mensilita' dell'ultima retribuzione globale di fatto, in relazione all'anzianita' del lavoratore e tenuto conto del numero dei dipendenti occupati, delle dimensioni dell'attivita' economica, del comportamento e delle condizioni delle parti, con onere di specifica motivazione a tale riguardo. 
+ Nell'ipotesi in cui il licenziamento sia dichiarato inefficace per violazione del requisito di motivazione di cui all'<ref eId="content__ref_18" href="/akn/it/act/legge/stato/1966-07-15/604/!main#art_2-com2">articolo 2, comma 2, della legge 15 luglio 1966, n. 604</ref>, e successive modificazioni, della procedura di cui all'articolo 7 della presente legge, o della procedura di cui all'<ref eId="content__ref_19" href="/akn/it/act/legge/stato/1966-07-15/604/!main#art_7">articolo 7 della legge 15 luglio 1966, n. 604</ref>, e successive modificazioni, si applica il regime di cui al quinto comma, ma con attribuzione al lavoratore di un'indennita' risarcitoria onnicomprensiva determinata, in relazione alla gravita' della violazione formale o procedurale commessa dal datore di lavoro, tra un minimo di sei e un massimo di dodici mensilita' dell'ultima retribuzione globale di fatto, con onere di specifica motivazione a tale riguardo, a meno che il giudice, sulla base della domanda del lavoratore, accerti che vi e' anche un difetto di giustificazione del licenziamento, nel qual caso applica, in luogo di quelle previste dal presente comma, le tutele di cui ai commi quarto, quinto o settimo. 
+ Il giudice applica la medesima disciplina di cui al quarto comma del presente articolo nell'ipotesi in cui accerti il difetto di giustificazione del licenziamento intimato, anche ai sensi degli <ref eId="content__ref_20" href="/akn/it/act/legge/stato/1999-03-12/68/!main#art_4-com4">articoli 4, comma 4</ref>, e <ref eId="content__ref_21" href="/akn/it/act/legge/stato/1999-03-12/68/!main#art_10-com3">10, comma 3, della legge 12 marzo 1999, n. 68</ref>, per motivo oggettivo consistente nell'inidoneita' fisica o psichica del lavoratore, ovvero che il licenziamento e' stato intimato in violazione dell'<ref eId="content__ref_22" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main#art_2110-com2">articolo 2110, secondo comma, del codice civile</ref>. Puo' altresi' applicare la predetta disciplina nell'ipotesi in cui accerti la manifesta insussistenza del fatto posto a base del licenziamento per giustificato motivo oggettivo; nelle altre ipotesi in cui accerta che non ricorrono gli estremi del predetto giustificato motivo, il giudice applica la disciplina di cui al quinto comma. In tale ultimo caso il giudice, ai fini della determinazione dell'indennita' tra il minimo e il massimo previsti, tiene conto, oltre ai criteri di cui al quinto comma, delle iniziative assunte dal lavoratore per la ricerca di una nuova occupazione e del comportamento delle parti nell'ambito della procedura di cui all'<ref eId="content__ref_23" href="/akn/it/act/legge/stato/1966-07-15/604/!main#art_7">articolo 7 della legge 15 luglio 1966, n. 604</ref>, e successive modificazioni. Qualora, nel corso del giudizio, sulla base della domanda formulata dal lavoratore, il licenziamento risulti determinato da ragioni discriminatorie o disciplinari, trovano applicazione le relative tutele previste dal presente articolo. (28) <ins eId="ins_6">((30))</ins> 
+ Le disposizioni dei commi dal quarto al settimo si applicano al datore di lavoro, imprenditore o non imprenditore, che in ciascuna sede, stabilimento, filiale, ufficio o reparto autonomo nel quale ha avuto luogo il licenziamento occupa alle sue dipendenze piu' di quindici lavoratori o piu' di cinque se si tratta di imprenditore agricolo, nonche' al datore di lavoro, imprenditore o non imprenditore, che nell'ambito dello stesso comune occupa piu' di quindici dipendenti e all'impresa agricola che nel medesimo ambito territoriale occupa piu' di cinque dipendenti, anche se ciascuna unita' produttiva, singolarmente considerata, non raggiunge tali limiti, e in ogni caso al datore di lavoro, imprenditore e non imprenditore, che occupa piu' di sessanta dipendenti. 
+ Ai fini del computo del numero dei dipendenti di cui all'ottavo comma si tiene conto dei lavoratori assunti con contratto a tempo indeterminato parziale per la quota di orario effettivamente svolto, tenendo conto, a tale proposito, che il computo delle unita' lavorative fa riferimento all'orario previsto dalla contrattazione collettiva del settore. Non si computano il coniuge e i parenti del datore di lavoro entro il secondo grado in linea diretta e in linea collaterale. Il computo dei limiti occupazionali di cui all'ottavo comma non incide su norme o istituti che prevedono agevolazioni finanziarie o creditizie. 
+ Nell'ipotesi di revoca del licenziamento, purche' effettuata entro il termine di quindici giorni dalla comunicazione al datore di lavoro dell'impugnazione del medesimo, il rapporto di lavoro si intende ripristinato senza soluzione di continuita', con diritto del lavoratore alla retribuzione maturata nel periodo precedente alla revoca, e non trovano applicazione i regimi sanzionatori previsti dal presente articolo. 
+ Nell'ipotesi di licenziamento dei lavoratori di cui all'articolo 22, su istanza congiunta del lavoratore e del sindacato cui questi aderisce o conferisca mandato, il giudice, in ogni stato e grado del giudizio di merito, puo' disporre con ordinanza, quando ritenga irrilevanti o insufficienti gli elementi di prova forniti dal datore di lavoro, la reintegrazione del lavoratore nel posto di lavoro. 
+ L'ordinanza di cui al comma precedente puo' essere impugnata con reclamo immediato al giudice medesimo che l'ha pronunciata. Si applicano le disposizioni dell'<ref eId="content__ref_24" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main#art_178-com3">articolo 178, terzo</ref>, <ref eId="content__ref_25" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main#art_178-com4">quarto</ref>, <ref eId="content__ref_26" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main#art_178-com5">quinto</ref> e <ref eId="content__ref_27" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main#art_178-com6">sesto comma del codice di procedura civile</ref>. 
+ L'ordinanza puo' essere revocata con la sentenza che decide la causa. 
+ Nell'ipotesi di licenziamento dei lavoratori di cui all'articolo 22, il datore di lavoro che non ottempera alla sentenza di cui al primo comma ovvero all'ordinanza di cui all'undicesimo comma, non impugnata o confermata dal giudice che l'ha pronunciata, e' tenuto anche, per ogni giorno di ritardo, al pagamento a favore del Fondo adeguamento pensioni di una somma pari all'importo della retribuzione dovuta al lavoratore. (9) (23) 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>---------------</p>
+                            <p>AGGIORNAMENTO (9)</p>
+                            <p>
+ La <ref eId="28" href="/akn/it/act/legge/stato/1990-05-11/108/!main">L. 11 maggio 1990, n. 108</ref> ha disposto (con l'art. 4, comma 1) che "Fermo restando quanto previsto dall'articolo 3, le disposizioni degli articoli 1 e 2 non trovano applicazione nei rapporti disciplinati dalla <ref eId="29" href="/akn/it/act/legge/stato/1958-04-02/339/!main">legge 2 aprile 1958, n. 339</ref>. La disciplina di cui all'<ref eId="30" href="/akn/it/act/legge/stato/1970-05-20/300/!main#art_18">articolo 18 della legge 20 maggio 1970, n. 300</ref>, come modificato dall'articolo 1 della presente legge, non trova applicazione nei confronti dei datori di lavoro non imprenditori che svolgono senza fini di lucro attivita' di natura politica, sindacale, culturale, di istruzione ovvero di religione o di culto"; ha inoltre disposto (con l'art. 4, comma 2) che "Le disposizioni di cui all'<ref eId="31" href="/akn/it/act/legge/stato/1970-05-20/300/!main#art_18">articolo 18 della legge 20 maggio 1970, n. 300</ref>, come modificato dall'articolo 1 della presente legge, e dell'articolo 2 non si applicano nei confronti dei prestatori di lavoro ultrasessantenni, in possesso dei requisiti pensionistici, sempre che non abbiano optato per la prosecuzione del rapporto di lavoro ai sensi dell'<ref eId="32" href="/akn/it/act/decretoLegge/stato/1981-12-22/791/!main#art_6">articolo 6 del decreto-legge 22 dicembre 1981, n. 791</ref>, convertito, con modificazioni, dalla <ref eId="33" href="/akn/it/act/legge/stato/1982-02-26/54/!main">legge 26 febbraio 1982, n. 54</ref>. Sono fatte salve le disposizioni dell'articolo 3 della presente legge e dell'<ref eId="34" href="/akn/it/act/legge/stato/1966-07-15/604/!main#art_9">articolo 9 della legge 15 luglio 1966, n. 604</ref>". </p>
+                            <p>---------------</p>
+                            <p>AGGIORNAMENTO (23)</p>
+                            <p>
+ Il <ref eId="35" href="/akn/it/act/decretoLegge/stato/2007-12-31/248/!main">D.L. 31 dicembre 2007, n. 248</ref>, convertito con modificazioni dalla <ref eId="36" href="/akn/it/act/legge/stato/2008-02-28/31/!main">L. 28 febbraio 2008, n. 31</ref>, ha disposto (con l'art. 6, comma 2-bis) che "L'efficacia delle disposizioni di cui all'<ref eId="37" href="/akn/it/act/legge/stato/1970-05-20/300/!main#art_18">articolo 18 della legge 20 maggio 1970, n. 300</ref>, e successive modificazioni, nei confronti del prestatore di lavoro nelle condizioni previste dall'<ref eId="38" href="/akn/it/act/legge/stato/1990-05-11/108/!main#art_4-com2">articolo 4, comma 2, della legge 11 maggio 1990, n. 108</ref>, e' comunque prorogata fino al momento della decorrenza del trattamento pensionistico di vecchiaia spettante al prestatore medesimo". </p>
+                            <p>---------------</p>
+                            <p>AGGIORNAMENTO (28)</p>
+                            <p>
+ La Corte Costituzionale, con sentenza 24 febbraio - 1 aprile 2021, n. 59 (in G.U. 1ª s.s. 07/04/2021, n. 14), ha dichiarato "l'illegittimita' costituzionale dell'art. 18, settimo comma, secondo periodo, della <ref eId="39" href="/akn/it/act/legge/stato/1970-05-20/300/!main">legge 20 maggio 1970, n. 300</ref> (Norme sulla tutela della liberta' e dignita' dei lavoratori, della liberta' sindacale e dell'attivita' sindacale, nei luoghi di lavoro e norme sul collocamento), come modificato dall'<ref eId="40" href="/akn/it/act/legge/stato/2012-06-28/92/!main#art_1-com42-letb">art. 1, comma 42, lettera b), della legge 28 giugno 2012, n. 92</ref> (Disposizioni in materia di riforma del mercato del lavoro in una prospettiva di crescita), nella parte in cui prevede che il giudice, quando accerti la manifesta insussistenza del fatto posto a base del licenziamento per giustificato motivo oggettivo, «puo' altresi' applicare» - invece che «applica altresi'» - la disciplina di cui al medesimo art. 18, quarto comma". </p>
+                            <p>---------------</p>
+                            <p>AGGIORNAMENTO (30)</p>
+                            <p>
+ La Corte Costituzionale, con sentenza 7 aprile - 19 maggio 2022, n. 125 (in G.U. 1ª s.s. 25/05/2022, n. 21), ha dichiarato "l'illegittimita' costituzionale dell'art. 18, settimo comma, secondo periodo, della <ref eId="41" href="/akn/it/act/legge/stato/1970-05-20/300/!main">legge 20 maggio 1970, n. 300</ref> (Norme sulla tutela della liberta' e dignita' dei lavoratori, della liberta' sindacale e dell'attivita' sindacale nei luoghi di lavoro e norme sul collocamento), come modificato dall'<ref eId="42" href="/akn/it/act/legge/stato/2012-06-28/92/!main#art_1-com42-letb">art. 1, comma 42, lettera b), della legge 28 giugno 2012, n. 92</ref> (Disposizioni in materia di riforma del mercato del lavoro in una prospettiva di crescita), limitatamente alla parola «manifesta»". </p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_33">
+                    <num>Art. 33.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+                                <ins eId="ins_15">((ARTICOLO ABROGATO DAL D.LGS. 19 DICEMBRE 2002, N. 297))</ins>
+                            </p>
+                        </content>
+                    </paragraph>
+                </article></chapter></body>
+        <conclusions>
+            <formula name="formulaFinaleConclusioni">
+                <p>La presente legge, munita del sigillo dello Stato, sara' inserta nella Raccolta ufficiale delle leggi e dei decreti della Repubblica italiana. E' fatto obbligo a chiunque spetti di osservarla e di farla osservare come legge dello Stato.</p>
+            </formula>
+            <p> Data a Roma, addi' 20 maggio 1970</p>
+            <p>SARAGAT RUMOR - DONAT--CATTIN - REALE Visto, il Guardasigilli: REALE</p>
+        </conclusions>
+    </act>
+</akomaNtoso>

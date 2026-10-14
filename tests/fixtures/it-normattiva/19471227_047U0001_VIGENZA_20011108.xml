@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:eli="http://data.europa.eu/eli/ontology#" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:gu="http://www.gazzettaufficiale.it/eli/" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:na="http://www.normattiva.it/eli/" xmlns:nakn="http://normattiva.it/akn/vocabulary" xmlns:nrdfa="http://www.normattiva.it/rdfa/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfa="http://www.w3.org/1999/xhtml#">
+    <act name="monovigente">
+        <meta>
+            <identification source="">
+                <FRBRWork>
+                    <FRBRthis value="/akn/it/act/costituzione/stato/0000-00-00/0/!main"/>
+                    <FRBRuri value="/akn/it/act/costituzione/stato/0000-00-00/0"/>
+                    <FRBRalias name="urn:nir" value="urn:nir:stato:costituzione"/>
+                    <FRBRalias name="eli" value="eli/id/1947/12/27/047U0001/CONSOLIDATED/20011108"/>
+                    <FRBRdate date="0000-00-00" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1947/12/27/047U0001/CONSOLIDATED/20011108" aknrelname="eli/id/1947/12/27/047U0001/CONSOLIDATED/20011108">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalResource"/>
+                            <nrdfa:span content=" COSTITUZIONE DELLA REPUBBLICA ITALIANA " lang="it" property="eli:title" xml:lang="it"/>
+                            <nrdfa:span content="http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}" property="eli:uri_schema"/>
+                            <nrdfa:span content="047U0001" property="eli:id_local"/>
+                            <nrdfa:span property="eli:type_document" resource="gu:tables/resource-type#COSTITUZIONE"/>
+                            <nrdfa:span content="0000-00-00" datatype="xsd:date" property="eli:date_document"/>
+                            <nrdfa:span property="eli:version" resource="gu:tables/versions#ORIGINAL"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRcountry value="it"/>
+                </FRBRWork>
+                <FRBRExpression>
+                    <FRBRthis value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08/!main"/>
+                    <FRBRuri value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08"/>
+                    <FRBRdate date="2001-11-08" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1947/12/27/047U0001/CONSOLIDATED/20011108/ita">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalExpression"/>
+                            <nrdfa:span property="eli:realizes" resource="na:id/1947/12/27/047U0001/CONSOLIDATED/20011108"/>
+                            <nrdfa:span property="eli:is_embodied_by" resource="na:id/1947/12/27/047U0001/CONSOLIDATED/20011108/ita/akn"/>
+                            <nrdfa:span property="eli:language" resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                            <nrdfa:span property="eli:publisher_agent" resource="http://www.ipzs.it"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRlanguage language="ita"/>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <FRBRthis value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08/!main.xml"/>
+                    <FRBRuri value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08.xml"/>
+                    <FRBRdate date="0000-00-00" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1947/12/27/047U0001/CONSOLIDATED/20011108/ita/akn">
+                            <nrdfa:span property="rdf:type" resource="eli:Format"/>
+                            <nrdfa:span property="eli:format" resource="http://www.iana.org/assignments/media-types/xml"/>
+                        </nrdfa:eli>
+                    </preservation>
+                </FRBRManifestation>
+            </identification>
+            <publication date="1947-12-27" name="" number="298" showAs=""/>
+            <lifecycle source="">
+                <eventRef date="1947-12-27" eId="eventRef_0" source="ro1"/>
+                <eventRef date="1948-01-03" eId="eventRef_1" source="rp1"/>
+                <eventRef date="1953-03-14" eId="eventRef_2" source="rp2"/>
+                <eventRef date="1958-04-01" eId="eventRef_3" source="rp3"/>
+                <eventRef date="1963-02-12" eId="eventRef_4" source="rp4"/>
+                <eventRef date="1964-01-04" eId="eventRef_5" source="rp5"/>
+                <eventRef date="1967-07-03" eId="eventRef_6" source="rp6"/>
+                <eventRef date="1967-11-25" eId="eventRef_7" source="rp7"/>
+                <eventRef date="1989-01-17" eId="eventRef_8" source="rp8"/>
+                <eventRef date="1991-11-08" eId="eventRef_9" source="rp9"/>
+                <eventRef date="1992-03-09" eId="eventRef_10" source="rp10"/>
+                <eventRef date="1993-10-30" eId="eventRef_11" source="rp11"/>
+                <eventRef date="1999-12-22" eId="eventRef_12" source="rp12"/>
+                <eventRef date="1999-12-23" eId="eventRef_13" source="rp13"/>
+                <eventRef date="2000-01-20" eId="eventRef_14" source="rp14"/>
+                <eventRef date="2001-01-24" eId="eventRef_15" source="rp15"/>
+                <eventRef date="2001-10-24" eId="eventRef_16" source="rp16"/>
+            </lifecycle>
+            
+            <references source="">
+                <original eId="ro1" href="/akn/it/act/COSTITUZIONE/stato/0000-00-00/0/!main" showAs=""/>
+                <passiveRef eId="rp1" href="" showAs=""/>
+                <passiveRef eId="rp2" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1953-03-11/1/!main" showAs=""/>
+                <passiveRef eId="rp3" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1958-03-18/1/!main" showAs=""/>
+                <passiveRef eId="rp4" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1963-02-09/2/!main" showAs=""/>
+                <passiveRef eId="rp5" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1963-12-27/3/!main" showAs=""/>
+                <passiveRef eId="rp6" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1967-06-21/1/!main" showAs=""/>
+                <passiveRef eId="rp7" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1967-11-22/2/!main" showAs=""/>
+                <passiveRef eId="rp8" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1989-01-16/1/!main" showAs=""/>
+                <passiveRef eId="rp9" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1991-11-04/1/!main" showAs=""/>
+                <passiveRef eId="rp10" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1992-03-06/1/!main" showAs=""/>
+                <passiveRef eId="rp11" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1993-10-29/3/!main" showAs=""/>
+                <passiveRef eId="rp12" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1999-11-22/1/!main" showAs=""/>
+                <passiveRef eId="rp13" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/1999-11-23/2/!main" showAs=""/>
+                <passiveRef eId="rp14" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/2000-01-17/1/!main" showAs=""/>
+                <passiveRef eId="rp15" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/2001-01-23/1/!main" showAs=""/>
+                <passiveRef eId="rp16" href="/akn/it/act/LEGGE_COSTITUZIONALE/stato/2001-10-18/3/!main" showAs=""/>
+            </references>
+            <proprietary source="">
+                <rdf:RDF>
+                    <rdf:Description rdf:about="na:id/1947/12/27/047U0001/CONSOLIDATED/20011108">
+                        <rdf:type rdf:resource="eli:LegalResource"/>
+                        <eli:title xml:lang="it"> COSTITUZIONE DELLA REPUBBLICA ITALIANA </eli:title>
+                        <eli:uri_schema>http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}</eli:uri_schema>
+                        <eli:id_local>047U0001</eli:id_local>
+                        <eli:type_document rdf:resource="gu:tables/resource-type#COSTITUZIONE"/>
+                        <eli:date_document rdf:datatype="xsd:date">0000-00-00</eli:date_document>
+                        <eli:version rdf:resource="gu:tables/versions#ORIGINAL"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1947/12/27/047U0001/CONSOLIDATED/20011108/ita">
+                        <rdf:type rdf:resource="eli:LegalExpression"/>
+                        <eli:realizes rdf:resource="na:id/1947/12/27/047U0001/CONSOLIDATED/20011108"/>
+                        <eli:is_embodied_by rdf:resource="na:id/1947/12/27/047U0001/CONSOLIDATED/20011108/ita/akn"/>
+                        <eli:language rdf:resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                        <eli:publisher_agent rdf:resource="http://www.ipzs.it"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1947/12/27/047U0001/CONSOLIDATED/20011108/ita/akn">
+                        <rdf:type rdf:resource="eli:format"/>
+                        <eli:format rdf:resource="http://www.iana.org/assignments/media-types/xml"/>
+                    </rdf:Description>
+                </rdf:RDF>
+            </proprietary>
+        </meta>
+        <preface>
+            <p>
+                <docType>COSTITUZIONE</docType>
+                <docDate date="0000-00-00"/>
+                <docNumber>0</docNumber>
+                <docTitle> COSTITUZIONE DELLA REPUBBLICA ITALIANA
+</docTitle>
+            </p>
+            <p>
+                <authorialNote eId="atn1" placement="bottom">
+                    <p>Entrata in vigore del provvedimento: 1/1/1948.</p>
+                </authorialNote>
+            </p>
+        </preface>
+        <preamble>
+            <formula name="formulaInizialePreambolo">
+                <p>IL CAPO PROVVISORIO DELLO STATO</p>
+            </formula>
+            <citations eId="cits_1">
+                <citation eId="cits_1__cit_1">
+                    <p>Vista la deliberazione dell'Assemblea Costituente, che nella seduta del 22 dicembre 1947 ha approvato la Costituzione della Repubblica Italiana;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_2">
+                <citation eId="cits_2__cit_1">
+                    <p>Vista la XVIII disposizione finale della Costituzione;</p>
+                </citation>
+            </citations>
+            <formula name="formulaFinalePreambolo">
+                <p>PROMULGA la Costituzione della Repubblica Italiana nel seguente testo:</p>
+            </formula>
+        </preamble>
+        <body><chapter eId="chp_I">
+                <num>COSTITUZIONE DELLA REPUBBLICA ITALIANA</num>
+                <heading>PRINCIPI FONDAMENTALI - - - -</heading>
+                <article eId="art_1">
+                    <num>Art. 1.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+ L'Italia e' una Repubblica democratica, fondata sul lavoro.
+ La sovranita' appartiene al popolo, che la esercita nelle forme e nei limiti della Costituzione.
+
+ 
+</p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_2">
+                    <num>Art. 2.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+ La Repubblica riconosce e garantisce i diritti inviolabili dell'uomo, sia come singolo sia nelle formazioni sociali ove si svolge la sua personalita', e richiede l'adempimento dei doveri inderogabili di solidarieta' politica, economica e sociale.
+
+ 
+</p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_3">
+                    <num>Art. 3.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+ Tutti i cittadini hanno pari dignita' sociale e sono eguali davanti alla legge, senza distinzione di sesso, di razza, di lingua, di religione, di opinioni politiche, di condizioni personali e sociali.
+ E' compito della Repubblica rimuovere gli ostacoli di ordine economico e sociale, che, limitando di fatto la liberta' e l'eguaglianza dei cittadini, impediscono il pieno sviluppo della persona umana e l'effettiva partecipazione di tutti i lavoratori all'organizzazione politica, economica e sociale del Paese.
+
+ 
+</p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_9">
+                    <num>Art. 9.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+ 
+ La Repubblica promuove lo sviluppo della cultura e la ricerca scientifica e tecnica. 
+ Tutela il paesaggio e il patrimonio storico e artistico della Nazione. 
+</p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_10">
+                    <num>Art. 10.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+ L'ordinamento giuridico italiano si conforma alle norme del diritto internazionale generalmente riconosciute.
+ La condizione giuridica dello straniero e' regolata dalla legge in conformita' delle norme e dei trattati internazionali.
+ Lo straniero, al quale sia impedito nel suo paese l'effettivo esercizio delle liberta' democratiche garantite dalla Costituzione italiana, ha diritto d'asilo nel territorio della Repubblica, secondo le condizioni stabilite dalla legge.
+ Non e' ammessa l'estradizione dello straniero per reati politici. <ins eId="ins_1">((5))</ins>
+                            </p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>-------------</p>
+                            <p>AGGIORNAMENTO (5)</p>
+                            <p> La <ref eId="1" href="/akn/it/act/legge.costituzionale/stato/1967-06-21/1/!main">L. costituzionale 21 giugno 1967, n. 1</ref> ha disposto (con l'articolo unico) che l'ultimo comma del presente articolo non si applica ai delitti di genocidio.
+
+ </p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_41">
+                    <num>Art. 41.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+ 
+ L'iniziativa economica privata e' libera. 
+ Non puo' svolgersi in contrasto con l'utilita' sociale o in modo da recare danno alla sicurezza, alla liberta', alla dignita' umana. 
+ La legge determina i programmi e i controlli opportuni perche' l'attivita' economica pubblica e privata possa essere indirizzata e coordinata a fini sociali. 
+</p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_81">
+                    <num>Art. 81.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+ 
+ Le Camere approvano ogni anno i bilanci e il rendiconto consuntivo presentati dal Governo. 
+ L'esercizio provvisorio del bilancio non puo' essere concesso se non per legge e per periodi non superiori complessivamente a quattro mesi. 
+ Con la legge di approvazione del bilancio non si possono stabilire nuovi tributi e nuove spese. 
+ Ogni altra legge che importi nuove o maggiori spese deve indicare i mezzi per farvi fronte. 
+</p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_115">
+                    <num>Art. 115.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+                                <ins eId="ins_18">((ARTICOLO ABROGATO DALLA L. COSTITUZIONALE 18 OTTOBRE 2001, N. 3))</ins>
+                            </p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_117">
+                    <num>Art. 117.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+                                <ins eId="ins_20">((La potesta' legislativa e' esercitata dallo Stato e dalle Regioni nel rispetto della Costituzione, nonche' dei vincoli derivanti dall'ordinamento comunitario e dagli obblighi internazionali. 
+ Lo Stato ha legislazione esclusiva nelle seguenti materie: 
+ a) politica estera e rapporti internazionali dello Stato; rapporti dello Stato con l'Unione europea; diritto di asilo e condizione giuridica dei cittadini di Stati non appartenenti all'Unione europea; 
+ b) immigrazione; 
+ c) rapporti tra la Repubblica e le confessioni religiose; 
+ d) difesa e Forze armate; sicurezza dello Stato; armi, munizioni ed esplosivi; 
+ e) moneta, tutela del risparmio e mercati finanziari; tutela della concorrenza; sistema valutario; sistema tributario e contabile dello Stato; perequazione delle risorse finanziarie; 
+ f) organi dello Stato e relative leggi elettorali; referendum statali; elezione del Parlamento europeo; 
+ g) ordinamento e organizzazione amministrativa dello Stato e degli enti pubblici nazionali; 
+ h) ordine pubblico e sicurezza, ad esclusione della polizia amministrativa locale; 
+ i) cittadinanza, stato civile e anagrafi; 
+ l) giurisdizione e norme processuali; ordinamento civile e penale; giustizia amministrativa; 
+ m) determinazione dei livelli essenziali delle prestazioni concernenti i diritti civili e sociali che devono essere garantiti su tutto il territorio nazionale; 
+ n) norme generali sull'istruzione; 
+ o) previdenza sociale; 
+ p) legislazione elettorale, organi di governo e funzioni fondamentali di Comuni, Province e Citta' metropolitane; 
+ q) dogane, protezione dei confini nazionali e profilassi internazionale; 
+ r) pesi, misure e determinazione del tempo; coordinamento informativo statistico e informatico dei dati dell'amministrazione statale, regionale e locale; opere dell'ingegno; 
+ s) tutela dell'ambiente, dell'ecosistema e dei beni culturali. 
+ Sono materie di legislazione concorrente quelle relative a: rapporti internazionali e con l'Unione europea delle Regioni; commercio con l'estero; tutela e sicurezza del lavoro; istruzione, salva l'autonomia delle istituzioni scolastiche e con esclusione della istruzione e della formazione professionale; professioni; ricerca scientifica e tecnologica e sostegno all'innovazione per i settori produttivi; tutela della salute; alimentazione; ordinamento sportivo; protezione civile; governo del territorio; porti e aeroporti civili; grandi reti di trasporto e di navigazione; ordinamento della comunicazione; produzione, trasporto e distribuzione nazionale dell'energia; previdenza complementare e integrativa; armonizzazione dei bilanci pubblici e coordinamento della finanza pubblica e del sistema tributario; valorizzazione dei beni culturali e ambientali e promozione e organizzazione di attivita' culturali; casse di risparmio, casse rurali, aziende di credito a carattere regionale; enti di credito fondiario e agrario a carattere regionale. Nelle materie di legislazione concorrente spetta alle Regioni la potesta' legislativa, salvo che per la determinazione dei principi fondamentali, riservata alla legislazione dello Stato. 
+ Spetta alle Regioni la potesta' legislativa in riferimento ad ogni materia non espressamente riservata alla legislazione dello Stato. 
+ Le Regioni e le Province autonome di Trento e di Bolzano, nelle materie di loro competenza, partecipano alle decisioni dirette alla formazione degli atti normativi comunitari e provvedono all'attuazione e all'esecuzione degli accordi internazionali e degli atti dell'Unione europea, nel rispetto delle norme di procedura stabilite da legge dello Stato, che disciplina le modalita' di esercizio del potere sostitutivo in caso di inadempienza. 
+ La potesta' regolamentare spetta allo Stato nelle materie di legislazione esclusiva, salva delega alle Regioni. La potesta' regolamentare spetta alle Regioni in ogni altra materia. I Comuni, le Province e le Citta' metropolitane hanno potesta' regolamentare in ordine alla disciplina dell'organizzazione e dello svolgimento delle funzioni loro attribuite. 
+ Le leggi regionali rimuovono ogni ostacolo che impedisce la piena parita' degli uomini e delle donne nella vita sociale, culturale ed economica e promuovono la parita' di accesso tra donne e uomini alle cariche elettive. 
+ La legge regionale ratifica le intese della Regione con altre Regioni per il migliore esercizio delle proprie funzioni, anche con individuazione di organi comuni. 
+ Nelle materie di sua competenza la Regione puo' concludere accordi con Stati e intese con enti territoriali interni ad altro Stato, nei casi e con le forme disciplinati da leggi dello Stato))</ins>. 
+</p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_125">
+                    <num>Art. 125.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+                                <ins eId="ins_29">((COMMA ABROGATO DALLA L. COSTITUZIONALE 18 OTTOBRE 2001, N. 3))</ins>.
+ Nella Regione sono istituiti organi di giustizia amministrativa di primo grado, secondo l'ordinamento stabilito da legge della Repubblica. Possono istituirsi sezioni con sede diversa dal capoluogo della Regione.
+
+
+ 
+</p>
+                        </content>
+                    </paragraph>
+                </article></chapter></body>
+        <attachments><attachment>
+                <doc name="Allegato-I">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/costituzione/stato/0000-00-00/0/!main/annesso_1"/>
+                                <FRBRuri value="/akn/it/act/costituzione/stato/0000-00-00/0"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:costituzione"/>
+                                <FRBRalias name="eli" value="eli/id/1947/12/27/047U0001/CONSOLIDATED/20011108"/>
+                                <FRBRdate date="1948-01-01" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08/!main/annesso_1"/>
+                                <FRBRuri value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08"/>
+                                <FRBRdate date="2001-11-08" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08/!main/annesso_1.xml"/>
+                                <FRBRuri value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08.xml"/>
+                                <FRBRdate date="0000-00-00" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> DISPOSIZIONI TRANSITORIE E FINALI 
+ 
+ 
+ I 
+ 
+ Con l'entrata in vigore della Costituzione il Capo provvisorio dello Stato esercita le attribuzioni di Presidente della Repubblica e ne assume il titolo. 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment><attachment>
+                <doc name="Allegato-XIII">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/costituzione/stato/0000-00-00/0/!main/annesso_13"/>
+                                <FRBRuri value="/akn/it/act/costituzione/stato/0000-00-00/0"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:costituzione"/>
+                                <FRBRalias name="eli" value="eli/id/1947/12/27/047U0001/CONSOLIDATED/20011108"/>
+                                <FRBRdate date="1948-01-01" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08/!main/annesso_13"/>
+                                <FRBRuri value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08"/>
+                                <FRBRdate date="2001-11-08" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08/!main/annesso_13.xml"/>
+                                <FRBRuri value="/akn/it/act/costituzione/stato/0000-00-00/0/ita@2001-11-08.xml"/>
+                                <FRBRdate date="0000-00-00" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> XIII 
+ 
+ I membri e i discendenti di Casa Savoia non sono elettori e non possono ricoprire uffici pubblici ne' cariche elettive. 
+ Agli ex re di Casa Savoia, alle loro consorti e ai loro discendenti maschi sono vietati l'ingresso e il soggiorno nel territorio nazionale. 
+ I beni, esistenti nel territorio nazionale, degli ex re di Casa Savoia, delle loro consorti e dei loro discendenti maschi, sono avocati allo Stato. I trasferimenti e le costituzioni di diritti reali sui beni stessi, che siano avvenuti dopo il 2 giugno 1946, sono nulli. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment></attachments>
+    </act>
+</akomaNtoso>

@@ -1,0 +1,1333 @@
+<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:eli="http://data.europa.eu/eli/ontology#" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:gu="http://www.gazzettaufficiale.it/eli/" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:na="http://www.normattiva.it/eli/" xmlns:nakn="http://normattiva.it/akn/vocabulary" xmlns:nrdfa="http://www.normattiva.it/rdfa/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfa="http://www.w3.org/1999/xhtml#">
+    <act name="monovigente">
+        <meta>
+            <identification source="">
+                <FRBRWork>
+                    <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/!main"/>
+                    <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262"/>
+                    <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1942-03-16;262"/>
+                    <FRBRalias name="eli" value="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                    <FRBRdate date="1942-03-16" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1942/04/04/042U0262/CONSOLIDATED/20260812" aknrelname="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalResource"/>
+                            <nrdfa:span content="Approvazione del testo del Codice civile. (042U0262)  " lang="it" property="eli:title" xml:lang="it"/>
+                            <nrdfa:span content="http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}" property="eli:uri_schema"/>
+                            <nrdfa:span content="042U0262" property="eli:id_local"/>
+                            <nrdfa:span property="eli:type_document" resource="gu:tables/resource-type#REGIO DECRETO"/>
+                            <nrdfa:span content="1942-03-16" datatype="xsd:date" property="eli:date_document"/>
+                            <nrdfa:span property="eli:version" resource="gu:tables/versions#ORIGINAL"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRcountry value="it"/>
+                </FRBRWork>
+                <FRBRExpression>
+                    <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main"/>
+                    <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10"/>
+                    <FRBRdate date="1944-11-10" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1942/04/04/042U0262/CONSOLIDATED/20260812/ita">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalExpression"/>
+                            <nrdfa:span property="eli:realizes" resource="na:id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                            <nrdfa:span property="eli:is_embodied_by" resource="na:id/1942/04/04/042U0262/CONSOLIDATED/20260812/ita/akn"/>
+                            <nrdfa:span property="eli:language" resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                            <nrdfa:span property="eli:publisher_agent" resource="http://www.ipzs.it"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRlanguage language="ita"/>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main.xml"/>
+                    <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10.xml"/>
+                    <FRBRdate date="1942-03-16" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1942/04/04/042U0262/CONSOLIDATED/20260812/ita/akn">
+                            <nrdfa:span property="rdf:type" resource="eli:Format"/>
+                            <nrdfa:span property="eli:format" resource="http://www.iana.org/assignments/media-types/xml"/>
+                        </nrdfa:eli>
+                    </preservation>
+                </FRBRManifestation>
+            </identification>
+            <publication date="1942-04-04" name="" number="79" showAs=""/>
+            <lifecycle source="">
+                <eventRef date="1942-04-04" eId="eventRef_0" source="ro1"/>
+                <eventRef date="1944-02-09" eId="eventRef_1" source="rp1"/>
+                <eventRef date="1944-10-20" eId="eventRef_2" source="rp2"/>
+                <eventRef date="1944-11-09" eId="eventRef_3" source="rp3"/>
+                <eventRef date="1947-10-21" eId="eventRef_4" source="rp4"/>
+                <eventRef date="1957-04-27" eId="eventRef_5" source="rp5"/>
+                <eventRef date="1959-07-06" eId="eventRef_6" source="rp6"/>
+                <eventRef date="1959-07-11" eId="eventRef_7" source="rp7"/>
+                <eventRef date="1962-05-17" eId="eventRef_8" source="rp8"/>
+                <eventRef date="1962-06-30" eId="eventRef_9" source="rp9"/>
+                <eventRef date="1963-05-18" eId="eventRef_10" source="rp10"/>
+                <eventRef date="1964-09-22" eId="eventRef_11" source="rp11"/>
+                <eventRef date="1965-07-17" eId="eventRef_12" source="rp12"/>
+                <eventRef date="1966-05-28" eId="eventRef_13" source="rp13"/>
+                <eventRef date="1966-06-11" eId="eventRef_14" source="rp14"/>
+                <eventRef date="1966-08-06" eId="eventRef_15" source="rp15"/>
+                <eventRef date="1967-06-22" eId="eventRef_16" source="rp16"/>
+                <eventRef date="1967-06-27" eId="eventRef_17" source="rp17"/>
+                <eventRef date="1968-05-06" eId="eventRef_18" source="rp18"/>
+                <eventRef date="1968-07-06" eId="eventRef_19" source="rp19"/>
+                <eventRef date="1968-12-28" eId="eventRef_20" source="rp20"/>
+                <eventRef date="1969-02-26" eId="eventRef_21" source="rp21"/>
+                <eventRef date="1969-04-16" eId="eventRef_22" source="rp22"/>
+                <eventRef date="1969-04-23" eId="eventRef_23" source="rp23"/>
+                <eventRef date="1970-02-10" eId="eventRef_24" source="rp24"/>
+                <eventRef date="1970-05-27" eId="eventRef_25" source="rp25"/>
+                <eventRef date="1970-07-15" eId="eventRef_26" source="rp26"/>
+                <eventRef date="1970-07-15" eId="eventRef_27" source="rp27"/>
+                <eventRef date="1970-12-03" eId="eventRef_28" source="rp28"/>
+                <eventRef date="1970-12-23" eId="eventRef_29" source="rp29"/>
+                <eventRef date="1970-12-30" eId="eventRef_30" source="rp30"/>
+                <eventRef date="1971-01-15" eId="eventRef_31" source="rp31"/>
+                <eventRef date="1971-02-22" eId="eventRef_32" source="rp32"/>
+                <eventRef date="1971-07-05" eId="eventRef_33" source="rp33"/>
+                <eventRef date="1971-11-16" eId="eventRef_34" source="rp34"/>
+                <eventRef date="1971-12-16" eId="eventRef_35" source="rp35"/>
+                <eventRef date="1972-01-05" eId="eventRef_36" source="rp36"/>
+                <eventRef date="1972-01-26" eId="eventRef_37" source="rp37"/>
+                <eventRef date="1973-03-03" eId="eventRef_38" source="rp38"/>
+                <eventRef date="1973-05-09" eId="eventRef_39" source="rp39"/>
+                <eventRef date="1973-07-04" eId="eventRef_40" source="rp40"/>
+                <eventRef date="1973-09-13" eId="eventRef_41" source="rp41"/>
+                <eventRef date="1974-01-05" eId="eventRef_42" source="rp42"/>
+                <eventRef date="1974-04-03" eId="eventRef_43" source="rp43"/>
+                <eventRef date="1974-04-09" eId="eventRef_44" source="rp44"/>
+                <eventRef date="1974-04-24" eId="eventRef_45" source="rp45"/>
+                <eventRef date="1974-05-15" eId="eventRef_46" source="rp46"/>
+                <eventRef date="1974-07-24" eId="eventRef_47" source="rp47"/>
+                <eventRef date="1975-03-10" eId="eventRef_48" source="rp48"/>
+                <eventRef date="1975-05-23" eId="eventRef_49" source="rp49"/>
+                <eventRef date="1975-05-28" eId="eventRef_50" source="rp50"/>
+                <eventRef date="1975-08-30" eId="eventRef_51" source="rp51"/>
+                <eventRef date="1976-06-03" eId="eventRef_52" source="rp52"/>
+                <eventRef date="1976-06-07" eId="eventRef_53" source="rp53"/>
+                <eventRef date="1976-07-21" eId="eventRef_54" source="rp54"/>
+                <eventRef date="1976-10-02" eId="eventRef_55" source="rp55"/>
+                <eventRef date="1977-12-17" eId="eventRef_56" source="rp56"/>
+                <eventRef date="1978-05-16" eId="eventRef_57" source="rp57"/>
+                <eventRef date="1978-05-22" eId="eventRef_58" source="rp58"/>
+                <eventRef date="1978-07-03" eId="eventRef_59" source="rp59"/>
+                <eventRef date="1979-07-11" eId="eventRef_60" source="rp60"/>
+                <eventRef date="1979-12-29" eId="eventRef_61" source="rp61"/>
+                <eventRef date="1980-12-31" eId="eventRef_62" source="rp62"/>
+                <eventRef date="1981-02-13" eId="eventRef_63" source="rp63"/>
+                <eventRef date="1981-04-21" eId="eventRef_64" source="rp64"/>
+                <eventRef date="1981-11-30" eId="eventRef_65" source="rp65"/>
+                <eventRef date="1982-04-19" eId="eventRef_66" source="rp66"/>
+                <eventRef date="1982-05-31" eId="eventRef_67" source="rp67"/>
+                <eventRef date="1983-02-05" eId="eventRef_68" source="rp68"/>
+                <eventRef date="1983-05-17" eId="eventRef_69" source="rp69"/>
+                <eventRef date="1983-06-08" eId="eventRef_70" source="rp70"/>
+                <eventRef date="1983-12-07" eId="eventRef_71" source="rp71"/>
+                <eventRef date="1985-03-06" eId="eventRef_72" source="rp72"/>
+                <eventRef date="1985-05-15" eId="eventRef_73" source="rp73"/>
+                <eventRef date="1985-05-17" eId="eventRef_74" source="rp74"/>
+                <eventRef date="1986-02-18" eId="eventRef_75" source="rp75"/>
+                <eventRef date="1986-04-15" eId="eventRef_76" source="rp76"/>
+                <eventRef date="1987-01-28" eId="eventRef_77" source="rp77"/>
+                <eventRef date="1987-01-29" eId="eventRef_78" source="rp78"/>
+                <eventRef date="1987-03-11" eId="eventRef_79" source="rp79"/>
+                <eventRef date="1987-03-11" eId="eventRef_80" source="rp80"/>
+                <eventRef date="1987-12-16" eId="eventRef_81" source="rp81"/>
+                <eventRef date="1988-01-08" eId="eventRef_82" source="rp82"/>
+                <eventRef date="1988-02-24" eId="eventRef_83" source="rp83"/>
+                <eventRef date="1988-05-25" eId="eventRef_84" source="rp84"/>
+                <eventRef date="1989-08-02" eId="eventRef_85" source="rp85"/>
+                <eventRef date="1990-04-18" eId="eventRef_86" source="rp86"/>
+                <eventRef date="1990-07-05" eId="eventRef_87" source="rp87"/>
+                <eventRef date="1990-11-27" eId="eventRef_88" source="rp88"/>
+                <eventRef date="1990-12-01" eId="eventRef_89" source="rp89"/>
+                <eventRef date="1991-01-12" eId="eventRef_90" source="rp90"/>
+                <eventRef date="1991-01-23" eId="eventRef_91" source="rp91"/>
+                <eventRef date="1991-03-21" eId="eventRef_92" source="rp92"/>
+                <eventRef date="1991-04-10" eId="eventRef_93" source="rp93"/>
+                <eventRef date="1991-04-17" eId="eventRef_94" source="rp94"/>
+                <eventRef date="1991-07-04" eId="eventRef_95" source="rp95"/>
+                <eventRef date="1991-07-24" eId="eventRef_96" source="rp96"/>
+                <eventRef date="1991-08-22" eId="eventRef_97" source="rp97"/>
+                <eventRef date="1991-09-20" eId="eventRef_98" source="rp98"/>
+                <eventRef date="1991-12-31" eId="eventRef_99" source="rp99"/>
+                <eventRef date="1992-01-23" eId="eventRef_100" source="rp100"/>
+                <eventRef date="1992-02-07" eId="eventRef_101" source="rp101"/>
+                <eventRef date="1992-02-14" eId="eventRef_102" source="rp102"/>
+                <eventRef date="1992-02-15" eId="eventRef_103" source="rp103"/>
+                <eventRef date="1992-02-24" eId="eventRef_104" source="rp104"/>
+                <eventRef date="1992-02-29" eId="eventRef_105" source="rp105"/>
+                <eventRef date="1992-12-16" eId="eventRef_106" source="rp106"/>
+                <eventRef date="1992-12-17" eId="eventRef_107" source="rp107"/>
+                <eventRef date="1992-12-31" eId="eventRef_108" source="rp108"/>
+                <eventRef date="1993-01-11" eId="eventRef_109" source="rp109"/>
+                <eventRef date="1993-04-03" eId="eventRef_110" source="rp110"/>
+                <eventRef date="1993-08-20" eId="eventRef_111" source="rp111"/>
+                <eventRef date="1993-08-21" eId="eventRef_112" source="rp112"/>
+                <eventRef date="1993-09-30" eId="eventRef_113" source="rp113"/>
+                <eventRef date="1994-01-17" eId="eventRef_114" source="rp114"/>
+                <eventRef date="1994-01-19" eId="eventRef_115" source="rp115"/>
+                <eventRef date="1994-02-09" eId="eventRef_116" source="rp116"/>
+                <eventRef date="1994-05-26" eId="eventRef_117" source="rp117"/>
+                <eventRef date="1994-06-11" eId="eventRef_118" source="rp118"/>
+                <eventRef date="1994-07-13" eId="eventRef_119" source="rp119"/>
+                <eventRef date="1995-03-01" eId="eventRef_120" source="rp120"/>
+                <eventRef date="1995-06-03" eId="eventRef_121" source="rp121"/>
+                <eventRef date="1996-02-10" eId="eventRef_122" source="rp122"/>
+                <eventRef date="1996-03-09" eId="eventRef_123" source="rp123"/>
+                <eventRef date="1996-04-10" eId="eventRef_124" source="rp124"/>
+                <eventRef date="1996-04-15" eId="eventRef_125" source="rp125"/>
+                <eventRef date="1996-07-24" eId="eventRef_126" source="rp126"/>
+                <eventRef date="1996-07-31" eId="eventRef_127" source="rp127"/>
+                <eventRef date="1996-12-28" eId="eventRef_128" source="rp128"/>
+                <eventRef date="1996-12-31" eId="eventRef_129" source="rp129"/>
+                <eventRef date="1997-05-17" eId="eventRef_130" source="rp130"/>
+                <eventRef date="1997-07-25" eId="eventRef_131" source="rp131"/>
+                <eventRef date="1997-08-11" eId="eventRef_132" source="rp132"/>
+                <eventRef date="1997-10-06" eId="eventRef_133" source="rp133"/>
+                <eventRef date="1997-12-30" eId="eventRef_134" source="rp134"/>
+                <eventRef date="1998-02-04" eId="eventRef_135" source="rp135"/>
+                <eventRef date="1998-03-20" eId="eventRef_136" source="rp136"/>
+                <eventRef date="1998-03-26" eId="eventRef_137" source="rp137"/>
+                <eventRef date="1998-06-19" eId="eventRef_138" source="rp138"/>
+                <eventRef date="1998-07-08" eId="eventRef_139" source="rp139"/>
+                <eventRef date="1998-07-29" eId="eventRef_140" source="rp140"/>
+                <eventRef date="1998-12-11" eId="eventRef_141" source="rp141"/>
+                <eventRef date="1999-03-05" eId="eventRef_142" source="rp142"/>
+                <eventRef date="1999-03-19" eId="eventRef_143" source="rp143"/>
+                <eventRef date="1999-05-19" eId="eventRef_144" source="rp144"/>
+                <eventRef date="1999-05-19" eId="eventRef_145" source="rp145"/>
+                <eventRef date="1999-06-28" eId="eventRef_146" source="rp146"/>
+                <eventRef date="1999-07-26" eId="eventRef_147" source="rp147"/>
+                <eventRef date="1999-12-20" eId="eventRef_148" source="rp148"/>
+                <eventRef date="2000-01-18" eId="eventRef_149" source="rp149"/>
+                <eventRef date="2000-07-05" eId="eventRef_150" source="rp150"/>
+                <eventRef date="2000-07-12" eId="eventRef_151" source="rp151"/>
+                <eventRef date="2000-11-24" eId="eventRef_152" source="rp152"/>
+                <eventRef date="2000-12-07" eId="eventRef_153" source="rp153"/>
+                <eventRef date="2000-12-15" eId="eventRef_154" source="rp154"/>
+                <eventRef date="2000-12-29" eId="eventRef_155" source="rp155"/>
+                <eventRef date="2000-12-30" eId="eventRef_156" source="rp156"/>
+                <eventRef date="2001-01-20" eId="eventRef_157" source="rp157"/>
+                <eventRef date="2001-02-21" eId="eventRef_158" source="rp158"/>
+                <eventRef date="2001-04-04" eId="eventRef_159" source="rp159"/>
+                <eventRef date="2001-04-26" eId="eventRef_160" source="rp160"/>
+                <eventRef date="2001-04-28" eId="eventRef_161" source="rp161"/>
+                <eventRef date="2001-05-16" eId="eventRef_162" source="rp162"/>
+                <eventRef date="2001-06-15" eId="eventRef_163" source="rp163"/>
+                <eventRef date="2001-10-24" eId="eventRef_164" source="rp164"/>
+                <eventRef date="2001-12-14" eId="eventRef_165" source="rp165"/>
+                <eventRef date="2001-12-29" eId="eventRef_166" source="rp166"/>
+                <eventRef date="2002-03-08" eId="eventRef_167" source="rp167"/>
+                <eventRef date="2002-04-15" eId="eventRef_168" source="rp168"/>
+                <eventRef date="2002-06-05" eId="eventRef_169" source="rp169"/>
+                <eventRef date="2002-06-15" eId="eventRef_170" source="rp170"/>
+                <eventRef date="2002-12-04" eId="eventRef_171" source="rp171"/>
+                <eventRef date="2003-01-22" eId="eventRef_172" source="rp172"/>
+                <eventRef date="2003-02-07" eId="eventRef_173" source="rp173"/>
+                <eventRef date="2003-10-09" eId="eventRef_174" source="rp174"/>
+                <eventRef date="2003-11-12" eId="eventRef_175" source="rp175"/>
+                <eventRef date="2003-12-10" eId="eventRef_176" source="rp176"/>
+                <eventRef date="2004-01-19" eId="eventRef_177" source="rp177"/>
+                <eventRef date="2004-02-14" eId="eventRef_178" source="rp178"/>
+                <eventRef date="2004-02-23" eId="eventRef_179" source="rp179"/>
+                <eventRef date="2004-02-24" eId="eventRef_180" source="rp180"/>
+                <eventRef date="2004-04-14" eId="eventRef_181" source="rp181"/>
+                <eventRef date="2004-04-22" eId="eventRef_182" source="rp182"/>
+                <eventRef date="2004-07-28" eId="eventRef_183" source="rp183"/>
+                <eventRef date="2004-10-11" eId="eventRef_184" source="rp184"/>
+                <eventRef date="2004-12-30" eId="eventRef_185" source="rp185"/>
+                <eventRef date="2004-12-31" eId="eventRef_186" source="rp186"/>
+                <eventRef date="2005-03-16" eId="eventRef_187" source="rp187"/>
+                <eventRef date="2005-04-27" eId="eventRef_188" source="rp188"/>
+                <eventRef date="2005-05-16" eId="eventRef_189" source="rp189"/>
+                <eventRef date="2005-07-19" eId="eventRef_190" source="rp190"/>
+                <eventRef date="2005-10-08" eId="eventRef_191" source="rp191"/>
+                <eventRef date="2005-12-28" eId="eventRef_192" source="rp192"/>
+                <eventRef date="2005-12-28" eId="eventRef_193" source="rp193"/>
+                <eventRef date="2005-12-30" eId="eventRef_194" source="rp194"/>
+                <eventRef date="2006-01-09" eId="eventRef_195" source="rp195"/>
+                <eventRef date="2006-02-15" eId="eventRef_196" source="rp196"/>
+                <eventRef date="2006-03-01" eId="eventRef_197" source="rp197"/>
+                <eventRef date="2006-03-01" eId="eventRef_198" source="rp198"/>
+                <eventRef date="2006-07-04" eId="eventRef_199" source="rp199"/>
+                <eventRef date="2006-07-12" eId="eventRef_200" source="rp200"/>
+                <eventRef date="2006-07-12" eId="eventRef_201" source="rp201"/>
+                <eventRef date="2006-11-27" eId="eventRef_202" source="rp202"/>
+                <eventRef date="2007-01-10" eId="eventRef_203" source="rp203"/>
+                <eventRef date="2007-02-01" eId="eventRef_204" source="rp204"/>
+                <eventRef date="2007-02-15" eId="eventRef_205" source="rp205"/>
+                <eventRef date="2007-03-28" eId="eventRef_206" source="rp206"/>
+                <eventRef date="2007-04-23" eId="eventRef_207" source="rp207"/>
+                <eventRef date="2007-10-02" eId="eventRef_208" source="rp208"/>
+                <eventRef date="2007-11-09" eId="eventRef_209" source="rp209"/>
+                <eventRef date="2007-11-09" eId="eventRef_210" source="rp210"/>
+                <eventRef date="2007-12-15" eId="eventRef_211" source="rp211"/>
+                <eventRef date="2008-03-06" eId="eventRef_212" source="rp212"/>
+                <eventRef date="2008-08-28" eId="eventRef_213" source="rp213"/>
+                <eventRef date="2008-09-15" eId="eventRef_214" source="rp214"/>
+                <eventRef date="2008-11-06" eId="eventRef_215" source="rp215"/>
+                <eventRef date="2008-11-29" eId="eventRef_216" source="rp216"/>
+                <eventRef date="2009-02-11" eId="eventRef_217" source="rp217"/>
+                <eventRef date="2009-02-24" eId="eventRef_218" source="rp218"/>
+                <eventRef date="2009-06-19" eId="eventRef_219" source="rp219"/>
+                <eventRef date="2009-07-01" eId="eventRef_220" source="rp220"/>
+                <eventRef date="2009-07-14" eId="eventRef_221" source="rp221"/>
+                <eventRef date="2009-07-24" eId="eventRef_222" source="rp222"/>
+                <eventRef date="2009-07-31" eId="eventRef_223" source="rp223"/>
+                <eventRef date="2009-08-04" eId="eventRef_224" source="rp224"/>
+                <eventRef date="2009-10-31" eId="eventRef_225" source="rp225"/>
+                <eventRef date="2009-12-15" eId="eventRef_226" source="rp226"/>
+                <eventRef date="2010-02-18" eId="eventRef_227" source="rp227"/>
+                <eventRef date="2010-03-05" eId="eventRef_228" source="rp228"/>
+                <eventRef date="2010-03-23" eId="eventRef_229" source="rp229"/>
+                <eventRef date="2010-11-09" eId="eventRef_230" source="rp230"/>
+                <eventRef date="2010-12-15" eId="eventRef_231" source="rp231"/>
+                <eventRef date="2010-12-24" eId="eventRef_232" source="rp232"/>
+                <eventRef date="2011-01-10" eId="eventRef_233" source="rp233"/>
+                <eventRef date="2011-05-13" eId="eventRef_234" source="rp234"/>
+                <eventRef date="2011-07-06" eId="eventRef_235" source="rp235"/>
+                <eventRef date="2011-07-27" eId="eventRef_236" source="rp236"/>
+                <eventRef date="2011-09-21" eId="eventRef_237" source="rp237"/>
+                <eventRef date="2011-11-14" eId="eventRef_238" source="rp238"/>
+                <eventRef date="2011-11-14" eId="eventRef_239" source="rp239"/>
+                <eventRef date="2011-11-30" eId="eventRef_240" source="rp240"/>
+                <eventRef date="2011-12-06" eId="eventRef_241" source="rp241"/>
+                <eventRef date="2011-12-15" eId="eventRef_242" source="rp242"/>
+                <eventRef date="2012-01-24" eId="eventRef_243" source="rp243"/>
+                <eventRef date="2012-02-09" eId="eventRef_244" source="rp244"/>
+                <eventRef date="2012-03-02" eId="eventRef_245" source="rp245"/>
+                <eventRef date="2012-06-26" eId="eventRef_246" source="rp246"/>
+                <eventRef date="2012-07-02" eId="eventRef_247" source="rp247"/>
+                <eventRef date="2012-07-03" eId="eventRef_248" source="rp248"/>
+                <eventRef date="2012-08-03" eId="eventRef_249" source="rp249"/>
+                <eventRef date="2012-09-28" eId="eventRef_250" source="rp250"/>
+                <eventRef date="2012-10-19" eId="eventRef_251" source="rp251"/>
+                <eventRef date="2012-10-29" eId="eventRef_252" source="rp252"/>
+                <eventRef date="2012-11-13" eId="eventRef_253" source="rp253"/>
+                <eventRef date="2012-12-17" eId="eventRef_254" source="rp254"/>
+                <eventRef date="2012-12-17" eId="eventRef_255" source="rp255"/>
+                <eventRef date="2013-06-21" eId="eventRef_256" source="rp256"/>
+                <eventRef date="2013-06-28" eId="eventRef_257" source="rp257"/>
+                <eventRef date="2013-07-10" eId="eventRef_258" source="rp258"/>
+                <eventRef date="2013-12-13" eId="eventRef_259" source="rp259"/>
+                <eventRef date="2013-12-23" eId="eventRef_260" source="rp260"/>
+                <eventRef date="2014-01-08" eId="eventRef_261" source="rp261"/>
+                <eventRef date="2014-06-18" eId="eventRef_262" source="rp262"/>
+                <eventRef date="2014-06-24" eId="eventRef_263" source="rp263"/>
+                <eventRef date="2014-09-12" eId="eventRef_264" source="rp264"/>
+                <eventRef date="2014-09-12" eId="eventRef_265" source="rp265"/>
+                <eventRef date="2014-11-10" eId="eventRef_266" source="rp266"/>
+                <eventRef date="2014-12-15" eId="eventRef_267" source="rp267"/>
+                <eventRef date="2015-01-24" eId="eventRef_268" source="rp268"/>
+                <eventRef date="2015-05-11" eId="eventRef_269" source="rp269"/>
+                <eventRef date="2015-05-30" eId="eventRef_270" source="rp270"/>
+                <eventRef date="2015-06-10" eId="eventRef_271" source="rp271"/>
+                <eventRef date="2015-06-24" eId="eventRef_272" source="rp272"/>
+                <eventRef date="2015-06-27" eId="eventRef_273" source="rp273"/>
+                <eventRef date="2015-09-04" eId="eventRef_274" source="rp274"/>
+                <eventRef date="2015-11-16" eId="eventRef_275" source="rp275"/>
+                <eventRef date="2015-12-15" eId="eventRef_276" source="rp276"/>
+                <eventRef date="2015-12-16" eId="eventRef_277" source="rp277"/>
+                <eventRef date="2016-03-03" eId="eventRef_278" source="rp278"/>
+                <eventRef date="2016-03-08" eId="eventRef_279" source="rp279"/>
+                <eventRef date="2016-05-03" eId="eventRef_280" source="rp280"/>
+                <eventRef date="2016-05-21" eId="eventRef_281" source="rp281"/>
+                <eventRef date="2016-09-09" eId="eventRef_282" source="rp282"/>
+                <eventRef date="2016-11-09" eId="eventRef_283" source="rp283"/>
+                <eventRef date="2016-12-14" eId="eventRef_284" source="rp284"/>
+                <eventRef date="2016-12-21" eId="eventRef_285" source="rp285"/>
+                <eventRef date="2016-12-28" eId="eventRef_286" source="rp286"/>
+                <eventRef date="2017-03-30" eId="eventRef_287" source="rp287"/>
+                <eventRef date="2017-06-20" eId="eventRef_288" source="rp288"/>
+                <eventRef date="2017-07-19" eId="eventRef_289" source="rp289"/>
+                <eventRef date="2017-07-31" eId="eventRef_290" source="rp290"/>
+                <eventRef date="2017-08-02" eId="eventRef_291" source="rp291"/>
+                <eventRef date="2017-08-25" eId="eventRef_292" source="rp292"/>
+                <eventRef date="2017-12-15" eId="eventRef_293" source="rp293"/>
+                <eventRef date="2017-12-29" eId="eventRef_294" source="rp294"/>
+                <eventRef date="2018-01-16" eId="eventRef_295" source="rp295"/>
+                <eventRef date="2018-02-01" eId="eventRef_296" source="rp296"/>
+                <eventRef date="2018-12-14" eId="eventRef_297" source="rp297"/>
+                <eventRef date="2018-12-15" eId="eventRef_298" source="rp298"/>
+                <eventRef date="2019-01-16" eId="eventRef_299" source="rp299"/>
+                <eventRef date="2019-02-14" eId="eventRef_300" source="rp300"/>
+                <eventRef date="2019-04-18" eId="eventRef_301" source="rp301"/>
+                <eventRef date="2019-05-03" eId="eventRef_302" source="rp302"/>
+                <eventRef date="2019-06-10" eId="eventRef_303" source="rp303"/>
+                <eventRef date="2019-12-14" eId="eventRef_304" source="rp304"/>
+                <eventRef date="2019-12-31" eId="eventRef_305" source="rp305"/>
+                <eventRef date="2020-02-29" eId="eventRef_306" source="rp306"/>
+                <eventRef date="2020-04-08" eId="eventRef_307" source="rp307"/>
+                <eventRef date="2020-07-16" eId="eventRef_308" source="rp308"/>
+                <eventRef date="2020-09-14" eId="eventRef_309" source="rp309"/>
+                <eventRef date="2020-11-05" eId="eventRef_310" source="rp310"/>
+                <eventRef date="2020-12-15" eId="eventRef_311" source="rp311"/>
+                <eventRef date="2021-06-30" eId="eventRef_312" source="rp312"/>
+                <eventRef date="2021-08-24" eId="eventRef_313" source="rp313"/>
+                <eventRef date="2021-11-06" eId="eventRef_314" source="rp314"/>
+                <eventRef date="2021-11-29" eId="eventRef_315" source="rp315"/>
+                <eventRef date="2021-12-09" eId="eventRef_316" source="rp316"/>
+                <eventRef date="2021-12-15" eId="eventRef_317" source="rp317"/>
+                <eventRef date="2021-12-31" eId="eventRef_318" source="rp318"/>
+                <eventRef date="2021-12-31" eId="eventRef_319" source="rp319"/>
+                <eventRef date="2022-01-17" eId="eventRef_320" source="rp320"/>
+                <eventRef date="2022-04-30" eId="eventRef_321" source="rp321"/>
+                <eventRef date="2022-06-01" eId="eventRef_322" source="rp322"/>
+                <eventRef date="2022-06-29" eId="eventRef_323" source="rp323"/>
+                <eventRef date="2022-07-01" eId="eventRef_324" source="rp324"/>
+                <eventRef date="2022-07-06" eId="eventRef_325" source="rp325"/>
+                <eventRef date="2022-10-17" eId="eventRef_326" source="rp326"/>
+                <eventRef date="2022-12-15" eId="eventRef_327" source="rp327"/>
+                <eventRef date="2022-12-29" eId="eventRef_328" source="rp328"/>
+                <eventRef date="2023-03-07" eId="eventRef_329" source="rp329"/>
+                <eventRef date="2023-03-24" eId="eventRef_330" source="rp330"/>
+                <eventRef date="2023-07-05" eId="eventRef_331" source="rp331"/>
+                <eventRef date="2023-12-11" eId="eventRef_332" source="rp332"/>
+                <eventRef date="2024-01-16" eId="eventRef_333" source="rp333"/>
+                <eventRef date="2024-01-24" eId="eventRef_334" source="rp334"/>
+                <eventRef date="2024-03-06" eId="eventRef_335" source="rp335"/>
+                <eventRef date="2024-03-12" eId="eventRef_336" source="rp336"/>
+                <eventRef date="2024-07-04" eId="eventRef_337" source="rp337"/>
+                <eventRef date="2024-07-19" eId="eventRef_338" source="rp338"/>
+                <eventRef date="2024-07-31" eId="eventRef_339" source="rp339"/>
+                <eventRef date="2024-09-10" eId="eventRef_340" source="rp340"/>
+                <eventRef date="2024-11-11" eId="eventRef_341" source="rp341"/>
+                <eventRef date="2024-12-16" eId="eventRef_342" source="rp342"/>
+                <eventRef date="2025-02-05" eId="eventRef_343" source="rp343"/>
+                <eventRef date="2025-03-28" eId="eventRef_344" source="rp344"/>
+                <eventRef date="2025-06-23" eId="eventRef_345" source="rp345"/>
+                <eventRef date="2025-06-30" eId="eventRef_346" source="rp346"/>
+                <eventRef date="2025-07-02" eId="eventRef_347" source="rp347"/>
+                <eventRef date="2025-08-08" eId="eventRef_348" source="rp348"/>
+                <eventRef date="2025-08-09" eId="eventRef_349" source="rp349"/>
+                <eventRef date="2025-09-25" eId="eventRef_350" source="rp350"/>
+                <eventRef date="2025-10-07" eId="eventRef_351" source="rp351"/>
+                <eventRef date="2025-12-03" eId="eventRef_352" source="rp352"/>
+                <eventRef date="2025-12-13" eId="eventRef_353" source="rp353"/>
+                <eventRef date="2026-01-28" eId="eventRef_354" source="rp354"/>
+                <eventRef date="2026-04-14" eId="eventRef_355" source="rp355"/>
+                <eventRef date="2026-06-12" eId="eventRef_356" source="rp356"/>
+                <eventRef date="2026-08-11" eId="eventRef_357" source="rp357"/>
+            </lifecycle>
+            
+            <references source="">
+                <original eId="ro1" href="/akn/it/act/REGIO_DECRETO/stato/1942-03-16/262/!main" showAs=""/>
+                <passiveRef eId="rp1" href="/akn/it/act/REGIO_DECRETO-LEGGE/stato/1944-01-20/25/!main" showAs=""/>
+                <passiveRef eId="rp2" href="/akn/it/act/DECRETO_LEGISLATIVO_LUOGOTENENZIALE/stato/1944-10-05/252/!main" showAs=""/>
+                <passiveRef eId="rp3" href="/akn/it/act/DECRETO_LEGISLATIVO_LUOGOTENENZIALE/stato/1944-09-14/287/!main" showAs=""/>
+                <passiveRef eId="rp4" href="/akn/it/act/DECRETO_LEGISLATIVO_DEL_CAPO_PROVVISORIO_DELLO_STATO/stato/1947-08-03/1096/!main" showAs=""/>
+                <passiveRef eId="rp5" href="/akn/it/act/LEGGE/stato/1957-04-03/235/!main" showAs=""/>
+                <passiveRef eId="rp6" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1959-02-13/449/!main" showAs=""/>
+                <passiveRef eId="rp7" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1959-07-11/460/!main" showAs=""/>
+                <passiveRef eId="rp8" href="/akn/it/act/LEGGE/stato/1962-04-18/230/!main" showAs=""/>
+                <passiveRef eId="rp9" href="/akn/it/act/LEGGE/stato/1962-06-12/567/!main" showAs=""/>
+                <passiveRef eId="rp10" href="" showAs=""/>
+                <passiveRef eId="rp11" href="/akn/it/act/LEGGE/stato/1964-09-15/756/!main" showAs=""/>
+                <passiveRef eId="rp12" href="" showAs=""/>
+                <passiveRef eId="rp13" href="" showAs=""/>
+                <passiveRef eId="rp14" href="" showAs=""/>
+                <passiveRef eId="rp15" href="/akn/it/act/LEGGE/stato/1966-07-22/607/!main" showAs=""/>
+                <passiveRef eId="rp16" href="/akn/it/act/LEGGE/stato/1967-06-05/431/!main" showAs=""/>
+                <passiveRef eId="rp17" href="/akn/it/act/LEGGE/stato/1967-06-26/458/!main" showAs=""/>
+                <passiveRef eId="rp18" href="/akn/it/act/LEGGE/stato/1968-04-02/519/!main" showAs=""/>
+                <passiveRef eId="rp19" href="" showAs=""/>
+                <passiveRef eId="rp20" href="" showAs=""/>
+                <passiveRef eId="rp21" href="" showAs=""/>
+                <passiveRef eId="rp22" href="" showAs=""/>
+                <passiveRef eId="rp23" href="" showAs=""/>
+                <passiveRef eId="rp24" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1969-12-29/1127/!main" showAs=""/>
+                <passiveRef eId="rp25" href="/akn/it/act/LEGGE/stato/1970-05-20/300/!main" showAs=""/>
+                <passiveRef eId="rp26" href="" showAs=""/>
+                <passiveRef eId="rp27" href="" showAs=""/>
+                <passiveRef eId="rp28" href="/akn/it/act/LEGGE/stato/1970-12-01/898/!main" showAs=""/>
+                <passiveRef eId="rp29" href="" showAs=""/>
+                <passiveRef eId="rp30" href="" showAs=""/>
+                <passiveRef eId="rp31" href="/akn/it/act/LEGGE/stato/1970-12-18/1138/!main" showAs=""/>
+                <passiveRef eId="rp32" href="/akn/it/act/LEGGE/stato/1971-02-11/11/!main" showAs=""/>
+                <passiveRef eId="rp33" href="/akn/it/act/LEGGE/stato/1971-05-19/423/!main" showAs=""/>
+                <passiveRef eId="rp34" href="/akn/it/act/LEGGE/stato/1971-10-15/911/!main" showAs=""/>
+                <passiveRef eId="rp35" href="/akn/it/act/LEGGE/stato/1971-11-23/1047/!main" showAs=""/>
+                <passiveRef eId="rp36" href="" showAs=""/>
+                <passiveRef eId="rp37" href="" showAs=""/>
+                <passiveRef eId="rp38" href="" showAs=""/>
+                <passiveRef eId="rp39" href="" showAs=""/>
+                <passiveRef eId="rp40" href="" showAs=""/>
+                <passiveRef eId="rp41" href="/akn/it/act/LEGGE/stato/1973-08-11/533/!main" showAs=""/>
+                <passiveRef eId="rp42" href="/akn/it/act/LEGGE/stato/1973-12-18/877/!main" showAs=""/>
+                <passiveRef eId="rp43" href="" showAs=""/>
+                <passiveRef eId="rp44" href="/akn/it/act/DECRETO-LEGGE/stato/1974-04-08/95/!main" showAs=""/>
+                <passiveRef eId="rp45" href="" showAs=""/>
+                <passiveRef eId="rp46" href="" showAs=""/>
+                <passiveRef eId="rp47" href="" showAs=""/>
+                <passiveRef eId="rp48" href="/akn/it/act/LEGGE/stato/1975-03-08/39/!main" showAs=""/>
+                <passiveRef eId="rp49" href="/akn/it/act/LEGGE/stato/1975-05-19/151/!main" showAs=""/>
+                <passiveRef eId="rp50" href="" showAs=""/>
+                <passiveRef eId="rp51" href="/akn/it/act/LEGGE/stato/1975-07-29/426/!main" showAs=""/>
+                <passiveRef eId="rp52" href="/akn/it/act/LEGGE/stato/1976-05-10/346/!main" showAs=""/>
+                <passiveRef eId="rp53" href="/akn/it/act/LEGGE/stato/1976-05-10/377/!main" showAs=""/>
+                <passiveRef eId="rp54" href="" showAs=""/>
+                <passiveRef eId="rp55" href="" showAs=""/>
+                <passiveRef eId="rp56" href="/akn/it/act/LEGGE/stato/1977-12-16/904/!main" showAs=""/>
+                <passiveRef eId="rp57" href="/akn/it/act/LEGGE/stato/1978-05-13/180/!main" showAs=""/>
+                <passiveRef eId="rp58" href="/akn/it/act/LEGGE/stato/1978-05-22/194/!main" showAs=""/>
+                <passiveRef eId="rp59" href="/akn/it/act/LEGGE/stato/1978-06-10/316/!main" showAs=""/>
+                <passiveRef eId="rp60" href="" showAs=""/>
+                <passiveRef eId="rp61" href="" showAs=""/>
+                <passiveRef eId="rp62" href="" showAs=""/>
+                <passiveRef eId="rp63" href="" showAs=""/>
+                <passiveRef eId="rp64" href="/akn/it/act/LEGGE/stato/1981-04-10/142/!main" showAs=""/>
+                <passiveRef eId="rp65" href="/akn/it/act/LEGGE/stato/1981-11-24/689/!main" showAs=""/>
+                <passiveRef eId="rp66" href="/akn/it/act/LEGGE/stato/1982-04-14/164/!main" showAs=""/>
+                <passiveRef eId="rp67" href="/akn/it/act/LEGGE/stato/1982-05-29/297/!main" showAs=""/>
+                <passiveRef eId="rp68" href="/akn/it/act/LEGGE/stato/1983-01-21/22/!main" showAs=""/>
+                <passiveRef eId="rp69" href="/akn/it/act/LEGGE/stato/1983-05-04/184/!main" showAs=""/>
+                <passiveRef eId="rp70" href="" showAs=""/>
+                <passiveRef eId="rp71" href="" showAs=""/>
+                <passiveRef eId="rp72" href="/akn/it/act/LEGGE/stato/1985-02-27/52/!main" showAs=""/>
+                <passiveRef eId="rp73" href="" showAs=""/>
+                <passiveRef eId="rp74" href="/akn/it/act/LEGGE/stato/1985-05-13/190/!main" showAs=""/>
+                <passiveRef eId="rp75" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1986-02-10/30/!main" showAs=""/>
+                <passiveRef eId="rp76" href="/akn/it/act/LEGGE/stato/1986-04-02/106/!main" showAs=""/>
+                <passiveRef eId="rp77" href="" showAs=""/>
+                <passiveRef eId="rp78" href="/akn/it/act/CIRCOLARE/MINISTERO_DELLE_FINANZE/1986-12-30/42/!main" showAs=""/>
+                <passiveRef eId="rp79" href="" showAs=""/>
+                <passiveRef eId="rp80" href="/akn/it/act/LEGGE/stato/1987-03-06/74/!main" showAs=""/>
+                <passiveRef eId="rp81" href="" showAs=""/>
+                <passiveRef eId="rp82" href="" showAs=""/>
+                <passiveRef eId="rp83" href="" showAs=""/>
+                <passiveRef eId="rp84" href="" showAs=""/>
+                <passiveRef eId="rp85" href="" showAs=""/>
+                <passiveRef eId="rp86" href="" showAs=""/>
+                <passiveRef eId="rp87" href="" showAs=""/>
+                <passiveRef eId="rp88" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1990-10-31/347/!main" showAs=""/>
+                <passiveRef eId="rp89" href="/akn/it/act/LEGGE/stato/1990-11-26/353/!main" showAs=""/>
+                <passiveRef eId="rp90" href="/akn/it/act/LEGGE/stato/1990-12-29/428/!main" showAs=""/>
+                <passiveRef eId="rp91" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1991-01-16/22/!main" showAs=""/>
+                <passiveRef eId="rp92" href="" showAs=""/>
+                <passiveRef eId="rp93" href="" showAs=""/>
+                <passiveRef eId="rp94" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1991-04-09/127/!main" showAs=""/>
+                <passiveRef eId="rp95" href="" showAs=""/>
+                <passiveRef eId="rp96" href="" showAs=""/>
+                <passiveRef eId="rp97" href="/akn/it/act/LEGGE/stato/1991-08-11/266/!main" showAs=""/>
+                <passiveRef eId="rp98" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1991-09-10/303/!main" showAs=""/>
+                <passiveRef eId="rp99" href="/akn/it/act/LEGGE/stato/1991-12-30/413/!main" showAs=""/>
+                <passiveRef eId="rp100" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1992-01-20/23/!main" showAs=""/>
+                <passiveRef eId="rp101" href="/akn/it/act/LEGGE/stato/1992-01-31/59/!main" showAs=""/>
+                <passiveRef eId="rp102" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1992-01-27/88/!main" showAs=""/>
+                <passiveRef eId="rp103" href="/akn/it/act/LEGGE/stato/1992-02-05/91/!main" showAs=""/>
+                <passiveRef eId="rp104" href="/akn/it/act/LEGGE/stato/1992-02-17/154/!main" showAs=""/>
+                <passiveRef eId="rp105" href="/akn/it/act/LEGGE/stato/1992-02-17/179/!main" showAs=""/>
+                <passiveRef eId="rp106" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1992-12-04/480/!main" showAs=""/>
+                <passiveRef eId="rp107" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1992-12-14/481/!main" showAs=""/>
+                <passiveRef eId="rp108" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1992-12-29/516/!main" showAs=""/>
+                <passiveRef eId="rp109" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1992-12-30/526/!main" showAs=""/>
+                <passiveRef eId="rp110" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1993-03-03/88/!main" showAs=""/>
+                <passiveRef eId="rp111" href="/akn/it/act/LEGGE/stato/1993-08-12/310/!main" showAs=""/>
+                <passiveRef eId="rp112" href="/akn/it/act/LEGGE/stato/1993-08-12/313/!main" showAs=""/>
+                <passiveRef eId="rp113" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1993-09-01/385/!main" showAs=""/>
+                <passiveRef eId="rp114" href="/akn/it/act/LEGGE/stato/1994-01-05/25/!main" showAs=""/>
+                <passiveRef eId="rp115" href="/akn/it/act/LEGGE/stato/1994-01-05/37/!main" showAs=""/>
+                <passiveRef eId="rp116" href="/akn/it/act/LEGGE/stato/1994-01-31/97/!main" showAs=""/>
+                <passiveRef eId="rp117" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1994-05-02/315/!main" showAs=""/>
+                <passiveRef eId="rp118" href="/akn/it/act/DECRETO-LEGGE/stato/1994-06-10/357/!main" showAs=""/>
+                <passiveRef eId="rp119" href="" showAs=""/>
+                <passiveRef eId="rp120" href="" showAs=""/>
+                <passiveRef eId="rp121" href="/akn/it/act/LEGGE/stato/1995-05-31/218/!main" showAs=""/>
+                <passiveRef eId="rp122" href="/akn/it/act/LEGGE/stato/1996-02-06/52/!main" showAs=""/>
+                <passiveRef eId="rp123" href="/akn/it/act/LEGGE/stato/1996-03-07/108/!main" showAs=""/>
+                <passiveRef eId="rp124" href="" showAs=""/>
+                <passiveRef eId="rp125" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1996-03-19/198/!main" showAs=""/>
+                <passiveRef eId="rp126" href="" showAs=""/>
+                <passiveRef eId="rp127" href="" showAs=""/>
+                <passiveRef eId="rp128" href="/akn/it/act/LEGGE/stato/1996-12-23/662/!main" showAs=""/>
+                <passiveRef eId="rp129" href="/akn/it/act/DECRETO-LEGGE/stato/1996-12-31/669/!main" showAs=""/>
+                <passiveRef eId="rp130" href="/akn/it/act/LEGGE/stato/1997-05-15/127/!main" showAs=""/>
+                <passiveRef eId="rp131" href="" showAs=""/>
+                <passiveRef eId="rp132" href="/akn/it/act/LEGGE/stato/1997-08-07/266/!main" showAs=""/>
+                <passiveRef eId="rp133" href="" showAs=""/>
+                <passiveRef eId="rp134" href="/akn/it/act/LEGGE/stato/1997-12-27/449/!main" showAs=""/>
+                <passiveRef eId="rp135" href="" showAs=""/>
+                <passiveRef eId="rp136" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1998-02-19/51/!main" showAs=""/>
+                <passiveRef eId="rp137" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1998-02-24/58/!main" showAs=""/>
+                <passiveRef eId="rp138" href="/akn/it/act/LEGGE/stato/1998-06-16/188/!main" showAs=""/>
+                <passiveRef eId="rp139" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1998-06-24/213/!main" showAs=""/>
+                <passiveRef eId="rp140" href="" showAs=""/>
+                <passiveRef eId="rp141" href="" showAs=""/>
+                <passiveRef eId="rp142" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1999-02-26/46/!main" showAs=""/>
+                <passiveRef eId="rp143" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1999-02-15/65/!main" showAs=""/>
+                <passiveRef eId="rp144" href="" showAs=""/>
+                <passiveRef eId="rp145" href="" showAs=""/>
+                <passiveRef eId="rp146" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1999-06-15/206/!main" showAs=""/>
+                <passiveRef eId="rp147" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1999-02-18/238/!main" showAs=""/>
+                <passiveRef eId="rp148" href="/akn/it/act/LEGGE/stato/1999-12-16/483/!main" showAs=""/>
+                <passiveRef eId="rp149" href="/akn/it/act/LEGGE/stato/1999-12-21/526/!main" showAs=""/>
+                <passiveRef eId="rp150" href="" showAs=""/>
+                <passiveRef eId="rp151" href="/akn/it/act/LEGGE/stato/2000-06-22/192/!main" showAs=""/>
+                <passiveRef eId="rp152" href="/akn/it/act/LEGGE/stato/2000-11-24/340/!main" showAs=""/>
+                <passiveRef eId="rp153" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/2000-02-10/361/!main" showAs=""/>
+                <passiveRef eId="rp154" href="" showAs=""/>
+                <passiveRef eId="rp155" href="/akn/it/act/LEGGE/stato/2000-12-23/388/!main" showAs=""/>
+                <passiveRef eId="rp156" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/2000-11-03/396/!main" showAs=""/>
+                <passiveRef eId="rp157" href="/akn/it/act/LEGGE/stato/2000-12-29/422/!main" showAs=""/>
+                <passiveRef eId="rp158" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2001-02-02/18/!main" showAs=""/>
+                <passiveRef eId="rp159" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2001-02-02/95/!main" showAs=""/>
+                <passiveRef eId="rp160" href="/akn/it/act/LEGGE/stato/2001-03-28/149/!main" showAs=""/>
+                <passiveRef eId="rp161" href="/akn/it/act/LEGGE/stato/2001-04-04/154/!main" showAs=""/>
+                <passiveRef eId="rp162" href="" showAs=""/>
+                <passiveRef eId="rp163" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2001-05-18/228/!main" showAs=""/>
+                <passiveRef eId="rp164" href="/akn/it/act/LEGGE/stato/2001-10-18/383/!main" showAs=""/>
+                <passiveRef eId="rp165" href="" showAs=""/>
+                <passiveRef eId="rp166" href="/akn/it/act/LEGGE/stato/2001-12-28/448/!main" showAs=""/>
+                <passiveRef eId="rp167" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2002-02-02/24/!main" showAs=""/>
+                <passiveRef eId="rp168" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2002-04-11/61/!main" showAs=""/>
+                <passiveRef eId="rp169" href="" showAs=""/>
+                <passiveRef eId="rp170" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/2002-05-30/115/!main" showAs=""/>
+                <passiveRef eId="rp171" href="" showAs=""/>
+                <passiveRef eId="rp172" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2003-01-17/6/!main" showAs=""/>
+                <passiveRef eId="rp173" href="/akn/it/act/LEGGE/stato/2003-02-03/14/!main" showAs=""/>
+                <passiveRef eId="rp174" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2003-09-10/276/!main" showAs=""/>
+                <passiveRef eId="rp175" href="/akn/it/act/LEGGE/stato/2003-11-06/304/!main" showAs=""/>
+                <passiveRef eId="rp176" href="" showAs=""/>
+                <passiveRef eId="rp177" href="/akn/it/act/LEGGE/stato/2004-01-09/6/!main" showAs=""/>
+                <passiveRef eId="rp178" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2004-02-06/37/!main" showAs=""/>
+                <passiveRef eId="rp179" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2003-12-30/394/!main" showAs=""/>
+                <passiveRef eId="rp180" href="/akn/it/act/LEGGE/stato/2004-02-19/40/!main" showAs=""/>
+                <passiveRef eId="rp181" href="" showAs=""/>
+                <passiveRef eId="rp182" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2004-03-29/99/!main" showAs=""/>
+                <passiveRef eId="rp183" href="" showAs=""/>
+                <passiveRef eId="rp184" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2004-10-06/251/!main" showAs=""/>
+                <passiveRef eId="rp185" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2004-12-28/310/!main" showAs=""/>
+                <passiveRef eId="rp186" href="/akn/it/act/LEGGE/stato/2004-12-24/313/!main" showAs=""/>
+                <passiveRef eId="rp187" href="/akn/it/act/DECRETO-LEGGE/stato/2005-03-14/35/!main" showAs=""/>
+                <passiveRef eId="rp188" href="/akn/it/act/LEGGE/stato/2005-04-18/62/!main" showAs=""/>
+                <passiveRef eId="rp189" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2005-03-07/82/!main" showAs=""/>
+                <passiveRef eId="rp190" href="/akn/it/act/LEGGE/stato/2005-07-08/137/!main" showAs=""/>
+                <passiveRef eId="rp191" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2005-09-06/206/!main" showAs=""/>
+                <passiveRef eId="rp192" href="/akn/it/act/LEGGE/stato/2005-12-28/262/!main" showAs=""/>
+                <passiveRef eId="rp193" href="/akn/it/act/LEGGE/stato/2005-12-28/263/!main" showAs=""/>
+                <passiveRef eId="rp194" href="/akn/it/act/DECRETO-LEGGE/stato/2005-12-30/273/!main" showAs=""/>
+                <passiveRef eId="rp195" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2005-11-21/286/!main" showAs=""/>
+                <passiveRef eId="rp196" href="" showAs=""/>
+                <passiveRef eId="rp197" href="/akn/it/act/LEGGE/stato/2006-02-08/54/!main" showAs=""/>
+                <passiveRef eId="rp198" href="/akn/it/act/LEGGE/stato/2006-02-14/55/!main" showAs=""/>
+                <passiveRef eId="rp199" href="/akn/it/act/DECRETO-LEGGE/stato/2006-07-04/223/!main" showAs=""/>
+                <passiveRef eId="rp200" href="" showAs=""/>
+                <passiveRef eId="rp201" href="" showAs=""/>
+                <passiveRef eId="rp202" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2006-11-07/285/!main" showAs=""/>
+                <passiveRef eId="rp203" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2006-12-29/303/!main" showAs=""/>
+                <passiveRef eId="rp204" href="/akn/it/act/DECRETO-LEGGE/stato/2007-01-31/7/!main" showAs=""/>
+                <passiveRef eId="rp205" href="/akn/it/act/DECRETO-LEGGE/stato/2007-02-15/10/!main" showAs=""/>
+                <passiveRef eId="rp206" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2007-02-02/32/!main" showAs=""/>
+                <passiveRef eId="rp207" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2007-03-28/51/!main" showAs=""/>
+                <passiveRef eId="rp208" href="/akn/it/act/DECRETO-LEGGE/stato/2007-10-01/159/!main" showAs=""/>
+                <passiveRef eId="rp209" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2007-11-06/195/!main" showAs=""/>
+                <passiveRef eId="rp210" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2007-11-06/191/!main" showAs=""/>
+                <passiveRef eId="rp211" href="" showAs=""/>
+                <passiveRef eId="rp212" href="/akn/it/act/LEGGE/stato/2008-02-25/34/!main" showAs=""/>
+                <passiveRef eId="rp213" href="/akn/it/act/DECRETO-LEGGE/stato/2008-08-28/134/!main" showAs=""/>
+                <passiveRef eId="rp214" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2008-08-04/142/!main" showAs=""/>
+                <passiveRef eId="rp215" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2008-11-03/173/!main" showAs=""/>
+                <passiveRef eId="rp216" href="/akn/it/act/DECRETO-LEGGE/stato/2008-11-29/185/!main" showAs=""/>
+                <passiveRef eId="rp217" href="/akn/it/act/DECRETO-LEGGE/stato/2009-02-10/5/!main" showAs=""/>
+                <passiveRef eId="rp218" href="/akn/it/act/DECRETO-LEGGE/stato/2009-02-23/11/!main" showAs=""/>
+                <passiveRef eId="rp219" href="/akn/it/act/LEGGE/stato/2009-06-18/69/!main" showAs=""/>
+                <passiveRef eId="rp220" href="/akn/it/act/DECRETO-LEGGE/stato/2009-07-01/78/!main" showAs=""/>
+                <passiveRef eId="rp221" href="/akn/it/act/LEGGE/stato/2009-07-07/88/!main" showAs=""/>
+                <passiveRef eId="rp222" href="/akn/it/act/LEGGE/stato/2009-07-15/94/!main" showAs=""/>
+                <passiveRef eId="rp223" href="/akn/it/act/LEGGE/stato/2009-07-23/99/!main" showAs=""/>
+                <passiveRef eId="rp224" href="/akn/it/act/DECRETO-LEGGE/stato/2009-08-03/103/!main" showAs=""/>
+                <passiveRef eId="rp225" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2009-10-13/147/!main" showAs=""/>
+                <passiveRef eId="rp226" href="" showAs=""/>
+                <passiveRef eId="rp227" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-01-25/16/!main" showAs=""/>
+                <passiveRef eId="rp228" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-01-27/27/!main" showAs=""/>
+                <passiveRef eId="rp229" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-01-27/39/!main" showAs=""/>
+                <passiveRef eId="rp230" href="/akn/it/act/LEGGE/stato/2010-11-04/183/!main" showAs=""/>
+                <passiveRef eId="rp231" href="" showAs=""/>
+                <passiveRef eId="rp232" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-11-29/224/!main" showAs=""/>
+                <passiveRef eId="rp233" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-12-30/235/!main" showAs=""/>
+                <passiveRef eId="rp234" href="/akn/it/act/DECRETO-LEGGE/stato/2011-05-13/70/!main" showAs=""/>
+                <passiveRef eId="rp235" href="/akn/it/act/DECRETO-LEGGE/stato/2011-07-06/98/!main" showAs=""/>
+                <passiveRef eId="rp236" href="" showAs=""/>
+                <passiveRef eId="rp237" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2011-09-01/150/!main" showAs=""/>
+                <passiveRef eId="rp238" href="/akn/it/act/LEGGE/stato/2011-11-12/183/!main" showAs=""/>
+                <passiveRef eId="rp239" href="/akn/it/act/LEGGE/stato/2011-11-11/180/!main" showAs=""/>
+                <passiveRef eId="rp240" href="" showAs=""/>
+                <passiveRef eId="rp241" href="/akn/it/act/DECRETO-LEGGE/stato/2011-12-06/201/!main" showAs=""/>
+                <passiveRef eId="rp242" href="" showAs=""/>
+                <passiveRef eId="rp243" href="/akn/it/act/DECRETO-LEGGE/stato/2012-01-24/1/!main" showAs=""/>
+                <passiveRef eId="rp244" href="/akn/it/act/DECRETO-LEGGE/stato/2012-02-09/5/!main" showAs=""/>
+                <passiveRef eId="rp245" href="/akn/it/act/DECRETO-LEGGE/stato/2012-03-02/16/!main" showAs=""/>
+                <passiveRef eId="rp246" href="/akn/it/act/DECRETO-LEGGE/stato/2012-06-22/83/!main" showAs=""/>
+                <passiveRef eId="rp247" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2012-06-18/91/!main" showAs=""/>
+                <passiveRef eId="rp248" href="/akn/it/act/LEGGE/stato/2012-06-28/92/!main" showAs=""/>
+                <passiveRef eId="rp249" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2012-06-22/123/!main" showAs=""/>
+                <passiveRef eId="rp250" href="/akn/it/act/LEGGE/stato/2012-09-19/167/!main" showAs=""/>
+                <passiveRef eId="rp251" href="/akn/it/act/DECRETO-LEGGE/stato/2012-10-18/179/!main" showAs=""/>
+                <passiveRef eId="rp252" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2012-10-11/184/!main" showAs=""/>
+                <passiveRef eId="rp253" href="/akn/it/act/LEGGE/stato/2012-11-06/190/!main" showAs=""/>
+                <passiveRef eId="rp254" href="/akn/it/act/LEGGE/stato/2012-12-11/220/!main" showAs=""/>
+                <passiveRef eId="rp255" href="/akn/it/act/LEGGE/stato/2012-12-10/219/!main" showAs=""/>
+                <passiveRef eId="rp256" href="/akn/it/act/DECRETO-LEGGE/stato/2013-06-21/69/!main" showAs=""/>
+                <passiveRef eId="rp257" href="/akn/it/act/DECRETO-LEGGE/stato/2013-06-28/76/!main" showAs=""/>
+                <passiveRef eId="rp258" href="" showAs=""/>
+                <passiveRef eId="rp259" href="" showAs=""/>
+                <passiveRef eId="rp260" href="/akn/it/act/DECRETO-LEGGE/stato/2013-12-23/145/!main" showAs=""/>
+                <passiveRef eId="rp261" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2013-12-28/154/!main" showAs=""/>
+                <passiveRef eId="rp262" href="" showAs=""/>
+                <passiveRef eId="rp263" href="/akn/it/act/DECRETO-LEGGE/stato/2014-06-24/91/!main" showAs=""/>
+                <passiveRef eId="rp264" href="/akn/it/act/DECRETO-LEGGE/stato/2014-09-12/132/!main" showAs=""/>
+                <passiveRef eId="rp265" href="/akn/it/act/DECRETO-LEGGE/stato/2014-09-12/133/!main" showAs=""/>
+                <passiveRef eId="rp266" href="/akn/it/act/LEGGE/stato/2014-10-30/161/!main" showAs=""/>
+                <passiveRef eId="rp267" href="" showAs=""/>
+                <passiveRef eId="rp268" href="/akn/it/act/DECRETO-LEGGE/stato/2015-01-24/3/!main" showAs=""/>
+                <passiveRef eId="rp269" href="/akn/it/act/LEGGE/stato/2015-05-06/55/!main" showAs=""/>
+                <passiveRef eId="rp270" href="/akn/it/act/LEGGE/stato/2015-05-27/69/!main" showAs=""/>
+                <passiveRef eId="rp271" href="" showAs=""/>
+                <passiveRef eId="rp272" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2015-06-15/81/!main" showAs=""/>
+                <passiveRef eId="rp273" href="/akn/it/act/DECRETO-LEGGE/stato/2015-06-27/83/!main" showAs=""/>
+                <passiveRef eId="rp274" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2015-08-18/139/!main" showAs=""/>
+                <passiveRef eId="rp275" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2015-11-16/180/!main" showAs=""/>
+                <passiveRef eId="rp276" href="" showAs=""/>
+                <passiveRef eId="rp277" href="" showAs=""/>
+                <passiveRef eId="rp278" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2016-02-15/25/!main" showAs=""/>
+                <passiveRef eId="rp279" href="" showAs=""/>
+                <passiveRef eId="rp280" href="/akn/it/act/DECRETO-LEGGE/stato/2016-05-03/59/!main" showAs=""/>
+                <passiveRef eId="rp281" href="/akn/it/act/LEGGE/stato/2016-05-20/76/!main" showAs=""/>
+                <passiveRef eId="rp282" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2016-08-12/176/!main" showAs=""/>
+                <passiveRef eId="rp283" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2016-10-29/202/!main" showAs=""/>
+                <passiveRef eId="rp284" href="" showAs=""/>
+                <passiveRef eId="rp285" href="/akn/it/act/LEGGE/stato/2016-12-11/232/!main" showAs=""/>
+                <passiveRef eId="rp286" href="" showAs=""/>
+                <passiveRef eId="rp287" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2017-03-15/38/!main" showAs=""/>
+                <passiveRef eId="rp288" href="/akn/it/act/DECRETO-LEGGE/stato/2017-06-20/91/!main" showAs=""/>
+                <passiveRef eId="rp289" href="" showAs=""/>
+                <passiveRef eId="rp290" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2017-07-13/116/!main" showAs=""/>
+                <passiveRef eId="rp291" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2017-07-03/117/!main" showAs=""/>
+                <passiveRef eId="rp292" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2017-08-03/129/!main" showAs=""/>
+                <passiveRef eId="rp293" href="" showAs=""/>
+                <passiveRef eId="rp294" href="/akn/it/act/LEGGE/stato/2017-12-27/205/!main" showAs=""/>
+                <passiveRef eId="rp295" href="/akn/it/act/LEGGE/stato/2017-12-22/219/!main" showAs=""/>
+                <passiveRef eId="rp296" href="/akn/it/act/LEGGE/stato/2018-01-11/4/!main" showAs=""/>
+                <passiveRef eId="rp297" href="/akn/it/act/DECRETO-LEGGE/stato/2018-12-14/135/!main" showAs=""/>
+                <passiveRef eId="rp298" href="" showAs=""/>
+                <passiveRef eId="rp299" href="/akn/it/act/LEGGE/stato/2019-01-09/3/!main" showAs=""/>
+                <passiveRef eId="rp300" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2019-01-12/14/!main" showAs=""/>
+                <passiveRef eId="rp301" href="/akn/it/act/DECRETO-LEGGE/stato/2019-04-18/32/!main" showAs=""/>
+                <passiveRef eId="rp302" href="/akn/it/act/LEGGE/stato/2019-04-26/36/!main" showAs=""/>
+                <passiveRef eId="rp303" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2019-05-10/49/!main" showAs=""/>
+                <passiveRef eId="rp304" href="" showAs=""/>
+                <passiveRef eId="rp305" href="/akn/it/act/DECRETO-LEGGE/stato/2019-12-30/162/!main" showAs=""/>
+                <passiveRef eId="rp306" href="/akn/it/act/LEGGE/stato/2020-02-28/8/!main" showAs=""/>
+                <passiveRef eId="rp307" href="/akn/it/act/DECRETO-LEGGE/stato/2020-04-08/23/!main" showAs=""/>
+                <passiveRef eId="rp308" href="/akn/it/act/DECRETO-LEGGE/stato/2020-07-16/76/!main" showAs=""/>
+                <passiveRef eId="rp309" href="/akn/it/act/LEGGE/stato/2020-09-11/120/!main" showAs=""/>
+                <passiveRef eId="rp310" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2020-10-26/147/!main" showAs=""/>
+                <passiveRef eId="rp311" href="" showAs=""/>
+                <passiveRef eId="rp312" href="" showAs=""/>
+                <passiveRef eId="rp313" href="/akn/it/act/DECRETO-LEGGE/stato/2021-08-24/118/!main" showAs=""/>
+                <passiveRef eId="rp314" href="/akn/it/act/DECRETO-LEGGE/stato/2021-11-06/152/!main" showAs=""/>
+                <passiveRef eId="rp315" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2021-11-08/183/!main" showAs=""/>
+                <passiveRef eId="rp316" href="/akn/it/act/LEGGE/stato/2021-11-26/206/!main" showAs=""/>
+                <passiveRef eId="rp317" href="" showAs=""/>
+                <passiveRef eId="rp318" href="/akn/it/act/LEGGE/stato/2021-12-30/234/!main" showAs=""/>
+                <passiveRef eId="rp319" href="/akn/it/act/LEGGE/stato/2021-12-29/233/!main" showAs=""/>
+                <passiveRef eId="rp320" href="/akn/it/act/LEGGE/stato/2021-12-23/238/!main" showAs=""/>
+                <passiveRef eId="rp321" href="/akn/it/act/DECRETO-LEGGE/stato/2022-04-30/36/!main" showAs=""/>
+                <passiveRef eId="rp322" href="" showAs=""/>
+                <passiveRef eId="rp323" href="/akn/it/act/LEGGE/stato/2022-06-29/79/!main" showAs=""/>
+                <passiveRef eId="rp324" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2022-06-17/83/!main" showAs=""/>
+                <passiveRef eId="rp325" href="" showAs=""/>
+                <passiveRef eId="rp326" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2022-10-10/149/!main" showAs=""/>
+                <passiveRef eId="rp327" href="" showAs=""/>
+                <passiveRef eId="rp328" href="/akn/it/act/LEGGE/stato/2022-12-29/197/!main" showAs=""/>
+                <passiveRef eId="rp329" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2023-03-02/19/!main" showAs=""/>
+                <passiveRef eId="rp330" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2023-03-10/30/!main" showAs=""/>
+                <passiveRef eId="rp331" href="" showAs=""/>
+                <passiveRef eId="rp332" href="" showAs=""/>
+                <passiveRef eId="rp333" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2023-12-06/224/!main" showAs=""/>
+                <passiveRef eId="rp334" href="" showAs=""/>
+                <passiveRef eId="rp335" href="" showAs=""/>
+                <passiveRef eId="rp336" href="/akn/it/act/LEGGE/stato/2024-03-05/21/!main" showAs=""/>
+                <passiveRef eId="rp337" href="/akn/it/act/DECRETO-LEGGE/stato/2024-07-04/92/!main" showAs=""/>
+                <passiveRef eId="rp338" href="/akn/it/act/LEGGE/stato/2024-07-04/104/!main" showAs=""/>
+                <passiveRef eId="rp339" href="" showAs=""/>
+                <passiveRef eId="rp340" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2024-09-06/125/!main" showAs=""/>
+                <passiveRef eId="rp341" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2024-10-31/164/!main" showAs=""/>
+                <passiveRef eId="rp342" href="" showAs=""/>
+                <passiveRef eId="rp343" href="" showAs=""/>
+                <passiveRef eId="rp344" href="/akn/it/act/LEGGE/stato/2025-03-14/35/!main" showAs=""/>
+                <passiveRef eId="rp345" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2025-06-19/88/!main" showAs=""/>
+                <passiveRef eId="rp346" href="/akn/it/act/DECRETO-LEGGE/stato/2025-06-30/95/!main" showAs=""/>
+                <passiveRef eId="rp347" href="" showAs=""/>
+                <passiveRef eId="rp348" href="/akn/it/act/DECRETO-LEGGE/stato/2025-08-08/117/!main" showAs=""/>
+                <passiveRef eId="rp349" href="/akn/it/act/LEGGE/stato/2025-08-08/118/!main" showAs=""/>
+                <passiveRef eId="rp350" href="/akn/it/act/LEGGE/stato/2025-09-23/132/!main" showAs=""/>
+                <passiveRef eId="rp351" href="/akn/it/act/LEGGE/stato/2025-10-03/148/!main" showAs=""/>
+                <passiveRef eId="rp352" href="/akn/it/act/LEGGE/stato/2025-12-02/182/!main" showAs=""/>
+                <passiveRef eId="rp353" href="" showAs=""/>
+                <passiveRef eId="rp354" href="" showAs=""/>
+                <passiveRef eId="rp355" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2026-03-27/47/!main" showAs=""/>
+                <passiveRef eId="rp356" href="/akn/it/act/DECRETO-LEGGE/stato/2026-06-12/100/!main" showAs=""/>
+                <passiveRef eId="rp357" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2026-08-07/147/!main" showAs=""/>
+            </references>
+            <proprietary source="">
+                <rdf:RDF>
+                    <rdf:Description rdf:about="na:id/1942/04/04/042U0262/CONSOLIDATED/20260812">
+                        <rdf:type rdf:resource="eli:LegalResource"/>
+                        <eli:title xml:lang="it">Approvazione del testo del Codice civile. (042U0262)  </eli:title>
+                        <eli:uri_schema>http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}</eli:uri_schema>
+                        <eli:id_local>042U0262</eli:id_local>
+                        <eli:type_document rdf:resource="gu:tables/resource-type#REGIO DECRETO"/>
+                        <eli:date_document rdf:datatype="xsd:date">1942-03-16</eli:date_document>
+                        <eli:version rdf:resource="gu:tables/versions#ORIGINAL"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1942/04/04/042U0262/CONSOLIDATED/20260812/ita">
+                        <rdf:type rdf:resource="eli:LegalExpression"/>
+                        <eli:realizes rdf:resource="na:id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                        <eli:is_embodied_by rdf:resource="na:id/1942/04/04/042U0262/CONSOLIDATED/20260812/ita/akn"/>
+                        <eli:language rdf:resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                        <eli:publisher_agent rdf:resource="http://www.ipzs.it"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1942/04/04/042U0262/CONSOLIDATED/20260812/ita/akn">
+                        <rdf:type rdf:resource="eli:format"/>
+                        <eli:format rdf:resource="http://www.iana.org/assignments/media-types/xml"/>
+                    </rdf:Description>
+                </rdf:RDF>
+            </proprietary>
+        </meta>
+        <preface>
+            <p>
+                <docType>REGIO DECRETO</docType>
+                <docDate date="1942-03-16">16 marzo 1942</docDate>
+                <docNumber>262</docNumber>
+                <docTitle>Approvazione del testo del Codice civile. (042U0262) 
+</docTitle>
+            </p>
+            <p>
+                <authorialNote eId="atn1" placement="bottom">
+                    <p>Entrata in vigore del provvedimento: 19/4/1942.</p>
+                </authorialNote>
+            </p>
+        </preface>
+        <preamble>
+            <formula name="formulaInizialePreambolo">
+                <p>REGIO DECRETO 16 marzo 1942-XX, n. 262.</p>
+            </formula>
+            <p>Approvazione del testo del <ref eId="ref_1" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main">Codice civile</ref>
+            </p>
+            <p>VITTORIO EMANUELE III</p>
+            <p>PER GRAZIA DI DIO E PER VOLONTA' DELLA NAZIONE</p>
+            <p>RE D'ITALIA E DI ALBANIA</p>
+            <p>IMPERATORE D'ETIOPIA</p>
+            <citations eId="cits_1">
+                <citation eId="cits_1__cit_1">
+                    <p>Visti i Regi decreti 12 dicembre 1938-XVII, n. 1852, 26 ottobre 1939-XVII, n. 1586, 30 gennaio 1941-XIX, n. 15, 30 gennaio 1941-XIX, n. 16, 30 gennaio 1941-XIX, n. 17 e 30 gennaio 1941-XIX, n. 18, che danno facolta' al Governo di provvedere alla riunione ed al coordinamento dei libri del <ref eId="ref_2" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main">Codice civile</ref> delle persone, delle successioni per causa di morte e delle donazioni, della proprieta', delle obbligazioni, del lavoro e della tutela dei diritti, approvati con gli stessi Regi decreti;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_2">
+                <citation eId="cits_2__cit_1">
+                    <p>Vista la legge 30 gennaio 1941-XIX, n. 14, sul valore giuridico della Carta del Lavoro;</p>
+                </citation>
+            </citations>
+            <p>Udito il Consiglio dei Ministri;</p>
+            <formula name="formulaFinalePreambolo">
+                <p>Sulla proposta del Nostro Guardasigilli, Ministro Segretario di Stato per la grazia e giustizia; Abbiamo decretato e decretiamo:</p>
+            </formula>
+        </preamble>
+        <body><article eId="art_1">
+                <num>Art. 1.</num>
+                <heading/>
+                <paragraph>
+                    <content>
+                        <p>
+ 
+ E' approvato il testo del <ref eId="content__ref_3" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main">Codice civile</ref>, il quale, preceduto dalle disposizioni sul valore giuridico della Carta del Lavoro, dal testo della Carta del Lavoro, approvato dal Gran Consiglio del Fascismo il 21 aprile 1927-V, e dalle Disposizioni sulla legge in generale, avra' esecuzione a cominciare dal 21 aprile 1942-XX, sostituendo da questa data i libri del Codice stesso, approvati con i Regi decreti 12 dicembre 1938-XVII, n. 1852, 26 ottobre 1939-XVII, n. 1586, 30 gennaio 1941-XIX, n. 15, 30 gennaio 1941-XIX, n. 16, 30 gennaio 1941-XIX, n. 17, e 30 gennaio 1941-XIX, n. 18. <ins eId="ins_1">((3))</ins>
+                        </p>
+                    </content>
+                </paragraph>
+                <paragraph>
+                    <content>
+                        <p>-------------</p>
+                        <p>AGGIORNAMENTO (3)</p>
+                        <p>
+ Il <ref eId="4" href="/akn/it/act/decreto.legislativo.luogotenenziale/stato/1944-09-14/287/!main">D.Lgs. Luogotenenziale 14 settembre 1944, n. 287</ref> ha disposto (con l'art. 2, comma 1) che "La <ref eId="5" href="/akn/it/act/legge/stato/1941-01-30/14/!main">legge 30 gennaio 1941, n. 14</ref>, sul valore giuridico della Carta del Lavoro e' abrogata, rimanendo soppressa, nell'<ref eId="6" href="/akn/it/act/regio.decreto/stato/1942-03-16/262/!main#art_1">art. 1 del R. decreto 16 marzo 1942, n. 262</ref>, che approva il testo del <ref eId="7" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main">Codice civile</ref>, la menzione delle disposizioni sul valore giuridico della Carta del lavoro e del testo della Carta del lavoro medesima". </p>
+                    </content>
+                </paragraph>
+            </article><article eId="art_2">
+                <num>Art. 2.</num>
+                <heading/>
+                <paragraph>
+                    <content>
+                        <p>
+ 
+ Un esemplare del testo del <ref eId="content__ref_8" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main">Codice civile</ref>, firmato da Noi e contrassegnato dal Nostro Ministro Segretario di Stato per la grazia e giustizia, servira' di originale e sara' depositato e custodito nell'Archivio del Regno. 
+ Ordiniamo che il presente decreto, munito del sigillo dello Stato, sia inserto nella Raccolta ufficiale delle leggi e dei decreti del Regno d'Italia, mandando a chiunque spetti di osservarlo e di farlo osservare. 
+ 
+ Dato a Roma, addi' 16 marzo 1942-XX 
+ 
+ VITTORIO EMANUELE 
+ 
+ MUSSOLINI - GRANDI 
+ 
+Visto, il Guardasigilli: GRANDI. 
+ Registrato alla Corte dei conti, addi' 16 marzo 1942-XX 
+ Atti del Governo, registro n. 443, foglio n. 53 - MANCINI 
+</p>
+                    </content>
+                </paragraph>
+            </article></body>
+        <attachments><attachment>
+                <doc name="Disposizioni sulla legge in generale-art. 1">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/!main/annesso_1"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1942-03-16;262"/>
+                                <FRBRalias name="eli" value="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                                <FRBRdate date="1942-04-19" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_1"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10"/>
+                                <FRBRdate date="1944-11-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_1.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10.xml"/>
+                                <FRBRdate date="1942-03-16" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> DISPOSIZIONI SULLA LEGGE IN GENERALE 
+ 
+ 
+ Art. 1. 
+ 
+ (Indicazione delle fonti). 
+ 
+ Sono fonti del diritto: 
+ 1) le leggi; 
+ 2) i regolamenti; 
+ 3) le norme corporative 
+ 4) gli usi. 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment><attachment>
+                <doc name="Disposizioni sulla legge in generale-art. 12">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/!main/annesso_12"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1942-03-16;262"/>
+                                <FRBRalias name="eli" value="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                                <FRBRdate date="1942-04-19" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_12"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10"/>
+                                <FRBRdate date="1944-11-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_12.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10.xml"/>
+                                <FRBRdate date="1942-03-16" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 12. 
+ 
+ (Interpretazione della legge). 
+ 
+ Nell'applicare la legge non si puo' ad essa attribuire altro senso che quello fatto palese dal significato proprio delle parole secondo la connessione di esse, e dalla intenzione del legislatore. 
+ 
+ Se una controversia non puo' essere decisa con una precisa disposizione, si ha riguardo alle disposizioni che regolano casi simili o materie analoghe; se il caso rimane ancora dubbio, si decide secondo i principi generali dell'ordinamento giuridico dello Stato. </p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment><attachment>
+                <doc name="Disposizioni sulla legge in generale-art. 19">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/!main/annesso_19"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1942-03-16;262"/>
+                                <FRBRalias name="eli" value="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                                <FRBRdate date="2006-07-13" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_19"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10"/>
+                                <FRBRdate date="1944-11-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_19.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10.xml"/>
+                                <FRBRdate date="1942-03-16" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 19. 
+ 
+ ARTICOLO ABROGATO DALLA <ref eId="content__ref_10" href="/akn/it/act/legge/stato/1995-05-31/218/!main">L. 31 MAGGIO 1995, N. 218</ref> <ins eId="ins_4">((167))</ins>
+                                </p>
+                            </content>
+                        </paragraph>
+                        <paragraph>
+                            <content>
+                                <p>-------------</p>
+                                <p>AGGIORNAMENTO (167)</p>
+                                <p>
+ La Corte Costituzionale, con sentenza 21 giugno-4 luglio 2006, n. 254 (in G.U. 1a s.s. 12/7/2006, n. 28) ha dichiarato "l'illegittimita' costituzionale dell'art. 19, comma primo, delle disposizioni preliminari al <ref eId="11" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main">codice civile</ref>". </p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment><attachment>
+                <doc name="CODICE CIVILE-art. 1">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/!main/annesso_32"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1942-03-16;262"/>
+                                <FRBRalias name="eli" value="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                                <FRBRdate date="1944-11-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_32"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10"/>
+                                <FRBRdate date="1944-11-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_32.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10.xml"/>
+                                <FRBRdate date="1942-03-16" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> <ref eId="content__ref_12" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main#art_1">CODICE CIVILE 
+ 
+ 
+ Art. 1</ref>. 
+ 
+ (Capacita' giuridica). 
+ 
+ La capacita' giuridica si acquista dal momento della nascita. 
+ 
+ I diritti che la legge riconosce a favore del concepito sono subordinati all'evento della nascita. 
+ 
+ <ins eId="ins_17">((IL D.LGS. LUOGOTENENZIALE 14 SETTEMBRE 1944, N. 287 HA CONFERMATO L'ABROGAZIONE DEL PRESENTE COMMA))</ins>. 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment><attachment>
+                <doc name="CODICE CIVILE-art. 2">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/!main/annesso_33"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1942-03-16;262"/>
+                                <FRBRalias name="eli" value="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                                <FRBRdate date="1975-03-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_33"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10"/>
+                                <FRBRdate date="1944-11-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_33.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10.xml"/>
+                                <FRBRdate date="1942-03-16" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 2. 
+ 
+ <ins eId="ins_18">(( (Maggiore eta'. Capacita' di agire).))</ins>
+                                    <ins eId="ins_19">((La maggiore eta' e' fissata al compimento del diciottesimo anno.
+Con la maggiore eta' si acquista la capacita' di compiere tutti gli atti per i quali non sia stabilita una eta' diversa. 
+ 
+ Sono salve le leggi speciali che stabiliscono un'eta' inferiore in materia di capacita' a prestare il proprio lavoro. In tal caso il minore e' abilitato all'esercizio dei diritti e delle azioni che dipendono dal contratto di lavoro))</ins>. 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment><attachment>
+                <doc name="CODICE CIVILE-art. 314/2">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/!main/annesso_360"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1942-03-16;262"/>
+                                <FRBRalias name="eli" value="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                                <FRBRdate date="1983-06-01" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_360"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10"/>
+                                <FRBRdate date="1944-11-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_360.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10.xml"/>
+                                <FRBRdate date="1942-03-16" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 314/2. 
+ 
+ <ins eId="ins_366">((ARTICOLO ABROGATO DALLA L. 4 MAGGIO 1983, N. 184))</ins>
+                                </p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment><attachment>
+                <doc name="CODICE CIVILE-art. 1159 bis">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/!main/annesso_1261"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1942-03-16;262"/>
+                                <FRBRalias name="eli" value="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                                <FRBRdate date="1994-02-24" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_1261"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10"/>
+                                <FRBRdate date="1944-11-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_1261.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10.xml"/>
+                                <FRBRdate date="1942-03-16" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 1159. 
+ 
+ Usucapione speciale per la piccola proprieta' rurale. 
+ 
+ La proprieta' dei fondi rustici con annessi fabbricati situati in comuni classificati montani dalla legge si acquista in virtu' del possesso continuato per quindici anni. 
+ 
+ Colui che acquista in buona fede da chi non e' proprietario, in forza di un titolo che sia idoneo a trasferire la proprieta' e che sia debitamente trascritto, un fondo rustico con annessi fabbricati, situati in comuni classificati montani dalla legge, ne compie l'usucapione in suo favore col decorso di cinque anni dalla data di trascrizione. 
+ 
+ La legge speciale stabilisce la procedura, le modalita' e le agevolazioni per la regolarizzazione del titolo di proprieta'. 
+ 
+ Le disposizioni di cui ai commi precedenti si applicano anche ai fondi rustici con annessi fabbricati, situati in comuni non classificati montani dalla legge, aventi un reddito non superiore ai limiti fissati dalla legge speciale.(43)<ins eId="ins_782">((96))</ins>
+                                </p>
+                            </content>
+                        </paragraph>
+                        <paragraph>
+                            <content>
+                                <p>----------------</p>
+                                <p>AGGIORNAMENTO (43)</p>
+                                <p>
+ La <ref eId="535" href="/akn/it/act/legge/stato/1976-05-10/346/!main">L. 10 maggio 1976, n. 346</ref> ha disposto (con l'art. 2, comma 1) che "Le disposizioni dell'<ref eId="536" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main#art_1159bis">articolo 1159-bis del codice civile</ref> si applicano ai fondi rustici con annessi fabbricati situati in comuni classificati montani ai sensi della <ref eId="537" href="/akn/it/act/legge/stato/1971-12-03/1102/!main">legge 3 dicembre 1971, n. 1102</ref>, qualunque siano la loro estensione ed il loro reddito, nonche' ai fondi rustici con annessi fabbricati situati in comuni non classificati montani, quando il loro reddito dominicale iscritto in catasto ai sensi del <ref eId="538" href="/akn/it/act/regio.decreto.legge/stato/1939-04-04/589/!main">regio decreto-legge 4 aprile 1939, n. 589</ref>, convertito nella <ref eId="539" href="/akn/it/act/legge/stato/1939-06-29/976/!main">legge 29 giugno 1939, n. 976</ref>, non supera complessivamente le lire cinquemila." </p>
+                                <p>----------------</p>
+                                <p>AGGIORNAMENTO (96)</p>
+                                <p>
+La <ref eId="540" href="/akn/it/act/legge/stato/1976-05-10/346/!main">L. 10 maggio 1976, n. 346</ref>, come modificata dalla <ref eId="541" href="/akn/it/act/legge/stato/1994-01-31/97/!main">L. 31 gennaio 1994, n. 97</ref> ha disposto (con l'art. 2, comma 1) che "Le disposizioni dell'<ref eId="542" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main#art_1159bis">articolo 1159-bis del codice civile</ref> si applicano ai fondi rustici con annessi fabbricati situati in comuni classificati montani ai sensi della <ref eId="543" href="/akn/it/act/legge/stato/1971-12-03/1102/!main">legge 3 dicembre 1971, n. 1102</ref>, qualunque siano la loro estensione ed il loro reddito, nonche' ai fondi rustici con annessi fabbricati situati in comuni non classificati montani, quando il loro reddito dominicale iscritto in catasto ai sensi del <ref eId="544" href="/akn/it/act/regio.decreto.legge/stato/1939-04-04/589/!main">regio decreto-legge 4 aprile 1939, n. 589</ref>, convertito nella <ref eId="545" href="/akn/it/act/legge/stato/1939-06-29/976/!main">legge 29 giugno 1939, n. 976</ref>, non supera complessivamente le lire 350.000". </p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment><attachment>
+                <doc name="CODICE CIVILE-art. 1519 novies">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/!main/annesso_1634"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1942-03-16;262"/>
+                                <FRBRalias name="eli" value="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                                <FRBRdate date="2005-10-23" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_1634"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10"/>
+                                <FRBRdate date="1944-11-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_1634.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10.xml"/>
+                                <FRBRdate date="1942-03-16" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 1519-nonies 
+ 
+ <ins eId="ins_815">((ARTICOLO ABROGATO DAL D.LGS. 6 SETTEMBRE 2005, N. 206))</ins>
+                                </p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment><attachment>
+                <doc name="CODICE CIVILE-art. 2043">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/!main/annesso_2164"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1942-03-16;262"/>
+                                <FRBRalias name="eli" value="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                                <FRBRdate date="1942-04-19" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_2164"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10"/>
+                                <FRBRdate date="1944-11-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_2164.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10.xml"/>
+                                <FRBRdate date="1942-03-16" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 2043. 
+ 
+ (Risarcimento per fatto illecito). 
+ 
+ Qualunque fatto doloso o colposo, che cagiona ad altri un danno ingiusto, obbliga colui che ha commesso il fatto a risarcire il danno. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment><attachment>
+                <doc name="CODICE CIVILE-art. 2059">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/!main/annesso_2180"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1942-03-16;262"/>
+                                <FRBRalias name="eli" value="eli/id/1942/04/04/042U0262/CONSOLIDATED/20260812"/>
+                                <FRBRdate date="1942-04-19" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_2180"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10"/>
+                                <FRBRdate date="1944-11-10" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10/!main/annesso_2180.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1942-03-16/262/ita@1944-11-10.xml"/>
+                                <FRBRdate date="1942-03-16" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 2059. 
+ 
+ (Danni non patrimoniali). 
+ 
+ Il danno non patrimoniale deve essere risarcito solo nei casi determinati dalla legge. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment></attachments>
+    </act>
+</akomaNtoso>

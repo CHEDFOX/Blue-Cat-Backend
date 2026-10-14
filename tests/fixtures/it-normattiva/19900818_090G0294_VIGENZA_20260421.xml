@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:eli="http://data.europa.eu/eli/ontology#" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:gu="http://www.gazzettaufficiale.it/eli/" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:na="http://www.normattiva.it/eli/" xmlns:nakn="http://normattiva.it/akn/vocabulary" xmlns:nrdfa="http://www.normattiva.it/rdfa/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfa="http://www.w3.org/1999/xhtml#">
+    <act name="monovigente">
+        <meta>
+            <identification source="">
+                <FRBRWork>
+                    <FRBRthis value="/akn/it/act/legge/stato/1990-08-07/241/!main"/>
+                    <FRBRuri value="/akn/it/act/legge/stato/1990-08-07/241"/>
+                    <FRBRalias name="urn:nir" value="urn:nir:stato:legge:1990-08-07;241"/>
+                    <FRBRalias name="eli" value="eli/id/1990/08/18/090G0294/CONSOLIDATED/20260421"/>
+                    <FRBRdate date="1990-08-07" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1990/08/18/090G0294/CONSOLIDATED/20260421" aknrelname="eli/id/1990/08/18/090G0294/CONSOLIDATED/20260421">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalResource"/>
+                            <nrdfa:span content=" Nuove norme in materia di procedimento amministrativo e di diritto di accesso ai documenti amministrativi. " lang="it" property="eli:title" xml:lang="it"/>
+                            <nrdfa:span content="http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}" property="eli:uri_schema"/>
+                            <nrdfa:span content="090G0294" property="eli:id_local"/>
+                            <nrdfa:span property="eli:type_document" resource="gu:tables/resource-type#LEGGE"/>
+                            <nrdfa:span content="1990-08-07" datatype="xsd:date" property="eli:date_document"/>
+                            <nrdfa:span property="eli:version" resource="gu:tables/versions#ORIGINAL"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRcountry value="it"/>
+                </FRBRWork>
+                <FRBRExpression>
+                    <FRBRthis value="/akn/it/act/legge/stato/1990-08-07/241/ita@2026-04-21/!main"/>
+                    <FRBRuri value="/akn/it/act/legge/stato/1990-08-07/241/ita@2026-04-21"/>
+                    <FRBRdate date="2026-04-21" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1990/08/18/090G0294/CONSOLIDATED/20260421/ita">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalExpression"/>
+                            <nrdfa:span property="eli:realizes" resource="na:id/1990/08/18/090G0294/CONSOLIDATED/20260421"/>
+                            <nrdfa:span property="eli:is_embodied_by" resource="na:id/1990/08/18/090G0294/CONSOLIDATED/20260421/ita/akn"/>
+                            <nrdfa:span property="eli:language" resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                            <nrdfa:span property="eli:publisher_agent" resource="http://www.ipzs.it"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRlanguage language="ita"/>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <FRBRthis value="/akn/it/act/legge/stato/1990-08-07/241/ita@2026-04-21/!main.xml"/>
+                    <FRBRuri value="/akn/it/act/legge/stato/1990-08-07/241/ita@2026-04-21.xml"/>
+                    <FRBRdate date="1990-08-07" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1990/08/18/090G0294/CONSOLIDATED/20260421/ita/akn">
+                            <nrdfa:span property="rdf:type" resource="eli:Format"/>
+                            <nrdfa:span property="eli:format" resource="http://www.iana.org/assignments/media-types/xml"/>
+                        </nrdfa:eli>
+                    </preservation>
+                </FRBRManifestation>
+            </identification>
+            <publication date="1990-08-18" name="" number="192" showAs=""/>
+            <lifecycle source="">
+                <eventRef date="1990-08-18" eId="eventRef_0" source="ro1"/>
+                <eventRef date="1990-12-20" eId="eventRef_1" source="rp1"/>
+                <eventRef date="1990-12-20" eId="eventRef_2" source="rp2"/>
+                <eventRef date="1991-01-23" eId="eventRef_3" source="rp3"/>
+                <eventRef date="1991-02-14" eId="eventRef_4" source="rp4"/>
+                <eventRef date="1991-05-07" eId="eventRef_5" source="rp5"/>
+                <eventRef date="1992-05-27" eId="eventRef_6" source="rp6"/>
+                <eventRef date="1992-08-18" eId="eventRef_7" source="rp7"/>
+                <eventRef date="1993-06-17" eId="eventRef_8" source="rp8"/>
+                <eventRef date="1993-12-28" eId="eventRef_9" source="rp9"/>
+                <eventRef date="1995-05-12" eId="eventRef_10" source="rp10"/>
+                <eventRef date="1997-05-17" eId="eventRef_11" source="rp11"/>
+                <eventRef date="1998-06-20" eId="eventRef_12" source="rp12"/>
+                <eventRef date="1999-08-06" eId="eventRef_13" source="rp13"/>
+                <eventRef date="2000-11-24" eId="eventRef_14" source="rp14"/>
+                <eventRef date="2001-03-10" eId="eventRef_15" source="rp15"/>
+                <eventRef date="2003-07-29" eId="eventRef_16" source="rp16"/>
+                <eventRef date="2004-04-29" eId="eventRef_17" source="rp17"/>
+                <eventRef date="2005-02-21" eId="eventRef_18" source="rp18"/>
+                <eventRef date="2005-03-16" eId="eventRef_19" source="rp19"/>
+                <eventRef date="2006-04-12" eId="eventRef_20" source="rp20"/>
+                <eventRef date="2007-02-01" eId="eventRef_21" source="rp21"/>
+                <eventRef date="2007-09-21" eId="eventRef_22" source="rp22"/>
+                <eventRef date="2008-06-25" eId="eventRef_23" source="rp23"/>
+                <eventRef date="2009-06-19" eId="eventRef_24" source="rp24"/>
+                <eventRef date="2010-04-23" eId="eventRef_25" source="rp25"/>
+                <eventRef date="2010-05-31" eId="eventRef_26" source="rp26"/>
+                <eventRef date="2010-07-07" eId="eventRef_27" source="rp27"/>
+                <eventRef date="2010-08-06" eId="eventRef_28" source="rp28"/>
+                <eventRef date="2010-09-29" eId="eventRef_29" source="rp29"/>
+                <eventRef date="2011-05-13" eId="eventRef_30" source="rp30"/>
+                <eventRef date="2011-08-13" eId="eventRef_31" source="rp31"/>
+                <eventRef date="2011-11-14" eId="eventRef_32" source="rp32"/>
+                <eventRef date="2011-11-23" eId="eventRef_33" source="rp33"/>
+                <eventRef date="2012-02-09" eId="eventRef_34" source="rp34"/>
+                <eventRef date="2012-06-26" eId="eventRef_35" source="rp35"/>
+                <eventRef date="2012-07-18" eId="eventRef_36" source="rp36"/>
+                <eventRef date="2012-07-31" eId="eventRef_37" source="rp37"/>
+                <eventRef date="2012-10-19" eId="eventRef_38" source="rp38"/>
+                <eventRef date="2012-11-13" eId="eventRef_39" source="rp39"/>
+                <eventRef date="2013-04-05" eId="eventRef_40" source="rp40"/>
+                <eventRef date="2013-06-21" eId="eventRef_41" source="rp41"/>
+                <eventRef date="2013-09-12" eId="eventRef_42" source="rp42"/>
+                <eventRef date="2013-12-23" eId="eventRef_43" source="rp43"/>
+                <eventRef date="2014-06-24" eId="eventRef_44" source="rp44"/>
+                <eventRef date="2014-09-12" eId="eventRef_45" source="rp45"/>
+                <eventRef date="2015-08-13" eId="eventRef_46" source="rp46"/>
+                <eventRef date="2016-01-18" eId="eventRef_47" source="rp47"/>
+                <eventRef date="2016-07-13" eId="eventRef_48" source="rp48"/>
+                <eventRef date="2016-07-13" eId="eventRef_49" source="rp49"/>
+                <eventRef date="2016-11-26" eId="eventRef_50" source="rp50"/>
+                <eventRef date="2017-07-06" eId="eventRef_51" source="rp51"/>
+                <eventRef date="2020-05-19" eId="eventRef_52" source="rp52"/>
+                <eventRef date="2020-07-16" eId="eventRef_53" source="rp53"/>
+                <eventRef date="2020-09-14" eId="eventRef_54" source="rp54"/>
+                <eventRef date="2021-05-31" eId="eventRef_55" source="rp55"/>
+                <eventRef date="2021-07-30" eId="eventRef_56" source="rp56"/>
+                <eventRef date="2025-12-03" eId="eventRef_57" source="rp57"/>
+                <eventRef date="2025-12-10" eId="eventRef_58" source="rp58"/>
+                <eventRef date="2026-02-19" eId="eventRef_59" source="rp59"/>
+                <eventRef date="2026-04-20" eId="eventRef_60" source="rp60"/>
+            </lifecycle>
+            <workflow source="">
+                <step by="#senato" date="1990-08-07" refersTo="#S.2226"/>
+                <step by="#camera" date="1990-08-07" refersTo="#C.1913"/>
+            </workflow>
+            
+            <references source="">
+                <original eId="ro1" href="/akn/it/act/LEGGE/stato/1990-08-07/241/!main" showAs=""/>
+                <passiveRef eId="rp1" href="/akn/it/act/CIRCOLARE/MINISTRO_PER_LA_FUNZIONE_PUBBLICA/1990-11-13/5734/!main" showAs=""/>
+                <passiveRef eId="rp2" href="/akn/it/act/CIRCOLARE/MINISTRO_PER_LA_FUNZIONE_PUBBLICA/1990-12-05/5830/!main" showAs=""/>
+                <passiveRef eId="rp3" href="/akn/it/act/CIRCOLARE/MINISTRO_PER_LA_FUNZIONE_PUBBLICA/1991-01-08/6039/!main" showAs=""/>
+                <passiveRef eId="rp4" href="/akn/it/act/CIRCOLARE/MINISTRO_PER_LA_FUNZIONE_PUBBLICA/1991-01-23/6092/!main" showAs=""/>
+                <passiveRef eId="rp5" href="/akn/it/act/CIRCOLARE/MINISTERO_DELLA_PUBBLICA_ISTRUZIONE/1991-01-04/2/!main" showAs=""/>
+                <passiveRef eId="rp6" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1992-04-26/300/!main" showAs=""/>
+                <passiveRef eId="rp7" href="/akn/it/act/CIRCOLARE/MINISTERO_PER_I_BENI_CULTURALI_E_AMBIENTALI/1992-08-07/116/!main" showAs=""/>
+                <passiveRef eId="rp8" href="/akn/it/act/CIRCOLARE/MINISTERO_DELL'INTERNO/1993-06-09/5006/!main" showAs=""/>
+                <passiveRef eId="rp9" href="/akn/it/act/LEGGE/stato/1993-12-24/537/!main" showAs=""/>
+                <passiveRef eId="rp10" href="/akn/it/act/DECRETO-LEGGE/stato/1995-05-12/163/!main" showAs=""/>
+                <passiveRef eId="rp11" href="/akn/it/act/LEGGE/stato/1997-05-15/127/!main" showAs=""/>
+                <passiveRef eId="rp12" href="/akn/it/act/LEGGE/stato/1998-06-16/191/!main" showAs=""/>
+                <passiveRef eId="rp13" href="/akn/it/act/LEGGE/stato/1999-08-03/265/!main" showAs=""/>
+                <passiveRef eId="rp14" href="/akn/it/act/LEGGE/stato/2000-11-24/340/!main" showAs=""/>
+                <passiveRef eId="rp15" href="/akn/it/act/LEGGE/stato/2001-02-13/45/!main" showAs=""/>
+                <passiveRef eId="rp16" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2003-06-30/196/!main" showAs=""/>
+                <passiveRef eId="rp17" href="/akn/it/act/CIRCOLARE/AGENZIA_PER_LE_EROGAZIONI_IN_AGRICOLTURA/2004-04-22/8/!main" showAs=""/>
+                <passiveRef eId="rp18" href="/akn/it/act/LEGGE/stato/2005-02-11/15/!main" showAs=""/>
+                <passiveRef eId="rp19" href="/akn/it/act/DECRETO-LEGGE/stato/2005-03-14/35/!main" showAs=""/>
+                <passiveRef eId="rp20" href="" showAs=""/>
+                <passiveRef eId="rp21" href="/akn/it/act/DECRETO-LEGGE/stato/2007-01-31/7/!main" showAs=""/>
+                <passiveRef eId="rp22" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/2007-08-02/157/!main" showAs=""/>
+                <passiveRef eId="rp23" href="/akn/it/act/DECRETO-LEGGE/stato/2008-06-25/112/!main" showAs=""/>
+                <passiveRef eId="rp24" href="/akn/it/act/LEGGE/stato/2009-06-18/69/!main" showAs=""/>
+                <passiveRef eId="rp25" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-03-26/59/!main" showAs=""/>
+                <passiveRef eId="rp26" href="/akn/it/act/DECRETO-LEGGE/stato/2010-05-31/78/!main" showAs=""/>
+                <passiveRef eId="rp27" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-07-02/104/!main" showAs=""/>
+                <passiveRef eId="rp28" href="/akn/it/act/DECRETO-LEGGE/stato/2010-08-05/125/!main" showAs=""/>
+                <passiveRef eId="rp29" href="" showAs=""/>
+                <passiveRef eId="rp30" href="/akn/it/act/DECRETO-LEGGE/stato/2011-05-13/70/!main" showAs=""/>
+                <passiveRef eId="rp31" href="/akn/it/act/DECRETO-LEGGE/stato/2011-08-13/138/!main" showAs=""/>
+                <passiveRef eId="rp32" href="/akn/it/act/LEGGE/stato/2011-11-11/180/!main" showAs=""/>
+                <passiveRef eId="rp33" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2011-11-15/195/!main" showAs=""/>
+                <passiveRef eId="rp34" href="/akn/it/act/DECRETO-LEGGE/stato/2012-02-09/5/!main" showAs=""/>
+                <passiveRef eId="rp35" href="/akn/it/act/DECRETO-LEGGE/stato/2012-06-22/83/!main" showAs=""/>
+                <passiveRef eId="rp36" href="" showAs=""/>
+                <passiveRef eId="rp37" href="/akn/it/act/CIRCOLARE/PRESIDENZA_DEL_CONSIGLIO_DEI_MINISTRI_DIPARTIMENTO_DELLA_FUNZIONE_PUBBLICA/2012-05-10/4/!main" showAs=""/>
+                <passiveRef eId="rp38" href="/akn/it/act/DECRETO-LEGGE/stato/2012-10-18/179/!main" showAs=""/>
+                <passiveRef eId="rp39" href="/akn/it/act/LEGGE/stato/2012-11-06/190/!main" showAs=""/>
+                <passiveRef eId="rp40" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2013-03-14/33/!main" showAs=""/>
+                <passiveRef eId="rp41" href="/akn/it/act/DECRETO-LEGGE/stato/2013-06-21/69/!main" showAs=""/>
+                <passiveRef eId="rp42" href="/akn/it/act/DECRETO-LEGGE/stato/2013-09-12/104/!main" showAs=""/>
+                <passiveRef eId="rp43" href="/akn/it/act/DECRETO-LEGGE/stato/2013-12-23/145/!main" showAs=""/>
+                <passiveRef eId="rp44" href="/akn/it/act/DECRETO-LEGGE/stato/2014-06-24/91/!main" showAs=""/>
+                <passiveRef eId="rp45" href="/akn/it/act/DECRETO-LEGGE/stato/2014-09-12/133/!main" showAs=""/>
+                <passiveRef eId="rp46" href="/akn/it/act/LEGGE/stato/2015-08-07/124/!main" showAs=""/>
+                <passiveRef eId="rp47" href="/akn/it/act/LEGGE/stato/2015-12-28/221/!main" showAs=""/>
+                <passiveRef eId="rp48" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2016-06-30/126/!main" showAs=""/>
+                <passiveRef eId="rp49" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2016-06-30/127/!main" showAs=""/>
+                <passiveRef eId="rp50" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2016-11-25/222/!main" showAs=""/>
+                <passiveRef eId="rp51" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2017-06-16/104/!main" showAs=""/>
+                <passiveRef eId="rp52" href="/akn/it/act/DECRETO-LEGGE/stato/2020-05-19/34/!main" showAs=""/>
+                <passiveRef eId="rp53" href="/akn/it/act/DECRETO-LEGGE/stato/2020-07-16/76/!main" showAs=""/>
+                <passiveRef eId="rp54" href="/akn/it/act/LEGGE/stato/2020-09-11/120/!main" showAs=""/>
+                <passiveRef eId="rp55" href="/akn/it/act/DECRETO-LEGGE/stato/2021-05-31/77/!main" showAs=""/>
+                <passiveRef eId="rp56" href="/akn/it/act/LEGGE/stato/2021-07-29/108/!main" showAs=""/>
+                <passiveRef eId="rp57" href="/akn/it/act/LEGGE/stato/2025-12-02/182/!main" showAs=""/>
+                <passiveRef eId="rp58" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2025-11-27/184/!main" showAs=""/>
+                <passiveRef eId="rp59" href="/akn/it/act/DECRETO-LEGGE/stato/2026-02-19/19/!main" showAs=""/>
+                <passiveRef eId="rp60" href="/akn/it/act/LEGGE/stato/2026-04-20/50/!main" showAs=""/>
+                <passiveRef eId="S.2226" href="/akn/it/senato-it:parl:ddl:senato;10.legislatura;2226" showAs=""/>
+                <passiveRef eId="C.1913" href="/akn/it/camera-it:parlamento:scheda.progetto.legge:camera;10.legislatura;1913" showAs=""/>
+            </references>
+            <proprietary source="">
+                <rdf:RDF>
+                    <rdf:Description rdf:about="na:id/1990/08/18/090G0294/CONSOLIDATED/20260421">
+                        <rdf:type rdf:resource="eli:LegalResource"/>
+                        <eli:title xml:lang="it"> Nuove norme in materia di procedimento amministrativo e di diritto di accesso ai documenti amministrativi. </eli:title>
+                        <eli:uri_schema>http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}</eli:uri_schema>
+                        <eli:id_local>090G0294</eli:id_local>
+                        <eli:type_document rdf:resource="gu:tables/resource-type#LEGGE"/>
+                        <eli:date_document rdf:datatype="xsd:date">1990-08-07</eli:date_document>
+                        <eli:version rdf:resource="gu:tables/versions#ORIGINAL"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1990/08/18/090G0294/CONSOLIDATED/20260421/ita">
+                        <rdf:type rdf:resource="eli:LegalExpression"/>
+                        <eli:realizes rdf:resource="na:id/1990/08/18/090G0294/CONSOLIDATED/20260421"/>
+                        <eli:is_embodied_by rdf:resource="na:id/1990/08/18/090G0294/CONSOLIDATED/20260421/ita/akn"/>
+                        <eli:language rdf:resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                        <eli:publisher_agent rdf:resource="http://www.ipzs.it"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1990/08/18/090G0294/CONSOLIDATED/20260421/ita/akn">
+                        <rdf:type rdf:resource="eli:format"/>
+                        <eli:format rdf:resource="http://www.iana.org/assignments/media-types/xml"/>
+                    </rdf:Description>
+                </rdf:RDF>
+            </proprietary>
+        </meta>
+        <preface>
+            <p>
+                <docType>LEGGE</docType>
+                <docDate date="1990-08-07">07 agosto 1990</docDate>
+                <docNumber>241</docNumber>
+                <docTitle> Nuove norme in materia di procedimento amministrativo e di diritto di accesso ai documenti amministrativi.
+</docTitle>
+            </p>
+            <p>
+                <authorialNote eId="atn1" placement="bottom">
+                    <p>Entrata in vigore della legge: 2-9-1990</p>
+                </authorialNote>
+            </p>
+        </preface>
+        <preamble>
+            <formula name="primaDiFormulaInizialePreambolo">
+                <p>La Camera dei deputati ed il Senato della Repubblica hanno approvato;</p>
+            </formula>
+            <formula name="formulaInizialePreambolo">
+                <p>IL PRESIDENTE DELLA REPUBBLICA</p>
+            </formula>
+            <formula name="formulaFinalePreambolo">
+                <p>PROMULGA la seguente legge:</p>
+            </formula>
+        </preamble>
+        <body><chapter eId="chp_I">
+                <num>CAPO I</num>
+                <heading>PRINCIPI</heading>
+                <article eId="art_1">
+                    <num>Art. 1.</num>
+                    <heading>(Principi generali dell'attivita' amministrativa)</heading>
+                    <paragraph eId="art_1__para_1">
+                        <num>1.</num>
+                        <content>
+                            <p>L'attivita' amministrativa persegue i fini determinati dalla legge ed e' retta da criteri di economicita', di efficacia, di imparzialita', di pubblicita' e di trasparenza secondo le modalita' previste dalla presente legge e dalle altre disposizioni che disciplinano singoli procedimenti , nonche' dai principi dell'ordinamento comunitario. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_1__para_1-bis">
+                        <num>1-bis.</num>
+                        <content>
+                            <p>La pubblica amministrazione, nell'adozione di atti di natura non autoritativa, agisce secondo le norme di diritto privato salvo che la legge disponga diversamente. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_1__para_1-ter">
+                        <num>1-ter.</num>
+                        <content>
+                            <p>I soggetti privati preposti all'esercizio di attivita' amministrative assicurano il rispetto dei criteri e dei principi di cui al comma 1, con un livello di garanzia non inferiore a quello cui sono tenute le pubbliche amministrazioni in forza delle disposizioni di cui alla presente legge. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_1__para_2">
+                        <num>2.</num>
+                        <content>
+                            <p>La pubblica amministrazione non puo' aggravare il procedimento se non per straordinarie e motivate esigenze imposte dallo svolgimento dell'istruttoria. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>((2-bis. I rapporti tra il cittadino e la pubblica amministrazione sono improntati ai principi della collaborazione e della buona fede))</p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_2">
+                    <num>Art. 2.</num>
+                    <heading>(Conclusione del procedimento)</heading>
+                    <paragraph eId="art_2__para_1">
+                        <num>1.</num>
+                        <content>
+                            <p>Ove il procedimento consegua obbligatoriamente ad un'istanza, ovvero debba essere iniziato d'ufficio, le pubbliche amministrazioni hanno il dovere di concluderlo mediante l'adozione di un provvedimento espresso. Se ravvisano la manifesta irricevibilita', inammissibilita', improcedibilita' o infondatezza della domanda, le pubbliche amministrazioni concludono il procedimento con un provvedimento espresso redatto in forma semplificata, la cui motivazione puo' consistere in un sintetico riferimento al punto di fatto o di diritto ritenuto risolutivo. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_2">
+                        <num>2.</num>
+                        <content>
+                            <p>Nei casi in cui disposizioni di legge ovvero i provvedimenti di cui ai commi 3, 4 e 5 non prevedono un termine diverso, i procedimenti amministrativi di competenza delle amministrazioni statali e degli enti pubblici nazionali devono concludersi entro il termine di trenta giorni. (14) 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_3">
+                        <num>3.</num>
+                        <content>
+                            <p>Con uno o piu' decreti del Presidente del Consiglio dei ministri, adottati ai sensi dell'<ref eId="content__ref_1" href="/akn/it/act/legge/stato/1988-08-23/400/!main#art_17-com3">articolo 17, comma 3, della legge 23 agosto 1988, n. 400</ref>, su proposta dei Ministri competenti e di concerto con i Ministri per la pubblica amministrazione e l'innovazione e per la semplificazione normativa, sono individuati i termini non superiori a novanta giorni entro i quali devono concludersi i procedimenti di competenza delle amministrazioni statali. Gli enti pubblici nazionali stabiliscono, secondo i propri ordinamenti, i termini non superiori a novanta giorni entro i quali devono concludersi i procedimenti di propria competenza. (14) 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_4">
+                        <num>4.</num>
+                        <content>
+                            <p>Nei casi in cui, tenendo conto della sostenibilita' dei tempi sotto il profilo dell'organizzazione amministrativa, della natura degli interessi pubblici tutelati e della particolare complessita' del procedimento, sono indispensabili termini superiori a novanta giorni per la conclusione dei procedimenti di competenza delle amministrazioni statali e degli enti pubblici nazionali, i decreti di cui al comma 3 sono adottati su proposta anche dei Ministri per la pubblica amministrazione e l'innovazione e per la semplificazione normativa e previa deliberazione del Consiglio dei ministri. I termini ivi previsti non possono comunque superare i centottanta giorni, con la sola esclusione dei procedimenti di acquisto della cittadinanza italiana e di quelli riguardanti l'immigrazione. (14) 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_4-bis">
+                        <num>4-bis.</num>
+                        <content>
+                            <p>Le pubbliche amministrazioni misurano e pubblicano nel proprio sito internet istituzionale, nella sezione "Amministrazione trasparente", i tempi effettivi di conclusione dei procedimenti amministrativi di maggiore impatto per i cittadini e per le imprese, comparandoli con i termini previsti dalla normativa vigente. Con decreto del Presidente del Consiglio dei ministri, su proposta del Ministro per la pubblica amministrazione, previa intesa in Conferenza unificata di cui all'<ref eId="content__ref_2" href="/akn/it/act/decretoLegislativo/stato/1997-08-28/281/!main#art_8">articolo 8 del decreto legislativo 28 agosto 1997, n. 281</ref>, sono definiti modalita' e criteri di misurazione dei tempi effettivi di conclusione dei procedimenti, nonche' le ulteriori modalita' di pubblicazione di cui al primo periodo. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_5">
+                        <num>5.</num>
+                        <content>
+                            <p>Fatto salvo quanto previsto da specifiche disposizioni normative, le autorita' di garanzia e di vigilanza disciplinano, in conformita' ai propri ordinamenti, i termini di conclusione dei procedimenti di rispettiva competenza. (14) 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_6">
+                        <num>6.</num>
+                        <content>
+                            <p>I termini per la conclusione del procedimento decorrono dall'inizio del procedimento d'ufficio o dal ricevimento della domanda, se il procedimento e' ad iniziativa di parte. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_7">
+                        <num>7.</num>
+                        <content>
+                            <p>Fatto salvo quanto previsto dall'articolo 17, i termini di cui ai commi 2, 3, 4 e 5 del presente articolo possono essere sospesi, per una sola volta e per un periodo non superiore a trenta giorni, per l'acquisizione di informazioni o di certificazioni relative a fatti, stati o qualita' non attestati in documenti gia' in possesso dell'amministrazione stessa o non direttamente acquisibili presso altre pubbliche amministrazioni. Si applicano le disposizioni dell'articolo 14, comma 2. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_8">
+                        <num>8.</num>
+                        <content>
+                            <p>La tutela in materia di silenzio dell'amministrazione e' disciplinata dal <ref eId="content__ref_3" href="/akn/it/act/decretoLegislativo/stato/2010-07-02/104/!main">codice del processo amministrativo</ref>, di cui al <ref eId="content__ref_4" href="/akn/it/act/decretoLegislativo/stato/2010-07-02/104/!main">decreto legislativo 2 luglio 2010, n.104</ref>. Le sentenze passate in giudicato che accolgono il ricorso proposto avverso il silenzio inadempimento dell'amministrazione sono trasmesse, in via telematica, alla Corte dei conti. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_8-bis">
+                        <num>8-bis.</num>
+                        <content>
+                            <p>Le determinazioni relative ai provvedimenti, alle autorizzazioni, ai pareri, ai nulla osta e agli atti di assenso comunque denominati, adottate dopo la scadenza dei termini di cui agli articoli 14-bis, comma 2, lettera c), 17-bis, commi 1 e 3, 20, comma 1, ovvero successivamente all'ultima riunione di cui all'articolo 14-ter, comma 7, nonche' i provvedimenti di divieto di prosecuzione dell'attivita' e di rimozione degli eventuali effetti, di cui all'articolo 19, commi 3 e 6-bis, primo periodo, adottati dopo la scadenza dei termini ivi previsti, sono inefficaci, fermo restando quanto previsto dall'articolo 21-nonies, ove ne ricorrano i presupposti e le condizioni. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_9">
+                        <num>9.</num>
+                        <content>
+                            <p>La mancata o tardiva emanazione del provvedimento costituisce elemento di valutazione della performance individuale, nonche' di responsabilita' disciplinare e amministrativo-contabile del dirigente e del funzionario inadempiente. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_9-bis">
+                        <num>9-bis.</num>
+                        <content>
+                            <p>
+                                <ins eId="ins_2">((L'organo di governo individua un soggetto nell'ambito delle figure apicali dell'amministrazione o una unita' organizzativa cui attribuire il potere sostitutivo in caso di inerzia.))</ins> Nell'ipotesi di omessa individuazione il potere sostitutivo si considera attribuito al dirigente generale o, in mancanza, al dirigente preposto all'ufficio o in mancanza al funzionario di piu' elevato livello presente nell'amministrazione. Per ciascun procedimento, sul sito internet istituzionale dell'amministrazione e' pubblicata, in formato tabellare e con collegamento ben visibile nella homepage, l'indicazione del soggetto <ins eId="ins_3">((o dell'unita' organizzativa))</ins> a cui e' attribuito il potere sostitutivo e a cui l'interessato puo' rivolgersi ai sensi e per gli effetti del comma 9-ter. Tale soggetto, in caso di ritardo, comunica senza indugio il nominativo del responsabile, ai fini della valutazione dell'avvio del procedimento disciplinare, secondo le disposizioni del proprio ordinamento e dei contratti collettivi nazionali di lavoro, e, in caso di mancata ottemperanza alle disposizioni del presente comma, assume la sua medesima responsabilita' oltre a quella propria. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>((</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_9-ter">
+                        <num>9-ter.</num>
+                        <content>
+                            <p>Decorso inutilmente il termine per la conclusione del procedimento o quello superiore di cui al comma 7, il responsabile o l'unita' organizzativa di cui al comma 9-bis, d'ufficio o su richiesta dell'interessato, esercita il potere sostitutivo e, entro un termine pari alla meta' di quello originariamente previsto, conclude il procedimento attraverso le strutture competenti o con la nomina di un commissario.</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>))</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_9-quater">
+                        <num>9-quater.</num>
+                        <content>
+                            <p>Il responsabile individuato ai sensi del comma 9-bis, entro il 30 gennaio di ogni anno, comunica all'organo di governo, i procedimenti, suddivisi per tipologia e strutture amministrative competenti, nei quali non e' stato rispettato il termine di conclusione previsto dalla legge o dai regolamenti. Le Amministrazioni provvedono all'attuazione del presente comma, con le risorse umane, strumentali e finanziarie disponibili a legislazione vigente, senza nuovi o maggiori oneri a carico della finanza pubblica. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2__para_9-quinquies">
+                        <num>9-quinquies.</num>
+                        <content>
+                            <p>Nei provvedimenti rilasciati in ritardo su istanza di parte sono espressamente indicati il termine previsto dalla legge o dai regolamenti e quello effettivamente impiegato. 
+ 
+------------ 
+AGGIORAMENTO (14) 
+ La <ref eId="content__ref_5" href="/akn/it/act/legge/stato/2009-06-18/69/!main">L. 18 giugno 2009, n. 69</ref> ha disposto (con l'art. 7, comma 3)che: 
+ - "In sede di prima attuazione della presente legge, gli atti o i provvedimenti di cui ai <ref eId="content__ref_6" href="/akn/it/act/legge/stato/1990-08-07/241/!main#art_2-com3">commi 3</ref>, <ref eId="content__ref_7" href="/akn/it/act/legge/stato/1990-08-07/241/!main#art_2-com4">4</ref> e <ref eId="content__ref_8" href="/akn/it/act/legge/stato/1990-08-07/241/!main#art_2-com5">5 dell'articolo 2 della legge 7 agosto 1990, n. 241</ref>, [. . .] sono adottati entro un anno dalla data di entrata in vigore della presente legge"; 
+ - la disposizione di cui al comma 2 del presente articolo si applica dallo scadere del termine di un anno dalla data di entrata in vigore della suddetta <ref eId="content__ref_9" href="/akn/it/act/legge/stato/2009/69/!main">legge 69/2009</ref>. 
+ -le regioni e gli enti locali si adeguano ai termini di cui ai commi 3 e 4 del presente articolo 2 entro un anno dalla data di entrata in vigore della <ref eId="content__ref_10" href="/akn/it/act/legge/stato/2009/69/!main">L. 69/2009</ref>. 
+</p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_2-bis">
+                    <num>Art. 2-bis.</num>
+                    <heading>Conseguenze per il ritardo dell'amministrazione nella conclusione del procedimento).</heading>
+                    <paragraph eId="art_2-bis__para_1">
+                        <num>1.</num>
+                        <content>
+                            <p>Le pubbliche amministrazioni e i soggetti di cui all'articolo 1, comma 1-ter, sono tenuti al risarcimento del danno ingiusto cagionato in conseguenza dell'inosservanza dolosa o colposa del termine di conclusione del procedimento. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>((1-bis. Fatto salvo quanto previsto dal comma 1 e ad esclusione delle ipotesi di silenzio qualificato e dei concorsi pubblici, in caso di inosservanza del termine di conclusione del procedimento ad istanza di parte, per il quale sussiste l'obbligo di pronunziarsi, l'istante ha diritto di ottenere un indennizzo per il mero ritardo alle condizioni e con le modalita' stabilite dalla legge o, sulla base della legge, da un regolamento emanato ai sensi dell'<ref eId="content__ref_11" href="/akn/it/act/legge/stato/1988-08-23/400/!main#art_17-com2">articolo 17, comma 2, della legge 23 agosto 1988, n. 400</ref>. In tal caso le somme corrisposte o da corrispondere a titolo di indennizzo sono detratte dal risarcimento))</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>((29))</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2-bis__para_2">
+                        <num>2.</num>
+                        <content>
+                            <p>COMMA ABROGATO DAL <ref eId="content__ref_12" href="/akn/it/act/decretoLegislativo/stato/2010-07-02/104/!main">D.LGS. 2 LUGLIO 2010, N. 104</ref>. 
+ 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>---------------</p>
+                            <p>AGGIORNAMENTO (29)</p>
+                            <p>
+ Il <ref eId="13" href="/akn/it/act/decretoLegge/stato/2013-06-21/69/!main">D.L. 21 giugno 2013, n. 69</ref>, convertito con modificazioni dalla <ref eId="14" href="/akn/it/act/legge/stato/2013-08-09/98/!main">L. 9 agosto 2013, n. 98</ref> ha disposto (con l'art. 28, comma 10) che "Le disposizioni del presente articolo si applicano, in via sperimentale e dalla data di entrata in vigore della legge di conversione del presente decreto, ai procedimenti amministrativi relativi all'avvio e all'esercizio dell'attivita' di impresa iniziati successivamente alla medesima data di entrata in vigore. ". </p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_6">
+                    <num>Art. 6.</num>
+                    <heading>
+                        <ins eId="ins_11">(( (Compiti del responsabile del procedimento) ))</ins>
+                    </heading>
+                    <paragraph eId="art_6__para_1">
+                        <num>1.</num>
+                        <list>
+                            <intro eId="art_6__para_1__intro_1">
+                                <p>Il responsabile del procedimento: 
+ </p>
+                            </intro>
+                            <point eId="art_6__para_1.__point_a">
+                                <num>a)</num>
+                                <content>
+                                    <p>valuta, ai fini istruttori, le condizioni di ammissibilita' i requisiti di legittimazione ed i presupposti che siano rilevanti per l'emanazione del provvedimento; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_6__para_1.__point_b">
+                                <num>b)</num>
+                                <content>
+                                    <p>accerta di ufficio i fatti, disponendo il compimento degli atti all'uopo necessari, e adotta ogni misura per l'adeguato e sollecito svolgimento dell'istruttoria. In particolare, puo' chiedere il rilascio di dichiarazioni e la rettifica di dichiarazioni o istanze erronee o incomplete e puo' esperire accertamenti tecnici ed ispezioni ed ordinare esibizioni documentali; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_6__para_1.__point_c">
+                                <num>c)</num>
+                                <content>
+                                    <p>propone l'indizione o, avendone la competenza, indice le conferenze di servizi di cui all'articolo 14; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_6__para_1.__point_d">
+                                <num>d)</num>
+                                <content>
+                                    <p>cura le comunicazioni, le pubblicazioni e le notificazioni previste dalle leggi e dai regolamenti; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_6__para_1.__point_e">
+                                <num>e)</num>
+                                <content>
+                                    <p>adotta, ove ne abbia la competenza, il provvedimento finale, ovvero trasmette gli atti all'organo competente per l'adozione. <ins eId="ins_12">((L'organo competente per l'adozione del provvedimento finale, ove diverso dal responsabile del procedimento, non puo' discostarsi dalle risultanze dell'istruttoria condotta dal responsabile del procedimento se non indicandone la motivazione nel provvedimento finale))</ins>. 
+</p>
+                                </content>
+                            </point>
+                        </list>
+                    </paragraph>
+                </article><article eId="art_22">
+                    <num>Art. 22.</num>
+                    <heading> (Definizioni e principi in materia di accesso).</heading>
+                    <paragraph eId="art_22__para_1">
+                        <num>1.</num>
+                        <list>
+                            <intro eId="art_22__para_1__intro_1">
+                                <p>Ai fini del presente capo si intende: 
+ </p>
+                            </intro>
+                            <point eId="art_22__para_1.__point_a">
+                                <num>a)</num>
+                                <content>
+                                    <p>per "diritto di accesso", il diritto degli interessati di prendere visione e di estrarre copia di documenti amministrativi; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_22__para_1.__point_b">
+                                <num>b)</num>
+                                <content>
+                                    <p>per "interessati", tutti i soggetti privati, compresi quelli portatori di interessi pubblici o diffusi, che abbiano un interesse diretto, concreto e attuale, corrispondente ad una situazione giuridicamente tutelata e collegata al documento al quale e' chiesto l'accesso; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_22__para_1.__point_c">
+                                <num>c)</num>
+                                <content>
+                                    <p>per "controinteressati", tutti i soggetti, individuati o facilmente individuabili in base alla natura del documento richiesto, che dall'esercizio dell'accesso vedrebbero compromesso il loro diritto alla riservatezza; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_22__para_1.__point_d">
+                                <num>d)</num>
+                                <content>
+                                    <p>per "documento amministrativo", ogni rappresentazione grafica, fotocinematografica, elettromagnetica o di qualunque altra specie del contenuto di atti, anche interni o non relativi ad uno specifico procedimento, detenuti da una pubblica amministrazione e concernenti attivita' di pubblico interesse, indipendentemente dalla natura pubblicistica o privatistica della loro disciplina sostanziale; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_22__para_1.__point_e">
+                                <num>e)</num>
+                                <content>
+                                    <p>per "pubblica amministrazione", tutti i soggetti di diritto pubblico e i soggetti di diritto privato limitatamente alla loro attivita' di pubblico interesse disciplinata dal diritto nazionale o comunitario. 
+</p>
+                                </content>
+                            </point>
+                        </list>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>((2. L'accesso ai documenti amministrativi, attese le sue rilevanti finalita' di pubblico interesse, costituisce principio generale dell'attivita' amministrativa al fine di favorire la partecipazione e di assicurarne l'imparzialita' e la trasparenza))</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_22__para_3">
+                        <num>3.</num>
+                        <content>
+                            <p>Tutti i documenti amministrativi sono accessibili, ad eccezione di quelli indicati all'articolo 24, commi 1, 2, 3, 5 e 6. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_22__para_4">
+                        <num>4.</num>
+                        <content>
+                            <p>Non sono accessibili le informazioni in possesso di una pubblica amministrazione che non abbiano forma di documento amministrativo, salvo quanto previsto dal <ref eId="content__ref_87" href="/akn/it/act/decretoLegislativo/stato/2003-06-30/196/!main">decreto legislativo 30 giugno 2003, n. 196</ref>, in materia di accesso a dati personali da parte della persona cui i dati si riferiscono. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_22__para_5">
+                        <num>5.</num>
+                        <content>
+                            <p>L'acquisizione di documenti amministrativi da parte di soggetti pubblici, ove non rientrante nella previsione dell'<ref eId="content__ref_88" href="/akn/it/act/decretoDelPresidenteDellaRepubblica/stato/2000-12-28/445/!main#art_43-com2">articolo 43, comma 2, del testo unico delle disposizioni legislative e regolamentari in materia di documentazione amministrativa</ref>, di cui al <ref eId="content__ref_89" href="/akn/it/act/decretoDelPresidenteDellaRepubblica/stato/2000-12-28/445/!main">decreto del Presidente della Repubblica 28 dicembre 2000, n. 445</ref>, si informa al principio di leale cooperazione istituzionale. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_22__para_6">
+                        <num>6.</num>
+                        <content>
+                            <p>Il diritto di accesso e' esercitabile fino a quando la pubblica amministrazione ha l'obbligo di detenere i documenti amministrativi ai quali si chiede di accedere. 
+</p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_31">
+                    <num>Art. 31.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+                                <ins eId="ins_84">((ARTICOLO ABROGATO DALLA L. 11 FEBBRAIO 2005, N. 15))</ins>
+                            </p>
+                        </content>
+                    </paragraph>
+                </article></chapter></body>
+        <conclusions>
+            <formula name="formulaFinaleConclusioni">
+                <p>La presente legge, munita del sigillo dello Stato, sara' inserita nella Raccolta ufficiale degli atti normativi della Repubblica italiana. E' fatto obbligo a chiunque spetti di osservarla e di farla osservare come legge dello Stato. </p>
+            </formula>
+            <p> Data a Roma, addi' 7 agosto 1990 </p>
+            <p>COSSIGA ANDREOTTI, Presidente del Consiglio dei Ministri Visto, il Guardasigilli: VASSALLI</p>
+        </conclusions>
+    </act>
+</akomaNtoso>

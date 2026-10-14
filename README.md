@@ -111,6 +111,7 @@ tests/             unit + PostgreSQL integration tests
 | `se-riksdagen-sfs` | SE | 8 statutes in Swedish, current text: Regeringsformen, Brottsbalken, Avtalslagen, Ärvdabalken, LAS, Förvaltningslagen, 2018:218, Rättegångsbalken ([notes](docs/jurisdictions/se.md)) | Real, free reuse naming "Källa: Sveriges riksdag"; consolidations are not authentic |
 | `dk-retsinformation` | DK | 6 Acts in Danish (official consolidations): Straffeloven, Aftaleloven, Arveloven, Funktionærloven, Forvaltningsloven, Databeskyttelsesloven; earlier consolidations for two ([notes](docs/jurisdictions/dk.md)) | Real, free unrestricted use (Civilstyrelsen terms); Lovtidende is authentic |
 | `ie-irish-statute-book` | IE | 6 Acts as enacted (English): Unfair Dismissals 1977, Non-Fatal Offences 1997, Theft and Fraud 2001, Consumer Protection 2007, Companies 2014, Data Protection 2018 ([notes](docs/jurisdictions/ie.md)) | Real, Oireachtas (Open Data) PSI Licence; amendments not applied |
+| `it-normattiva` | IT | 6 instruments in Italian: Costituzione (27 versions), Codice civile, Codice penale, privacy code, Statuto dei lavoratori, L. 241/1990 ([notes](docs/jurisdictions/it.md)) | Real, Normattiva legal note (reproduction allowed naming the source; not authentic) |
 | `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
 
 Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO

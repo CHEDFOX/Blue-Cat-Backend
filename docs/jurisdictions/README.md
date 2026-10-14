@@ -22,3 +22,4 @@ gaps and the actual test and ingestion results. See
 | Sweden | Riksdagens öppna data (SFS) | [se.md](se.md) |
 | Denmark | Retsinformation | [dk.md](dk.md) |
 | Ireland | electronic Irish Statute Book | [ie.md](ie.md) |
+| Italy | Normattiva | [it.md](it.md) |

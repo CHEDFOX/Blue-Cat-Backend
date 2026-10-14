@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:eli="http://data.europa.eu/eli/ontology#" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:gu="http://www.gazzettaufficiale.it/eli/" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:na="http://www.normattiva.it/eli/" xmlns:nakn="http://normattiva.it/akn/vocabulary" xmlns:nrdfa="http://www.normattiva.it/rdfa/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfa="http://www.w3.org/1999/xhtml#">
+    <act name="monovigente">
+        <meta>
+            <identification source="">
+                <FRBRWork>
+                    <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/!main"/>
+                    <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196"/>
+                    <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2003-06-30;196"/>
+                    <FRBRalias name="eli" value="eli/id/2003/07/29/003G0218/CONSOLIDATED/20260220"/>
+                    <FRBRdate date="2003-06-30" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/2003/07/29/003G0218/CONSOLIDATED/20260220" aknrelname="eli/id/2003/07/29/003G0218/CONSOLIDATED/20260220">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalResource"/>
+                            <nrdfa:span content="Codice in materia di protezione dei dati personali ((, recante disposizioni per l'adeguamento dell'ordinamento nazionale al regolamento (UE) n. 2016/679 del Parlamento europeo e del Consiglio, del 27 aprile 2016, relativo alla protezione delle persone fisiche con riguardo al trattamento dei dati personali, nonche' alla libera circolazione di tali dati e che abroga la direttiva 95/46/CE)). " lang="it" property="eli:title" xml:lang="it"/>
+                            <nrdfa:span content="http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}" property="eli:uri_schema"/>
+                            <nrdfa:span content="003G0218" property="eli:id_local"/>
+                            <nrdfa:span property="eli:type_document" resource="gu:tables/resource-type#DECRETO LEGISLATIVO"/>
+                            <nrdfa:span content="2003-06-30" datatype="xsd:date" property="eli:date_document"/>
+                            <nrdfa:span property="eli:version" resource="gu:tables/versions#ORIGINAL"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRcountry value="it"/>
+                </FRBRWork>
+                <FRBRExpression>
+                    <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20/!main"/>
+                    <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20"/>
+                    <FRBRdate date="2026-02-20" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/2003/07/29/003G0218/CONSOLIDATED/20260220/ita">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalExpression"/>
+                            <nrdfa:span property="eli:realizes" resource="na:id/2003/07/29/003G0218/CONSOLIDATED/20260220"/>
+                            <nrdfa:span property="eli:is_embodied_by" resource="na:id/2003/07/29/003G0218/CONSOLIDATED/20260220/ita/akn"/>
+                            <nrdfa:span property="eli:language" resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                            <nrdfa:span property="eli:publisher_agent" resource="http://www.ipzs.it"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRlanguage language="ita"/>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20/!main.xml"/>
+                    <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20.xml"/>
+                    <FRBRdate date="2003-06-30" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/2003/07/29/003G0218/CONSOLIDATED/20260220/ita/akn">
+                            <nrdfa:span property="rdf:type" resource="eli:Format"/>
+                            <nrdfa:span property="eli:format" resource="http://www.iana.org/assignments/media-types/xml"/>
+                        </nrdfa:eli>
+                    </preservation>
+                </FRBRManifestation>
+            </identification>
+            <publication date="2003-07-29" name="" number="174" showAs=""/>
+            <lifecycle source="">
+                <eventRef date="2003-07-29" eId="eventRef_0" source="ro1"/>
+                <eventRef date="2003-12-29" eId="eventRef_1" source="rp1"/>
+                <eventRef date="2004-02-24" eId="eventRef_2" source="rp2"/>
+                <eventRef date="2004-03-31" eId="eventRef_3" source="rp3"/>
+                <eventRef date="2004-06-25" eId="eventRef_4" source="rp4"/>
+                <eventRef date="2004-11-10" eId="eventRef_5" source="rp5"/>
+                <eventRef date="2004-12-31" eId="eventRef_6" source="rp6"/>
+                <eventRef date="2005-01-29" eId="eventRef_7" source="rp7"/>
+                <eventRef date="2005-07-27" eId="eventRef_8" source="rp8"/>
+                <eventRef date="2005-10-13" eId="eventRef_9" source="rp9"/>
+                <eventRef date="2005-11-30" eId="eventRef_10" source="rp10"/>
+                <eventRef date="2005-12-30" eId="eventRef_11" source="rp11"/>
+                <eventRef date="2006-05-13" eId="eventRef_12" source="rp12"/>
+                <eventRef date="2006-12-28" eId="eventRef_13" source="rp13"/>
+                <eventRef date="2007-12-31" eId="eventRef_14" source="rp14"/>
+                <eventRef date="2008-04-04" eId="eventRef_15" source="rp15"/>
+                <eventRef date="2008-06-18" eId="eventRef_16" source="rp16"/>
+                <eventRef date="2008-06-25" eId="eventRef_17" source="rp17"/>
+                <eventRef date="2008-10-02" eId="eventRef_18" source="rp18"/>
+                <eventRef date="2008-12-24" eId="eventRef_19" source="rp19"/>
+                <eventRef date="2008-12-31" eId="eventRef_20" source="rp20"/>
+                <eventRef date="2009-03-05" eId="eventRef_21" source="rp21"/>
+                <eventRef date="2009-09-25" eId="eventRef_22" source="rp22"/>
+                <eventRef date="2010-07-29" eId="eventRef_23" source="rp23"/>
+                <eventRef date="2010-11-09" eId="eventRef_24" source="rp24"/>
+                <eventRef date="2011-05-13" eId="eventRef_25" source="rp25"/>
+                <eventRef date="2011-09-21" eId="eventRef_26" source="rp26"/>
+                <eventRef date="2011-12-06" eId="eventRef_27" source="rp27"/>
+                <eventRef date="2012-02-09" eId="eventRef_28" source="rp28"/>
+                <eventRef date="2012-05-31" eId="eventRef_29" source="rp29"/>
+                <eventRef date="2013-04-05" eId="eventRef_30" source="rp30"/>
+                <eventRef date="2013-12-27" eId="eventRef_31" source="rp31"/>
+                <eventRef date="2014-10-06" eId="eventRef_32" source="rp32"/>
+                <eventRef date="2015-02-19" eId="eventRef_33" source="rp33"/>
+                <eventRef date="2015-09-23" eId="eventRef_34" source="rp34"/>
+                <eventRef date="2015-11-02" eId="eventRef_35" source="rp35"/>
+                <eventRef date="2015-12-30" eId="eventRef_36" source="rp36"/>
+                <eventRef date="2017-11-27" eId="eventRef_37" source="rp37"/>
+                <eventRef date="2018-05-24" eId="eventRef_38" source="rp38"/>
+                <eventRef date="2018-09-04" eId="eventRef_39" source="rp39"/>
+                <eventRef date="2018-09-27" eId="eventRef_40" source="rp40"/>
+                <eventRef date="2019-02-11" eId="eventRef_41" source="rp41"/>
+                <eventRef date="2019-03-25" eId="eventRef_42" source="rp42"/>
+                <eventRef date="2019-03-26" eId="eventRef_43" source="rp43"/>
+                <eventRef date="2019-06-14" eId="eventRef_44" source="rp44"/>
+                <eventRef date="2019-12-30" eId="eventRef_45" source="rp45"/>
+                <eventRef date="2021-09-30" eId="eventRef_46" source="rp46"/>
+                <eventRef date="2021-10-08" eId="eventRef_47" source="rp47"/>
+                <eventRef date="2021-11-29" eId="eventRef_48" source="rp48"/>
+                <eventRef date="2021-12-07" eId="eventRef_49" source="rp49"/>
+                <eventRef date="2023-03-15" eId="eventRef_50" source="rp50"/>
+                <eventRef date="2024-03-02" eId="eventRef_51" source="rp51"/>
+                <eventRef date="2024-04-30" eId="eventRef_52" source="rp52"/>
+                <eventRef date="2025-12-03" eId="eventRef_53" source="rp53"/>
+                <eventRef date="2026-01-15" eId="eventRef_54" source="rp54"/>
+                <eventRef date="2026-02-19" eId="eventRef_55" source="rp55"/>
+            </lifecycle>
+            
+            <references source="">
+                <original eId="ro1" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2003-06-30/196/!main" showAs=""/>
+                <passiveRef eId="rp1" href="/akn/it/act/DECRETO-LEGGE/stato/2003-12-24/354/!main" showAs=""/>
+                <passiveRef eId="rp2" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2004-01-22/42/!main" showAs=""/>
+                <passiveRef eId="rp3" href="/akn/it/act/DECRETO-LEGGE/stato/2004-03-29/81/!main" showAs=""/>
+                <passiveRef eId="rp4" href="/akn/it/act/DECRETO-LEGGE/stato/2004-06-24/158/!main" showAs=""/>
+                <passiveRef eId="rp5" href="/akn/it/act/DECRETO-LEGGE/stato/2004-11-09/266/!main" showAs=""/>
+                <passiveRef eId="rp6" href="/akn/it/act/DECRETO-LEGGE/stato/2004-12-30/314/!main" showAs=""/>
+                <passiveRef eId="rp7" href="" showAs=""/>
+                <passiveRef eId="rp8" href="/akn/it/act/DECRETO-LEGGE/stato/2005-07-27/144/!main" showAs=""/>
+                <passiveRef eId="rp9" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2005-09-07/209/!main" showAs=""/>
+                <passiveRef eId="rp10" href="/akn/it/act/DECRETO-LEGGE/stato/2005-11-30/245/!main" showAs=""/>
+                <passiveRef eId="rp11" href="/akn/it/act/DECRETO-LEGGE/stato/2005-12-30/273/!main" showAs=""/>
+                <passiveRef eId="rp12" href="/akn/it/act/DECRETO-LEGGE/stato/2006-05-12/173/!main" showAs=""/>
+                <passiveRef eId="rp13" href="/akn/it/act/DECRETO-LEGGE/stato/2006-12-28/300/!main" showAs=""/>
+                <passiveRef eId="rp14" href="/akn/it/act/DECRETO-LEGGE/stato/2007-12-31/248/!main" showAs=""/>
+                <passiveRef eId="rp15" href="/akn/it/act/LEGGE/stato/2008-03-18/48/!main" showAs=""/>
+                <passiveRef eId="rp16" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2008-05-30/109/!main" showAs=""/>
+                <passiveRef eId="rp17" href="/akn/it/act/DECRETO-LEGGE/stato/2008-06-25/112/!main" showAs=""/>
+                <passiveRef eId="rp18" href="/akn/it/act/DECRETO-LEGGE/stato/2008-10-02/151/!main" showAs=""/>
+                <passiveRef eId="rp19" href="" showAs=""/>
+                <passiveRef eId="rp20" href="/akn/it/act/DECRETO-LEGGE/stato/2008-12-30/207/!main" showAs=""/>
+                <passiveRef eId="rp21" href="/akn/it/act/LEGGE/stato/2009-03-04/15/!main" showAs=""/>
+                <passiveRef eId="rp22" href="/akn/it/act/DECRETO-LEGGE/stato/2009-09-25/135/!main" showAs=""/>
+                <passiveRef eId="rp23" href="/akn/it/act/LEGGE/stato/2010-07-29/120/!main" showAs=""/>
+                <passiveRef eId="rp24" href="/akn/it/act/LEGGE/stato/2010-11-04/183/!main" showAs=""/>
+                <passiveRef eId="rp25" href="/akn/it/act/DECRETO-LEGGE/stato/2011-05-13/70/!main" showAs=""/>
+                <passiveRef eId="rp26" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2011-09-01/150/!main" showAs=""/>
+                <passiveRef eId="rp27" href="/akn/it/act/DECRETO-LEGGE/stato/2011-12-06/201/!main" showAs=""/>
+                <passiveRef eId="rp28" href="/akn/it/act/DECRETO-LEGGE/stato/2012-02-09/5/!main" showAs=""/>
+                <passiveRef eId="rp29" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2012-05-28/69/!main" showAs=""/>
+                <passiveRef eId="rp30" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2013-03-14/33/!main" showAs=""/>
+                <passiveRef eId="rp31" href="/akn/it/act/LEGGE/stato/2013-12-27/147/!main" showAs=""/>
+                <passiveRef eId="rp32" href="" showAs=""/>
+                <passiveRef eId="rp33" href="/akn/it/act/DECRETO-LEGGE/stato/2015-02-18/7/!main" showAs=""/>
+                <passiveRef eId="rp34" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2015-09-14/151/!main" showAs=""/>
+                <passiveRef eId="rp35" href="" showAs=""/>
+                <passiveRef eId="rp36" href="/akn/it/act/DECRETO-LEGGE/stato/2015-12-30/210/!main" showAs=""/>
+                <passiveRef eId="rp37" href="/akn/it/act/LEGGE/stato/2017-11-20/167/!main" showAs=""/>
+                <passiveRef eId="rp38" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2018-05-18/51/!main" showAs=""/>
+                <passiveRef eId="rp39" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2018-08-10/101/!main" showAs=""/>
+                <passiveRef eId="rp40" href="" showAs=""/>
+                <passiveRef eId="rp41" href="" showAs=""/>
+                <passiveRef eId="rp42" href="" showAs=""/>
+                <passiveRef eId="rp43" href="" showAs=""/>
+                <passiveRef eId="rp44" href="/akn/it/act/DECRETO-LEGGE/stato/2019-06-14/53/!main" showAs=""/>
+                <passiveRef eId="rp45" href="/akn/it/act/LEGGE/stato/2019-12-27/160/!main" showAs=""/>
+                <passiveRef eId="rp46" href="/akn/it/act/DECRETO-LEGGE/stato/2021-09-30/132/!main" showAs=""/>
+                <passiveRef eId="rp47" href="/akn/it/act/DECRETO-LEGGE/stato/2021-10-08/139/!main" showAs=""/>
+                <passiveRef eId="rp48" href="/akn/it/act/LEGGE/stato/2021-11-23/178/!main" showAs=""/>
+                <passiveRef eId="rp49" href="/akn/it/act/LEGGE/stato/2021-12-03/205/!main" showAs=""/>
+                <passiveRef eId="rp50" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2023-03-10/24/!main" showAs=""/>
+                <passiveRef eId="rp51" href="/akn/it/act/DECRETO-LEGGE/stato/2024-03-02/19/!main" showAs=""/>
+                <passiveRef eId="rp52" href="/akn/it/act/LEGGE/stato/2024-04-29/56/!main" showAs=""/>
+                <passiveRef eId="rp53" href="/akn/it/act/LEGGE/stato/2025-12-02/182/!main" showAs=""/>
+                <passiveRef eId="rp54" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2025-12-30/215/!main" showAs=""/>
+                <passiveRef eId="rp55" href="/akn/it/act/DECRETO-LEGGE/stato/2026-02-19/19/!main" showAs=""/>
+            </references>
+            <proprietary source="">
+                <rdf:RDF>
+                    <rdf:Description rdf:about="na:id/2003/07/29/003G0218/CONSOLIDATED/20260220">
+                        <rdf:type rdf:resource="eli:LegalResource"/>
+                        <eli:title xml:lang="it">Codice in materia di protezione dei dati personali ((, recante disposizioni per l'adeguamento dell'ordinamento nazionale al regolamento (UE) n. 2016/679 del Parlamento europeo e del Consiglio, del 27 aprile 2016, relativo alla protezione delle persone fisiche con riguardo al trattamento dei dati personali, nonche' alla libera circolazione di tali dati e che abroga la direttiva 95/46/CE)). </eli:title>
+                        <eli:uri_schema>http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}</eli:uri_schema>
+                        <eli:id_local>003G0218</eli:id_local>
+                        <eli:type_document rdf:resource="gu:tables/resource-type#DECRETO LEGISLATIVO"/>
+                        <eli:date_document rdf:datatype="xsd:date">2003-06-30</eli:date_document>
+                        <eli:version rdf:resource="gu:tables/versions#ORIGINAL"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/2003/07/29/003G0218/CONSOLIDATED/20260220/ita">
+                        <rdf:type rdf:resource="eli:LegalExpression"/>
+                        <eli:realizes rdf:resource="na:id/2003/07/29/003G0218/CONSOLIDATED/20260220"/>
+                        <eli:is_embodied_by rdf:resource="na:id/2003/07/29/003G0218/CONSOLIDATED/20260220/ita/akn"/>
+                        <eli:language rdf:resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                        <eli:publisher_agent rdf:resource="http://www.ipzs.it"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/2003/07/29/003G0218/CONSOLIDATED/20260220/ita/akn">
+                        <rdf:type rdf:resource="eli:format"/>
+                        <eli:format rdf:resource="http://www.iana.org/assignments/media-types/xml"/>
+                    </rdf:Description>
+                </rdf:RDF>
+            </proprietary>
+        </meta>
+        <preface>
+            <p>
+                <docType>DECRETO LEGISLATIVO</docType>
+                <docDate date="2003-06-30">30 giugno 2003</docDate>
+                <docNumber>196</docNumber>
+                <docTitle>Codice in materia di protezione dei dati personali ((, recante disposizioni per l'adeguamento dell'ordinamento nazionale al regolamento (UE) n. 2016/679 del Parlamento europeo e del Consiglio, del 27 aprile 2016, relativo alla protezione delle persone fisiche con riguardo al trattamento dei dati personali, nonche' alla libera circolazione di tali dati e che abroga la direttiva 95/46/CE)).
+</docTitle>
+            </p>
+            <p>
+                <authorialNote eId="atn1" placement="bottom">
+                    <p>Entrata in vigore del decreto: 1-1-2004, ad eccezione delle disposizioni di cui agli artt. 156, 176, commi 3, 4 ,5 e 6, e 182 che entrano in vigore il 30/7/2003; dalla medesima data si osservano altresì i termini in materia di ricorsi di cui agli artt. 149, comma 8, e 150, comma 2.</p>
+                </authorialNote>
+            </p>
+        </preface>
+        <preamble>
+            <formula name="formulaInizialePreambolo">
+                <p>IL PRESIDENTE DELLA REPUBBLICA</p>
+            </formula>
+            <citations eId="cits_1">
+                <citation eId="cits_1__cit_1">
+                    <p>VISTI gli <ref eId="ref_1" href="/akn/it/act/costituzione/stato/1947-12-27/const/!main#art_76">articoli 76</ref> e <ref eId="ref_2" href="/akn/it/act/costituzione/stato/1947-12-27/const/!main#art_87">87 della Costituzione</ref>;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_2">
+                <citation eId="cits_2__cit_1">
+                    <p>VISTO l'<ref eId="ref_3" href="/akn/it/act/legge/stato/2001-03-24/127/!main#art_1">articolo 1 della legge 24 marzo 2001, n. 127</ref>, recante delega a Governo per l'emanazione di un testo unico in materia di trattamento dei dati personali;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_3">
+                <citation eId="cits_3__cit_1">
+                    <p>VISTO l'<ref eId="ref_4" href="/akn/it/act/legge/stato/2003-02-03/14/!main#art_26">articolo 26 della legge 3 febbraio 2003, n 14</ref>, recante disposizioni per l'adempimento di obblighi derivanti dall'appartenenza dell'Italia alle Comunita' europee (legge comunitaria 2002);</p>
+                </citation>
+            </citations>
+            <p>((Vista la <ref eId="ref_5" href="/akn/it/act/legge/stato/2017-10-25/163/!main">legge 25 ottobre 2017, n. 163</ref>, recante delega al Governo per il recepimento delle direttive europee e l'attuazione di altri atti dell'Unione europea - Legge di delegazione europea 2016-2017» e, in particolare, l'articolo 13, che delega il Governo all'emanazione di uno o piu' decreti legislativi di adeguamento del quadro normativo nazionale alle disposizioni del Regolamento (UE) 2016/679 del Parlamento europeo e del Consiglio, del 27 aprile 2016;</p>
+            <citations eId="cits_4">
+                <citation eId="cits_4__cit_1">
+                    <p>Vista la <ref eId="ref_6" href="/akn/it/act/legge/stato/2012-12-24/234/!main">legge 24 dicembre 2012, n. 234</ref>, recante norme generali sulla partecipazione dell'Italia alla formazione e all'attuazione della normativa e delle politiche dell'Unione europea;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_5">
+                <citation eId="cits_5__cit_1">
+                    <p>Visto il Regolamento (UE) 2016/679 del Parlamento europeo e del Consiglio, del 27 aprile 2016, relativo alla protezione delle persone fisiche con riguardo al trattamento dei dati personali, nonche' alla libera circolazione di tali dati e che abroga la <ref eId="ref_7" href="/akn/it/act/direttivaUe/eu/1995/46/!main">direttiva 95/46/CE (regolamento</ref> generale sulla protezione dei dati);))</p>
+                </citation>
+            </citations>
+            <citations eId="cits_6">
+                <citation eId="cits_6__cit_1">
+                    <p>VISTA la <ref eId="ref_8" href="/akn/it/act/legge/stato/1996-12-31/675/!main">legge 31 dicembre 1996, n. 675</ref>, e successive modificazioni;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_7">
+                <citation eId="cits_7__cit_1">
+                    <p>VISTA la <ref eId="ref_9" href="/akn/it/act/legge/stato/1996-12-31/676/!main">legge 31 dicembre 1996, n. 676</ref>, recante delega al Governo in materia di tutela delle persone e di altri soggetti rispetto al trattamento dei dati personali;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_8">
+                <citation eId="cits_8__cit_1">
+                    <p>VISTA la <ref eId="ref_10" href="/akn/it/act/direttivaUe/eu/1995/46/!main">direttiva 95/46/CE del Parlamento europeo e del Consiglio, del 24 ottobre 1995</ref>, relativa alla tutela delle persone fisiche con riguardo al trattamento dei dati personali, nonche' alla libera circolazione dei dati;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_9">
+                <citation eId="cits_9__cit_1">
+                    <p>VISTA la <ref eId="ref_11" href="/akn/it/act/direttivaUe/eu/2002/58/!main">direttiva 2002/58/CE del Parlamento europeo e del Consiglio, del 12 luglio 2002</ref>, relativa al trattamento dei dati personali e alla tutela della sita privata nel settore delle comunicazioni elettroniche;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_10">
+                <citation eId="cits_10__cit_1">
+                    <p>VISTA la preliminare deliberazione del Consiglio dei ministri, adottata nella riunione del 9 maggio 2003;</p>
+                </citation>
+            </citations>
+            <p>SENTITO il Garante per la protezione dei dati personali;</p>
+            <p>ACQUISITO il parere delle competenti Commissioni parlamentari della Camera dei deputati e del Senato della Repubblica;</p>
+            <citations eId="cits_11">
+                <citation eId="cits_11__cit_1">
+                    <p>VISTA la deliberazione del Consiglio dei Ministri, adottata nella riunione del 27 giugno 2003;</p>
+                </citation>
+            </citations>
+            <formula name="formulaFinalePreambolo">
+                <p>SULLA PROPOSTA del Presidente del Consiglio dei Ministri, del Ministro per la funzione pubblica e del Ministro per le politiche comunitarie, di concerto con i Ministri della giustizia, dell'economia e delle finanze, degli affari esteri e delle comunicazioni; EMANA il seguente decreto legislativo:</p>
+            </formula>
+        </preamble>
+        <body><chapter eId="chp_I">
+                <num>PARTE I</num>
+                <heading>DISPOSIZIONI GENERALI - - TITOLO I (( PRINCIPI E DISPOSIZIONI GENERALI CAPO I (OGGETTO, FINALITA' E AUTORITA' DI CONTROLLO) ))</heading>
+                <article eId="art_1">
+                    <num>Art. 1.</num>
+                    <heading>
+                        <ins eId="ins_1">(( (Oggetto). ))</ins>
+                    </heading>
+                    <paragraph>
+                        <content>
+                            <p>
+                                <ins eId="ins_2">((Il trattamento dei dati personali avviene secondo le norme del regolamento (UE) 2016/679 del Parlamento europeo e del Consiglio, del 27 aprile 2016, di seguito «Regolamento», e del presente codice, nel rispetto della dignita' umana, dei diritti e delle liberta' fondamentali della persona.))</ins>
+                            </p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_2-sexies">
+                    <num>Art. 2-sexies.</num>
+                    <heading>(Trattamento di categorie particolari di dati personali necessario per motivi di interesse pubblico rilevante)</heading>
+                    <paragraph eId="art_2-sexies__para_1">
+                        <num>1.</num>
+                        <content>
+                            <p>I trattamenti delle categorie particolari di dati personali di cui all'articolo 9, paragrafo 1, del Regolamento, necessari per motivi di interesse pubblico rilevante ai sensi del paragrafo 2, lettera g), del medesimo articolo, sono ammessi qualora siano previsti dal diritto dell'Unione europea ovvero, nell'ordinamento interno, da disposizioni di legge o di regolamento o da atti amministrativi generali che specifichino i tipi di dati che possono essere trattati, le operazioni eseguibili e il motivo di interesse pubblico rilevante, nonche' le misure appropriate e specifiche per tutelare i diritti fondamentali e gli interessi dell'interessato. (49) 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2-sexies__para_1-bis">
+                        <num>1-bis.</num>
+                        <content>
+                            <p>I dati personali relativi alla salute, <ins eId="ins_19">((pseudonimizzati))</ins> , sono trattati, anche mediante interconnessione, dal Ministero della salute, dall'Istituto superiore di sanita' (ISS), dall'Agenzia nazionale per i servizi sanitari regionali (AGENAS), dall'Agenzia italiana del farmaco (AIFA), dall'Istituto nazionale per la promozione della salute delle popolazioni migranti e per il contrasto delle malattie della poverta' (INMP), nonche', relativamente ai propri assistiti, dalle regioni e dalle province autonome, nel rispetto delle finalita' istituzionali di ciascuno, secondo le modalita' individuate con decreto del Ministro della salute, adottato ai sensi del comma 1 previo parere del Garante per la protezione dei dati personali. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2-sexies__para_1-ter">
+                        <num>1-ter.</num>
+                        <content>
+                            <p>Il Ministero della salute disciplina, con uno o piu' decreti adottati ai sensi del comma 1, l'interconnessione a livello nazionale dei sistemi informativi su base individuale, <ins eId="ins_20">((pseudonomizzati))</ins> , ivi incluso il fascicolo sanitario elettronico (FSE), compresi quelli gestiti dai soggetti di cui al comma 1-bis o da altre pubbliche amministrazioni che a tal fine adeguano i propri sistemi informativi.
+I decreti di cui al primo periodo adottati, previo parere del Garante per la protezione dei dati personali, nel rispetto del Regolamento, del presente codice, <ins eId="ins_21">((del codice))</ins> dell'amministrazione digitale di cui al <ref eId="content__ref_18" href="/akn/it/act/decretoLegislativo/stato/2005-03-07/82/!main">decreto legislativo 7 marzo 2005, n. 82</ref>, e delle linee guida emanate dall'Agenzia per l'Italia digitale in materia di interoperabilita', definiscono le caratteristiche e disciplinano un ambiente di trattamento sicuro all'interno del quale vengono messi a disposizione dati anonimi o pseudonimizzati, per le finalita' istituzionali di ciascuno, secondo le modalita' individuate al comma 1. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_2-sexies__para_2">
+                        <num>2.</num>
+                        <list>
+                            <intro eId="art_2-sexies__para_2__intro_1">
+                                <p>Fermo quanto previsto dal comma 1, si considera rilevante l'interesse pubblico relativo a trattamenti effettuati da soggetti che svolgono compiti di interesse pubblico o connessi all'esercizio di pubblici poteri nelle seguenti materie: 
+ </p>
+                            </intro>
+                            <point eId="art_2-sexies__para_2.__point_a">
+                                <num>a)</num>
+                                <content>
+                                    <p>accesso a documenti amministrativi e accesso civico; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_b">
+                                <num>b)</num>
+                                <content>
+                                    <p>tenuta degli atti e dei registri dello stato civile, delle anagrafi della popolazione residente in Italia e dei cittadini italiani residenti all'estero, e delle liste elettorali, nonche' rilascio di documenti di riconoscimento o di viaggio o cambiamento delle generalita'; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_c">
+                                <num>c)</num>
+                                <content>
+                                    <p>tenuta di registri pubblici relativi a beni immobili o mobili; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_d">
+                                <num>d)</num>
+                                <content>
+                                    <p>tenuta dell'anagrafe nazionale degli abilitati alla guida e dell'archivio nazionale dei veicoli; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_e">
+                                <num>e)</num>
+                                <content>
+                                    <p>cittadinanza, immigrazione, asilo, condizione dello straniero e del profugo, stato di rifugiato; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_f">
+                                <num>f)</num>
+                                <content>
+                                    <p>elettorato attivo e passivo ed esercizio di altri diritti politici, protezione diplomatica e consolare, nonche' documentazione delle attivita' istituzionali di organi pubblici, con particolare riguardo alla redazione di verbali e resoconti dell'attivita' di assemblee rappresentative, commissioni e di altri organi collegiali o assembleari; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_g">
+                                <num>g)</num>
+                                <content>
+                                    <p>esercizio del mandato degli organi rappresentativi, ivi compresa la loro sospensione o il loro scioglimento, nonche' l'accertamento delle cause di ineleggibilita', incompatibilita' o di decadenza, ovvero di rimozione o sospensione da cariche pubbliche; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_h">
+                                <num>h)</num>
+                                <content>
+                                    <p>svolgimento delle funzioni di controllo, indirizzo politico, inchiesta parlamentare o sindacato ispettivo e l'accesso a documenti riconosciuto dalla legge e dai regolamenti degli organi interessati per esclusive finalita' direttamente connesse all'espletamento di un mandato elettivo; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_i">
+                                <num>i)</num>
+                                <content>
+                                    <p>attivita' dei soggetti pubblici dirette all'applicazione, anche tramite i loro concessionari, delle disposizioni in materia tributaria e doganale, comprese quelle di prevenzione e contrasto all'evasione fiscale; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_l">
+                                <num>l)</num>
+                                <content>
+                                    <p>attivita' di controllo e ispettive; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_m">
+                                <num>m)</num>
+                                <content>
+                                    <p>concessione, liquidazione, modifica e revoca di benefici economici, agevolazioni, elargizioni, altri emolumenti e abilitazioni; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_n">
+                                <num>n)</num>
+                                <content>
+                                    <p>conferimento di onorificenze e ricompense, riconoscimento della personalita' giuridica di associazioni, fondazioni ed enti, anche di culto, accertamento dei requisiti di onorabilita' e di professionalita' per le nomine, per i profili di competenza del soggetto pubblico, ad uffici anche di culto e a cariche direttive di persone giuridiche, imprese e di istituzioni scolastiche non statali, nonche' rilascio e revoca di autorizzazioni o abilitazioni, concessione di patrocini, patronati e premi di rappresentanza, adesione a comitati d'onore e ammissione a cerimonie ed incontri istituzionali; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_o">
+                                <num>o)</num>
+                                <content>
+                                    <p>rapporti tra i soggetti pubblici e gli enti del terzo settore; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_p">
+                                <num>p)</num>
+                                <content>
+                                    <p>obiezione di coscienza; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_q">
+                                <num>q)</num>
+                                <content>
+                                    <p>attivita' sanzionatorie e di tutela in sede amministrativa o giudiziaria; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_r">
+                                <num>r)</num>
+                                <content>
+                                    <p>rapporti istituzionali con enti di culto, confessioni religiose e comunita' religiose; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_s">
+                                <num>s)</num>
+                                <content>
+                                    <p>attivita' socio-assistenziali a tutela dei minori e soggetti bisognosi, non autosufficienti e incapaci; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_t">
+                                <num>t)</num>
+                                <content>
+                                    <p>attivita' amministrative e certificatorie correlate a quelle di diagnosi, assistenza o terapia sanitaria o sociale, ivi incluse quelle correlate ai trapianti d'organo e di tessuti nonche' alle trasfusioni di sangue umano; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_u">
+                                <num>u)</num>
+                                <content>
+                                    <p>compiti del servizio sanitario nazionale e dei soggetti operanti in ambito sanitario, nonche' compiti di igiene e sicurezza sui luoghi di lavoro e sicurezza e salute della popolazione, protezione civile, salvaguardia della vita e incolumita' fisica; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_v">
+                                <num>v)</num>
+                                <content>
+                                    <p>programmazione, gestione, controllo e valutazione dell'assistenza sanitaria, ivi incluse l'instaurazione, la gestione, la pianificazione e il controllo dei rapporti tra l'amministrazione ed i soggetti accreditati o convenzionati con il servizio sanitario nazionale; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_z">
+                                <num>z)</num>
+                                <content>
+                                    <p>vigilanza sulle sperimentazioni, farmacovigilanza, autorizzazione all'immissione in commercio e all'importazione di medicinali e di altri prodotti di rilevanza sanitaria; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_aa">
+                                <num>aa)</num>
+                                <content>
+                                    <p>tutela sociale della maternita' ed interruzione volontaria della gravidanza, dipendenze, assistenza, integrazione sociale e diritti dei disabili; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_bb">
+                                <num>bb)</num>
+                                <content>
+                                    <p>istruzione e formazione in ambito scolastico, professionale, superiore o universitario; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_cc">
+                                <num>cc)</num>
+                                <content>
+                                    <p>trattamenti effettuati a fini di archiviazione nel pubblico interesse o di ricerca storica, concernenti la conservazione, l'ordinamento e la comunicazione dei documenti detenuti negli archivi di Stato negli archivi storici degli enti pubblici, o in archivi privati dichiarati di interesse storico particolarmente importante, per fini di ricerca scientifica, nonche' per fini statistici da parte di soggetti che fanno parte del sistema statistico nazionale (Sistan); 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_2-sexies__para_2.__point_dd">
+                                <num>dd)</num>
+                                <content>
+                                    <p>instaurazione, gestione ed estinzione, di rapporti di lavoro di qualunque tipo, anche non retribuito o onorario, e di altre forme di impiego, materia sindacale, occupazione e collocamento obbligatorio, previdenza e assistenza, tutela delle minoranze e pari opportunita' nell'ambito dei rapporti di lavoro, adempimento degli obblighi retributivi, fiscali e contabili, igiene e sicurezza del lavoro o di sicurezza o salute della popolazione, accertamento della responsabilita' civile, disciplinare e contabile, attivita' ispettiva. 
+</p>
+                                </content>
+                            </point>
+                        </list>
+                    </paragraph>
+                    <paragraph eId="art_2-sexies__para_3">
+                        <num>3.</num>
+                        <content>
+                            <p>Per i dati genetici, biometrici e relativi alla salute il trattamento avviene comunque nel rispetto di quanto previsto dall'articolo 2-septies. 
+ 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>-------------</p>
+                            <p>AGGIORNAMENTO (49)</p>
+                            <p>
+ Il <ref eId="19" href="/akn/it/act/decretoLegge/stato/2021-10-08/139/!main">D.L. 8 ottobre 2021, n. 139</ref>, convertito con modificazioni dalla <ref eId="20" href="/akn/it/act/legge/stato/2021-12-03/205/!main">L. 3 dicembre 2021, n. 205</ref>, ha disposto (con l'art. 9, comma 5) che "Gli articoli 2-ter, comma 1, 2-sexies, comma 1, e 58, commi 1 e 2, del codice di cui al <ref eId="21" href="/akn/it/act/decretoLegislativo/stato/2003/196/!main">decreto legislativo n. 196 del 2003</ref> [...], come modificati dal presente articolo, si applicano anche ai casi in cui disposizioni di legge gia' in vigore stabiliscono che i tipi di dati che possono essere trattati, le operazioni eseguibili, il motivo di interesse pubblico rilevante, la finalita' del trattamento nonche' le misure appropriate e specifiche per tutelare i diritti fondamentali dell'interessato e i suoi interessi sono previsti da uno o piu' regolamenti". </p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_2-quindecies">
+                    <num>Art. 2-quindecies.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p> Art. 2-quinquiesdecies 
+ 
+<ins eId="ins_41">((ARTICOLO ABROGATO DAL D.L. 8 OTTOBRE 2021, N. 139, CONVERTITO CON MODIFICAZIONI DALLA L. 3 DICEMBRE 2021, N. 205))</ins>
+                            </p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_4">
+                    <num>Art. 4.</num>
+                    <heading/>
+                    <paragraph>
+                        <content>
+                            <p>
+                                <ins eId="ins_47">((ARTICOLO ABROGATO DAL D.LGS. 10 AGOSTO 2018, N. 101))</ins>
+                            </p>
+                        </content>
+                    </paragraph>
+                </article><article eId="art_167">
+                    <num>Art. 167.</num>
+                    <heading>(Trattamento illecito di dati)</heading>
+                    <paragraph eId="art_167__para_1">
+                        <num>1.</num>
+                        <content>
+                            <p>Salvo che il fatto costituisca piu' grave reato, chiunque, al fine di trarre per se' o per altri profitto ovvero di arrecare danno all'interessato, operando in violazione di quanto disposto dagli articoli 123, 126 e 130 o dal provvedimento di cui all'articolo 129 arreca nocumento all'interessato, e' punito con la reclusione da sei mesi a un anno e sei mesi. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_167__para_2">
+                        <num>2.</num>
+                        <content>
+                            <p>Salvo che il fatto costituisca piu' grave reato, chiunque, al fine di trarre per se' o per altri profitto ovvero di arrecare danno all'interessato, procedendo al trattamento dei dati personali di cui agli articoli 9 e 10 del Regolamento in violazione delle disposizioni di cui agli articoli 2-sexies e 2-octies, o delle misure di garanzia di cui all'articolo 2-septies <ins eId="ins_359">((...))</ins> arreca nocumento all'interessato, e' punito con la reclusione da uno a tre anni. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_167__para_3">
+                        <num>3.</num>
+                        <content>
+                            <p>Salvo che il fatto costituisca piu' grave reato, la pena di cui al comma 2 si applica altresi' a chiunque, al fine di trarre per se' o per altri profitto ovvero di arrecare danno all'interessato, procedendo al trasferimento dei dati personali verso un paese terzo o un'organizzazione internazionale al di fuori dei casi consentiti ai sensi degli articoli 45, 46 o 49 del Regolamento, arreca nocumento all'interessato. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_167__para_4">
+                        <num>4.</num>
+                        <content>
+                            <p>Il Pubblico ministero, quando ha notizia dei reati di cui ai commi 1, 2 e 3, ne informa senza ritardo il Garante. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_167__para_5">
+                        <num>5.</num>
+                        <content>
+                            <p>Il Garante trasmette al pubblico ministero, con una relazione motivata, la documentazione raccolta nello svolgimento dell'attivita' di accertamento nel caso in cui emergano elementi che facciano presumere la esistenza di un reato. La trasmissione degli atti al pubblico ministero avviene al piu' tardi al termine dell'attivita' di accertamento delle violazioni delle disposizioni di cui al presente decreto. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_167__para_6">
+                        <num>6.</num>
+                        <content>
+                            <p>Quando per lo stesso fatto e' stata applicata a norma del presente codice o del Regolamento a carico dell'imputato o dell'ente una sanzione amministrativa pecuniaria dal Garante e questa e' stata riscossa, la pena e' diminuita. 
+</p>
+                        </content>
+                    </paragraph>
+                </article></chapter></body>
+        <conclusions>
+            <formula name="formulaFinaleConclusioni">
+                <p>Il presente decreto, munito del sigillo dello Stato, sara' inserito nella Raccolta ufficiale degli atti normativi della Repubblica italiana.</p>
+            </formula>
+            <p> E' fatto obbligo a chiunque spetti di osservarlo e di farlo osservare.</p>
+            <p>Dato a Roma, addi' 30 giugno 2003 CIAMPI BERLUSCONI, Presidente del Consiglio dei Ministri MAZZELLA, Ministro per la funzione pubblica BUTTIGLIONE, Ministro per le politiche comunitarie CASTELLI, Ministro della giustizia TREMONTI, Ministro dell'economia e delle finanze FRATFINI, Ministro degli affari esteri GASPARRI, Ministro delle comunicazioni Visto, il Guardasigilli: CASTELLI</p>
+        </conclusions>
+        <attachments><attachment>
+                <doc name="Allegato B">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/!main/annesso_105"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2003-06-30;196"/>
+                                <FRBRalias name="eli" value="eli/id/2003/07/29/003G0218/CONSOLIDATED/20260220"/>
+                                <FRBRdate date="2018-09-19" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20/!main/annesso_105"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20"/>
+                                <FRBRdate date="2026-02-20" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20/!main/annesso_105.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20.xml"/>
+                                <FRBRdate date="2003-06-30" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> ALLEGATO B 
+ 
+ <ins eId="ins_590">((ALLEGATO ABROGATO DAL D.LGS. 10 AGOSTO 2018, N. 101))</ins>
+                                </p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment><attachment>
+                <doc name="Allegato C">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/!main/annesso_106"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2003-06-30;196"/>
+                                <FRBRalias name="eli" value="eli/id/2003/07/29/003G0218/CONSOLIDATED/20260220"/>
+                                <FRBRdate date="2018-09-19" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20/!main/annesso_106"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20"/>
+                                <FRBRdate date="2026-02-20" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20/!main/annesso_106.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2003-06-30/196/ita@2026-02-20.xml"/>
+                                <FRBRdate date="2003-06-30" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> ALLEGATO C) 
+ 
+ <ins eId="ins_591">((ALLEGATO ABROGATO DAL D.LGS. 10 AGOSTO 2018, N. 101))</ins>
+                                </p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment></attachments>
+    </act>
+</akomaNtoso>

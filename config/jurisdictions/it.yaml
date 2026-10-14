@@ -1,0 +1,123 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Italy (State law). Regional legislation (leggi regionali) and
+# local rules are not profiled and not ingested. Italy is a member of the European Union; membership is
+# not recorded in this profile yet.
+schema_version: 1
+id: IT
+profile_version: 0.1.0
+name: Italy
+names: {en: Italy, it: Italia}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [it]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: mixed
+  notes: >-
+    To verify - Italian Republic (art. 1 Cost.), a unitary State with regional autonomy: the 20 regions
+    (five with special statutes) have legislative powers under Title V of Part II of the Constitution
+    (art. 117), which this profile does not cover. Civil-law system with codified private and criminal
+    law (Codice civile, Codice penale) and a rigid written Constitution (art. 138). Generally recognised
+    rules of international law are adapted automatically (art. 10(1) Cost.); treaties are ratified by the
+    President after authorisation by law where required (art. 80) and take effect domestically through
+    an order of execution in a law or decree (hence "mixed"). Legislative power is bound by the
+    Constitution and by EU and international obligations (art. 117(1)). Italian is the official language
+    of the State; German (Trentino-Alto Adige/Südtirol), French (Valle d'Aosta) and others are protected
+    or co-official in certain areas (art. 6 Cost.; special statutes), which is not modelled here.
+legislative_institutions:
+  - id: IT-PARL
+    name: Parlamento (Camera dei deputati and Senato della Repubblica)
+    instrument_types: [constitution, constitutional_law, act]
+  - id: IT-GOV
+    name: Governo (acts having force of law by delegation or urgency, and regulations)
+    instrument_types: [legislative_decree, decree_law, presidential_decree]
+instrument_types: [constitution, constitutional_law, code, act, legislative_decree, decree_law, presidential_decree, royal_decree]
+norm_hierarchy: [constitution, constitutional_law, code, act, legislative_decree, decree_law, presidential_decree, royal_decree]
+courts:
+  - id: IT-CCOST
+    name: Corte costituzionale
+    rank: 1
+  - id: IT-CASS
+    name: Corte suprema di cassazione
+    rank: 1
+  - id: IT-CDS
+    name: Consiglio di Stato
+    rank: 1
+  - id: IT-CAPP
+    name: Corti d'appello
+    rank: 2
+    appeals_to: [IT-CASS]
+  - id: IT-TRIB
+    name: Tribunali
+    rank: 3
+    appeals_to: [IT-CAPP]
+  - id: IT-TAR
+    name: Tribunali amministrativi regionali (TAR)
+    kind: tribunal
+    rank: 2
+    appeals_to: [IT-CDS]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal stare decisis: judges are subject only to the law (art. 101(2) Cost.). The Corte
+    di cassazione has the task of ensuring the correct application and uniform interpretation of the law
+    (art. 65 of the ordinamento giudiziario, R.D. 12/1941) and its Sezioni Unite settle conflicts of case
+    law; a section that disagrees with a principle of the Sezioni Unite must refer the matter back to them
+    (art. 374(3) c.p.c.), and in administrative justice the Adunanza plenaria of the Consiglio di Stato has
+    a similar role (art. 99 c.p.a.). Judgments of the Corte costituzionale that declare a provision
+    unconstitutional take general effect from the day after their publication (art. 136 Cost.); other
+    decisions of the Corte have effect between the parties, and interpretative decisions are followed in
+    practice. Corte dei conti, giudici di pace and other judges are not profiled.
+citation:
+  module: it
+  notes: >-
+    Article, comma, lettera and numero, followed by the abbreviation of the act: "art. 2043 c.c.",
+    "art. 3, comma 1, Cost.", "art. 2, comma 1, lett. a), d.lgs. 196/2003". A bare article is followed by a
+    space and the abbreviation, and any subdivision by commas. Preliminary provisions of the Codice civile:
+    "art. 12 disp. prel. c.c."; transitional and final provisions of the Constitution: "XIII disp. trans.
+    fin. Cost.". To verify against Italian practice (some writers use "co." for comma, "let." for lettera,
+    "art. 3 co. 1 Cost." without commas, or "art. 3, primo comma").
+  examples:
+    - "art. 2043 c.c."
+    - "art. 575 c.p."
+    - "art. 3, comma 1, Cost."
+    - "art. 2, comma 1, lett. a), d.lgs. 196/2003"
+    - "art. 18 L. 300/1970"
+    - "art. 12 disp. prel. c.c."
+    - "XIII disp. trans. fin. Cost."
+publication:
+  official_sources: [it-normattiva]
+  commencement: >-
+    To verify - laws are promulgated by the President of the Republic and published at once in the
+    Gazzetta Ufficiale, and enter into force on the fifteenth day after publication unless they fix another
+    term (art. 73 Cost.; art. 10 disp. prel. c.c.). Decree-laws enter into force on the day of publication
+    or as they provide and must be converted into law within sixty days (art. 77 Cost.); legislative decrees
+    are issued under a delegation law (art. 76). The Gazzetta Ufficiale is the only authentic text;
+    Normattiva states that its texts are not official.
+  amendment: >-
+    Amendments are made by later acts and printed in the Gazzetta Ufficiale. Normattiva consolidates them
+    in a "multivigente" text (non-authentic) and can show an act as it applies on any date.
+  repeal: >-
+    To verify - express, tacit (incompatibility) or by new regulation of the whole matter (art. 15 disp.
+    prel. c.c.), and by declaration of unconstitutionality (art. 136 Cost.). Normattiva prints repealed
+    provisions as "((ARTICOLO ABROGATO DA ...))".
+memberships:
+  # Founding member of the European Economic Community (1958) (to verify).
+  - organisation: EU
+    from_date: 1958-01-01
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only six State instruments are ingested (Costituzione, Codice civile, Codice penale, d.lgs. 196/2003, L. 300/1970, L. 241/1990); no other codes (procedural codes, Codice della strada, ...), no other legislation, no regulations, no international treaties.
+    - The text is Normattiva's non-authentic, non-official "multivigente" text; only the Gazzetta Ufficiale is authentic and prevails. The Gazzetta Ufficiale itself is not ingested.
+    - History only for the Constitution (27 versions, from the text of 1948-01-01 to the version of 2023-10-22, requested 30 days after the Gazzetta Ufficiale publication of each amendment listed in the export; amendments in force within 30 days of one another may share a version, and an amendment missing from that list would be missed). The other five instruments carry only the text applicable on 2026-10-14, so their provisions start, in ULIS, on the date of that version, not on the date the wording came into force.
+    - The export gives no repeal dates, so a repealed provision starts, in ULIS, on the date of the first ingested version that shows it repealed (the repealing act is named in its note). Partial repeals appear only as Normattiva's markers inside the text.
+    - Commi that the source does not number (the Constitution, the codes and older acts print them as unnumbered blocks) are not separate provisions; the article is one provision. Books, parts, titles and chapters are not recorded.
+    - The annexes of the d.lgs. 196/2003 and the decrees that approve the two codes are not ingested.
+    - Older texts spell accented vowels as vowel plus apostrophe (e', puo'); full-text search with accented query words can miss them for a few words.
+    - No regional or local law, no case law (Corte costituzionale, Corte di cassazione, Consiglio di Stato), no EU law, no minority-language versions. EU membership is not recorded in this profile.
