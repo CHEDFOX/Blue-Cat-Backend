@@ -1,0 +1,66 @@
+schema_version: 1
+id: pt-diario-da-republica
+name: Diário da República Eletrónico (DRE) - legislation and consolidated legislation
+publisher: Imprensa Nacional-Casa da Moeda, S.A. (INCM), Portugal
+kind: official_legislation_portal
+# The electronic DR is the official publication (Portuguese law makes the electronic edition the authentic one);
+# not verified by ULIS because the legal notice could not be read. Conservative until it is read.
+authority: official_non_authentic
+jurisdictions: [PT]
+document_kinds: [constitution, law, decree_law]
+languages: [pt]
+coverage: >-
+  The Diário da República (Series I and II) and the consolidated legislation of Portugal (Constituição, Código Civil,
+  Código Penal, Código do Trabalho, Código de Processo Civil, Código de Processo Penal, Lei n.º 58/2019, Código das
+  Sociedades Comerciais, ...). ULIS ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://diariodarepublica.pt/
+  authentication: >-
+    None, but there is nothing to fetch: https://diariodarepublica.pt is a JavaScript (OutSystems) application.
+    Checked on 2026-10-14: /dr/home, /dr/detalhe/... and /sitemap.xml all answer HTTP 200 with the same 2.3 KB HTML
+    shell ("window.OutSystemsApp = { basePath: '/dr/' }") and no legal text; the texts are loaded by the
+    application from undocumented screen-service calls, which ULIS does not use.
+update_frequency: >-
+  Daily publication per the publisher; not applicable as nothing is ingested.
+rate_limits: >-
+  robots.txt: https://diariodarepublica.pt/robots.txt answers HTTP 200 with the HTML of the application's error page
+  (it redirects through https://diariodarepublica.pt/dr/error), and https://dre.pt/robots.txt redirects to the same
+  page: no machine-readable rules are published. dados.gov.pt/robots.txt answers HTTP 500.
+licence:
+  id: UNVERIFIED
+  name: Reuse terms not verified - the DRE legal notice and terms of use are only inside the JavaScript application
+  url: https://diariodarepublica.pt/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ DIRECTLY: robots.txt of diariodarepublica.pt and dre.pt (no rules, see
+    rate_limits); the application shell of diariodarepublica.pt (no text). SEARCHED, NOTHING FOUND: the open-data
+    portal dados.gov.pt (API https://dados.gov.pt/api/1/datasets/ and /organizations/) for "diário da república",
+    "legislação", "INCM", "Imprensa Nacional Casa da Moeda", "dre.pt" and "constituição código civil": no dataset
+    and no organisation of INCM or the DRE exists there (the hits are municipal and environmental datasets that
+    mention the Diário da República). NOT READ: the DRE terms and conditions / legal notice (JavaScript only).
+    SECOND-HAND ONLY (web search result snippets, not checked against the texts): a 2016 decree-law on the universal
+    and free access to the Diário da República is said to provide for consolidated legislation and content in
+    reusable (open data) formats (https://apcmc.pt/legislacao/diario-da-republica-universal-gratuito/; the search also
+    returned https://diariodarepublica.pt/dr/detalhe/decreto-lei/83-2016-105371771). Neither a licence nor a
+    machine-readable dump, XML/JSON feed or ELI endpoint could be confirmed.
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - Do not scrape diariodarepublica.pt (JavaScript application; terms unread) and do not call its undocumented screen services.
+    - A person should ask INCM (https://dre.pt contact channels) whether an open-data export or API with stated reuse terms exists, and read the legal notice, before this source is activated.
+    - Re-review the licence, attribution wording and "official" status once the terms can be read.
+  notes: >-
+    STOPPED, nothing ingested. Portuguese law texts may be public-domain-like (the Código do Direito de Autor
+    excludes some official texts from protection) but this was not verified, and the INCM's reuse conditions for the
+    DRE database are unknown. No other official machine-readable source of the consolidated codes with clear terms
+    was found.
+provenance: >-
+  Official gazette of the Portuguese Republic published by INCM (https://diariodarepublica.pt, formerly dre.pt).
+known_limitations:
+  - Nothing is ingested; the source is planned only.
+status: planned

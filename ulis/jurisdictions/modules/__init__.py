@@ -27,9 +27,11 @@ from ulis.jurisdictions.modules.gb import GbModule
 from ulis.jurisdictions.modules.ie import IeModule
 from ulis.jurisdictions.modules.it import ItModule
 from ulis.jurisdictions.modules.jp import JpModule
+from ulis.jurisdictions.modules.lu import LuModule
 from ulis.jurisdictions.modules.lv import LvModule
 from ulis.jurisdictions.modules.nl import NlModule
 from ulis.jurisdictions.modules.pl import PlModule
+from ulis.jurisdictions.modules.pt import PtModule
 from ulis.jurisdictions.modules.se import SeModule
 from ulis.jurisdictions.modules.tw import TwModule
 from ulis.jurisdictions.modules.us import UsModule
@@ -61,6 +63,8 @@ MODULES: dict[str, JurisdictionModule] = {
         AuModule(),
         AtModule(),
         ArModule(),
+        LuModule(),
+        PtModule(),
     )
 }
 

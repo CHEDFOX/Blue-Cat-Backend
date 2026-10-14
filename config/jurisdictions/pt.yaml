@@ -1,0 +1,82 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Portugal (national law). Profile only: no source could be ingested
+# (pt-diario-da-republica is planned). The autonomous regions of the Azores and Madeira are not profiled separately.
+schema_version: 1
+id: PT
+profile_version: 0.1.0
+name: Portugal
+names:
+  pt: República Portuguesa
+  en: Portuguese Republic
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [pt]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: >-
+    To verify - civil-law system with codified private, criminal, labour and procedural law (Código Civil, Código
+    Penal, Código do Trabalho, Código de Processo Civil, Código de Processo Penal, Código das Sociedades Comerciais),
+    a unitary semi-presidential republic with two autonomous regions (Azores, Madeira) that have their own regional
+    legislative decrees. Legislation is published in the Diário da República (Series I). International
+    conventions validly approved apply in the domestic order after official publication (Art. 8 of the
+    Constitution, to verify); EU law has primacy within the conditions of Art. 8(4).
+legislative_institutions:
+  - id: PT-AR
+    name: Assembleia da República (leis)
+    instrument_types: [constitution, law]
+  - id: PT-GOV
+    name: Governo (decretos-leis, decretos regulamentares, portarias)
+    instrument_types: [decree_law, regulatory_decree, ordinance]
+instrument_types: [constitution, law, decree_law, regulatory_decree, ordinance]
+norm_hierarchy: [constitution, law, decree_law, regulatory_decree, ordinance]
+courts:
+  - id: PT-TC
+    name: Tribunal Constitucional
+    rank: 1
+  - id: PT-STJ
+    name: Supremo Tribunal de Justiça
+    rank: 1
+  - id: PT-STA
+    name: Supremo Tribunal Administrativo
+    rank: 1
+  - id: PT-TR
+    name: Tribunais da Relação
+    rank: 2
+    appeals_to: [PT-STJ]
+  - id: PT-TCA
+    name: Tribunais Centrais Administrativos
+    rank: 2
+    appeals_to: [PT-STA]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal stare decisis; uniformising jurisprudence decisions of the Supremo Tribunal de Justiça
+    (acórdãos de uniformização de jurisprudência) have a special weight and Constitutional Court rulings of
+    unconstitutionality with generally binding force bind everyone. Case law is not ingested.
+citation:
+  module: pt
+  notes: >-
+    Article with the ordinal sign, number (n.º), letter (alínea), then the instrument with its preposition:
+    "artigo 483.º, n.º 1, do Código Civil". To verify against Portuguese practice (the manual of legistic style
+    for the Diário da República).
+  examples:
+    - "artigo 483.º do Código Civil"
+    - "artigo 483.º, n.º 1, do Código Civil"
+    - "artigo 5.º, n.º 1, alínea a), da Lei n.º 58/2019"
+publication:
+  official_sources: [pt-diario-da-republica]
+  commencement: To verify - as set by the diploma; the default interval after publication is not recorded here.
+  amendment: To verify - amending diplomas are published in the Diário da República; the DRE offers consolidated versions.
+  repeal: To verify - express or implicit repeal.
+coverage:
+  corpus_status: none
+  known_gaps:
+    - No Portuguese legislation is ingested. The Diário da República (diariodarepublica.pt) is a JavaScript application with no sitemap, no robots.txt rules and unread terms of use, and its owner INCM publishes no dataset on dados.gov.pt; the source is planned (see the source record).
+    - Constituição, Código Civil, Código Penal, Código do Trabalho, Código de Processo Civil, Código de Processo Penal, Lei n.º 58/2019 and Código das Sociedades Comerciais are therefore all missing, as is case law.
+    - The profile is research notes; courts, hierarchy and conventions are unverified.

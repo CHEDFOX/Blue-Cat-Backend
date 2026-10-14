@@ -29,7 +29,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import date, timedelta
 from xml.etree.ElementTree import Element
 
 from defusedxml.ElementTree import fromstring
@@ -58,7 +58,6 @@ INSTRUMENT_TYPES = {
 }
 FALLBACK_TYPE = "other_act"
 
-_CONSOLIDATION = re.compile(r"^" + re.escape(ELI_LEG) + r"([a-z]{1,12}(?:/[A-Za-z0-9_.-]+)+)/(\d{8})$")
 _TITLE_PREFIX = re.compile(r"^Version consolidée applicable au \d{2}/\d{2}/\d{4}\s*:\s*", re.I)
 REPEALED = re.compile(r"^(?:\(\.\.\.\)\s*)?\(?\s*(?:Abrogés?|Aprogés?|Implicitement abrogés?|Supprimés?)\b", re.I)
 DOTS = re.compile(r"^[.…\s]+$")
@@ -75,6 +74,11 @@ def _a(tag: str) -> str:
 
 def _s(tag: str) -> str:
     return f"{{{SCL}}}{tag}"
+
+
+def _attr(el: Element, name: str) -> str:
+    """An attribute that Legilux writes either plain or in the ``scl:`` namespace (``style``, ``symbol``, ``start``)."""
+    return el.get(name) or el.get(_s(name)) or ""
 
 
 def _local(tag: object) -> str:
@@ -112,7 +116,7 @@ def _inline(el: Element, skip: frozenset[str] = frozenset()) -> str:
         tag = _local(child.tag)
         if tag == "br":
             parts.append("\n")
-        elif tag not in DROPPED_INLINE and tag not in skip and tag not in ("ol", "ul") and child.get("style") != "del":
+        elif tag not in DROPPED_INLINE and tag not in skip and tag not in ("ol", "ul") and _attr(child, "style") != "del":
             inner = _inline(child, skip)
             parts.append(f" {inner} " if tag == "p" else inner)
         parts.append(child.tail or "")
@@ -152,19 +156,19 @@ def _roman(n: int) -> str:
 
 
 def _list_lines(lst: Element) -> list[str]:
-    items = [li for li in lst if _local(li.tag) == "li" and li.get("style") != "del"]
+    items = [li for li in lst if _local(li.tag) == "li" and _attr(li, "style") != "del"]
     if _local(lst.tag) == "ul":
-        sign = {"dash": "-", "dot": "•"}.get(lst.get("symbol", ""), "")
+        sign = {"dash": "-", "dot": "•"}.get(_attr(lst, "symbol"), "")
         labels = [sign] * len(items)
     else:
         try:
-            start = int(lst.get("start", "1"))
+            start = int(_attr(lst, "start") or "1")
         except ValueError:
             start = 1
-        labels = _label_sequence(lst.get("symbol", ""), start, len(items))
+        labels = _label_sequence(_attr(lst, "symbol"), start, len(items))
     lines: list[str] = []
     for label, li in zip(labels, items, strict=True):
-        label = li.get("symbol") or label
+        label = _attr(li, "symbol") or label
         line = f"{label} {_ws(_inline(li))}".strip()
         if line:
             lines.append(line)
@@ -178,14 +182,14 @@ def _content_lines(el: Element) -> list[str]:
     """Lines of the ``alinea`` elements directly under ``el`` (paragraphs and list items)."""
     lines: list[str] = []
     for alinea in el:
-        if _local(alinea.tag) != "alinea" or alinea.get("style") == "del":
+        if _local(alinea.tag) != "alinea" or _attr(alinea, "style") == "del":
             continue
         for content in alinea:
             if _local(content.tag) != "content":
                 continue
             for block in content:
                 tag = _local(block.tag)
-                if block.get("style") == "del":
+                if _attr(block, "style") == "del":
                     continue
                 if tag == "p":
                     text = _ws(_inline(block))
@@ -258,7 +262,7 @@ class _Reader:
                 self.skipped.append(f"{tag} {child.get('id') or ''}".strip())
 
     def article(self, el: Element, chain: list[str]) -> None:
-        if el.get("style") == "del":
+        if _attr(el, "style") == "del":
             return  # wholly struck-through wording of an earlier version
         art_id = el.get("id")
         label = _article_label(_printed(el, "num"), art_id)
@@ -280,7 +284,7 @@ class _Reader:
         node.own = _content_lines(el)
         for child in el:
             tag = _local(child.tag)
-            if tag != "paragraph" or child.get("style") == "del":
+            if tag != "paragraph" or _attr(child, "style") == "del":
                 continue
             key = re.sub(r"[().\s]", "", _printed(child, "num"))
             lines = _content_lines(child)
@@ -321,7 +325,7 @@ def _own_nodes_refs(node: _Node, reader: _Reader) -> tuple[list[str], list[Parse
 
     def visit(e: Element) -> None:
         for child in e:
-            if child in skip or child.get("style") == "del" or _local(child.tag) in ("JOLUXWork", "indexterms", "heading"):
+            if child in skip or _attr(child, "style") == "del" or _local(child.tag) in ("JOLUXWork", "indexterms", "heading"):
                 continue
             tag = _local(child.tag)
             if tag == "noteRef":
@@ -347,7 +351,7 @@ def _article_applicability(el: Element) -> str | None:
     return None
 
 
-def _provisions(reader: _Reader, version_date: date) -> list[ParsedProvision]:
+def _provisions(reader: _Reader, version_date: date, end: date | None) -> list[ParsedProvision]:
     full: dict[str, list[str]] = {}
 
     def collect(node: _Node) -> list[str]:
@@ -385,7 +389,7 @@ def _provisions(reader: _Reader, version_date: date) -> list[ParsedProvision]:
                 sort_order=order,
                 status="repealed" if repealed else "in_force",
                 valid_from=None if repealed else version_date,
-                valid_to=None,
+                valid_to=None if repealed else end,
                 extent=["LU"],
                 note=" | ".join(n[:400] for n in node_notes[:6]) or None,
                 refs=refs,
@@ -402,11 +406,13 @@ def _jolux(act: Element) -> dict[str, list[str]]:
     meta = act.find(_a("meta"))
     if meta is None:
         return values
-    for j in meta.iter(_s("jolux")):
-        name = j.get(_s("name"))
-        text = _ws("".join(j.itertext()))
-        if name and text:
-            values.setdefault(name, []).append(text)
+    # Only the document's own legal resource and expression; other JOLUX blocks describe related resources.
+    for block in (*meta.iter(_s("JOLUXLegalResource")), *meta.iter(_s("JOLUXExpression"))):
+        for j in block.iter(_s("jolux")):
+            name = j.get(_s("name"))
+            text = _ws("".join(j.itertext()))
+            if name and text:
+                values.setdefault(name, []).append(text)
     return values
 
 
@@ -434,14 +440,22 @@ def parse_legilux(content: bytes) -> list[ParsedDocument]:
         raise LegiluxParseError("missing FRBRWork/FRBRthis or FRBRExpression/FRBRlanguage")
     if not lang_el.get("language", "").endswith("/FRA"):
         raise LegiluxParseError(f"unsupported language {lang_el.get('language')!r} (French is read)")
-    m = _CONSOLIDATION.match(work_el.get("value", ""))
-    if not m:
-        raise LegiluxParseError(f"FRBRWork/FRBRthis {work_el.get('value')!r} is not a consolidation ELI")
-    path, stamp = m.group(1), m.group(2)
+    # The work is the code, the Constitution or the act; the date in the ELI is not used (some early consolidations
+    # carry another date there than in their file name, and a consolidated law is named by its original act).
+    resolved = resolve_uri(work_el.get("value", ""))
+    if resolved is None:
+        raise LegiluxParseError(f"FRBRWork/FRBRthis {work_el.get('value')!r} is not a Legilux ELI")
+    uri = resolved[0]
+    path = uri.removeprefix("/lu/")
     meta = _jolux(act)
     applic = _iso((meta.get("dateApplicability") or [None])[0])
-    if applic is None or applic.strftime("%Y%m%d") != stamp:
-        raise LegiluxParseError("missing or inconsistent jolux:dateApplicability")
+    if applic is None:
+        raise LegiluxParseError("missing jolux:dateApplicability")
+    # The last day the text applied (inclusive); provision periods are half-open, so it ends on the next day.
+    last_day = _iso((meta.get("dateEndApplicability") or [None])[0])
+    end = last_day + timedelta(days=1) if last_day is not None else None
+    if end is not None and end <= applic:
+        raise LegiluxParseError("jolux:dateEndApplicability is before jolux:dateApplicability")
     act_type = path.split("/")[0]
     instrument_type = INSTRUMENT_TYPES.get(act_type, FALLBACK_TYPE)
 
@@ -465,7 +479,6 @@ def parse_legilux(content: bytes) -> list[ParsedDocument]:
 
     enacted = _iso((meta.get("dateDocument") or [None])[0])
     in_force = _iso((meta.get("dateEntryInForce") or [None])[0])
-    uri = work_uri(path)
     events = [ParsedEvent("version_change", applic, None, None, "JOLUXLegalResource/dateApplicability")]
     if enacted:
         events.append(ParsedEvent("enactment", enacted, None, None, "JOLUXLegalResource/dateDocument"))
@@ -494,13 +507,13 @@ def parse_legilux(content: bytes) -> list[ParsedDocument]:
             extent=["LU"],
             ext_module="lu",
             ext={
-                "eli": ELI_LEG + path.removesuffix("/consolide"),
+                "eli": ELI_LEG + path,
                 "act_type": act_type,
                 "base_act": base,
                 "entry_into_force": in_force.isoformat() if in_force else None,
             },
             events=events,
-            provisions=_provisions(reader, applic),
+            provisions=_provisions(reader, applic, end),
             validity_basis=SNAPSHOT_BASIS,
         )
     ]

@@ -1,0 +1,111 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Luxembourg (Grand Duchy, national law). Communal regulations are not profiled.
+schema_version: 1
+id: LU
+profile_version: 0.1.0
+name: Luxembourg
+names:
+  fr: Grand-Duché de Luxembourg
+  de: Großherzogtum Luxemburg
+  lb: Groussherzogtum Lëtzebuerg
+  en: Grand Duchy of Luxembourg
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+# Loi du 24 février 1984 sur le régime des langues: Luxembourgish is the national language; French, German and
+# Luxembourgish are the languages of administration and justice; laws are drafted in French. To verify.
+official_languages: [lb, fr, de]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: >-
+    To verify - civil-law system of Napoleonic origin with codified private, criminal and procedural law (Code civil,
+    Code pénal, Code de procédure civile, Code de procédure pénale, Code de commerce, Code du travail), a
+    constitutional monarchy with a unicameral parliament (Chambre des Députés). Legislation is drafted and
+    published in French (loi du 24 février 1984 sur le régime des langues); German and English texts on Legilux
+    are translations. International treaties are understood to apply directly once ratified and published, and to
+    prevail over national statutes (monism). Texts are published in the Mémorial A (Journal officiel); since the loi
+    du 23 décembre 2016 concernant le Journal officiel only its electronic version is authentic.
+legislative_institutions:
+  - id: LU-CHAMBRE
+    name: Chambre des Députés (with the Grand-Duc, who promulgates laws)
+    instrument_types: [constitution, law, code]
+  - id: LU-GOUVERNEMENT
+    name: Grand-Duc and Government (règlements et arrêtés grand-ducaux) and ministers (règlements et arrêtés ministériels)
+    instrument_types: [grand_ducal_regulation, grand_ducal_decree, ministerial_regulation, ministerial_decree]
+instrument_types:
+  - constitution
+  - law
+  - code
+  - grand_ducal_regulation
+  - grand_ducal_decree
+  - ministerial_regulation
+  - ministerial_decree
+  - other_act
+norm_hierarchy: [constitution, law, grand_ducal_regulation, ministerial_regulation]
+courts:
+  - id: LU-CC
+    name: Cour constitutionnelle
+    rank: 1
+  - id: LU-CASS
+    name: Cour de cassation
+    rank: 1
+  - id: LU-CA
+    name: Cour d'appel
+    rank: 2
+    appeals_to: [LU-CASS]
+  - id: LU-TA
+    name: Tribunaux d'arrondissement (Luxembourg, Diekirch)
+    rank: 3
+    appeals_to: [LU-CA]
+  - id: LU-JP
+    name: Justices de paix (Luxembourg, Esch-sur-Alzette, Diekirch)
+    rank: 4
+    appeals_to: [LU-TA]
+  - id: LU-CADM
+    name: Cour administrative
+    rank: 1
+  - id: LU-TADM
+    name: Tribunal administratif
+    rank: 2
+    appeals_to: [LU-CADM]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal stare decisis; decisions of the Cour de cassation and the Cour administrative are
+    followed in practice, and decisions of the Cour constitutionnelle declaring a law incompatible with the
+    Constitution bind the courts in the case in which the question was referred. Case law is not ingested.
+citation:
+  module: lu
+  notes: >-
+    Article (Art. 1382, Art. L. 121-1 in the Code du travail), numbered paragraph (paragraphe 2), then the title of
+    the text with its preposition (du Code civil, de la loi du ...). Luxembourg writers often abbreviate
+    (C. civ., "art. 1382 CC", "loi modifiée du ..."); the long form is used. To verify against Luxembourg practice.
+  examples:
+    - "Art. 1382 du Code civil"
+    - "Art. 63, paragraphe 2 du Code civil"
+    - "Art. L. 121-1 du Code du travail"
+    - "Art. 11 de la Constitution du Grand-Duché de Luxembourg"
+publication:
+  official_sources: [lu-legilux]
+  commencement: >-
+    As set by the text. To verify - the default rule when a text sets no date (Art. 1er of the Code civil ties the
+    force of laws to their promulgation and publication; the interval is not recorded here).
+  amendment: >-
+    Amending laws are published in the Mémorial A, which is the authentic text. The Service central de législation
+    consolidates them on Legilux; consolidations have no legal value.
+  repeal: >-
+    Express repeal or implicit repeal; a consolidated code prints repealed articles as "Abrogé ( L. date )" and
+    ULIS records them as repealed with the wording in the note.
+coverage:
+  corpus_status: partial
+  known_gaps:
+    - Only consolidations with an XML file are ingested (the Constitution, 10 codes, consolidated laws and regulations); the Code de l'environnement, the Code de la sécurité sociale and most of the Code de la santé exist on Legilux only as HTML, PDF and Word files and are not ingested.
+    - Consolidations are whole texts dated from the day they apply; an article's version starts at the first consolidation that shows its wording, so changes between two ingested consolidations are dated at the later one (the XML also states the date from which each article version applies; it is kept in the note).
+    - Consolidations have no legal value; the Mémorial A is authentic and is not ingested. Recueils, administrative acts, EU texts, treaties, legislative drafts and communal regulations are not ingested.
+    - Annexes, subject indexes, and German, English and Luxembourgish translations are not ingested. Amendment references printed in the text, such as "(L. 4 juillet 2014)", stay in the text.
+    - No case law (Cour de cassation, Cour constitutionnelle, administrative courts).
