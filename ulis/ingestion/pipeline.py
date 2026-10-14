@@ -26,14 +26,16 @@ from sqlalchemy.orm import Session
 
 from ulis.catalog import Catalog
 from ulis.db import models as m
+from ulis.ingestion import snapshots
 from ulis.retrieval.indexer import rebuild_passages
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import Connector, RawDocument
+from ulis.sources.connectors.egov_laws import EgovLawsConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
-from ulis.sources.parsers import akn, justice_canada, legislation_gov_uk, uslm
+from ulis.sources.parsers import akn, egov_law, justice_canada, legislation_gov_uk, uslm
 from ulis.sources.registry import SourceDescriptor, licence_gate
 from ulis.storage.object_store import ObjectStore
 from ulis.temporal.validity import Span, derive_valid_to
@@ -45,12 +47,14 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "uslm": uslm.parse_uslm,
     "legislation_gov_uk_akn": legislation_gov_uk.parse_legislation_gov_uk,
     "justice_canada_xml": justice_canada.parse_justice_canada,
+    "egov_law_xml": egov_law.parse_egov,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
     "uslm": uslm.PARSER_VERSION,
     "legislation_gov_uk_akn": legislation_gov_uk.PARSER_VERSION,
     "justice_canada_xml": justice_canada.PARSER_VERSION,
+    "egov_law_xml": egov_law.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -96,6 +100,10 @@ def build_connector(source: SourceDescriptor, base_dir: Path = REPO_ROOT, cache_
         return LegislationGovUkConnector(
             base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
         )
+    if source.connector == "egov_laws":
+        return EgovLawsConnector(
+            base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
+        )
     raise ValueError(f"no connector implementation named {source.connector!r}")
 
 
@@ -112,6 +120,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         uslm.resolve_identifier(uri)
         or legislation_gov_uk.resolve_uri(uri)
         or justice_canada.resolve_uri(uri)
+        or egov_law.resolve_uri(uri)
         or (uri, None)
     )
 
@@ -275,6 +284,8 @@ class Ingestor:
 
     def _persist_legislation(self, parsed: ParsedDocument, doc: m.SourceDocument, report: IngestionReport) -> Any:
         s = self.session
+        if parsed.consolidation_kind == snapshots.CHANGE_REPORT:
+            return self._attach_change_report(parsed, doc)
         instrument = s.scalar(select(m.Instrument).where(m.Instrument.uri == parsed.work_uri))
         if instrument is None:
             instrument = m.Instrument(
@@ -332,10 +343,41 @@ class Ingestor:
                 select(m.ProvisionVersion).join(m.Provision).where(m.Provision.instrument_id == instrument.id)
             )
         }
+        previous: dict[Any, m.ProvisionVersion] | None = None
+        if parsed.validity_basis == snapshots.SNAPSHOT_BASIS:
+            try:
+                before = snapshots.previous_snapshot(s, version)
+            except snapshots.SnapshotOrderError as exc:
+                raise ValidationError(str(exc)) from exc
+            previous = snapshots.attested_by(s, before) if before is not None else {}
         for prov in parsed.provisions:
-            self._persist_provision(instrument, version, prov, provisions, versions, doc, report, is_latest)
+            self._persist_provision(instrument, version, prov, provisions, versions, doc, report, is_latest, previous)
         s.flush()
+        if previous:
+            present = {provisions[p.eid].id for p in parsed.provisions}
+            snapshots.end_absent(previous, present, parsed.version_date)
 
+        self._add_events(instrument, parsed, doc)
+        self._add_treaty_parties(instrument, parsed, doc, report)
+        return instrument.id
+
+    def _attach_change_report(self, parsed: ParsedDocument, doc: m.SourceDocument) -> Any:
+        """Record a change report on the expression it reports on (see ``ulis.ingestion.snapshots``)."""
+        s = self.session
+        instrument = s.scalar(select(m.Instrument).where(m.Instrument.uri == parsed.work_uri))
+        target = s.scalar(select(m.InstrumentVersion).where(m.InstrumentVersion.uri == parsed.expression_uri))
+        if instrument is None or target is None or target.instrument_id != instrument.id:
+            raise ValidationError(f"{parsed.expression_uri}: change report for an expression that is not recorded")
+        target.outstanding_changes = list(parsed.outstanding_changes)
+        reported = parsed.currency_date or doc.retrieved_at.date()
+        if target.currency_date is None or reported > target.currency_date:
+            target.currency_date = reported
+        self._add_events(instrument, parsed, doc)
+        s.flush()
+        return instrument.id
+
+    def _add_events(self, instrument: m.Instrument, parsed: ParsedDocument, doc: m.SourceDocument) -> None:
+        s = self.session
         for ev in parsed.events:
             duplicate = s.scalar(
                 select(m.LifecycleEvent).where(
@@ -360,6 +402,10 @@ class Ingestor:
                     )
                 )
 
+    def _add_treaty_parties(
+        self, instrument: m.Instrument, parsed: ParsedDocument, doc: m.SourceDocument, report: IngestionReport
+    ) -> None:
+        s = self.session
         for party in parsed.treaty_parties:
             row = s.scalar(
                 select(m.TreatyParty).where(
@@ -379,7 +425,6 @@ class Ingestor:
             elif any(getattr(row, k) != v for k, v in values.items()):
                 report.conflicts.append(f"{parsed.expression_uri}: treaty status for {party.party} differs")
                 self._verify(doc, "treaty_status_consistency", "fail", {"party": party.party})
-        return instrument.id
 
     def _persist_provision(
         self,
@@ -391,6 +436,7 @@ class Ingestor:
         doc: m.SourceDocument,
         report: IngestionReport,
         is_latest: bool,
+        previous: dict[Any, m.ProvisionVersion] | None = None,
     ) -> None:
         s = self.session
         row = provisions.get(prov.eid)
@@ -420,6 +466,19 @@ class Ingestor:
         if not prov.record_version:
             return
         text_sha = _sha(prov.text)
+        if previous is not None:  # revision snapshot: an unchanged wording continues the previous version
+            before = previous.get(row.id)
+            if before is not None and snapshots.continues(before, prov.status, prov.heading, text_sha):
+                s.add(
+                    m.ProvisionVersionSource(
+                        provision_version_id=before.id,
+                        instrument_version_id=version.id,
+                        source_document_id=doc.id,
+                        source_locator=prov.eid,
+                    )
+                )
+                report.provision_versions_corroborated += 1
+                return
         key = (row.id, version.language, prov.status, prov.valid_from)
         existing = versions.get(key)
         if existing is not None:

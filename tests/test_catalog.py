@@ -37,6 +37,7 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "GB-SCT",
         "GB-NIR",
         "CA",
+        "JP",
     }
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"
@@ -107,7 +108,13 @@ def test_profile_hash_is_stable(catalog: Catalog) -> None:
 
 
 def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
-    approved = {"ulis-fictional-sample", "us-gpo-uslm-samples", "gb-legislation-gov-uk", "ca-justice-laws-xml"}
+    approved = {
+        "ulis-fictional-sample",
+        "us-gpo-uslm-samples",
+        "gb-legislation-gov-uk",
+        "ca-justice-laws-xml",
+        "jp-egov-laws",
+    }
     for source_id in approved:
         licence_gate(catalog.sources.get(source_id))
     for source in catalog.sources:

@@ -1,0 +1,84 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Japan (national law). Prefectures and municipalities
+# (local ordinances, 条例) are not profiled.
+schema_version: 1
+id: JP
+profile_version: 0.1.0
+name: Japan
+names: {en: Japan, ja: 日本国}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [ja]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: >-
+    To verify - unitary state with prefectures and municipalities that make local ordinances
+    (条例) within the limits of national law. Civil-law system of codes (六法). Treaties
+    concluded by Japan are generally described as having domestic effect on promulgation, without
+    implementing legislation (Constitution art 98(2): treaties and established international law
+    shall be faithfully observed); their rank relative to statutes and the Constitution is a
+    matter of doctrine.
+legislative_institutions:
+  - id: JP-DIET
+    name: National Diet (国会)
+    instrument_types: [act]
+  - id: JP-CABINET
+    name: Cabinet (内閣)
+    instrument_types: [cabinet_order]
+instrument_types: [constitution, act, cabinet_order, imperial_ordinance, ministerial_ordinance, rule]
+norm_hierarchy: [constitution, act, cabinet_order, ministerial_ordinance]
+courts:
+  - id: JP-SC
+    name: Supreme Court (最高裁判所)
+    rank: 1
+  - id: JP-HC
+    name: High Courts (高等裁判所)
+    rank: 2
+    appeals_to: [JP-SC]
+  - id: JP-DC
+    name: District Courts (地方裁判所)
+    rank: 3
+    appeals_to: [JP-HC]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - there is no formal rule of stare decisis; a higher court's decision binds the
+    lower courts in the same case (Courts Act art 4). Supreme Court precedents are de facto
+    authoritative: lower courts generally follow them, and a judgment contrary to Supreme Court
+    precedent is a ground for appeal to the Supreme Court in civil and criminal procedure.
+    Family Courts (家庭裁判所) and Summary Courts (簡易裁判所) are not modelled.
+citation:
+  module: jp
+  examples:
+    - "民法第709条"
+    - "刑法第199条"
+    - "個人情報の保護に関する法律第27条第1項第2号"
+    - "日本国憲法第9条第2項"
+publication:
+  official_sources: [jp-egov-laws]
+  commencement: >-
+    Laws take effect on the date their supplementary provisions (附則) set, often a date fixed by
+    Cabinet Order; promulgation is by publication in the Official Gazette (官報).
+  amendment: >-
+    Textual amendment by amending laws (一部改正法). e-Gov publishes the law as amended for each
+    enforcement date (from 1 April 2017).
+  repeal: >-
+    Express repeal; a deleted article or item is printed as 「削除」 so that numbering is kept, or
+    removed with renumbering.
+memberships: []
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only a hand-picked sample of 7 laws (the Constitution and 6 Acts) is ingested (see the source manifest).
+    - Revision history only for the laws marked history in the manifest, and only from e-Gov's data baseline (1 April 2017); earlier wordings are reported as history not indexed.
+    - No Cabinet Orders, Ministerial Ordinances, rules, notices (告示), treaties or local ordinances (条例); no case law.
+    - Supplementary provisions of amending laws (改正附則, including their transitional provisions), tables of contents, the enacting formula and figures or forms are not indexed.
+    - Ruby readings (furigana) are not indexed; Japanese text is searched as character bigrams with the simple configuration (no morphological analysis, no stemming).
+    - Official English translations (Japanese Law Translation database) are unofficial and are not ingested.
+    - Amendments promulgated but not yet in force are reported as outstanding changes for the whole law, not linked to the provisions they change.

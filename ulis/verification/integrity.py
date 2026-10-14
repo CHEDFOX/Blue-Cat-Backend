@@ -53,6 +53,17 @@ def verify_source_document(
                 problems.append(f"{pvs.source_locator}: stored text differs from source")
             if _sha(pv.text) != pv.text_sha256:
                 problems.append(f"{pvs.source_locator}: stored text does not match its own hash")
+        # Lifecycle events recorded from this document (e.g. the amendments a revision list reports)
+        # must be re-derivable from it too.
+        events = {(d.work_uri, e.event_type, e.date, e.affecting_uri) for d in parsed_docs for e in d.events}
+        for ev, work_uri in session.execute(
+            select(m.LifecycleEvent, m.Instrument.uri)
+            .join(m.Instrument, m.LifecycleEvent.instrument_id == m.Instrument.id)
+            .where(m.LifecycleEvent.source_document_id == doc.id)
+        ):
+            checked += 1
+            if (work_uri, ev.event_type, ev.event_date, ev.affecting_uri) not in events:
+                problems.append(f"{ev.event_type} event of {ev.event_date}: not found in source")
         for para, work_uri in session.execute(
             select(m.JudgmentParagraph, m.Judgment.uri)
             .join(m.JudgmentVersion, m.JudgmentParagraph.judgment_version_id == m.JudgmentVersion.id)
