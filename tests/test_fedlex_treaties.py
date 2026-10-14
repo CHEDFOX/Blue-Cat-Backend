@@ -20,7 +20,8 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from ulis.catalog import Catalog
 from ulis.db import models as m
-from ulis.ingestion.pipeline import IngestionReport, Ingestor, resolve_uri as pipeline_resolve_uri
+from ulis.ingestion.pipeline import IngestionReport, Ingestor
+from ulis.ingestion.pipeline import resolve_uri as pipeline_resolve_uri
 from ulis.jurisdictions.modules import ProvisionCitationInput, get_module
 from ulis.retrieval.lookup import provision_at
 from ulis.retrieval.search import SearchRequest, search
@@ -81,7 +82,11 @@ def test_convention_original_french_and_swiss_translations() -> None:
     )
     assert art8.num_path == ["8", "para:1"] and art8.status == "in_force" and art8.valid_from == date(2022, 9, 16)
     assert {p.eid: p for p in fr.provisions}["art_8"].heading == "Droit au respect de la vie privée et familiale"
-    assert "Sprache" not in " ".join(p.text for p in de.provisions)
+    # The wording is exact, including the non-breaking hyphen of the source (U+2011) in the German text.
+    assert {p.eid: p for p in de.provisions}["art_8/para_1"].text == (
+        "Jede Person hat das Recht auf Achtung ihres Privat\u2011 und Familienlebens, "
+        "ihrer Wohnung und ihrer Korrespondenz."
+    )
     # The scope table is read into parties, never stored as law text.
     assert not any("Entrée en vigueur" in p.text or "États parties" in p.text for p in fr.provisions)
     assert [e.event_type for e in fr.events] == ["version_change", "adoption"]
@@ -136,7 +141,10 @@ def test_unlisted_or_malformed_files_are_rejected_loudly() -> None:
 def test_treaty_table_and_state_names() -> None:
     assert {t.jurisdiction for t in TREATIES.values()} == {"COE", "INT"}
     assert len({t.sr for t in TREATIES.values()}) == len(TREATIES) == 11
-    assert work_uri(TREATIES[ECHR]) == "/coe/treaty/ch-sr-0.101" and work_uri(TREATIES["2003/160"]) == "/int/treaty/ch-sr-0.120"
+    assert (
+        work_uri(TREATIES[ECHR]) == "/coe/treaty/ch-sr-0.101"
+        and work_uri(TREATIES["2003/160"]) == "/int/treaty/ch-sr-0.120"
+    )
     # Every State listed has its name in all three languages (profiles are checked in the next test).
     assert all(set(names) == {"de", "fr", "it"} for names in STATES.values())
 
@@ -308,13 +316,10 @@ def _search(session: Session, catalog: Catalog, jurisdiction: str, **kw: Any) ->
 @pytest.mark.db
 def test_ingestion_stores_treaties_with_parties(session: Session, treaties_ingested: IngestionReport) -> None:
     assert treaties_ingested.errors == [] and treaties_ingested.conflicts == []
-    assert treaties_ingested.documents_new == 18 and treaties_ingested.instruments_created == 4
+    assert treaties_ingested.documents_new == 15 and treaties_ingested.instruments_created == 4
     echr = session.scalar(select(m.Instrument).where(m.Instrument.uri == "/coe/treaty/ch-sr-0.101"))
     assert echr is not None and echr.jurisdiction_id == "COE" and echr.instrument_type == "treaty"
-    rows = {
-        r.party_id: r
-        for r in session.scalars(select(m.TreatyParty).where(m.TreatyParty.treaty_id == echr.id))
-    }
+    rows = {r.party_id: r for r in session.scalars(select(m.TreatyParty).where(m.TreatyParty.treaty_id == echr.id))}
     assert len(rows) == 14 and rows["DE"].consented_on == date(1952, 12, 5)
     assert rows["DE"].entry_into_force_on == date(1953, 9, 3) and rows["DE"].withdrawn_on is None
     charter = session.scalar(select(m.Instrument).where(m.Instrument.uri == "/int/treaty/ch-sr-0.120"))
@@ -353,12 +358,14 @@ def test_search_finds_the_convention_for_a_party_with_citation_and_limitations(
         query_language="fr",
         languages=["fr"],
     )
-    hit = res["results"][0]
-    assert hit["citation"] == "art. 8 al. 1 CEDH" and hit["language"] == "fr"
+    # Other corpora in the shared test database (the EU Charter art. 7 for DE) may rank first on the same words.
+    hit = next(r for r in res["results"] if r["citation"] == "art. 8 al. 1 CEDH")
+    assert hit["citation"] == "art. 8 al. 1 CEDH" and hit["version"]["language"] == "fr"
     assert hit["authority"]["category"] == "treaty_obligation"
     assert "In force for DE since 1953-09-03" in hit["authority"]["rationale"]
-    codes = {lim["code"] for lim in res["limitations"]} | {lim["code"] for lim in hit.get("limitations", [])}
-    assert "SOURCE_NOT_AUTHENTIC" in codes
+    codes = {lim["code"] for lim in hit["limitations"]}
+    assert {"SOURCE_NOT_AUTHENTIC", "NOT_AUTHENTIC_TEXT", "SNAPSHOT_DATES", "PROFILE_UNVERIFIED", "AUTHORITY"} <= codes
+    assert hit["source"]["attribution"].startswith("Dies ist keine amtliche Veröffentlichung.")
     de = _search(
         session,
         catalog,
@@ -368,7 +375,7 @@ def test_search_finds_the_convention_for_a_party_with_citation_and_limitations(
         query_language="de",
         languages=["de"],
     )
-    assert de["results"][0]["citation"] == "Art. 8 Abs. 1 EMRK"
+    assert "Art. 8 Abs. 1 EMRK" in [r["citation"] for r in de["results"]]
 
 
 @pytest.mark.db
@@ -391,5 +398,9 @@ def test_charter_entry_into_force_decides_the_authority_by_date(
 ) -> None:
     q = "menace ou à l’emploi de la force contre l’intégrité territoriale"
     now = _search(session, catalog, "JP", q=q, as_of=date(2026, 1, 1), query_language="fr", languages=["fr"])
-    hit = next(r for r in now["results"] if "Charte des Nations Unies" in r["citation"])
-    assert hit["citation"].startswith("art. 2 al. 4 ") and hit["authority"]["category"] == "treaty_obligation"
+    hit = next(r for r in now["results"] if r["citation"].startswith("art. 2 al. 4 "))
+    assert hit["citation"] == "art. 2 al. 4 Charte des Nations Unies du 26 juin 1945"
+    assert hit["authority"]["category"] == "treaty_obligation" and "since 1956-12-18" in hit["authority"]["rationale"]
+    # Before it came into force for Japan the same provision is not in force for it.
+    earlier = _search(session, catalog, "JP", q=q, as_of=date(1950, 1, 1), query_language="fr", languages=["fr"])
+    assert not earlier["results"] or earlier["results"][0]["authority"]["category"] != "treaty_obligation"

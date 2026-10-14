@@ -121,7 +121,8 @@ def main(build_date: date) -> int:
         "# Bundeskanzlei (Art. 49 Abs. 1 Bst. c PublV, SR 170.512.1).\n"
     )
     OUT.write_text(header + yaml.safe_dump(manifest, sort_keys=False, allow_unicode=True), encoding="utf-8")
-    print(f"wrote {OUT.relative_to(ROOT)}: {len(works)} treaties, {sum(len(w['consolidations']) for w in works)} consolidations")
+    count = sum(len(w["consolidations"]) for w in works)
+    print(f"wrote {OUT.relative_to(ROOT)}: {len(works)} treaties, {count} consolidations")
     return 0
 
 

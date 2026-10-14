@@ -125,7 +125,9 @@ def work_uri(treaty: Treaty) -> str:
 
 def resolve_uri(uri: str) -> tuple[str, str | None] | None:
     """Map the Fedlex URI of a listed treaty to its ULIS work URI (else None)."""
-    m = re.match(r"^https?://(?:fedlex\.data\.admin\.ch|www\.fedlex\.admin\.ch)/eli/cc/([0-9A-Za-z]+/[0-9a-z_]+)/?$", uri)
+    m = re.match(
+        r"^https?://(?:fedlex\.data\.admin\.ch|www\.fedlex\.admin\.ch)/eli/cc/([0-9A-Za-z]+/[0-9a-z_]+)/?$", uri
+    )
     treaty = TREATIES.get(m.group(1)) if m else None
     return (work_uri(treaty), None) if treaty else None
 
@@ -161,7 +163,13 @@ def _date_of(first: str, second: str) -> tuple[date | None, str | None]:
         raise FedlexParseError(f"invalid date {text!r} in the scope table") from exc
 
 
-SCOPE_WORDS = ("geltungsbereich", "champ d’application", "champ d'application", "campo d’applicazione", "campo d'applicazione")
+SCOPE_WORDS = (
+    "geltungsbereich",
+    "champ d’application",
+    "champ d'application",
+    "campo d’applicazione",
+    "campo d'applicazione",
+)
 
 
 def _is_scope(doc: Element) -> bool:
@@ -306,7 +314,9 @@ def parse_fedlex_treaty(content: bytes) -> list[ParsedDocument]:
     ]
     if adopted:
         events.append(
-            ParsedEvent("adoption", adopted, None, "Conclusion of the treaty", "FRBRWork/FRBRdate[@name='jolux:dateDocument']")
+            ParsedEvent(
+                "adoption", adopted, None, "Conclusion of the treaty", "FRBRWork/FRBRdate[@name='jolux:dateDocument']"
+            )
         )
     return [
         ParsedDocument(
@@ -317,7 +327,9 @@ def parse_fedlex_treaty(content: bytes) -> list[ParsedDocument]:
             expression_uri=f"{uri}/{language}@{version_date.isoformat()}",
             work_title=title,
             title=title,
-            short_title=_ws(name_el.get("shortForm", "")) or None,
+            # Citations use the short form; most treaties have none, so the title of the language version stands in
+            # (otherwise the work's title, in the language ingested first, would be cited for every language).
+            short_title=_ws(name_el.get("shortForm", "")) or title,
             number=treaty.sr,
             work_date=adopted,
             language=language,
