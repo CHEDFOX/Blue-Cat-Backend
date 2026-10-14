@@ -39,7 +39,7 @@ def test_profile_is_a_documented_stub(catalog: Catalog) -> None:
     assert profile.coverage.corpus_status == "none"
     assert profile.official_languages == ["pt"]
     assert profile.publication.official_sources == ["pt-diario-da-republica"]
-    assert not profile.memberships
+    assert [m.organisation for m in profile.memberships] == ["EU"]  # EU member since 1986-01-01 (added by the lead)
     assert "No Portuguese legislation is ingested" in " ".join(profile.coverage.known_gaps)
 
 
