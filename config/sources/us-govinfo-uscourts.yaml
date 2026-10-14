@@ -1,0 +1,85 @@
+# United States Courts Opinions on GovInfo (USCOURTS), U.S. Government Publishing Office: the thirteen courts of appeals.
+# Terms and access rules read on 2026-10-14, robots.txt first; they are those of the GovInfo host, recorded in full in
+# config/sources/us-govinfo-usreports.yaml and docs/jurisdictions/us-case-law.md:
+#   https://www.govinfo.gov/robots.txt - no Crawl-delay; disallows only /core/, /profiles/, Drupal admin/user paths,
+#        /search/ and /app/search/*; lists USCOURTS_sitemap_index.xml.
+#   https://www.govinfo.gov/about/policies - Public Domain & Copyright Notice (17 U.S.C. 105: no copyright in works of the
+#        United States Government; "Government publications may contain copyrighted material"); also: "it is the authoring
+#        agency's responsibility to ensure there is no PII in their public information", so some content may be redacted.
+#   https://www.govinfo.gov/sitemaps - "Sitemaps can be used by systems to crawl and harvest content from GovInfo"; "United
+#        States Court Opinions (USCOURTS) - Includes listings for all court types listed by individual court code as well as
+#        top-level indices based on the year"; each USCOURTS sitemap is organised by court code and year.
+#   https://www.govinfo.gov/developers and /bulkdata/ - the JSON API needs an api.data.gov key (not used by ULIS); USCOURTS is
+#        not in the Bulk Data Repository, so the keyless route is sitemap -> /metadata/pkg/<package>/mods.xml ->
+#        /content/pkg/<package>/pdf/<granule>.pdf.
+#   https://www.govinfo.gov/metadata/pkg/USCOURTS-ca13-23-01808/mods.xml (and ca1-00-01824) - MODS: publisher Administrative
+#        Office of the United States Courts, GPO as distributor, court code/type/circuit, case number, nature of suit, parties,
+#        title, the opinion's date and the clerk's docket text; only a PDF rendition is linked (no text or HTML form).
+schema_version: 1
+id: us-govinfo-uscourts
+name: United States Courts Opinions on GovInfo (USCOURTS), courts of appeals
+publisher: >-
+  U.S. Government Publishing Office (GovInfo), with opinions provided by the Administrative Office of the United States
+  Courts (PACER/CM-ECF).
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [US]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  Opinions of the thirteen United States courts of appeals (First to Eleventh, District of Columbia and Federal
+  Circuits) that the courts provide to GovInfo, as PDF files with a package of metadata each. GovInfo's sitemaps list
+  the courts of appeals from 1988 (Tenth Circuit) / 1993 (Ninth, D.C.) onwards, with a few hundred to a few thousand
+  opinions per court and year in recent years. District, bankruptcy and special courts (155 more court codes) are not in
+  the US profile and are not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/us-govinfo-uscourts.yaml
+  authentication: none
+update_frequency: >-
+  GovInfo adds opinions as the courts transmit them (the sitemaps carry lastmod dates); ULIS fetches nothing new unless
+  the manifest is run again with an empty or partial cache.
+rate_limits: >-
+  Published: none (robots.txt has no Crawl-delay; GovInfo invites sitemap crawling). ULIS makes sequential requests at least
+  5 s apart (about 0.2 per second), identifies itself and caches every response; about two requests per opinion, so the
+  whole manifest takes weeks and runs resume from the cache.
+licence:
+  id: US-PD-17USC105
+  name: >-
+    Work of the United States Government, not protected by copyright (17 U.S.C. 105); GovInfo "Public Domain & Copyright
+    Notice"
+  url: https://www.govinfo.gov/about/policies
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - GovInfo's Public Domain & Copyright Notice, sitemaps page (crawling invited), robots.txt (no restriction
+    on the paths used), developer page (API key not used) and the MODS of two packages, read 2026-10-14. Not reviewed by
+    counsel.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: >-
+    United States Courts of Appeals, opinions as published by the U.S. Government Publishing Office on GovInfo
+    (https://www.govinfo.gov/app/collection/uscourts). Text extracted from the PDF files.
+  conditions:
+    - Use only keyless routes (sitemaps, /metadata/pkg/..., /content/pkg/...), never the api.data.gov-key API; respect robots.txt and request sequentially, at least 5 s apart.
+    - Opinions are works of federal judges, so public domain under 17 U.S.C. 105 as GovInfo states; GovInfo warns that publications may contain copyrighted material used with permission and that agencies may redact personal information. Quoted third-party material in an opinion may not be public domain; a reviewer should check before republishing text.
+    - Text extraction needs pdftotext (poppler-utils) on the machine that ingests.
+  notes: >-
+    The public-domain basis is GovInfo's own notice (17 U.S.C. 105); the statute and the government-edicts case law were
+    not read. Counsel review recommended before production use.
+provenance: >-
+  PDF files supplied by the courts and distributed by GPO. ULIS stores each opinion's package MODS and PDF byte-for-byte
+  inside one JSON bundle (SHA-256 per opinion) with the URLs and retrieval times; the text is extracted from the PDF's
+  text layer with pdftotext at parse time.
+known_limitations:
+  - Only the courts of appeals; no district, bankruptcy or specialised federal court and no state court.
+  - GovInfo holds the opinions the courts transmit, not every opinion of each court (the sitemaps list, for example, 436 Ninth Circuit packages for 2024). Published and unpublished (nonprecedential) opinions are mixed; the only marker is the clerk's docket text (ext.docket_text, stored as given and never interpreted), so ULIS does not know which opinions are precedential.
+  - PDF files without a text layer (older opinions are scans, for example the First Circuit's of 2001) are skipped, because ULIS does no OCR; they are reported as skipped documents.
+  - The MODS carries no reporter citation, so citations are "Name, No. docket (Cir. date)". Units are PDF pages; the PDF page index is not necessarily the slip opinion's own page number, so there are no pinpoint citations. The courts' e-filing banners ("Case 23-1808 Document 21 Page 2 Filed ...") stay in the text, and pdftotext reading order can split columns and footnotes.
+  - Judicial treatment (overruled, distinguished, followed) is not in the source and is never inferred; no links to statutes or other cases are made.
+status: active
+connector: govinfo_uscourts
+parser: govinfo_uscourts

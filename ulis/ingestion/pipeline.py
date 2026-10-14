@@ -41,6 +41,7 @@ from ulis.sources.connectors.fedlex import FedlexConnector
 from ulis.sources.connectors.finlex import FinlexConnector
 from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
+from ulis.sources.connectors.govinfo_uscourts import UsCourtsGovInfoConnector
 from ulis.sources.connectors.govinfo_usreports import UsReportsGovInfoConnector
 from ulis.sources.connectors.infoleg_ar import InfolegArConnector
 from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
@@ -68,6 +69,7 @@ from ulis.sources.parsers import (
     fedlex,
     finlex,
     gesetze_im_internet,
+    govinfo_uscourts,
     govinfo_usreports,
     infoleg_ar,
     irish_statute_book,
@@ -115,6 +117,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "eli_sejm_bundle": eli_sejm.parse_eli_sejm,
     "infoleg_ar_html": infoleg_ar.parse_infoleg_ar,
     "govinfo_usreports": govinfo_usreports.parse_govinfo_usreports,
+    "govinfo_uscourts": govinfo_uscourts.parse_govinfo_uscourts,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -142,6 +145,7 @@ PARSER_VERSIONS = {
     "eli_sejm_bundle": eli_sejm.PARSER_VERSION,
     "infoleg_ar_html": infoleg_ar.PARSER_VERSION,
     "govinfo_usreports": govinfo_usreports.PARSER_VERSION,
+    "govinfo_uscourts": govinfo_uscourts.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -202,6 +206,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "uscode_house": UscodeHouseConnector,
     "infoleg_ar": InfolegArConnector,
     "govinfo_usreports": UsReportsGovInfoConnector,
+    "govinfo_uscourts": UsCourtsGovInfoConnector,
 }
 
 
