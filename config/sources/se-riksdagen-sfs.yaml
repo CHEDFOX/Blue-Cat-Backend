@@ -1,0 +1,102 @@
+schema_version: 1
+id: se-riksdagen-sfs
+name: Riksdagens öppna data - Svensk författningssamling, consolidated texts (JSON)
+publisher: >-
+  Sveriges riksdag (Riksdagsförvaltningen), republishing the consolidated texts of the Government
+  Offices' legal database (Regeringskansliets rättsdatabaser, SFST)
+kind: open_data_repository
+# The consolidated texts are prepared by the Government Offices and republished by the Riksdag; they
+# are not authentic. The authentic text of a statute is its publication in Svensk
+# författningssamling, which the Government publishes electronically on a dedicated website (lag
+# (1976:633) om kungörande av lagar och andra författningar, 5 §).
+authority: official_non_authentic
+jurisdictions: [SE]
+document_kinds: [constitution, act]
+languages: [sv]
+coverage: >-
+  The Riksdag's open data (data.riksdagen.se) serves documents of type "sfs", subtype "sfst": one
+  current consolidated text per statute in Svensk författningssamling, with the consolidation
+  status ("t.o.m. SFS ..."), date of issue, reprints, the transitional provisions of the statute
+  and its amendments, and the new wordings of provisions whose amendments are not yet in force.
+  About 11,500 such documents are listed (2026-10-14). ULIS ingests the statutes listed in the
+  manifest. Earlier consolidations, the original statutes as published in SFS, the amendment
+  register (SFSR), ordinances, case law and the Riksdag's other document types are not ingested.
+access:
+  method: api
+  endpoint: config/manifests/se-riksdagen-sfs.yaml
+  authentication: none
+update_frequency: >-
+  continuous - records are republished when the consolidation changes (field "publicerad"; e.g.
+  Brottsbalk (1962:700) republished 2026-10-13); the document list is generated on request
+rate_limits: >-
+  None published (API page
+  https://www.riksdagen.se/sv/dokument-och-lagar/riksdagens-oppna-data/anvandarstod/om-apiet/).
+  https://data.riksdagen.se/robots.txt does not exist (404 on 2026-10-14);
+  https://www.riksdagen.se/robots.txt sets "crawl-delay:1" only for named AI crawlers and disallows
+  nothing. ULIS sends one request per 5 s with an identifying User-Agent and backs off on 429/5xx.
+licence:
+  id: riksdagen-oppna-data-villkor
+  name: Riksdagens öppna data - användningsvillkor (free use and redistribution with attribution)
+  url: https://www.riksdagen.se/sv/dokument-och-lagar/riksdagens-oppna-data/anvandarstod/anvandningsvillkor/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the publisher's own pages (read 2026-10-14, before any statute was fetched).
+    Användningsvillkor (page published 18 September 2023): "Riksdagens öppna data är fria att
+    användas och spridas vidare så länge du anger källa." Attribution: "Källa: Sveriges riksdag" /
+    "Source: The Swedish Parliament". "Tjänster och applikationer som bygger på öppna data ska vara
+    utformade på ett sätt som gör det tydligt för användarna att det inte är Sveriges riksdag som
+    står bakom tjänsten eller applikationen. Det är till exempel inte tillåtet att använda riksdagens
+    logotyp eller namnet Sveriges riksdag i tjänsten eller applikationen." Material protected under
+    the Copyright Act (1960:729) - "Exempel på sådant material är bilder" - may not be reproduced
+    without permission; users processing the personal data in the open data must comply with the
+    GDPR and lag (2018:218). Open data pages:
+    https://www.riksdagen.se/sv/dokument-och-lagar/riksdagens-oppna-data/ (data.riksdagen.se
+    redirects there), API: .../anvandarstod/om-apiet/, document ids for SFS ("sfs-1974-152"):
+    .../anvandarstod/sa-fungerar-dokument-id/, datasets: .../anvandarstod/om-dataset/.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Källa: Sveriges riksdag (Riksdagens öppna data, data.riksdagen.se). Consolidated text from
+    Regeringskansliets rättsdatabaser; not the authentic text, which is published in Svensk
+    författningssamling. Structure normalised by ULIS. ULIS is not provided or endorsed by Sveriges
+    riksdag.
+  conditions:
+    - 'Attribution "Källa: Sveriges riksdag" (or "Source: The Swedish Parliament") on every result.'
+    - Make clear that Sveriges riksdag does not stand behind ULIS; do not use the Riksdag's logo or the name "Sveriges riksdag" in the service's name.
+    - Do not reproduce material in the open data that is protected by copyright (e.g. images); statutes are not (Copyright Act (1960:729) 9 §).
+    - Process any personal data in the open data in accordance with the GDPR and lag (2018:218) (not applicable to the statutes ingested).
+    - Do not present the consolidated text as authentic (stated on every result).
+  notes: >-
+    Statutes are not protected by copyright: lag (1960:729) om upphovsrätt till litterära och
+    konstnärliga verk, 9 § "Upphovsrätt gäller inte till 1. författningar, 2. beslut av
+    myndigheter, ..." (read in this dataset, sfs-1960-729, consolidated t.o.m. SFS 2026:1120, on
+    2026-10-14). The terms do not name a standard licence. Counsel review still recommended
+    before production use.
+provenance: >-
+  https://data.riksdagen.se/dokument/sfs-{year}-{number}.json fetched with an identifying
+  User-Agent; every response cached with its URL and retrieval time under
+  var/sources/data.riksdagen.se/ and stored unchanged (SHA-256 addressed). Each record names its
+  source as "Källa: Fulltext (Regeringskansliet)" with a link to
+  http://rkrattsbaser.gov.se/sfst?bet={year}:{number} (the Government Offices' SFST database), and
+  its amendment register as SFSR (Regeringskansliet). The authentic text is Svensk
+  författningssamling as published electronically: lag (1976:633) 5 § (as amended by lag
+  (2016:500), in force on a date set by the Government): "Regeringen ska se till att Svensk
+  författningssamling publiceras elektroniskt på en särskild webbplats. En författning ska anses
+  kungjord när den har publicerats i Svensk författningssamling på webbplatsen." That the website
+  is svenskforfattningssamling.se and that electronic publication began in 2018 is not verified
+  here: https://svenskforfattningssamling.se/ answered HTTP 403 to the ULIS User-Agent on
+  2026-10-14 (robots.txt: 404) and was not fetched again.
+known_limitations:
+  - Consolidated text prepared by the Government Offices and republished by the Riksdag; not authentic. The authentic text is each statute as published in Svensk författningssamling.
+  - One current consolidation per statute; earlier consolidations are not available from this dataset, so no history is indexed.
+  - No per-provision dates except for wordings that change on a date the consolidation states (/Träder i kraft I:.../, /Upphör att gälla U:.../); everything else is attested only at the record's publication date.
+  - The record's publication date (publicerad) is used as the currency date; the consolidation status ("t.o.m. SFS ...") names the last amending statute worked in, and amendments published later are not reflected until the record is republished.
+  - The plain text is hard-wrapped; whitespace is normalised, and words hyphenated by the layout keep their hyphen.
+  - Repealed statutes (records with "Upphävd") are refused by the parser.
+status: active
+connector: riksdagen_sfs
+parser: riksdagen_sfs_json

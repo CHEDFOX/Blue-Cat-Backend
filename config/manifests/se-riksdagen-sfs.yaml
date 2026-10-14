@@ -1,0 +1,18 @@
+# Consolidated Swedish statutes fetched from the Riksdag's open data (one JSON document each).
+# Terms: free use and redistribution with attribution "Källa: Sveriges riksdag" (användningsvillkor).
+# `sfs` is the statute's number in Svensk författningssamling; the document is
+# https://data.riksdagen.se/dokument/sfs-<year>-<number>.json (current consolidation only).
+schema_version: 1
+source_id: se-riksdagen-sfs
+base_url: https://data.riksdagen.se/dokument
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+works:
+  - {sfs: "1974:152"}   # Regeringsformen (Instrument of Government; fundamental law)
+  - {sfs: "1962:700"}   # Brottsbalk (Criminal Code)
+  - {sfs: "1915:218"}   # Avtalslagen (Contracts Act)
+  - {sfs: "1958:637"}   # Ärvdabalk (Inheritance Code)
+  - {sfs: "1982:80"}    # Lag om anställningsskydd (Employment Protection Act)
+  - {sfs: "2017:900"}   # Förvaltningslag (Administrative Procedure Act)
+  - {sfs: "2018:218"}   # Lag med kompletterande bestämmelser till EU:s dataskyddsförordning (Data Protection Act)
+  - {sfs: "1942:740"}   # Rättegångsbalk (Code of Judicial Procedure)

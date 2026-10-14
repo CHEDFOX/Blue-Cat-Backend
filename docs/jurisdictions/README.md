@@ -19,3 +19,4 @@ gaps and the actual test and ingestion results. See
 | Australia (Commonwealth) | Federal Register of Legislation | [au.md](au.md) |
 | Netherlands | Basiswettenbestand (BWB) | [nl.md](nl.md) |
 | Taiwan | Laws & Regulations Database (MOJ) | [tw.md](tw.md) |
+| Sweden | Riksdagens öppna data (SFS) | [se.md](se.md) |
