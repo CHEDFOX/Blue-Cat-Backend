@@ -1,0 +1,102 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Switzerland (Confederation, federal law). The 26 cantons
+# are not profiled and cantonal law is not ingested.
+schema_version: 1
+id: CH
+profile_version: 0.1.0
+name: Switzerland
+names:
+  de: Schweizerische Eidgenossenschaft
+  fr: Confédération suisse
+  it: Confederazione Svizzera
+  rm: Confederaziun svizra
+  en: Swiss Confederation
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+# Art. 70 para. 1 BV: German, French and Italian are official languages of the Confederation;
+# Romansh is an official language for communicating with persons who speak Romansh.
+official_languages: [de, fr, it]
+legal_system:
+  families: [civil_law]
+  structure: federal
+  treaty_reception: monist
+  notes: >-
+    To verify - federal state of 26 cantons; civil-law system with codified private, criminal and
+    procedural law at federal level (ZGB, OR, StGB, ZPO, StPO). Federal enactments are published in
+    German, French and Italian, the three versions being equally binding (Art. 14 para. 1 PublA,
+    SR 170.512); publication in Romansh follows Art. 11 of the Languages Act, SR 441.1 (Art. 14
+    para. 5 PublA). International law is understood to apply domestically once in force for
+    Switzerland, without transformation (monism); see Art. 5 para. 4 and Art. 190 BV.
+legislative_institutions:
+  - id: CH-BVERS
+    name: Federal Assembly (Bundesversammlung / Assemblée fédérale / Assemblea federale)
+    instrument_types: [federal_act, ordinance, federal_decree]
+  - id: CH-BR
+    name: Federal Council (Bundesrat / Conseil fédéral / Consiglio federale)
+    instrument_types: [ordinance]
+  - id: CH-VOLK
+    name: The People and the Cantons (constitutional amendments by mandatory referendum, Art. 140 and 195 BV)
+    instrument_types: [constitution]
+instrument_types: [constitution, federal_act, ordinance, federal_decree]
+norm_hierarchy: [constitution, federal_act, ordinance]
+courts:
+  - id: CH-BGER
+    name: Federal Supreme Court (Bundesgericht / Tribunal fédéral / Tribunale federale)
+    rank: 1
+  - id: CH-BVGER
+    name: Federal Administrative Court (Bundesverwaltungsgericht / Tribunal administratif fédéral)
+    rank: 2
+    appeals_to: [CH-BGER]
+  - id: CH-BSTGER
+    name: Federal Criminal Court (Bundesstrafgericht / Tribunal pénal fédéral)
+    rank: 2
+    appeals_to: [CH-BGER]
+  - id: CH-BPATGER
+    name: Federal Patent Court (Bundespatentgericht / Tribunal fédéral des brevets)
+    rank: 2
+    appeals_to: [CH-BGER]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal stare decisis; decisions of the Federal Supreme Court (published in the
+    official BGE/ATF collection) are followed in practice by lower courts, and the Court departs
+    from its own case law only for serious reasons. Decisions of the Federal Administrative Court are
+    final in some fields (e.g. asylum) and cannot then be appealed to the Federal Supreme Court.
+    Cantonal courts are outside this profile.
+citation:
+  module: ch
+  notes: >-
+    Article, paragraph (Abs. / al. / cpv.), letter (lit. / let. / lett.) and number (Ziff. / ch. / n.),
+    followed by the official abbreviation of the enactment in the language cited. To verify against
+    Swiss practice (some writers use Bst. instead of lit. and separate the parts with commas in French).
+  examples:
+    - "Art. 8 Abs. 1 BV"
+    - "art. 8 al. 1 Cst."
+    - "art. 8 cpv. 1 Cost."
+    - "Art. 41 Abs. 1 OR"
+    - "Art. 5 lit. c Ziff. 1 DSG"
+    - "Art. 1 SchlT ZGB"
+publication:
+  official_sources: [ch-fedlex]
+  commencement: >-
+    As set by the enactment or by the Federal Council; federal acts are subject to an optional
+    referendum and constitutional amendments to a mandatory referendum (Art. 140, 141 BV).
+  amendment: >-
+    Amending enactments are published in the Official Compilation (AS / RO / RU), which is the
+    authoritative version (Art. 15 PublA; the electronic version on Fedlex since 1 January 2016).
+    The Federal Chancellery consolidates them in the Classified Compilation (SR / RS), which is not
+    authoritative.
+  repeal: Express repeal; the SR prints repealed provisions as "…" with a footnote stating the repeal and its date.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only seven federal enactments are ingested (BV, ZGB, OR, StGB, DSG, ZPO, VwVG); no ordinances, no other acts, no international treaties (SR 0.x).
+    - Version history only for BV, DSG, ZPO and VwVG and only from the first consolidation published in XML (2021 at the earliest, 2023-09-01 for the DSG); earlier dates are reported as history not indexed. ZGB, OR and StGB carry only the current consolidation.
+    - Consolidations that Fedlex publishes before they apply (e.g. StGB from 2026-11-01, OR from 2027-07-01, VwVG from 2027-01-01, BV from 2029-01-01) are not ingested and not reported per provision.
+    - Final and transitional provisions other than the final title of the ZGB (e.g. the Schlussbestimmungen of the OR and StGB) and the subject index of the BV are not ingested.
+    - Romansh and English versions are not ingested (English is not an official language; Romansh versions are partial).
+    - No cantonal law, no case law (Federal Supreme Court and other federal courts), no Official Compilation (AS) texts.

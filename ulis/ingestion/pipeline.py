@@ -29,11 +29,12 @@ from ulis.db import models as m
 from ulis.retrieval.indexer import rebuild_passages
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import Connector, RawDocument
+from ulis.sources.connectors.fedlex import FedlexConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
-from ulis.sources.parsers import akn, justice_canada, legislation_gov_uk, uslm
+from ulis.sources.parsers import akn, fedlex, justice_canada, legislation_gov_uk, uslm
 from ulis.sources.registry import SourceDescriptor, licence_gate
 from ulis.storage.object_store import ObjectStore
 from ulis.temporal.validity import Span, derive_valid_to
@@ -45,13 +46,18 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "uslm": uslm.parse_uslm,
     "legislation_gov_uk_akn": legislation_gov_uk.parse_legislation_gov_uk,
     "justice_canada_xml": justice_canada.parse_justice_canada,
+    "fedlex_akn": fedlex.parse_fedlex,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
     "uslm": uslm.PARSER_VERSION,
     "legislation_gov_uk_akn": legislation_gov_uk.PARSER_VERSION,
     "justice_canada_xml": justice_canada.PARSER_VERSION,
+    "fedlex_akn": fedlex.PARSER_VERSION,
 }
+# Sources whose versions are successive consolidations of a whole instrument, each stating the text
+# applicable from its own date (see ``Ingestor._persist_provision`` and ``_close_absent``).
+CONSOLIDATION_SERIES = "consolidation_series"
 PROPOSED_TYPES = ("bill", "resolution")
 
 
@@ -96,6 +102,8 @@ def build_connector(source: SourceDescriptor, base_dir: Path = REPO_ROOT, cache_
         return LegislationGovUkConnector(
             base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
         )
+    if source.connector == "fedlex":
+        return FedlexConnector(base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources")
     raise ValueError(f"no connector implementation named {source.connector!r}")
 
 
@@ -112,6 +120,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         uslm.resolve_identifier(uri)
         or legislation_gov_uk.resolve_uri(uri)
         or justice_canada.resolve_uri(uri)
+        or fedlex.resolve_uri(uri)
         or (uri, None)
     )
 
@@ -332,9 +341,18 @@ class Ingestor:
                 select(m.ProvisionVersion).join(m.Provision).where(m.Provision.instrument_id == instrument.id)
             )
         }
+        series: dict[tuple[Any, str], list[m.ProvisionVersion]] | None = None
+        if parsed.validity_basis == CONSOLIDATION_SERIES:
+            series = {}
+            for (pid, lang, _status, _start), pv in versions.items():
+                series.setdefault((pid, lang), []).append(pv)
         for prov in parsed.provisions:
-            self._persist_provision(instrument, version, prov, provisions, versions, doc, report, is_latest)
+            self._persist_provision(
+                instrument, version, prov, provisions, versions, doc, report, is_latest, series=series
+            )
         s.flush()
+        if is_latest and parsed.validity_basis == CONSOLIDATION_SERIES:
+            self._close_absent(version, parsed, provisions, versions)
 
         for ev in parsed.events:
             duplicate = s.scalar(
@@ -391,6 +409,8 @@ class Ingestor:
         doc: m.SourceDocument,
         report: IngestionReport,
         is_latest: bool,
+        *,
+        series: dict[tuple[Any, str], list[m.ProvisionVersion]] | None = None,
     ) -> None:
         s = self.session
         row = provisions.get(prov.eid)
@@ -422,6 +442,8 @@ class Ingestor:
         text_sha = _sha(prov.text)
         key = (row.id, version.language, prov.status, prov.valid_from)
         existing = versions.get(key)
+        if existing is None and series is not None:
+            existing = self._continued(prov, text_sha, series.get((row.id, version.language), []))
         if existing is not None:
             if existing.text_sha256 == text_sha:
                 s.add(
@@ -449,6 +471,52 @@ class Ingestor:
             return
 
         versions[key] = self._new_version(row, version, prov, text_sha, doc, report, valid_from=prov.valid_from)
+
+    @staticmethod
+    def _continued(
+        prov: ParsedProvision, text_sha: str, recorded: list[m.ProvisionVersion]
+    ) -> m.ProvisionVersion | None:
+        """In a consolidation series every provision is dated from its consolidation's date. A later
+        consolidation that shows the same wording (same status, same text) continues the version
+        recorded from an earlier one, unless that version has an explicit end; it is not a new version.
+        ``recorded`` holds the versions of this provision in this language recorded before this document."""
+        if prov.valid_from is None:
+            return None
+        earlier = [pv for pv in recorded if pv.valid_from is not None and pv.valid_from < prov.valid_from]
+        latest = max(earlier, key=lambda pv: pv.valid_from, default=None)  # type: ignore[arg-type, return-value]
+        if (
+            latest is not None
+            and latest.status == prov.status
+            and latest.text_sha256 == text_sha
+            and latest.valid_to_basis != "explicit"
+        ):
+            return latest
+        return None
+
+    def _close_absent(
+        self,
+        version: m.InstrumentVersion,
+        parsed: ParsedDocument,
+        provisions: dict[str, m.Provision],
+        versions: dict[tuple[Any, str, str, Any], m.ProvisionVersion],
+    ) -> None:
+        """A provision absent from the latest consolidation of a series (renumbered, restructured or
+        dropped) no longer applies from that consolidation's date: its open in-force version ends there.
+        The end is explicit (the consolidated text applicable from that date does not contain it)."""
+        present = {p.eid for p in parsed.provisions}
+        eid_of = {row.id: eid for eid, row in provisions.items()}
+        latest: dict[Any, m.ProvisionVersion] = {}
+        for (pid, lang, _status, start), pv in versions.items():
+            if lang != version.language or start is None:
+                continue
+            if pid not in latest or start > latest[pid].valid_from:  # type: ignore[operator]
+                latest[pid] = pv
+        for pid, pv in latest.items():
+            if eid_of.get(pid) in present or pv.status != "in_force" or pv.valid_to_basis == "explicit":
+                continue
+            if pv.valid_from is not None and pv.valid_from < version.version_date:
+                pv.valid_to, pv.valid_to_basis = version.version_date, "explicit"
+        self.session.flush()
 
     def _new_version(
         self,
