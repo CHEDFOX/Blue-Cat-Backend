@@ -35,7 +35,7 @@ from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.dila_case_law import DilaCaseLawConnector
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
-from ulis.sources.normalized import ParsedDocument
+from ulis.sources.normalized import ParsedDocument, ParseSkipped
 from ulis.sources.parsers import dila_juri, fr_texts
 from ulis.storage.object_store import LocalObjectStore
 
@@ -168,8 +168,15 @@ def test_unusable_documents_are_refused() -> None:
     with pytest.raises(ValueError, match="invalid decision date"):
         dila_juri.parse_dila_juri(text.replace("<DATE_DEC>2025-03-31<", "<DATE_DEC>2025-13-31<").encode())
     empty = text[: text.index("<BLOC_TEXTUEL>")] + "<BLOC_TEXTUEL><CONTENU/></BLOC_TEXTUEL></TEXTE></TEXTE_JURI_ADMIN>"
-    with pytest.raises(ValueError, match="no text"):
+    with pytest.raises(ParseSkipped, match="no text"):
         dila_juri.parse_dila_juri(empty.encode())
+    # a published decision whose file holds only the headnote is kept with it
+    only_headnote = raw(CASS85).decode("utf-8")
+    start, end = only_headnote.index("<BLOC_TEXTUEL>"), only_headnote.index("</BLOC_TEXTUEL>") + len("</BLOC_TEXTUEL>")
+    kept = dila_juri.parse_dila_juri(
+        (only_headnote[:start] + "<BLOC_TEXTUEL><CONTENU/></BLOC_TEXTUEL>" + only_headnote[end:]).encode()
+    )
+    assert [p.part for p in kept[0].paragraphs] == ["headnote", "headnote", "references"]
 
 
 def test_courts_of_the_publisher_names() -> None:

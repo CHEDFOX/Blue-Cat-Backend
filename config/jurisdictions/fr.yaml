@@ -3,7 +3,7 @@
 # legislation (New Caledonia, French Polynesia...) are not profiled. EU membership is deliberately not recorded here.
 schema_version: 1
 id: FR
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: France
 names: {fr: France, en: France}
 kind: sovereign_state

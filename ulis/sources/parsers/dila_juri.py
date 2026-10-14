@@ -16,10 +16,12 @@ What a judgment becomes:
   The court is mapped from ``JURIDICTION`` (Conseil constitutionnel, Cour de cassation, Conseil d'Etat, Tribunal des
   conflits, ``CAA de ...``, ``TA de ...``); the case name is the publisher's ``TITRE``; the neutral citation is the ECLI
   when the publisher gives one; the docket is the case number(s) (``2021-960 QPC`` for the Conseil constitutionnel).
-* **paragraphs** (exact source text, whitespace runs collapsed). First the headnotes (``SOMMAIRE``: ``SCT``/``ANA``) and
-  the related decisions (``CITATION_JP``). Then the decision: the text before the first numbered paragraph is one
-  ``header`` unit (or one unit per block of lines when no paragraph is numbered); each numbered paragraph (``1. ...``,
-  numbers in sequence; the number is split off into ``num``) is a ``considerations`` unit with its continuation lines;
+* **paragraphs** (exact source text, whitespace runs collapsed). A file with a headnote but no text (some old
+  published decisions) is stored with its headnote; a file with neither is skipped (``ParseSkipped``). First the
+  headnotes (``SOMMAIRE``: ``SCT``/``ANA``) and the related decisions (``CITATION_JP``). Then the decision: the
+  text before the first numbered paragraph is one ``header`` unit (or one unit per block of lines when no paragraph
+  is numbered); each numbered paragraph (``1. ...``, numbers in sequence; the number is split off into ``num``) is a
+  ``considerations`` unit with its continuation lines;
   everything from the operative part ("Décide", "PAR CES MOTIFS", "Article 1er") to the end is one ``decision`` unit.
 * **references** (citation links, never guessed): articles of the French codes, the Constitution and laws that the
   decision names with a strict pattern (``articles 1569, 1570 du code civil``), or that the Cour de cassation lists in
@@ -40,7 +42,7 @@ from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing use
 
 from defusedxml.ElementTree import fromstring
 
-from ulis.sources.normalized import ParsedDocument, ParsedJudgmentMeta, ParsedParagraph, ParsedRef
+from ulis.sources.normalized import ParsedDocument, ParsedJudgmentMeta, ParsedParagraph, ParsedRef, ParseSkipped
 from ulis.sources.parsers import fr_texts
 
 PARSER_ID = "dila_juri_xml"
@@ -50,7 +52,7 @@ BLOCK_TAGS = {"p", "div", "li", "tr", "ul", "ol", "table", "blockquote", "h1", "
 NUMBERED = re.compile(r"^(?P<num>\d{1,3})\s*\.\s+(?P<rest>\S.*)$")
 OPERATIVE = re.compile(
     r"^(?:D\s?[ÉE]\s?C\s?I\s?D\s?E|DÉCIDE|Décide|PAR CES MOTIFS|Par ces motifs|DISPOSITIF|Dispositif|"
-    r"Article (?:1er|premier|1)\s*:)",
+    r"Article (?:1er|premier|1)\s*:|(?:Jugé|Délibéré) par le Conseil constitutionnel)",
 )
 MAX_PARAGRAPH = 2_000_000
 
@@ -272,8 +274,8 @@ def parse_dila_juri(content: bytes) -> list[ParsedDocument]:
         else:
             counters[part] = counters.get(part, 0) + 1
             add(part, f"{part}-{counters[part]}", None, text)
-    if not any(p.part in ("considerations", "header", "text", "decision") for p in paragraphs):
-        raise ValueError(f"{ident}: the decision has no text")
+    if not any(p.part in ("headnote", "considerations", "header", "text", "decision") for p in paragraphs):
+        raise ParseSkipped(f"{ident}: the file holds no text and no headnote")
 
     uri = work_uri(ident)
     return [
