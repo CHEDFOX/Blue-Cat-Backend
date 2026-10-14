@@ -1,0 +1,45 @@
+# Polish law fetched from the Sejm's ELI API (https://api.sejm.gov.pl/eli), the machine interface to the
+# Dziennik Ustaw (Journal of Laws). For each instrument the connector fetches
+#   - the metadata record of every listed consolidated text (GET /acts/DU/<year>/<pos>),
+#   - the HTML of that text (GET /acts/DU/<year>/<pos>/text.html),
+#   - the metadata record of the act itself (GET /acts/DU/<year>/<pos>), from which the later
+#     amending acts and the later (PDF-only) consolidated texts are reported as outstanding changes.
+# A "consolidated text" (tekst jednolity) is the Marszałek Sejmu's announcement (obwieszczenie) published in
+# Dziennik Ustaw under art. 16 of the Act of 20 July 2000 on the publication of normative acts; its text is
+# the whole act as amended. Only consolidated texts whose HTML the API offers (textHTML: true) can be listed:
+# for announcements from 2025 on the API offers PDF only, so the newest listed text is older than the newest
+# one published. PDF is never parsed. Texts are listed oldest first; the connector checks that their stated
+# legal-status dates strictly increase and refuses anything else.
+# The Constitution (Dz.U. 1997 nr 78 poz. 483) is offered as PDF only and is therefore not listed.
+# Polish law texts are not protected by copyright (Prawo autorskie art. 4 pts 1-2); see
+# config/sources/pl-eli-sejm.yaml for the terms, the API documentation and robots.txt findings.
+schema_version: 1
+source_id: pl-eli-sejm
+base_url: https://api.sejm.gov.pl/eli
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+instruments:
+  - key: kc
+    title: Kodeks cywilny
+    act: DU/1964/93
+    consolidated: [DU/2023/1610, DU/2024/1061]
+  - key: kk
+    title: Kodeks karny
+    act: DU/1997/553
+    consolidated: [DU/2022/1138, DU/2024/17]
+  - key: uodo
+    title: Ustawa o ochronie danych osobowych
+    act: DU/2018/1000
+    consolidated: [DU/2019/1781]
+  - key: kp
+    title: Kodeks pracy
+    act: DU/1974/141
+    consolidated: [DU/2022/1510, DU/2023/1465]
+  - key: kpa
+    title: Kodeks postępowania administracyjnego
+    act: DU/1960/168
+    consolidated: [DU/2023/775, DU/2024/572]
+  - key: kro
+    title: Kodeks rodzinny i opiekuńczy
+    act: DU/1964/59
+    consolidated: [DU/2020/1359, DU/2023/2809]

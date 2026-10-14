@@ -34,6 +34,7 @@ from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.bwb import BwbConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
+from ulis.sources.connectors.eli_sejm import EliSejmConnector
 from ulis.sources.connectors.eu_cellar import CellarConnector
 from ulis.sources.connectors.fedlex import FedlexConnector
 from ulis.sources.connectors.finlex import FinlexConnector
@@ -56,6 +57,7 @@ from ulis.sources.parsers import (
     boe_consolidada,
     bwb,
     egov_law,
+    eli_sejm,
     eu_cellar,
     fedlex,
     finlex,
@@ -99,6 +101,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "ris_bundesrecht_xml": ris.parse_ris_bundesrecht,
     "likumi_lv_html": likumi_lv.parse_likumi_lv,
     "riigi_teataja_xml": riigi_teataja.parse_riigi_teataja,
+    "eli_sejm_bundle": eli_sejm.parse_eli_sejm,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -121,6 +124,7 @@ PARSER_VERSIONS = {
     "ris_bundesrecht_xml": ris.PARSER_VERSION,
     "likumi_lv_html": likumi_lv.PARSER_VERSION,
     "riigi_teataja_xml": riigi_teataja.PARSER_VERSION,
+    "eli_sejm_bundle": eli_sejm.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -173,6 +177,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "ris_ogd": RisOgdConnector,
     "likumi_lv": LikumiLvConnector,
     "riigi_teataja": RiigiTeatajaConnector,
+    "eli_sejm": EliSejmConnector,
 }
 
 
@@ -212,6 +217,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or irish_statute_book.resolve_uri(uri)
         or likumi_lv.resolve_uri(uri)
         or riigi_teataja.resolve_uri(uri)
+        or eli_sejm.resolve_uri(uri)
         or (uri, None)
     )
 

@@ -1,0 +1,94 @@
+# Sejm ELI API: the machine interface to the Polish Dziennik Ustaw. Facts read on 2026-10-14 from the publisher's own pages:
+#   https://api.sejm.gov.pl/robots.txt - HTTP 404: no robots.txt, i.e. no restrictions (RFC 9309, 2.3.1.3).
+#   https://eli.gov.pl/robots.txt - "User-Agent: *" / "Disallow:" (everything allowed). eli.gov.pl is the web front end of the
+#        same data; only its robots.txt and home page were read, no act is fetched from it.
+#   https://api.sejm.gov.pl/eli.html (English) and https://api.sejm.gov.pl/eli_pl.html (Polish) - the API documentation, "Last
+#        updated 2025-11-25": ELI API of the Chancellery of the Sejm ("Kontakt: Kancelaria Sejmu") for "aktach legislacyjnych
+#        (publikowanych w Dzienniku Ustaw i Monitorze Polskim)". It documents GET /acts/{publisher}/{year}/{num} (metadata),
+#        .../text.html ("Niektóre akty są dostępne w formacie HTML"), .../text.pdf, .../struct and /changes/acts. It states no
+#        terms of use, no licence, no rate limit and no ban on automated use; the OpenAPI description
+#        (https://api.sejm.gov.pl/eli/openapi/) and the documentation of the sibling Sejm API (https://api.sejm.gov.pl/sejm.html,
+#        read for a terms section) have no licence or terms either. The API's stylesheet is https://api.sejm.gov.pl/act.css.
+#   https://eli.gov.pl/ - URI scheme https://eli.gov.pl/eli/{dziennik}/{rok}/{pozycja}/{ogl|tj|uj}/pol/{pdf|html}: "ogl" is the act as
+#        announced, "tj" the consolidated text (tekst jednolity), "uj" the unified text "(bez mocy prawnej)", i.e. without legal
+#        force, prepared in ISAP.
+#   Prawo autorskie art. 4, read from the API's own text of the consolidated act
+#        (https://api.sejm.gov.pl/eli/acts/DU/2022/2509/text.html/artykul%3D4): "Nie stanowią przedmiotu prawa autorskiego: 1) akty
+#        normatywne lub ich urzędowe projekty; 2) urzędowe dokumenty, materiały, znaki i symbole; ..." (Act of 4 February 1994).
+#   Act of 20 July 2000 on the publication of normative acts, art. 16 (API text
+#        https://api.sejm.gov.pl/eli/acts/DU/2019/1461/text.html/artykul%3D16): "Marszałek Sejmu ogłasza tekst jednolity ustawy nie
+#        rzadziej niż raz na 12 miesięcy, jeżeli była ona nowelizowana" (ust. 1); "Tekst jednolity ogłasza się w formie obwieszczenia
+#        w dzienniku urzędowym, w którym dany akt normatywny ogłoszono" (ust. 4).
+#   isap.sejm.gov.pl answered 403 to the project's bot in an earlier probe and is NOT used (no request is made to it).
+schema_version: 1
+id: pl-eli-sejm
+name: Sejm ELI API (Dziennik Ustaw)
+publisher: >-
+  Kancelaria Sejmu (Chancellery of the Sejm of the Republic of Poland), ELI API for the Dziennik Ustaw
+  (https://api.sejm.gov.pl/eli); web front end https://eli.gov.pl
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [PL]
+document_kinds: [act]
+languages: [pl]
+coverage: >-
+  Polish legislation published in the Dziennik Ustaw (Journal of Laws). ULIS ingests the consolidated texts (teksty
+  jednolite, announced by the Marszałek Sejmu as obwieszczenia in the Dziennik Ustaw) of six acts, in Polish, for which the
+  API offers an HTML text - the Kodeks cywilny, Kodeks karny, ustawa o ochronie danych osobowych (2018), Kodeks pracy, Kodeks
+  postępowania administracyjnego and Kodeks rodzinny i opiekuńczy - two successive consolidated texts of each, except the
+  data protection act (one). The Constitution is offered as PDF only and is not ingested.
+access:
+  method: api
+  endpoint: config/manifests/pl-eli-sejm.yaml
+update_frequency: >-
+  continuous (a consolidated text is announced when an act has been amended, at least every 12 months under art. 16 ust. 1 of
+  the Act on the publication of normative acts); ULIS ingests listed texts only and does not refresh by itself
+rate_limits: >-
+  None published (API documentation and OpenAPI description). ULIS waits 5 s between requests, identifies itself, runs
+  sequentially, caches every response under var/sources/api.sejm.gov.pl/ and, for a full run of the manifest, makes about 30
+  requests. It reads robots.txt of api.sejm.gov.pl (404) and would honour one if it appeared.
+licence:
+  id: PL-PA-4-official-documents
+  name: >-
+    Official documents and normative acts are not subject to copyright (Prawo autorskie art. 4 pts 1 and 2); the API
+    documentation states no terms of use or licence
+  url: https://api.sejm.gov.pl/eli/acts/DU/2022/2509/text.html/artykul%3D4
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - art. 4 of the Act of 4 February 1994 on copyright and related rights (text read from the API itself) excludes
+    "akty normatywne lub ich urzędowe projekty" (pt 1) and "urzędowe dokumenty, materiały, znaki i symbole" (pt 2) from copyright,
+    which covers the acts and the Marszałek Sejmu's announcements that carry the consolidated texts; the ELI API documentation
+    (https://api.sejm.gov.pl/eli.html, eli_pl.html, last updated 2025-11-25) is the publisher's own invitation to machine use
+    and states no restriction; api.sejm.gov.pl has no robots.txt (404) and eli.gov.pl/robots.txt allows everything.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: >-
+    Źródło: Dziennik Ustaw Rzeczypospolitej Polskiej, Kancelaria Sejmu - ELI API (https://api.sejm.gov.pl/eli). Tekst
+    jednolity ogłoszony obwieszczeniem Marszałka Sejmu; autentyczny tekst prawa to ustawa i jej nowelizacje ogłoszone w
+    Dzienniku Ustaw.
+  conditions:
+    - The text is a consolidated text (tekst jednolity) announced in the Dziennik Ustaw; the authentic sources of law are the act and its amendments as published there. Every result says so.
+    - Polite retrieval (identifying User-Agent, 5 s between requests, cached responses); stop on any refusal. No request is made to isap.sejm.gov.pl.
+    - Only texts the API offers as HTML are parsed; PDF is never parsed.
+  notes: >-
+    The API documentation says nothing on reuse either way; the statutory exclusion from copyright and the publisher's own
+    API invitation are the basis, as for the other official-gazette sources. Counsel review is recommended before production
+    use (the legal characterisation of the tekst jednolity - an official announcement without a normative force of its own -
+    is stated here from the legislator's own words and Polish legal practice and should be confirmed).
+provenance: >-
+  The Dziennik Ustaw is the official gazette of the Republic of Poland; the ELI API of the Chancellery of the Sejm serves its
+  records and texts. For each ingested text ULIS stores one envelope holding, verbatim, the announcement's JSON record and its
+  HTML text, plus one envelope with the act's JSON record (SHA-256 recorded for each), together with the URLs and retrieval times.
+known_limitations:
+  - The consolidated text (tekst jednolity) is an official announcement published in the Dziennik Ustaw; the authentic text of the law is the act and its amending acts as published there. ULIS marks the texts as official consolidations, not authentic.
+  - For announcements from 2025 on the API offers PDF only (textHTML false), and PDF is not parsed. The newest ingested text of each act is therefore older than the newest published one; later consolidated texts and later amending acts are reported as outstanding changes, without text.
+  - Each text is dated by its legal-status date ("stan prawny", legalStatusDate); the source dates no individual provision, so history is a series of whole-act snapshots.
+  - The footnotes (publisher's notes, references to Constitutional Tribunal judgments, transposed directives) are kept as notes; the amending acts and the Tribunal's judgments are not ingested.
+  - The Constitution of 1997 (Dz.U. 1997 nr 78 poz. 483) is offered as PDF only and is not ingested.
+status: active
+connector: eli_sejm
+parser: eli_sejm_bundle

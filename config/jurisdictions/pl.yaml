@@ -1,0 +1,119 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Poland (national law). EU membership is deliberately not recorded here
+# (added separately with the EU profile).
+schema_version: 1
+id: PL
+profile_version: 0.1.0
+name: Poland
+names: {pl: Polska, en: Poland}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [pl]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: >-
+    To verify - unitary parliamentary republic under the Constitution of 2 April 1997 (in force 17 October 1997); the Sejm
+    and the Senat legislate (acts - ustawy), the President signs acts and orders their publication in the Dziennik Ustaw,
+    the Council of Ministers, ministers and other bodies issue regulations (rozporządzenia) on statutory delegation.
+    Civil-law system with codes (kodeksy) as acts of ordinary rank. Treaties: a ratified treaty, once published in the
+    Dziennik Ustaw, is part of the domestic legal order and is applied directly unless its application depends on an act
+    (Constitution art. 91 ust. 1); a treaty ratified with prior statutory consent takes precedence over acts that cannot be
+    reconciled with it (art. 91 ust. 2) - described here as monist, to verify. Local-government and territorial bodies
+    issue local enactments (akty prawa miejscowego); not ingested.
+legislative_institutions:
+  - id: PL-SEJM
+    name: Sejm and Senat (acts - ustawy; the Constitution is amended by act under art. 235)
+    instrument_types: [constitution, act]
+  - id: PL-RM
+    name: Rada Ministrów, Prezes Rady Ministrów, ministers and other bodies with statutory authority (rozporządzenia)
+    instrument_types: [regulation]
+instrument_types: [constitution, act, regulation]
+norm_hierarchy: [constitution, act, regulation]
+courts:
+  - id: PL-TK
+    name: Trybunał Konstytucyjny (Constitutional Tribunal)
+    kind: tribunal
+    rank: 1
+  - id: PL-SN
+    name: Sąd Najwyższy (Supreme Court - cassation and review of ordinary and military courts)
+    rank: 1
+  - id: PL-NSA
+    name: Naczelny Sąd Administracyjny (Supreme Administrative Court)
+    rank: 1
+  - id: PL-SA
+    name: Sądy apelacyjne (courts of appeal)
+    rank: 2
+    appeals_to: [PL-SN]
+  - id: PL-SO
+    name: Sądy okręgowe (regional courts)
+    rank: 3
+    appeals_to: [PL-SA]
+  - id: PL-SR
+    name: Sądy rejonowe (district courts)
+    rank: 4
+    appeals_to: [PL-SO]
+  - id: PL-WSA
+    name: Wojewódzkie sądy administracyjne (voivodeship administrative courts)
+    rank: 2
+    appeals_to: [PL-NSA]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal rule of binding precedent: judges are independent and subject only to the Constitution and acts
+    (Constitution art. 178 ust. 1), so decisions of the Sąd Najwyższy and the Naczelny Sąd Administracyjny are persuasive
+    in practice and widely followed. Exceptions to verify: a resolution of the Sąd Najwyższy or the Naczelny Sąd
+    Administracyjny given the force of a legal principle ("moc zasady prawnej") binds the panel that wants to depart from
+    it; judgments of the Trybunał Konstytucyjny are final and universally binding (art. 190 ust. 1) and a provision found
+    unconstitutional loses its binding force on the date the judgment is published unless the Tribunal sets another date
+    (art. 190 ust. 3). The court structure shown is simplified (military, specialised and disciplinary courts are not
+    modelled); every court entry is a draft to verify.
+citation:
+  module: pl
+  notes: >-
+    The pinpoint from the largest to the smallest unit, then the act's customary abbreviation or its name in the genitive:
+    "art. 415 k.c.", "art. 148 § 1 k.k.", "art. 6 ust. 1 pkt 2 lit. a ustawy o ochronie danych osobowych". Articles inserted
+    between others carry a superscript ("art. 22¹ k.c.", "art. 18³ᵃ k.p."); a paragraph is "§", a subsection "ust.", a
+    point "pkt", a letter "lit.". Abbreviations are set for the ingested acts only; the formal reference to the official
+    publication (Dz.U. year, position) is not generated but kept in each act's metadata.
+  examples:
+    - "art. 415 k.c."
+    - "art. 148 § 1 k.k."
+    - "art. 22¹ k.c."
+    - "art. 52 § 1 pkt 1 k.p."
+    - "art. 7 k.p.a."
+    - "art. 35 ust. 1 ustawy o ochronie danych osobowych"
+publication:
+  official_sources: [pl-eli-sejm]
+  commencement: >-
+    To verify - acts are signed by the President and published in the Dziennik Ustaw (Dz.U., the Journal of Laws);
+    publication is a condition of entry into force (Constitution art. 88 ust. 1) and an act enters into force fourteen days
+    after publication unless it states a longer period (Act of 20 July 2000 on the publication of normative acts, art. 4
+    ust. 1).
+  amendment: >-
+    Textual amendment by amending acts. The Marszałek Sejmu announces the consolidated text (tekst jednolity) of an amended
+    act in the Dziennik Ustaw as an obwieszczenie, at least once every twelve months while the act is amended (Act of
+    20 July 2000, art. 16 ust. 1 and 4, read from the API's text of that Act). The consolidated text is official but
+    informative; the authentic text is the act and its amending acts as published (to verify). A consolidated text states
+    its legal-status date ("stan prawny").
+  repeal: >-
+    Express repeal; the consolidated text marks a repealed provision "(uchylony)" or "(pominięty)" and keeps its number.
+memberships:
+  # Accession to the European Union on 1 May 2004 (to verify).
+  - organisation: EU
+    from_date: 2004-05-01
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only consolidated texts (teksty jednolite) of six acts are ingested, in Polish - the Kodeks cywilny, Kodeks karny, ustawa o ochronie danych osobowych (2018), Kodeks pracy, Kodeks postępowania administracyjnego and Kodeks rodzinny i opiekuńczy - two successive texts of each, except the data protection act (one). No other acts, no regulations (rozporządzenia), Monitor Polski, treaties, local enactments or case law (Trybunał Konstytucyjny, Sąd Najwyższy, Naczelny Sąd Administracyjny).
+    - The Constitution of 1997 is NOT ingested - the API offers it as PDF only (textHTML false), and PDF is never parsed.
+    - The newest ingested text of each act is not the newest published. For announcements from 2025 on the API offers PDF only, so the ingested texts date from 2019 to 2024 (their legal-status dates are stated on every result); later consolidated texts and the later amending acts are listed as outstanding changes without text, so the corpus cannot say what these acts provide today.
+    - Dates are those of the whole consolidated text (legal-status date, revision snapshot); the source dates no provision, so a provision's own commencement and repeal date are not known.
+    - The consolidated text is an official announcement, not the authentic text of the law (the act and its amending acts as published in the Dziennik Ustaw), which is not ingested, nor are the Constitutional Tribunal judgments the footnotes mention; footnotes are kept as notes, footnotes on division headings are not.
+    - The announcement's own text (the list of amending acts), annexes and tables are not ingested (none of the six acts has an annex in the texts used); cross-references stay plain text, unlinked.
+    - No PostgreSQL text-search configuration exists for Polish, so the simple configuration is used (no stemming; inflected forms are matched only when identical).

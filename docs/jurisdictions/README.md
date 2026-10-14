@@ -27,3 +27,4 @@ gaps and the actual test and ingestion results. See
 | Latvia | Likumi.lv (Latvijas Vēstnesis) | [lv.md](lv.md) |
 | Estonia | Riigi Teataja | [ee.md](ee.md) |
 | New Zealand (planned, blocked) | NZ Legislation (PCO) | [nz.md](nz.md) |
+| Poland | Sejm ELI API | [pl.md](pl.md) |

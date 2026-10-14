@@ -1,0 +1,65 @@
+{
+ "kc_2023_1610": {
+  "act": "DU/1964/93",
+  "retrieved_at": "2026-10-14T15:26:25.743034+00:00",
+  "tj": "DU/2023/1610",
+  "url": "https://api.sejm.gov.pl/eli/acts/DU/2023/1610/text.html"
+ },
+ "kc_2024_1061": {
+  "act": "DU/1964/93",
+  "retrieved_at": "2026-10-14T15:26:36.345642+00:00",
+  "tj": "DU/2024/1061",
+  "url": "https://api.sejm.gov.pl/eli/acts/DU/2024/1061/text.html"
+ },
+ "kc_references": {
+  "act": "DU/1964/93",
+  "retrieved_at": "2026-10-14T15:26:37.584188+00:00",
+  "url": "https://api.sejm.gov.pl/eli/acts/DU/1964/93"
+ },
+ "kk_2024_17": {
+  "act": "DU/1997/553",
+  "retrieved_at": "2026-10-14T15:26:59.931128+00:00",
+  "tj": "DU/2024/17",
+  "url": "https://api.sejm.gov.pl/eli/acts/DU/2024/17/text.html"
+ },
+ "kp_2023_1465": {
+  "act": "DU/1974/141",
+  "retrieved_at": "2026-10-14T15:27:40.165415+00:00",
+  "tj": "DU/2023/1465",
+  "url": "https://api.sejm.gov.pl/eli/acts/DU/2023/1465/text.html"
+ },
+ "kpa_2023_775": {
+  "act": "DU/1960/168",
+  "retrieved_at": "2026-10-14T15:27:53.869038+00:00",
+  "tj": "DU/2023/775",
+  "url": "https://api.sejm.gov.pl/eli/acts/DU/2023/775/text.html"
+ },
+ "kpa_2024_572": {
+  "act": "DU/1960/168",
+  "retrieved_at": "2026-10-14T15:28:06.379296+00:00",
+  "tj": "DU/2024/572",
+  "url": "https://api.sejm.gov.pl/eli/acts/DU/2024/572/text.html"
+ },
+ "kpa_references": {
+  "act": "DU/1960/168",
+  "retrieved_at": "2026-10-14T15:28:07.619407+00:00",
+  "url": "https://api.sejm.gov.pl/eli/acts/DU/1960/168"
+ },
+ "kro_2023_2809": {
+  "act": "DU/1964/59",
+  "retrieved_at": "2026-10-14T15:28:29.791963+00:00",
+  "tj": "DU/2023/2809",
+  "url": "https://api.sejm.gov.pl/eli/acts/DU/2023/2809/text.html"
+ },
+ "uodo_2019_1781": {
+  "act": "DU/2018/1000",
+  "retrieved_at": "2026-10-14T15:27:14.659287+00:00",
+  "tj": "DU/2019/1781",
+  "url": "https://api.sejm.gov.pl/eli/acts/DU/2019/1781/text.html"
+ },
+ "uodo_references": {
+  "act": "DU/2018/1000",
+  "retrieved_at": "2026-10-14T15:27:17.672731+00:00",
+  "url": "https://api.sejm.gov.pl/eli/acts/DU/2018/1000"
+ }
+}
