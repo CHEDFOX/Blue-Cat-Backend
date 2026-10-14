@@ -37,6 +37,8 @@ class UyExt(BaseModel):
     nombre: str | None = None  # nombreNorma
     fecha_promulgacion: str | None = Field(default=None, pattern=_ISO_DATE)
     fecha_publicacion: str | None = Field(default=None, pattern=_ISO_DATE)
+    # entries of the norm that IMPO's JSON gives without text (and that are not repealed): not stored as provisions
+    articulos_sin_texto: int | None = Field(default=None, ge=1)
 
 
 def dotted(number: str) -> str:

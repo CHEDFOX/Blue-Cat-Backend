@@ -28,7 +28,7 @@ from ulis.sources.connectors.infoleg_ar import robots_crawl_delay
 from ulis.sources.connectors.likumi_lv import robots_disallowed
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
-from ulis.sources.normalized import ParsedDocument, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkipped
 from ulis.sources.parsers import impo_uy
 from ulis.sources.parsers.impo_uy import BUNDLE_FORMAT, ImpoParseError, clean_article_text, parse_impo_uy, resolve_uri
 from ulis.sources.registry import licence_gate
@@ -221,13 +221,22 @@ def test_law_reflow_items_notes_and_references() -> None:
     assert len({(e.event_type, e.date, e.affecting_uri) for e in doc.events}) == len(doc.events)
 
 
-def test_articles_an_amending_law_leaves_without_text() -> None:
+def test_entries_without_text_are_not_stored() -> None:
+    # arts. 1-6 of Ley 17.016 only amend other texts: IMPO blanks them to "(*)" plus a note on what they amended
     doc = _doc("ley-17016")
-    first = _prov(doc, "art-1")
-    assert first.text == "" and first.status == "in_force" and not first.indexable
-    assert first.note == "Este artículo dio nueva redacción a: Decreto Ley Nº 14.294 de 31/10/1974 artículo 3."
+    assert [p.eid for p in doc.provisions] == ["art-7"] and doc.ext["articulos_sin_texto"] == 6
     assert _prov(doc, "art-7").text.startswith("El Poder Ejecutivo establecerá en el decreto reglamentario")
-    assert _prov(doc, "art-7").indexable
+    assert _prov(doc, "art-7").indexable and all(p.text or p.status == "repealed" for p in doc.provisions)
+    law = _doc("decreto-ley-14653")
+    assert [p.eid for p in law.provisions] == ["art-4", "art-5"] and law.ext["articulos_sin_texto"] == 3
+    assert "articulos_sin_texto" not in _doc("ley-18331").ext
+    # a norm whose every entry is blanked has nothing to store
+    blanked = json.loads(_body("ley-17016"))
+    blanked["articulos"][-1]["textoArticulo"] = "    (*) "
+    with pytest.raises(ParseSkipped, match="no article text"):
+        parse_impo_uy(_bundle("ley-17016", body=json.dumps(blanked, ensure_ascii=False)))
+    with pytest.raises(ParseSkipped, match="lists no articles"):
+        parse_impo_uy(_bundle("ley-17016", body='{"tipoNorma": "Ley", "articulos": []}'))
 
 
 def test_decree_and_decree_law() -> None:
@@ -274,7 +283,7 @@ def test_parser_reads_the_lenient_json_impo_sends() -> None:
     with pytest.raises(ValueError, match="control character"):
         json.loads(body)
     doc = parse_impo_uy(_bundle("ley-17016", body=body))[0]
-    assert len(doc.provisions) == 7
+    assert [p.eid for p in doc.provisions] == ["art-7"]
 
 
 def test_parser_rejects_unexpected_input() -> None:
@@ -291,8 +300,8 @@ def test_parser_rejects_unexpected_input() -> None:
         parse_impo_uy(json.dumps({k: v for k, v in good.items() if k != "retrieved_at"}).encode())
     with pytest.raises(ImpoParseError, match="incomplete bundle"):
         parse_impo_uy(json.dumps({**good, "body": "<html>no json</html>"}).encode())
-    with pytest.raises(ImpoParseError, match="no articles"):
-        parse_impo_uy(json.dumps({**good, "body": '{"tipoNorma": "Ley", "articulos": []}'}).encode())
+    with pytest.raises(ImpoParseError, match="no list of articles"):
+        parse_impo_uy(json.dumps({**good, "body": '{"tipoNorma": "Ley"}'}).encode())
     twice = json.loads(_body("ley-18331"))
     twice["articulos"].append(twice["articulos"][0])
     with pytest.raises(ImpoParseError, match="appears twice"):
@@ -335,7 +344,7 @@ def test_citation_styles() -> None:
     assert _citation(_doc("ley-18331"), "art-9") == "artículo 9 de la Ley Nº 18.331"
     assert _citation(_doc("ley-18331"), "art-18-bis") == "artículo 18 bis de la Ley Nº 18.331"
     assert _citation(_doc("decreto-414-2009"), "art-7") == "artículo 7 del Decreto Nº 414/009"
-    assert _citation(_doc("decreto-ley-14653"), "art-1") == "artículo 1 del Decreto Ley Nº 14.653"
+    assert _citation(_doc("decreto-ley-14653"), "art-4") == "artículo 4 del Decreto Ley Nº 14.653"
     module = get_module("uy")
     base = {
         "instrument_title": "X",
@@ -361,6 +370,7 @@ def test_ext_is_validated() -> None:
         {**good, "numero": "18.331"},
         {**good, "fecha_promulgacion": "11/08/2008"},
         {**good, "extra": 1},
+        {**good, "articulos_sin_texto": 0},
         {k: v for k, v in good.items() if k != "kind"},
     ):
         with pytest.raises(ValidationError):
@@ -609,9 +619,8 @@ def test_ingest_report_counts(uy_ingested: IngestionReport) -> None:
     assert uy_ingested.documents_new == len(NAMES) and uy_ingested.instruments_created == len(NAMES)
     assert uy_ingested.provision_versions_created == sum(len(_doc(n).provisions) for n in NAMES)
     repealed = sum(1 for n in NAMES for p in _doc(n).provisions if p.status == "repealed")
-    empty = sum(1 for n in NAMES for p in _doc(n).provisions if p.status != "repealed" and not p.text)
-    assert repealed >= 8 and empty >= 6
-    assert uy_ingested.passages_indexed == uy_ingested.provision_versions_created - repealed - empty
+    assert repealed >= 8 and all(p.text for n in NAMES for p in _doc(n).provisions if p.status != "repealed")
+    assert uy_ingested.passages_indexed == uy_ingested.provision_versions_created - repealed
 
 
 @pytest.mark.db

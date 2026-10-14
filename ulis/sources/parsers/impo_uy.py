@@ -27,9 +27,10 @@ What the JSON looks like (what ULIS does with it):
   punctuation are those of the source. Some entries hold several articles of the code, labelled inline
   (``</pre><br><b>242-1</b><br><pre>``): they become one provision per label;
 * an article whose whole text is a repeal statement ("DEROGADO por Ley No. 10.084 del 3.12.41 (*)") or is empty with
-  a ``Derogado/s por:`` note is ``repealed``: empty text, the statement and notes in ``note``. An amending law's
-  article whose text IMPO omits ("Este artículo dio nueva redacción a: ...") stays ``in_force`` with empty text and
-  that note;
+  a ``Derogado/s por:`` note is ``repealed``: empty text, the statement and notes in ``note``. An entry that is not
+  repealed and has no text - IMPO blanks it to "(*)", with a pointer to the original text or "Este artículo dio nueva
+  redacción a: ..." for an amending article - is **not stored** (nothing says it is in force); the norm's
+  ``ext.articulos_sin_texto`` counts them;
 * ``notasArticulo`` (HTML) holds IMPO's editorial notes ("Redacción dada por: Ley Nº 18.719 de 27/12/2010 artículo
   152", "Ver en esta norma, artículos: ...", "TEXTO ORIGINAL: ..."). It becomes the provision's ``note`` (plain text,
   never part of ``text``); its links become ``cites`` references; each "dada/agregado/derogado/suprimido ... por: <law>
@@ -37,8 +38,9 @@ What the JSON looks like (what ULIS does with it):
   change took effect, which the notes give only as "Ver vigencia" links).
 
 Not handled (see docs/jurisdictions/uy.md): the older wording of amended articles (IMPO links to the original text
-only), tables beyond their plain text, the "referencias" pages, and annexes. A norm whose articles have neither text
-nor notes (some 19th-century laws) raises ``ParseSkipped``; an unexpected answer raises ``ImpoParseError``.
+only), tables beyond their plain text, the "referencias" pages, and annexes. A norm that would store no provision
+(some 19th-century laws; decrees whose every article IMPO blanks) raises ``ParseSkipped``; an unexpected answer
+raises ``ImpoParseError``.
 """
 
 from __future__ import annotations
@@ -254,7 +256,7 @@ def _events_from_notes(notes_html: str, eid: str) -> list[ParsedEvent]:
     return events
 
 
-def _refs_from_notes(notes_html: str, own_path: str) -> list[ParsedRef]:
+def _refs_from_notes(notes_html: str) -> list[ParsedRef]:
     refs: dict[str, ParsedRef] = {}
     for link in _LINK.finditer(notes_html):
         target = link.group("href")
@@ -310,8 +312,10 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
     except (KeyError, TypeError, ValueError) as exc:
         raise ImpoParseError(f"incomplete bundle: {exc}") from exc
     articles = norm.get("articulos") if isinstance(norm, dict) else None
-    if not isinstance(articles, list) or not articles:
-        raise ImpoParseError("the norm has no articles")
+    if not isinstance(articles, list):
+        raise ImpoParseError("the norm has no list of articles")
+    if not articles:
+        raise ParseSkipped("IMPO's JSON lists no articles for this norm")
 
     tipo = _flat(str(norm.get("tipoNorma") or "")) or kind
     nombre = _flat(str(norm.get("nombreNorma") or "")) or None
@@ -325,6 +329,7 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
     seen_events: set[tuple[str, date, str | None]] = set()
     seen: set[str] = set()
     context: list[str] = []
+    without_text = 0
     for article in articles:
         if not isinstance(article, dict):
             raise ImpoParseError("an article is not an object")
@@ -345,7 +350,7 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
         segments = [(label, pieces[0])] + [
             (pieces[i].strip().replace(" ", ""), pieces[i + 1]) for i in range(1, len(pieces) - 1, 2)
         ]
-        ref_list = _refs_from_notes(notes_html, path)
+        ref_list = _refs_from_notes(notes_html)
         for index, (seg_label, seg_text) in enumerate(segments):
             if not _ARTICLE_LABEL.match(seg_label):
                 raise ImpoParseError(f"unexpected article label {seg_label!r} inside article {label}")
@@ -363,6 +368,11 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
             elif not statement and len(segments) == 1 and _REPEAL_NOTE.search(note_text):
                 repealed = True
             note = " ".join(notes)[:NOTE_LIMIT] or None
+            if not repealed and not text:
+                # IMPO omits the text ("(*)" and a pointer to the original text, or "Este artículo dio nueva redacción
+                # a: ..." for an amending article): nothing to store, and nothing says the article is in force.
+                without_text += 1
+                continue
             provisions.append(
                 ParsedProvision(
                     eid=eid,
@@ -390,9 +400,9 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
                 seen_events.add(key)
                 events.append(event)
 
-    if not any(p.text or p.note for p in provisions):
-        # some 19th-century laws are listed with article numbers but no text at all: nothing to store
-        raise ParseSkipped(f"IMPO publishes no text for {path}")
+    if not provisions:
+        # old norms listed with article numbers only, or whose every article IMPO's JSON blanks: nothing to store
+        raise ParseSkipped(f"IMPO's JSON holds no article text for {path} ({without_text} entries without text)")
     promulgated, published = _date(norm.get("fechaPromulgacion")), _date(norm.get("fechaPublicacion"))
     is_constitution = instrument_type == "constitution"
     named = designation(tipo, nro, norm_year, kind)
@@ -420,6 +430,8 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
         ext["fecha_promulgacion"] = promulgated.isoformat()
     if published:
         ext["fecha_publicacion"] = published.isoformat()
+    if without_text:
+        ext["articulos_sin_texto"] = without_text
     title = nombre if kind in ("leyes", "decretos", "decretos-ley") and nombre else tipo
     status_kind: Literal["current_consolidation", "as_made"] = "current_consolidation" if updated else "as_made"
     return [
