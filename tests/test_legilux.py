@@ -29,6 +29,7 @@ from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.legilux import ROBOTS_URL, LegiluxConnector, bundle_bytes, file_url
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
+from ulis.sources.normalized import ParseSkipped
 from ulis.sources.parsers.legilux import LegiluxParseError, parse_legilux, resolve_uri, skipped_blocks
 from ulis.sources.registry import licence_gate
 from ulis.storage.object_store import LocalObjectStore
@@ -183,7 +184,7 @@ def test_unsupported_documents_are_rejected_loudly() -> None:
             b"<akomaNtoso xmlns='http://docs.oasis-open.org/legaldocml/ns/akn/3.0/CSD13'><act>"
             b"<meta><identification/></meta><body/></act></akomaNtoso>"
         )
-    with pytest.raises(LegiluxParseError, match="no articles"):
+    with pytest.raises(ParseSkipped, match="no numbered articles"):
         parse_legilux(re.sub(rb"<body>.*</body>", b"<body/>", good, flags=re.S))
 
 

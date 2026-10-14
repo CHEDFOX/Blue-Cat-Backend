@@ -36,7 +36,7 @@ from xml.etree.ElementTree import Element
 from defusedxml.ElementTree import fromstring
 
 from ulis.ingestion.snapshots import SNAPSHOT_BASIS
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef, ParseSkipped
 
 PARSER_VERSION = "1.0.0"
 BUNDLE_SCHEMA = "ulis-lu-legilux-bundle/1"
@@ -523,7 +523,8 @@ def parse_legilux(content: bytes) -> list[ParsedDocument]:
     reader = _Reader(_note_texts(act))
     reader.walk(body, [])
     if not reader.nodes:
-        raise LegiluxParseError("no articles found")
+        # Some acts (decisions, statutes) are one unnumbered text; there is no article to cite, so nothing is stored.
+        raise ParseSkipped("no numbered articles")
 
     enacted = _iso(_first(meta, "dateDocument"))
     in_force = _iso(_first(meta, "dateEntryInForce"))
