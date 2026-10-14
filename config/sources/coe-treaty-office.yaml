@@ -1,0 +1,51 @@
+# Council of Europe Treaty Office (www.coe.int, rm.coe.int). PLANNED, NOT INGESTED: both hosts answer the
+# identifying ULIS User-Agent with a Cloudflare block (HTTP 403, "Sorry, you have been blocked"), including
+# for /robots.txt, so neither the robots rules nor the Council's reuse policy could be read. Per the project
+# rules ULIS stopped after one request per host and did not retry or work around the block.
+schema_version: 1
+id: coe-treaty-office
+name: Council of Europe Treaty Office - treaty texts, chart of signatures and ratifications (ETS/CETS)
+publisher: Council of Europe, Treaty Office
+kind: official_treaty_repository
+authority: official_non_authentic
+jurisdictions: [COE]
+document_kinds: [treaty]
+languages: [en, fr]
+coverage: >-
+  Texts of the European Convention on Human Rights (ETS 005), its Protocols and the other Council of Europe
+  treaties, with the chart of signatures and ratifications. ULIS ingests nothing from it. The Convention and
+  the Statute of the Council of Europe are ingested instead as published by Switzerland (source
+  ch-fedlex-treaties).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.coe.int/en/web/conventions/
+update_frequency: unknown
+rate_limits: >-
+  Unknown. https://www.coe.int/robots.txt and https://rm.coe.int/robots.txt: HTTP 403 text/html, the
+  Cloudflare page "Attention Required! | Cloudflare - Sorry, you have been blocked", 2026-10-14, request
+  with the User-Agent "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)". No further
+  request was made to either host.
+licence:
+  id: COE-UNKNOWN
+  name: Council of Europe terms of use / reuse policy (not readable)
+  url: https://www.coe.int/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14: could not be read, see rate_limits. The European Court of Human Rights' own
+    site (www.echr.coe.int) has a copyright page, summarised in the source coe-echr-hudoc; it is not the
+    Council's policy for the Treaty Office.
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  conditions:
+    - A person must read the Council of Europe's legal notice and reuse policy in a browser and, if automated retrieval is wanted, ask the Treaty Office to allow the bot or to provide a data feed.
+  notes: >-
+    Blocked, not rejected: the terms are unknown. The signature and ratification dates of the member states
+    that the lead needs for profile memberships were taken from the Swiss publication of the Convention and
+    of the Statute (ch-fedlex-treaties), see docs/jurisdictions/coe.md.
+provenance: One request each to www.coe.int/robots.txt and rm.coe.int/robots.txt (2026-10-14), both blocked. Nothing stored.
+known_limitations:
+  - Not ingested. The Swiss Classified Compilation (SR 0.101 and following, checked by SPARQL on 2026-10-14) lists Protocols No 2, 6, 7, 8, 9, 11, 13, 14 and 15 but none of No 1, 4, 12 or 16, so those Protocols are not available in ULIS.
+status: planned

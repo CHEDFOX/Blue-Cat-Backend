@@ -1,0 +1,45 @@
+# International Criminal Court website (www.icc-cpi.int). PLANNED, NOT INGESTED: its terms page
+# (/disclaimer, "Terms and conditions of use") answered the identifying ULIS User-Agent with a "Browser
+# Validation Page" (Gcore security service), so the terms could not be read; ULIS does not pass such
+# challenges. robots.txt and the home page were served. 2026-10-14.
+schema_version: 1
+id: icc-legal-texts
+name: International Criminal Court - Core Legal Texts (Rome Statute, Rules of Procedure and Evidence) and court records
+publisher: International Criminal Court
+kind: international_organisation
+authority: official_non_authentic
+jurisdictions: [INT]
+document_kinds: [treaty, judgment]
+languages: [en, fr]
+coverage: >-
+  The ICC's Core Legal Texts page (/publications/core-legal-texts) and its court records. ULIS ingests
+  nothing from it. The Rome Statute is ingested instead as published by Switzerland (source
+  ch-fedlex-treaties, /int/treaty/ch-sr-0.312.1).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.icc-cpi.int/publications/core-legal-texts
+update_frequency: unknown
+rate_limits: >-
+  https://www.icc-cpi.int/robots.txt (HTTP 200, "User-agent: *", read 2026-10-14) disallows only Drupal
+  system paths (/core/, /profiles/, admin, search, user, comment); no Crawl-delay. The home page returned
+  HTTP 200; https://www.icc-cpi.int/disclaimer returned HTTP 200 with a Gcore interstitial ("Browser
+  Validation Page ... requires full cookie and JavaScript support"). No retry was made.
+licence:
+  id: ICC-UNKNOWN
+  name: ICC "Terms and conditions of use" (not readable)
+  url: https://www.icc-cpi.int/disclaimer
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14: the terms page could not be read (browser challenge), see rate_limits.
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  conditions:
+    - A person must read the ICC's terms of use in a browser; ask the Court whether automated retrieval is allowed.
+  notes: Blocked, not rejected. Rome Statute text is available through ch-fedlex-treaties.
+provenance: robots.txt, home page and /disclaimer (challenge page) fetched once each on 2026-10-14. Nothing stored.
+known_limitations:
+  - Not ingested.
+status: planned

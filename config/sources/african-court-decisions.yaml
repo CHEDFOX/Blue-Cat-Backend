@@ -1,0 +1,46 @@
+# African Court on Human and Peoples' Rights (www.african-court.org, ajudata.african-court.org). PLANNED,
+# NOT INGESTED: the sites say "Copyright (c) AfCHPR - African Court on Human and Peoples' Rights | All Rights
+# Reserved" and give no reuse terms; no robots.txt exists. Without a licence nothing may be reused.
+schema_version: 1
+id: african-court-decisions
+name: African Court on Human and Peoples' Rights - judgments, orders and advisory opinions
+publisher: African Court on Human and Peoples' Rights (African Union)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [INT]
+document_kinds: [judgment]
+languages: [en, fr]
+coverage: >-
+  Decisions of the African Court, listed at https://ajudata.african-court.org/decisions (by date, category
+  and session) and the African Court Law Reports. ULIS ingests nothing from it. An African Union profile is
+  not modelled.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://ajudata.african-court.org/decisions
+update_frequency: on delivery of decisions
+rate_limits: >-
+  https://www.african-court.org/robots.txt and https://ajudata.african-court.org/robots.txt: HTTP 404, so no
+  robots rules are published (read 2026-10-14). No other rate limit was found.
+licence:
+  id: AFCHPR-ALL-RIGHTS-RESERVED
+  name: All rights reserved (no reuse terms published)
+  url: https://www.african-court.org/afchpr/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. Footer of https://www.african-court.org/afchpr/ (the site's start page):
+    "Copyright (c) AfCHPR- African Court on Human and Peoples' Rights | All Rights Reserved". Footer of
+    https://ajudata.african-court.org/decisions: "Copyright (c) 2026 African Court". No terms of use, legal
+    notice, open licence or API terms were found on the pages fetched (start page and /decisions); the
+    decisions' own pages and PDFs were not opened.
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  conditions:
+    - Ask the Registry for written permission; absent a licence, copyright law applies.
+  notes: Not approved. A public court publication is not a licence to reproduce or to index it.
+provenance: Two robots.txt requests, the start page and /decisions fetched once each on 2026-10-14. Nothing stored.
+known_limitations:
+  - Not ingested.
+status: planned

@@ -1,0 +1,53 @@
+# Inter-American Court of Human Rights website (www.corteidh.or.cr). PLANNED, NOT INGESTED: the site states
+# Creative Commons Attribution-NonCommercial-NoDerivatives 3.0 Unported. NonCommercial and NoDerivatives
+# terms are not accepted for ULIS without a decision by the owner (no source with such a licence is
+# admitted). robots.txt allows everything. Read 2026-10-14.
+schema_version: 1
+id: iacthr-judgments
+name: Inter-American Court of Human Rights - judgments, advisory opinions and orders (Corte Interamericana de Derechos Humanos)
+publisher: Inter-American Court of Human Rights (Organization of American States)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [INT]
+document_kinds: [judgment]
+languages: [es, en]
+coverage: >-
+  Judgments (Series C), advisory opinions (Series A) and other decisions of the Court, listed on
+  https://www.corteidh.or.cr/casos_sentencias.cfm and searchable at https://jurisprudencia.corteidh.or.cr/.
+  ULIS ingests nothing from it. An OAS profile and the American Convention are not modelled.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.corteidh.or.cr/casos_sentencias.cfm
+update_frequency: on delivery of decisions
+rate_limits: >-
+  https://www.corteidh.or.cr/robots.txt (HTTP 200): "User-agent: *" "Allow: /" (read 2026-10-14). No
+  Crawl-delay. The identifying User-Agent was served the home page (HTTP 200).
+licence:
+  id: CC-BY-NC-ND-3.0
+  name: Creative Commons Attribution-NonCommercial-NoDerivatives 3.0 Unported (Atribución-NoComercial-SinDerivadas 3.0)
+  url: https://creativecommons.org/licenses/by-nc-nd/3.0/deed.es
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14, footer of https://www.corteidh.or.cr/: "Corte Interamericana de Derechos
+    Humanos. 2026. Licencia Creative Commons. Esta obra está bajo una Licencia Creative Commons
+    Atribución-NoComercial-SinDerivadas 3.0 Unported." linking to
+    https://creativecommons.org/licenses/by-nc-nd/3.0/deed.es. The statement is on the website's home page
+    ("esta obra"); whether it covers every judgment text and the jurisprudence database was not checked
+    and the licence legal code was not re-read.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: not_allowed
+  attribution_required: true
+  attribution_text: "Corte Interamericana de Derechos Humanos. Licencia Creative Commons Atribución-NoComercial-SinDerivadas 3.0 Unported."
+  conditions:
+    - Attribution; NonCommercial (no commercial use); NoDerivatives (no adapted material; ULIS would split the text into numbered paragraphs, which counsel must judge).
+  notes: >-
+    NOT approved. To enable: the owner decides whether the deployment is strictly non-commercial and
+    counsel confirms that paragraph-level indexing is not an "adaptation" under the licence, or the Court
+    gives permission; then add a connector and a parser (the judgment file format was not examined).
+provenance: robots.txt and the home page fetched once each on 2026-10-14. Nothing stored.
+known_limitations:
+  - Not ingested.
+status: planned

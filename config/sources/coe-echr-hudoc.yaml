@@ -1,0 +1,83 @@
+# HUDOC, the case-law database of the European Court of Human Rights. PLANNED, NOT INGESTED: the Court
+# grants reproduction only for private use or for information and education in connection with its
+# activities, free of charge; any other use, "in particular commercial use", needs its prior written
+# permission, and nothing is said about automated or bulk retrieval. Read 2026-10-14; see
+# docs/jurisdictions/coe.md for the evidence.
+schema_version: 1
+id: coe-echr-hudoc
+name: HUDOC - European Court of Human Rights case law (judgments, decisions, advisory opinions) and the Convention texts on echr.coe.int
+publisher: European Court of Human Rights (Council of Europe)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [COE]
+document_kinds: [judgment]
+languages: [en, fr]
+coverage: >-
+  HUDOC holds the Court's Grand Chamber, Chamber and Committee judgments and decisions, communicated cases,
+  advisory opinions and legal summaries, the European Commission of Human Rights' decisions and reports, and
+  Committee of Ministers resolutions (HUDOC home page meta description), mostly in English and French. ULIS
+  ingests nothing from it (status planned).
+access:
+  method: api
+  endpoint: https://hudoc.echr.coe.int/
+update_frequency: daily; judgments are delivered on set days
+rate_limits: >-
+  No published rate limit. hudoc.echr.coe.int/robots.txt does not exist: the host answers any path,
+  including /robots.txt, with HTTP 200 and its single-page application (text/html), so no robots rules are
+  published for HUDOC. www.echr.coe.int/robots.txt (HTTP 200) disallows only /search paths and a few
+  document files, none of them judgments. www.coe.int/robots.txt and rm.coe.int/robots.txt answer the
+  identifying ULIS User-Agent with HTTP 403 and a Cloudflare "Sorry, you have been blocked" page
+  (2026-10-14); ULIS made no further requests to those hosts. HUDOC's internal JSON API
+  (hudoc.echr.coe.int/app/query/results, undocumented) was NOT used: no document of the Court allows
+  automated retrieval through it.
+licence:
+  id: ECHR-COPYRIGHT-AND-DISCLAIMER
+  name: >-
+    European Court of Human Rights, "Copyright and Disclaimer": reproduction of website texts with
+    acknowledgement for private use or for information and education in connection with the Court's
+    activities; other use, commercial in particular, only with prior written permission
+  url: https://www.echr.coe.int/copyright-and-disclaimer
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14, from the Court's page https://www.echr.coe.int/copyright-and-disclaimer
+    (linked from every page of www.echr.coe.int; HUDOC itself carries no separate terms page that ULIS
+    could find): "The information and texts available on the Court's website may be reproduced provided
+    the source is acknowledged (© ECHR-CEDH) and the reproduction is made for private use or for the
+    purposes of information and education in connection with the Court's activities. This authorisation
+    is subject to the condition that the source is indicated and that any such reproduction is free of
+    charge. Persons wishing to use information and texts on the Court's website for any use other than
+    those listed above, and in particular for commercial use, must request prior written permission using
+    the form available on the website. Users should nevertheless be aware that certain information and
+    texts may be protected under intellectual property law, in particular by copyright." The same page:
+    "The electronic version of the Court's judgments and decisions is provided in order to ensure
+    compliance with Article 44 § 3 of the European Convention on Human Rights ... it is not possible to
+    guarantee that an electronic document faithfully reproduces a formally adopted text and the electronic
+    version remains subject to editorial revision. The original signed text held in the Court's archives is
+    the authentic version." No Council of Europe reuse policy could be read: www.coe.int answers ULIS with
+    a Cloudflare block (see rate_limits).
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: not_allowed
+  attribution_required: true
+  attribution_text: "© ECHR-CEDH"
+  conditions:
+    - Reproduction only for private use or for information and education in connection with the Court's activities, free of charge, acknowledging the source (© ECHR-CEDH).
+    - Any other use, in particular commercial use, needs the Court's prior written permission (request form on www.echr.coe.int).
+    - Nothing is said about automated, bulk or API retrieval, indexing or model-assisted analysis; it would have to be confirmed in writing before any retrieval.
+  notes: >-
+    NOT approved. Whether a free legal-research service is "information and education in connection with
+    the Court's activities", and whether ULIS's intended deployment is free of charge, is a decision for
+    the owner and counsel; ULIS does not stretch the reading. To enable: obtain the Court's written
+    permission covering automated retrieval through HUDOC and the intended use, record it here, set
+    review_status approved and the permissions it grants, then add a connector (HUDOC query by item id,
+    then the document body) and a parser that keeps the Court's own paragraph numbers.
+provenance: >-
+  Nothing was retrieved from HUDOC beyond its start page and robots.txt path (identical single-page
+  application) on 2026-10-14. Terms read from www.echr.coe.int/copyright-and-disclaimer.
+known_limitations:
+  - Not ingested. No judgment, decision or Convention text from HUDOC or echr.coe.int is stored.
+  - The electronic text is not the authentic text (signed original in the Court's archives; until 2015 the printed Reports of Judgments and Decisions governed).
+  - HUDOC is a JavaScript application on an undocumented internal API; no stable bulk export is documented.
+status: planned
