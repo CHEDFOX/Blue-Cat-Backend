@@ -1,0 +1,105 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Czechia (national legislation, Sbírka zákonů). Territorial self-governing bodies'
+# generally binding ordinances (obecně závazné vyhlášky, nařízení obcí a krajů) and the Sbírka mezinárodních smluv are
+# not profiled. EU membership is deliberately not recorded here (added separately with the EU profile).
+schema_version: 1
+id: CZ
+profile_version: 0.1.0
+name: Czechia
+names: {cs: Česko, en: Czechia}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [cs]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: >-
+    To verify - unitary parliamentary republic under the Constitution of the Czech Republic (Ústava České republiky,
+    ústavní zákon 1/1993 Sb., in force from 1 January 1993). The constitutional order also includes the Charter of
+    Fundamental Rights and Freedoms (2/1993 Sb.) and other constitutional acts (Ústava čl. 112). Civil-law system of
+    the Central European tradition (Civil Code 89/2012 Sb., Criminal Code 40/2009 Sb., Labour Code 262/2006 Sb.).
+    Legislative power: the Parliament (Poslanecká sněmovna and Senát, čl. 15); acts are signed by the President and
+    promulgated in the Sbírka zákonů (čl. 52). Promulgated treaties approved by the Parliament are part of the legal
+    order and take precedence over acts (čl. 10) - to verify. Czech is the language of legislation.
+legislative_institutions:
+  - id: CZ-PARLAMENT
+    name: Parlament České republiky (Poslanecká sněmovna and Senát) - constitution, constitutional acts and acts (zákony)
+    instrument_types: [constitution, constitutional_act, act]
+  - id: CZ-EXECUTIVE
+    name: Vláda České republiky, ministries and other central bodies - regulations (nařízení vlády, vyhlášky) under statutory authority (Ústava čl. 78, 79)
+    instrument_types: [regulation]
+instrument_types: [constitution, constitutional_act, act, decree, regulation, notice]
+norm_hierarchy: [constitution, constitutional_act, act, decree, regulation, notice]
+courts:
+  - id: CZ-US
+    name: Ústavní soud (Constitutional Court, Brno)
+    rank: 1
+  - id: CZ-NS
+    name: Nejvyšší soud (Supreme Court, Brno)
+    rank: 1
+  - id: CZ-NSS
+    name: Nejvyšší správní soud (Supreme Administrative Court, Brno)
+    rank: 1
+  - id: CZ-VS
+    name: Vrchní soudy (high courts - Praha and Olomouc)
+    rank: 2
+    appeals_to: [CZ-NS]
+  - id: CZ-KS
+    name: Krajské soudy (regional courts)
+    rank: 3
+    appeals_to: [CZ-VS]
+  - id: CZ-OS
+    name: Okresní soudy (district courts)
+    rank: 4
+    appeals_to: [CZ-KS]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal rule of binding precedent (civil-law system). Enforceable decisions of the Constitutional
+    Court are binding on all authorities and persons (Ústava čl. 89 odst. 2) and its annulment of an act or provision
+    is published in the Sbírka zákonů; the Supreme Court and the Supreme Administrative Court unify the case law of
+    the ordinary and administrative courts, and lower courts in practice follow it. The court hierarchy and appeal
+    routes are simplified here (the specialised appeal routes and the administrative courts - regional courts acting
+    as administrative courts - are not modelled). Case law is not ingested.
+citation:
+  module: cz
+  notes: >-
+    Czech convention: the pinpoint comes first, then the name of the act in the genitive - "§ 2910 občanského
+    zákoníku", "§ 40 odst. 1 trestního zákoníku", "čl. 2 odst. 3 Ústavy České republiky"; other acts by number -
+    "§ 5 odst. 2 zákona č. 110/2019 Sb.". Pinpoint abbreviations: čl., §, odst., písm. a), bod. The genitive names of
+    the codes are a small table in the module; other acts are cited by number.
+  examples:
+    - "§ 2910 občanského zákoníku"
+    - "§ 40 odst. 1 trestního zákoníku"
+    - "§ 52 odst. 1 zákoníku práce"
+    - "čl. 2 odst. 3 Ústavy České republiky"
+    - "§ 5 odst. 2 zákona č. 110/2019 Sb."
+publication:
+  official_sources: [cz-esbirka-opendata]
+  commencement: >-
+    Acts are signed by the President and promulgated in the Sbírka zákonů, which since 1 January 2024 is published
+    only electronically in e-Sbírka (zákon 222/2016 Sb. - to verify). An act states its day of entry into force
+    (účinnost); it cannot take effect before promulgation (Ústava čl. 52 odst. 1; zákon 309/1999 Sb. - to verify).
+    e-Sbírka publishes the consolidated texts as time versions (časová znění) dated by the day each takes effect.
+  amendment: >-
+    Textual amendment by amending acts (novely). e-Sbírka shows each act as a series of versions (znění): the text as
+    promulgated and a consolidated time version for each day on which the text changes, with the days it takes effect
+    and ceases to have effect; parts of a version that take effect on a later day carry that day.
+  repeal: >-
+    Express repeal by a later act; the consolidated texts omit repealed provisions, and the last version of a repealed
+    act is marked repealed.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Acts of the Sbírka zákonů listed in the manifest (the Constitution and Charter, the main codes and procedure codes, the data-protection act and a set of other main acts with their whole history up to 2026-10-14) plus the version in force of every other act and decree of the Sbírka zákonů in the open-data dumps; no Sbírka mezinárodních smluv (treaties), no Úřední list or other historical collections, no municipal or regional ordinances, no explanatory memoranda and no case law.
+    - Czech only.
+    - History is the time versions the manifest asks for (all up to the retrieval date for the listed acts, the version in force for the others); versions that take effect after the retrieval date are not ingested; the as-promulgated text is ingested only for an act that has no consolidated version starting the same day.
+    - Versions are whole-act snapshots dated by their effective-from and effective-to days; a part of a version with a later effective day is dated from that day.
+    - The time versions are shown by the publisher as the consolidated text; ULIS marks them official but not authoritative (to verify the legal force under zákon 222/2016 Sb.).
+    - Links between acts are not stored as cross-references (the dump gives only link ids; its link dataset is not used); footnotes are kept as notes of the provisions that mark them; tables are flattened to text; annexes are one flattened provision; text that continues after a list is appended to the text of the provision that holds the list.
+    - Czech has no PostgreSQL text-search configuration, so the "simple" configuration is used (no stemming; Czech is highly inflected, so searches need the exact word forms).

@@ -284,8 +284,17 @@ def parse_esbirka(content: bytes) -> list[ParsedDocument]:
         body = "\n".join(line for line in lines if line)
         if body and not any(p.eid == "preamble" for p in provisions):
             add(
-                "preamble", "preamble", ["preamble:preambule"], "preamble", "Preambule", body, None,
-                status="in_force", from_date=start, note=None, context="Preambule",
+                "preamble",
+                "preamble",
+                ["preamble:preambule"],
+                "preamble",
+                "Preambule",
+                body,
+                None,
+                status="in_force",
+                from_date=start,
+                note=None,
+                context="Preambule",
             )
 
     def annex(row: _Row) -> None:
@@ -302,8 +311,17 @@ def parse_esbirka(content: bytes) -> list[ParsedDocument]:
         head = _clean(row.text, keep_label=True) or None
         seg = _segment(row.eli)
         add(
-            unique(seg), "annex", [f"annex:{seg.removeprefix('priloha_')}"], "annex", head, "\n".join(parts), None,
-            status="in_force", from_date=start, note=None, context=head,
+            unique(seg),
+            "annex",
+            [f"annex:{seg.removeprefix('priloha_')}"],
+            "annex",
+            head,
+            "\n".join(parts),
+            None,
+            status="in_force",
+            from_date=start,
+            note=None,
+            context=head,
         )
 
     def walk(row: _Row, context: str | None, group: str | None, inherited: date) -> None:

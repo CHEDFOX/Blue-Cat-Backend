@@ -12,7 +12,7 @@ only, refusals respected, a cache under ``<cache_dir>/static.slov-lex.sk/``. ``h
 static host has no robots.txt of its own.
 
 A manifest ``versions`` policy per act: ``all`` (every time version up to ``as_of``), ``current`` (the one in force on
-``as_of``) or ``since: <date>`` (versions in force on or after that date, i.e. including the one that was current on it).
+``as_of``) or ``since: <date>`` (versions in force on or after that date, including the one current on it).
 """
 
 from __future__ import annotations
@@ -130,18 +130,20 @@ class SlovLexStaticConnector:
         robots = urllib.robotparser.RobotFileParser()
         robots.parse(robots_file[0].decode("utf-8", "replace").splitlines())
 
-        def get(path: str) -> tuple[bytes, dict[str, Any]] | None:
+        def get(path: str, cache_key: str | None = None) -> tuple[bytes, dict[str, Any]] | None:
             url = f"{BASE_URL}{path}"
             if not robots.can_fetch(manifest["user_agent"], url) or not robots.can_fetch("*", url):
                 raise FetchError(f"{url} is disallowed by robots.txt; not fetched")
             assert self.http is not None
-            return self.http.get(url)
+            return self.http.get(url, cache_key)
 
         for law in manifest["laws"]:
             act = str(law["act"])
             year, number = act.split("/")
             base = f"/static/SK/ZZ/{year}/{number}/"
-            history = get(base)
+            history = get(
+                base, f"static/SK/ZZ/{year}/{number}/history.html"
+            )  # not a file named like the folder of its versions
             if history is None:
                 self.fetch_errors.append(f"slovlex:{act}: history page not found (404)")
                 continue

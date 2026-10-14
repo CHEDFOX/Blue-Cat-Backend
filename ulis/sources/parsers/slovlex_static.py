@@ -252,9 +252,13 @@ def parse_slovlex_static(content: bytes) -> list[ParsedDocument]:
     footnote_texts: dict[str, str] = {}
     notes_block = _first(root, lambda n: n.attrs.get("id") == "poznamky")
     if notes_block is not None:
-        for fn in notes_block.find_all(lambda n: "poznamka" in n.classes and n.attrs.get("id", "").startswith("poznamky.")):
+        for fn in notes_block.find_all(
+            lambda n: "poznamka" in n.classes and n.attrs.get("id", "").startswith("poznamky.")
+        ):
             label, body = _label(fn, "poznamka"), _child_class(fn, "text")
-            footnote_texts[fn.attrs["id"].removeprefix("poznamky.")] = f"{label} {_flat(body[0])[0]}".strip() if body else label
+            footnote_texts[fn.attrs["id"].removeprefix("poznamky.")] = (
+                f"{label} {_flat(body[0])[0]}".strip() if body else label
+            )
 
     provisions: list[ParsedProvision] = []
     used: dict[str, int] = {}
@@ -287,7 +291,9 @@ def parse_slovlex_static(content: bytes) -> list[ParsedDocument]:
         kind, path_kind = PROVISIONS[cls]
         label = _bare(cls, _label(node, cls))
         text, refs, fns = own_content(node)
-        if cls in ("odsek", "bod", "pismeno") and not label and parent_index is not None:  # unnumbered: its parent's text
+        if (
+            cls in ("odsek", "bod", "pismeno") and not label and parent_index is not None
+        ):  # unnumbered: its parent's text
             parent = provisions[parent_index]
             parent.text = "\n".join(t for t in (parent.text, text) if t)
             parent.has_own_content = bool(parent.text)
@@ -301,7 +307,9 @@ def parse_slovlex_static(content: bytes) -> list[ParsedDocument]:
         raw_id = node.attrs.get("id") or f"{cls}-{len(provisions)}"
         used[raw_id] = used.get(raw_id, 0) + 1
         eid = raw_id if used[raw_id] == 1 else f"{raw_id}-{used[raw_id]}"
-        heading_nodes = [c for c in node.children if isinstance(c, Node) and any(x.endswith("Nadpis") for x in c.classes)]
+        heading_nodes = [
+            c for c in node.children if isinstance(c, Node) and any(x.endswith("Nadpis") for x in c.classes)
+        ]
         heading = _flat(heading_nodes[0])[0] if heading_nodes else None
         here = [*path, f"{path_kind}:{label}"]
         index = len(provisions)
@@ -340,7 +348,9 @@ def parse_slovlex_static(content: bytes) -> list[ParsedDocument]:
                 add(c, cls, parent_index, path, context)
             elif any(x in CONTAINERS for x in c.classes):
                 nadpis = [
-                    n for n in c.children if isinstance(n, Node) and any(x.endswith(("Nadpis", "Oznacenie")) for x in n.classes)
+                    n
+                    for n in c.children
+                    if isinstance(n, Node) and any(x.endswith(("Nadpis", "Oznacenie")) for x in n.classes)
                 ]
                 heading = " ".join(t for t in (_flat(n)[0] for n in nadpis) if t) or context
                 walk(c, parent_index, path, heading)

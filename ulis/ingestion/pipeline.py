@@ -34,8 +34,8 @@ from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.bwb import BwbConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
-from ulis.sources.connectors.esbirka_opendata import EsbirkaOpenDataConnector
 from ulis.sources.connectors.eli_sejm import EliSejmConnector
+from ulis.sources.connectors.esbirka_opendata import EsbirkaOpenDataConnector
 from ulis.sources.connectors.eu_cellar import CellarConnector
 from ulis.sources.connectors.eu_cellar_case_law import CellarCaseLawConnector
 from ulis.sources.connectors.fedlex import FedlexConnector

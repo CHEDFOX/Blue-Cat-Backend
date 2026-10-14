@@ -227,7 +227,7 @@ def iter_records(chunks: Iterable[bytes]) -> Iterator[bytes]:
         for part in parts:
             yield b"{\n" + part + b"\n}"
     if not started:
-        raise FetchError("not an e-Sbírka dump: no \"položky\" array found")
+        raise FetchError('not an e-Sbírka dump: no "položky" array found')
     end = tail.rstrip()
     suffix = re.search(rb"\n\}\s*\]\s*\}$", end)
     if suffix is None:
@@ -459,7 +459,7 @@ class EsbirkaOpenDataConnector:
         act that has no consolidated version starting that day.
         """
         chosen: dict[int, tuple[str, str, str]] = {}  # document id -> (act, start, JSON)
-        promulgated: dict[str, tuple[int, str, str, dict[str, Any]]] = {}
+        promulgated: dict[str, tuple[int, str, str]] = {}
         starts: dict[str, set[str]] = {}
         for record in iter_records(gunzip_chunks(path)):
             iri_pos = record.find(b'"akt-iri" : "')
@@ -479,11 +479,11 @@ class EsbirkaOpenDataConnector:
             data = {k: version.get(k) for k in VERSION_KEYS}
             data["metadata-id"] = (version.get("právní-akt-metadata") or {}).get("metadata-id")
             if version.get("cis-esb-typ-znění-položka") == "VYHLZNE":
-                promulgated[act] = (doc_id, start, json.dumps(data, ensure_ascii=False), version)
+                promulgated[act] = (doc_id, start, json.dumps(data, ensure_ascii=False))
                 continue
             starts.setdefault(act, set()).add(start)
             chosen[doc_id] = (act, start, json.dumps(data, ensure_ascii=False))
-        for act, (doc_id, start, payload, version) in promulgated.items():
+        for act, (doc_id, start, payload) in promulgated.items():
             if start in starts.get(act, set()):
                 continue
             if act not in selection.full_history and act in starts:
@@ -535,7 +535,7 @@ class EsbirkaOpenDataConnector:
 
     def _pass_fragments(self, db: sqlite3.Connection, path: Path, fids: set[int]) -> None:
         batch: list[tuple[int, str]] = []
-        key = '"fragment-id" : '.encode()
+        key = b'"fragment-id" : '
         for record in iter_records(gunzip_chunks(path)):
             fid = _int_after(record, key)
             if fid is None or fid not in fids:
@@ -555,7 +555,7 @@ class EsbirkaOpenDataConnector:
             mid = json.loads(data).get("metadata-id")
             if mid is not None:
                 wanted.add(mid)
-        key = '"metadata-id" : '.encode()
+        key = b'"metadata-id" : '
         batch: list[tuple[int, str]] = []
         for record in iter_records(gunzip_chunks(path)):
             mid = _int_after(record, key)
