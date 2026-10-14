@@ -4,6 +4,9 @@ Citation forms follow common US practice (Bluebook-style) for the document types
 
 * public law (as enacted): ``Short Title, Pub. L. No. 115-6, § 2(1), 131 Stat. 11 (2017)``
 * regulation (CFR annual edition): ``27 C.F.R. § 478.11(b) (2018)``
+* regulation (the eCFR, the Federal Register Office's continuously updated compilation): ``12 CFR 220.1(b)(3)(ii)``,
+  ``12 CFR part 220, appendix A`` - the Office of the Federal Register's own form; no year, because the eCFR is not a
+  printed edition (the date of the file is carried in the version data)
 * bill or resolution (one stage): ``H.R. 1000, 116th Cong. § 2(a) (2019)``
 * United States Code title (a release point of the Office of the Law Revision Counsel):
   ``18 U.S.C. § 1030(a)(2)``; the year is omitted because the online release points are not
@@ -49,6 +52,10 @@ class UsExt(BaseModel):
     usc_title: int | None = None
     positive_law: bool | None = None
     release_point: str | None = None
+    cfr_compilation: str | None = None  # "ecfr": the eCFR (current text), as against an annual edition
+    cfr_chapter: str | None = None
+    cfr_authority: str | None = None  # the part's statutory authority statement, as printed
+    volume_amended_on: str | None = None  # amendment date of the CFR volume (eCFR file), ISO date
 
 
 def ordinal(n: int) -> str:
@@ -58,7 +65,7 @@ def ordinal(n: int) -> str:
 
 class UsModule(JurisdictionModule):
     id: ClassVar[str] = "us"
-    version: ClassVar[str] = "1.1.0"
+    version: ClassVar[str] = "1.2.0"
     ext_model: ClassVar[type[BaseModel]] = UsExt
 
     def pinpoint(self, c: ProvisionCitationInput) -> str:
@@ -67,6 +74,18 @@ class UsModule(JurisdictionModule):
             return ""
         return f"§ {parts[0]}" + "".join(subdivision(p) for p in parts[1:])
 
+    def ecfr_citation(self, c: ProvisionCitationInput) -> str:
+        """``12 CFR 220.1(b)(1)``; an appendix: ``12 CFR part 220, appendix A``; no provision: ``12 CFR part 220``."""
+        title, part = c.ext["cfr_title"], c.ext.get("cfr_part")
+        parts = [p for p in c.num_path if p]
+        if not parts:
+            return f"{title} CFR part {part}"
+        tail = "".join(subdivision(p) for p in parts[1:])
+        if c.top_kind == "appendix":
+            what = parts[0][0].lower() + parts[0][1:] if parts[0].startswith("Supplement") else f"appendix {parts[0]}"
+            return f"{title} CFR part {part}, {what}{tail}"
+        return f"{title} CFR {parts[0]}{tail}"
+
     def provision_citation(self, c: ProvisionCitationInput) -> str:
         ext = c.ext
         pin = self.pinpoint(c)
@@ -74,6 +93,8 @@ class UsModule(JurisdictionModule):
         when = f" ({dated.year})" if dated else ""
         if c.instrument_type == "act" and ext.get("usc_title"):
             return f"{ext['usc_title']} U.S.C." + (f" {pin}" if pin else "")
+        if c.instrument_type == "regulation" and ext.get("cfr_title") and ext.get("cfr_compilation") == "ecfr":
+            return self.ecfr_citation(c)
         if c.instrument_type == "regulation" and ext.get("cfr_title"):
             return f"{ext['cfr_title']} C.F.R. {pin or 'pt. ' + str(ext.get('cfr_part'))}{when}"
         if c.instrument_type in ("bill", "resolution") and ext.get("bill_type"):

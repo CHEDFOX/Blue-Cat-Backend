@@ -1,0 +1,94 @@
+# Electronic Code of Federal Regulations (eCFR), current text, from the Government Publishing Office's bulk-data
+# collection (one XML file per CFR title). Facts below were read on 2026-10-14 from the publishers' own pages:
+#   https://www.ecfr.gov/robots.txt   - "User-agent: *" with "Disallow: /api/versioner/v1/full/" and "Disallow:
+#        /api/renderer/v1/content/" (comment "Don't index developer tool links"), also /search, /recent-changes, /on/,
+#        /compare/, /my/, /auth/ofr and /auth/sign_in. The versioner "full" endpoint (full title XML) and the renderer
+#        content endpoint are therefore closed to robots, and ULIS does NOT use the eCFR API for text. The path
+#        /api/versioner/v1/titles.json is not disallowed; it was fetched once (HTTP 200) for the list of titles.
+#   https://www.ecfr.gov/developers/documentation/api/v1 - HTTP 403 for ULIS-research-bot from the build sandbox
+#        ("Your IP address has been blocked - please contact support ... Support Code 02"). Not retried and not worked
+#        around, so the eCFR's own API terms could not be read; nothing else was fetched from ecfr.gov.
+#   https://www.govinfo.gov/robots.txt (Last-Modified 13 Oct 2026) - "User-agent: *" disallows only site internals
+#        (/core/, /profiles/, /admin/, /user/..., /app/search/* ...); /bulkdata is not disallowed and the file lists
+#        https://www.govinfo.gov/sitemap/bulkdata/ECFR/sitemapindex.xml; no Crawl-delay.
+#   https://www.govinfo.gov/bulkdata/ECFR - "Bulk Data Repository: GPO makes select collections available in bulk in a
+#        machine-readable format (i.e. XML)"; one directory per title (title-1 ... title-50 except 35), each holding
+#        ECFR-title<N>.xml, plus resources/ (ECFR-XML-User-Guide.pdf, lockss.html: "LOCKSS system has permission to
+#        collect, preserve, and serve this Archival Unit").
+#   https://www.govinfo.gov/bulkdata/ECFR/resources/ECFR-XML-User-Guide.pdf (Last-Modified 24 Jun 2026), section 1:
+#        "The e-CFR is a currently updated version of the Code of Federal Regulations (CFR). It is not an official legal
+#        edition of the CFR. The e-CFR is an editorial compilation of CFR material and Federal Register amendments
+#        produced by the OFR and the GPO."; "Only the most recent e-CFR data will be available at endpoints on the
+#        ... Bulk Data Repository"; the XML files "are not part of the official on-line format of the CFR or the Federal
+#        Register ... only the PDF and Text versions of CFR content ... have legal status"; "not digitally signed";
+#        "In general, there are no restrictions on re-use of information in the e-CFR documents because U.S. Government
+#        works are not subject to copyright. OFR and GPO do not restrict downstream uses of the e-CFR data, except that
+#        independent providers should be aware that only the OFR and GPO are entitled to represent that they are the
+#        providers of the official versions of the e-CFR"; re-publishers "may cite FDsys and OFR/GPO as the source of
+#        their data" but "are prohibited from using the seal of the National Archives and Records Administration
+#        (NARA) or stylized CFR logos identified in NARA regulations (36 CFR part 1200)".
+#   https://www.govinfo.gov/about/policies - "Public Domain & Copyright Notice": 17 U.S.C. 105, "public documents can
+#        generally be reprinted without legal restriction. However, Government publications may contain copyrighted
+#        material which was used with permission of the copyright owner."
+schema_version: 1
+id: us-ecfr
+name: Electronic Code of Federal Regulations (eCFR), GPO bulk data
+publisher: Office of the Federal Register (National Archives and Records Administration) and U.S. Government Publishing Office
+kind: open_data_repository
+authority: official_non_authentic
+jurisdictions: [US]
+document_kinds: [regulation]
+languages: [en]
+coverage: >-
+  The whole Code of Federal Regulations as compiled in the eCFR: all 50 titles (Title 35 is reserved and has no text),
+  current text, parsed into one instrument per CFR part (sections and appendices, with paragraphs derived from
+  their numbering). The committed manifest lists every title; a run attests each file as of the date GPO generated it.
+  Not the annual print edition (the legal edition), and no earlier versions.
+access:
+  method: bulk_download
+  endpoint: config/manifests/us-ecfr.yaml
+update_frequency: GPO regenerates a title's file when the title changes (file dates in the 2026-10-14 listing run from May 2024 to 13 Oct 2026); the eCFR itself is updated on an irregular basis, as often as daily
+rate_limits: >-
+  No published rate limit and no Crawl-delay (govinfo.gov robots.txt, 2026-10-14). ULIS waits 5 s between requests,
+  identifies itself, caches every download, applies robots.txt itself, and makes about 50 requests for a full run.
+licence:
+  id: US-GOV-PD
+  name: U.S. Government work, not subject to copyright (17 U.S.C. 105); GPO states no restriction on re-use of the eCFR XML
+  url: https://www.govinfo.gov/bulkdata/ECFR/resources/ECFR-XML-User-Guide.pdf
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the GPO's eCFR XML User Guide (section 1.2: "there are no restrictions on re-use ... because U.S.
+    Government works are not subject to copyright") and GovInfo's Public Domain & Copyright Notice (17 U.S.C. 105);
+    the files are offered for bulk download and the LOCKSS permission statement covers collecting them; robots.txt of
+    govinfo.gov allows /bulkdata. The ecfr.gov website's own robots.txt disallows its full-text API endpoints, so that
+    API is not used; this source is the publisher's separate bulk channel for the same compilation.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: >-
+    Electronic Code of Federal Regulations (eCFR), Office of the Federal Register and U.S. Government Publishing Office
+    (govinfo.gov/bulkdata/ECFR). An unofficial editorial compilation; the legal edition of the CFR is the GPO's annual print/PDF edition.
+  conditions:
+    - Do not use the NARA seal or stylized CFR logos, and do not present ULIS as a provider of the official eCFR or CFR (GPO eCFR XML User Guide, section 1.2).
+  notes: >-
+    Counsel review is still recommended before production use. Government publications may contain material that
+    is copyrighted with permission of its owner (GovInfo notice); the CFR text itself is Government work, but images
+    and some tables reproduced in an agency rule may carry third-party rights; graphics are not ingested.
+provenance: >-
+  GPO's bulk-data XML (ECFR-title<N>.xml, element DLPSTEXTCLASS), converted and simplified from the OFR's SGML
+  (User Guide section 1.2). The connector splits each file into CFR parts and stores each part as an envelope holding
+  the part's bytes exactly as received, the file URL, its SHA-256, its Last-Modified date and the volume's amendment
+  date. The raw envelope is kept; the authenticated text is the GPO's PDF/text CFR on govinfo.gov.
+known_limitations:
+  - Unofficial editorial compilation; the XML is not part of the official on-line CFR format and is not digitally signed. The legal edition is the annual CFR (govinfo.gov, collection CFR); this source is not it.
+  - Current text only. Dated versions would need the eCFR API's versioner endpoints, whose full-text path is closed to robots (ecfr.gov/robots.txt), and GPO's bulk data keeps only the most recent file, so there is no point-in-time history; each part is attested as in force at the date of its file (the Last-Modified time sent by govinfo.gov, UTC), with no start date, and the eCFR website may be newer than the file.
+  - Each CFR part is one instrument, `/us/cfr/t<title>/p<part>`; sections and appendices are provisions. Paragraph provisions are derived from the printed numbering (a, 1, i, A, italic 1, italic i). In the three titles measured (1, 12, 17) about 2% of sections have irregular numbering and are one provision. Unnumbered paragraphs belong to the paragraph before them.
+  - Reserved sections, ranges and parts carry no text and are not ingested; content outside any part (none seen in titles 1, 12 and 17) would not be ingested.
+  - Part and subpart source notes (Source:), tables of contents, cross-reference lists and graphics are not ingested; editorial notes, source credits, section authority and footnotes are kept as notes; tables are flattened to text and formulas/graphics are not reproduced.
+  - Authority citations of a part are kept as text (ext.cfr_authority) and not linked to the United States Code; Federal Register citations in source credits are not linked.
+status: active
+connector: ecfr
+parser: ecfr_xml

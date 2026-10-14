@@ -33,6 +33,7 @@ from ulis.sources.connectors.au_federal_register import FederalRegisterConnector
 from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.bwb import BwbConnector
+from ulis.sources.connectors.ecfr import EcfrConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
 from ulis.sources.connectors.eli_sejm import EliSejmConnector
 from ulis.sources.connectors.eu_cellar import CellarConnector
@@ -60,6 +61,7 @@ from ulis.sources.parsers import (
     au_federal_register,
     boe_consolidada,
     bwb,
+    ecfr,
     egov_law,
     eli_sejm,
     eu_cellar,
@@ -90,6 +92,7 @@ from ulis.temporal.validity import Span, derive_valid_to
 PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "akn3": lambda content: [akn.parse_akn(content)],
     "uslm": uslm.parse_uslm,
+    "ecfr_xml": ecfr.parse_ecfr,
     "legislation_gov_uk_akn": legislation_gov_uk.parse_legislation_gov_uk,
     "justice_canada_xml": justice_canada.parse_justice_canada,
     "gii_norm_xml": gesetze_im_internet.parse_gesetze_im_internet,
@@ -116,6 +119,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
     "uslm": uslm.PARSER_VERSION,
+    "ecfr_xml": ecfr.PARSER_VERSION,
     "legislation_gov_uk_akn": legislation_gov_uk.PARSER_VERSION,
     "justice_canada_xml": justice_canada.PARSER_VERSION,
     "gii_norm_xml": gesetze_im_internet.PARSER_VERSION,
@@ -196,6 +200,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "riigi_teataja": RiigiTeatajaConnector,
     "eli_sejm": EliSejmConnector,
     "uscode_house": UscodeHouseConnector,
+    "ecfr": EcfrConnector,
     "infoleg_ar": InfolegArConnector,
 }
 

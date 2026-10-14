@@ -3,7 +3,7 @@
 # Every statement must be confirmed by a qualified US lawyer before verification.status can become "reviewed".
 schema_version: 1
 id: US
-profile_version: 0.2.0
+profile_version: 0.3.0
 name: United States of America (federal)
 names: {en: United States of America}
 kind: sovereign_state
@@ -110,9 +110,10 @@ citation:
   examples:
     - "Promoting Women in Entrepreneurship Act, Pub. L. No. 115-6, § 2(1), 131 Stat. 11 (2017)"
     - "27 C.F.R. § 478.11 (2018)"
+    - "12 CFR 220.1(b)"
     - "H.R. 1000, 116th Cong. § 2(a) (2019)"
 publication:
-  official_sources: [us-gpo-uslm-samples, us-uscode-house]
+  official_sources: [us-gpo-uslm-samples, us-uscode-house, us-ecfr]
   commencement: >-
     To verify - absent a contrary provision, an Act takes effect on the date of enactment.
     Agency rules take effect on the date stated in the Federal Register.
@@ -123,7 +124,7 @@ coverage:
   known_gaps:
     - Besides ten United States Code titles, only the US Government Publishing Office's USLM sample files are ingested; this is a sample, not a complete or current collection.
     - Only ten positive-law titles of the United States Code are ingested (1, 5, 11, 17, 18, 28, 31, 35, 38, 44), as one online release point (current through Public Law 119-120, 7 October 2026), without earlier release points, appendices or notes. The other titles (including 26 and 42, which are not positive law and only prima facie evidence) are not ingested; the public laws in the sample are as enacted, not as amended.
-    - CFR text is from 2018-2019 annual editions only; later amendments are not reflected.
+    - Regulations come from the eCFR (an unofficial compilation, not the legal annual edition) is listed for all 50 CFR titles (Title 35 is reserved) as current text only, without dated versions, as one file per title attested at the date GPO generated it; the older annual-edition samples (2018-2019) are separate, undated-start expressions of the same parts. Federal agency guidance, Federal Register notices and the print CFR are not ingested.
     - Federal Register documents, Statutes at Large volumes, engrossed amendments and some bill stages without a dated action are not ingested.
     - >-
       No case law is ingested. The only open source examined, the Caselaw Access Project (CC0 data), is planned

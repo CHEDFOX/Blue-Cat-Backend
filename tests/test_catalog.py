@@ -130,6 +130,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "ulis-fictional-sample",
         "us-gpo-uslm-samples",
         "us-uscode-house",
+        "us-ecfr",
         "gb-legislation-gov-uk",
         "ca-justice-laws-xml",
         "ch-fedlex",

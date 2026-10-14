@@ -116,6 +116,7 @@ class PoliteHttp:
                         "final_url": response.geturl(),
                         "status": response.status,
                         "content_type": response.headers.get("Content-Type"),
+                        "last_modified": response.headers.get("Last-Modified"),
                         "retrieved_at": datetime.now(UTC).isoformat(),
                     }
                 break
