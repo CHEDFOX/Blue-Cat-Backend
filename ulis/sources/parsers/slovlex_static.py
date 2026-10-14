@@ -72,6 +72,7 @@ INSTRUMENT_TYPES = (
     ("NARIADENIE", "regulation"),
     ("OPATRENIE", "regulation"),
 )
+REPEALED = re.compile(r"^\s*[(\[]?\s*(?:zrušen[ýáé]|vypusten[ýáé]|vynechan[ýáé])\s*[)\]]?\.?\s*$", re.I)
 LINK = re.compile(r"(?:^|/)SK/ZZ/([0-9]{4})/([0-9]+)/(?:[0-9]{8}\.html)?(?:#(.+))?$")
 
 
@@ -136,7 +137,8 @@ def _first(node: Node, pred) -> Node | None:  # type: ignore[no-untyped-def]
 def _tokens(node: Node, out: list[str], refs: list[Node], footnotes: list[str], in_sup: bool = False) -> None:
     for c in node.children:
         if isinstance(c, str):
-            out.append(c.translate(SUPER) if in_sup else c)
+            text = re.sub(r"[ \t\r\n\xa0]+", " ", c)  # source line wrapping is not a line break
+            out.append(text.translate(SUPER) if in_sup else text)
             continue
         if c.tag == "br":
             out.append("\n")
@@ -250,15 +252,17 @@ def parse_slovlex_static(content: bytes) -> list[ParsedDocument]:
         raise SlovLexParseError(f"{number}/{year}: no title")
 
     footnote_texts: dict[str, str] = {}
+    footnote_refs: dict[str, list[ParsedRef]] = {}
     notes_block = _first(root, lambda n: n.attrs.get("id") == "poznamky")
     if notes_block is not None:
         for fn in notes_block.find_all(
             lambda n: "poznamka" in n.classes and n.attrs.get("id", "").startswith("poznamky.")
         ):
             label, body = _label(fn, "poznamka"), _child_class(fn, "text")
-            footnote_texts[fn.attrs["id"].removeprefix("poznamky.")] = (
-                f"{label} {_flat(body[0])[0]}".strip() if body else label
-            )
+            key = fn.attrs["id"].removeprefix("poznamky.")
+            text, anchors, _ = _flat(body[0]) if body else ("", [], [])
+            footnote_texts[key] = f"{label} {text}".strip()
+            footnote_refs[key] = [r for r in (_ref(a, work_uri, None) for a in anchors) if r is not None]
 
     provisions: list[ParsedProvision] = []
     used: dict[str, int] = {}
@@ -313,6 +317,7 @@ def parse_slovlex_static(content: bytes) -> list[ParsedDocument]:
         heading = _flat(heading_nodes[0])[0] if heading_nodes else None
         here = [*path, f"{path_kind}:{label}"]
         index = len(provisions)
+        repealed = bool(REPEALED.match(text))
         if parent_index is not None:
             provisions[parent_index].is_leaf = False
         provisions.append(
@@ -322,21 +327,23 @@ def parse_slovlex_static(content: bytes) -> list[ParsedDocument]:
                 num_path=here,
                 top_kind="section",
                 heading=heading,
-                text=text,
+                text="" if repealed else text,
                 parent_eid=provisions[parent_index].eid if parent_index is not None else None,
                 sort_order=index,
-                status="in_force",
+                status="repealed" if repealed else "in_force",
                 valid_from=start,
                 valid_to=valid_to,
                 extent=[JURISDICTION],
                 note=None,
                 refs=refs,
                 is_leaf=True,
-                has_own_content=bool(text),
+                has_own_content=bool(text) and not repealed,
                 context_heading=heading or context,
             )
         )
         note_keys[index] = list(fns)
+        if repealed:
+            provisions[index].note = text
         walk(node, index, here, heading or context)
 
     def walk(node: Node, parent_index: int | None, path: list[str], context: str | None) -> None:
@@ -410,7 +417,10 @@ def parse_slovlex_static(content: bytes) -> list[ParsedDocument]:
         for key in keys:
             if key in footnote_texts and footnote_texts[key] not in seen:
                 seen.append(footnote_texts[key])
-        provisions[index].note = "\n".join(seen) or None
+                known = {r.href for r in provisions[index].refs}
+                provisions[index].refs += [r for r in footnote_refs[key] if r.href not in known]  # the footnote cites them
+        if seen:
+            provisions[index].note = "\n".join(seen)
     if not provisions:
         raise SlovLexParseError(f"{number}/{year}: no provisions found")
 
