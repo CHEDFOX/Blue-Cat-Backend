@@ -5,6 +5,9 @@ Citation forms follow common US practice (Bluebook-style) for the document types
 * public law (as enacted): ``Short Title, Pub. L. No. 115-6, § 2(1), 131 Stat. 11 (2017)``
 * regulation (CFR annual edition): ``27 C.F.R. § 478.11(b) (2018)``
 * bill or resolution (one stage): ``H.R. 1000, 116th Cong. § 2(a) (2019)``
+* United States Code title (a release point of the Office of the Law Revision Counsel):
+  ``18 U.S.C. § 1030(a)(2)``; the year is omitted because the online release points are not
+  printed editions, and the release point is carried in the version data
 
 They are formatting conventions for research output, reviewed by no one yet; a reviewer
 sign-off is required before the US profile can be marked "reviewed".
@@ -43,6 +46,9 @@ class UsExt(BaseModel):
     agency: str | None = None
     bill_type: str | None = None
     version_date_basis: str | None = None
+    usc_title: int | None = None
+    positive_law: bool | None = None
+    release_point: str | None = None
 
 
 def ordinal(n: int) -> str:
@@ -52,7 +58,7 @@ def ordinal(n: int) -> str:
 
 class UsModule(JurisdictionModule):
     id: ClassVar[str] = "us"
-    version: ClassVar[str] = "1.0.0"
+    version: ClassVar[str] = "1.1.0"
     ext_model: ClassVar[type[BaseModel]] = UsExt
 
     def pinpoint(self, c: ProvisionCitationInput) -> str:
@@ -66,6 +72,8 @@ class UsModule(JurisdictionModule):
         pin = self.pinpoint(c)
         dated = c.version_date or c.work_date
         when = f" ({dated.year})" if dated else ""
+        if c.instrument_type == "act" and ext.get("usc_title"):
+            return f"{ext['usc_title']} U.S.C." + (f" {pin}" if pin else "")
         if c.instrument_type == "regulation" and ext.get("cfr_title"):
             return f"{ext['cfr_title']} C.F.R. {pin or 'pt. ' + str(ext.get('cfr_part'))}{when}"
         if c.instrument_type in ("bill", "resolution") and ext.get("bill_type"):

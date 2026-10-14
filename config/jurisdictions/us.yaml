@@ -4,7 +4,7 @@
 # US lawyer before verification.status can become "reviewed".
 schema_version: 1
 id: US
-profile_version: 0.1.0
+profile_version: 0.1.1
 name: United States of America (federal)
 names: {en: United States of America}
 kind: sovereign_state
@@ -53,8 +53,8 @@ publication:
 coverage:
   corpus_status: pilot
   known_gaps:
-    - Only the US Government Publishing Office's USLM sample files are ingested; this is a sample, not a complete or current collection.
-    - The United States Code (consolidated statutes) is not ingested; public laws are as enacted, not as amended.
+    - Besides ten United States Code titles, only the US Government Publishing Office's USLM sample files are ingested; this is a sample, not a complete or current collection.
+    - Only ten positive-law titles of the United States Code are ingested (1, 5, 11, 17, 18, 28, 31, 35, 38, 44), as one online release point (current through Public Law 119-120, 7 October 2026), without earlier release points, appendices or notes. The other titles (including 26 and 42, which are not positive law and only prima facie evidence) are not ingested; the public laws in the sample are as enacted, not as amended.
     - CFR text is from 2018-2019 annual editions only; later amendments are not reflected.
     - Federal Register documents, Statutes at Large volumes, engrossed amendments and some bill stages without a dated action are not ingested.
     - No case law; no State, territorial or tribal law.

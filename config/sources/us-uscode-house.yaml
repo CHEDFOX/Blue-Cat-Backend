@@ -1,31 +1,79 @@
-# PLANNED - preliminary research notes, to be confirmed.
+# United States Code, USLM XML, from the Office of the Law Revision Counsel (OLRC), U.S. House of Representatives.
+# Facts below were read on 2026-10-14 from the publisher's own pages and from GovInfo:
+#   https://uscode.house.gov/robots.txt          - "User-agent: Slurp / Disallow: /" only (Yahoo's robot); no Crawl-delay;
+#        every other robot, including ULIS-research-bot, is unrestricted
+#   https://uscode.house.gov/download.html       - "Each update of the United States Code is a release point. This page
+#        provides downloadable files for the current release point. All files are current through Public Law 119-120
+#        (10/07/2026)"; per-title XML (USLM), XHTML, PCC and PDF archives, a User Guide and the USLM schema are offered
+#        for download; "* This title has been enacted as positive law. However, any Appendix to this title has not been
+#        enacted as part of the title."
+#   https://uscode.house.gov/about_code.html     - the Code is "prepared and published by the Office of the Law Revision
+#        Counsel ... pursuant to 2 U.S.C. 285b"; "Under 1 U.S.C. 204, the matter set forth in a main edition of the Code
+#        (together with its current supplement) establishes the law prima facie, except that the text of titles enacted
+#        into positive law is legal evidence of the law"; the online versions "are produced using the same database ...
+#        from which the Government Publishing Office (GPO) prints volumes of the United States Code"
+#   https://uscode.house.gov/privacy-policy.html, /faq.html, /about-office.html - no copyright notice or terms of use
+#        (none says anything for or against automated reuse); the site notes it "is currently operating in a temporary format"
+#   https://www.govinfo.gov/about/policies       - "Public Domain & Copyright Notice": quotes 17 U.S.C. 105 ("Copyright
+#        protection under this title is not available for any work of the United States Government"; "public documents
+#        can generally be reprinted without legal restriction"), for the GPO's distribution of the same publication
+#   https://www.govinfo.gov/robots.txt, /bulkdata, /sitemap/USCODE_sitemap_index.xml, /content/pkg/USCODE-2024-title1.zip
+#        - GovInfo's USCODE collection (2024 edition, last listed) is distributed as PDF and HTML only; its packages
+#        hold no USLM XML and /bulkdata/USCODE does not exist (404), so GovInfo is not used as a data source.
 schema_version: 1
 id: us-uscode-house
-name: United States Code (Office of the Law Revision Counsel)
+name: United States Code (Office of the Law Revision Counsel), USLM XML
 publisher: Office of the Law Revision Counsel, U.S. House of Representatives
 kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions: [US]
 document_kinds: [act]
 languages: [en]
-coverage: Codified general and permanent federal statutes, USLM XML by title and release point.
+coverage: >-
+  Selected titles of the United States Code that have been enacted into positive law, one USLM XML
+  file per title at one release point: 1, 5, 11, 17, 18, 28, 31, 35, 38 and 44, whole titles (no
+  appendices), current through the release point's Public Law. A selection, not the whole Code;
+  the non-positive-law titles (for example 26 and 42) and earlier release points are not ingested.
 access:
-  method: bulk_download
-  endpoint: https://uscode.house.gov/download/download.shtml
-update_frequency: per release point
+  method: permitted_web_retrieval
+  endpoint: config/manifests/us-uscode-house.yaml
+update_frequency: per release point (after each Public Law that changes the Code)
+rate_limits: >-
+  No published rate limit. robots.txt (2026-10-14) restricts only the Slurp robot and sets no Crawl-delay;
+  ULIS waits 5 s between requests, identifies itself, caches every download and applies robots.txt itself.
 licence:
   id: US-GOV-PD
-  name: U.S. Government work, not subject to copyright (17 U.S.C. 105) - to be confirmed
-  review_status: pending_review
+  name: U.S. Government work, not subject to copyright (17 U.S.C. 105); statutory text
+  url: https://www.govinfo.gov/about/policies
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - 17 U.S.C. 105 as quoted in GovInfo's Public Domain & Copyright Notice (the Code is prepared by
+    OLRC staff, whose work for the House is a work of the United States Government, and consists of enacted law);
+    the OLRC download page offers the XML, its schema and a user guide for download; robots.txt allows the path.
+    No OLRC page states a licence or restricts reuse.
+  reviewed_on: 2026-10-14
   redistribution: allowed
   bulk_download: allowed
-  automated_processing: unknown
+  automated_processing: allowed
   commercial_use: allowed
   attribution_required: false
-provenance: Official codification office.
+  attribution_text: >-
+    United States Code, Office of the Law Revision Counsel, U.S. House of Representatives (uscode.house.gov).
+    Online version, not the authenticated edition; the authenticated Code is published by the GPO (govinfo.gov).
+  notes: >-
+    The OLRC site states no licence; the basis is statutory (17 U.S.C. 105) and counsel review is still
+    recommended before production use. XML notes (editorial notes, statutory notes) are OLRC editorial material
+    and are not ingested.
+provenance: >-
+  The OLRC's per-title USLM XML for one release point, stored byte-for-byte as the downloaded zip (SHA-256, URL,
+  retrieval time). The authenticated version is the GPO's print/PDF Code on govinfo.gov (USCODE collection).
 known_limitations:
-  - Titles not enacted as positive law are prima facie evidence of the law (1 U.S.C. 204); the Statutes at Large control.
-  - State law is not covered.
-status: planned
-connector: null
-parser: null
+  - Online version, not authenticated. Only titles enacted into positive law are ingested; their text is legal evidence of the law (1 U.S.C. 204), but the XML itself is not the authenticated edition.
+  - Titles not enacted into positive law (for example 26 and 42) are prima facie evidence of the law only; the Statutes at Large control. They are not ingested (the parser marks them positive_law=false).
+  - One release point only (current through Public Law 119-120); no earlier release points, so no point-in-time history; each text is attested as in force at the release date, with no per-provision dates.
+  - The XML does not state the release date; the date in the parser comes from the download page.
+  - Editorial and statutory notes (amendment and effective-date notes, repeal histories) are not ingested; source credits are kept as notes. Placeholder entries marked omitted, transferred or renumbered carry no law text and are not ingested; repealed sections and subsections are recorded as repealed with their notes.
+  - Tables are flattened to text; appendices to titles (5, 11, 18, 28) are not ingested and are not part of the title.
+status: active
+connector: uscode_house
+parser: uslm

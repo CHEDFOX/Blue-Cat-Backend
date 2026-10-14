@@ -50,6 +50,7 @@ from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
 from ulis.sources.connectors.ris_ogd import RisOgdConnector
+from ulis.sources.connectors.uscode_house import UscodeHouseConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
 from ulis.sources.parsers import (
     akn,
@@ -178,6 +179,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "likumi_lv": LikumiLvConnector,
     "riigi_teataja": RiigiTeatajaConnector,
     "eli_sejm": EliSejmConnector,
+    "uscode_house": UscodeHouseConnector,
 }
 
 

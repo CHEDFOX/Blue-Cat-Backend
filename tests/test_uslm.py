@@ -111,7 +111,8 @@ def test_rejects_unsafe_foreign_or_unsupported(payload: bytes) -> None:
         ("/us/pl/115/6/s2/a", ("/us/pl/115/6", "sec_2__subsec_a")),
         ("/us/bill/116/hjres/37/s1", ("/us/bill/116/hjres/37", "sec_1")),
         ("/us/pl/113/291", ("/us/pl/113/291", None)),
-        ("/us/usc/t15/s78g", None),
+        ("/us/usc/t15/s78g", ("/us/usc/t15", "sec_78g")),  # Code titles are resolved since the Code is ingested
+        ("/us/stat/61/633", None),
     ],
 )
 def test_identifier_resolution(uri: str, expected: tuple[str, str | None] | None) -> None:

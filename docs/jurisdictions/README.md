@@ -7,6 +7,7 @@ gaps and the actual test and ingestion results. See
 | Jurisdiction | Source | Notes |
 |---|---|---|
 | United States (federal, sample) | GPO USLM samples | [test-results.md](../test-results.md) |
+| United States (federal, US Code, 10 positive-law titles) | OLRC USLM XML (uscode.house.gov) | [us-code.md](us-code.md) |
 | United Kingdom | legislation.gov.uk | [test-results.md](../test-results.md), [temporal-model.md](../temporal-model.md) |
 | Canada (federal) | Justice Laws XML | [test-results.md](../test-results.md) |
 | Germany (federal) | Gesetze im Internet | [de.md](de.md) |

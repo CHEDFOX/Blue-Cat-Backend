@@ -128,6 +128,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
     approved = {
         "ulis-fictional-sample",
         "us-gpo-uslm-samples",
+        "us-uscode-house",
         "gb-legislation-gov-uk",
         "ca-justice-laws-xml",
         "ch-fedlex",

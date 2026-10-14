@@ -1,0 +1,27 @@
+# United States Code, positive-law titles, USLM XML from the Office of the Law Revision Counsel (OLRC).
+# One archive per title and release point:
+#   https://uscode.house.gov/download/releasepoints/us/pl/<congress>/<law>/xml_usc<NN>@<congress>-<law>.zip
+# Release point 119-120: "All files are current through Public Law 119-120 (10/07/2026)" - download page
+# https://uscode.house.gov/download.html (read 2026-10-14). The XML itself says only "Online@119-120", so the
+# parser holds that date (USC_RELEASE_POINT_DATES in ulis/sources/parsers/uslm.py). Each title below is marked
+# "enacted as positive law" on the download page and is-positive-law=yes in the XML.
+# `sha256` pins the exact download (taken on 2026-10-14); a later regeneration of a file by the OLRC fails loudly.
+schema_version: 1
+source_id: us-uscode-house
+base_url: https://uscode.house.gov
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+release_point:
+  id: "119-120"
+  current_through: "Public Law 119-120 (10/07/2026)"
+titles:
+  - {number: 1, name: General Provisions, sha256: 6d7d505defd730c112e1adda3f332139e30777ca0138300c0f6d9f34a8ce9ed5}
+  - {number: 5, name: Government Organization and Employees, sha256: 2976cf8bd903927396f57a74871568fffb13f5263da33baa8952f0a5d01cb331}
+  - {number: 11, name: Bankruptcy, sha256: e65030a825c84517e1bee8ca13659e1a469b0a677a05af63b31023aa6fb8f17e}
+  - {number: 17, name: Copyrights, sha256: aa970d45710822aef07460f1be02fbca9382bf1212929ff8d75b359dbb0f3e6c}
+  - {number: 18, name: Crimes and Criminal Procedure, sha256: 0f0e8f8e51a19855b5bbe803ce3645a662108614e0745a64b5b4fe9afa4141ca}
+  - {number: 28, name: Judiciary and Judicial Procedure, sha256: f96419158b65bf03f5b5d74ddf9df18fec8c8f9b94b7278c515f88fd0eceefaa}
+  - {number: 31, name: Money and Finance, sha256: 9c0d6e05b34bf880582b2ce4cf821f7f66bad709bc514911ee92ff4e646a2ffe}
+  - {number: 35, name: Patents, sha256: 281c25fc742afe1c3b51f4cfb1365aee824df57d435708c20f0d71a84730c47b}
+  - {number: 38, name: Veterans' Benefits, sha256: 61dd4d91a0b2b59043085409054680856110e34186cb80c7b4482c6127b40cd5}
+  - {number: 44, name: Public Printing and Documents, sha256: 290a3b294018db7592aa0807f92d19355e828f8f8c8135b57620a33ce008c938}
