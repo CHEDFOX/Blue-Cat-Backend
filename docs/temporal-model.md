@@ -62,7 +62,11 @@ resolve_at(versions_of_one_provision_in_one_language, D):
 
 `history_start` is the earliest indexed version date of the instrument. Searches whose date
 falls in such a gap carry `HISTORY_INCOMPLETE` (for example, UK Acts before the 1 February
-1991 basedate of the revised data).
+1991 basedate of the revised data). When the enactment date is not recorded (Canadian
+consolidations do not carry it), any date before the indexed history is a gap: a Canadian
+provision whose current wording dates from 2019 is "history not indexed" in 2010, not "not
+yet in force". Each Canadian provision starts at the latest `lims:inforce-start-date` in its
+subtree, i.e. when its current wording took effect.
 
 ### Point-in-time series (legislation.gov.uk)
 

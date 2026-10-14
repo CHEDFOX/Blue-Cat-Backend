@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 from ulis.catalog import Catalog
 from ulis.db import models as m
 from ulis.retrieval.authority import classify_provision
-from ulis.retrieval.details import judgment_citation, load_provision, provision_citation
+from ulis.retrieval.details import judgment_citation, load_provision, provision_citation, title_in
 from ulis.temporal.validity import resolve_at
 from ulis.verification.limitations import Limitation, jurisdiction_limitations, provision_limitations
 
@@ -107,7 +107,9 @@ def provision_at(
             "eid": provision.eid,
             "kind": provision.kind,
             "num_path": list(provision.num_path),
-            "citation": provision_citation(catalog, instrument, provision, language, selected_version_date),
+            "citation": provision_citation(
+                catalog, instrument, provision, language, selected_version_date, title_in(session, instrument, language)
+            ),
         },
         "instrument": {
             "uri": instrument.uri,

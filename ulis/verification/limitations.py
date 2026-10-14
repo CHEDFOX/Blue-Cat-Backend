@@ -306,6 +306,15 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
                 "authentic enacted text.",
             )
         )
+    elif iv.text_origin == "official_consolidation":
+        out.append(
+            Limitation(
+                "OFFICIAL_CONSOLIDATION_REPRODUCED",
+                "info",
+                "Reproduced from an official consolidation; this reproduction is not an official version. "
+                "In case of inconsistency the enacted text prevails.",
+            )
+        )
     elif iv.text_origin == "official_conversion":
         out.append(
             Limitation(

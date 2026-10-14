@@ -1,0 +1,65 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Canada (federal). Provinces and territories are not
+# profiled yet.
+schema_version: 1
+id: CA
+profile_version: 0.1.0
+name: Canada
+names: {en: Canada, fr: Canada}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en, fr]
+legal_system:
+  families: [common_law, civil_law]
+  structure: federal
+  treaty_reception: dualist
+  notes: >-
+    To verify - federal state; bijural (common law, and civil law in Quebec for private law);
+    federal statutes are enacted in English and French, both equally authoritative. Treaties
+    need implementing legislation to change domestic law.
+legislative_institutions:
+  - id: CA-PARL
+    name: Parliament of Canada
+    instrument_types: [act, regulation]
+instrument_types: [act, regulation, bill]
+norm_hierarchy: [act, regulation]
+courts:
+  - id: CA-SCC
+    name: Supreme Court of Canada
+    rank: 1
+  - id: CA-FCA
+    name: Federal Court of Appeal
+    rank: 2
+    appeals_to: [CA-SCC]
+    binds_self: true
+  - id: CA-FC
+    name: Federal Court
+    rank: 3
+    appeals_to: [CA-FCA]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+  notes: >-
+    To verify - Supreme Court of Canada decisions bind all Canadian courts; provincial superior
+    and appellate courts are outside this profile.
+citation:
+  module: ca
+  examples:
+    - "Access to Information Act, RSC 1985, c A-1, s 4(1)(a)"
+    - "Loi sur l’accès à l’information, LRC 1985, c A-1, art 4(1)a)"
+publication:
+  official_sources: [ca-justice-laws-xml]
+  commencement: On Royal Assent unless the Act provides otherwise (often by order in council).
+  amendment: Textual amendment by later Acts; the Department of Justice publishes consolidations.
+  repeal: Express repeal; the consolidation replaces repealed text with "[Repealed, ...]".
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only a hand-picked selection of federal Acts is ingested (see the source manifest).
+    - Current consolidation only. Earlier wordings are not indexed, so dates before a provision's current wording are reported as history not indexed.
+    - No regulations, no provincial or territorial law, no case law.
+    - The "Related provisions" schedule (provisions of amending Acts) is not indexed.
+    - Amendments not in force are reported as outstanding changes but not applied.

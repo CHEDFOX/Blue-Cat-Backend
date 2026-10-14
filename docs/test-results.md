@@ -1,6 +1,6 @@
 # Test results
 
-Recorded on 2026-10-14 in the build container (updated after adding the UK corpus): Python 3.13.16, PostgreSQL 16.15, Node 22,
+Recorded on 2026-10-14 in the build container (updated after adding the Canadian corpus): Python 3.13.16, PostgreSQL 16.15, Node 22,
 Chromium (Playwright 1.56.1). These are the actual outputs of the runs, not targets.
 
 ## Backend (`Blue-Cat-Backend`)
@@ -8,18 +8,41 @@ Chromium (Playwright 1.56.1). These are the actual outputs of the runs, not targ
 | Check | Command | Result |
 |---|---|---|
 | Lint | `ruff check ulis tests migrations scripts` | All checks passed |
-| Format | `ruff format --check ...` | 69 files already formatted |
-| Types | `mypy ulis` | No issues in 49 source files |
-| Config | `python -m ulis.cli validate-config` | 14 jurisdictions, 7 sources, 4 concepts |
-| Migrations | `alembic upgrade head` (0001 core schema, 0002 validity basis, 0003 valid-from basis) | Applied cleanly |
-| Unit tests (no DB) | `pytest -q` without `ULIS_TEST_DATABASE_URL` | 59 passed, 53 skipped (DB tests skip cleanly) |
-| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q` | **112 passed** in about 17 s |
+| Format | `ruff format --check ...` | 75 files already formatted |
+| Types | `mypy ulis` | No issues in 51 source files |
+| Config | `python -m ulis.cli validate-config` | 15 jurisdictions, 8 sources, 4 concepts |
+| Migrations | `alembic upgrade head` (0001 core schema, 0002 validity basis, 0003 valid-from basis, 0004 expression short title) | Applied cleanly |
+| Unit tests (no DB) | `pytest -q` without `ULIS_TEST_DATABASE_URL` | 62 passed, 55 skipped (DB tests skip cleanly) |
+| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q` | **117 passed** in about 23 s |
 
 Tests per file: `test_catalog.py` 14 · `test_parser_and_storage.py` 11 · `test_rules.py` 13 ·
 `test_ingestion.py` 8 · `test_search.py` 17 · `test_lookup_and_verification.py` 7 ·
 `test_api.py` 7 · `test_uslm.py` 15 · `test_us_federal.py` 10 (real US documents, fixtures in
 `tests/fixtures/uslm`) · `test_legislation_gov_uk.py` 10 (real UK documents, fixtures in
-`tests/fixtures/legislation_gov_uk`).
+`tests/fixtures/legislation_gov_uk`) · `test_justice_canada.py` 5 (real Canadian documents in
+both languages, fixtures in `tests/fixtures/justice_canada`).
+
+## Real Canadian corpus (dev database, full manifest)
+
+| Step | Result |
+|---|---|
+| `ingest ca-justice-laws-xml` (sparse partial clone of the pinned commit: 18 files, 28 MB) | 18 expressions (9 Acts × English and French), 9 instruments, 47,747 provision versions, 42,883 passages, 2,275 citation links (632 resolved inside the corpus), **0 errors, 0 conflicts**, 102 s |
+| `verify-sources` (all four sources) | **287/287 documents pass**; 456,175 units re-derived from raw bytes in 101 s |
+| Search latency (CA, about 139k passages in total) | 0.12–0.28 s per query |
+| Spot checks (search, CA, 2026-07-01) | "first degree murder" → Criminal Code s 610(3), s 662(2); "copyright infringement damages" → Copyright Act s 35(1), s 38.1(6)(c); "divorce one year separation" → Divorce Act s 8(2)(a); "droit d’accès aux documents" (French) → Loi sur l’accès à l’information, art 4(1) |
+
+### Defects found on Canadian data (and fixed, with tests)
+
+1. French hits were cited with the English title ("Access to Information Act, LRC 1985 ...")
+   because citations used the work's title. Each expression now keeps its own short title
+   (migration 0004).
+2. Paragraph labels and defined terms in `num_path` came from whichever language was ingested
+   first. Labels are now language-neutral and the Canadian module renders `(a)` in English
+   and `a)` in French, with the defined term in the citation's language.
+3. Labels beginning with a footnote reference produced the empty identifier `section-`.
+4. The same term defined twice in one subsection produced duplicate identifiers.
+5. Acts in supplements to the Revised Statutes were cited as "SC 1985" instead of
+   "RSC 1985, c 3 (2nd Supp.)".
 
 ## Real UK corpus (dev database, full manifest)
 
@@ -138,15 +161,18 @@ $ python -m ulis.cli search "retain personal data" --jurisdiction XA --as-of 202
 | `tsc --noEmit` | Pass |
 | `vitest run` | 8 passed |
 | `next build` (Next 15.5.27) | Compiled successfully; routes `/`, `/provision`, `/coverage` |
-| `playwright test` against the live API + production server | **8 passed**: date-dependent version with exact text and limitations; point-in-time timeline; India "no corpus" behaviour; real US public law (citation, presumed effective date, absent before enactment); real CFR text flagged as attested only at its edition date; real UK law (England vs Scotland extent; Theft Act s 15 in force in 2006 and repealed in 2008); cross-lingual grouping of authentic versions; coverage and licence register |
+| `playwright test` against the live API + production server | **9 passed**: date-dependent version with exact text and limitations; point-in-time timeline; India "no corpus" behaviour; real US public law (citation, presumed effective date, absent before enactment); real CFR text flagged as attested only at its edition date; real UK law (England vs Scotland extent; Theft Act s 15 in force in 2006 and repealed in 2008); real Canadian law in English and French (citations in each language, reproduction notice, earlier wording reported as a history gap); cross-lingual grouping of authentic versions; coverage and licence register |
 
 ## Not verified
 
 - `Dockerfile` and `docker-compose.yml` were written but not built: no Docker daemon was
   available in the build container.
 - The GitHub Actions workflows have not run yet (they will on the first push).
-- Two real sources have been tested (US GPO USLM samples; legislation.gov.uk). India Code
-  refuses automated access (HTTP 403); other portals' licences are pending review.
+- Three real sources have been tested (US GPO USLM samples; legislation.gov.uk; Justice
+  Canada XML). India Code refuses automated access (HTTP 403); other portals' licences are
+  pending review.
+- Canadian earlier versions (point-in-time history on the Justice Laws website) and
+  regulations are not ingested.
 - Welsh-language texts of Welsh legislation are not ingested.
 - Parser accuracy on real data has not been measured against a hand-checked sample.
 - Ranking quality has not been evaluated: there is no expert-built evaluation set yet.

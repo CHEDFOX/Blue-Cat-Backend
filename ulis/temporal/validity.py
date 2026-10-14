@@ -125,7 +125,8 @@ def resolve_at(
     if current is not None:
         status: PointInTimeStatus = "in_force" if current.status == "in_force" else "repealed"
     elif dated and as_of < dated[0].valid_from:  # type: ignore[operator]
-        in_gap = history_start is not None and work_date is not None and work_date <= as_of < history_start
+        # With no recorded enactment date, an earlier wording may exist: report the gap.
+        in_gap = history_start is not None and as_of < history_start and (work_date is None or work_date <= as_of)
         status = "history_not_indexed" if in_gap else "not_yet_in_force"
     elif undated:
         # Known to be in force only at a source date (e.g. a code edition); the start is unknown.

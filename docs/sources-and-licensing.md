@@ -54,6 +54,7 @@ or without conditions); connector and parser configured.
 | `ulis-fictional-sample` | active | CC0-1.0, self-authored | **Admitted** | Fictional; pinned by SHA-256 manifest |
 | `us-gpo-uslm-samples` | active | US government work (17 U.S.C. 105) + CC0 waiver, stated in the repository `LICENSE.md` and each file's `dc:rights` | **Admitted** | Real; GitHub `usgpo/uslm` pinned to one commit, files pinned by SHA-256; converted XML, not authenticated |
 | `gb-legislation-gov-uk` | active | Open Government Licence v3.0 (stated in the site footer; fair-use policy encourages re-use) | **Admitted** | Akoma Ntoso with point-in-time versions, extent and status; fetched politely (identifying User-Agent, robots `Crawl-delay: 5`, cache); outstanding effects reported |
+| `ca-justice-laws-xml` | active | Open Government Licence – Canada (repository `LICENSE.md`) and the Reproduction of Federal Law Order (SI/97-5) | **Admitted** | Real; GitHub `justicecanada/laws-lois-xml` pinned to one commit, sparse checkout of the listed files, each pinned by SHA-256; English and French; every result says the reproduction is not an official version |
 | `gb-find-case-law` | planned | Open Justice Licence (to confirm) | Refused | Our understanding: computational analysis requires a separate licence. Recorded as `automated_processing: not_allowed` until held |
 | `us-uscode-house` | planned | US government work, 17 U.S.C. 105 (to confirm) | Refused | Non-positive-law titles are prima facie evidence (1 U.S.C. 204) |
 | `eu-eur-lex` | planned | Commission Decision 2011/833/EU reuse (to confirm) | Refused | Only the e-OJ is authentic; consolidations are documentation |
@@ -89,6 +90,15 @@ later ones). Earlier dates are reported as `history_not_indexed`, never as "not 
 Known gaps: Welsh-language texts of Welsh legislation are not ingested yet; editorial
 annotations are kept as notes, never as law text; unapplied effects are reported as
 outstanding changes.
+
+**Third real source (2026-10-14):** Canada's consolidated federal Acts, from the Department
+of Justice's public XML repository. The Reproduction of Federal Law Order allows anyone to
+reproduce federal enactments and consolidations without permission, with due diligence for
+accuracy and without presenting the reproduction as an official version; ULIS re-derives
+every text from the pinned raw files and states on every result that it is not an official
+version. Only the current consolidation is in the repository, so earlier wordings are
+reported as a history gap (the Justice Laws website has earlier point-in-time versions;
+not fetched yet).
 
 **India (2026-10-14):** indiacode.nic.in answers our identified crawler with HTTP 403 (Access
 Denied). We do not work around blocks. India stays at "no corpus" until the publisher grants

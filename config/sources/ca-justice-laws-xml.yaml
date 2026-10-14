@@ -1,0 +1,49 @@
+schema_version: 1
+id: ca-justice-laws-xml
+name: Consolidated Acts and regulations of Canada (XML)
+publisher: Department of Justice Canada
+kind: open_data_repository
+authority: official_non_authentic
+jurisdictions: [CA]
+document_kinds: [act]
+languages: [en, fr]
+coverage: >-
+  The consolidated federal Acts and regulations published on the Justice Laws Website, in
+  English and French, as XML in the department's public GitHub repository. ULIS ingests a
+  selected list of Acts in both languages at one pinned commit.
+access:
+  method: bulk_download
+  endpoint: config/manifests/ca-justice-laws-xml.yaml
+update_frequency: regular (repository updates); re-pin the commit to refresh
+licence:
+  id: OGL-CA-2.0
+  name: Open Government Licence - Canada; Reproduction of Federal Law Order (SI/97-5)
+  url: https://open.canada.ca/en/open-government-licence-canada
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - repository LICENSE.md states the Open Government Licence - Canada; the
+    Reproduction of Federal Law Order allows reproduction of federal enactments and
+    consolidations without permission, with due diligence, if not represented as an official version
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: Contains information licensed under the Open Government Licence – Canada.
+  conditions:
+    - Attribution as required by the Open Government Licence - Canada.
+    - Exercise due diligence that the reproduction is accurate (ULIS re-derives every text from the pinned raw files).
+    - Do not represent the reproduction as an official version (stated on every result).
+  notes: Counsel review still recommended before production use.
+provenance: >-
+  github.com/justicecanada/laws-lois-xml at a pinned commit; every file pinned by SHA-256 in
+  the manifest. Consolidations on the Justice Laws Website are official since 1 June 2009
+  (Legislation Revision and Consolidation Act, s 31); this reproduction is not.
+known_limitations:
+  - Current consolidation only; earlier versions (available on the Justice Laws Website) are not indexed.
+  - A reproduction, not an official version; in case of inconsistency the enacted Act prevails.
+  - Amendments not in force are listed in a schedule and reported as outstanding changes.
+status: active
+connector: git_snapshot
+parser: justice_canada_xml

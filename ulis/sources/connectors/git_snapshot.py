@@ -3,6 +3,8 @@
 The manifest names the repository, the exact commit and every file with its SHA-256.
 The connector clones (shallow, that commit only) into a private cache, refuses any file
 whose hash differs from the pin, and records the commit-qualified URL as provenance.
+With ``sparse: true`` only the listed files are downloaded (partial clone + sparse
+checkout), for large repositories of which ULIS needs a few files.
 """
 
 from __future__ import annotations
@@ -24,7 +26,7 @@ _COMMIT = re.compile(r"^[0-9a-f]{40}$")
 _REPO = re.compile(r"^https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 
 
-def _git(args: list[str], cwd: Path) -> str:
+def _git(args: list[str], cwd: Path, stdin: str | None = None) -> str:
     env = {**os.environ, "GIT_LFS_SKIP_SMUDGE": "1", "GIT_TERMINAL_PROMPT": "0"}
     result = subprocess.run(
         ["git", *args],
@@ -34,6 +36,7 @@ def _git(args: list[str], cwd: Path) -> str:
         capture_output=True,
         text=True,  # noqa: S603, S607
         timeout=900,
+        input=stdin,
     )
     return result.stdout.strip()
 
@@ -64,8 +67,12 @@ class GitSnapshotConnector:
             head = _git(["rev-parse", "HEAD"], target)
         except subprocess.CalledProcessError:
             head = ""
+        sparse = bool(manifest.get("sparse"))
+        if sparse:
+            paths = [f"/{d['path']}" for d in manifest["documents"]]
+            _git(["sparse-checkout", "set", "--no-cone", "--stdin"], target, stdin="\n".join(paths) + "\n")
         if head != commit:
-            _git(["fetch", "-q", "--depth", "1", "origin", commit], target)
+            _git(["fetch", "-q", "--depth", "1", *(["--filter=blob:none"] if sparse else []), "origin", commit], target)
             _git(["checkout", "-q", "--detach", commit], target)
         if _git(["rev-parse", "HEAD"], target) != commit:
             raise ManifestError("checked-out commit does not match the manifest")

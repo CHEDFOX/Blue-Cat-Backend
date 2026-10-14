@@ -104,18 +104,30 @@ def _source_info(session: Session, catalog: Catalog, doc_id: uuid.UUID, locator:
     )
 
 
+def title_in(session: Session, instrument: m.Instrument, language: str) -> str | None:
+    """The instrument's short title in ``language``, from its latest expression in that language."""
+    return session.scalar(
+        select(m.InstrumentVersion.short_title)
+        .where(m.InstrumentVersion.instrument_id == instrument.id, m.InstrumentVersion.language == language)
+        .order_by(m.InstrumentVersion.version_date.desc())
+        .limit(1)
+    )
+
+
 def provision_citation(
     catalog: Catalog,
     instrument: m.Instrument,
     provision: m.Provision,
     language: str,
     version_date: date | None = None,
+    title: str | None = None,
 ) -> str:
+    """``title`` is the instrument's short title in ``language`` when known (see ``title_in``)."""
     module = catalog.module_for(instrument.jurisdiction_id)
     profile = catalog.jurisdictions.get(instrument.jurisdiction_id)
     return module.provision_citation(
         ProvisionCitationInput(
-            instrument_title=instrument.short_title or instrument.title,
+            instrument_title=title or instrument.short_title or instrument.title,
             instrument_type=instrument.instrument_type,
             jurisdiction_id=instrument.jurisdiction_id,
             top_kind=provision.top_kind,
@@ -194,7 +206,9 @@ def _citing(session: Session, catalog: Catalog, link: m.CitationLink) -> Treatme
             relation=link.relation,
             citing_kind="legislation",
             citing_title=inst.title,
-            citing_citation=provision_citation(catalog, inst, prov, pv.language, pv.valid_from),
+            citing_citation=provision_citation(
+                catalog, inst, prov, pv.language, pv.valid_from, title_in(session, inst, pv.language)
+            ),
             citing_uri=prov.uri,
             date=pv.valid_from or inst.work_date,
             pinpoint=None,
@@ -254,7 +268,9 @@ def load_provision(session: Session, catalog: Catalog, version_id: uuid.UUID) ->
             "authoritative": iv2.authoritative,
             "text_origin": iv2.text_origin,
             "text": v.text,
-            "citation": provision_citation(catalog, instrument, provision, v.language, iv2.version_date),
+            "citation": provision_citation(
+                catalog, instrument, provision, v.language, iv2.version_date, iv2.short_title
+            ),
         }
         for v, iv2 in session.execute(
             select(m.ProvisionVersion, m.InstrumentVersion)
@@ -298,7 +314,7 @@ def load_provision(session: Session, catalog: Catalog, version_id: uuid.UUID) ->
         instrument=instrument,
         instrument_version=iv,
         source=_source_info(session, catalog, pv.source_document_id, pv.source_locator),
-        citation=provision_citation(catalog, instrument, provision, pv.language, iv.version_date),
+        citation=provision_citation(catalog, instrument, provision, pv.language, iv.version_date, iv.short_title),
         currency_date=currency,
         outstanding_changes=outstanding,
         timeline=timeline,

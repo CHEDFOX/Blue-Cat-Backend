@@ -33,7 +33,7 @@ from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
-from ulis.sources.parsers import akn, legislation_gov_uk, uslm
+from ulis.sources.parsers import akn, justice_canada, legislation_gov_uk, uslm
 from ulis.sources.registry import SourceDescriptor, licence_gate
 from ulis.storage.object_store import ObjectStore
 from ulis.temporal.validity import Span, derive_valid_to
@@ -44,11 +44,13 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "akn3": lambda content: [akn.parse_akn(content)],
     "uslm": uslm.parse_uslm,
     "legislation_gov_uk_akn": legislation_gov_uk.parse_legislation_gov_uk,
+    "justice_canada_xml": justice_canada.parse_justice_canada,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
     "uslm": uslm.PARSER_VERSION,
     "legislation_gov_uk_akn": legislation_gov_uk.PARSER_VERSION,
+    "justice_canada_xml": justice_canada.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -106,7 +108,12 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
     if "/~" in uri:
         work, _, eid = uri.partition("/~")
         return work, eid or None
-    return uslm.resolve_identifier(uri) or legislation_gov_uk.resolve_uri(uri) or (uri, None)
+    return (
+        uslm.resolve_identifier(uri)
+        or legislation_gov_uk.resolve_uri(uri)
+        or justice_canada.resolve_uri(uri)
+        or (uri, None)
+    )
 
 
 def _sha(text: str) -> str:
@@ -298,6 +305,7 @@ class Ingestor:
             uri=parsed.expression_uri,
             language=parsed.language,
             title=parsed.title,
+            short_title=parsed.short_title,
             authoritative=parsed.authoritative,
             text_origin=parsed.text_origin,
             consolidation_kind=parsed.consolidation_kind,

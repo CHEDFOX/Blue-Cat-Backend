@@ -457,7 +457,8 @@ def search(
             text(
                 "SELECT count(*), min(h.start) FROM (SELECT i.id, min(iv.version_date) AS start FROM instruments i "
                 "JOIN instrument_versions iv ON iv.instrument_id = i.id "
-                "WHERE i.jurisdiction_id = ANY(CAST(:chain AS text[])) AND i.work_date <= :as_of "
+                "WHERE i.jurisdiction_id = ANY(CAST(:chain AS text[])) "
+                "AND (i.work_date IS NULL OR i.work_date <= :as_of) "
                 "AND NOT i.is_proposed GROUP BY i.id) h WHERE h.start > :as_of"
             ),
             {"chain": scope["chain"], "as_of": as_of},
@@ -540,7 +541,7 @@ def _provision_hit(session: Session, catalog: Catalog, c: _Candidate, rank: int,
     module = catalog.module_for(inst.jurisdiction_id)
     pin = module.pinpoint(
         ProvisionCitationInput(
-            inst.short_title or inst.title,
+            iv.short_title or inst.short_title or inst.title,
             inst.instrument_type,
             inst.jurisdiction_id,
             prov.top_kind,

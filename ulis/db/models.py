@@ -194,6 +194,8 @@ class InstrumentVersion(Base):
     uri: Mapped[str] = mapped_column(Text, unique=True)
     language: Mapped[str] = mapped_column(String(16))
     title: Mapped[str] = mapped_column(Text)
+    # Short title in this expression's language (citations of a French version use the French title).
+    short_title: Mapped[str | None] = mapped_column(Text)
     # True when this language version is itself legally authentic (not a translation).
     authoritative: Mapped[bool] = mapped_column(Boolean)
     text_origin: Mapped[str] = mapped_column(String(32))

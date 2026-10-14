@@ -5,8 +5,9 @@ PostgreSQL). The frontend is in [`Blue-Cat-Web`](https://github.com/CHEDFOX/Blue
 
 > **Status:** Phase 1 foundations plus a working Phase 2 slice. Real data: **UK legislation**
 > from legislation.gov.uk (9 Acts and instruments of the UK, Scottish and Welsh legislatures,
-> each with its full point-in-time history) and a **sample of US federal law** from the US
-> Government Publishing Office (96 official USLM files). Plus a fictional
+> each with its full point-in-time history), **Canadian federal Acts** in English and French
+> (9 Acts from the Department of Justice consolidation), and a **sample of US federal law**
+> from the US Government Publishing Office (96 official USLM files). Plus a fictional
 > multi-jurisdiction test corpus. Coverage is partial and stated on every response; ULIS
 > makes no claim of legal competence. Research aid only, not legal advice.
 
@@ -45,6 +46,7 @@ python -m ulis.cli verify-sources                    # re-derives every text fro
 python -m ulis.cli search "retain personal data" --jurisdiction XA --as-of 2020-06-01
 python -m ulis.cli ingest us-gpo-uslm-samples        # real US federal sample (git clone of a pinned GPO commit)
 python -m ulis.cli ingest gb-legislation-gov-uk       # real UK legislation with history (polite, cached fetch)
+python -m ulis.cli ingest ca-justice-laws-xml         # real Canadian Acts, EN + FR (sparse clone of a pinned commit)
 python -m ulis.cli ingest in-india-code              # refused: licence review pending (exit 2)
 uvicorn ulis.api.app:create_app --factory --port 8000
 ```
@@ -96,6 +98,7 @@ tests/             unit + PostgreSQL integration tests
 |---|---|---|---|
 | `us-gpo-uslm-samples` | US (federal) | 96 official GPO USLM files pinned to commit `4ec9db2`: 14 public laws as enacted, 11 statute compilations, 7 CFR edition volumes (221 parts), 64 bill/resolution versions; 12 files excluded with recorded reasons | Real, public domain; sample only |
 | `gb-legislation-gov-uk` | GB, England and Wales, Scotland, Wales | 9 works with every point-in-time version (159 versions): Theft Act 1968, Interpretation Act 1978, Human Rights Act 1998, Consumer Rights Act 2015, Data Protection Act 2018, an SI, a Scottish Act, a Welsh Measure and a Welsh Act; territorial extent, repeals, outstanding effects | Real, Open Government Licence v3.0; selection only |
+| `ca-justice-laws-xml` | CA (federal) | 9 Acts in English and French (18 files), current consolidation: Criminal Code, Canada Labour Code, Canada Business Corporations Act, Copyright Act, Divorce Act, Immigration and Refugee Protection Act, Access to Information Act, Privacy Act, PIPEDA | Real, Open Government Licence – Canada; not an official version |
 | `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
 
 Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO
