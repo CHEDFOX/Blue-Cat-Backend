@@ -94,7 +94,7 @@ def test_source_integrity_passes_for_every_document(
     for doc_id in session.scalars(select(m.SourceDocument.id)):
         result = verify_source_document(session, catalog, store, doc_id)
         assert result["result"] == "pass", result
-        assert result["checked_units"] > 0
+        assert result["checked_units"] + result["checked_events"] > 0
 
 
 def test_source_integrity_detects_tampering(

@@ -27,6 +27,7 @@ def verify_source_document(
         raise KeyError(f"unknown source document {document_id}")
     problems: list[str] = []
     checked = 0
+    checked_events = 0
     try:
         raw = store.get(doc.storage_key)
     except (IntegrityError, FileNotFoundError) as exc:
@@ -58,6 +59,17 @@ def verify_source_document(
                 problems.append(f"{pvs.source_locator}: stored text differs from source")
             if _sha(pv.text) != pv.text_sha256:
                 problems.append(f"{pvs.source_locator}: stored text does not match its own hash")
+        # Lifecycle events recorded from this document (e.g. the amendments a revision list reports)
+        # must be re-derivable from it too.
+        events = {(d.work_uri, e.event_type, e.date, e.affecting_uri) for d in parsed_docs for e in d.events}
+        for ev, work_uri in session.execute(
+            select(m.LifecycleEvent, m.Instrument.uri)
+            .join(m.Instrument, m.LifecycleEvent.instrument_id == m.Instrument.id)
+            .where(m.LifecycleEvent.source_document_id == doc.id)
+        ):
+            checked_events += 1
+            if (work_uri, ev.event_type, ev.event_date, ev.affecting_uri) not in events:
+                problems.append(f"{ev.event_type} event of {ev.event_date}: not found in source")
         for para, work_uri in session.execute(
             select(m.JudgmentParagraph, m.Judgment.uri)
             .join(m.JudgmentVersion, m.JudgmentParagraph.judgment_version_id == m.JudgmentVersion.id)
@@ -75,7 +87,7 @@ def verify_source_document(
             subject_id=str(doc.id),
             check="source_integrity",
             result=result,
-            details={"checked_units": checked, "problems": problems},
+            details={"checked_units": checked, "checked_events": checked_events, "problems": problems},
             checker=checker,
         )
     )
@@ -86,5 +98,6 @@ def verify_source_document(
         "sha256": doc.sha256,
         "result": result,
         "checked_units": checked,
+        "checked_events": checked_events,
         "problems": problems,
     }

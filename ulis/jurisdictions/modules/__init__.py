@@ -16,12 +16,14 @@ from ulis.jurisdictions.modules.de import DeModule
 from ulis.jurisdictions.modules.es import EsModule
 from ulis.jurisdictions.modules.fictional import AureliaModule, BorealisModule
 from ulis.jurisdictions.modules.gb import GbModule
+from ulis.jurisdictions.modules.jp import JpModule
 from ulis.jurisdictions.modules.us import UsModule
 
 MODULES: dict[str, JurisdictionModule] = {
     m.id: m
     for m in (
         JurisdictionModule(),
+        JpModule(),
         AureliaModule(),
         BorealisModule(),
         CaModule(),
