@@ -137,6 +137,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "es-boe-consolidada",
         "jp-egov-laws",
         "eu-eur-lex",
+        "eu-cellar-case-law",
         "fi-finlex",
         "au-federal-register",
         "nl-bwb",

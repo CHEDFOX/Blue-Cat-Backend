@@ -1,0 +1,20 @@
+# Test manifest: a subset of config/manifests/eu-cellar-case-law.yaml whose Cellar responses are stored
+# (gzip-compressed, unmodified) under cache/. The tests run the connector offline against them.
+schema_version: 1
+source_id: eu-cellar-case-law
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+languages:
+- en
+- fr
+works:
+- celex: 62014CJ0362
+  short_name: Schrems
+- celex: 62012CJ0293
+  short_name: Digital Rights Ireland and Others
+- celex: 61977CJ0106
+  short_name: Simmenthal
+- celex: 61962CJ0026
+  short_name: Van Gend en Loos
+- celex: 62001TJ0315
+  short_name: Kadi v Council and Commission

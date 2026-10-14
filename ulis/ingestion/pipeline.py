@@ -36,6 +36,7 @@ from ulis.sources.connectors.bwb import BwbConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
 from ulis.sources.connectors.eli_sejm import EliSejmConnector
 from ulis.sources.connectors.eu_cellar import CellarConnector
+from ulis.sources.connectors.eu_cellar_case_law import CellarCaseLawConnector
 from ulis.sources.connectors.fedlex import FedlexConnector
 from ulis.sources.connectors.finlex import FinlexConnector
 from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
@@ -62,6 +63,7 @@ from ulis.sources.parsers import (
     egov_law,
     eli_sejm,
     eu_cellar,
+    eu_cellar_case_law,
     fedlex,
     finlex,
     gesetze_im_internet,
@@ -94,6 +96,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "boe_consolidada_xml": boe_consolidada.parse_boe_consolidada,
     "egov_law_xml": egov_law.parse_egov,
     "eu_cellar": eu_cellar.parse_eu_cellar,
+    "eu_cellar_case_law": eu_cellar_case_law.parse_eu_case_law,
     "fedlex_akn": fedlex.parse_fedlex,
     "finlex_akn": finlex.parse_finlex,
     "frl_epub": au_federal_register.parse_federal_register,
@@ -119,6 +122,7 @@ PARSER_VERSIONS = {
     "boe_consolidada_xml": boe_consolidada.PARSER_VERSION,
     "egov_law_xml": egov_law.PARSER_VERSION,
     "eu_cellar": eu_cellar.PARSER_VERSION,
+    "eu_cellar_case_law": eu_cellar_case_law.PARSER_VERSION,
     "fedlex_akn": fedlex.PARSER_VERSION,
     "finlex_akn": finlex.PARSER_VERSION,
     "frl_epub": au_federal_register.PARSER_VERSION,
@@ -174,6 +178,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "legislation_gov_uk": LegislationGovUkConnector,
     "egov_laws": EgovLawsConnector,
     "eu_cellar": CellarConnector,
+    "eu_cellar_case_law": CellarCaseLawConnector,
     "fedlex": FedlexConnector,
     "finlex": FinlexConnector,
     "au_federal_register": FederalRegisterConnector,
@@ -220,6 +225,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or gesetze_im_internet.resolve_uri(uri)
         or egov_law.resolve_uri(uri)
         or eu_cellar.resolve_uri(uri)
+        or eu_cellar_case_law.resolve_uri(uri)
         or fedlex.resolve_uri(uri)
         or finlex.resolve_uri(uri)
         or au_federal_register.resolve_uri(uri)

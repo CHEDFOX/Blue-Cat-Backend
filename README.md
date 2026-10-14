@@ -118,6 +118,7 @@ tests/             unit + PostgreSQL integration tests
 | `us-uscode-house` | US (federal) | 10 positive-law titles of the US Code, official OLRC XML: 1, 5, 11, 17, 18, 28, 31, 35, 38, 44 - about 70,000 provisions at one release point ([notes](docs/jurisdictions/us-code.md)) | Real, public domain (17 U.S.C. 105); no history |
 | `ar-infoleg` | AR | 6 instruments in Spanish: Constitución Nacional (original text), Código Civil y Comercial, Código Penal, Ley 25.326, Ley de Contrato de Trabajo, Ley 19.549 ([notes](docs/jurisdictions/ar.md)) | Real, CC BY 4.0 (portal terms); informative, the Boletín Oficial is authentic |
 | `nl-rechtspraak` | NL (case law) | 30 Dutch court decisions 1919-2022 (Hoge Raad, Raad van State, CRvB, CBb, lower courts) with numbered considerations and links to the ingested statutes ([notes](docs/jurisdictions/nl-case-law.md)) | Real, Rechtspraak open data (source attribution); hand-picked sample |
+| `eu-cellar-case-law` | EU (case law) | 31 judgments of the Court of Justice and General Court in English and French (Schrems, Google Spain, Van Gend en Loos, Costa v ENEL, Francovich, Kadi ...) with links to the ingested EU legislation ([notes](docs/jurisdictions/eu-case-law.md)) | Real, Cellar dataset statement (acknowledgement); hand-picked sample |
 | `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
 
 Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO

@@ -60,6 +60,9 @@ TREATY_ABBREVIATION = {
     "TFEU": {"en": "TFEU", "fr": "TFUE", "de": "AEUV"},
 }
 ANNEX_WORD = {"en": "Annex", "fr": "annexe", "de": "Anhang"}
+CASE_WORD = {"en": "Case", "fr": "Affaire", "de": "Rechtssache"}
+PARAGRAPH_WORD = {"en": "para", "fr": "point", "de": "Rn."}
+OPERATIVE_PART = {"en": "operative part, point", "fr": "dispositif, point", "de": "Tenor, Nr."}
 LANGS = ("en", "fr", "de")
 
 
@@ -75,6 +78,12 @@ class EuExt(BaseModel):
     domain: Literal["EU", "EC", "EEC", "Euratom"] | None = None
     treaty: Literal["TEU", "TFEU", "CHARTER"] | None = None
     ecli: str | None = None
+    # Judgments: the case designation in each language version as Cellar gives it ("Case C-362/14",
+    # "Affaire C-362/14"), the label by which the Court itself cites the case, and the language of
+    # the case (its text is the authentic one).
+    designations: dict[str, str] | None = None
+    short_name: str | None = None
+    procedure_language: str | None = None
 
 
 def designation(
@@ -139,7 +148,7 @@ def pinpoint(eid: str, language: str) -> str:
 
 class EuModule(JurisdictionModule):
     id: ClassVar[str] = "eu"
-    version: ClassVar[str] = "1.0.0"
+    version: ClassVar[str] = "1.1.0"
     ext_model: ClassVar[type[BaseModel]] = EuExt
 
     def pinpoint(self, c: ProvisionCitationInput) -> str:
@@ -160,9 +169,22 @@ class EuModule(JurisdictionModule):
         return f"{name}, {pin}" if pin else name
 
     def judgment_citation(self, c: JudgmentCitationInput) -> str:
-        """``Schrems, C-362/14, EU:C:2015:650, para 94`` (ECLI without its ``ECLI:`` prefix)."""
-        reference = (c.neutral_citation or "").removeprefix("ECLI:")
-        parts = [c.case_name, c.docket or "", reference or c.decision_date.isoformat()]
-        pin = {"fr": "point", "de": "Rn."}.get(c.language, "para")
-        text = ", ".join(p for p in parts if p)
-        return f"{text}, {pin} {c.paragraph}" if c.paragraph else text
+        """``Case C-362/14 Schrems (EU:C:2015:650), para 94`` (ECLI without its ``ECLI:`` prefix).
+
+        The designation ("Case C-362/14", "Affaire C-362/14", "Joined cases C-46/93 and C-48/93") is
+        the one Cellar records for the language version; the name is the label by which the Court
+        cites the case (else the parties). Points of the operative part are numbered ``op-N``.
+        """
+        ext = c.ext or {}
+        lang = c.language if c.language in LANGS else "en"
+        designation = (ext.get("designations") or {}).get(c.language) or (
+            f"{CASE_WORD[lang]} {c.docket}" if c.docket else ""
+        )
+        name = ext.get("short_name") or c.case_name
+        reference = (c.neutral_citation or "").removeprefix("ECLI:") or c.decision_date.isoformat()
+        text = f"{' '.join(p for p in (designation, name) if p)} ({reference})"
+        if not c.paragraph:
+            return text
+        if c.paragraph.startswith("op-"):
+            return f"{text}, {OPERATIVE_PART[lang]} {c.paragraph[3:]}"
+        return f"{text}, {PARAGRAPH_WORD[lang]} {c.paragraph}"

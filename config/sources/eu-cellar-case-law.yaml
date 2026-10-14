@@ -1,0 +1,86 @@
+# Judgments of the Court of Justice and the General Court from the Publications Office's Cellar.
+# Licence and access reviewed 2026-10-14; see docs/jurisdictions/eu-case-law.md for the evidence.
+schema_version: 1
+id: eu-cellar-case-law
+name: Cellar case law (Court of Justice and General Court, via the Publications Office of the European Union)
+publisher: Publications Office of the European Union (judgments of the Court of Justice of the European Union)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [EU]
+document_kinds: [judgment]
+languages: [bg, cs, da, de, el, en, es, et, fi, fr, ga, hr, hu, it, lt, lv, mt, nl, pl, pt, ro, sk, sl, sv]
+coverage: >-
+  Case law of the Court of Justice and the General Court in all 24 official languages, held in
+  Cellar (the repository behind EUR-Lex). ULIS ingests a hand-picked list of landmark judgments
+  (see the manifest) in English and French: the XHTML text the Publications Office publishes
+  (converted from Formex for recent judgments, digitised from the printed Reports for older ones),
+  with the Publications Office metadata (ECLI, date, court, case designation, parties).
+access:
+  method: api
+  endpoint: config/manifests/eu-cellar-case-law.yaml
+update_frequency: daily; re-fetch to refresh
+rate_limits: >-
+  No published rate limit found. publications.europa.eu/robots.txt redirects to
+  https://op.europa.eu/robots.txt ("User-agent: *", "Allow: /"; the Disallow rules concern portal
+  pages, baskets, query-string pages and rdf-request pages; /resource/ and /webapi/ are not
+  disallowed; no Crawl-delay; re-read 2026-10-14). ULIS waits at least 5 s between requests and
+  caches every response. curia.europa.eu and eur-lex.europa.eu answer automated clients with bot
+  challenges and are not used.
+licence:
+  id: EU-REUSE-2011-833
+  name: Commission reuse notice - Commission Decision 2011/833/EU of 12 December 2011 on the reuse of Commission documents
+  url: http://data.europa.eu/eli/dec/2011/833/oj
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-14. (1) The Publications Office's dataset "Sparql and RESTful API access
+    to European Union law and publications (CELLAR)"
+    (https://data.europa.eu/data/datasets/sparql-cellar-of-the-publications-office) describes the
+    service used and gives every distribution the licence "European Commission reuse notice"
+    (http://data.europa.eu/eli/dec/2011/833/oj); case law is among the "key collections ... legal
+    content" it names (read in the EU legislation review of the same day). (2) Decision
+    2011/833/EU, read again from Cellar for this review: art 4 makes documents available for
+    reuse for commercial or non-commercial purposes, without charge and without individual
+    application; art 6(2) allows the conditions of acknowledging the source, not distorting the
+    original meaning and non-liability; art 2(2)(a)-(b) excludes documents covered by industrial
+    property rights and rights of third parties. Its arts 1-2 apply it to documents "held by the
+    Commission or on its behalf by the Publications Office" and "produced by the Commission or by
+    public and private entities on its behalf": a judgment is the Court's document, so the
+    Decision covers it only through the Publications Office's licence statement for the Cellar
+    distributions in (1). (3) The Court of Justice's copyright page
+    (https://curia.europa.eu/site/jcms/d2_5167/en/copyright), read in the earlier EU legislation
+    review, says case law may be reproduced with acknowledgement; it was NOT re-read for this
+    source because curia.europa.eu was excluded after bot challenges, and no Court decision on
+    reuse could be found in Cellar. (4) Cellar "Users" page (https://op.europa.eu/en/web/cellar/users)
+    and the Publications Office copyright notice
+    (https://op.europa.eu/en/web/about-us/legal-notices/publications-office-of-the-european-union-copyright;
+    questions on Cellar reuse to op-copyright@publications.europa.eu), as in the EU legislation source.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: "Source: Court of Justice of the European Union, via EUR-Lex / Cellar, Publications Office of the European Union (https://eur-lex.europa.eu). © European Union."
+  conditions:
+    - Acknowledge the source (Decision 2011/833/EU, art 6(2)(a); the Court's copyright page).
+    - Do not distort the original meaning or message of the documents (art 6(2)(b)); ULIS stores the exact text and never edits, summarises or translates it.
+    - The Commission and the Court are not liable for any consequence of the reuse (art 6(2)(c)).
+    - Judgments are reused as texts of the Court; the Publications Office's XHTML is a rendition, not the Court's authentic version (see known_limitations).
+    - Content subject to third-party rights is outside the reuse policy (Decision 2011/833/EU, art 2(2)(b)).
+  notes: >-
+    Not verified: the Court's own copyright page in this review (bot challenge; see reviewed_by)
+    and the EUR-Lex legal notice. Counsel review recommended before production use.
+provenance: >-
+  Cellar, publications.europa.eu: the SPARQL endpoint (https://publications.europa.eu/webapi/rdf/sparql)
+  for metadata and the RESTful item URLs (https://publications.europa.eu/resource/cellar/...) for
+  the XHTML files. Each language version of a judgment is stored as one bundle holding every
+  response used, exactly as received, with its URL, retrieval time and SHA-256.
+known_limitations:
+  - The XHTML is the Publications Office's rendition. Of the language versions of a judgment only the one in the language of the case is authentic (to verify against the Rules of Procedure); the others are the Court's translations. ULIS marks the language of the case as authoritative when Cellar records it, else no version.
+  - Older judgments (before about 1990) are digitised text of the printed Reports, partly in capitals, and some are not paragraph-numbered at all; some Reports digitisations number the points in the text so that a missing number cannot be told from an unnumbered block.
+  - Opinions of Advocates General, orders, summaries and the Reports' headnotes are not ingested; the operative part is kept, headings are kept as unnumbered blocks.
+  - Later treatment (overruling, affirmation) is not recorded; only citations between ingested judgments marked in the text are linked.
+  - Only English and French are ingested.
+status: active
+connector: eu_cellar_case_law
+parser: eu_cellar_case_law

@@ -60,7 +60,7 @@ permissions `allowed_with_conditions`). Evidence, all from the publisher:
 - data.europa.eu copyright notice, <https://data.europa.eu/en/copyright-notice>: restates the
   Commission reuse policy (Decision 2011/833/EU).
 - Court of Justice, <https://curia.europa.eu/site/jcms/d2_5167/en/copyright>: case law may be
-  reproduced with acknowledgement (no case law is ingested yet).
+  reproduced with acknowledgement (case law is a separate source, see `eu-case-law.md`).
 
 Not verified: the EUR-Lex legal notice itself
 (<https://eur-lex.europa.eu/content/legal-notice/legal-notice.html>) because of the bot challenge.
@@ -172,7 +172,7 @@ See `coverage.known_gaps` in the profile. In short: a pilot selection; 3 of 24 l
 original OJ texts only (amended wording not indexed; consolidated versions of acts not ingested);
 consolidated Treaties attested only at 2016-06-07, without protocols and declarations;
 partial application dates not mapped to provisions; AI Act provisions changed before its general
-application have no version; no recitals; no case law, international agreements, delegated or
+application have no version; no recitals; case law only as the separate selection in `eu-case-law.md`, no international agreements, delegated or
 implementing acts or national transposition; EU membership and the effect of EU law inside
 Member States are not modelled (left for the core scoping change); the EUR-Lex legal notice could
 not be read automatically.

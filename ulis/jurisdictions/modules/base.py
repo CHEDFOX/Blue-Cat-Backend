@@ -52,6 +52,8 @@ class JudgmentCitationInput:
     paragraph: str | None
     language: str
     jurisdiction_id: str
+    # The judgment's jurisdiction-module extension data (None when the module records none).
+    ext: dict[str, Any] | None = None
 
 
 PIN_PREFIX = {

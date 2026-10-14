@@ -19,7 +19,8 @@ CATEGORIES: dict[str, tuple[str, float]] = {
     "binding_precedent": ("Binding precedent for the forum court", 1.2),
     "precedent_vertical": ("Precedent: binds courts below the deciding court", 1.1),
     "regional_law": ("Law of a regional organisation of which the State is a member", 1.0),
-    "regional_case_law": ("Court of a regional organisation of which the State is a member", 1.05),
+    "regional_case_law": ("Case law of the court of a regional organisation of which the State is a member", 1.05),
+    "organisation_case_law": ("Case law of the organisation's own court on its law", 1.05),
     "treaty_obligation": ("Treaty in force for the State", 1.0),
     "regional_directive": ("Directive: binds the State as to the result; applies through national law", 0.95),
     "applicability_unverified": ("In force at the source date; applicability on the requested date unverified", 0.9),
@@ -147,6 +148,26 @@ def classify_provision(
     )
 
 
+DOCTRINE_SENTENCE = {
+    "stare_decisis": "applies stare decisis",
+    "jurisprudence_constante": "follows its settled case law (jurisprudence constante), not stare decisis",
+    "no_formal_precedent": "has no formal doctrine of precedent",
+    "not_applicable": "has no precedent rules in the profile",
+}
+
+
+def _standing(reg: JurisdictionRegistry, court_id: str) -> str:
+    """What the court's own profile says about the weight of its decisions (never invented here)."""
+    profile = reg.get(reg.court_jurisdiction(court_id))
+    court = reg.courts()[court_id]
+    precedent = profile.precedent
+    text = f"The {profile.id} profile says its court {DOCTRINE_SENTENCE[precedent.doctrine]}."
+    if court.appeals_to:
+        above = ", ".join(reg.courts()[c].name for c in court.appeals_to)
+        text += f" A decision of {court.name} may be appealed to {above}; later treatment is not recorded."
+    return f"{text} {precedent.notes or ''}".strip()
+
+
 def classify_judgment(
     reg: JurisdictionRegistry,
     *,
@@ -164,8 +185,9 @@ def classify_judgment(
         org = reg.get(judgment_jurisdiction).name
         return _make(
             "regional_case_law",
-            f"Decision of {court_name} ({org}); {reg.sovereign(home)} is a member of {org}. Its weight on questions "
-            f"of {org} law follows the organisation's rules (see the {judgment_jurisdiction} profile; to verify).",
+            f"Decision of {court_name} ({org}); {reg.sovereign(home)} is a member of {org} on "
+            f"{(as_of or date.today()).isoformat()} (per profile). Its weight on questions of {org} law follows the "
+            f"organisation's rules (to verify). {_standing(reg, court_id)}",
         )
     if reg.sovereign(judgment_jurisdiction) != reg.sovereign(home):
         return _make(
@@ -175,6 +197,12 @@ def classify_judgment(
         )
     if overruled_by:
         return _make("overruled_precedent", f"Overruled by {overruled_by}.")
+    if court_profile.kind == "regional_organisation" and judgment_jurisdiction in reg.chain(home):
+        return _make(
+            "organisation_case_law",
+            f"Decision of {court_name}, the court of {court_profile.name}, on {court_profile.name} law. "
+            f"{_standing(reg, court_id)}",
+        )
     precedent = court_profile.precedent
     if precedent.doctrine != "stare_decisis" or not precedent.vertical_binding:
         return _make(

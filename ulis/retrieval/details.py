@@ -157,6 +157,7 @@ def judgment_citation(
             paragraph=paragraph,
             language=language,
             jurisdiction_id=judgment.jurisdiction_id,
+            ext=judgment.ext,
         )
     )
 

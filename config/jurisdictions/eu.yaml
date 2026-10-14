@@ -3,7 +3,7 @@
 # Member State memberships) is NOT modelled here.
 schema_version: 1
 id: EU
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: European Union
 names:
   en: European Union
@@ -57,11 +57,17 @@ precedent:
   doctrine: jurisprudence_constante
   vertical_binding: false
   notes: >-
-    To verify - the Court of Justice is not formally bound by its earlier judgments but
-    follows its settled case law; a preliminary ruling (TFEU, art 267) binds the referring
-    court, and national courts of last instance must refer questions of EU law. Decisions of
-    the General Court may be appealed to the Court of Justice on points of law only (TFEU,
-    art 256(1)). No case law is ingested yet.
+    To verify - the Court of Justice does not apply stare decisis: it is not formally bound by its
+    earlier judgments, but follows its settled case law and departs from it only with reasons. It
+    has the final say on the interpretation and validity of EU law (TEU art 19(1); TFEU art 267).
+    A preliminary ruling on interpretation (TFEU art 267) binds the referring court, and in
+    practice national courts apply it to the same question of EU law; national courts of last
+    instance must refer a question of EU law unless the Court's case law has already settled it or
+    the answer is beyond reasonable doubt (see Cilfit and Others, 283/81, ingested). The General
+    Court's judgments in direct actions bind the parties and may be appealed to the Court of
+    Justice on points of law only (TFEU art 256(1)). How case law of the Court operates inside
+    each Member State is not modelled; the weight shown for a judgment is that of settled case law
+    on EU law, not of binding precedent.
 citation:
   module: eu
   examples:
@@ -72,8 +78,10 @@ citation:
     - "Directive 2011/83/EU, art 6(1)(h)"
     - "TFEU, art 101(1)(a)"
     - "Charter of Fundamental Rights of the European Union, art 8(1)"
+    - "Case C-362/14 Schrems (EU:C:2015:650), para 94"
+    - "Affaire C-362/14 Schrems (EU:C:2015:650), point 94"
 publication:
-  official_sources: [eu-eur-lex]
+  official_sources: [eu-eur-lex, eu-cellar-case-law]
   commencement: >-
     Legislative acts are published in the Official Journal and enter into force on the date
     they specify or, failing that, on the twentieth day following their publication (TFEU,
@@ -93,5 +101,6 @@ coverage:
     - Validity runs from each act's general date of application (else its entry into force) as recorded in the metadata. Partial application dates (e.g. Artificial Intelligence Act, art 113) are only noted; which provisions they concern is not modelled.
     - Artificial Intelligence Act - provisions whose original wording was replaced by Regulation (EU) 2026/1744 with effect from 27 July 2026, before the Act's general date of application, have no indexed version.
     - Recitals, citations, final formulas and signatures are not indexed.
-    - No case law of the Court of Justice or the General Court, no international agreements of the Union, no delegated or implementing acts, no national transposing measures.
+    - Case law is a hand-picked selection of about 30 landmark judgments of the Court of Justice and the General Court in English and French (see the case-law source manifest); no Opinions of Advocates General, orders, summaries or other judgments, and no record of later treatment. Citations between judgments are linked only where the text marks them; references to the ingested legislation only in a few exact patterns.
+    - No international agreements of the Union, no delegated or implementing acts, no national transposing measures.
     - How EU law applies within Member States (primacy, direct effect, membership dates) is not modelled.

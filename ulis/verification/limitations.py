@@ -407,7 +407,14 @@ def judgment_limitations(catalog: Catalog, data: JudgmentData, authority: Author
             "(appeals, overruling, legislative reversal) is not known.",
         )
     )
-    if authority.category in ("foreign", "persuasive_precedent", "precedent_vertical", "overruled_precedent"):
+    if authority.category in (
+        "foreign",
+        "persuasive_precedent",
+        "precedent_vertical",
+        "overruled_precedent",
+        "regional_case_law",
+        "organisation_case_law",
+    ):
         out.append(Limitation("AUTHORITY", "warning", authority.rationale))
     if data.version.text_origin == "machine_translation":
         out.append(Limitation("MACHINE_TRANSLATION", "critical", "Machine translation: not an authentic text."))

@@ -1,0 +1,54 @@
+# Judgments of the Court of Justice and the General Court fetched from Cellar (Publications Office).
+# Reuse: Commission Decision 2011/833/EU, source acknowledged (see config/sources/eu-cellar-case-law.yaml).
+# Polite access: identifying User-Agent, at least 5 s between requests, local cache. curia.europa.eu
+# and eur-lex.europa.eu are not used (bot challenges).
+# Each judgment is fetched in every listed language. Only the text in the language of the case is
+# marked authoritative (to verify; the other versions are translations) - see docs/jurisdictions/eu-case-law.md.
+# short_name is the label by which the Court itself cites the case in its other judgments, taken
+# from the ingested texts (the label as it appears next to the case number or ECLI of a judgment
+# that cites the case). It is used only in citations. Where no ingested judgment cites the case
+# by a label, short_name is left out and the citation uses the parties as published.
+schema_version: 1
+source_id: eu-cellar-case-law
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+languages: [en, fr]
+works:
+  # Data protection and privacy
+  - {celex: "62014CJ0362", short_name: "Schrems"}                         # C-362/14
+  - {celex: "62018CJ0311"}                                  # C-311/18 (Schrems II)
+  - {celex: "62012CJ0131", short_name: "Google Spain and Google"}         # C-131/12
+  - {celex: "62012CJ0293", short_name: "Digital Rights Ireland and Others"} # C-293/12 and C-594/12
+  # Primacy, direct effect, preliminary references
+  - {celex: "61962CJ0026", short_name: "Van Gend en Loos"}                 # 26/62
+  - {celex: "61964CJ0006", short_name: "Costa"}                           # 6/64 (Costa v ENEL)
+  - {celex: "61977CJ0106", short_name: "Simmenthal"}                      # 106/77
+  - {celex: "61970CJ0011", short_name: "Internationale Handelsgesellschaft"} # 11/70
+  - {celex: "61989CJ0213", short_name: "Factortame"}           # C-213/89
+  - {celex: "61981CJ0283", short_name: "CILFIT and Others"}               # 283/81
+  # State liability
+  - {celex: "61990CJ0006", short_name: "Francovich and Others"}           # C-6/90 and C-9/90
+  - {celex: "61993CJ0046", short_name: "Brasserie du Pêcheur and Factortame"} # C-46/93 and C-48/93
+  - {celex: "62001CJ0224"}                                  # C-224/01
+  # Fundamental rights and general principles
+  - {celex: "62005CJ0402", short_name: "Kadi and Al Barakaat International Foundation v Council and Commission"} # C-402/05 P and C-415/05 P
+  - {celex: "62001TJ0315", short_name: "Kadi v Council and Commission"}   # T-315/01 (General Court)
+  - {celex: "62004CJ0144"}                                  # C-144/04
+  - {celex: "61975CJ0043"}                                  # 43/75 (Defrenne II)
+  - {celex: "62010CJ0617", short_name: "Åkerberg Fransson"}               # C-617/10
+  - {celex: "62016CJ0064"}                                  # C-64/16
+  - {celex: "62018CJ0621", short_name: "Wightman and Others"}             # C-621/18
+  # Free movement of goods and persons
+  - {celex: "61993CJ0415", short_name: "Bosman"}                          # C-415/93
+  - {celex: "61978CJ0120", short_name: "Rewe-Zentral"}                    # 120/78 (Cassis de Dijon)
+  - {celex: "61974CJ0008", short_name: "Dassonville"}                     # 8/74
+  - {celex: "61991CJ0267", short_name: "Keck and Mithouard"}              # C-267/91 and C-268/91
+  # Competition (Articles 101 and 102 TFEU, formerly 85 and 86 EEC)
+  - {celex: "61964CJ0056"}                                  # 56/64 and 58/64
+  - {celex: "61976CJ0085", short_name: "Hoffmann-La Roche v Commission"}  # 85/76
+  - {celex: "61976CJ0027", short_name: "United Brands and United Brands Continentaal v Commission"} # 27/76
+  - {celex: "61999CJ0453"}                                  # C-453/99
+  - {celex: "62014CJ0413", short_name: "Intel v Commission"}              # C-413/14 P
+  - {celex: "62017TJ0612"}                                  # T-612/17 (General Court)
+  # Consumer protection
+  - {celex: "62011CJ0415"}                                  # C-415/11
