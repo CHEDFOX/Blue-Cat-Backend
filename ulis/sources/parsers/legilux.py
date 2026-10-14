@@ -86,7 +86,10 @@ def _local(tag: object) -> str:
 
 
 def _ws(text: str) -> str:
-    return " ".join(text.split())
+    """Collapse white space. Space after "(" and before ")", "." and "," is dropped: the XML of different
+    consolidations breaks lines inside "(<ref>L. 4 juillet 2014</ref>)" differently, and the same wording must not
+    look like a change."""
+    return re.sub(r"\s+([).,])", r"\1", re.sub(r"\(\s+", "(", " ".join(text.split())))
 
 
 def work_uri(path: str) -> str:
@@ -116,8 +119,14 @@ def _inline(el: Element, skip: frozenset[str] = frozenset()) -> str:
         tag = _local(child.tag)
         if tag == "br":
             parts.append("\n")
-        elif tag not in DROPPED_INLINE and tag not in skip and tag not in ("ol", "ul") and _attr(child, "style") != "del":
+        elif (
+            tag not in DROPPED_INLINE and tag not in skip and tag not in ("ol", "ul") and _attr(child, "style") != "del"
+        ):
             inner = _inline(child, skip)
+            if tag == "sup" and len(inner.strip()) <= 4 and "".join(parts).rstrip()[-1:].isalnum():
+                # "1<sup>er</sup>": some consolidations break the line before the superscript ("1 er").
+                parts = ["".join(parts).rstrip()]
+                inner = inner.strip()
             parts.append(f" {inner} " if tag == "p" else inner)
         parts.append(child.tail or "")
     return "".join(parts)
@@ -233,8 +242,16 @@ class _Reader:
         self.used: dict[str, int] = {}
         self.skipped: list[str] = []
 
-    def _new(self, element: Element, eid: str, kind: str, path: list[str], heading: str | None, context: str | None,
-             parent: _Node | None) -> _Node:
+    def _new(
+        self,
+        element: Element,
+        eid: str,
+        kind: str,
+        path: list[str],
+        heading: str | None,
+        context: str | None,
+        parent: _Node | None,
+    ) -> _Node:
         n = self.used.get(eid, 0) + 1
         self.used[eid] = n
         node = _Node(element, eid if n == 1 else f"{eid}-{n}", kind, path, heading or None, context, parent)
@@ -325,7 +342,11 @@ def _own_nodes_refs(node: _Node, reader: _Reader) -> tuple[list[str], list[Parse
 
     def visit(e: Element) -> None:
         for child in e:
-            if child in skip or _attr(child, "style") == "del" or _local(child.tag) in ("JOLUXWork", "indexterms", "heading"):
+            if (
+                child in skip
+                or _attr(child, "style") == "del"
+                or _local(child.tag) in ("JOLUXWork", "indexterms", "heading")
+            ):
                 continue
             tag = _local(child.tag)
             if tag == "noteRef":
@@ -388,8 +409,8 @@ def _provisions(reader: _Reader, version_date: date, end: date | None) -> list[P
                 parent_eid=node.parent.eid if node.parent else None,
                 sort_order=order,
                 status="repealed" if repealed else "in_force",
-                valid_from=None if repealed else version_date,
-                valid_to=None if repealed else end,
+                valid_from=version_date,
+                valid_to=end,
                 extent=["LU"],
                 note=" | ".join(n[:400] for n in node_notes[:6]) or None,
                 refs=refs,
@@ -414,6 +435,10 @@ def _jolux(act: Element) -> dict[str, list[str]]:
             if name and text:
                 values.setdefault(name, []).append(text)
     return values
+
+
+def _first(meta: dict[str, list[str]], name: str) -> str | None:
+    return meta[name][0] if meta.get(name) else None
 
 
 def _iso(value: str | None) -> date | None:
@@ -448,11 +473,11 @@ def parse_legilux(content: bytes) -> list[ParsedDocument]:
     uri = resolved[0]
     path = uri.removeprefix("/lu/")
     meta = _jolux(act)
-    applic = _iso((meta.get("dateApplicability") or [None])[0])
+    applic = _iso(_first(meta, "dateApplicability"))
     if applic is None:
         raise LegiluxParseError("missing jolux:dateApplicability")
     # The last day the text applied (inclusive); provision periods are half-open, so it ends on the next day.
-    last_day = _iso((meta.get("dateEndApplicability") or [None])[0])
+    last_day = _iso(_first(meta, "dateEndApplicability"))
     end = last_day + timedelta(days=1) if last_day is not None else None
     if end is not None and end <= applic:
         raise LegiluxParseError("jolux:dateEndApplicability is before jolux:dateApplicability")
@@ -477,15 +502,15 @@ def parse_legilux(content: bytes) -> list[ParsedDocument]:
     if not reader.nodes:
         raise LegiluxParseError("no articles found")
 
-    enacted = _iso((meta.get("dateDocument") or [None])[0])
-    in_force = _iso((meta.get("dateEntryInForce") or [None])[0])
+    enacted = _iso(_first(meta, "dateDocument"))
+    in_force = _iso(_first(meta, "dateEntryInForce"))
     events = [ParsedEvent("version_change", applic, None, None, "JOLUXLegalResource/dateApplicability")]
     if enacted:
         events.append(ParsedEvent("enactment", enacted, None, None, "JOLUXLegalResource/dateDocument"))
     # For the Constitution Legilux states 1989-04-18 (the coordinated text), which is not an entry into force.
     if in_force and instrument_type not in ("constitution", "code"):
         events.append(ParsedEvent("entry_into_force", in_force, None, None, "JOLUXLegalResource/dateEntryInForce"))
-    base = (meta.get("isMemberOf") or [None])[0]
+    base = _first(meta, "isMemberOf")
     return [
         ParsedDocument(
             doc_kind="legislation",

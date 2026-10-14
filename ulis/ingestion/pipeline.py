@@ -43,8 +43,8 @@ from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnect
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.infoleg_ar import InfolegArConnector
 from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
-from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.legilux import LegiluxConnector
+from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.likumi_lv import LikumiLvConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector

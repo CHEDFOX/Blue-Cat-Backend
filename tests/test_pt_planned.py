@@ -53,7 +53,8 @@ def test_citations_follow_portuguese_practice(catalog: Catalog) -> None:
     assert _cite(catalog, "Código Civil", ["483", "para:1"]) == "artigo 483.º, n.º 1, do Código Civil"
     assert _cite(catalog, "Código Penal", ["1-A"]) == "artigo 1.º-A do Código Penal"
     assert (
-        _cite(catalog, "Lei n.º 58/2019", ["5", "para:1", "let:a"]) == "artigo 5.º, n.º 1, alínea a), da Lei n.º 58/2019"
+        _cite(catalog, "Lei n.º 58/2019", ["5", "para:1", "let:a"])
+        == "artigo 5.º, n.º 1, alínea a), da Lei n.º 58/2019"
     )
     assert _cite(catalog, "Constituição da República Portuguesa", ["13"]) == (
         "artigo 13.º da Constituição da República Portuguesa"
