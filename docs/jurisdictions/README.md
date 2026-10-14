@@ -11,3 +11,5 @@ gaps and the actual test and ingestion results. See
 | Canada (federal) | Justice Laws XML | [test-results.md](../test-results.md) |
 | Germany (federal) | Gesetze im Internet | [de.md](de.md) |
 | European Union (sample) | EUR-Lex / Cellar | [eu.md](eu.md) |
+| Spain (State) | BOE consolidated legislation | [es.md](es.md) |
+| Japan | e-Gov 法令検索 | [jp.md](jp.md) |
