@@ -258,6 +258,12 @@ def test_text_cleaning() -> None:
         "Ley No. 10.084 del año 1941 & otras\nFin."
     )
     assert clean_article_text("<pre>\r\n  (*) \r\n</pre>") == ""
+    # table rows (dot leaders, aligned columns) keep their own lines
+    table = "Escuela Primaria..........   198:000.000\r\n  Liceo Secundario .........   128:000.000\r\nTotal"
+    assert (
+        clean_article_text(table)
+        == "Escuela Primaria..........   198:000.000\nLiceo Secundario .........   128:000.000\nTotal"
+    )
     assert impo_uy.decode_body("Obligaci\xf3n".encode("latin-1").decode("latin-1")) == "Obligación"
     assert impo_uy.decode_body("Obligación".encode().decode("latin-1")) == "Obligación"
 

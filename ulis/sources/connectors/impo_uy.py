@@ -13,8 +13,9 @@ robots.txt's ``Crawl-delay``, which is 10 s), HTTPS to this one host only, refus
 ``<cache_dir>/www.impo.com.uy/bases/<path>.json``. robots.txt is read first (one cached request) and every path is
 checked against its ``Disallow`` rules. IMPO's search interface (``/bases`` itself, which sends anonymous visitors
 to a login page under the disallowed ``/cgi-bin/``) is never used: the manifest names the norms. A norm that
-answers with anything but a JSON norm (404, a redirect elsewhere, a login page) is skipped and reported in
-``fetch_errors``; a refusal (401/403/429) stops the run.
+answers with anything but a JSON norm (404, a server error - IMPO answers an unknown address with HTTP 500 -, a
+redirect elsewhere, a login page) is skipped and reported in ``fetch_errors``; a refusal (401/403/429/451) stops the
+run, and so do five failures in a row.
 """
 
 from __future__ import annotations

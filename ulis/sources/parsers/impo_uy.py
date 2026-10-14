@@ -37,8 +37,8 @@ What the JSON looks like (what ULIS does with it):
   change took effect, which the notes give only as "Ver vigencia" links).
 
 Not handled (see docs/jurisdictions/uy.md): the older wording of amended articles (IMPO links to the original text
-only), tables beyond their plain text, the "referencias" pages, and annexes. An unexpected answer raises
-``ImpoParseError``.
+only), tables beyond their plain text, the "referencias" pages, and annexes. A norm whose articles have neither text
+nor notes (some 19th-century laws) raises ``ParseSkipped``; an unexpected answer raises ``ImpoParseError``.
 """
 
 from __future__ import annotations
@@ -49,7 +49,7 @@ import re
 from datetime import UTC, date, datetime
 from typing import Any, Literal
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef, ParseSkipped
 
 PARSER_ID = "impo_uy_json"
 PARSER_VERSION = "1.0.0"
@@ -114,6 +114,7 @@ _MARKER = re.compile(r"[ \t]*\(\*+\)")
 _SUBARTICLE = re.compile(r"(?is)</pre>\s*<br\s*/?>\s*<b>\s*([^<]{1,30}?)\s*</b>\s*<br\s*/?>\s*<pre[^>]*>")
 _TERMINAL = re.compile(r"[.:;!?)\"»”]$")
 _ITEM = re.compile(r"^(?:[A-Za-zÑñ]\)|\d{1,3}[º°]?\)|\d{1,3}\.-)\s")  # "A) ", "2º) ", "3) ", "4.- ": starts a line
+_TABULAR = re.compile(r"\S {3,}\S|\.{4,}")  # columns or dot leaders: a table row is never joined to its neighbour
 _ABBREVIATION = re.compile(r"(?i)(?:\bN[oº°]s?|\bart[s]?|\bart[ií]culos?|\binc|\bnum|\bdec|\bap|\blit)\.$")
 _REPEAL_TEXT = re.compile(r"(?i)^\(?\s*(?:DEROGAD[OA]S?|SUPRIMID[OA]S?|SUPRIMIDA\s+LA|DEJAD[OA]S?\s+SIN\s+EFECTO)\b")
 _REPEAL_NOTE = re.compile(r"(?i)(?:derogad|suprimid|dejad[oa]s? sin efecto)")
@@ -151,7 +152,7 @@ def _reflow(text: str) -> str:
             continue
         if out and out[-1] != "":
             prev = out[-1]
-            continues = not _ITEM.match(line) and (
+            continues = not (_ITEM.match(line) or _TABULAR.search(prev) or _TABULAR.search(line)) and (
                 not _TERMINAL.search(prev)
                 or line[0].islower()
                 or (line[0].isdigit() and bool(_ABBREVIATION.search(prev)))
@@ -389,6 +390,9 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
                 seen_events.add(key)
                 events.append(event)
 
+    if not any(p.text or p.note for p in provisions):
+        # some 19th-century laws are listed with article numbers but no text at all: nothing to store
+        raise ParseSkipped(f"IMPO publishes no text for {path}")
     promulgated, published = _date(norm.get("fechaPromulgacion")), _date(norm.get("fechaPublicacion"))
     is_constitution = instrument_type == "constitution"
     named = designation(tipo, nro, norm_year, kind)
