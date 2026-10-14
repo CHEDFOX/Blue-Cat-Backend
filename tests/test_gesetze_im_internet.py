@@ -414,3 +414,38 @@ def test_reingest_is_idempotent_and_sources_verify(
         assert len(results) == len(LAWS) and all(r["result"] == "pass" for r in results)
         assert sum(r["checked_units"] for r in results) == de_ingested.provision_versions_created
         session.rollback()
+
+
+class _Editions:
+    """Two editions of a synthetic law: the newer one has a new wording of § 1 Abs. 1."""
+
+    def fetch(self) -> Iterator[RawDocument]:
+        for build, words in (("20260101120000", "alte Fassung"), ("20260601120000", "neue Fassung")):
+            norm = (
+                "<norm><metadaten><jurabk>EdG</jurabk><enbez>§ 1</enbez></metadaten><textdaten><text><Content>"
+                f"<P>(1) Dies ist die {words}.</P><P>(2) Unverändert.</P></Content></text></textdaten></norm>"
+            )
+            content = _gii(norm, builddate=build).replace(b"BJNRTEST", b"BJNREDITIONS").replace(b"TestG", b"EdG")
+            yield RawDocument(
+                f"test:edg@{build}", "https://example.org/edg", "application/xml", content, datetime.now(UTC)
+            )
+
+
+@pytest.mark.db
+def test_a_newer_edition_with_new_wording_is_a_new_version_not_a_conflict(
+    session_factory: sessionmaker[Session], catalog: Catalog, store: LocalObjectStore, ingested: IngestionReport
+) -> None:
+    with session_factory() as session:
+        report = Ingestor(session, catalog, store).ingest_source(SOURCE, actor="pytest", connector=_Editions())
+        session.commit()
+    assert report.errors == [] and report.conflicts == [] and report.provision_versions_restated >= 1
+    (doc,) = parse_gesetze_im_internet(next(iter(_Editions().fetch())).content)
+    uri = f"{doc.work_uri}/~para-1-abs-1"
+    with session_factory() as session:
+        before = provision_at(session, catalog, uri, date(2026, 3, 1))
+        after = provision_at(session, catalog, uri, date(2026, 7, 1))
+        unchanged = provision_at(session, catalog, f"{doc.work_uri}/~para-1-abs-2", date(2026, 7, 1))
+    assert before["status_on_date"] == "in_force_date_unverified" and "alte Fassung" in before["version"]["text"]
+    assert after["status_on_date"] == "in_force" and "neue Fassung" in after["version"]["text"]
+    assert after["version"]["valid_from"] == "2026-06-01" and after["version"]["valid_from_basis"] == "observed"
+    assert unchanged["version"]["text"] == "Unverändert."  # same wording in both editions: one version

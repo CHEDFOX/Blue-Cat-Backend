@@ -124,6 +124,9 @@ def resolve_at(
     proposed = next((v for v in reversed(_dated(versions, ("proposed",))) if covers(v, as_of)), None)
     if current is not None:
         status: PointInTimeStatus = "in_force" if current.status == "in_force" else "repealed"
+    elif dated and as_of < dated[0].valid_from and undated:  # type: ignore[operator]
+        # An edition-attested wording precedes the first dated one (a newer edition was observed).
+        status, current = "in_force_date_unverified", undated[-1]
     elif dated and as_of < dated[0].valid_from:  # type: ignore[operator]
         # With no recorded enactment date, an earlier wording may exist: report the gap.
         in_gap = history_start is not None and as_of < history_start and (work_date is None or work_date <= as_of)

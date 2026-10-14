@@ -513,17 +513,23 @@ class Ingestor:
         doc: m.SourceDocument,
         report: IngestionReport,
     ) -> bool:
-        """A point-in-time series that gives a provision a new wording but keeps its old start date.
+        """A later source version gives a provision a new wording under the same start date.
 
-        Each point-in-time version attests the law on its own date, so the new wording certainly
-        applied on this version's date and the old one on the last date it was seen. The new
-        wording is recorded from this version's date (``valid_from_basis = observed``) instead of
-        the start date the source gives, which its own earlier versions contradict. Anything else
-        (out-of-order versions, other kinds of source) stays a conflict for a human to resolve.
+        Two cases: a point-in-time series that keeps an old start date for an amended wording,
+        and a current-only source (``attested_at_edition``: no start dates at all) whose newer
+        edition has a new wording. Each source version attests the law on its own date, so the
+        new wording certainly applied on this version's date and the old one on the last date it
+        was seen. The new wording is recorded from this version's date
+        (``valid_from_basis = observed``). Anything else (out-of-order versions, other kinds of
+        source) stays a conflict for a human to resolve.
         """
         s = self.session
         observed = version.version_date
-        if version.consolidation_kind != "point_in_time" or prov.valid_from is None or prov.valid_from >= observed:
+        point_in_time = (
+            version.consolidation_kind == "point_in_time" and prov.valid_from is not None and prov.valid_from < observed
+        )
+        edition = version.validity_basis == "attested_at_edition" and prov.valid_from is None
+        if not (point_in_time or edition):
             return False
         last_seen = s.scalar(
             select(func.max(m.InstrumentVersion.version_date))
@@ -540,7 +546,8 @@ class Ingestor:
                 and lang == version.language
                 and status == prov.status
                 and start is not None
-                and prov.valid_from < start <= observed
+                and (prov.valid_from is None or prov.valid_from < start)
+                and start <= observed
                 and pv.text_sha256 == text_sha
             ),
             None,
@@ -567,7 +574,7 @@ class Ingestor:
             "warn",
             {
                 "provision": row.uri,
-                "stated_start": prov.valid_from.isoformat(),
+                "stated_start": prov.valid_from.isoformat() if prov.valid_from else None,
                 "previous_wording_last_seen": last_seen.isoformat(),
                 "recorded_from": observed.isoformat(),
             },

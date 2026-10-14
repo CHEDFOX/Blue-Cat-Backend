@@ -128,9 +128,9 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
                 Limitation(
                     "START_DATE_OBSERVED",
                     "warning",
-                    f"Start date approximate: the source dates this wording from an earlier date that its own "
-                    f"earlier versions contradict, so it is shown from {v.valid_from}, the first point-in-time "
-                    "version in which it appears. The change took effect on or before that date.",
+                    f"Start date approximate: this wording first appears in the source version of {v.valid_from}; "
+                    "an earlier source version shows a different wording, and the source gives no reliable date "
+                    "for the change. It took effect on or before that date.",
                 )
             )
         if v.valid_from is None and iv.validity_basis == "attested_at_edition":
