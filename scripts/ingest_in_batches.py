@@ -71,9 +71,9 @@ def main(argv: list[str]) -> int:
 
     documents = connector.fetch()
     if args.metadata:
-        key, _, values = args.metadata.partition("=")
+        meta_key, _, values = args.metadata.partition("=")
         wanted = set(values.split(","))
-        documents = (d for d in documents if str(d.metadata.get(key)) in wanted)
+        documents = (d for d in documents if str(d.metadata.get(meta_key)) in wanted)
     if args.limit:
         documents = itertools.islice(documents, args.limit)
     totals: dict[str, int] = {}
