@@ -36,6 +36,7 @@ from ulis.jurisdictions.modules.se import SeModule
 from ulis.jurisdictions.modules.treaties import CoeModule, IntModule
 from ulis.jurisdictions.modules.tw import TwModule
 from ulis.jurisdictions.modules.us import UsModule
+from ulis.jurisdictions.modules.uy import UyModule
 
 MODULES: dict[str, JurisdictionModule] = {
     m.id: m
@@ -68,6 +69,7 @@ MODULES: dict[str, JurisdictionModule] = {
         ArModule(),
         LuModule(),
         PtModule(),
+        UyModule(),
     )
 }
 

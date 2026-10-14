@@ -1,0 +1,297 @@
+User-agent: *
+Crawl-Delay: 10
+Disallow: /cgi-bin/
+Disallow: /java
+Disallow: /js
+Disallow: /javascript
+Disallow: /mp3
+Disallow: /skin
+Disallow: /weba
+Disallow: /descargas
+
+Disallow: /bases/avisos/54239-2006
+Disallow: /diariooficial/2006/09/26/avisosdeldia.pdf
+Disallow: /bases/avisos/9412-2007
+Disallow: /diariooficial/2007/04/24/avisosdeldia.pdf
+
+Disallow: /bases/avisos/480-2010
+Disallow: /diariooficial/2010/01/14/avisosdeldia.pdf
+Disallow: /bases/avisos/17740-2010
+Disallow: /diariooficial/2010/07/14/avisosdeldia.pdf
+Disallow: /bases/avisos/39256-2013
+Disallow: /diariooficial/2013/11/20/avisos.pdf
+Disallow: /bases/avisos/19752-2014
+Disallow: /diariooficial/2014/07/28/avisos.pdf
+
+Disallow: /bases/avisos/55570-2000
+Disallow: /diariooficial/2000/12/12/avisosdeldia.pdf
+Disallow: /diariooficial/2000/12/13/avisospublicados.pdf
+Disallow: /diariooficial/2000/12/14/avisospublicados.pdf
+
+Disallow: /bases/avisos/9865-2011
+Disallow: /diariooficial/2011/04/13/avisosdeldia.pdf
+Disallow: /bases/avisos/3905-2009
+Disallow: /diariooficial/2009/03/02/avisosdeldia.pdf
+
+Disallow: /bases/avisos/525-2012
+Disallow: /diariooficial/2012/01/10/avisos.pdf
+Disallow: /diariooficial/2012/01/11/avisos.pdf
+Disallow: /diariooficial/2012/01/12/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/2262-2019
+Disallow: /diariooficial/2019/02/08/avisos.pdf
+Disallow: /diariooficial/2019/02/11/avisos.pdf
+Disallow: /diariooficial/2019/02/12/avisos.pdf
+Disallow: /bases/avisos-edicto-matrimonial/11212-2019
+Disallow: /diariooficial/2019/05/07/avisos.pdf
+Disallow: /diariooficial/2019/05/08/avisos.pdf
+Disallow: /diariooficial/2019/05/09/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/29450-2009
+Disallow: /diariooficial/2009/11/13/avisosdeldia.pdf
+Disallow: /diariooficial/2009/11/16/avisospublicados.pdf
+Disallow: /diariooficial/2009/11/17/avisospublicados.pdf
+
+Disallow: /bases/avisos-remate/15956-2019
+Disallow: /diariooficial/2019/06/14/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/38088-2019
+Disallow: /bases/avisos-edicto-matrimonial/38088-2019_A
+Disallow: /diariooficial/2019/12/24/avisos.pdf
+Disallow: /diariooficial/2019/12/26/avisos.pdf
+Disallow: /diariooficial/2019/12/27/avisos.pdf
+Disallow: /diariooficial/2019/12/30/avisos.pdf
+
+Disallow: /bases/avisos/23458-2015
+Disallow: /diariooficial/2015/08/27/avisos.pdf
+Disallow: /bases/avisos/28572-2015
+Disallow: /diariooficial/2015/10/08/avisos.pdf
+Disallow: /bases/actas-ord-asse-nd/350-2015
+
+Disallow: /bases/avisos-edicto-matrimonial/35362-2015
+Disallow: /diariooficial/2015/12/07/avisos.pdf
+Disallow: /diariooficial/2015/12/08/avisos.pdf
+Disallow: /diariooficial/2015/12/09/avisos.pdf
+
+Disallow: /bases/avisos/24045-2022
+Disallow: /diariooficial/2022/09/06/otrosavisosdeldia.pdf
+
+Disallow: /bases/avisos/24445-2022
+Disallow: /diariooficial/2022/09/08/avisos.pdf
+Disallow: /diariooficial/2022/09/09/avisos.pdf
+Disallow: /diariooficial/2022/09/12/avisos.pdf
+Disallow: /diariooficial/2022/09/13/avisos.pdf
+Disallow: /diariooficial/2022/09/14/avisos.pdf
+Disallow: /diariooficial/2022/09/15/avisos.pdf
+Disallow: /diariooficial/2022/09/16/avisos.pdf
+Disallow: /diariooficial/2022/09/19/avisos.pdf
+Disallow: /diariooficial/2022/09/20/avisos.pdf
+Disallow: /diariooficial/2022/09/21/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/13003-2020
+Disallow: /diariooficial/2020/07/29/avisos.pdf
+Disallow: /diariooficial/2020/07/30/avisos.pdf
+Disallow: /diariooficial/2020/07/31/avisos.pdf
+
+Disallow: /bases/avisos/52636-2002
+Disallow: /diariooficial/2002/07/05/avisosdeldia.pdf
+Disallow: /diariooficial/2002/07/08/avisospublicados.pdf
+Disallow: /diariooficial/2002/07/09/avisospublicados.pdf
+
+Disallow: /bases/avisos/51457-2002
+Disallow: /diariooficial/2002/04/26/avisosdeldia.pdf
+Disallow: /diariooficial/2002/04/29/avisospublicados.pdf
+Disallow: /diariooficial/2002/04/30/avisospublicados.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/29424-2023
+Disallow: /diariooficial/2023/10/26/avisos.pdf
+Disallow: /diariooficial/2023/10/27/avisos.pdf
+Disallow: /diariooficial/2023/10/30/avisos.pdf
+
+Disallow: /diariooficial/2020/09/16/avisos.pdf
+Disallow: /diariooficial/2020/09/17/avisos.pdf
+Disallow: /diariooficial/2020/09/18/avisos.pdf
+Disallow: /diariooficial/2020/09/21/avisos.pdf
+Disallow: /diariooficial/2020/09/22/avisos.pdf
+Disallow: /diariooficial/2020/09/23/avisos.pdf
+Disallow: /diariooficial/2020/09/24/avisos.pdf
+Disallow: /diariooficial/2020/09/25/avisos.pdf
+Disallow: /diariooficial/2020/09/28/avisos.pdf
+Disallow: /diariooficial/2020/09/29/avisos.pdf
+
+Disallow: /diariooficial/2023/05/12/avisos.pdf
+Disallow: /diariooficial/2023/05/15/avisos.pdf
+Disallow: /diariooficial/2023/05/16/avisos.pdf
+Disallow: /diariooficial/2023/05/17/avisos.pdf
+Disallow: /diariooficial/2023/05/18/avisos.pdf
+Disallow: /diariooficial/2023/05/19/avisos.pdf
+Disallow: /diariooficial/2023/05/23/avisos.pdf
+Disallow: /diariooficial/2023/05/24/avisos.pdf
+Disallow: /diariooficial/2023/05/25/avisos.pdf
+Disallow: /diariooficial/2023/05/26/avisos.pdf
+
+Disallow: /diariooficial/2023/02/07/avisos.pdf
+Disallow: /diariooficial/2023/02/08/avisos.pdf
+Disallow: /diariooficial/2023/02/09/avisos.pdf
+Disallow: /diariooficial/2023/02/10/avisos.pdf
+Disallow: /diariooficial/2023/02/13/avisos.pdf
+Disallow: /diariooficial/2023/02/14/avisos.pdf
+Disallow: /diariooficial/2023/02/15/avisos.pdf
+Disallow: /diariooficial/2023/02/16/avisos.pdf
+Disallow: /diariooficial/2023/02/17/avisos.pdf
+Disallow: /diariooficial/2023/02/22/avisos.pdf
+
+Disallow: /diariooficial/2022/12/12/avisos.pdf
+Disallow: /diariooficial/2022/12/13/avisos.pdf
+Disallow: /diariooficial/2022/12/14/avisos.pdf
+Disallow: /diariooficial/2022/12/15/avisos.pdf
+Disallow: /diariooficial/2022/12/16/avisos.pdf
+Disallow: /diariooficial/2022/12/19/avisos.pdf
+Disallow: /diariooficial/2022/12/20/avisos.pdf
+Disallow: /diariooficial/2022/12/21/avisos.pdf
+Disallow: /diariooficial/2022/12/22/avisos.pdf
+Disallow: /diariooficial/2022/12/23/avisos.pdf
+
+Disallow: /diariooficial/2020/10/09/avisos.pdf
+Disallow: /diariooficial/2020/10/13/avisos.pdf
+Disallow: /diariooficial/2020/10/14/avisos.pdf
+Disallow: /diariooficial/2020/10/15/avisos.pdf
+Disallow: /diariooficial/2020/10/16/avisos.pdf
+Disallow: /diariooficial/2020/10/19/avisos.pdf
+Disallow: /diariooficial/2020/10/20/avisos.pdf
+Disallow: /diariooficial/2020/10/21/avisos.pdf
+Disallow: /diariooficial/2020/10/22/avisos.pdf
+Disallow: /diariooficial/2020/10/23/avisos.pdf
+
+Disallow: /diariooficial/2021/09/09/avisos.pdf
+Disallow: /diariooficial/2021/09/10/avisos.pdf
+Disallow: /diariooficial/2021/09/13/avisos.pdf
+Disallow: /diariooficial/2021/09/14/avisos.pdf
+Disallow: /diariooficial/2021/09/15/avisos.pdf
+Disallow: /diariooficial/2021/09/16/avisos.pdf
+Disallow: /diariooficial/2021/09/17/avisos.pdf
+Disallow: /diariooficial/2021/09/20/avisos.pdf
+Disallow: /diariooficial/2021/09/21/avisos.pdf
+Disallow: /diariooficial/2021/09/22/avisos.pdf
+
+Disallow: /diariooficial/2020/06/08/avisos.pdf
+Disallow: /diariooficial/2020/06/09/avisos.pdf
+Disallow: /diariooficial/2020/06/10/avisos.pdf
+Disallow: /diariooficial/2020/06/11/avisos.pdf
+Disallow: /diariooficial/2020/06/12/avisos.pdf
+Disallow: /diariooficial/2020/06/15/avisos.pdf
+Disallow: /diariooficial/2020/06/16/avisos.pdf
+Disallow: /diariooficial/2020/06/17/avisos.pdf
+Disallow: /diariooficial/2020/06/18/avisos.pdf
+Disallow: /diariooficial/2020/06/19/avisos.pdf
+
+Disallow: /diariooficial/2020/02/10/avisos.pdf
+Disallow: /diariooficial/2020/02/11/avisos.pdf
+Disallow: /diariooficial/2020/02/12/avisos.pdf
+Disallow: /diariooficial/2020/02/13/avisos.pdf
+Disallow: /diariooficial/2020/02/14/avisos.pdf
+Disallow: /diariooficial/2020/02/17/avisos.pdf
+Disallow: /diariooficial/2020/02/18/avisos.pdf
+Disallow: /diariooficial/2020/02/19/avisos.pdf
+Disallow: /diariooficial/2020/02/20/avisos.pdf
+Disallow: /diariooficial/2020/02/21/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/35563-2024
+Disallow: /diariooficial/2024/12/27/avisos.pdf
+Disallow: /diariooficial/2024/12/30/avisos.pdf
+Disallow: /diariooficial/2024/12/31/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/20393-2016
+Disallow: /diariooficial/2016/08/16/avisos.pdf
+Disallow: /diariooficial/2016/08/17/avisos.pdf
+Disallow: /diariooficial/2016/08/18/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/22742-2010
+Disallow: /diariooficial/2010/08/26/avisosdeldia.pdf
+Disallow: /diariooficial/2010/08/27/avisospublicados.pdf
+Disallow: /diariooficial/2010/08/30/avisospublicados.pdf
+
+Disallow: /directorio-de-periodicos-locales
+
+Disallow: /bases/avisos-edicto-matrimonial/31091-2022
+Disallow: /diariooficial/2022/11/03/avisos.pdf
+Disallow: /diariooficial/2022/11/04/avisos.pdf
+Disallow: /diariooficial/2022/11/07/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/15807-2018
+Disallow: /diariooficial/2018/06/22/avisos.pdf
+Disallow: /diariooficial/2018/06/25/avisos.pdf
+Disallow: /diariooficial/2018/06/26/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/37504-2022
+Disallow: /diariooficial/2022/12/30/avisos.pdf
+Disallow: /diariooficial/2023/01/02/avisos.pdf
+Disallow: /diariooficial/2023/01/03/avisos.pdf
+
+Disallow: /bases/avisos-remate/24013-2019
+Disallow: /diariooficial/2019/09/02/avisos.pdf
+
+Disallow: /bases/avisos-remate/17688-2020
+Disallow: /diariooficial/2020/09/11/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/28108-2024
+Disallow: /diariooficial/2024/10/21/avisos.pdf
+Disallow: /diariooficial/2024/10/22/avisos.pdf
+Disallow: /diariooficial/2024/10/23/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/564-2013
+Disallow: /diariooficial/2013/01/09/avisos.pdf
+Disallow: /diariooficial/2013/01/10/avisos.pdf
+Disallow: /diariooficial/2013/01/11/avisos.pdf
+
+Disallow: /bases/avisos/4368-2026
+Disallow: /bases/avisos/4370-2026
+Disallow: /bases/avisos/4371-2026
+Disallow: /bases/avisos/4373-2026
+Disallow: /bases/avisos/4382-2026
+Disallow: /diariooficial/2026/03/09/avisos.pdf
+Disallow: /diariooficial/2026/03/10/avisos.pdf
+Disallow: /diariooficial/2026/03/11/avisos.pdf
+Disallow: /diariooficial/2026/03/12/avisos.pdf
+Disallow: /diariooficial/2026/03/13/avisos.pdf
+Disallow: /diariooficial/2026/03/16/avisos.pdf
+Disallow: /diariooficial/2026/03/17/avisos.pdf
+Disallow: /diariooficial/2026/03/18/avisos.pdf
+Disallow: /diariooficial/2026/03/19/avisos.pdf
+Disallow: /diariooficial/2026/03/20/avisos.pdf
+
+Disallow: /bases/avisos/23017-2022
+Disallow: /diariooficial/2022/08/26/avisos.pdf
+Disallow: /diariooficial/2022/08/29/avisos.pdf
+Disallow: /diariooficial/2022/08/30/avisos.pdf
+Disallow: /diariooficial/2022/08/31/avisos.pdf
+Disallow: /diariooficial/2022/09/01/avisos.pdf
+Disallow: /diariooficial/2022/09/02/avisos.pdf
+Disallow: /diariooficial/2022/09/05/avisos.pdf
+Disallow: /diariooficial/2022/09/06/avisos.pdf
+Disallow: /diariooficial/2022/09/07/avisos.pdf
+Disallow: /diariooficial/2022/09/08/avisos.pdf
+
+Disallow: /bases/avisos-edicto-matrimonial/33149-2025
+Disallow: /diariooficial/2025/12/18/avisos.pdf
+Disallow: /diariooficial/2025/12/19/avisos.pdf
+Disallow: /diariooficial/2025/12/22/avisos.pdf
+
+Disallow: /bases/avisos-remate/55944-2005
+Disallow: /diariooficial/2005/11/16/avisosdeldia.pdf
+Disallow: /diariooficial/2005/11/17/avisospublicados.pdf
+Disallow: /diariooficial/2005/11/18/avisospublicados.pdf
+Disallow: /diariooficial/2005/11/21/avisospublicados.pdf
+Disallow: /diariooficial/2005/11/22/avisospublicados.pdf
+
+Disallow: /bases/avisos-divorcio/19081-2006
+Disallow: /diariooficial/2006/05/25/avisosdeldia.pdf
+Disallow: /diariooficial/2006/05/26/avisospublicados.pdf
+Disallow: /diariooficial/2006/05/29/avisospublicados.pdf
+Disallow: /diariooficial/2006/05/30/avisospublicados.pdf
+Disallow: /diariooficial/2006/05/31/avisospublicados.pdf
+Disallow: /diariooficial/2006/06/01/avisospublicados.pdf
+Disallow: /diariooficial/2006/06/02/avisospublicados.pdf
+Disallow: /diariooficial/2006/06/05/avisospublicados.pdf
+Disallow: /diariooficial/2006/06/06/avisospublicados.pdf
+Disallow: /diariooficial/2006/06/07/avisospublicados.pdf

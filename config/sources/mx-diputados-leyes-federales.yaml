@@ -1,0 +1,62 @@
+# Mexico: "Leyes Federales Vigentes" of the Cámara de Diputados (https://www.diputados.gob.mx/LeyesBiblio/).
+# PLANNED, nothing ingested: the texts are offered as PDF and Word files only, no reuse licence is stated, and ULIS has no
+# PDF text extractor. Checked 2026-10-14 (robots.txt and the index page, 630 KB, read; no law file downloaded):
+#   https://www.diputados.gob.mx/robots.txt                                  - HTTP 404 (no rules); this is not a block - the host answered.
+#   https://www.diputados.gob.mx/LeyesBiblio/index.htm                       - the list of the federal laws in force (316 entries, "LXVI Legislatura"),
+#        each with a "Última Reforma" date and links to "pdf/<ABBR>.pdf" and "doc/<ABBR>.doc" (some laws only "pdf_mov/...pdf"),
+#        plus reform-history pages ("ref/<abbr>.htm"). No HTML or XML text of the laws. Footer: "© 2024 Honorable Cámara
+#        de Diputados" with no licence. The page states: "La compilación de leyes y reglamentos federales que aquí se presenta
+#        es sólo de carácter informativo y con el propósito de facilitar la consulta de sus textos vigentes. De conformidad
+#        con lo que establecen los artículos 2o., 3o., 4o. y 5o. de la Ley del Diario Oficial de la Federación y Gacetas
+#        Gubernamentales; 27, fracción XVI, de la Ley Orgánica de la Administración Pública Federal; y 3o. del Código Civil
+#        Federal, el órgano de publicación con carácter oficial de la leyes, reglamentos y decretos federales, es el Diario
+#        Oficial de la Federación."
+schema_version: 1
+id: mx-diputados-leyes-federales
+name: Leyes Federales Vigentes (Cámara de Diputados del H. Congreso de la Unión)
+publisher: Cámara de Diputados del H. Congreso de la Unión, Secretaría General, Secretaría de Servicios Parlamentarios
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [MX]
+document_kinds: [constitution, act]
+languages: [es]
+coverage: >-
+  The compilation of the Mexican federal laws in force (Constitución, codes, laws, regulations), with the date of the last
+  reform, as PDF and Word files. ULIS ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.diputados.gob.mx/LeyesBiblio/
+  authentication: null
+update_frequency: >-
+  The index states the date of the latest reform published in the Diario Oficial that it reflects ("Última modificación ...
+  publicada en el Diario Oficial de la Federación el 13 de octubre de 2026" when read).
+rate_limits: >-
+  robots.txt: HTTP 404 (no rules). No rate limit stated.
+licence:
+  id: UNVERIFIED
+  name: No reuse licence stated - compilation "sólo de carácter informativo"
+  url: https://www.diputados.gob.mx/LeyesBiblio/index.htm
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ: robots.txt (404) and the index page quoted above. No terms of use, licence or
+    open-data statement was found on them. NOT READ: any terms page of the Cámara; the Ley Federal del Derecho de Autor,
+    which counsel would need to read for the position of official legislative texts.
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - Obtain a statement of the terms (or counsel's reading of the copyright law on legislative texts) before any fetch.
+    - Add a PDF/Word text extraction dependency deliberately, because ULIS has none and PDF layout (running headers, page numbers, reform notes in the margin) would need its own parser and tests.
+  notes: >-
+    STOPPED, nothing ingested. The authentic text is the Diario Oficial de la Federación (dof.gob.mx), not read. The brief
+    that started this work called Mexico "known blocked"; the Cámara's host answered ULIS's identifying agent, so the
+    obstacles are the file formats and the missing licence statement, not access.
+provenance: >-
+  Compilation by the Cámara de Diputados; the page itself says the Diario Oficial de la Federación is the official organ
+  of publication.
+known_limitations:
+  - Nothing is ingested; PDF/Word files only.
+status: planned

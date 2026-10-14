@@ -1,0 +1,87 @@
+# Ley Chile (Biblioteca del Congreso Nacional de Chile). PLANNED, nothing ingested: programmatic access needs an API key
+# granted by the Library on request, and the API conditions forbid mass, systematic or automated extraction to build a
+# database equivalent to Ley Chile without the Library's express authorisation. Checked 2026-10-14.
+#   https://www.bcn.cl/leychile/assets/doc/condiciones-de-uso-api-v1.1.pdf - "Condiciones de Uso de la API Ley Chile"
+#        (the file the key-request form links to; its text is the same as the page embedded in the site's script
+#        https://www.bcn.cl/leychile/main.7ef1863cfdb17aa963e4.bundle.js). Section 3: "Para acceder a la API, el
+#        Solicitante deberá contar con una API Key otorgada previamente por la Biblioteca. La Biblioteca evaluará la
+#        solicitud conforme a los requisitos vigentes y a los fines declarados de uso"; prohibited uses include (vi)
+#        "Realizar extracciones masivas, sistemáticas o automatizadas de datos, directa o indirectamente, a través de la
+#        API, con el objeto de replicar, reconstruir o generar una base de datos sustancialmente equivalente a Ley Chile
+#        [...] sin autorización expresa de la Biblioteca" and (vii) "indexación masiva, creación de repositorios
+#        estructurados de gran escala o almacenamiento persistente que excedan los fines declarados de uso". Section 6:
+#        "un límite estándar de 500 solicitudes por cada 24 horas" per key. Section 9: "Salvo indicación en contrario,
+#        los contenidos de Ley Chile son de acceso libre y gratuito bajo licencia Creative Commons Atribución/
+#        Reconocimiento-NoComercial-SinDerivados 4.0 Internacional"; the same section says the legal texts are outside
+#        copyright ("la Biblioteca del Congreso Nacional no ostenta derechos de autor sobre dichos textos y los pone a
+#        disposición únicamente con fines informativos") and that the Creative Commons licences apply to "metadatos,
+#        esquemas, descriptores, compilaciones y demás contenidos complementarios"; use of API data to train or tune AI
+#        models "requerirá autorización expresa".
+#   https://www.bcn.cl/leychile/robots.txt and https://www.leychile.cl/robots.txt - no robots rules: the first answers
+#        with the site's HTML shell (HTTP 200, text/html), the second redirects to it; www.bcn.cl/robots.txt redirects
+#        to the BCN portal page.
+#   The key-request form sits behind reCAPTCHA; ULIS has no key and must not request one on a person's behalf.
+#   DISCLOSURE: before the conditions had been read, one anonymous GET of the site's older XML service
+#        (https://www.leychile.cl/Consulta/obtxml?opt=7&idNorma=172986, the Código Civil, 2.9 MB, HTTP 200) was made to
+#        see what the service returns. It was not stored in the repository, not used, and nothing else was requested
+#        from that service or from the key-protected API.
+schema_version: 1
+id: cl-bcn-leychile
+name: Ley Chile (Biblioteca del Congreso Nacional de Chile) - API Ley Chile
+publisher: Biblioteca del Congreso Nacional de Chile (BCN)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [CL]
+document_kinds: [constitution, law, decree]
+languages: [es]
+coverage: >-
+  Chilean norms (Constitución Política, laws, decretos con fuerza de ley, decrees, treaties) with consolidated texts and
+  dated versions per norm (XML "Norma" documents with a version date per provision, as the legacy service returns them).
+  ULIS ingests nothing from it (status planned).
+access:
+  method: api
+  endpoint: https://nuevo.leychile.cl/servicios
+  authentication: >-
+    API key granted on request by the Library after a form with reCAPTCHA and acceptance of the "Condiciones de Uso de
+    la API Ley Chile" (script of https://www.bcn.cl/leychile/, environment values u: https://nuevo.leychile.cl/servicios
+    and u_bcn: https://servicios-leychile.bcn.cl; read, not called). Standard limit 500 requests per key per 24 hours.
+update_frequency: >-
+  Continuous (the Library consolidates norms as amendments are published); each version carries its own date.
+rate_limits: >-
+  API conditions, section 6: 500 requests per API key per 24 hours unless the official documentation says otherwise;
+  extension on request. ULIS made no call to the API.
+licence:
+  id: CC-BY-NC-ND-4.0
+  name: Creative Commons Atribución-NoComercial-SinDerivados 4.0 Internacional (stated by the API conditions for Ley Chile's contents; the legal texts themselves are declared outside copyright)
+  url: https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ DIRECTLY: "Condiciones de Uso de la API Ley Chile" (PDF linked above, sections 3, 6
+    and 9), the robots.txt locations above. NOT READ: the API's official documentation (needs the key), the licence
+    wording per dataset ("La Biblioteca podrá indicar en la Documentación oficial la licencia aplicable a cada conjunto
+    de datos").
+  redistribution: unknown
+  bulk_download: not_allowed
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: null
+  conditions:
+    - Do not call the API or the legacy XML service for ingestion until the Library has granted a key and has authorised, in writing, systematic retrieval for building ULIS's database (conditions, section 3 vi and vii) and, if text is used to train or tune models, that use (section 9).
+    - Cite the source as "Ley Chile - Biblioteca del Congreso Nacional" with the date of retrieval (section 9).
+    - "The Library's licences are NC-ND for its own metadata and compilations, so structure and metadata prepared by ULIS would be derivatives. Counsel must decide whether that, or the statement that the texts themselves are outside copyright, governs ULIS's use."
+  notes: >-
+    STOPPED, nothing ingested. A person should ask the Library (see section 11 of the conditions for the contact) for an API
+    key and for written authorisation of systematic retrieval of a defined set of norms (Constitución, Código Civil, Código
+    Penal, Código del Trabajo, Código de Procedimiento Civil, Ley 19.628 ...), and the connector (a PoliteHttp client that
+    sends the key from an environment variable, 500 requests a day) can then be written. The XML format the legacy service
+    returned (EsquemaIntercambioNorma v1.0, one element per structural unit with its own fechaVersion) would suit
+    ULIS's per-provision dates.
+provenance: >-
+  Official legal information service of the Biblioteca del Congreso Nacional de Chile (a common service of the Senate and
+  the Chamber of Deputies). The Diario Oficial is the authentic publication; Ley Chile publishes the texts "únicamente con
+  fines informativos" (conditions, section 9).
+known_limitations:
+  - Nothing is ingested; no key, no written authorisation.
+  - "Terms: API key and quota, no mass extraction without authorisation, CC BY-NC-ND for the Library's own contents, AI training only with authorisation."
+status: planned
