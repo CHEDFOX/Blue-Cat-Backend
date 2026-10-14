@@ -81,7 +81,7 @@ def test_constitution_in_three_equally_authentic_languages() -> None:
     assert (de.jurisdiction_id, de.instrument_type, de.work_uri) == ("CH", "constitution", "/ch/cc/1999/404")
     assert de.expression_uri == "/ch/cc/1999/404/de@2024-03-03" and fr.work_uri == it.work_uri == de.work_uri
     assert de.text_origin == "official_consolidation" and all(d.authoritative for d in (de, fr, it))
-    assert de.validity_basis == "consolidation_series" and de.consolidation_kind == "point_in_time"
+    assert de.validity_basis == "revision_snapshot" and de.consolidation_kind == "point_in_time"
     assert (de.version_date, de.work_date, de.number) == (date(2024, 3, 3), date(1999, 4, 18), "101")
     assert de.ext == {
         "sr_number": "101",

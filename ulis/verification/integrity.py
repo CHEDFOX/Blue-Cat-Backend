@@ -27,6 +27,7 @@ def verify_source_document(
         raise KeyError(f"unknown source document {document_id}")
     problems: list[str] = []
     checked = 0
+    checked_events = 0
     try:
         raw = store.get(doc.storage_key)
     except (IntegrityError, FileNotFoundError) as exc:
@@ -36,7 +37,12 @@ def verify_source_document(
         if hashlib.sha256(raw).hexdigest() != doc.sha256:
             problems.append("raw bytes do not match the recorded SHA-256")
         parsed_docs = PARSERS[catalog.sources.get(doc.source_id).parser or ""](raw)
-        units = {(d.work_uri, p.eid): p.text for d in parsed_docs for p in d.provisions}
+        # One raw document can attest several versions of a provision (e.g. a source that carries a
+        # provision's whole version history), so each locator maps to the hashes of all its texts.
+        units: dict[tuple[str, str], set[str]] = {}
+        for d in parsed_docs:
+            for p in d.provisions:
+                units.setdefault((d.work_uri, p.eid), set()).add(_sha(p.text))
         paras = {(d.work_uri, p.eid): p.text for d in parsed_docs for p in d.paragraphs}
         for pvs, pv, work_uri in session.execute(
             select(m.ProvisionVersionSource, m.ProvisionVersion, m.Instrument.uri)
@@ -46,13 +52,24 @@ def verify_source_document(
             .where(m.ProvisionVersionSource.source_document_id == doc.id)
         ):
             checked += 1
-            source_text = units.get((work_uri, pvs.source_locator))
-            if source_text is None:
+            source_hashes = units.get((work_uri, pvs.source_locator))
+            if source_hashes is None:
                 problems.append(f"{pvs.source_locator}: not found in source")
-            elif _sha(source_text) != pv.text_sha256:
+            elif pv.text_sha256 not in source_hashes:
                 problems.append(f"{pvs.source_locator}: stored text differs from source")
             if _sha(pv.text) != pv.text_sha256:
                 problems.append(f"{pvs.source_locator}: stored text does not match its own hash")
+        # Lifecycle events recorded from this document (e.g. the amendments a revision list reports)
+        # must be re-derivable from it too.
+        events = {(d.work_uri, e.event_type, e.date, e.affecting_uri) for d in parsed_docs for e in d.events}
+        for ev, work_uri in session.execute(
+            select(m.LifecycleEvent, m.Instrument.uri)
+            .join(m.Instrument, m.LifecycleEvent.instrument_id == m.Instrument.id)
+            .where(m.LifecycleEvent.source_document_id == doc.id)
+        ):
+            checked_events += 1
+            if (work_uri, ev.event_type, ev.event_date, ev.affecting_uri) not in events:
+                problems.append(f"{ev.event_type} event of {ev.event_date}: not found in source")
         for para, work_uri in session.execute(
             select(m.JudgmentParagraph, m.Judgment.uri)
             .join(m.JudgmentVersion, m.JudgmentParagraph.judgment_version_id == m.JudgmentVersion.id)
@@ -70,7 +87,7 @@ def verify_source_document(
             subject_id=str(doc.id),
             check="source_integrity",
             result=result,
-            details={"checked_units": checked, "problems": problems},
+            details={"checked_units": checked, "checked_events": checked_events, "problems": problems},
             checker=checker,
         )
     )
@@ -81,5 +98,6 @@ def verify_source_document(
         "sha256": doc.sha256,
         "result": result,
         "checked_units": checked,
+        "checked_events": checked_events,
         "problems": problems,
     }

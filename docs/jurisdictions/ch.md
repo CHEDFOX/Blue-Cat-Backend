@@ -99,35 +99,24 @@ Each consolidation is ingested in German, French and Italian (63 files).
   Wirkung seit 1. Jan. 2008"). When the footnote gives no complete date the date stays unknown
   (e.g. 3 ZGB, 1-2 OR and 2-9 StGB versions per language). Obsolete provisions ("Gegenstandslos")
   are recorded the same way.
-* **Validity** (`validity_basis = consolidation_series`): a consolidation states the whole text
-  applicable from its date of applicability, so each in-force provision version starts on the date
-  of the first indexed consolidation that shows its wording, and is replaced when a later
-  consolidation shows a different wording (derived end date). Dates before the earliest indexed
-  consolidation are a history gap (`history_not_indexed`, `HISTORY_INCOMPLETE`). For the DSG the
-  indexed history starts at entry into force (2023-09-01); ULIS still reports dates between adoption
-  (2020-09-25) and entry into force as a history gap, which is cautious but not wrong.
+* **Validity** (`validity_basis = revision_snapshot`): a consolidation states the whole text
+  applicable from its date of applicability, so each document is a whole-instrument snapshot and
+  every in-force provision is dated from it. The shared snapshot rules (`ulis/ingestion/snapshots.py`)
+  keep the history honest, per language: a wording (status, heading and text) unchanged from the
+  previous consolidation continues the earlier version; a changed wording starts a new version on
+  the consolidation date (the earlier one gets a derived end); a provision absent from a later
+  consolidation (renumbered, restructured or dropped) ends on that date (`valid_to_basis =
+  explicit`); consolidations must be recorded oldest first (the connector yields them so), and an
+  older one arriving later is refused. Dates before the earliest indexed consolidation are a
+  history gap (`history_not_indexed`, `HISTORY_INCOMPLETE`). For the DSG the indexed history starts
+  at entry into force (2023-09-01); ULIS still reports dates between adoption (2020-09-25) and entry
+  into force as a history gap, which is cautious but not wrong.
 * **Currency**: `currency_date` is the consolidation date ("Stand am"), the only currency the file
   states. Queries after it carry `AS_OF_AFTER_CURRENCY`. When the manifest was built (2026-10-14)
   no later applicable consolidation existed for any of the seven works.
 
-### Core change (pipeline, gated)
-
-The pipeline keyed provision versions on their start date, so a series of whole-instrument
-snapshots that date every provision from the snapshot would have created a new, identical version
-of every provision for every consolidation. Two rules were added to `ulis/ingestion/pipeline.py`,
-active only for parsed documents with `validity_basis = consolidation_series` (no other source
-uses it, so existing behaviour is unchanged):
-
-1. **Continuation** (`Ingestor._continued`): when a later consolidation shows the same status and
-   text as the latest earlier version of a provision (in that language), and that version has no
-   explicit end, the new document corroborates it instead of creating a version.
-2. **Closure** (`Ingestor._close_absent`): when the latest consolidation no longer contains a
-   provision (renumbered, restructured or dropped), its open in-force version ends on that
-   consolidation's date (`valid_to_basis = explicit`), so it is not shown as in force afterwards.
-   In the real run this ended 12-14 ZPO versions per language (2025-01-01 restructuring).
-
-Consolidations must be ingested oldest first (the connector does so); extending a history
-backwards later would need a fresh database.
+No Swiss-specific pipeline code: the shared snapshot mechanism needed no extension (it already
+works per language, and the three language versions of a consolidation share its date).
 
 ## Citations (module `ch`)
 
@@ -166,22 +155,27 @@ confirmed by a Swiss reviewer (e.g. "Bst." vs "lit.", commas in French).
 
 ## Results (2026-10-14)
 
-Real run on `ulis_ch`: `migrate`, `sync-catalog`, `ingest ch-fedlex`, `verify-sources`.
+Real run on a freshly recreated `ulis_ch` schema: `migrate`, `sync-catalog`, `ingest ch-fedlex`,
+`verify-sources`. The shared snapshot rules also compare headings, so 5 more versions are created
+than with the earlier Swiss-only rules, where an article's heading changed but not its text
+(ZPO Art. 302 in three languages, BV Art. 112 and VwVG Art. 23 in German). Absent
+provisions ended explicitly: 12 ZPO versions per language (2025-01-01 restructuring).
 
 | Ingest report | |
 |---|---|
 | documents seen / new | 63 / 63 |
 | instruments / instrument versions | 7 / 63 |
-| provision versions created | 45,370 |
-| provision versions corroborated (continued) | 47,847 |
+| provision versions created | 45,375 |
+| provision versions corroborated (continued) | 47,842 |
 | restated / conflicts / errors | 0 / 0 / 0 |
 | citation links created / resolved | 1,249 / 264 |
-| passages indexed | 35,900 |
+| passages indexed | 35,901 |
 
 `verify-sources`: 63 of 63 source documents pass (93,217 provision units re-derived from the raw
 files and matched by hash).
 
-Tests in the worktree: `pytest` (full suite against `ulis_test_ch`) 137 passed, including 15 in
+Tests in the worktree (after merging the main branch with the shared snapshot mechanism):
+`pytest` (full suite against `ulis_test_ch`) 186 passed, including 15 in
 `tests/test_fedlex.py` (parser structure in three languages, citations in de/fr/it, repeal dates,
 grouped articles, final title, rejection of unsupported documents, offline connector, and
 PostgreSQL ingestion, continuation, closure of absent provisions, point-in-time lookups, search

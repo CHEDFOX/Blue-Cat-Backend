@@ -1,0 +1,99 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Spain (State law). The autonomous communities are not
+# profiled yet; their legislation is out of scope.
+schema_version: 1
+id: ES
+profile_version: 0.1.0
+name: Spain
+names: {en: Spain, es: España}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [es]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: >-
+    To verify - unitary State organised in autonomous communities with their own legislative
+    assemblies ("Estado autonómico", arts. 2 and 137 CE; often described as quasi-federal).
+    Castilian is the official State language; Catalan/Valencian, Galician and Basque are
+    co-official in their communities (art. 3 CE). Validly concluded international treaties form
+    part of the internal legal order once officially published in Spain (art. 96.1 CE). Spain is
+    a member of the European Union (membership not recorded in this profile yet).
+legislative_institutions:
+  - id: ES-CORTES
+    name: Cortes Generales
+    instrument_types: [organic_law, law]
+  - id: ES-GOBIERNO
+    name: Gobierno de España
+    instrument_types: [royal_legislative_decree, royal_decree_law, royal_decree]
+instrument_types: [constitution, organic_law, law, royal_legislative_decree, royal_decree_law, royal_decree]
+norm_hierarchy: [constitution, organic_law, law, royal_legislative_decree, royal_decree_law, royal_decree]
+courts:
+  - id: ES-TC
+    name: Tribunal Constitucional
+    rank: 1
+  - id: ES-TS
+    name: Tribunal Supremo
+    rank: 1
+  - id: ES-AN
+    name: Audiencia Nacional
+    rank: 2
+    appeals_to: [ES-TS]
+  - id: ES-TSJ
+    name: Tribunales Superiores de Justicia
+    rank: 2
+    appeals_to: [ES-TS]
+precedent:
+  doctrine: jurisprudence_constante
+  vertical_binding: false
+  notes: >-
+    To verify - judicial decisions are not a formal source of law (art. 1.1 CC); the
+    "jurisprudencia" - doctrine repeatedly established by the Tribunal Supremo - complements the
+    legal order (art. 1.6 CC), and its infringement is a ground of cassation. Judges must
+    interpret laws in accordance with the case law of the Tribunal Constitucional (art. 5.1
+    LOPJ), whose judgments declaring unconstitutionality have general effects (art. 164 CE). The
+    Tribunal Constitucional is outside the judiciary; the Tribunal Supremo is the highest court
+    in all orders except constitutional guarantees (art. 123 CE). Audiencias Provinciales and
+    first-instance courts are not listed; Tribunales Superiores de Justicia are one entry for the
+    seventeen courts.
+citation:
+  module: es
+  notes: >-
+    Spanish style with the law's own numbering and conventional abbreviations (CE, CC, CP,
+    LOPDGDD, LPAC, ET); laws without an abbreviation are cited by rango and number (art. 32.1 de
+    la Ley 39/2015). The BOE identifier is kept in ext.boe_id.
+  examples:
+    - "art. 24.1 CE"
+    - "art. 1902 CC"
+    - "art. 138.1 CP"
+    - "art. 2.2.a) LOPDGDD"
+    - "art. 22.1.ª CP"
+    - "DA 1.ª CE"
+publication:
+  official_sources: [es-boe-consolidada]
+  commencement: >-
+    Laws enter into force twenty days after their complete publication in the BOE unless they
+    provide otherwise (art. 2.1 CC); the consolidated text records the entry into force of each
+    version (fecha_vigencia).
+  amendment: >-
+    Textual amendment by later norms; the AEBOE publishes informative consolidated versions,
+    labelled by the publication date of the modifying norm.
+  repeal: >-
+    Express repeal (shown in the consolidated text as "(Derogado)", "(Suprimido)", "(Sin
+    contenido)"); tacit repeal (art. 2.2 CC) is not reflected in consolidated texts.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only a hand-picked selection of State norms is ingested (see the source manifest); no other laws, regulations or ministerial orders.
+    - Consolidated texts are informative only; the authentic text is the BOE publication, which is not ingested.
+    - Only express amendments and repeals are consolidated by the source; tacit repeals and effects of court rulings are only in editorial notes.
+    - Legislation of the autonomous communities is out of scope.
+    - Co-official languages (Catalan/Valencian, Galician, Basque) are not ingested; Castilian Spanish only.
+    - No case law (Tribunal Constitucional, Tribunal Supremo, Audiencia Nacional, Tribunales Superiores de Justicia).
+    - Sub-article units (apartados, letters, ordinal items) are derived from the paragraph numbering of the consolidated text; an unnumbered paragraph after a numbered unit is attached to that unit.
+    - Where a block stops being shown (fecha_caducidad) without a recorded repeal, the end date shown is that display date, not a stated date of loss of effect.
+    - EU membership is not yet recorded in this profile.

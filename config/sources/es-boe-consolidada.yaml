@@ -1,0 +1,95 @@
+schema_version: 1
+id: es-boe-consolidada
+name: Legislación consolidada (BOE)
+publisher: Agencia Estatal Boletín Oficial del Estado (AEBOE)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [ES]
+document_kinds: [constitution, organic_law, law, royal_legislative_decree, royal_decree_law, royal_decree]
+languages: [es]
+coverage: >-
+  Consolidated texts of the main norms of the Spanish legal order (State and autonomous
+  communities) prepared by the AEBOE's documentation services, with every intermediate version
+  since the original publication, served by the BOE open-data API
+  (https://www.boe.es/datosabiertos/api/legislacion-consolidada). ULIS ingests a selected list
+  of State norms (see the manifest) in Castilian Spanish with their full version history.
+access:
+  method: api
+  endpoint: config/manifests/es-boe-consolidada.yaml
+update_frequency: >-
+  Continuous. Per the API FAQ, a new consolidated version is prepared 1 to 3 days after a
+  modifying norm is published; re-fetch to refresh.
+rate_limits: >-
+  No rate limit is published. https://www.boe.es/robots.txt (fetched 2026-10-14) has a single
+  "User-agent: *" group, no Crawl-delay, and does not disallow /datosabiertos/ (its per-document
+  disallows concern other paths and none of the manifest identifiers). ULIS waits 5 s between
+  requests and needs one request per norm.
+licence:
+  id: AEBOE-reutilizacion-2024
+  name: >-
+    Condiciones de reutilización de la Agencia Estatal BOE (licencia tipo aprobada por
+    Resolución de 27 de junio de 2024; Ley 37/2007 sobre reutilización de la información del
+    sector público)
+  url: https://www.boe.es/informacion/aviso_legal/index.php#reutilizacion
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the publisher's own pages (read 2026-10-14): the aviso legal
+    (https://www.boe.es/informacion/aviso_legal/index.php#reutilizacion) "permiten la
+    reutilización de los documentos ... para fines comerciales y no comerciales", including
+    "copia, reproducción, distribución" and "modificación, adaptación, extracción, reordenación y
+    combinación ... en orden a crear obras derivadas o productos o servicios de valor añadido";
+    the open-data page (https://www.boe.es/datosabiertos/) offers the API "para facilitar el
+    acceso, la descarga y la reutilización"; the API FAQ
+    (https://www.boe.es/datosabiertos/faq/consolidada.php) restates that consolidated texts must
+    be marked as merely informative.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Basado en datos de la Agencia Estatal Boletín Oficial del Estado (https://www.boe.es). Texto
+    consolidado de carácter meramente informativo: solo la publicación en el diario oficial
+    «Boletín Oficial del Estado» es oficial y auténtica.
+  conditions:
+    - >-
+      Cite the source with a link to https://www.boe.es; for derived products: "Basado en datos
+      de la Agencia Estatal Boletín Oficial del Estado" (attribution_text, returned with every
+      result).
+    - >-
+      Do not suggest the information is official: every reused consolidated text must state that
+      it is a consolidated text of merely informative character (attribution_text; REVISED_TEXT
+      and SOURCE_NOT_AUTHENTIC limitations).
+    - >-
+      Mention the date of the last update where the document gives it (fecha_actualizacion,
+      returned as the currency date) and keep the update-date metadata (stored in the raw
+      document).
+    - Do not distort the meaning of the information; identify modifications or adaptations as such.
+    - Do not state or imply that the AEBOE takes part in, sponsors or supports the reuse.
+    - >-
+      Personal data, if any, only in accordance with Regulation (EU) 2016/679 and Ley Orgánica
+      3/2018.
+    - >-
+      Not reusable: the portal's design, domains, trademarks and logos, and elements whose
+      intellectual property belongs to third parties; Biblioteca Jurídica Digital works are under
+      CC BY-NC-ND 4.0 and are not used.
+  notes: >-
+    Use is at the reuser's own risk; the AEBOE may deny or suspend access to anyone breaching the
+    conditions; Spanish law and the courts of Madrid apply. Counsel review still recommended
+    before production use.
+provenance: >-
+  Official publisher of the BOE (Agencia Estatal Boletín Oficial del Estado). Its aviso legal
+  states that only the texts published in the electronic edition of the diario oficial "Boletín
+  Oficial del Estado" are official and authentic; the API FAQ states that consolidation
+  integrates express amendments "en un solo texto, sin valor oficial" and that consolidated texts
+  "tienen carácter meramente informativo. Para fines jurídicos debe consultarse la publicación
+  oficial."
+known_limitations:
+  - Consolidated texts are informative, not official; only the BOE publication is authentic.
+  - Only express amendments and repeals are consolidated; tacit repeals and other effects that need interpretation are not reflected (API FAQ).
+  - Co-official languages (Catalan, Galician, Basque/Euskera) and translations are not fetched.
+  - Regional (autonomous community) legislation, also consolidated by the AEBOE, is not ingested.
+status: active
+connector: boe_consolidada
+parser: boe_consolidada_xml

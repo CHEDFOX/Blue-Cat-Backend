@@ -26,15 +26,28 @@ from sqlalchemy.orm import Session
 
 from ulis.catalog import Catalog
 from ulis.db import models as m
+from ulis.ingestion import snapshots
 from ulis.retrieval.indexer import rebuild_passages
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import Connector, RawDocument
+from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
+from ulis.sources.connectors.egov_laws import EgovLawsConnector
 from ulis.sources.connectors.fedlex import FedlexConnector
+from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
-from ulis.sources.parsers import akn, fedlex, justice_canada, legislation_gov_uk, uslm
+from ulis.sources.parsers import (
+    akn,
+    boe_consolidada,
+    egov_law,
+    fedlex,
+    gesetze_im_internet,
+    justice_canada,
+    legislation_gov_uk,
+    uslm,
+)
 from ulis.sources.registry import SourceDescriptor, licence_gate
 from ulis.storage.object_store import ObjectStore
 from ulis.temporal.validity import Span, derive_valid_to
@@ -46,6 +59,9 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "uslm": uslm.parse_uslm,
     "legislation_gov_uk_akn": legislation_gov_uk.parse_legislation_gov_uk,
     "justice_canada_xml": justice_canada.parse_justice_canada,
+    "gii_norm_xml": gesetze_im_internet.parse_gesetze_im_internet,
+    "boe_consolidada_xml": boe_consolidada.parse_boe_consolidada,
+    "egov_law_xml": egov_law.parse_egov,
     "fedlex_akn": fedlex.parse_fedlex,
 }
 PARSER_VERSIONS = {
@@ -53,11 +69,11 @@ PARSER_VERSIONS = {
     "uslm": uslm.PARSER_VERSION,
     "legislation_gov_uk_akn": legislation_gov_uk.PARSER_VERSION,
     "justice_canada_xml": justice_canada.PARSER_VERSION,
+    "gii_norm_xml": gesetze_im_internet.PARSER_VERSION,
+    "boe_consolidada_xml": boe_consolidada.PARSER_VERSION,
+    "egov_law_xml": egov_law.PARSER_VERSION,
     "fedlex_akn": fedlex.PARSER_VERSION,
 }
-# Sources whose versions are successive consolidations of a whole instrument, each stating the text
-# applicable from its own date (see ``Ingestor._persist_provision`` and ``_close_absent``).
-CONSOLIDATION_SERIES = "consolidation_series"
 PROPOSED_TYPES = ("bill", "resolution")
 
 
@@ -89,22 +105,26 @@ class IngestionReport:
         return asdict(self)
 
 
+# Connectors taking (manifest path, source id, cache directory), by the source's ``connector`` name.
+CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
+    "boe_consolidada": BoeConsolidadaConnector,
+    "gesetze_im_internet": GesetzeImInternetConnector,
+    "git_snapshot": GitSnapshotConnector,
+    "legislation_gov_uk": LegislationGovUkConnector,
+    "egov_laws": EgovLawsConnector,
+    "fedlex": FedlexConnector,
+}
+
+
 def build_connector(source: SourceDescriptor, base_dir: Path = REPO_ROOT, cache_dir: Path | None = None) -> Connector:
     if not source.access.endpoint:
         raise ValueError(f"source {source.id} has no manifest endpoint")
     if source.connector == "local_manifest":
         return LocalManifestConnector(base_dir / source.access.endpoint, source.id)
-    if source.connector == "git_snapshot":
-        return GitSnapshotConnector(
-            base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
-        )
-    if source.connector == "legislation_gov_uk":
-        return LegislationGovUkConnector(
-            base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
-        )
-    if source.connector == "fedlex":
-        return FedlexConnector(base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources")
-    raise ValueError(f"no connector implementation named {source.connector!r}")
+    factory = CONNECTORS.get(source.connector or "")
+    if factory is None:
+        raise ValueError(f"no connector implementation named {source.connector!r}")
+    return factory(base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources")
 
 
 def resolve_uri(uri: str) -> tuple[str, str | None]:
@@ -120,6 +140,8 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         uslm.resolve_identifier(uri)
         or legislation_gov_uk.resolve_uri(uri)
         or justice_canada.resolve_uri(uri)
+        or gesetze_im_internet.resolve_uri(uri)
+        or egov_law.resolve_uri(uri)
         or fedlex.resolve_uri(uri)
         or (uri, None)
     )
@@ -284,6 +306,8 @@ class Ingestor:
 
     def _persist_legislation(self, parsed: ParsedDocument, doc: m.SourceDocument, report: IngestionReport) -> Any:
         s = self.session
+        if parsed.consolidation_kind == snapshots.CHANGE_REPORT:
+            return self._attach_change_report(parsed, doc)
         instrument = s.scalar(select(m.Instrument).where(m.Instrument.uri == parsed.work_uri))
         if instrument is None:
             instrument = m.Instrument(
@@ -341,19 +365,41 @@ class Ingestor:
                 select(m.ProvisionVersion).join(m.Provision).where(m.Provision.instrument_id == instrument.id)
             )
         }
-        series: dict[tuple[Any, str], list[m.ProvisionVersion]] | None = None
-        if parsed.validity_basis == CONSOLIDATION_SERIES:
-            series = {}
-            for (pid, lang, _status, _start), pv in versions.items():
-                series.setdefault((pid, lang), []).append(pv)
+        previous: dict[Any, m.ProvisionVersion] | None = None
+        if parsed.validity_basis == snapshots.SNAPSHOT_BASIS:
+            try:
+                before = snapshots.previous_snapshot(s, version)
+            except snapshots.SnapshotOrderError as exc:
+                raise ValidationError(str(exc)) from exc
+            previous = snapshots.attested_by(s, before) if before is not None else {}
         for prov in parsed.provisions:
-            self._persist_provision(
-                instrument, version, prov, provisions, versions, doc, report, is_latest, series=series
-            )
+            self._persist_provision(instrument, version, prov, provisions, versions, doc, report, is_latest, previous)
         s.flush()
-        if is_latest and parsed.validity_basis == CONSOLIDATION_SERIES:
-            self._close_absent(version, parsed, provisions, versions)
+        if previous:
+            present = {provisions[p.eid].id for p in parsed.provisions}
+            snapshots.end_absent(previous, present, parsed.version_date)
 
+        self._add_events(instrument, parsed, doc)
+        self._add_treaty_parties(instrument, parsed, doc, report)
+        return instrument.id
+
+    def _attach_change_report(self, parsed: ParsedDocument, doc: m.SourceDocument) -> Any:
+        """Record a change report on the expression it reports on (see ``ulis.ingestion.snapshots``)."""
+        s = self.session
+        instrument = s.scalar(select(m.Instrument).where(m.Instrument.uri == parsed.work_uri))
+        target = s.scalar(select(m.InstrumentVersion).where(m.InstrumentVersion.uri == parsed.expression_uri))
+        if instrument is None or target is None or target.instrument_id != instrument.id:
+            raise ValidationError(f"{parsed.expression_uri}: change report for an expression that is not recorded")
+        target.outstanding_changes = list(parsed.outstanding_changes)
+        reported = parsed.currency_date or doc.retrieved_at.date()
+        if target.currency_date is None or reported > target.currency_date:
+            target.currency_date = reported
+        self._add_events(instrument, parsed, doc)
+        s.flush()
+        return instrument.id
+
+    def _add_events(self, instrument: m.Instrument, parsed: ParsedDocument, doc: m.SourceDocument) -> None:
+        s = self.session
         for ev in parsed.events:
             duplicate = s.scalar(
                 select(m.LifecycleEvent).where(
@@ -378,6 +424,10 @@ class Ingestor:
                     )
                 )
 
+    def _add_treaty_parties(
+        self, instrument: m.Instrument, parsed: ParsedDocument, doc: m.SourceDocument, report: IngestionReport
+    ) -> None:
+        s = self.session
         for party in parsed.treaty_parties:
             row = s.scalar(
                 select(m.TreatyParty).where(
@@ -397,7 +447,6 @@ class Ingestor:
             elif any(getattr(row, k) != v for k, v in values.items()):
                 report.conflicts.append(f"{parsed.expression_uri}: treaty status for {party.party} differs")
                 self._verify(doc, "treaty_status_consistency", "fail", {"party": party.party})
-        return instrument.id
 
     def _persist_provision(
         self,
@@ -409,8 +458,7 @@ class Ingestor:
         doc: m.SourceDocument,
         report: IngestionReport,
         is_latest: bool,
-        *,
-        series: dict[tuple[Any, str], list[m.ProvisionVersion]] | None = None,
+        previous: dict[Any, m.ProvisionVersion] | None = None,
     ) -> None:
         s = self.session
         row = provisions.get(prov.eid)
@@ -440,10 +488,21 @@ class Ingestor:
         if not prov.record_version:
             return
         text_sha = _sha(prov.text)
+        if previous is not None:  # revision snapshot: an unchanged wording continues the previous version
+            before = previous.get(row.id)
+            if before is not None and snapshots.continues(before, prov.status, prov.heading, text_sha):
+                s.add(
+                    m.ProvisionVersionSource(
+                        provision_version_id=before.id,
+                        instrument_version_id=version.id,
+                        source_document_id=doc.id,
+                        source_locator=prov.eid,
+                    )
+                )
+                report.provision_versions_corroborated += 1
+                return
         key = (row.id, version.language, prov.status, prov.valid_from)
         existing = versions.get(key)
-        if existing is None and series is not None:
-            existing = self._continued(prov, text_sha, series.get((row.id, version.language), []))
         if existing is not None:
             if existing.text_sha256 == text_sha:
                 s.add(
@@ -471,52 +530,6 @@ class Ingestor:
             return
 
         versions[key] = self._new_version(row, version, prov, text_sha, doc, report, valid_from=prov.valid_from)
-
-    @staticmethod
-    def _continued(
-        prov: ParsedProvision, text_sha: str, recorded: list[m.ProvisionVersion]
-    ) -> m.ProvisionVersion | None:
-        """In a consolidation series every provision is dated from its consolidation's date. A later
-        consolidation that shows the same wording (same status, same text) continues the version
-        recorded from an earlier one, unless that version has an explicit end; it is not a new version.
-        ``recorded`` holds the versions of this provision in this language recorded before this document."""
-        if prov.valid_from is None:
-            return None
-        earlier = [pv for pv in recorded if pv.valid_from is not None and pv.valid_from < prov.valid_from]
-        latest = max(earlier, key=lambda pv: pv.valid_from, default=None)  # type: ignore[arg-type, return-value]
-        if (
-            latest is not None
-            and latest.status == prov.status
-            and latest.text_sha256 == text_sha
-            and latest.valid_to_basis != "explicit"
-        ):
-            return latest
-        return None
-
-    def _close_absent(
-        self,
-        version: m.InstrumentVersion,
-        parsed: ParsedDocument,
-        provisions: dict[str, m.Provision],
-        versions: dict[tuple[Any, str, str, Any], m.ProvisionVersion],
-    ) -> None:
-        """A provision absent from the latest consolidation of a series (renumbered, restructured or
-        dropped) no longer applies from that consolidation's date: its open in-force version ends there.
-        The end is explicit (the consolidated text applicable from that date does not contain it)."""
-        present = {p.eid for p in parsed.provisions}
-        eid_of = {row.id: eid for eid, row in provisions.items()}
-        latest: dict[Any, m.ProvisionVersion] = {}
-        for (pid, lang, _status, start), pv in versions.items():
-            if lang != version.language or start is None:
-                continue
-            if pid not in latest or start > latest[pid].valid_from:  # type: ignore[operator]
-                latest[pid] = pv
-        for pid, pv in latest.items():
-            if eid_of.get(pid) in present or pv.status != "in_force" or pv.valid_to_basis == "explicit":
-                continue
-            if pv.valid_from is not None and pv.valid_from < version.version_date:
-                pv.valid_to, pv.valid_to_basis = version.version_date, "explicit"
-        self.session.flush()
 
     def _new_version(
         self,
@@ -573,17 +586,23 @@ class Ingestor:
         doc: m.SourceDocument,
         report: IngestionReport,
     ) -> bool:
-        """A point-in-time series that gives a provision a new wording but keeps its old start date.
+        """A later source version gives a provision a new wording under the same start date.
 
-        Each point-in-time version attests the law on its own date, so the new wording certainly
-        applied on this version's date and the old one on the last date it was seen. The new
-        wording is recorded from this version's date (``valid_from_basis = observed``) instead of
-        the start date the source gives, which its own earlier versions contradict. Anything else
-        (out-of-order versions, other kinds of source) stays a conflict for a human to resolve.
+        Two cases: a point-in-time series that keeps an old start date for an amended wording,
+        and a current-only source (``attested_at_edition``: no start dates at all) whose newer
+        edition has a new wording. Each source version attests the law on its own date, so the
+        new wording certainly applied on this version's date and the old one on the last date it
+        was seen. The new wording is recorded from this version's date
+        (``valid_from_basis = observed``). Anything else (out-of-order versions, other kinds of
+        source) stays a conflict for a human to resolve.
         """
         s = self.session
         observed = version.version_date
-        if version.consolidation_kind != "point_in_time" or prov.valid_from is None or prov.valid_from >= observed:
+        point_in_time = (
+            version.consolidation_kind == "point_in_time" and prov.valid_from is not None and prov.valid_from < observed
+        )
+        edition = version.validity_basis == "attested_at_edition" and prov.valid_from is None
+        if not (point_in_time or edition):
             return False
         last_seen = s.scalar(
             select(func.max(m.InstrumentVersion.version_date))
@@ -600,7 +619,8 @@ class Ingestor:
                 and lang == version.language
                 and status == prov.status
                 and start is not None
-                and prov.valid_from < start <= observed
+                and (prov.valid_from is None or prov.valid_from < start)
+                and start <= observed
                 and pv.text_sha256 == text_sha
             ),
             None,
@@ -627,7 +647,7 @@ class Ingestor:
             "warn",
             {
                 "provision": row.uri,
-                "stated_start": prov.valid_from.isoformat(),
+                "stated_start": prov.valid_from.isoformat() if prov.valid_from else None,
                 "previous_wording_last_seen": last_seen.isoformat(),
                 "recorded_from": observed.isoformat(),
             },

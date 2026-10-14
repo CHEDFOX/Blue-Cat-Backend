@@ -1,0 +1,88 @@
+# Gesetze im Internet: consolidated German federal law. Terms read on 2026-10-14 from the
+# site itself (pages cached under var/sources/www.gesetze-im-internet.de/):
+#   https://www.gesetze-im-internet.de/index.html      - "Die Rechtsnormen in deutscher Sprache stehen in allen
+#        angebotenen Formaten zur freien Nutzung und Weiterverwendung zur Verfügung." / "Wichtig: Die im Internet
+#        abrufbaren, konsolidierten Gesetzestexte sind nicht die amtliche Fassung. Diese finden Sie im Bundesgesetzblatt"
+#   https://www.gesetze-im-internet.de/hinweise.html   - item 6: XML "ist insbes. für die Nutzer geeignet, die die hier
+#        zur Verfügung gestellten Gesetze und Rechtsverordnungen über automatisierte Verfahren weiterverarbeiten
+#        möchten"; a daily table of contents is offered at /gii-toc.xml; item 3: the "Stand" names the last amending
+#        Act, and wording is changed only when an amendment enters into force; item 4: "textlich nachgewiesen,
+#        dokumentarisch noch nicht abschließend bearbeitet" concerns documentary data only, not the text
+#   https://www.gesetze-im-internet.de/impressum.html  - publisher: Bundesrepublik Deutschland, represented by the
+#        Federal Minister of Justice and Consumer Protection; editor: Bundesamt für Justiz (Kompetenzzentrum
+#        Rechtsinformationssystem des Bundes); "Die Bereitstellung der Daten und die technische Umsetzung dieses
+#        Internetangebots erfolgen durch die juris GmbH"; no warranty of completeness, correctness or currency
+#   https://www.gesetze-im-internet.de/datenschutz.html - access logs (anonymised IP, user agent); no tracking
+#   https://www.gesetze-im-internet.de/robots.txt      - "User-agent: * / Disallow:" (everything allowed, no Crawl-delay)
+#   https://www.gesetze-im-internet.de/urhg/__5.html   - § 5 Abs. 1 UrhG: "Gesetze, Verordnungen, amtliche Erlasse und
+#        Bekanntmachungen sowie Entscheidungen und amtlich verfaßte Leitsätze zu Entscheidungen genießen keinen
+#        urheberrechtlichen Schutz."
+#   https://www.gesetze-im-internet.de/Teilliste_translations.html - translations: use only "within the applicable
+#        copyright exceptions"; other use "requires the prior consent of the author or other rights holder". NOT ingested.
+schema_version: 1
+id: de-gesetze-im-internet
+name: Gesetze im Internet
+publisher: >-
+  Bundesrepublik Deutschland (Bundesministerium der Justiz und für Verbraucherschutz); editor
+  Bundesamt für Justiz; data and technical provision by juris GmbH
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [DE]
+document_kinds: [constitution, act, ordinance]
+languages: [de]
+coverage: >-
+  "Nahezu das gesamte aktuelle Bundesrecht": federal Acts and ordinances in their currently
+  applicable wording, continuously consolidated by the documentation unit of the Federal Office
+  of Justice; one XML download per law. Current wording only (no earlier versions); amending
+  Acts themselves are not included. ULIS ingests a selected list of ten laws in German.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/de-gesetze-im-internet.yaml
+update_frequency: continuous ("fortlaufend konsolidiert"); daily table of contents at /gii-toc.xml
+rate_limits: >-
+  No published rate limit. robots.txt (2026-10-14) disallows nothing and sets no Crawl-delay;
+  ULIS waits 5 s between requests, identifies itself, and caches every download.
+licence:
+  id: DE-UrhG-5-official-works
+  name: >-
+    Official works without copyright (§ 5 Abs. 1 UrhG); publisher's statement of free use and
+    re-use of the German-language norms in all offered formats
+  url: https://www.gesetze-im-internet.de/index.html
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the site's home page states that the German-language norms are available in all
+    offered formats "zur freien Nutzung und Weiterverwendung"; Hinweise item 6 offers the XML for
+    automated further processing; § 5 Abs. 1 UrhG excludes Acts and ordinances from copyright;
+    robots.txt allows all paths. The translations are under a different, restrictive notice and are excluded.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: >-
+    Quelle: Gesetze im Internet (www.gesetze-im-internet.de), Bundesministerium der Justiz und für
+    Verbraucherschutz / Bundesamt für Justiz. Nicht die amtliche Fassung; maßgeblich ist das Bundesgesetzblatt.
+  conditions:
+    - Only the German-language norms; the English translations are not covered (prior consent needed outside copyright exceptions).
+    - Do not present the consolidated text as the official version (the site says it is not; stated on every result).
+    - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    The site requires no attribution; ULIS attributes anyway. The XML also carries editorial
+    material by the Federal Office of Justice / juris (Standangaben, footnotes); the free-use
+    statement covers "alle angebotenen Formate". Counsel review still recommended before
+    production use (e.g. on database rights in the compiled collection).
+provenance: >-
+  Official federal legal information system: consolidated texts produced by the documentation
+  unit of the Bundesamt für Justiz, data provided by juris GmbH. The authentic text is the
+  promulgation in the Bundesgesetzblatt (since 1 January 2023 on www.recht.bund.de). Each
+  download is stored byte-for-byte (SHA-256) with its URL and retrieval time.
+known_limitations:
+  - Not the official version ("nicht die amtliche Fassung"); the Bundesgesetzblatt is authentic.
+  - Current consolidation only; no earlier versions, and no per-provision dates in the XML, so each text is known to be in force only at the file's build date.
+  - Consolidation can lag behind promulgation ("Mitunter wird bei umfangreichen Änderungsvorschriften für die Konsolidierungsarbeiten einige Zeit benötigt").
+  - Some provisions are published with their heading only (Hinweise item 5).
+  - English translations on the same site are not ingested (restrictive user notice).
+status: active
+connector: gesetze_im_internet
+parser: gii_norm_xml

@@ -21,11 +21,11 @@ How the file is read:
   cross-references) are editorial and go to ``note``.
 * **Repealed** provisions are printed as "…" with a footnote ("Aufgehoben ... mit Wirkung seit
   1. Jan. 2016"); the repeal date is taken from that footnote, or left unknown.
-* **Validity**: a consolidation states the text applicable from its date, so every in-force
-  provision starts on the consolidation date (``validity_basis = consolidation_series``). The
-  pipeline continues a version whose wording is unchanged in a later consolidation and ends the
-  versions of provisions absent from it. Dates before the earliest indexed consolidation are a
-  history gap.
+* **Validity**: a consolidation states the whole text applicable from its date, so every in-force
+  provision starts on the consolidation date and the document is a whole-instrument snapshot
+  (``validity_basis = "revision_snapshot"``, ``ulis.ingestion.snapshots``): the pipeline continues
+  a version whose wording is unchanged in the next consolidation and ends the versions of
+  provisions absent from it. Dates before the earliest indexed consolidation are a history gap.
 * **Annexes** are one provision each. The final title of the Civil Code (Schlusstitel) is
   read; other final and transitional provisions (``proviso`` / ``transitional`` blocks, such as
   the Schlussbestimmungen of the Code of Obligations, each with its own Art. 1) and the subject
@@ -41,6 +41,7 @@ from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing use
 
 from defusedxml.ElementTree import fromstring
 
+from ulis.ingestion.snapshots import SNAPSHOT_BASIS
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef
 
 AKN = "http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
@@ -50,7 +51,6 @@ PARSER_ID = "fedlex_akn"
 PARSER_VERSION = "1.0.0"
 ELI_CC = "https://fedlex.data.admin.ch/eli/cc/"
 LANGUAGES = ("de", "fr", "it")
-VALIDITY_BASIS = "consolidation_series"
 
 # Structural divisions: walked through, never provisions.
 CONTAINERS = {"book", "part", "title", "subtitle", "chapter", "subchapter", "section", "subsection", "level"}
@@ -532,7 +532,7 @@ def parse_fedlex(content: bytes) -> list[ParsedDocument]:
             ext={"sr_number": sr, "eli": eli, "entry_into_force": in_force.isoformat() if in_force else None},
             events=events,
             provisions=_provisions(reader, version_date),
-            validity_basis=VALIDITY_BASIS,
+            validity_basis=SNAPSHOT_BASIS,
         )
     ]
 
