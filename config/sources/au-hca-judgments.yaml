@@ -1,0 +1,50 @@
+# PLANNED - NOT INGESTED. The High Court of Australia's web server closes the connection on every request of the ULIS
+# research bot, so neither robots.txt nor the terms could be read. Checked on 2026-10-14 (docs/jurisdictions/court-decisions-survey.md):
+#   https://www.hcourt.gov.au/robots.txt - three attempts (HTTP/2, HTTP/2, then HTTP/1.1, identified User-Agent): no HTTP
+#        response; "HTTP/2 stream 1 was not closed cleanly: INTERNAL_ERROR" and "Empty reply from server". The behaviour of an
+#        edge filter that drops non-browser clients; nothing was changed to get past it (no other agent, no proxy, no browser).
+#   https://eresources.hcourt.gov.au/robots.txt - 301 to https://www.hcourt.gov.au/cases-and-judgments/judgments (same host).
+#   Federal Court of Australia: https://www.fedcourt.gov.au/robots.txt answered 403 with the Cloudflare "Just a moment..."
+#        challenge page; https://www.judgments.fedcourt.gov.au/robots.txt - connection reset by peer.
+#   AustLII: https://www.austlii.edu.au/robots.txt and https://classic.austlii.edu.au/robots.txt both answered 403 with the
+#        same Cloudflare challenge (so its robots.txt and terms are unreadable to a bot; AustLII's refusal of automated
+#        access is known from its published usage policy but was not read here).
+#   The High Court's own terms (copyright notice) were therefore not read; nothing about reuse is assumed.
+schema_version: 1
+id: au-hca-judgments
+name: High Court of Australia judgments (hcourt.gov.au) and Federal Court of Australia judgments
+publisher: High Court of Australia; Federal Court of Australia
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [AU]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  Judgments of the High Court of Australia (hcourt.gov.au) and of the Federal Court of Australia
+  (fedcourt.gov.au / judgments.fedcourt.gov.au). Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.hcourt.gov.au/cases-and-judgments/judgments
+update_frequency: on delivery
+rate_limits: Not readable (the servers refuse the bot before any page is served).
+licence:
+  id: AU-HCA-unknown
+  name: Terms of the High Court of Australia website (not read - connection refused)
+  review_status: pending_review
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: >-
+    Access is refused at the network level (High Court) or by a bot challenge (Federal Court, AustLII), so no terms or
+    robots.txt could be read. Judgments of Australian courts are in practice widely reproduced, but ULIS records no
+    permission it has not read. To proceed: ask the High Court Registry and the Federal Court (Registry / Digital Law
+    Library) in writing for a permitted channel for an identified research bot.
+provenance: Official court websites. Not retrieved.
+known_limitations:
+  - Not ingested - connection refused (High Court) and Cloudflare challenges (Federal Court, AustLII) on 2026-10-14; no Australian case law in ULIS.
+  - Terms and robots.txt of all four hosts unreadable.
+status: planned
+connector: null
+parser: null

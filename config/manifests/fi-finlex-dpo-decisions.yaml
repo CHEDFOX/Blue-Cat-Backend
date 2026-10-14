@@ -1,0 +1,12 @@
+# Decisions of the Data Protection Ombudsman (tietosuojavaltuutettu / dataombudsmannen) from Finlex open data.
+# One download package (about 3.6 MB, ~400 decisions, Finnish and Swedish expressions), updated daily by Finlex.
+# Licence: CC BY 4.0 (Finlex FAQ). `years` and `limit` (null = everything) are for sandbox slices only.
+schema_version: 1
+source_id: fi-finlex-dpo-decisions
+base_url: https://www.finlex.fi
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+archive: files/open-data/archives/data-protection-ombudsman-decision.zip
+languages: [fin, swe]
+years: null
+limit: null

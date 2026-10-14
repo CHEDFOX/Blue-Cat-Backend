@@ -1,0 +1,41 @@
+# PLANNED - NOT INGESTED. SAOS (System Analizy Orzeczeń Sądowych, Interdisciplinary Centre of the University of Warsaw)
+# is the open aggregator of Polish court judgments, but its robots.txt disallows its API. Read on 2026-10-14:
+#   https://www.saos.org.pl/robots.txt - "User-agent: *" / "Disallow: /api/" / "Allow: /". The judgments are offered through
+#        the API; nothing else of the site (its terms, its HTML judgment pages, any dump) was read or fetched.
+#   Not checked: the Supreme Court (sn.pl), the Supreme Administrative Court (orzeczenia.nsa.gov.pl) and the common courts'
+#        portal (orzeczenia.ms.gov.pl) - official sources whose robots.txt and terms are still to be read.
+schema_version: 1
+id: pl-saos-judgments
+name: SAOS - Polish court judgments (www.saos.org.pl)
+publisher: Interdisciplinary Centre for Mathematical and Computational Modelling, University of Warsaw (aggregating the courts' own portals)
+kind: open_data_repository
+authority: unofficial
+jurisdictions: [PL]
+document_kinds: [judgment]
+languages: [pl]
+coverage: >-
+  Judgments of Polish common courts, the Supreme Court, the Constitutional Tribunal, the National Appeal Chamber and
+  administrative courts, as collected by SAOS (coverage not measured). Nothing is ingested.
+access:
+  method: api
+  endpoint: https://www.saos.org.pl/api/
+update_frequency: unknown
+rate_limits: robots.txt disallows /api/ for all robots.
+licence:
+  id: PL-SAOS-unknown
+  name: SAOS terms (not read - the API is disallowed by robots.txt)
+  review_status: pending_review
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: unknown
+  notes: >-
+    robots.txt forbids robots from /api/, the machine route. ULIS respects it. To proceed: write to the SAOS team for
+    permission for an identified research bot, or use the courts' own official portals once their terms are read.
+provenance: Aggregator (not the courts themselves). Not retrieved.
+known_limitations:
+  - Not ingested - robots.txt disallows the API (2026-10-14); no Polish case law in ULIS.
+status: planned
+connector: null
+parser: null

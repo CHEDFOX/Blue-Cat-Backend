@@ -1,0 +1,47 @@
+# PLANNED - NOT INGESTED. The Federal Supreme Court's web server could not be reached securely: its TLS certificate chain
+# is incomplete (the server does not send the intermediate certificate), so certificate verification fails, and ULIS never
+# disables verification. Neither robots.txt nor the legal notice could be read. Checked on 2026-10-14
+# (docs/jurisdictions/court-decisions-survey.md):
+#   https://www.bger.ch/robots.txt and https://bger.ch/robots.txt - "SSL certificate problem: unable to get local issuer
+#        certificate" (curl 60) with the project's CA bundle.
+#   https://www.bundesgericht.ch/robots.txt - TLS "unrecognized name" (not a served host name).
+#   Other Swiss courts looked at: https://www.bvger.ch/robots.txt (Federal Administrative Court) reads "User-agent: *" /
+#        "Disallow:" (everything allowed) but its decision database jurispub.admin.ch answered /robots.txt with HTTP 400, and the
+#        Federal Criminal Court's bstger.weblaw.ch allows everything except /cache; neither's terms were read or its listing
+#        examined, so neither is ingested.
+schema_version: 1
+id: ch-bger-decisions
+name: Swiss Federal Supreme Court decisions (www.bger.ch)
+publisher: Bundesgericht / Tribunal fédéral / Tribunale federale
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [CH]
+document_kinds: [judgment]
+languages: [de, fr, it]
+coverage: >-
+  Leading decisions (BGE/ATF/DTF) and other decisions of the Federal Supreme Court in German, French and Italian
+  (bger.ch "Rechtsprechung"). Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.bger.ch/
+update_frequency: on publication
+rate_limits: Not readable.
+licence:
+  id: CH-BGer-unknown
+  name: Terms of the Federal Supreme Court website (not read - TLS chain incomplete)
+  review_status: pending_review
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: >-
+    The site's own terms and robots.txt were not read, and whether Swiss copyright law leaves court decisions free
+    (Art. 5 URG) was not checked for this record, so nothing is assumed. To proceed: ask the Federal Supreme Court to fix
+    the certificate chain and to state its terms and a permitted channel for an identified research bot.
+provenance: Official court website. Not retrieved.
+known_limitations:
+  - Not ingested - certificate chain incomplete (2026-10-14) and terms unreadable; no Swiss case law in ULIS.
+status: planned
+connector: null
+parser: null

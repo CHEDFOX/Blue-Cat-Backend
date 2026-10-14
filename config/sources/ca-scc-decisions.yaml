@@ -1,0 +1,70 @@
+# PLANNED - NOT INGESTED. The terms allow reuse of the decisions, but the Court's publication platform (Lexum
+# "Norma") answered an ordinary page request with a CAPTCHA page (HTTP 403). ULIS stopped there and works around nothing.
+# Read on 2026-10-14 (details in docs/jurisdictions/court-decisions-survey.md):
+#   https://decisions.scc-csc.ca/robots.txt (200) - "User-agent: BUbiNG / Disallow: /"; "User-agent: *" disallows only four
+#        items (/icm/icm/en/item/120620/..., /icm/icm/en/item/111322/... and their document.do). Judgments are allowed.
+#   https://scc-csc.ca/robots.txt (200) - disallows only a few case-document PDFs and /cso-dce/.
+#   https://scc-csc.ca/resources-ressources/terms-avis/ - "Terms and conditions": the decisions and reasons for decision
+#        "fall within the terms of the Reproduction of Federal Law Order, P.C. 1996-1995, December 19, 1996, SI/97-5, and may be
+#        reproduced, in whole or in part and by any means, without charge and without further permission from the Supreme Court
+#        of Canada, provided that due diligence is exercised in ensuring the accuracy of the reproduced materials and that the
+#        reproduction is not represented as an official version." "Headnotes and other editorial features of reasons for decision
+#        (such as captions, paragraph numbers, and lists of cases, statutes and regulations and authors cited) ... do not fall
+#        within the terms of the Reproduction of Federal Law Order": they may be reproduced for personal use and other uses
+#        permitted under the Copyright Act, identifying the Court as the source; commercial reproduction of those needs the
+#        Deputy Registrar's permission. The official versions are in the Supreme Court Reports (S.C.R.).
+#   https://decisions.scc-csc.ca/scc-csc/en/nav.do, /scc-csc/en/rss/index.do, /scc-csc/scc-csc/en/nav_date.do - 200 (HTML
+#        shells; the year lists and the RSS/JSON feed lists are loaded by script from /scc-csc/scc-csc/en/nav_date.do?iframe=true).
+#   https://decisions.scc-csc.ca/scc-csc/scc-csc/en/nav_date.do?iframe=true - 403 with the "Validation" page: "the Norma
+#        software calls upon users accessing a large number of files to ensure that they are people and not programs acting on
+#        command ... proceed with the captcha test". This was the fifth request to the host (about 6 s apart). No further request
+#        was made to decisions.scc-csc.ca.
+#   https://decisions.fct-cf.gc.ca/robots.txt (Federal Court of Canada, same platform and same rules): read, nothing else fetched.
+#        The Federal Court's decisions are under the same Order; the same challenge is to be expected.
+schema_version: 1
+id: ca-scc-decisions
+name: Supreme Court of Canada judgments (Lexum Decisia, decisions.scc-csc.ca)
+publisher: Supreme Court of Canada (platform operated by Lexum)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [CA]
+document_kinds: [judgment]
+languages: [en, fr]
+coverage: >-
+  Judgments of the Supreme Court of Canada in English and French (Supreme Court Reports collection, with the Court's
+  own "Judgments in Brief"/Cases in Brief and bulletins). Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://decisions.scc-csc.ca/scc-csc/scc-csc/en/nav_date.do
+update_frequency: on the day of delivery (RSS and JSON feeds are advertised at /scc-csc/en/rss/index.do)
+rate_limits: >-
+  None published. The platform challenges "users accessing a large number of files" with a CAPTCHA (HTTP 403), which an
+  automated client cannot and must not solve.
+licence:
+  id: CA-Reproduction-of-Federal-Law-Order-SI-97-5
+  name: >-
+    Reproduction of Federal Law Order (SI/97-5) for the decisions and reasons; editorial features (headnotes, captions,
+    paragraph numbers, lists of authorities) for personal use and uses permitted by the Copyright Act only
+  url: https://scc-csc.ca/resources-ressources/terms-avis/
+  review_status: pending_review
+  reviewed_by: ULIS project, from the Court's terms page (read 2026-10-14). Not reviewed by counsel.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: not_allowed
+  automated_processing: unknown
+  commercial_use: allowed_with_conditions
+  conditions:
+    - Reproduction of the decisions must be accurate and must not be represented as an official version (the S.C.R. is official).
+    - Paragraph numbers, headnotes and lists of authorities are editorial features outside the Order; commercial use of them needs written permission (Deputy Registrar).
+  notes: >-
+    The reuse terms are favourable, but automated retrieval is not possible: the platform's CAPTCHA (403) appeared after a
+    handful of requests, and it would be certain for hundreds of judgments. To proceed: ask the Court (Deputy Registrar) or
+    Lexum for a permitted bulk/feed channel or a whitelisted identified client, and about the status of paragraph numbers.
+provenance: The Court's official judgment database. Not retrieved beyond the pages listed above.
+known_limitations:
+  - Not ingested - the platform challenges automated clients with a CAPTCHA (2026-10-14); no Canadian case law in ULIS.
+  - The Federal Court of Canada (decisions.fct-cf.gc.ca) runs the same platform and was not tried beyond robots.txt.
+  - 'CanLII is not an option either: https://www.canlii.org/robots.txt (read 2026-10-14) reads User-agent * with Disallow / and lets in only named search-engine crawlers.'
+status: planned
+connector: null
+parser: null

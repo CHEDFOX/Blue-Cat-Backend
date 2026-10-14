@@ -1,0 +1,44 @@
+# PLANNED - NOT INGESTED (found while surveying; New Zealand is outside the original candidate list). The Courts of New Zealand
+# website allows crawling but reserves its content to personal and in-house use. Read on 2026-10-14:
+#   https://www.courtsofnz.govt.nz/robots.txt - "User-agent: *" disallows /search/, the judgment search pages of the Supreme
+#        Court (/the-courts/supreme-court/judgments-supreme/?Search ...), /admin and /Security/login; otherwise "Allow: /".
+#   https://www.courtsofnz.govt.nz/utilities/copyright - "The information on this website is protected by Crown copyright. You
+#        can copy protected information for your personal or in-house use. If you want to copy the information for any other use
+#        (eg commercial), you need to ask us ..." (courtsnzwebsite@courts.govt.nz).
+#   Nothing else was fetched: judgments are published as documents on that site; the Ministry of Justice database is separate.
+schema_version: 1
+id: nz-courts-judgments
+name: Courts of New Zealand - judgments (www.courtsofnz.govt.nz)
+publisher: Courts of New Zealand (Judiciary)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [NZ]
+document_kinds: [judgment]
+languages: [en]
+coverage: Judgments of the Supreme Court, Court of Appeal, High Court and other courts published on the site. Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.courtsofnz.govt.nz/judgments
+update_frequency: on delivery
+rate_limits: None published.
+licence:
+  id: NZ-Courts-Crown-copyright-personal-use
+  name: Crown copyright; copying permitted for personal or in-house use, other use (eg commercial) on request
+  url: https://www.courtsofnz.govt.nz/utilities/copyright
+  review_status: pending_review
+  reviewed_by: ULIS project, from the site's copyright page (read 2026-10-14). Not reviewed by counsel.
+  reviewed_on: 2026-10-14
+  redistribution: not_allowed
+  bulk_download: not_allowed
+  automated_processing: unknown
+  commercial_use: not_allowed
+  notes: >-
+    A research service that stores and displays judgments goes beyond "personal or in-house use". To proceed: ask the
+    Courts of NZ website team (courtsnzwebsite@courts.govt.nz) for permission, or check whether the judgments are available
+    under NZGOAL/CC BY elsewhere (not verified).
+provenance: Official court website. Not retrieved.
+known_limitations:
+  - Not ingested - the site's copyright page limits copying to personal or in-house use (2026-10-14); no New Zealand case law in ULIS.
+status: planned
+connector: null
+parser: null

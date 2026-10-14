@@ -1,0 +1,80 @@
+# Rättspraxis (case law) of the Swedish higher courts as open data from Domstolsverket ("Sök rättspraxis", PUH API).
+# Terms and access rules read on 2026-10-14 from the publisher's own pages and the open API's documentation:
+#   https://rattspraxis.etjanst.domstol.se/robots.txt - 404 (none published, so no restrictions); https://www.domstol.se/robots.txt:
+#        "User-agent: *" / "Allow: /".
+#   https://www.domstol.se/tjanster-och-blanketter/sok-rattspraxis/ ("Frågor och svar", updated 2025-03-10): "Finns rättspraxis som
+#        öppna data? Ja, de rättsfallsreferat, domar och beslut från de högsta instanserna som går att hitta via söktjänsten finns som
+#        öppna data. Mer information finns på sidan för Domstolsverkets öppna data." The service holds referat from 1981 and judgments
+#        and decisions from March 2025; "Varje domstol är ansvarig för sitt innehåll"; names of parties are not published.
+#   https://www.domstol.se/om-webbplatsen-och-digitala-kanaler/oppna-data/ (updated 2025-06-16): "Domstolsverket tillgängliggör ...
+#        domstolars rättspraxis som öppna data. Tjänsten omfattar rättsfallsreferat, domar och beslut från de högsta instanserna.
+#        Rättsfallsreferat finns från 1981 och framåt. Domar och beslut från mars 2025." Technical documentation (YAML):
+#        https://rattspraxis.etjanst.domstol.se/openapi/puh-openapi.yaml ("PUH API", Domstolsverket, version v1, no authentication,
+#        no rate limit stated). Support: rattsfallspublikation@dom.se.
+#   Sveriges dataportal (https://www.dataportal.se/datasets/601_3755; metadata read as Turtle from
+#        https://admin.dataportal.se/store/601/metadata/3755): dataset "Rättspraxis från Sveriges Domstolar" / "Case law from the courts of
+#        Sweden", publisher Domstolsverket, issued 2025-03-31, dcterms:license <http://creativecommons.org/publicdomain/zero/1.0/>
+#        (CC0 1.0), distribution https://rattspraxis.etjanst.domstol.se/api/v1/publiceringar (application/json).
+# ULIS ingests the publications of form REFERAT (the official case reports; 16,505 on 2026-10-14). The judgments and decisions
+# themselves (form DOM_ELLER_BESLUT) are attached PDFs and are not ingested.
+schema_version: 1
+id: se-rattspraxis
+name: Sök rättspraxis - rättsfallsreferat of the Swedish higher courts (Domstolsverket open data API)
+publisher: Domstolsverket (Swedish National Courts Administration); content by the courts
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [SE]
+document_kinds: [judgment]
+languages: [sv]
+coverage: >-
+  The official case reports (rättsfallsreferat) of Högsta domstolen (NJA, 5,262), Högsta förvaltningsdomstolen and
+  Regeringsrätten (HFD/RÅ, 2,879), Arbetsdomstolen (AD, 2,028), the hovrätter (RH, 3,575), Migrationsöverdomstolen
+  (MIG, 533), Mark- och miljööverdomstolen and Miljööverdomstolen (MÖD, 1,438), Patent- och marknadsöverdomstolen (203),
+  Marknadsdomstolen (MD, 478) and the kammarrätter (RK, 109), from 1981 on (counts of 2026-10-14: 16,505). Each report has the
+  summary, keywords, the publisher's statute references (SFS numbers), case numbers and the full text as HTML.
+access:
+  method: api
+  endpoint: config/manifests/se-rattspraxis.yaml
+  authentication: none
+update_frequency: daily (reports are added after publication in NJA, normally within six months of the decision)
+rate_limits: >-
+  None published. ULIS makes one request at a time, 5 s apart, with an identifying User-Agent, pages of 50 reports (about
+  2 MB), and caches every page under var/sources/.
+licence:
+  id: CC0-1.0
+  name: Creative Commons CC0 1.0 Universal (Domstolsverket's rättspraxis dataset in Sveriges dataportal)
+  url: https://creativecommons.org/publicdomain/zero/1.0/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the publisher's own pages (read 2026-10-14): Domstolsverket's open data page and "Sök rättspraxis" FAQ, the
+    API's OpenAPI file, robots.txt and the dataset's metadata in Sveriges dataportal (licence CC0 1.0). Not reviewed by counsel.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: >-
+    Källa: Domstolsverkets öppna data, Sök rättspraxis (rattspraxis.etjanst.domstol.se). Rättsfallsreferat; Nytt Juridiskt Arkiv
+    och domstolens avgörande är originalen. Strukturen är bearbetad av ULIS.
+  conditions:
+    - No condition attaches to CC0; ULIS names the source and says the report is not the authentic text (the printed NJA / the court's own decision) as a matter of practice.
+    - The courts publish the reports without the parties' names; ULIS does not try to re-identify anyone.
+  notes: >-
+    The licence is the one in the publisher's dataset record in Sveriges dataportal (DIGG); the court pages say only that the case law is
+    "öppna data". Copyright in the underlying texts was not examined (the Swedish Copyright Act (1960:729) was not read).
+    Counsel review recommended before production use.
+provenance: >-
+  https://rattspraxis.etjanst.domstol.se/api/v1/publiceringar fetched with an identifying User-Agent; each page response is cached
+  byte for byte with its URL and retrieval time under var/sources/rattspraxis.etjanst.domstol.se/. Each report is stored as its JSON
+  object, serialised canonically (sorted keys) from the page.
+known_limitations:
+  - The case reports (referat) only; the courts' judgments and decisions (form DOM_ELLER_BESLUT, PDF attachments) and the leave-to-appeal and preliminary-reference notices are not ingested.
+  - Report texts are the electronic reports, not the authentic NJA/court originals; party names are pseudonymised by the publisher.
+  - Paragraph numbers are read from the text (a run of at least three consecutive numbers, the longest and latest); reports without one have none.
+  - Lower courts' reports are mostly absent; the individual hovrätt/kammarrätt is kept in the metadata, the profile has one court entry for each group.
+  - Cited cases are free text and are not linked; statutes are linked from the publisher's SFS references to the work, only where that statute is ingested.
+  - Paging is by date without a total; a list that changes during a run can repeat or skip a report (repeats are reported).
+status: active
+connector: rattspraxis_se
+parser: rattspraxis_se_json

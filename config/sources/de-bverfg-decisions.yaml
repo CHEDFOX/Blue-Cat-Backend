@@ -1,0 +1,47 @@
+# PLANNED - NOT INGESTED. The Federal Constitutional Court's own site is open to robots for its decisions, but the legal
+# notice (terms) lies in a disallowed path, the decision search too, and the sitemap lists no decisions. Read on 2026-10-14:
+#   https://www.bundesverfassungsgericht.de/robots.txt - "User-agent: *" / "Disallow: /SiteGlobals/" / "Disallow: /DE/Service/" /
+#        "Disallow: /EN/Service/" / "Crawl-delay: 30" / sitemap https://www.bundesverfassungsgericht.de/Sitemap_Index.xml. The
+#        Impressum and "Rechtliche Hinweise" pages (/DE/Service/Impressum/...) are therefore not for robots, and the decision
+#        search (/SiteGlobals/...) is disallowed.
+#   https://www.bundesverfassungsgericht.de/Sitemap_Basepage.xml (the only sitemap; 243 URLs): no individual decision pages.
+#   https://www.bundesgerichtshof.de/robots.txt: the same pattern (Crawl-delay 30); https://www.bverwg.de/robots.txt: "Allow: /"
+#        for "User-agent: *" (Crawl-delay 30) but it disallows the year paths /2012/ ... /2025/ (and /suche); not examined further.
+#   The reuse terms of the courts' sites are known only second-hand (see de-rechtsprechung-im-internet: the federal courts
+#        publish "zur nicht gewerblichen Nutzung", per the European e-Justice Portal); decisions are free of copyright under
+#        § 5 Abs. 1 UrhG. Nothing was fetched beyond robots.txt and the sitemaps.
+schema_version: 1
+id: de-bverfg-decisions
+name: Bundesverfassungsgericht decisions (www.bundesverfassungsgericht.de)
+publisher: Bundesverfassungsgericht
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [DE]
+document_kinds: [judgment]
+languages: [de]
+coverage: Decisions of the Federal Constitutional Court (BVerfGE selection and other decisions) with numbered paragraphs (Rn.). Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.bundesverfassungsgericht.de/Sitemap_Basepage.xml
+update_frequency: on publication
+rate_limits: "robots.txt: Crawl-delay 30 s."
+licence:
+  id: DE-BVerfG-site-terms-unread
+  name: Terms of the court's website (Rechtliche Hinweise - in a path disallowed to robots; not read); decisions free of copyright under § 5 UrhG
+  url: https://www.gesetze-im-internet.de/urhg/__5.html
+  review_status: pending_review
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: >-
+    No list of decisions is available to a robot (search disallowed, sitemap without decisions) and the terms page may not be
+    read by one. To proceed: ask the Bundesverfassungsgericht (Pressestelle / Dokumentation) for a decision list or feed and
+    for its terms of reuse.
+provenance: Official court website. Not retrieved.
+known_limitations:
+  - Not ingested - no robot-readable list of decisions and unreadable terms (2026-10-14); the federal-courts portal rechtsprechung-im-internet.de is disallowed (see de-rechtsprechung-im-internet).
+status: planned
+connector: null
+parser: null

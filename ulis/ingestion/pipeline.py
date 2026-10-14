@@ -40,6 +40,7 @@ from ulis.sources.connectors.eu_cellar import CellarConnector
 from ulis.sources.connectors.eu_cellar_case_law import CellarCaseLawConnector
 from ulis.sources.connectors.fedlex import FedlexConnector
 from ulis.sources.connectors.finlex import FinlexConnector
+from ulis.sources.connectors.finlex_decisions import FinlexDecisionsConnector
 from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.impo_uy import ImpoUyConnector
@@ -51,11 +52,13 @@ from ulis.sources.connectors.likumi_lv import LikumiLvConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
+from ulis.sources.connectors.rattspraxis_se import RattspraxisConnector
 from ulis.sources.connectors.rechtspraak import RechtspraakConnector
 from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
 from ulis.sources.connectors.ris_ogd import RisOgdConnector
+from ulis.sources.connectors.uksc import UkscConnector
 from ulis.sources.connectors.uscode_house import UscodeHouseConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef, ParseSkipped
 from ulis.sources.parsers import (
@@ -71,6 +74,7 @@ from ulis.sources.parsers import (
     fedlex,
     fedlex_treaty,
     finlex,
+    finlex_decisions,
     gesetze_im_internet,
     impo_uy,
     infoleg_ar,
@@ -81,11 +85,13 @@ from ulis.sources.parsers import (
     likumi_lv,
     moj_law,
     normattiva,
+    rattspraxis_se,
     rechtspraak,
     retsinformation,
     riigi_teataja,
     riksdagen_sfs,
     ris,
+    uksc_html,
     uslm,
 )
 from ulis.sources.registry import SourceDescriptor, licence_gate
@@ -109,9 +115,12 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "fedlex_treaty": fedlex_treaty.parse_fedlex_treaty,
     "legilux_akn": legilux.parse_legilux,
     "finlex_akn": finlex.parse_finlex,
+    "finlex_akn_decision": finlex_decisions.parse_finlex_decision,
     "frl_epub": au_federal_register.parse_federal_register,
     "bwb_xml": bwb.parse_bwb,
     "rechtspraak_xml": rechtspraak.parse_rechtspraak,
+    "rattspraxis_se_json": rattspraxis_se.parse_rattspraxis,
+    "uksc_html": uksc_html.parse_uksc,
     "moj_law_html": moj_law.parse_moj_law,
     "riksdagen_sfs_json": riksdagen_sfs.parse_riksdagen_sfs,
     "retsinformation_lexdania": retsinformation.parse_retsinformation,
@@ -139,9 +148,12 @@ PARSER_VERSIONS = {
     "fedlex_treaty": fedlex_treaty.PARSER_VERSION,
     "legilux_akn": legilux.PARSER_VERSION,
     "finlex_akn": finlex.PARSER_VERSION,
+    "finlex_akn_decision": finlex_decisions.PARSER_VERSION,
     "frl_epub": au_federal_register.PARSER_VERSION,
     "bwb_xml": bwb.PARSER_VERSION,
     "rechtspraak_xml": rechtspraak.PARSER_VERSION,
+    "rattspraxis_se_json": rattspraxis_se.PARSER_VERSION,
+    "uksc_html": uksc_html.PARSER_VERSION,
     "moj_law_html": moj_law.PARSER_VERSION,
     "riksdagen_sfs_json": riksdagen_sfs.PARSER_VERSION,
     "retsinformation_lexdania": retsinformation.PARSER_VERSION,
@@ -199,9 +211,12 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "fedlex": FedlexConnector,
     "legilux": LegiluxConnector,
     "finlex": FinlexConnector,
+    "finlex_decisions": FinlexDecisionsConnector,
     "au_federal_register": FederalRegisterConnector,
     "bwb": BwbConnector,
     "rechtspraak": RechtspraakConnector,
+    "rattspraxis_se": RattspraxisConnector,
+    "uksc": UkscConnector,
     "moj_laws": MojLawsConnector,
     "riksdagen_sfs": RiksdagenSfsConnector,
     "retsinformation": RetsinformationConnector,
