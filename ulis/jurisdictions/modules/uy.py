@@ -5,7 +5,8 @@ The article first, then the instrument, written out as IMPO and the Uruguayan co
 * the Constitution: ``artículo 72 de la Constitución de la República``;
 * a code: ``artículo 1308 del Código Civil`` (the code's own name, as IMPO titles it);
 * a law: ``artículo 9 de la Ley Nº 18.331`` (thousands dot, ``Nº``);
-* a decree: ``artículo 3 del Decreto Nº 414/009`` (number, bar, the last three digits of the year).
+* a decree: ``artículo 3 del Decreto Nº 414/009`` (number, bar, the last three digits of the year); a decree-law
+  of the 1973-85 de facto government: ``artículo 3 del Decreto Ley Nº 14.294``.
 
 Article labels are IMPO's: ``9-BIS`` is read ``artículo 9 bis``; ``131-144`` (a range IMPO keeps as one entry) is
 ``artículos 131 a 144``; ``242-1`` (an article numbered inside the code) stays ``artículo 242-1``. A label with two
@@ -76,6 +77,8 @@ class UyModule(JurisdictionModule):
             of = f"del {tipo}"
         elif kind == "leyes" and numero:
             of = f"de la Ley Nº {dotted(str(numero))}"
+        elif kind == "decretos-ley" and numero:
+            of = f"del Decreto Ley Nº {dotted(str(numero))}"
         elif kind == "decretos" and numero and anio:
             of = f"del Decreto Nº {numero}/{int(anio) % 1000:03d}"
         else:

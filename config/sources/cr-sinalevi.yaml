@@ -1,0 +1,56 @@
+# Costa Rica: SCIJ / SINALEVI (Sistema Nacional de Legislación Vigente, Procuraduría General de la República).
+# PLANNED, nothing ingested: no reuse licence is stated and the site declares all rights reserved. Checked 2026-10-14
+# (pages read, nothing downloaded beyond them):
+#   http://www.pgrweb.go.cr/scij/ (the address the SCIJ used) -> https://sinalevi.go.cr/ ; the old host www.pgrweb.go.cr
+#        answers robots.txt with HTTP 404.
+#   https://sinalevi.go.cr/robots.txt                                        - HTTP 404 (no rules).
+#   https://sinalevi.go.cr/Escritorio/SCIJ ("Acerca de SCIJ")                - describes the system (legislation by SINALEVI, case law by the
+#        Poder Judicial, tax rulings by Hacienda); footer: "© 2026 Procuraduría de la Republica. Todos los derechos
+#        reservados." No licence, no open-data or bulk statement.
+#   https://sinalevi.go.cr/Escritorio/PreguntasFrecuentes                    - no statement on reuse, copying, automated access or authenticity.
+# The system is an interactive search application (sessions, query forms); no static or bulk file of the texts was found.
+schema_version: 1
+id: cr-sinalevi
+name: SCIJ - SINALEVI (Sistema Nacional de Legislación Vigente), Costa Rica
+publisher: Procuraduría General de la República de Costa Rica
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [CR]
+document_kinds: [constitution, act]
+languages: [es]
+coverage: >-
+  Costa Rican laws, executive decrees and other norms of general application with their validity status. ULIS ingests
+  nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://sinalevi.go.cr/
+  authentication: null
+update_frequency: Not stated on the pages read.
+rate_limits: >-
+  robots.txt of sinalevi.go.cr and www.pgrweb.go.cr: HTTP 404 (no rules). No rate limit stated.
+licence:
+  id: UNVERIFIED
+  name: No reuse licence stated - "Todos los derechos reservados"
+  url: https://sinalevi.go.cr/Escritorio/SCIJ
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ: the pages listed above. They state "© 2026 Procuraduría de la Republica. Todos los
+    derechos reservados." and no terms of use, licence or open-data policy.
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - Obtain the Procuraduría's written confirmation (or find a published licence / open-data decision) that the texts of norms may be retrieved automatically and reused before any fetch.
+    - Do not infer a licence from the fact that laws are public documents; counsel decides.
+  notes: >-
+    STOPPED, nothing ingested. A person should ask the Procuraduría (the contact page of the site) for the terms and for a
+    bulk or API route; the application is an interactive search, so a connector would need a documented endpoint.
+provenance: >-
+  Official legal information system of the Procuraduría General de la República. The authentic text of a law is the one in
+  La Gaceta (to verify).
+known_limitations:
+  - Nothing is ingested.
+status: planned

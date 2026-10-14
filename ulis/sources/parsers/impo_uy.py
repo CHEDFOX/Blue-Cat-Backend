@@ -16,8 +16,9 @@ What the JSON looks like (what ULIS does with it):
 * a norm has ``tipoNorma``, ``nroNorma``, ``anioNorma``, ``nombreNorma``, ``fechaPromulgacion`` and
   ``fechaPublicacion`` (``DD/MM/YYYY``) and a list ``articulos``. Each entry is one article, ``tituloArticulo`` its
   label ("Artículo 9-BIS", "Artículo 131-144" for a range IMPO keeps as one entry), ``textoArticulo`` its text.
-  Each article is one provision (leaf). The constitution, the laws, the decrees and the codes (``codigo-*``)
-  are supported;
+  Each article is one provision (leaf). The constitution, the laws, the decree-laws (``decretos-ley``, 1973-85),
+  the decrees and the codes (``codigo-*``) are supported. The JSON is not strictly valid (bare control characters
+  inside strings): it is read leniently;
 * ``titulosArticulo`` carries the headings (TITULO, CAPITULO, SECCION ...) that start at that article, separated
   by ``<br>``; the parser keeps the running hierarchy as the provision's ``context_heading``;
 * ``textoArticulo`` is plain text hard-wrapped at about 72 columns with a few HTML tags (``<i>``, ``<b>``, ``<br>``,
@@ -26,7 +27,9 @@ What the JSON looks like (what ULIS does with it):
   punctuation are those of the source. Some entries hold several articles of the code, labelled inline
   (``</pre><br><b>242-1</b><br><pre>``): they become one provision per label;
 * an article whose whole text is a repeal statement ("DEROGADO por Ley No. 10.084 del 3.12.41 (*)") or is empty with
-  a ``Derogado/s por:`` note is ``repealed``: empty text, the statement and notes in ``note``;
+  a ``Derogado/s por:`` note is ``repealed``: empty text, the statement and notes in ``note``. An amending law's
+  article whose text IMPO omits ("Este artículo dio nueva redacción a: ...") stays ``in_force`` with empty text and
+  that note;
 * ``notasArticulo`` (HTML) holds IMPO's editorial notes ("Redacción dada por: Ley Nº 18.719 de 27/12/2010 artículo
   152", "Ver en esta norma, artículos: ...", "TEXTO ORIGINAL: ..."). It becomes the provision's ``note`` (plain text,
   never part of ``text``); its links become ``cites`` references; each "dada/agregado/derogado/suprimido ... por: <law>
@@ -72,7 +75,7 @@ def instrument_type_of(kind: str) -> str | None:
     """ULIS instrument type of an IMPO kind (the first segment of the path); None if it is not supported."""
     if kind == "constitucion":
         return "constitution"
-    if kind == "leyes" or kind.startswith("codigo-"):
+    if kind in ("leyes", "decretos-ley") or kind.startswith("codigo-"):
         return "law"
     if kind == "decretos":
         return "decree"
@@ -275,6 +278,8 @@ def designation(tipo: str, number: str | None, year: int | None, kind: str) -> s
         return f"Ley Nº {dotted(number)}"
     if kind == "decretos" and number and year:
         return f"Decreto Nº {number}/{year % 1000:03d}"
+    if kind == "decretos-ley" and number:
+        return f"Decreto Ley Nº {dotted(number)}"
     return tipo
 
 
@@ -292,10 +297,10 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
     kind, number, year = m.group("kind"), m.group("number"), int(m.group("year"))
     instrument_type = instrument_type_of(kind)
     if instrument_type is None:
-        raise ImpoParseError(f"IMPO kind {kind!r} is not one ULIS knows (constitucion, leyes, decretos, codigo-*)")
+        raise ImpoParseError(f"IMPO kind {kind!r} is not one ULIS knows (constitucion, leyes, decretos-ley, decretos, codigo-*)")
     try:
         retrieved = datetime.fromisoformat(bundle["retrieved_at"]).astimezone(UTC).date()
-        norm = json.loads(decode_body(bundle["body"]))
+        norm = json.loads(decode_body(bundle["body"]), strict=False)  # bare control characters occur in strings
     except (KeyError, TypeError, ValueError) as exc:
         raise ImpoParseError(f"incomplete bundle: {exc}") from exc
     articles = norm.get("articulos") if isinstance(norm, dict) else None
@@ -402,7 +407,7 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
         ext["fecha_promulgacion"] = promulgated.isoformat()
     if published:
         ext["fecha_publicacion"] = published.isoformat()
-    title = nombre if kind in ("leyes", "decretos") and nombre else tipo
+    title = nombre if kind in ("leyes", "decretos", "decretos-ley") and nombre else tipo
     status_kind: Literal["current_consolidation", "as_made"] = "current_consolidation" if updated else "as_made"
     return [
         ParsedDocument(

@@ -69,7 +69,7 @@ licence:
   conditions:
     - Do not call the API or the legacy XML service for ingestion until the Library has granted a key and has authorised, in writing, systematic retrieval for building ULIS's database (conditions, section 3 vi and vii) and, if text is used to train or tune models, that use (section 9).
     - Cite the source as "Ley Chile - Biblioteca del Congreso Nacional" with the date of retrieval (section 9).
-    - The Library's licences are NC-ND for its own metadata and compilations: structure and metadata prepared by ULIS would be derivatives. Counsel must decide whether that, or the statement that the texts themselves are outside copyright, governs ULIS's use.
+    - "The Library's licences are NC-ND for its own metadata and compilations, so structure and metadata prepared by ULIS would be derivatives. Counsel must decide whether that, or the statement that the texts themselves are outside copyright, governs ULIS's use."
   notes: >-
     STOPPED, nothing ingested. A person should ask the Library (see section 11 of the conditions for the contact) for an API
     key and for written authorisation of systematic retrieval of a defined set of norms (Constitución, Código Civil, Código
@@ -83,5 +83,5 @@ provenance: >-
   fines informativos" (conditions, section 9).
 known_limitations:
   - Nothing is ingested; no key, no written authorisation.
-  - Terms: API key and quota, no mass extraction without authorisation, CC BY-NC-ND for the Library's own contents, AI training only with authorisation.
+  - "Terms: API key and quota, no mass extraction without authorisation, CC BY-NC-ND for the Library's own contents, AI training only with authorisation."
 status: planned

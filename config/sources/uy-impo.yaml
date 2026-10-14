@@ -1,0 +1,98 @@
+# IMPO - Dirección Nacional de Impresiones y Publicaciones Oficiales (Uruguay), database of norms published as open data.
+# Terms read on 2026-10-14 from the site itself (pages cached under var/sources/www.impo.com.uy/):
+#   https://www.impo.com.uy/datos-abiertos/ - "A partir de Julio de 2018, IMPO brinda el acceso como Datos Abiertos a toda
+#        la información pública disponible en sus bases de datos, en un formato estándar (JSON) para que la misma pueda
+#        ser utilizada en forma libre por cualquier persona (ver acceso a la licencia). El esquema JSON definido por IMPO se
+#        encuentra disponible en la siguiente dirección: http://www.impo.com.uy/resources/basesIMPO.json. Cualquier norma o
+#        aviso disponible en forma pública en las bases de datos de IMPO se podrá obtener en formato JSON agregando a la
+#        dirección de acceso (URL) el parámetro (vía GET) «json» con valor «true» [...] Por ej. la Constitución de la
+#        República disponible en [...] /bases/constitucion/1967-1967, se puede obtener en formato JSON con la siguiente
+#        dirección: [...]/bases/constitucion/1967-1967?json=true". The page footer reads "Copyright IMPO. - Todos los
+#        derechos reservados"; the open-data statement above is the specific grant for the contents of the databases.
+#   https://www.impo.com.uy/wp_impo/wp-content/uploads/2018/06/licencia-de-datos-abiertos.pdf - "Licencia de Datos Abiertos -
+#        Uruguay, Versión 0.1": "Los datos abiertos y los metadatos abiertos proporcionados, para uso comercial y no comercial
+#        podrán ser: enajenados, reproducidos, distribuidos, publicados, traducidos, adaptados, transformados, comunicados o
+#        puestos a disposición del público mediante cualquier forma o procedimiento; fusionados con datos propios y de
+#        terceros [...]; integrados en los procesos de negocio, productos y aplicaciones internas y externas [...]". "Nota de
+#        Origen": in every case cite the name of the provider, the reference to the "Licencia de Datos Abiertos - Uruguay"
+#        and the reference to the dataset used; "Los cambios, las ediciones, los nuevos diseños o modificaciones deben ser
+#        mencionados en la nota de origen."
+#   https://www.impo.com.uy/robots.txt - for User-agent * "Crawl-Delay: 10"; disallows /cgi-bin/, /java, /js, /javascript, /mp3,
+#        /skin, /weba, /descargas, individual /bases/avisos... and /bases/actas-... entries and Diario Oficial notice files.
+#        The norm addresses ULIS fetches (/bases/<kind>/<number>-<year>?json=true) are not disallowed. The connector reads
+#        robots.txt first, applies the Crawl-Delay and refuses any disallowed path. IMPO's search interface (/bases) sends
+#        anonymous visitors to a login page under /cgi-bin/ and is never used.
+#   https://www.impo.com.uy/marco-juridico/ - IMPO "es persona jurídica de derecho público no estatal" created by Ley 16.170
+#        art. 391 and organised by Ley 16.736 art. 341; Ley 19.355 art. 760 gives the electronic Diario Oficial "igual
+#        admisibilidad, validez y eficacia jurídica". Nothing on the pages read says that IMPO's updated texts of norms are
+#        authentic: ULIS treats them as informative (the Diario Oficial is the publication of record).
+schema_version: 1
+id: uy-impo
+name: IMPO - Banco de datos de normativa (datos abiertos, JSON)
+publisher: >-
+  Dirección Nacional de Impresiones y Publicaciones Oficiales (IMPO), persona jurídica de derecho público no estatal,
+  Uruguay
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [UY]
+document_kinds: [constitution, act, decree]
+languages: [es]
+coverage: >-
+  Uruguayan national norms published in the Diario Oficial, as IMPO's updated texts ("Documento Actualizado"): the
+  Constitution of 1967, nine codes (Civil, Penal, de Comercio, General del Proceso, Tributario, Aduanero, de la Niñez y la
+  Adolescencia, Aeronáutico, de Minería), ten laws or decrees on common subjects, and the laws, decree-laws and decrees named
+  in the amendment and regulation notes of those texts (214 norms in the manifest; IMPO's database holds many thousands more,
+  and the manifest can be extended with any public address bases/<kind>/<number>-<year>).
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/uy-impo.yaml
+update_frequency: >-
+  Continuous (IMPO updates a text when an amending norm is published; recent reforms of 2025 were present when read); the
+  JSON states no date of update, so ULIS attests each text at its retrieval date
+rate_limits: >-
+  robots.txt (2026-10-14): "Crawl-Delay: 10". ULIS waits 10 s between requests, identifies itself, caches every download and
+  refuses any path robots.txt disallows (one request per norm plus robots.txt).
+licence:
+  id: Licencia-Datos-Abiertos-UY-0.1
+  name: Licencia de Datos Abiertos - Uruguay (versión 0.1), stated by IMPO for the information in its databases
+  url: https://www.impo.com.uy/wp_impo/wp-content/uploads/2018/06/licencia-de-datos-abiertos.pdf
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - IMPO's Datos Abiertos page (https://www.impo.com.uy/datos-abiertos/: public information in the databases
+    "puede ser utilizada en forma libre por cualquier persona", retrievable as JSON), the licence text (PDF above: commercial
+    and non-commercial use, adaptation and redistribution allowed, with a note of origin), robots.txt (Crawl-Delay 10) and
+    the Marco Jurídico page (https://www.impo.com.uy/marco-juridico/).
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Fuente: IMPO - Dirección Nacional de Impresiones y Publicaciones Oficiales, banco de datos de normativa
+    (https://www.impo.com.uy/bases), conjunto de datos abiertos publicado bajo la «Licencia de Datos Abiertos - Uruguay».
+    Texto actualizado por IMPO, reajustado en sus saltos de línea y sin otras modificaciones; estructura y metadatos preparados
+    por ULIS. El Diario Oficial es la publicación de referencia; el texto actualizado es informativo.
+  conditions:
+    - Note of origin on every reuse - provider name, reference to the "Licencia de Datos Abiertos - Uruguay", reference to the dataset - and mention of changes (ULIS joins lines IMPO wraps at 72 columns, removes IMPO's (*) markers and HTML tags, and splits entries that hold several articles).
+    - Updated texts are informative; the Diario Oficial is the publication of record (stated on every result).
+    - Respect robots.txt (Crawl-Delay 10; never /cgi-bin/, /descargas or the avisos/actas paths) - enforced by the connector.
+    - Polite retrieval (identifying User-Agent, cached downloads); stop on any refusal.
+    - Do not use IMPO's search interface, login-protected services or the paid Banco de Datos features.
+  notes: >-
+    The grant covers "toda la información pública disponible en sus bases de datos"; the licence text does not mention
+    automated retrieval, and the open-data page invites it by defining the ?json=true access. The licence is version 0.1 and
+    its wording is short; counsel review recommended before production use. The site footer reserves all rights in the
+    site itself (design, software), which ULIS does not reuse.
+provenance: >-
+  Official legal information service edited by IMPO, which also edits the Diario Oficial. Each answer (IMPO's JSON, as
+  received) is stored in a bundle with its URL, retrieval time and SHA-256.
+known_limitations:
+  - Informative text; the Diario Oficial is the publication of record. IMPO records express modifications only.
+  - The JSON states no date of update; each text is attested at its retrieval date. When a provision took effect, and earlier wordings of an amended article, are not recorded (no history, no point-in-time versions); amendment events carry the amending norm's own date.
+  - Editorial notes ("Redacción dada por", "Ver en esta norma", "TEXTO ORIGINAL") are kept as notes, never as text; IMPO's (*) markers are removed from the text.
+  - IMPO's JSON is hard-wrapped at 72 columns and not strictly valid JSON (bare control characters in strings); ULIS reads it leniently and re-joins wrapped lines.
+  - The manifest is a 214-norm subset (IMPO offers no list of norms to a non-registered visitor); the Disposiciones Transitorias de la Constitución, resolutions and departmental norms are not ingested.
+status: active
+connector: impo_uy
+parser: impo_uy_json

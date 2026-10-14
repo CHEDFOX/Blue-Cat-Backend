@@ -137,7 +137,7 @@ class ImpoUyConnector:
                 continue
             body = data.decode("latin-1")  # lossless: every byte is one code point; the parser decodes the text
             try:
-                parsed = json.loads(body)
+                parsed = json.loads(body, strict=False)  # IMPO leaves bare control characters (a CR before <br>) in strings
             except ValueError:
                 parsed = None
             if not isinstance(parsed, dict) or not isinstance(parsed.get("articulos"), list):

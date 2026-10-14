@@ -1,0 +1,229 @@
+# Uruguayan national legislation fetched from IMPO (https://www.impo.com.uy) as open data: <base>/bases/<path>?json=true.
+# Terms: https://www.impo.com.uy/datos-abiertos/ (Licencia de Datos Abiertos - Uruguay); robots.txt: Crawl-Delay 10, none of
+# these paths disallowed (see config/sources/uy-impo.yaml). `path` is IMPO's own address of a norm: <kind>/<number>-<year>.
+# The list is the codes, the Constitution, ten laws/decrees on common subjects and every norm that the notes of those texts
+# name as amending or regulating them (IMPO offers no list of norms to a non-registered visitor). To extend it, add any
+# `bases/<kind>/<number>-<year>` address of a public IMPO norm (kinds supported: constitucion, leyes, decretos-ley, decretos,
+# codigo-*); an address IMPO does not know is skipped and reported, not fatal.
+schema_version: 1
+source_id: uy-impo
+base_url: https://www.impo.com.uy
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 10
+norms:
+  - {path: constitucion/1967-1967}  # Constitución de la República
+  - {path: codigo-civil/16603-1994}  # Código Civil (Ley 16.603)
+  - {path: codigo-penal/9155-1933}  # Código Penal (Ley 9.155)
+  - {path: codigo-comercio/817-1865}  # Código de Comercio (Ley 817)
+  - {path: codigo-general-proceso/15982-1988}  # Código General del Proceso (Ley 15.982)
+  - {path: codigo-tributario/14306-1974}  # Código Tributario (Decreto Ley 14.306)
+  - {path: codigo-aduanero/19276-2014}  # Código Aduanero (Ley 19.276)
+  - {path: codigo-ninez-adolescencia/17823-2004}  # Código de la Niñez y la Adolescencia (Ley 17.823)
+  - {path: codigo-aeronautico/14305-1974}  # Código Aeronáutico (Decreto Ley 14.305)
+  - {path: codigo-mineria/15242-1982}  # Código de Minería (Decreto Ley 15.242)
+  - {path: leyes/18331-2008}  # protección de datos personales
+  - {path: leyes/18381-2008}  # acceso a la información pública
+  - {path: leyes/17250-2000}  # relaciones de consumo
+  - {path: leyes/16060-1989}  # sociedades comerciales
+  - {path: leyes/18572-2009}  # abreviación de los juicios laborales
+  - {path: leyes/18987-2012}  # interrupción voluntaria del embarazo
+  - {path: leyes/19580-2017}  # violencia hacia las mujeres basada en género
+  - {path: leyes/17016-1998}  # estupefacientes
+  - {path: leyes/19889-2020}  # Ley de Urgente Consideración
+  - {path: decretos/414-2009}  # reglamenta la Ley 18.331
+  # Norms named by amendment notes (Redacción dada por / Agregado / Derogado / Suprimido ... por:), by kind and year
+  - {path: decretos/308-2014}
+  - {path: decretos/64-2020}
+  - {path: decretos-ley/14219-1974}
+  - {path: decretos-ley/14294-1974}
+  - {path: decretos-ley/14416-1975}
+  - {path: decretos-ley/14653-1977}
+  - {path: decretos-ley/14701-1977}
+  - {path: decretos-ley/14948-1979}
+  - {path: decretos-ley/15080-1980}
+  - {path: decretos-ley/15294-1982}
+  - {path: decretos-ley/15322-1982}
+  - {path: decretos-ley/15508-1983}
+  - {path: decretos-ley/15516-1983}
+  - {path: decretos-ley/15524-1984}
+  - {path: leyes/1396-1878}
+  - {path: leyes/1422-1878}
+  - {path: leyes/1565-1882}
+  - {path: leyes/2666-1900}
+  - {path: leyes/2956-1905}
+  - {path: leyes/5392-1916}
+  - {path: leyes/5548-1916}
+  - {path: leyes/8045-1926}
+  - {path: leyes/8301-1928}
+  - {path: leyes/8461-1929}
+  - {path: leyes/9280-1934}
+  - {path: leyes/13665-1968}
+  - {path: leyes/13737-1969}
+  - {path: leyes/14068-1972}
+  - {path: leyes/14106-1973}
+  - {path: leyes/15737-1985}
+  - {path: leyes/15903-1987}
+  - {path: leyes/16048-1989}
+  - {path: leyes/16088-1989}
+  - {path: leyes/16099-1989}
+  - {path: leyes/16130-1990}
+  - {path: leyes/16162-1990}
+  - {path: leyes/16170-1990}
+  - {path: leyes/16226-1991}
+  - {path: leyes/16274-1992}
+  - {path: leyes/16296-1992}
+  - {path: leyes/16349-1993}
+  - {path: leyes/16403-1993}
+  - {path: leyes/16462-1994}
+  - {path: leyes/16707-1995}
+  - {path: leyes/16719-1995}
+  - {path: leyes/16736-1996}
+  - {path: leyes/16749-1996}
+  - {path: leyes/16838-1997}
+  - {path: leyes/16869-1997}
+  - {path: leyes/16871-1997}
+  - {path: leyes/16928-1998}
+  - {path: leyes/17060-1998}
+  - {path: leyes/17243-2000}
+  - {path: leyes/17292-2001}
+  - {path: leyes/17535-2002}
+  - {path: leyes/17555-2002}
+  - {path: leyes/17677-2003}
+  - {path: leyes/17703-2003}
+  - {path: leyes/17726-2003}
+  - {path: leyes/17897-2005}
+  - {path: leyes/17904-2005}
+  - {path: leyes/17930-2005}
+  - {path: leyes/17931-2005}
+  - {path: leyes/17938-2005}
+  - {path: leyes/17951-2006}
+  - {path: leyes/18026-2006}
+  - {path: leyes/18034-2006}
+  - {path: leyes/18046-2006}
+  - {path: leyes/18058-2006}
+  - {path: leyes/18083-2006}
+  - {path: leyes/18103-2007}
+  - {path: leyes/18116-2007}
+  - {path: leyes/18172-2007}
+  - {path: leyes/18214-2007}
+  - {path: leyes/18246-2007}
+  - {path: leyes/18285-2008}
+  - {path: leyes/18362-2008}
+  - {path: leyes/18383-2008}
+  - {path: leyes/18387-2008}
+  - {path: leyes/18407-2008}
+  - {path: leyes/18426-2008}
+  - {path: leyes/18435-2008}
+  - {path: leyes/18442-2008}
+  - {path: leyes/18449-2008}
+  - {path: leyes/18515-2009}
+  - {path: leyes/18590-2009}
+  - {path: leyes/18619-2009}
+  - {path: leyes/18627-2009}
+  - {path: leyes/18651-2010}
+  - {path: leyes/18666-2010}
+  - {path: leyes/18719-2010}
+  - {path: leyes/18777-2011}
+  - {path: leyes/18778-2011}
+  - {path: leyes/18813-2011}
+  - {path: leyes/18840-2011}
+  - {path: leyes/18847-2011}
+  - {path: leyes/18939-2012}
+  - {path: leyes/18996-2012}
+  - {path: leyes/19055-2013}
+  - {path: leyes/19074-2013}
+  - {path: leyes/19075-2013}
+  - {path: leyes/19092-2013}
+  - {path: leyes/19119-2013}
+  - {path: leyes/19120-2013}
+  - {path: leyes/19138-2013}
+  - {path: leyes/19149-2013}
+  - {path: leyes/19178-2013}
+  - {path: leyes/19246-2014}
+  - {path: leyes/19247-2014}
+  - {path: leyes/19288-2014}
+  - {path: leyes/19355-2015}
+  - {path: leyes/19438-2016}
+  - {path: leyes/19535-2017}
+  - {path: leyes/19538-2017}
+  - {path: leyes/19551-2017}
+  - {path: leyes/19643-2018}
+  - {path: leyes/19645-2018}
+  - {path: leyes/19651-2018}
+  - {path: leyes/19670-2018}
+  - {path: leyes/19726-2018}
+  - {path: leyes/19727-2018}
+  - {path: leyes/19747-2019}
+  - {path: leyes/19775-2019}
+  - {path: leyes/19791-2019}
+  - {path: leyes/19891-2020}
+  - {path: leyes/19924-2020}
+  - {path: leyes/19996-2021}
+  - {path: leyes/20021-2021}
+  - {path: leyes/20075-2022}
+  - {path: leyes/20141-2023}
+  - {path: leyes/20212-2023}
+  - {path: leyes/20266-2024}
+  - {path: leyes/20280-2024}
+  - {path: leyes/20327-2024}
+  - {path: leyes/20347-2024}
+  - {path: leyes/20353-2024}
+  - {path: leyes/20419-2025}
+  - {path: leyes/20443-2025}
+  - {path: leyes/20446-2025}
+  # Decrees named by 'Reglamentado por:' notes
+  - {path: decretos/186-1976}
+  - {path: decretos/39-1977}
+  - {path: decretos/158-1978}
+  - {path: decretos/269-1978}
+  - {path: decretos/149-1979}
+  - {path: decretos/647-1979}
+  - {path: decretos/237-1982}
+  - {path: decretos/540-1991}
+  - {path: decretos/363-1994}
+  - {path: decretos/253-2001}
+  - {path: decretos/254-2001}
+  - {path: decretos/308-2002}
+  - {path: decretos/30-2003}
+  - {path: decretos/16-2004}
+  - {path: decretos/185-2006}
+  - {path: decretos/475-2006}
+  - {path: decretos/503-2006}
+  - {path: decretos/664-2008}
+  - {path: decretos/437-2009}
+  - {path: decretos/124-2010}
+  - {path: decretos/322-2011}
+  - {path: decretos/221-2013}
+  - {path: decretos/347-2014}
+  - {path: decretos/96-2015}
+  - {path: decretos/97-2015}
+  - {path: decretos/98-2015}
+  - {path: decretos/99-2015}
+  - {path: decretos/145-2015}
+  - {path: decretos/156-2016}
+  - {path: decretos/200-2016}
+  - {path: decretos/247-2018}
+  - {path: decretos/241-2020}
+  - {path: decretos/250-2020}
+  - {path: decretos/271-2020}
+  - {path: decretos/283-2020}
+  - {path: decretos/327-2020}
+  - {path: decretos/338-2020}
+  - {path: decretos/63-2021}
+  - {path: decretos/106-2021}
+  - {path: decretos/137-2021}
+  - {path: decretos/201-2021}
+  - {path: decretos/241-2021}
+  - {path: decretos/271-2021}
+  - {path: decretos/315-2021}
+  - {path: decretos/371-2021}
+  - {path: decretos/112-2022}
+  - {path: decretos/330-2022}
+  - {path: decretos/340-2022}
+  - {path: decretos/343-2022}
+  - {path: decretos/360-2022}
+  - {path: decretos/57-2023}
+  - {path: decretos/106-2023}
+  - {path: decretos/205-2023}
+  - {path: decretos/15-2024}
+  - {path: decretos/141-2026}
