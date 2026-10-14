@@ -103,6 +103,7 @@ tests/             unit + PostgreSQL integration tests
 | `eu-eur-lex` | EU | 8 instruments in English, French and German: GDPR, Rome I, Brussels Ia, Consumer Rights Directive, AI Act (OJ texts as adopted), Charter, TEU and TFEU (2016 consolidated, documentation only); applies inside member States from accession ([notes](docs/jurisdictions/eu.md)) | Real, reuse under Decision 2011/833/EU; amendments listed, not applied |
 | `es-boe-consolidada` | ES (State) | 6 norms with every consolidated version: Constitución, Código Civil, Código Penal, LOPDGDD, Ley 39/2015, Estatuto de los Trabajadores ([notes](docs/jurisdictions/es.md)) | Real, BOE reuse licence; informative, not the official text |
 | `jp-egov-laws` | JP | 7 laws in Japanese: Constitution, Civil Code, Penal Code (14 revisions), Code of Civil Procedure, Personal Information Protection Act (24 revisions), Labour Standards Act, Companies Act ([notes](docs/jurisdictions/jp.md)) | Real, Public Data License 1.0; the Official Gazette prevails |
+| `ch-fedlex` | CH (federal) | 7 laws in German, French and Italian: Federal Constitution, ZGB/CC, OR/CO, StGB/CP, DSG/LPD, ZPO/CPC, VwVG/PA; consolidation history since 2021 for four ([notes](docs/jurisdictions/ch.md)) | Real, free reuse (Art. 5 URG, Art. 19 PublA); the SR is not the authoritative publication |
 | `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
 
 Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO

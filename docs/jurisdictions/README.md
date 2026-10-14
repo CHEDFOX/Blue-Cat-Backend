@@ -13,3 +13,4 @@ gaps and the actual test and ingestion results. See
 | European Union (sample) | EUR-Lex / Cellar | [eu.md](eu.md) |
 | Spain (State) | BOE consolidated legislation | [es.md](es.md) |
 | Japan | e-Gov 法令検索 | [jp.md](jp.md) |
+| Switzerland (federal) | Fedlex | [ch.md](ch.md) |
