@@ -89,7 +89,11 @@ known_limitations:
   - Consolidations have no legal value; the Mémorial A prevails.
   - Only consolidations with an XML file are ingested; 1,018 consolidations (for example the Code de l'environnement, the Code de la sécurité sociale and most of the Code de la santé) exist only as HTML, PDF and Word files and are not ingested.
   - Recueils (thematic compilations), administrative acts, texts of the Mémorial B and C, legislative drafts, EU texts, treaties and case law are not ingested.
-  - Annexes, the subject index of codes and unnumbered content directly under a chapter are not read.
+  - Annexes, the subject index of codes and unnumbered content directly under a chapter are not read; acts that are a single unnumbered text (decisions, statutes) are skipped.
+  - >-
+    Some files carry the metadata of another consolidation (and two ELIs can serve the same file, for example the Code civil of
+    2018-11-01 and 2019-04-28). ULIS dates a consolidation by its ELI, keeps the date stated in the file in ext.metadata_date,
+    and the text may then be later than the date.
   - Amendment references printed in the consolidated text, such as "(L. 4 juillet 2014)", stay in the text.
   - Consolidations are whole texts without per-article validity dates; a version of an article starts at the first consolidation that shows its new wording. Consolidations without XML leave gaps.
   - Consolidations applicable after the manifest build date are listed in the manifest but not fetched.
