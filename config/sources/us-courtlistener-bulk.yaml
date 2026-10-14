@@ -1,0 +1,55 @@
+# PLANNED - NOT INGESTED. CourtListener (Free Law Project) refused the ULIS research bot, so its terms and bulk-data
+# page could not be read and nothing was fetched from it. Checked on 2026-10-14 (details in docs/jurisdictions/us-case-law.md):
+#   https://www.courtlistener.com/robots.txt - HTTP 403 "Request blocked" (Amazon CloudFront error page "The request could
+#        not be satisfied"), twice (one retry after 20 s), with the identifying ULIS User-Agent. A refusal, so ULIS stopped:
+#        no other user agent, proxy, mirror or browser was tried.
+#   https://www.courtlistener.com/help/api/bulk-data/ and the site's terms - NOT requested (same host, same refusal), so
+#        the licence statement, the registration requirements and the S3 locations of the bulk files are unknown to ULIS.
+#        The S3 storage host was not contacted either: the rule is to read the publisher's terms before fetching data.
+#   The API needs an API token, which ULIS must not use (project rule).
+schema_version: 1
+id: us-courtlistener-bulk
+name: CourtListener bulk data, Free Law Project
+publisher: Free Law Project (CourtListener). Not an official court publication.
+kind: open_data_repository
+authority: unofficial
+jurisdictions: [US]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  US federal and state case law aggregated by CourtListener. Nothing is ingested and the extent of the bulk files was
+  not examined because the host refused access.
+access:
+  method: bulk_download
+  endpoint: https://www.courtlistener.com/help/api/bulk-data/
+  authentication: not examined (the site's API needs a token; ULIS uses none)
+update_frequency: not examined
+rate_limits: >-
+  Not known: the host answered HTTP 403 (CloudFront "Request blocked") to the ULIS bot on 2026-10-14, for robots.txt
+  itself. No data was requested.
+licence:
+  id: unknown
+  name: Not read - the publisher's terms and bulk-data licence statement could not be fetched (HTTP 403)
+  url: https://www.courtlistener.com/help/api/bulk-data/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project - https://www.courtlistener.com/robots.txt returned HTTP 403 on 2026-10-14 (twice); no other page was read.
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: not_allowed
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  conditions:
+    - Ask the Free Law Project for permission for an identified research bot (or have the owner fetch the bulk files by hand under the project's own terms), read the licence statement on the bulk-data page, then review again.
+    - The "not_allowed" for bulk_download records that access was refused, not a reading of any licence.
+  notes: >-
+    ULIS works around no refusal. Third-party mirrors of CourtListener data and the Caselaw Access Project copies it
+    includes were not consulted. Most of the primary texts CourtListener holds are also available from the courts
+    and GovInfo (see us-govinfo-usreports and us-govinfo-uscourts).
+provenance: Not retrieved.
+known_limitations:
+  - Not ingested - the host refused the ULIS bot (HTTP 403 on robots.txt, 2026-10-14); licence and bulk-file layout unknown.
+status: planned
+connector: null
+parser: null

@@ -1,0 +1,138 @@
+<mods xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" version="3.3" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd" ID="P0b002ee1c3918753">
+    <name type="corporate">
+         <namePart>United States Government Publishing Office</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">publisher</roleTerm>
+              <roleTerm authority="marcrelator" type="code">pbl</roleTerm>
+        </role>
+         <role>
+              <roleTerm authority="marcrelator" type="text">distributor</roleTerm>
+              <roleTerm authority="marcrelator" type="code">dst</roleTerm>
+        </role>
+    </name>
+    <name type="corporate">
+         <namePart>United States</namePart>
+         <namePart>United States Court of Appeals for the Federal Circuit</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">author</roleTerm>
+              <roleTerm authority="marcrelator" type="code">aut</roleTerm>
+        </role>
+         <description>Government Organization</description>
+    </name>
+    <typeOfResource>text</typeOfResource>
+    <genre authority="marcgt">government publication</genre>
+    <language>
+         <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+    </language>
+    <extension>
+         <collectionCode>USCOURTS</collectionCode>
+         <category>Judicial Publications</category>
+         <branch>judicial</branch>
+         <dateIngested>2024-01-04</dateIngested>
+    </extension>
+    <originInfo>
+         <publisher>Administrative Office of the United States Courts</publisher>
+         <dateIssued encoding="w3cdtf">2024-01-03</dateIssued>
+         <issuance>monographic</issuance>
+    </originInfo>
+    <physicalDescription>
+         <note type="source content type">deposited</note>
+         <digitalOrigin>born digital</digitalOrigin>
+    </physicalDescription>
+    <classification authority="sudocs">JU 2.11</classification>
+    <identifier type="uri">https://www.govinfo.gov/app/details/USCOURTS-ca13-23-01808</identifier>
+    <identifier type="local">P0b002ee1c3918753</identifier>
+    <recordInfo>
+         <recordContentSource authority="marcorg">DGPO</recordContentSource>
+         <recordCreationDate encoding="w3cdtf">2024-01-04</recordCreationDate>
+         <recordChangeDate encoding="w3cdtf">2024-01-04</recordChangeDate>
+         <recordIdentifier source="DGPO">USCOURTS-ca13-23-01808</recordIdentifier>
+         <recordOrigin>machine generated</recordOrigin>
+         <languageOfCataloging>
+              <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+        </languageOfCataloging>
+    </recordInfo>
+    <accessCondition type="GPO scope determination">fdlp</accessCondition>
+    <extension>
+         <docClass>USCOURTS</docClass>
+         <accessId>USCOURTS-ca13-23-01808</accessId>
+         <courtType>Appellate</courtType>
+         <courtCode>ca13</courtCode>
+         <courtCircuit>Federal</courtCircuit>
+         <courtSortOrder>1130</courtSortOrder>
+         <caseNumber>23-01808</caseNumber>
+         <party fullName="Department of Health and Human Services" lastName="Department of Health and Human Services" role="Respondent"></party>
+         <party firstName="Andrew" fullName="Andrew Kolenc" lastName="Kolenc" role="Petitioner"></party>
+    </extension>
+    <titleInfo>
+         <title>Kolenc v. HHS</title>
+         <partNumber>23-01808</partNumber>
+    </titleInfo>
+    <location>
+         <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USCOURTS-ca13-23-01808</url>
+    </location>
+    <classification authority="sudocs">JU 2.11</classification>
+    <identifier type="preferred citation">23-01808;23-1808</identifier>
+    <name type="corporate">
+         <namePart>United States Court of Appeals for the Federal Circuit</namePart>
+         <namePart>Federal Circuit</namePart>
+         <namePart></namePart>
+         <affiliation>U.S. Courts</affiliation>
+         <role>
+              <roleTerm type="text" authority="marcrelator">author</roleTerm>
+              <roleTerm type="code" authority="marcrelator">aut</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+         <displayForm>Department of Health and Human Services</displayForm>
+         <namePart type="family">Department of Health and Human Services</namePart>
+         <namePart type="given"></namePart>
+         <namePart type="termsOfAddress"></namePart>
+         <description>Respondent</description>
+    </name>
+    <name type="personal">
+         <displayForm>Andrew Kolenc</displayForm>
+         <namePart type="family">Kolenc</namePart>
+         <namePart type="given">Andrew</namePart>
+         <namePart type="termsOfAddress"></namePart>
+         <description>Petitioner</description>
+    </name>
+    <extension>
+         <docClass>USCOURTS</docClass>
+         <accessId>USCOURTS-ca13-23-01808</accessId>
+         <courtType>Appellate</courtType>
+         <courtCode>ca13</courtCode>
+         <courtCircuit>Federal</courtCircuit>
+         <courtSortOrder>1130</courtSortOrder>
+         <caseNumber>23-01808</caseNumber>
+         <party fullName="Department of Health and Human Services" lastName="Department of Health and Human Services" role="Respondent"></party>
+         <party firstName="Andrew" fullName="Andrew Kolenc" lastName="Kolenc" role="Petitioner"></party>
+    </extension>
+    <relatedItem type="constituent" ID="id-USCOURTS-ca13-23-01808-0" xlink:href="https://www.govinfo.gov/metadata/granule/USCOURTS-ca13-23-01808/USCOURTS-ca13-23-01808-0/mods.xml">
+         <titleInfo>
+              <title>Kolenc v. HHS</title>
+              <subTitle>OPINION filed for the court by Lourie, Circuit Judge; Stoll, Circuit Judge and Cunningham, Circuit Judge. Nonprecedential Per Curiam Opinion. Service as of this date by the Clerk of Court. [974217]</subTitle>
+              <partNumber>0</partNumber>
+        </titleInfo>
+         <originInfo>
+              <dateIssued>2024-01-03</dateIssued>
+        </originInfo>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USCOURTS-ca13-23-01808/pdf/USCOURTS-ca13-23-01808-0.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1c3927da6</identifier>
+        </relatedItem>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USCOURTS-ca13-23-01808/USCOURTS-ca13-23-01808-0</identifier>
+         <identifier type="former granule identifier">ca13-23-01808_0.pdf</identifier>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USCOURTS-ca13-23-01808/USCOURTS-ca13-23-01808-0</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USCOURTS-ca13-23-01808/pdf/USCOURTS-ca13-23-01808-0.pdf</url>
+        </location>
+         <extension>
+              <searchTitle>USCOURTS 23-01808; Kolenc v. HHS; </searchTitle>
+              <courtName>United States Court of Appeals for the Federal Circuit</courtName>
+              <accessId>USCOURTS-ca13-23-01808-0</accessId>
+              <sequenceNumber>0</sequenceNumber>
+              <dateIssued>2024-01-03</dateIssued>
+              <docketText>OPINION filed for the court by Lourie, Circuit Judge; Stoll, Circuit Judge and Cunningham, Circuit Judge. Nonprecedential Per Curiam Opinion. Service as of this date by the Clerk of Court. [974217]</docketText>
+        </extension>
+    </relatedItem>
+</mods>

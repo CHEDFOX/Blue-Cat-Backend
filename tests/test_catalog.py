@@ -166,6 +166,8 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "uy-impo",
         "cz-esbirka-opendata",
         "sk-slovlex-static",
+        "us-govinfo-usreports",
+        "us-govinfo-uscourts",
     }
     for source_id in approved:
         licence_gate(catalog.sources.get(source_id))

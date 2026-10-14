@@ -1,0 +1,142 @@
+<mods xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" version="3.3" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd" ID="P0b002ee19e5d0101">
+<name type="corporate">
+ <namePart>United States Government Publishing Office</namePart>
+ <role>
+  <roleTerm authority="marcrelator" type="text">publisher</roleTerm>
+  <roleTerm authority="marcrelator" type="code">pbl</roleTerm>
+</role>
+ <role>
+  <roleTerm authority="marcrelator" type="text">distributor</roleTerm>
+  <roleTerm authority="marcrelator" type="code">dst</roleTerm>
+</role>
+</name>
+<name type="corporate">
+ <namePart>United States</namePart>
+ <namePart>United States Court of Appeals for the First Circuit</namePart>
+ <role>
+  <roleTerm authority="marcrelator" type="text">author</roleTerm>
+  <roleTerm authority="marcrelator" type="code">aut</roleTerm>
+</role>
+ <description>Government Organization</description>
+</name>
+<typeOfResource>text</typeOfResource>
+<genre authority="marcgt">government publication</genre>
+<language>
+ <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+</language>
+<extension>
+ <collectionCode>USCOURTS</collectionCode>
+ <category>Judicial Publications</category>
+ <branch>judicial</branch>
+ <dateIngested>2019-01-04</dateIngested>
+</extension>
+<originInfo>
+ <publisher>Administrative Office of the United States Courts</publisher>
+ <dateIssued encoding="w3cdtf">2001-09-10</dateIssued>
+ <issuance>monographic</issuance>
+</originInfo>
+<physicalDescription>
+ <note type="source content type">deposited</note>
+ <digitalOrigin>born digital</digitalOrigin>
+</physicalDescription>
+<classification authority="sudocs">JU 2.11</classification>
+<identifier type="uri">https://www.govinfo.gov/app/details/USCOURTS-ca1-00-01824</identifier>
+<identifier type="local">P0b002ee19e5d0101</identifier>
+<recordInfo>
+ <recordContentSource authority="marcorg">DGPO</recordContentSource>
+ <recordCreationDate encoding="w3cdtf">2019-01-04</recordCreationDate>
+ <recordChangeDate encoding="w3cdtf">2021-04-04</recordChangeDate>
+ <recordIdentifier source="DGPO">USCOURTS-ca1-00-01824</recordIdentifier>
+ <recordOrigin>machine generated</recordOrigin>
+ <languageOfCataloging>
+  <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+</languageOfCataloging>
+</recordInfo>
+<accessCondition type="GPO scope determination">fdlp</accessCondition>
+<extension>
+ <docClass>USCOURTS</docClass>
+ <accessId>USCOURTS-ca1-00-01824</accessId>
+ <courtType>Appellate</courtType>
+ <courtCode>ca1</courtCode>
+ <courtCircuit>1st</courtCircuit>
+ <courtSortOrder>1010</courtSortOrder>
+ <caseNumber>00-01824</caseNumber>
+ <natureSuitCode>320</natureSuitCode>
+ <natureSuit>Assault, Libel, and Slander</natureSuit>
+ <party firstName="Rosalie" fullName="Rosalie DaRosa" lastName="DaRosa" role="Appellant"></party>
+ <party firstName="Anthony" fullName="Anthony Lawrence" lastName="Lawrence" role="Appellee"></party>
+</extension>
+<titleInfo>
+ <title>DeRosa v. Lawrence</title>
+ <partNumber>00-01824</partNumber>
+</titleInfo>
+<location>
+ <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USCOURTS-ca1-00-01824</url>
+</location>
+<classification authority="sudocs">JU 2.11</classification>
+<identifier type="preferred citation">00-01824;00-1824</identifier>
+<name type="corporate">
+ <namePart>United States Court of Appeals for the First Circuit</namePart>
+ <namePart>1st Circuit</namePart>
+ <namePart></namePart>
+ <affiliation>U.S. Courts</affiliation>
+ <role>
+  <roleTerm type="text" authority="marcrelator">author</roleTerm>
+  <roleTerm type="code" authority="marcrelator">aut</roleTerm>
+</role>
+</name>
+<name type="personal">
+ <displayForm>Rosalie DaRosa</displayForm>
+ <namePart type="family">DaRosa</namePart>
+ <namePart type="given">Rosalie</namePart>
+ <namePart type="termsOfAddress"></namePart>
+ <description>Appellant</description>
+</name>
+<name type="personal">
+ <displayForm>Anthony Lawrence</displayForm>
+ <namePart type="family">Lawrence</namePart>
+ <namePart type="given">Anthony</namePart>
+ <namePart type="termsOfAddress"></namePart>
+ <description>Appellee</description>
+</name>
+<extension>
+ <docClass>USCOURTS</docClass>
+ <accessId>USCOURTS-ca1-00-01824</accessId>
+ <courtType>Appellate</courtType>
+ <courtCode>ca1</courtCode>
+ <courtCircuit>1st</courtCircuit>
+ <courtSortOrder>1010</courtSortOrder>
+ <caseNumber>00-01824</caseNumber>
+ <natureSuitCode>320</natureSuitCode>
+ <natureSuit>Assault, Libel, and Slander</natureSuit>
+ <party firstName="Rosalie" fullName="Rosalie DaRosa" lastName="DaRosa" role="Appellant"></party>
+ <party firstName="Anthony" fullName="Anthony Lawrence" lastName="Lawrence" role="Appellee"></party>
+</extension>
+<relatedItem type="constituent" ID="id-USCOURTS-ca1-00-01824-0" xlink:href="https://www.govinfo.gov/metadata/granule/USCOURTS-ca1-00-01824/USCOURTS-ca1-00-01824-0/mods.xml">
+ <titleInfo>
+  <title>DeRosa v. Lawrence</title>
+  <subTitle>OPINION filed. Boudin, Chief Judge; Selya, Lynch, Circuit Judges. per curiam UNPUBLISHED [592159-1] [00-1824]</subTitle>
+  <partNumber>0</partNumber>
+</titleInfo>
+ <originInfo>
+  <dateIssued>2001-09-10</dateIssued>
+</originInfo>
+ <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USCOURTS-ca1-00-01824/pdf/USCOURTS-ca1-00-01824-0.pdf">
+  <identifier type="FDsys Unique ID">D09002ee1ac5b5f3e</identifier>
+</relatedItem>
+ <identifier type="uri">https://www.govinfo.gov/app/details/USCOURTS-ca1-00-01824/USCOURTS-ca1-00-01824-0</identifier>
+ <identifier type="former granule identifier">ca1-00-01824_0.pdf</identifier>
+ <location>
+  <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USCOURTS-ca1-00-01824/USCOURTS-ca1-00-01824-0</url>
+  <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USCOURTS-ca1-00-01824/pdf/USCOURTS-ca1-00-01824-0.pdf</url>
+</location>
+ <extension>
+  <searchTitle>USCOURTS 00-01824; DeRosa v. Lawrence; </searchTitle>
+  <courtName>United States Court of Appeals for the First Circuit</courtName>
+  <accessId>USCOURTS-ca1-00-01824-0</accessId>
+  <sequenceNumber>0</sequenceNumber>
+  <dateIssued>2001-09-10</dateIssued>
+  <docketText>OPINION filed. Boudin, Chief Judge; Selya, Lynch, Circuit Judges. per curiam UNPUBLISHED [592159-1] [00-1824]</docketText>
+</extension>
+</relatedItem>
+</mods>

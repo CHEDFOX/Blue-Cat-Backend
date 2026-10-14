@@ -644,7 +644,12 @@ def _judgment_hit(session: Session, catalog: Catalog, c: _Candidate, rank: int, 
             "decision_date": j.decision_date.isoformat(),
             "neutral_citation": j.neutral_citation,
         },
-        "unit": {"uri": f"{j.uri}/~{para.eid}", "eid": para.eid, "label": f"para {para.num}", "heading": para.part},
+        "unit": {
+            "uri": f"{j.uri}/~{para.eid}",
+            "eid": para.eid,
+            "label": catalog.module_for(j.jurisdiction_id).judgment_unit_label(para.num, para.part, j.ext),
+            "heading": para.part,
+        },
         "version": {
             "id": str(ver.id),
             "expression_uri": ver.uri,

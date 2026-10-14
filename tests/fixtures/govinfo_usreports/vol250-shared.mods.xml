@@ -1,0 +1,1061 @@
+<mods xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" version="3.3" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd" ID="P0b002ee1d4bc2a36">
+    <name type="corporate">
+         <namePart>United States Government Publishing Office</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">publisher</roleTerm>
+              <roleTerm authority="marcrelator" type="code">pbl</roleTerm>
+        </role>
+         <role>
+              <roleTerm authority="marcrelator" type="text">distributor</roleTerm>
+              <roleTerm authority="marcrelator" type="code">dst</roleTerm>
+        </role>
+    </name>
+    <name type="corporate">
+         <namePart>United States</namePart>
+         <namePart>United States Supreme Court</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">author</roleTerm>
+              <roleTerm authority="marcrelator" type="code">aut</roleTerm>
+        </role>
+         <description>Government Organization</description>
+    </name>
+    <typeOfResource>text</typeOfResource>
+    <genre authority="marcgt">government publication</genre>
+    <language>
+         <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+    </language>
+    <extension>
+         <collectionCode>USREPORTS</collectionCode>
+         <category>Judicial Publications</category>
+         <branch>judicial</branch>
+         <dateIngested>2025-07-05</dateIngested>
+    </extension>
+    <titleInfo>
+         <title>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919</title>
+    </titleInfo>
+    <classification authority="sudocs">JU 6.8/1:250</classification>
+    <name type="corporate">
+         <namePart>United States</namePart>
+         <namePart>Supreme Court</namePart>
+         <role>
+              <roleTerm authority="marcrelator" type="text">author</roleTerm>
+              <roleTerm authority="marcrelator" type="code">aut</roleTerm>
+        </role>
+    </name>
+    <identifier type="uri">https://www.govinfo.gov/content/pkg/USREPORTS-250</identifier>
+    <location>
+         <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250</url>
+         <url displayLabel="PDF rendition" access="raw object">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250.pdf</url>
+         <url displayLabel="Text rendition" access="raw object">https://www.govinfo.gov/content/pkg/USREPORTS-250/text/USREPORTS-250.txt</url>
+    </location>
+    <extension>
+         <searchtitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919</searchtitle>
+         <docClass>USREPORTS</docClass>
+         <accessId>USREPORTS-250</accessId>
+         <volume>250</volume>
+         <dateIssued notSpecified="day-month">1920</dateIssued>
+         <reporter name="Ernest Knaebel"></reporter>
+         <courtTerm>1918-1919</courtTerm>
+    </extension>
+                            
+    <titleInfo>
+                                    
+         <title>United States reports, 250</title>
+                                    
+         <subTitle>cases adjudged in the Supreme Court at</subTitle>
+                                
+    </titleInfo>
+                            
+    <titleInfo type="alternative">
+                                    
+         <title>Cases adjudged in the Supreme Court at</title>
+                                
+    </titleInfo>
+                            
+    <titleInfo displayLabel="Also known as:" type="alternative">
+                                    
+         <title>U.S. reports</title>
+                                
+    </titleInfo>
+                            
+    <titleInfo type="uniform">
+                                    
+         <title>United States reports (Washington, D.C.)</title>
+                                
+    </titleInfo>
+                            
+    <name type="corporate">
+                                    
+         <namePart>United States</namePart>
+                                    
+         <namePart>Supreme Court.</namePart>
+                                    
+         <role>
+                                            
+              <roleTerm authority="marcrelator" type="text">creator</roleTerm>
+                                        
+        </role>
+                                
+    </name>
+                            
+    <typeOfResource>text</typeOfResource>
+                            
+    <genre authority="marcgt">law report or digest</genre>
+                            
+    <genre authority="fast">Digests.</genre>
+                            
+    <genre authority="fast">Periodicals.</genre>
+                            
+    <originInfo>
+                                    
+         <place>
+                                            
+              <placeTerm authority="marccountry" type="code">dcu</placeTerm>
+                                        
+        </place>
+                                    
+         <place>
+                                            
+              <placeTerm type="text">Washington, D.C.]</placeTerm>
+                                        
+        </place>
+                                    
+         <publisher>U.S. Supreme Court</publisher>
+                                    
+         <dateIssued>1920</dateIssued>
+                                    
+         <dateCreated encoding="marc" point="start">1883</dateCreated>
+                                    
+         <dateCreated encoding="marc" point="end">9999</dateCreated>
+                                    
+         <issuance>continuing</issuance>
+                                    
+         <frequency>Irregular</frequency>
+                                
+    </originInfo>
+                            
+    <language>
+                                    
+         <languageTerm authority="iso639-2b" type="code">eng</languageTerm>
+                                
+    </language>
+                            
+    <physicalDescription>
+                                    
+         <extent>1 online resource (volumes)</extent>
+                                
+    </physicalDescription>
+                            
+    <note type="date/sequential designation">Print began with: [Vol. 108] (Oct. term 1882 ... Oct. term 1883).</note>
+                            
+    <subject>
+                                    
+         <geographicCode authority="marcgac">n-us---</geographicCode>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <name type="corporate">
+                                            
+              <namePart>United States.</namePart>
+                                            
+              <namePart>Supreme Court</namePart>
+                                        
+        </name>
+                                    
+         <genre>Periodicals</genre>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Law reports, digests, etc</topic>
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Constitutional law</topic>
+                                    
+         <geographic>United States</geographic>
+                                    
+         <genre>Digests</genre>
+                                
+    </subject>
+                            
+    <subject authority="lcsh">
+                                    
+         <topic>Judicial opinions</topic>
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <name type="corporate">
+                                            
+              <namePart>United States.</namePart>
+                                            
+              <namePart>Supreme Court.</namePart>
+                                        
+        </name>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Constitutional law</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Judicial opinions</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <topic>Law reports, digests, etc</topic>
+                                
+    </subject>
+                            
+    <subject authority="fast">
+                                    
+         <geographic>United States</geographic>
+                                
+    </subject>
+                            
+    <classification authority="lcc">ISSN RECORD</classification>
+                            
+    <classification authority="ddc" edition="14">348</classification>
+                            
+    <classification authority="sudocs">JU 6.8/1:250</classification>
+                            
+    <relatedItem displayLabel="Print version:" type="otherFormat">
+                                    
+         <titleInfo>
+                                            
+              <title>United States reports</title>
+                                        
+        </titleInfo>
+                                    
+         <name>
+                                            
+              <namePart>United States. Supreme Court.</namePart>
+                                        
+        </name>
+                                    
+         <identifier type="issn">0891-6845</identifier>
+                                    
+         <identifier type="local">(DLC) 01026074</identifier>
+                                    
+         <identifier type="local">(OCoLC)4384322</identifier>
+                                
+    </relatedItem>
+                            
+    <relatedItem displayLabel="Microfiche version:" type="otherFormat">
+                                    
+         <titleInfo>
+                                            
+              <title>United States reports</title>
+                                        
+        </titleInfo>
+                                    
+         <name>
+                                            
+              <namePart>United States. Supreme Court.</namePart>
+                                        
+        </name>
+                                    
+         <identifier type="local">(OCoLC)26859335</identifier>
+                                
+    </relatedItem>
+                            
+    <identifier type="sudoc-item-number">0741-A (online)</identifier>
+                            
+    <identifier type="issn">2150-2331</identifier>
+                            
+    <identifier type="lccn">2009231052</identifier>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-" usage="primary display">https://purl.fdlp.gov/GPO/LPS30185</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-">http://www.supremecourt.gov/opinions/boundvolumes.aspx</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-vol. 552, 2007 term (UNT Digital Library)">https://purl.fdlp.gov/GPO/gpo54225</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="Vol. 502, 1991 term-vol. 552, 2007 term (UNT Digital Library)">https://digital.library.unt.edu/explore/collections/USREP/browse/</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="[Vol.] 108, Oct. term 1882-vol. 542, 2003 term (Library of Congress Digital Collections by agreement with the William S. Hein &amp; Co., Inc.)">https://purl.fdlp.gov/GPO/gpo94050</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="[Vol.] 108, Oct. term 1882-vol. 542, 2003 term (Library of Congress Digital Collections by agreement with the William S. Hein &amp; Co., Inc.)">https://www.loc.gov/collections/united-states-reports/</url>
+                                
+    </location>
+                            
+    <location>
+                                    
+         <url displayLabel="(online)">https://catalog.gpo.gov/fdlpdir/locate.jsp?ItemNumber=0741-A&amp;SYS=000641007</url>
+                                
+    </location>
+                        
+    <originInfo>
+         <publisher>Banks Law Publishing Co.</publisher>
+         <dateIssued encoding="w3cdtf">1920-01-01</dateIssued>
+         <issuance>continuing</issuance>
+         <frequency authority="marcfrequency">Completely irregular</frequency>
+    </originInfo>
+    <physicalDescription>
+         <note type="source content type">converted</note>
+         <digitalOrigin>reformatted digital</digitalOrigin>
+         <extent>814 digital object pages</extent>
+    </physicalDescription>
+    <classification authority="sudocs">JU 6.8/1:250</classification>
+    <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250</identifier>
+    <identifier type="local">P0b002ee1d4bc2a36</identifier>
+    <identifier type="ILS system id">000641007</identifier>
+    <recordInfo>
+         <recordContentSource authority="marcorg">DGPO</recordContentSource>
+         <recordCreationDate encoding="w3cdtf">2025-07-05</recordCreationDate>
+         <recordChangeDate encoding="w3cdtf">2025-07-05</recordChangeDate>
+         <recordIdentifier source="DGPO">USREPORTS-250</recordIdentifier>
+         <recordOrigin>machine generated</recordOrigin>
+         <languageOfCataloging>
+              <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+        </languageOfCataloging>
+    </recordInfo>
+    <accessCondition type="GPO scope determination">fdlp</accessCondition>
+    <extension>
+         <docClass>USREPORTS</docClass>
+         <accessId>USREPORTS-250</accessId>
+         <volume>250</volume>
+         <dateIssued notSpecified="day-month">1920</dateIssued>
+         <reporter name="Ernest Knaebel"></reporter>
+         <courtTerm>1918-1919</courtTerm>
+    </extension>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-FrontMatter-7" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-FrontMatter-7/mods.xml">
+         <titleInfo>
+              <title>Title Page</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-7</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-7.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabd68</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Title Page</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-250-FrontMatter-7</accessId>
+              <sequenceNumber>1</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-7</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-7.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-FrontMatter-3" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-FrontMatter-3/mods.xml">
+         <titleInfo>
+              <title>Errata</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-3</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-3.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabddf</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Errata</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-250-FrontMatter-3</accessId>
+              <sequenceNumber>2</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-3</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-3.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-FrontMatter" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-FrontMatter/mods.xml">
+         <titleInfo>
+              <title>Justices of the Supreme Court</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabde6</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Justices of the Supreme Court</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-250-FrontMatter</accessId>
+              <sequenceNumber>3</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-FrontMatter-6" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-FrontMatter-6/mods.xml">
+         <titleInfo>
+              <title>Supreme Court of the United States</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-6</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-6.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabd9b</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Supreme Court of the United States</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-250-FrontMatter-6</accessId>
+              <sequenceNumber>4</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-6</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-6.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-FrontMatter-2" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-FrontMatter-2/mods.xml">
+         <titleInfo>
+              <title>Table of Cases Reported</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-2</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-2.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabdeb</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Table of Cases Reported</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-250-FrontMatter-2</accessId>
+              <sequenceNumber>5</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-2</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-2.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-FrontMatter-5" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-FrontMatter-5/mods.xml">
+         <titleInfo>
+              <title>Table of Cases Cited</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-5</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-5.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabd95</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Table of Cases Cited</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-250-FrontMatter-5</accessId>
+              <sequenceNumber>6</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-5</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-5.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-FrontMatter-8" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-FrontMatter-8/mods.xml">
+         <titleInfo>
+              <title>Table of Statutes Cited</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-8</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-8.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabd6e</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Table of Statutes Cited</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-250-FrontMatter-8</accessId>
+              <sequenceNumber>7</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-8</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-8.pdf</url>
+        </location>
+    </relatedItem>
+    
+    
+    
+    
+    <relatedItem type="constituent" ID="id-USREPORTS-250-28" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-28/mods.xml">
+         <titleInfo>
+              <title>Schlitz Brewing Co. v. Houston Ice Co., 250 U.S. 28 (1919)</title>
+              <partNumber>250 U.S. 28</partNumber>
+              <partName>Case</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-28</identifier>
+         <identifier type="preferred citation">250 U.S. 28 (1919)</identifier>
+         <identifier type="United States Reports citation">250 U.S. 28</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-28.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cab899</identifier>
+        </relatedItem>
+         <subject>
+              <topic>Intellectual Property Law</topic>
+              <topic>Labels</topic>
+              <topic>Intellectual Property</topic>
+              <topic>Beer</topic>
+              <topic>Trademarks</topic>
+              <topic>Beer Bottles</topic>
+              <topic>Unlawful Imitation</topic>
+              <topic>Patents and Copyrights: Trademark</topic>
+              <topic>Economic Activity</topic>
+        </subject>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Schlitz Brewing Co. v. Houston Ice Co., 250 U.S. 28 (1919);250 U.S. 28</searchTitle>
+              <granuleClass>CASE</granuleClass>
+              <accessId>USREPORTS-250-28</accessId>
+              <reportNumber>28</reportNumber>
+              <sequenceNumber>12</sequenceNumber>
+              <pagePosition>1</pagePosition>
+              <decisionDate>1919-05-19</decisionDate>
+              <courtTerm>1918</courtTerm>
+              <usCitation>250 U.S. 28</usCitation>
+              <fullCitation>250 U.S. 28 (1919)</fullCitation>
+              <subject authority="llc" uri="https://www.loc.gov/research-centers/law-library-of-congress/about-this-research-center">
+                                        
+                   <topic>Intellectual Property Law</topic>
+                                        
+                   <topic>Labels</topic>
+                                        
+                   <topic>Intellectual Property</topic>
+                                        
+                   <topic>Beer</topic>
+                                        
+                   <topic>Trademarks</topic>
+                                        
+                   <topic>Beer Bottles</topic>
+                                        
+                   <topic>Unlawful Imitation</topic>
+                                    
+            </subject>
+              <subject authority="scdb" uri="http://scdb.wustl.edu/documentation.php?var=issue">
+                                        
+                   <topic>Patents and Copyrights: Trademark</topic>
+                                        
+                   <topic>Economic Activity</topic>
+                                    
+            </subject>
+              <docketId>1918-041-01</docketId>
+              <petitioner>Inventor, patent assigner, trademark owner or holder</petitioner>
+              <respondent>Brewery, distillery</respondent>
+              <jurisdiction>Cert</jurisdiction>
+              <caseOrigin>Texas Southern U.S. District Court</caseOrigin>
+              <caseSource>U.S. Court of Appeals, Fifth Circuit</caseSource>
+              <certReason>No reason given</certReason>
+              <chiefJustice>Edward Douglass White</chiefJustice>
+              <authorityDecision>Federal common law</authorityDecision>
+              <law>
+                                        
+                   <type>No Legal Provision</type>
+                                        
+                   <legalProvisions>No Legal Provision</legalProvisions>
+                                    
+            </law>
+              <decisionType>Opinion of the court (orally argued)</decisionType>
+              <unconstitutionality>No declaration of unconstitutionality</unconstitutionality>
+              <disposition>Affirmed (includes modified)</disposition>
+              <partyWinning>No favorable disposition for petitioning party apparent</partyWinning>
+              <majorityOpinion>
+                                        
+                   <writer>Oliver Wendell Holmes</writer>
+                                        
+                   <assigner>Edward Douglass White</assigner>
+                                    
+            </majorityOpinion>
+              <votes>
+                                        
+                   <majority>7</majority>
+                                        
+                   <minority>2</minority>
+                                    
+            </votes>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-28</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-28.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-30" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-30/mods.xml">
+         <titleInfo>
+              <title>Coleman v. United States, 250 U.S. 30 (1919)</title>
+              <partNumber>250 U.S. 30</partNumber>
+              <partName>Case</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-30</identifier>
+         <identifier type="preferred citation">250 U.S. 30 (1919)</identifier>
+         <identifier type="United States Reports citation">250 U.S. 30</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-30.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabe13</identifier>
+        </relatedItem>
+         <subject>
+              <topic>Erroneously Collected</topic>
+              <topic>Refunds</topic>
+              <topic>Taxation</topic>
+              <topic>Tax Law</topic>
+              <topic>Illegally Assessed</topic>
+              <topic>Priority of Federal Fiscal Claims: Over Those of the States or Private Entities</topic>
+              <topic>Federal Taxation</topic>
+        </subject>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Coleman v. United States, 250 U.S. 30 (1919);250 U.S. 30</searchTitle>
+              <granuleClass>CASE</granuleClass>
+              <accessId>USREPORTS-250-30</accessId>
+              <reportNumber>30</reportNumber>
+              <sequenceNumber>13</sequenceNumber>
+              <pagePosition>1</pagePosition>
+              <decisionDate>1919-05-19</decisionDate>
+              <courtTerm>1918</courtTerm>
+              <usCitation>250 U.S. 30</usCitation>
+              <fullCitation>250 U.S. 30 (1919)</fullCitation>
+              <subject authority="llc" uri="https://www.loc.gov/research-centers/law-library-of-congress/about-this-research-center">
+                                        
+                   <topic>Erroneously Collected</topic>
+                                        
+                   <topic>Refunds</topic>
+                                        
+                   <topic>Taxation</topic>
+                                        
+                   <topic>Tax Law</topic>
+                                        
+                   <topic>Illegally Assessed</topic>
+                                    
+            </subject>
+              <subject authority="scdb" uri="http://scdb.wustl.edu/documentation.php?var=issue">
+                                        
+                   <topic>Priority of Federal Fiscal Claims: Over Those of the States or Private Entities</topic>
+                                        
+                   <topic>Federal Taxation</topic>
+                                    
+            </subject>
+              <docketId>1918-042-01</docketId>
+              <petitioner>Agent, fiduciary, trustee, or executor</petitioner>
+              <respondent>United States</respondent>
+              <jurisdiction>Appeal</jurisdiction>
+              <adminAction>Internal Revenue Service, Collector, Commissioner, or District Director of</adminAction>
+              <caseOrigin>U.S. Court of Claims, Court of Federal Claims</caseOrigin>
+              <caseSource>U.S. Court of Claims, Court of Federal Claims</caseSource>
+              <certReason>Case did not arise on cert or cert not granted</certReason>
+              <chiefJustice>Edward Douglass White</chiefJustice>
+              <dateArgument>1919-04-29</dateArgument>
+              <authorityDecision>Statutory construction</authorityDecision>
+              <law>
+                                        
+                   <type>Federal Statute</type>
+                                        
+                   <legalProvisions>No Legal Provision</legalProvisions>
+                                    
+            </law>
+              <decisionType>Opinion of the court (orally argued)</decisionType>
+              <unconstitutionality>No declaration of unconstitutionality</unconstitutionality>
+              <disposition>Affirmed (includes modified)</disposition>
+              <partyWinning>No favorable disposition for petitioning party apparent</partyWinning>
+              <majorityOpinion>
+                                        
+                   <writer>Oliver Wendell Holmes</writer>
+                                        
+                   <assigner>Edward Douglass White</assigner>
+                                    
+            </majorityOpinion>
+              <votes>
+                                        
+                   <majority>9</majority>
+                                        
+                   <minority>0</minority>
+                                    
+            </votes>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-30</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-30.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-33" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-33/mods.xml">
+         <titleInfo>
+              <title>Sage v. United States, 250 U.S. 33 (1919)</title>
+              <partNumber>250 U.S. 33</partNumber>
+              <partName>Case</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-33</identifier>
+         <identifier type="preferred citation">250 U.S. 33 (1919)</identifier>
+         <identifier type="United States Reports citation">250 U.S. 33</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-33.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabd8b</identifier>
+        </relatedItem>
+         <subject>
+              <topic>Erroneously Collected</topic>
+              <topic>Refunds</topic>
+              <topic>Taxation</topic>
+              <topic>Tax Law</topic>
+              <topic>Illegally Assessed</topic>
+              <topic>Priority of Federal Fiscal Claims: Over Those of the States or Private Entities</topic>
+              <topic>Federal Taxation</topic>
+        </subject>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Sage v. United States, 250 U.S. 33 (1919);250 U.S. 33</searchTitle>
+              <granuleClass>CASE</granuleClass>
+              <accessId>USREPORTS-250-33</accessId>
+              <reportNumber>33</reportNumber>
+              <sequenceNumber>14</sequenceNumber>
+              <pagePosition>1</pagePosition>
+              <decisionDate>1919-05-19</decisionDate>
+              <courtTerm>1918</courtTerm>
+              <usCitation>250 U.S. 33</usCitation>
+              <fullCitation>250 U.S. 33 (1919)</fullCitation>
+              <subject authority="llc" uri="https://www.loc.gov/research-centers/law-library-of-congress/about-this-research-center">
+                                        
+                   <topic>Erroneously Collected</topic>
+                                        
+                   <topic>Refunds</topic>
+                                        
+                   <topic>Taxation</topic>
+                                        
+                   <topic>Tax Law</topic>
+                                        
+                   <topic>Illegally Assessed</topic>
+                                    
+            </subject>
+              <subject authority="scdb" uri="http://scdb.wustl.edu/documentation.php?var=issue">
+                                        
+                   <topic>Priority of Federal Fiscal Claims: Over Those of the States or Private Entities</topic>
+                                        
+                   <topic>Federal Taxation</topic>
+                                    
+            </subject>
+              <docketId>1918-043-01</docketId>
+              <petitioner>Agent, fiduciary, trustee, or executor</petitioner>
+              <respondent>United States</respondent>
+              <jurisdiction>Appeal</jurisdiction>
+              <adminAction>Internal Revenue Service, Collector, Commissioner, or District Director of</adminAction>
+              <caseOrigin>U.S. Court of Claims, Court of Federal Claims</caseOrigin>
+              <caseSource>U.S. Court of Claims, Court of Federal Claims</caseSource>
+              <certReason>Case did not arise on cert or cert not granted</certReason>
+              <chiefJustice>Edward Douglass White</chiefJustice>
+              <dateArgument>1919-04-29</dateArgument>
+              <authorityDecision>Statutory construction</authorityDecision>
+              <law>
+                                        
+                   <type>Federal Statute</type>
+                                        
+                   <legalProvisions>No Legal Provision</legalProvisions>
+                                    
+            </law>
+              <decisionType>Opinion of the court (orally argued)</decisionType>
+              <unconstitutionality>No declaration of unconstitutionality</unconstitutionality>
+              <disposition>Reversed</disposition>
+              <partyWinning>Petitioning party received a favorable disposition</partyWinning>
+              <majorityOpinion>
+                                        
+                   <writer>Oliver Wendell Holmes</writer>
+                                        
+                   <assigner>Edward Douglass White</assigner>
+                                    
+            </majorityOpinion>
+              <votes>
+                                        
+                   <majority>9</majority>
+                                        
+                   <minority>0</minority>
+                                    
+            </votes>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-33</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-33.pdf</url>
+        </location>
+    </relatedItem>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <relatedItem type="constituent" ID="id-USREPORTS-250-FrontMatter-4" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-FrontMatter-4/mods.xml">
+         <titleInfo>
+              <title>Cases Adjudged in the Supreme Court of the United States at October Term, 1919</title>
+              <partName>Front Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-4</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-4.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabd88</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Cases Adjudged in the Supreme Court of the United States at October Term, 1919</searchTitle>
+              <granuleClass>FRONTMATTER</granuleClass>
+              <accessId>USREPORTS-250-FrontMatter-4</accessId>
+              <sequenceNumber>75</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-FrontMatter-4</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-FrontMatter-4.pdf</url>
+        </location>
+    </relatedItem>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <relatedItem type="constituent" ID="id-USREPORTS-250-BackMatter-7" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-BackMatter-7/mods.xml">
+         <titleInfo>
+              <title>Decisions Per Curiam</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-7</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-7.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabd90</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Decisions Per Curiam</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-250-BackMatter-7</accessId>
+              <sequenceNumber>90</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-7</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-7.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-BackMatter-5" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-BackMatter-5/mods.xml">
+         <titleInfo>
+              <title>Decisions on Petitions for Writs of Certiorari</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-5</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-5.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabd6a</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Decisions on Petitions for Writs of Certiorari</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-250-BackMatter-5</accessId>
+              <sequenceNumber>91</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-5</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-5.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-BackMatter-6" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-BackMatter-6/mods.xml">
+         <titleInfo>
+              <title>Cases Disposed of without Consideration</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-6</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-6.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabdbb</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Cases Disposed of without Consideration</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-250-BackMatter-6</accessId>
+              <sequenceNumber>92</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-6</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-6.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-BackMatter-3" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-BackMatter-3/mods.xml">
+         <titleInfo>
+              <title>Decisions Per Curiam</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-3</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-3.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabd91</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Decisions Per Curiam</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-250-BackMatter-3</accessId>
+              <sequenceNumber>93</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-3</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-3.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-BackMatter-4" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-BackMatter-4/mods.xml">
+         <titleInfo>
+              <title>Decisions on Petitions</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-4</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-4.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabd75</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Decisions on Petitions</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-250-BackMatter-4</accessId>
+              <sequenceNumber>94</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-4</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-4.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-BackMatter" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-BackMatter/mods.xml">
+         <titleInfo>
+              <title>Cases Disposed of without Consideration</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabe03</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Cases Disposed of without Consideration</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-250-BackMatter</accessId>
+              <sequenceNumber>95</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-BackMatter-2" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-BackMatter-2/mods.xml">
+         <titleInfo>
+              <title>Cases Disposed of In Vacation</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-2</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-2.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabd9c</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Cases Disposed of In Vacation</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-250-BackMatter-2</accessId>
+              <sequenceNumber>96</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-2</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-2.pdf</url>
+        </location>
+    </relatedItem>
+    <relatedItem type="constituent" ID="id-USREPORTS-250-BackMatter-8" xlink:href="https://www.govinfo.gov/metadata/granule/USREPORTS-250/USREPORTS-250-BackMatter-8/mods.xml">
+         <titleInfo>
+              <title>Index</title>
+              <partName>Back Matter</partName>
+        </titleInfo>
+         <identifier type="uri">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-8</identifier>
+         <relatedItem type="otherFormat" xlink:href="https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-8.pdf">
+              <identifier type="FDsys Unique ID">D09002ee1d4cabdc2</identifier>
+        </relatedItem>
+         <extension>
+              <searchTitle>United States reports : cases adjudged in the Supreme Court at October term, 1918, and October term, 1919, from May 19, 1919, to November 17, 1919;Index</searchTitle>
+              <granuleClass>BACKMATTER</granuleClass>
+              <accessId>USREPORTS-250-BackMatter-8</accessId>
+              <sequenceNumber>97</sequenceNumber>
+              <pagePosition>1</pagePosition>
+        </extension>
+         <location>
+              <url displayLabel="Content Detail" access="object in context">https://www.govinfo.gov/app/details/USREPORTS-250/USREPORTS-250-BackMatter-8</url>
+              <url access="raw object" displayLabel="PDF rendition">https://www.govinfo.gov/content/pkg/USREPORTS-250/pdf/USREPORTS-250-BackMatter-8.pdf</url>
+        </location>
+    </relatedItem>
+</mods>

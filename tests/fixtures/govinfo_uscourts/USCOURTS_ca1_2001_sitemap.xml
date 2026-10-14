@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- LOCKSS system has permission to collect, preserve, and serve this Archival Unit -->
+
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.govinfo.gov/app/details/USCOURTS-ca1-00-01824</loc>
+    <lastmod>2021-04-04T21:26:00.014Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.govinfo.gov/app/details/USCOURTS-ca1-00-02356</loc>
+    <lastmod>2021-04-04T21:26:00.132Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.govinfo.gov/app/details/USCOURTS-ca1-00-02336</loc>
+    <lastmod>2021-04-04T21:26:00.057Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.govinfo.gov/app/details/USCOURTS-ca1-99-02311</loc>
+    <lastmod>2021-04-06T16:49:00.548Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.govinfo.gov/app/details/USCOURTS-ca1-01-01148</loc>
+    <lastmod>2021-04-04T21:26:00.095Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.govinfo.gov/app/details/USCOURTS-ca1-01-01193</loc>
+    <lastmod>2021-04-04T21:26:00.210Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.govinfo.gov/app/details/USCOURTS-ca1-99-01115</loc>
+    <lastmod>2021-04-06T16:49:00.511Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

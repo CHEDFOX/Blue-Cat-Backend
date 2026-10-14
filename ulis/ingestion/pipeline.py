@@ -44,6 +44,8 @@ from ulis.sources.connectors.finlex import FinlexConnector
 from ulis.sources.connectors.finlex_decisions import FinlexDecisionsConnector
 from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
+from ulis.sources.connectors.govinfo_uscourts import UsCourtsGovInfoConnector
+from ulis.sources.connectors.govinfo_usreports import UsReportsGovInfoConnector
 from ulis.sources.connectors.impo_uy import ImpoUyConnector
 from ulis.sources.connectors.infoleg_ar import InfolegArConnector
 from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
@@ -79,6 +81,8 @@ from ulis.sources.parsers import (
     finlex,
     finlex_decisions,
     gesetze_im_internet,
+    govinfo_uscourts,
+    govinfo_usreports,
     impo_uy,
     infoleg_ar,
     irish_statute_book,
@@ -138,6 +142,8 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "impo_uy_json": impo_uy.parse_impo_uy,
     "esbirka_opendata_json": esbirka_opendata.parse_esbirka,
     "slovlex_static_html": slovlex_static.parse_slovlex_static,
+    "govinfo_usreports": govinfo_usreports.parse_govinfo_usreports,
+    "govinfo_uscourts": govinfo_uscourts.parse_govinfo_uscourts,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -173,6 +179,8 @@ PARSER_VERSIONS = {
     "impo_uy_json": impo_uy.PARSER_VERSION,
     "esbirka_opendata_json": esbirka_opendata.PARSER_VERSION,
     "slovlex_static_html": slovlex_static.PARSER_VERSION,
+    "govinfo_usreports": govinfo_usreports.PARSER_VERSION,
+    "govinfo_uscourts": govinfo_uscourts.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -240,6 +248,8 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "impo_uy": ImpoUyConnector,
     "esbirka_opendata": EsbirkaOpenDataConnector,
     "slovlex_static": SlovLexStaticConnector,
+    "govinfo_usreports": UsReportsGovInfoConnector,
+    "govinfo_uscourts": UsCourtsGovInfoConnector,
 }
 
 
