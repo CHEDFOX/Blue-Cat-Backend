@@ -310,11 +310,18 @@ class DilaLegiConnector:
         deletions: list[str] = []
         counts: dict[str, Any] = {"members": 0, "written": 0, "texts_selected": 0, "texts_seen": 0}
 
-        def keep(tid: str, kind: str, base: str, data: bytes) -> None:
+        def keep(tid: str, kind: str, base: str, data: bytes) -> bool:
+            """Store a file. A file that appears twice in one archive (a text left in both the in-force and the
+            not-in-force tree, with different states) is stored once: the first copy wins."""
             short = kind.removeprefix("texte/")
+            member = f"{short}/{base}.xml"
+            if (tid, member) in written:
+                counts["duplicates_ignored"] = counts.get("duplicates_ignored", 0) + 1
+                return False
             sink.write(tid, short, base, data)
-            written.add((tid, f"{short}/{base}.xml"))
+            written.add((tid, member))
             counts["written"] += 1
+            return True
 
         def select(tid: str, tree: str) -> None:
             texts.setdefault(tid, {"cid": None, "nature": None, "etat": None, "title": None, "tree": tree})
@@ -341,10 +348,10 @@ class DilaLegiConnector:
                 continue
             data = read()
             if verdict:
-                keep(tid, kind, base, data)
-                texts[tid]["tree"] = tree
-                if kind == "texte/version":
-                    self._remember(texts[tid], data, tree)
+                if keep(tid, kind, base, data):
+                    texts[tid]["tree"] = tree
+                    if kind == "texte/version":
+                        self._remember(texts[tid], data, tree)
                 continue
             if kind != "texte/version":  # undecided: wait for the text's version file
                 bucket = pending.setdefault(tid, _Pending())
