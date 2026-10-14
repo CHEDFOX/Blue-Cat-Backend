@@ -1,0 +1,97 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Germany (federal law). The Länder (16 states) are not
+# profiled yet. EU membership is deliberately not recorded here (no EU profile in this branch).
+schema_version: 1
+id: DE
+profile_version: 0.1.0
+name: Germany
+names: {de: Bundesrepublik Deutschland, en: Federal Republic of Germany}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [de]
+legal_system:
+  families: [civil_law]
+  structure: federal
+  treaty_reception: dualist
+  notes: >-
+    To verify - federal state of 16 Länder; codified civil-law system. Treaties regulating the
+    political relations of the Federation or relating to matters of federal legislation need the
+    consent or participation of the legislative bodies in the form of a federal law (Art. 59
+    Abs. 2 GG); the general rules of international law are part of federal law and take
+    precedence over statutes (Art. 25 GG). EU law (supranational) is not modelled here.
+legislative_institutions:
+  - id: DE-BT
+    name: Deutscher Bundestag (with the participation of the Bundesrat)
+    instrument_types: [constitution, act]
+  - id: DE-BREG
+    name: Bundesregierung and federal ministries (Rechtsverordnungen under Art. 80 GG)
+    instrument_types: [ordinance]
+instrument_types: [constitution, act, ordinance]
+norm_hierarchy: [constitution, act, ordinance]
+courts:
+  - id: DE-BVERFG
+    name: Bundesverfassungsgericht
+    rank: 1
+  - id: DE-BGH
+    name: Bundesgerichtshof
+    rank: 2
+  - id: DE-BVERWG
+    name: Bundesverwaltungsgericht
+    rank: 2
+  - id: DE-BAG
+    name: Bundesarbeitsgericht
+    rank: 2
+  - id: DE-BFH
+    name: Bundesfinanzhof
+    rank: 2
+  - id: DE-BSG
+    name: Bundessozialgericht
+    rank: 2
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal stare decisis: courts are bound by statute and law (Art. 20 Abs. 3
+    GG), not by earlier decisions; supreme federal court case law is followed in practice
+    ("ständige Rechtsprechung" is persuasive; divergence procedures exist). Decisions of the
+    Bundesverfassungsgericht bind the constitutional organs of the Federation and the Länder and
+    all courts and authorities (§ 31 Abs. 1 BVerfGG), and some have the force of law (§ 31 Abs. 2
+    BVerfGG). The five supreme federal courts head separate branches (ordinary, administrative,
+    labour, finance, social); the Bundesverfassungsgericht is not an appellate court above them
+    (rank 2 only orders them after it). Courts of the Länder are not profiled.
+citation:
+  module: de
+  notes: >-
+    Sentence numbers (Satz) are cited only where the source marks them (tax laws); elsewhere
+    citations stop at Absatz, Nummer and Buchstabe.
+  examples:
+    - "§ 823 Abs. 1 BGB"
+    - "Art. 1 Abs. 1 GG"
+    - "§ 242 Abs. 1 StGB"
+    - "§ 1 Abs. 2 Nr. 1 Buchst. a KSchG"
+    - "§ 8 Nr. 1 Buchst. d Satz 2 Doppelbuchst. aa GewStG"
+publication:
+  official_sources: [de-gesetze-im-internet]
+  commencement: >-
+    Each Act and ordinance should state the day it enters into force; failing that, it enters
+    into force on the fourteenth day after the end of the day on which the Bundesgesetzblatt was
+    issued (Art. 82 Abs. 2 GG). Since 1 January 2023 the Bundesgesetzblatt is issued
+    electronically (www.recht.bund.de).
+  amendment: >-
+    Amending Acts promulgated in the Bundesgesetzblatt contain amendment instructions; consolidated
+    texts (Gesetze im Internet, publishers) are not official versions.
+  repeal: Express repeal; the consolidation keeps the number with "(weggefallen)".
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only ten hand-picked federal laws are ingested (see the source manifest); no other federal law, no ordinances.
+    - Current consolidation only, with no per-provision dates in the source; each text is attested only at its file's build date. Earlier dates are a history gap, reported as such.
+    - Not the authentic text; the Bundesgesetzblatt is not ingested.
+    - No Land (state) law, no EU law, no case law (Rechtsprechung im Internet is not ingested).
+    - English translations on Gesetze im Internet are not ingested (their user notice requires consent beyond copyright exceptions).
+    - Sentence numbers (Satz) exist only where the source marks them (tax laws); other citations stop at Absatz/Nummer/Buchstabe.
+    - Constitutional-court findings (e.g. "nichtig") are carried only as editorial notes, not as a status.
+    - Tables of contents (Inhaltsübersicht), Unification Treaty annexes (Anhang EV) and editorial notes on headings are not indexed; Weimar Constitution articles incorporated by Art. 140 GG appear only in an unofficial note.
