@@ -1,0 +1,85 @@
+schema_version: 1
+id: at-ris-bundesrecht
+name: RIS - Bundesrecht konsolidiert (OGD-RIS API v2.6)
+publisher: Bundeskanzleramt der Republik Österreich (Federal Chancellery)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [AT]
+document_kinds: [constitution, act]
+languages: [de]
+coverage: >-
+  Austrian federal law in consolidated form ("Bundesrecht konsolidiert", application BrKons),
+  one document per paragraph, article or annex and per version (Fassung), each with its
+  Inkrafttretensdatum and, once superseded, its Außerkrafttretensdatum. ULIS ingests selected
+  paragraphs/articles of a few federal laws; for some of them every historical version.
+access:
+  method: api
+  endpoint: config/manifests/at-ris-bundesrecht.yaml
+update_frequency: daily ("tagesaktuell") per the publisher; re-fetch to refresh
+rate_limits: >-
+  OGD terms (https://www.ris.bka.gv.at/UI/Ogd.aspx, "Technische Rahmenbedingungen", mandatory):
+  at most 0.5 requests per second, no parallel connections, queries only outside office hours
+  (20:00-05:00 Vienna time) or at weekends / Austrian public holidays; any use beyond single
+  retrievals or small volumes comparable to manual use of RIS must be announced to
+  ris.it@bka.gv.at, otherwise the IP address may be blocked. ULIS waits 5 s between requests,
+  runs sequentially, refuses network access outside 20:00-05:00 on weekdays, and caps a run at
+  the manifest's max_network_requests. robots.txt of www.ris.bka.gv.at / ris.bka.gv.at:
+  Crawl-delay 2, /GeltendeFassung/ and /showdata/ disallowed (document files under /Dokumente/
+  are not). robots.txt of data.bka.gv.at (API host): "User-agent: * Disallow: /" with an
+  exception for the EU ECLI crawler only.
+licence:
+  id: CC-BY-4.0
+  name: Creative Commons Attribution 4.0 International (Namensnennung 4.0 International)
+  url: https://creativecommons.org/licenses/by/4.0/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - RIS OGD FAQ (https://www.ris.bka.gv.at/UI/Ogd.aspx and the FAQ PDF
+    https://www.ris.bka.gv.at/RisInfo/OGD-FAQ.pdf): "Die Nutzung der RIS-Daten via OGD erfolgt
+    gemäß der Namensnennung 4.0 International - Creative Commons"; the interfaces are public and
+    need no registration; the data.gv.at record "RIS Daten Version 2.6"
+    (https://www.data.gv.at/datasets/0fb9ae1a-92cb-4ab8-a589-470c16d4fe21) gives
+    https://creativecommons.org/licenses/by/4.0/ for every distribution. The OGD-RIS API
+    handbook V2_6 (April 2026) documents the API and states that consolidated federal law is
+    "lediglich der Information" and "rechtlich unverbindlich".
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Quelle: Rechtsinformationssystem des Bundes (RIS), Bundeskanzleramt der Republik Österreich,
+    https://www.ris.bka.gv.at - lizenziert unter CC BY 4.0
+    (https://creativecommons.org/licenses/by/4.0/). Texte unverändert; Gliederung und
+    Metadaten von ULIS aufbereitet.
+  conditions:
+    - Attribution under CC BY 4.0 (the publisher prescribes no wording; the attribution text above is ULIS's).
+    - Follow the OGD technical conditions (0.5 requests/s, sequential, outside office hours) - enforced by the connector.
+    - Announce any use beyond small volumes comparable to manual use to ris.it@bka.gv.at before running it (not done; this pilot stays within a few hundred requests).
+    - No warranty for correctness, currency or completeness; no legal claims can be derived from the data (OGD FAQ, Impressum).
+    - Do not name an application in a way that suggests a connection with the official federal services (OGD FAQ).
+  notes: >-
+    The publisher recommends, for processing only certain laws in an application or AI where
+    daily currency does not matter, downloading them via the RIS website; the API is the
+    designated interface for automated retrieval. The data.bka.gv.at robots.txt disallows all
+    agents; ULIS reads it as addressed to crawlers (the publisher's own terms invite programmatic
+    use of the API on that host), fetches only the queries listed in the manifest and does not
+    crawl. Counsel review recommended before production use, together with the announcement to
+    ris.it@bka.gv.at.
+provenance: >-
+  Official information system of the Republic of Austria (Federal Chancellery). Search via
+  https://data.bka.gv.at/ris/api/v2.6/Bundesrecht (metadata, JSON); texts from the document XML
+  files on ris.bka.gv.at/Dokumente/Bundesnormen/. Only the Bundesgesetzblatt authentic since
+  2004 (signed PDF) is legally binding; consolidated texts are not.
+known_limitations:
+  - Consolidated texts are informational and not legally binding; the authentic text is the Bundesgesetzblatt (BGBl.), not ingested.
+  - Each document is one paragraph/article in one version; subdivisions (Abs., Z, lit.) inherit its period.
+  - Editorial annotations ("Anm.") and "Beachte" notes are kept as notes, not as law text.
+  - RIS documents do not state a currency date; the retrieval time of each document is recorded.
+  - Selected paragraphs only; see the manifest.
+# PLANNED, not active: the API host's robots.txt (data.bka.gv.at) disallows all robots except the EU ECLI
+# crawler. ULIS does not fetch from it until the Federal Chancellery confirms in writing that this
+# crawler may use the OGD API (the terms of use also restrict access to 20:00-05:00 and weekends).
+status: planned
+connector: ris_ogd
+parser: ris_bundesrecht_xml

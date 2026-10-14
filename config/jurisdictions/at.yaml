@@ -1,0 +1,89 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Austria (federal law and three apex courts).
+# The nine Länder (state law) are not profiled yet. EU membership is added separately.
+schema_version: 1
+id: AT
+profile_version: 0.1.0
+name: Austria
+names: {de: Österreich}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [de]
+legal_system:
+  families: [civil_law]
+  structure: federal
+  treaty_reception: mixed
+  notes: >-
+    To verify - federal state (Bund and nine Länder) with a codified civil-law system (ABGB 1811).
+    Constitutional law is not only in the B-VG: constitutional provisions
+    ("Verfassungsbestimmungen") also appear in ordinary federal laws (e.g. § 1 DSG). Treaties
+    approved under Art. 50 B-VG are generally part of domestic law on publication unless the
+    Nationalrat resolves that they are to be implemented by laws (Erfüllungsvorbehalt), hence
+    "mixed" here.
+legislative_institutions:
+  - id: AT-PARL
+    name: Nationalrat und Bundesrat (Parlament)
+    instrument_types: [constitution, act]
+instrument_types: [constitution, act, regulation]
+norm_hierarchy: [constitution, act, regulation]
+courts:
+  - id: AT-VFGH
+    name: Verfassungsgerichtshof
+    rank: 1
+  - id: AT-VWGH
+    name: Verwaltungsgerichtshof
+    rank: 1
+  - id: AT-OGH
+    name: Oberster Gerichtshof
+    rank: 1
+precedent:
+  doctrine: jurisprudence_constante
+  vertical_binding: false
+  notes: >-
+    To verify - Austria has no formal doctrine of binding precedent (stare decisis). Courts
+    are bound by statute; a decision binds only the parties to the case. In practice lower
+    courts follow the settled case law ("ständige Rechtsprechung") of the Oberster Gerichtshof
+    (civil and criminal matters) and the Verwaltungsgerichtshof (administrative matters), and
+    a deviation from it is a ground for further appeal (e.g. "erhebliche Rechtsfrage"). The
+    three apex courts are parallel, not hierarchical. A Verfassungsgerichtshof decision that
+    annuls a law or regulation has effect for everyone (Art. 139 and 140 B-VG); that is the
+    legal effect of the annulment, not precedent. Lower courts (OLG, LG, BG, BVwG, LVwG) are
+    not profiled.
+citation:
+  module: at
+  notes: >-
+    Statute pinpoints follow the usual Austrian form "§ 1295 Abs. 1 ABGB", "Art. 7 Abs. 1 B-VG",
+    with "Z" (Ziffer) and "lit." (litera) where the structure has them. Decisions are cited by
+    court, date and Geschäftszahl as printed in RIS, with the ECLI (decision citations are
+    implemented in the module but untested: no decision has been ingested).
+  examples:
+    - "§ 83 Abs. 3 Z 1 StGB"
+    - "Art. 7 Abs. 1 B-VG"
+    - "§ 1 Abs. 1 DSG"
+publication:
+  official_sources: [at-ris-bundesrecht, at-ris-judikatur]
+  commencement: >-
+    Federal laws enter into force at the end of the day of their publication in the
+    Bundesgesetzblatt unless they provide otherwise (to verify: Art. 49 B-VG).
+  amendment: >-
+    Textual amendment by later federal laws (Novellen) published in the Bundesgesetzblatt; the
+    Federal Chancellery's RIS publishes non-binding consolidated versions per paragraph/article.
+  repeal: >-
+    Express repeal by later law, or annulment by the Verfassungsgerichtshof (Art. 140 B-VG).
+    RIS replaces a repealed paragraph's text with an annotation such as "(Anm.: aufgehoben durch ...)".
+memberships:
+  # Accession to the European Union on 1 January 1995 (to verify).
+  - organisation: EU
+    from_date: 1995-01-01
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only one real provision (§ 83 StGB, version in force from 2020-01-01) has been ingested so far; the manifest lists the intended wider selection, which was not fetched because RIS permits automated access only 20:00-05:00 Vienna time or at weekends.
+    - No point-in-time history has been fetched yet; the end-date field of superseded versions is unverified against real data.
+    - RIS consolidated federal law is informational only; the authentic text is the Bundesgesetzblatt (authentic online since 2004), which is not ingested.
+    - No regulations (Verordnungen), no Land (state) or municipal law, no treaties, no EU law.
+    - "No case law is ingested: at-ris-judikatur (VfGH, VwGH, OGH) is planned only; the court list above is the profile, not a corpus. No citator coverage."
+    - RIS dates versions per paragraph/article; an Absatz, Ziffer or litera inherits the period of its paragraph, so an unchanged subdivision shows a new version whenever any part of its paragraph changed.

@@ -46,6 +46,7 @@ from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
 from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
+from ulis.sources.connectors.ris_ogd import RisOgdConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
 from ulis.sources.parsers import (
     akn,
@@ -64,6 +65,7 @@ from ulis.sources.parsers import (
     normattiva,
     retsinformation,
     riksdagen_sfs,
+    ris,
     uslm,
 )
 from ulis.sources.registry import SourceDescriptor, licence_gate
@@ -90,6 +92,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "retsinformation_lexdania": retsinformation.parse_retsinformation,
     "normattiva_akn": normattiva.parse_normattiva,
     "eisb_act_xml": irish_statute_book.parse_irish_statute_book,
+    "ris_bundesrecht_xml": ris.parse_ris_bundesrecht,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -109,6 +112,7 @@ PARSER_VERSIONS = {
     "retsinformation_lexdania": retsinformation.PARSER_VERSION,
     "normattiva_akn": normattiva.PARSER_VERSION,
     "eisb_act_xml": irish_statute_book.PARSER_VERSION,
+    "ris_bundesrecht_xml": ris.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -158,6 +162,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "retsinformation": RetsinformationConnector,
     "normattiva": NormattivaConnector,
     "irish_statute_book": IrishStatuteBookConnector,
+    "ris_ogd": RisOgdConnector,
 }
 
 

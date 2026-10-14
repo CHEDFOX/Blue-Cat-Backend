@@ -50,6 +50,7 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "DK",
         "IT",
         "IE",
+        "AT",
     }
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"
@@ -146,7 +147,8 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
             continue
         with pytest.raises(LicenceNotApproved) as exc:
             licence_gate(source)
-        assert "pending_review" in str(exc.value) or "not_allowed" in str(exc.value)
+        reasons = ("pending_review", "not_allowed", "status is 'planned'")
+        assert any(r in str(exc.value) for r in reasons)
 
 
 def test_find_case_law_records_computational_analysis_restriction(catalog: Catalog) -> None:

@@ -1,0 +1,62 @@
+schema_version: 1
+id: at-ris-judikatur
+name: RIS - Judikatur (VfGH, VwGH, Justiz/OGH) (OGD-RIS API v2.6)
+publisher: Bundeskanzleramt der Republik Österreich (Federal Chancellery); decisions supplied by the courts
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [AT]
+document_kinds: [judgment]
+languages: [de]
+coverage: >-
+  Decisions of the Verfassungsgerichtshof (from 1980), the Verwaltungsgerichtshof (from 1990
+  and selected earlier) and selected decisions of the ordinary courts including the Oberster
+  Gerichtshof (application "Justiz"), as decision texts (Entscheidungstexte) and headnotes
+  (Rechtssätze). ULIS ingests nothing from it yet (status planned).
+access:
+  method: api
+update_frequency: daily per the publisher; re-fetch to refresh
+rate_limits: >-
+  Same OGD terms as at-ris-bundesrecht (https://www.ris.bka.gv.at/UI/Ogd.aspx): at most 0.5
+  requests per second, sequential, outside office hours (20:00-05:00 Vienna time) or at
+  weekends / public holidays; announce larger use to ris.it@bka.gv.at. robots.txt of
+  data.bka.gv.at: "User-agent: * Disallow: /" (exception for the EU ECLI crawler only).
+licence:
+  id: CC-BY-4.0
+  name: Creative Commons Attribution 4.0 International (Namensnennung 4.0 International)
+  url: https://creativecommons.org/licenses/by/4.0/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - RIS OGD FAQ (https://www.ris.bka.gv.at/UI/Ogd.aspx,
+    https://www.ris.bka.gv.at/RisInfo/OGD-FAQ.pdf) and the data.gv.at record "RIS Daten Version
+    2.6" (https://www.data.gv.at/datasets/0fb9ae1a-92cb-4ab8-a589-470c16d4fe21): all RIS
+    applications, including Judikatur, are offered under CC BY 4.0.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Quelle: Rechtsinformationssystem des Bundes (RIS), Bundeskanzleramt der Republik Österreich,
+    https://www.ris.bka.gv.at - lizenziert unter CC BY 4.0
+    (https://creativecommons.org/licenses/by/4.0/). Texte unverändert; Gliederung und
+    Metadaten von ULIS aufbereitet.
+  conditions:
+    - Attribution under CC BY 4.0 (the publisher prescribes no wording; the attribution text above is ULIS's).
+    - Follow the OGD technical conditions (0.5 requests/s, sequential, outside office hours) - enforced by the connector.
+    - Announce any use beyond small volumes comparable to manual use to ris.it@bka.gv.at before running it (not done; this pilot stays within a few dozen requests).
+    - No warranty for correctness, currency or completeness (OGD FAQ, Impressum).
+  notes: >-
+    Decisions are published anonymised by the courts. RIS decision texts are documentation, not
+    the signed original decision. Counsel review recommended before production use.
+provenance: >-
+  Official information system of the Republic of Austria. Search via
+  https://data.bka.gv.at/ris/api/v2.6/Judikatur (metadata, JSON); texts from the decision XML
+  files on ris.bka.gv.at/Dokumente/{Vfgh,Vwgh,Justiz}/.
+known_limitations:
+  - Nothing ingested yet; planned scope is a handful of VfGH, VwGH and OGH decision texts, no Rechtssätze, no lower courts.
+# Planned, not active: the licence is reviewed, but no decision has been fetched (the RIS OGD
+# access window of 20:00-05:00 Vienna time had not opened when this pilot was closed) and the
+# decision parser is not written. The ris_ogd connector's decisions fetcher is untested.
+status: planned
+connector: ris_ogd
