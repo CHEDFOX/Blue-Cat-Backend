@@ -169,6 +169,20 @@ def test_repealed_marker_in_text_makes_a_repealed_provision() -> None:
     assert p.status == "repealed" and p.text == "" and p.note == "Zrušený" and p.num_path == ["sec:1"]
 
 
+def test_a_code_named_by_its_title_is_an_act() -> None:
+    page = (
+        b'<h1>40/1964 Zb.</h1><div class="ucinnost_header" data-from="2020-01-01" data-to="2020-12-31">x</div>'
+        b'<div class="predpis Skupina " id="predpis">'
+        b'<div id="predpis.typ" class="predpisTyp">OB\xc4\x8cIANSKY Z\xc3\x81KONN\xc3\x8dK</div>'
+        b'<div class="paragraf Skupina " id="paragraf-420"><div class="paragrafOznacenie">\xc2\xa7 420</div>'
+        b'<div class="odsek Skupina " id="paragraf-420.odsek-1"><div class="odsekOznacenie">(1)</div>'
+        b'<div class="text">Ka\xc5\xbed\xc3\xbd zodpoved\xc3\xa1 za \xc5\xa1kodu.</div></div></div></div>'
+    )
+    doc = parse_slovlex_static(page)[0]
+    assert (doc.instrument_type, doc.title, doc.number) == ("act", "Občiansky zákonník", "40/1964 Zb.")
+    assert doc.provisions[1].valid_to == date(2021, 1, 1) and doc.work_uri == "/sk/zz/1964/40"
+
+
 # --------------------------------------------------------------------------- citations
 
 

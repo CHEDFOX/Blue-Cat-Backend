@@ -242,7 +242,7 @@ def parse_slovlex_static(content: bytes) -> list[ParsedDocument]:
 
     kind_text = text_of("typ")
     instrument_type = next((t for k, t in INSTRUMENT_TYPES if kind_text.upper().startswith(k)), None)
-    if instrument_type is None and kind_text.upper().endswith("ZÁKONNÍK"):  # a code named by its title (OBČIANSKY ZÁKONNÍK)
+    if instrument_type is None and kind_text.upper().endswith("ZÁKONNÍK"):  # a code named by its title
         instrument_type = "act"
     if instrument_type is None:
         raise SlovLexParseError(f"{number}/{year}: unsupported instrument type {kind_text!r}")
