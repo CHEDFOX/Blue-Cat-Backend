@@ -200,11 +200,19 @@ def _candidates(
     params: dict[str, Any] = {"q": req.q, "as_of": as_of, "budget": budget}
     match_parts, rank_parts, direct_parts = [], [], []
     segmented = segment_for_search(req.q)
+    cjk_terms: list[str] = []
     if segmented is not None:
-        params["q_segmented"] = segmented
+        # A natural question in an unspaced script rarely has every character pair of every word in one
+        # provision, so an AND of all pairs finds nothing. Each whitespace-separated term becomes a phrase of
+        # adjacent character pairs, and the terms are ORed: ranking then puts provisions with more terms first.
+        for n, term in enumerate(t for t in req.q.split() if t):
+            params[f"q_seg_{n}"] = segment_for_search(term) or term
+            cjk_terms.append(f"q_seg_{n}")
     for config in all_search_configs():
-        q_param = "q_segmented" if segmented is not None and config == FALLBACK_CONFIG else "q"
-        tsq = f"websearch_to_tsquery(CAST('{config}' AS regconfig), :{q_param})"
+        if cjk_terms and config == FALLBACK_CONFIG:
+            tsq = "(" + " || ".join(f"phraseto_tsquery(CAST('{config}' AS regconfig), :{n})" for n in cjk_terms) + ")"
+        else:
+            tsq = f"websearch_to_tsquery(CAST('{config}' AS regconfig), :q)"
         expanded = tsq
         for i, label in enumerate(expansions.get(config, [])):
             name = f"x_{config}_{i}"

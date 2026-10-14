@@ -386,6 +386,9 @@ def test_chinese_search_finds_provisions_with_citations_and_limitations(
     assert murder["results"][0]["citation"] == "刑法第271條第1項"
     # Bigram search: "殺人者" alone also matches e.g. 刑法第332條 (強盜而故意殺人者).
     assert "刑法第271條第1項" in {h["citation"] for h in _search(session, catalog, q="殺人者", limit=20)["results"]}
+    # A question made of several unspaced terms: every term need not be in one provision (terms are ORed, ranked).
+    multi = _search(session, catalog, q="殺人者 處死刑 賠償", as_of=date(2026, 10, 2), limit=20)
+    assert "刑法第271條第1項" in {h["citation"] for h in multi["results"]}
     pdpa = _search(session, catalog, q="法定職務或非公務機關履行法定義務必要範圍內", limit=50)
     assert "個人資料保護法第6條第1項第2款" in {h["citation"] for h in pdpa["results"]}
     sub = _search(session, catalog, q="配偶及子女", limit=50)
