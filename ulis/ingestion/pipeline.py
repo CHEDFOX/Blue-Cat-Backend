@@ -47,6 +47,7 @@ from ulis.sources.connectors.likumi_lv import LikumiLvConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
+from ulis.sources.connectors.rechtspraak import RechtspraakConnector
 from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
@@ -71,6 +72,7 @@ from ulis.sources.parsers import (
     likumi_lv,
     moj_law,
     normattiva,
+    rechtspraak,
     retsinformation,
     riigi_teataja,
     riksdagen_sfs,
@@ -96,6 +98,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "finlex_akn": finlex.parse_finlex,
     "frl_epub": au_federal_register.parse_federal_register,
     "bwb_xml": bwb.parse_bwb,
+    "rechtspraak_xml": rechtspraak.parse_rechtspraak,
     "moj_law_html": moj_law.parse_moj_law,
     "riksdagen_sfs_json": riksdagen_sfs.parse_riksdagen_sfs,
     "retsinformation_lexdania": retsinformation.parse_retsinformation,
@@ -120,6 +123,7 @@ PARSER_VERSIONS = {
     "finlex_akn": finlex.PARSER_VERSION,
     "frl_epub": au_federal_register.PARSER_VERSION,
     "bwb_xml": bwb.PARSER_VERSION,
+    "rechtspraak_xml": rechtspraak.PARSER_VERSION,
     "moj_law_html": moj_law.PARSER_VERSION,
     "riksdagen_sfs_json": riksdagen_sfs.PARSER_VERSION,
     "retsinformation_lexdania": retsinformation.PARSER_VERSION,
@@ -174,6 +178,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "finlex": FinlexConnector,
     "au_federal_register": FederalRegisterConnector,
     "bwb": BwbConnector,
+    "rechtspraak": RechtspraakConnector,
     "moj_laws": MojLawsConnector,
     "riksdagen_sfs": RiksdagenSfsConnector,
     "retsinformation": RetsinformationConnector,
@@ -804,7 +809,7 @@ class Ingestor:
                 to_uri=ref.href,
                 relation=ref.relation,
                 citation_text=ref.text,
-                extraction_method="source_markup",
+                extraction_method=ref.extraction_method,
                 source_document_id=doc.id,
             )
         )

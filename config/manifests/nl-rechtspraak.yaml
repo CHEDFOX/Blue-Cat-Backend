@@ -1,0 +1,54 @@
+# Dutch court decisions fetched from the Open Data van de Rechtspraak web service (data.rechtspraak.nl).
+# For each ECLI below the connector requests https://data.rechtspraak.nl/uitspraken/content?id=<ECLI> (one request per
+# decision, sequential, at least 5 s apart; the publisher asks for no concurrent requests and allows at most 10 per
+# second). robots.txt of the host is read first (it has none: 404).
+#
+# How the ECLIs were chosen: each one was found (or confirmed) through the ECLI index of the same service,
+# https://data.rechtspraak.nl/uitspraken/zoeken?creator=<court>&date=<day or range>&return=DOC, on 2026-10-14, and
+# is a Dutch-language decision that the index lists with a document. Decisions whose index entry is an English
+# translation ("(Engels)", "(English translation)", "engelse versie") were left out: ECLI:NL:HR:2019:2007 and
+# ECLI:NL:RBDHA:2015:7196 are translations of the Urgenda judgments below. The selection is a small, hand-picked
+# sample (landmark and typical decisions), not a complete or representative corpus.
+schema_version: 1
+source_id: nl-rechtspraak
+base_url: https://data.rechtspraak.nl
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+decisions:
+  # Hoge Raad, civil: tort (onrechtmatige daad, art. 6:162 BW and its predecessor art. 1401 oud BW), contract
+  - {ecli: "ECLI:NL:HR:1919:AG1776"}   # 31 January 1919, Lindenbaum/Cohen (onrechtmatige daad)
+  - {ecli: "ECLI:NL:HR:1965:AB7079"}   # 5 November 1965, Kelderluik (gevaarzetting)
+  - {ecli: "ECLI:NL:HR:1981:AG4158"}   # 13 March 1981, Haviltex (uitleg overeenkomst)
+  - {ecli: "ECLI:NL:HR:2019:2006"}     # 20 December 2019, Staat/Urgenda (Dutch text)
+  - {ecli: "ECLI:NL:HR:2020:591"}      # 3 April 2020, art. 6:162 BW, burenrecht
+  - {ecli: "ECLI:NL:HR:2020:142"}      # 31 January 2020, opzegging overeenkomst, onrechtmatig
+  - {ecli: "ECLI:NL:HR:2020:144"}      # 31 January 2020, uitleg overeenkomst
+  - {ecli: "ECLI:NL:HR:2020:150"}      # 31 January 2020, art. 6:179 BW (dier)
+  - {ecli: "ECLI:NL:HR:2020:472"}      # 20 March 2020, uitleg samenwerkingsovereenkomst
+  - {ecli: "ECLI:NL:HR:2020:781"}      # 24 April 2020, onrechtmatige daad, voorovereenkomst
+  - {ecli: "ECLI:NL:HR:2020:1285"}     # 17 July 2020, contractsoverneming art. 6:159 BW
+  - {ecli: "ECLI:NL:HR:2020:1630"}     # 16 October 2020, art. 6:101 BW
+  # Hoge Raad, data protection and privacy
+  - {ecli: "ECLI:NL:HR:2021:985"}      # 25 June 2021, art. 6 AVG
+  - {ecli: "ECLI:NL:HR:2021:1169"}     # 16 July 2021, privacy, jeugdhulp
+  # Hoge Raad, criminal
+  - {ecli: "ECLI:NL:HR:2019:598"}      # 16 April 2019, art. 294 Sr
+  - {ecli: "ECLI:NL:HR:2019:1806"}     # 19 November 2019, art. 285 Sr
+  - {ecli: "ECLI:NL:HR:2021:203"}      # 16 February 2021, art. 138a Sr
+  # Raad van State, Afdeling bestuursrechtspraak
+  - {ecli: "ECLI:NL:RVS:2019:1604"}    # 29 May 2019, Programma Aanpak Stikstof
+  - {ecli: "ECLI:NL:RVS:2020:2315"}    # 30 September 2020, verwijdering persoonsgegevens
+  - {ecli: "ECLI:NL:RVS:2020:2660"}    # 6 November 2020, Burgerrechtenvereniging/Autoriteit Persoonsgegevens
+  - {ecli: "ECLI:NL:RVS:2021:353"}     # 25 February 2021, verklaring omtrent het gedrag
+  - {ecli: "ECLI:NL:RVS:2022:635"}     # 2 March 2022, uitwisseling persoonsgegevens
+  - {ecli: "ECLI:NL:RVS:2022:1075"}    # 13 April 2022, persoonsgegevens in de basisregistratie
+  # Centrale Raad van Beroep
+  - {ecli: "ECLI:NL:CRVB:2021:429"}    # 2 March 2021
+  - {ecli: "ECLI:NL:CRVB:2021:467"}    # 3 March 2021
+  # College van Beroep voor het bedrijfsleven
+  - {ecli: "ECLI:NL:CBB:2021:202"}     # 2 March 2021
+  - {ecli: "ECLI:NL:CBB:2021:204"}     # 2 March 2021
+  # Gerechtshof / Rechtbank (the Urgenda and Shell climate cases)
+  - {ecli: "ECLI:NL:RBDHA:2015:7145"}  # 24 June 2015, Rechtbank Den Haag, Urgenda
+  - {ecli: "ECLI:NL:GHDHA:2018:2591"}  # 9 October 2018, Gerechtshof Den Haag, Urgenda
+  - {ecli: "ECLI:NL:RBDHA:2021:5337"}  # 26 May 2021, Rechtbank Den Haag, Milieudefensie/Shell

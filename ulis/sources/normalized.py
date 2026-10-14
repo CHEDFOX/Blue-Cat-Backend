@@ -16,6 +16,9 @@ class ParsedRef:
     href: str
     text: str
     relation: str
+    # "source_markup": the source itself marks the reference (link, identifier); "pattern": found by a
+    # strict text pattern that maps to exactly one target (see the parser that sets it).
+    extraction_method: str = "source_markup"
 
 
 @dataclass

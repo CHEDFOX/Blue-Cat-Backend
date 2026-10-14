@@ -140,6 +140,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "fi-finlex",
         "au-federal-register",
         "nl-bwb",
+        "nl-rechtspraak",
         "tw-moj-laws",
         "se-riksdagen-sfs",
         "dk-retsinformation",

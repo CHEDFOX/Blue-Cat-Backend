@@ -19,6 +19,7 @@ gaps and the actual test and ingestion results. See
 | Finland | Finlex open data | [fi.md](fi.md) |
 | Australia (Commonwealth) | Federal Register of Legislation | [au.md](au.md) |
 | Netherlands | Basiswettenbestand (BWB) | [nl.md](nl.md) |
+| Netherlands (case law) | Open Data van de Rechtspraak | [nl-case-law.md](nl-case-law.md) |
 | Taiwan | Laws & Regulations Database (MOJ) | [tw.md](tw.md) |
 | Sweden | Riksdagens öppna data (SFS) | [se.md](se.md) |
 | Denmark | Retsinformation | [dk.md](dk.md) |

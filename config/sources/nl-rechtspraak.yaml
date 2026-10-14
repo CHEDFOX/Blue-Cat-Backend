@@ -1,0 +1,96 @@
+# Open Data van de Rechtspraak: Dutch court decisions (ECLI) from data.rechtspraak.nl. Terms and access rules read on
+# 2026-10-14 from the publisher's own pages (cached under var/sources/); details in docs/jurisdictions/nl-case-law.md:
+#   robots.txt (read first): data.rechtspraak.nl/robots.txt -> 404 (none published, so no restrictions);
+#        www.rechtspraak.nl/robots.txt -> "User-agent: *" disallowing only /registers/nevenfunctieregister/zoeken and
+#        /details (sitemaps listed). The pages read below are not disallowed.
+#   https://www.rechtspraak.nl/uitspraken/open-data (formerly /Uitspraken/Paginas/Open-Data.aspx) - "Open Data van de
+#        Rechtspraak": the web service delivers (pseudonymised: "gepseudonimiseerde") decisions and ECLI metadata as XML;
+#        "Deze webservice is een kosteloze en publieke dienst"; "Houdt u daarom bij gebruikmaking van deze dienst
+#        rekening met andere gebruikers"; "Het aantal toegestane informatieverzoeken is gelimiteerd. Het is niet
+#        mogelijk een complete set te downloaden en het is niet mogelijk meer dan 10 requests/calls per seconde in te
+#        dienen"; "Er wordt momenteel geen ondersteuning geboden". Requesting a set of decisions takes two steps: the
+#        ECLI index (zoeken) first, then the documents (content).
+#   Technical documentation "Open Data van de Rechtspraak" v1.15 (20-3-2019, PDF linked from that page), sections 2.2,
+#        4.3, 11-13: "Don't hammer the server!" - free and public service, not built for peak loads, "Beperk daarnaast
+#        het aantal gelijktijdige informatieverzoeken: bij voorkeur maakt u geen gebruik van gelijktijdige
+#        informatieverzoeken"; every ECLI record carries dcterms:accessRights "public" ("op een vrij toegankelijke
+#        locatie is gepubliceerd ..., en vrij gebruikt mag worden"); search parameters creator, type, date, modified,
+#        subject, return=DOC, max (default and maximum 1000), from.
+#   https://www.rechtspraak.nl/colofon - "Copyright": "U mag informatie van deze website overnemen, als u de bron
+#        vermeldt. Daarbij mag u niet de indruk wekken dat de Rechtspraak zonder meer de strekking van het afgeleide
+#        werk onderschrijft." (images, videos and logos excluded); "Disclaimer": users can derive no rights from the
+#        website's content.
+#   https://www.rechtspraak.nl/uitspraken - which decisions are published: a selection (selection criteria of 2012;
+#        for the Hoge Raad everything except decisions in a standard formulation or manifestly unfounded/inadmissible).
+#   Auteurswet art. 11 (BWBR0001886, read for nl-bwb): "Er bestaat geen auteursrecht op wetten, besluiten en
+#        verordeningen, door de openbare macht uitgevaardigd, noch op rechterlijke uitspraken en administratieve
+#        beslissingen."
+schema_version: 1
+id: nl-rechtspraak
+name: Open Data van de Rechtspraak (data.rechtspraak.nl)
+publisher: >-
+  Raad voor de Rechtspraak / IVO Rechtspraak (the judiciary's ICT organisation); published on rechtspraak.nl
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [NL]
+document_kinds: [judgment]
+languages: [nl]
+coverage: >-
+  Dutch court decisions (uitspraken) and advisory opinions as published on rechtspraak.nl, each with ECLI metadata
+  (court, date, case numbers, procedure, legal area, formal relations, publications), the inhoudsindicatie
+  (headnote) and the text. ULIS ingests a hand-picked sample of 30 decisions (see the manifest): the Hoge Raad,
+  the Afdeling bestuursrechtspraak van de Raad van State, the Centrale Raad van Beroep, the College van Beroep
+  voor het bedrijfsleven, the Gerechtshof Den Haag and the Rechtbank Den Haag, from 1919 to 2022.
+access:
+  method: api
+  endpoint: config/manifests/nl-rechtspraak.yaml
+  authentication: none
+update_frequency: >-
+  Continuously (the ECLI index has a "modified" parameter); ULIS re-fetches a decision only when the manifest is
+  run again with an empty cache.
+rate_limits: >-
+  Published: free public service, no more than 10 requests per second, a limited number of requests, no complete
+  download, avoid concurrent requests. ULIS makes sequential requests at least 5 s apart (about 0.2 per second),
+  identifies itself, and caches every response.
+licence:
+  id: NL-Rechtspraak-open-data
+  name: >-
+    Open Data van de Rechtspraak: free public service; reuse permitted with source attribution (rechtspraak.nl
+    colofon); judicial decisions are not protected by copyright (art. 11 Auteurswet)
+  url: https://www.rechtspraak.nl/uitspraken/open-data
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the Open Data page and technical documentation (free and public service, accessRights "public",
+    request limits), the colofon (reuse allowed with source attribution, no implied endorsement) and art. 11
+    Auteurswet (no copyright in judicial decisions). Not reviewed by counsel.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Bron: Rechtspraak.nl (Open Data van de Rechtspraak, Raad voor de Rechtspraak). Gepseudonimiseerde publicatie
+    van de uitspraak. ULIS is niet verbonden aan de Rechtspraak; de Rechtspraak onderschrijft deze bewerking niet.
+  conditions:
+    - Mention the source (Rechtspraak.nl) and do not give the impression that the Rechtspraak endorses the derived work (colofon).
+    - Respect the service's limits - sequential requests at least 5 s apart (the publisher allows at most 10 per second and asks users to avoid concurrent requests), a hand-picked set of ECLIs found through the ECLI index, never a complete download (not possible, per the publisher).
+    - The text is the Rechtspraak's pseudonymised publication; do not attempt to re-identify persons (ULIS's own condition).
+    - The rechtspraak.nl website's images, videos and logos are copyright-protected and are not ingested.
+  notes: >-
+    The permission to reuse is stated for the website's information in general (colofon) and implied for the open
+    data by accessRights "public" and the service's purpose (machine access to decisions); the Open Data page names
+    no licence. The commercial_use value is an inference (no restriction is stated). Counsel review recommended
+    before production use.
+provenance: >-
+  The judiciary's own open-data web service. Each response is stored byte-for-byte (SHA-256) with its URL and
+  retrieval time. The text is the published, pseudonymised version; the court's signed judgment is the original.
+known_limitations:
+  - Only a selection of decisions is published by the Rechtspraak (selection criteria since 2012); older decisions are mostly the Hoge Raad's.
+  - Pseudonymised text ([eiser], [verweerder], ...), not the signed original; not authoritative.
+  - A 30-decision hand-picked sample, not a complete or representative corpus; advisory opinions (conclusies) and the publisher's English translations are not ingested.
+  - Images are omitted; section titles of structured decisions are not stored as paragraph text; footnotes are stored as separate paragraphs.
+  - Case-law links come only from the publisher's markup (statute and decision relations in the metadata) and strict text patterns; later history (overruling, distinguishing) is not tracked.
+status: active
+connector: rechtspraak
+parser: rechtspraak_xml

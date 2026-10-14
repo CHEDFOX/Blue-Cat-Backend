@@ -202,7 +202,8 @@ are one line each; `tests/test_catalog.py` lists `NL` and `nl-bwb`.
 
 - Six Acts only; no other Acts, AMvBs, ministerial regulations, treaties or policy rules; no
   decentral regulations (CVDR), no BES legislation (Caribbean Netherlands: Bonaire, Sint Eustatius,
-  Saba), Aruba/Curaçao/Sint Maarten out of scope; no case law; no EU law in this profile.
+  Saba), Aruba/Curaçao/Sint Maarten out of scope; case law only as a 30-decision sample (see
+  [nl-case-law.md](nl-case-law.md)); no EU law in this profile.
 - History only for the Grondwet and the UAVG; the BWB itself starts in 2002.
 - Not the authentic text: the Staatsblad and Staatscourant are not ingested.
 - Members and list items carry their article's date; `@inwerking` can be a technical re-placement

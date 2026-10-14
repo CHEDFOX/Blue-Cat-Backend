@@ -1,9 +1,9 @@
-# REAL JURISDICTION - DRAFT, UNVERIFIED. The Netherlands (national legislation). Provinces,
+# REAL JURISDICTION - DRAFT, UNVERIFIED. The Netherlands (national legislation and a sample of case law). Provinces,
 # municipalities and water authorities are not profiled; Aruba, Curaçao and Sint Maarten (the
 # other countries of the Kingdom) are out of scope. EU membership is deliberately not recorded here.
 schema_version: 1
 id: NL
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Netherlands
 names: {nl: Nederland, en: Netherlands}
 kind: sovereign_state
@@ -59,12 +59,25 @@ courts:
     name: Rechtbanken (district courts)
     rank: 3
     appeals_to: [NL-GH, NL-ABRVS, NL-CRVB, NL-CBB]
+  # Individual courts, added with the case law of the Rechtspraak open data (nl-rechtspraak); only the courts of
+  # ingested decisions are listed. NL-GH and NL-RB above remain the generic entries for the other gerechtshoven
+  # and rechtbanken. Appeal routes simplified as above (a rechtbank's appeal lies to its own gerechtshof in civil
+  # and criminal matters, to a highest administrative court otherwise).
+  - id: NL-GHDHA
+    name: Gerechtshof Den Haag
+    rank: 2
+    appeals_to: [NL-HR]
+  - id: NL-RBDHA
+    name: Rechtbank Den Haag
+    rank: 3
+    appeals_to: [NL-GHDHA, NL-ABRVS, NL-CRVB, NL-CBB]
 precedent:
   doctrine: no_formal_precedent
   vertical_binding: false
   notes: >-
     To verify - civil-law system without formal stare decisis: lower courts are not formally bound
-    by Hoge Raad decisions but follow them in practice, and cassation corrects departures. The Hoge
+    by Hoge Raad decisions but follow them in practice (Hoge Raad decisions are very persuasive in
+    practice, as are those of the other highest courts in their fields), and cassation corrects departures. The Hoge
     Raad is the highest court in civil, criminal and tax matters (appeals from the gerechtshoven);
     in administrative law the Afdeling bestuursrechtspraak van de Raad van State, the Centrale Raad
     van Beroep (social security, civil service) and the College van Beroep voor het bedrijfsleven
@@ -83,7 +96,9 @@ citation:
     abbreviations listed in each regulation's wetstechnische informatie) or the official citation
     title. Burgerlijk Wetboek articles are cited with their book number ("6:162"). The BWB id and
     Juriconnect identifier are kept in ext.bwb_id and ext.jci. To verify: "onder a" versus "sub a";
-    the Grondwet is cited in full here although the WTI also lists "Gw".
+    the Grondwet is cited in full here although the WTI also lists "Gw". Court decisions: court
+    abbreviation, date, ECLI and the numbered consideration as "r.o." (HR, ABRvS, CRvB, CBb, Hof, Rb.);
+    abbreviations and "r.o." versus "rov." to verify.
   examples:
     - "art. 6:162 lid 1 BW"
     - "art. 1:3 lid 1 BW"
@@ -91,8 +106,10 @@ citation:
     - "art. 1 Grondwet"
     - "art. 3:4 lid 2 Awb"
     - "art. 22 lid 2 onder a UAVG"
+    - "HR 3 april 2020, ECLI:NL:HR:2020:591, r.o. 2"
+    - "ABRvS 2 maart 2022, ECLI:NL:RVS:2022:635, r.o. 5.2"
 publication:
-  official_sources: [nl-bwb]
+  official_sources: [nl-bwb, nl-rechtspraak]
   commencement: >-
     "De wet regelt de bekendmaking en de inwerkingtreding van de wetten. Zij treden niet in werking
     voordat zij zijn bekendgemaakt." (art. 88 Grondwet). Acts and AMvBs are published in the
@@ -119,7 +136,9 @@ coverage:
     - Members (leden) and list items carry their article's date; retroactive effect is noted, not modelled as a separate validity period.
     - Preambles (aanhef), closing formulas, structural editorial notes and the articles inside annexes (each annex is one provision) are not separately indexed; parallel texts in one article (e.g. Awb art. 8:36c) are kept as one undivided provision.
     - No legislation of provinces, municipalities or water authorities (Centrale Voorziening Decentrale Regelgeving), no BES legislation for the Caribbean Netherlands (Bonaire, Sint Eustatius, Saba); Aruba, Curaçao and Sint Maarten are out of scope.
-    - No case law (rechtspraak.nl is not ingested), no EU law in this profile.
+    - Case law is a small hand-picked sample (30 decisions of the Hoge Raad, Afdeling bestuursrechtspraak van de Raad van State, Centrale Raad van Beroep, College van Beroep voor het bedrijfsleven, Gerechtshof Den Haag and Rechtbank Den Haag from the Rechtspraak open data, see docs/jurisdictions/nl-case-law.md); not a complete or representative corpus, and the Rechtspraak itself publishes only a selection of all decisions. No decisions of other courts, no advisory opinions (conclusies), no tuchtrecht, no citator beyond the links the data and strict text patterns give.
+    - Decisions are pseudonymised publications, not the signed originals; no subsequent-history tracking (a later overruling or distinguishing is not known to ULIS).
+    - No EU law in this profile.
     - Frisian texts and English translations are not ingested.
 extensions:
   nl:
