@@ -16,6 +16,7 @@ from ulis.jurisdictions.modules.base import (
 )
 from ulis.jurisdictions.modules.ca import CaModule
 from ulis.jurisdictions.modules.ch import ChModule
+from ulis.jurisdictions.modules.cz import CzModule
 from ulis.jurisdictions.modules.de import DeModule
 from ulis.jurisdictions.modules.dk import DkModule
 from ulis.jurisdictions.modules.ee import EeModule
@@ -31,6 +32,7 @@ from ulis.jurisdictions.modules.lv import LvModule
 from ulis.jurisdictions.modules.nl import NlModule
 from ulis.jurisdictions.modules.pl import PlModule
 from ulis.jurisdictions.modules.se import SeModule
+from ulis.jurisdictions.modules.sk import SkModule
 from ulis.jurisdictions.modules.tw import TwModule
 from ulis.jurisdictions.modules.us import UsModule
 
@@ -39,6 +41,7 @@ MODULES: dict[str, JurisdictionModule] = {
     for m in (
         JurisdictionModule(),
         SeModule(),
+        SkModule(),
         TwModule(),
         EuModule(),
         JpModule(),
@@ -47,6 +50,7 @@ MODULES: dict[str, JurisdictionModule] = {
         BorealisModule(),
         CaModule(),
         ChModule(),
+        CzModule(),
         DeModule(),
         DkModule(),
         EeModule(),

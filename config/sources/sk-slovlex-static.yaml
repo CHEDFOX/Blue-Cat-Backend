@@ -1,0 +1,106 @@
+# Slov-lex, static version (Ministerstvo spravodlivosti SR): time versions ("časové verzie") of acts of the Slovak
+# Collection of Laws as script-free HTML. Terms, access rules and documentation read on 2026-10-14 from the
+# publisher's own files, fetched with the User-Agent below:
+#   https://www.slov-lex.sk/robots.txt - "User-agent: *" / "Disallow:" (empty: nothing disallowed) and three Sitemap lines on
+#        the static host (https://static.slov-lex.sk/static/sitemap.xml, .../static/SK/ZZ/sitemap.xml, .../static/SK/OP/
+#        sitemap.xml); no Crawl-delay. https://static.slov-lex.sk/robots.txt answers 404 (no rules of its own). The connector
+#        reads the www robots.txt and applies it to every path it requests.
+#   https://static.slov-lex.sk/ - page "Zbierka zákonov Slovenskej republiky", "Informačný systém verejnej správy Slov-lex",
+#        "Náchadzate sa na statickej verzií portálu. Aktuálnu verziu portálu nájdete na: www.slov-lex.sk"; footer: "Prevádzkovateľom
+#        služby je Ministerstvo spravodlivosti Slovenskej republiky." The JavaScript portal (www.slov-lex.sk) itself links the
+#        static version for browsers without JavaScript ("pokračujte na statickú verziu portálu"). Pages carry <meta
+#        name="robots" content="noindex, nofollow"> (an instruction to search engines about indexing; robots.txt does not
+#        disallow them).
+#   https://static.slov-lex.sk/static/SK/ZZ/<year>/<number>/ - history page of an act: a table of its time versions with the
+#        first and last day each applies ("Dátum účinnosti") and the amending acts ("Novela"); .../<YYYYMMDD>.html - the text
+#        of the version in force from that day; .../vyhlasene_znenie.html - the promulgated text. Each version page states
+#        "Časová verzia predpisu účinná od <date>" and, on every page, "Obsah zobrazeného právneho predpisu má informatívny
+#        charakter" (for some acts: "..., právne záväzný obsah sa nachádza v [PDF of the promulgated act]").
+#   The portal's own terms-of-use / legal-notice pages are produced by a JavaScript application and could not be read
+#   without running it; no licence text of the publisher's own was therefore available to ULIS beyond the files above. The
+#   basis for reuse recorded below is statutory, read from the static pages of the acts themselves (versions retrieved
+#   2026-10-14):
+#   Autorský zákon 185/2015 Z. z. (version from 2026-09-01) § 5 ods. 1: "Za predmet autorského práva sa nepovažuje ... b) text
+#        právneho predpisu, úradné rozhodnutie alebo súdne rozhodnutie, technická norma, ako aj spolu s nimi vytvorená prípravná
+#        dokumentácia a ich preklad" - legislation is not protected by copyright. (Database rights, if any, are not examined;
+#        to verify with counsel.)
+#   Zákon o slobodnom prístupe k informáciám 211/2000 Z. z. (version from 2026-02-04) § 21f ods. 1: "Povinná osoba môže umožniť
+#        opakované použitie informácií bez určenia podmienok alebo s určením podmienok. Ak povinná osoba zverejní informácie na
+#        účel opakovaného použitia bez žiadosti ... a neurčí podmienky ich opakovaného použitia, je vo vzťahu k sprístupneným
+#        informáciám, ktoré sú chránené podľa osobitného predpisu, udelená verejná licencia, na všetky spôsoby použitia známe v
+#        čase jej udelenia v neobmedzenom rozsahu a na celý čas trvania majetkových práv."; § 21g ods. 1: information is to be
+#        made available "prednostne v elektronickej podobe ako otvorené údaje umožňujúce automatizované spracovanie".
+#   Zákon o tvorbe právnych predpisov a o Zbierke zákonov Slovenskej republiky 400/2015 Z. z. (version from 2024-03-06) § 12 ods. 4:
+#        "Elektronická podoba zbierky zákonov je dostupná bezplatne prostredníctvom Slov-Lexu."; § 14: "V elektronickej podobe
+#        zbierky zákonov sa vyhlasujú konsolidované znenia právnych predpisov. Vyhlasované konsolidované znenia právnych predpisov
+#        zostavuje ministerstvo spravodlivosti. Vyhlásené konsolidované znenia právneho predpisu ministerstvo spravodlivosti označí
+#        ako právne záväzné."; § 19 ods. 4: "Vo vyhlásenom konsolidovanom znení právneho predpisu ministerstvo spravodlivosti uvedie
+#        informáciu o účinnosti všetkých jeho sprístupnených časových verzií." Time versions shown as informative (as the pages say)
+#        are therefore not authoritative.
+schema_version: 1
+id: sk-slovlex-static
+name: Slov-lex (static version) - time versions of acts of the Slovak Collection of Laws
+publisher: Ministerstvo spravodlivosti Slovenskej republiky - slov-lex.sk
+kind: official_legislation_portal
+# The portal says the consolidated text it shows is informative; only the promulgated text (and consolidated texts the
+# Ministry declares legally binding, 400/2015 Z. z. § 14) is binding. Modelled as official but not authentic.
+authority: official_non_authentic
+jurisdictions: [SK]
+document_kinds: [constitution, constitutional_act, act]
+languages: [sk]
+coverage: >-
+  Slov-lex holds all acts of the Collection of Laws since 1918 with their time versions. ULIS ingests the time versions
+  listed in the manifest: the Constitution, the Civil, Commercial and Criminal Codes, the Criminal Procedure Code, the
+  Labour Code, the three procedure codes of 2015 and the data-protection act with their whole history up to 2026-10-14
+  (about 400 versions), and the current version of about 20 other main acts.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/sk-slovlex-static.yaml
+  authentication: none
+update_frequency: a new time version appears with each amending act that takes effect; the portal is updated continuously
+rate_limits: >-
+  robots.txt states no crawl delay; ULIS waits at least 5 s between requests (the connector refuses a smaller delay),
+  identifies itself, fetches one history page per act and one page per time version in the manifest (about 450 pages of
+  0.2-1 MB), caches every response and stops on any refusal.
+licence:
+  id: SK-SLOVLEX-STATUTORY
+  name: Slov-lex static version - legislation not protected by copyright (Autorský zákon 185/2015 Z. z. § 5 ods. 1 písm. b); public licence for reuse of information (211/2000 Z. z. § 21f); free access (400/2015 Z. z. § 12 ods. 4)
+  url: https://static.slov-lex.sk/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-14, from the publisher's robots.txt, its static portal pages (home page, history and version
+    pages) and the statutory texts of 185/2015, 211/2000 and 400/2015 Z. z. read from the static pages of those acts
+    (quoted in the comments above). The portal's terms of use could not be read (JavaScript application); no licence
+    text of the publisher's own was found. Approved on the statutory basis only - the acts are not protected by
+    copyright, the Collection is free of charge, the static version is the portal's script-free form, and nothing found
+    restricts automated reuse.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: true
+  attribution_text: >-
+    Zdroj: Slov-lex (www.slov-lex.sk), Ministerstvo spravodlivosti Slovenskej republiky. Časové verzie predpisov sú
+    informatívne; právne záväzné je vyhlásené znenie v Zbierke zákonov. Štruktúra normalizovaná ULIS-om.
+  conditions:
+    - Stay polite - at least 5 s between requests, only the pages listed in the manifest, no crawling of the rest of the site; the connector applies robots.txt and stops on any refusal.
+    - Do not present the time versions as legally binding; the page itself calls them informative and the promulgated text prevails (400/2015 Z. z. § 14).
+    - The promulgated text (vyhlasene_znenie.html) and the promulgated PDFs are not fetched.
+  notes: >-
+    No explicit licence statement of the publisher was available (see the comments above), so counsel review is
+    recommended before production use, in particular of database rights and of the terms of use of the portal.
+provenance: >-
+  Pages https://static.slov-lex.sk/static/SK/ZZ/<year>/<number>/<YYYYMMDD>.html fetched with an identifying User-Agent
+  and stored unchanged (SHA-256 addressed); each response is cached with its URL and retrieval time under
+  var/sources/static.slov-lex.sk/. The effective period comes from the page's ucinnost_header (data-from, data-to).
+known_limitations:
+  - Time versions are informative, not legally binding (the page says so); the binding text is the promulgated one.
+  - Versions are whole-act snapshots dated by the version's first and last day; the source gives no validity dates for single provisions. Unchanged wording continues across versions; a provision absent from a version ends where that version starts.
+  - Only the versions listed in the manifest policy are ingested (all up to the as_of date for the main codes, the current one for the others); versions that take effect after as_of and the promulgated text are not.
+  - Footnote texts are kept as notes of the provisions that mark them; the table of contents, signatures, tables in annexes (flattened to text) and the layout are not kept.
+  - Superscripts are written as Unicode superscript digits; runs of white space, including non-breaking spaces, become one space.
+  - The portal's terms of use could not be read (JavaScript application); see licence notes.
+status: active
+connector: slovlex_static
+parser: slovlex_static_html

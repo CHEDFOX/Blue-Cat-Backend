@@ -1,0 +1,50 @@
+# Acts of the Slovak Collection of Laws fetched from the static version of Slov-lex (https://static.slov-lex.sk),
+# the Ministry of Justice's script-free portal. For each act the connector reads the history page
+# /static/SK/ZZ/<year>/<number>/ and fetches the time-version pages /static/SK/ZZ/<year>/<number>/<YYYYMMDD>.html
+# the `versions` policy asks for, oldest first (about 430 pages in all, one every 5 s: about 40 minutes):
+#   all      every time version in force on or before as_of (the main codes: the whole history)
+#   current  the version in force on as_of
+#   since: <date>  the versions in force on or after <date>
+# The promulgated text (vyhlasene_znenie.html) is never fetched. To extend: add `- {act: "<year>/<number>"}` lines
+# (the year and number of the act in the Collection, e.g. "2005/300" for 300/2005 Z. z.); an act the site does not
+# have is reported as a run error and the run continues. Versions that take effect after as_of are not taken.
+schema_version: 1
+source_id: sk-slovlex-static
+base_url: https://static.slov-lex.sk
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+as_of: 2026-10-14
+laws:
+  # whole history
+  - {act: "1992/460", versions: all}   # Ústava Slovenskej republiky (460/1992 Zb.)
+  - {act: "1964/40", versions: all}    # Občiansky zákonník (40/1964 Zb.)
+  - {act: "1991/513", versions: all}   # Obchodný zákonník (513/1991 Zb.)
+  - {act: "2005/300", versions: all}   # Trestný zákon
+  - {act: "2005/301", versions: all}   # Trestný poriadok
+  - {act: "2001/311", versions: all}   # Zákonník práce
+  - {act: "2015/160", versions: all}   # Civilný sporový poriadok
+  - {act: "2015/161", versions: all}   # Civilný mimosporový poriadok
+  - {act: "2015/162", versions: all}   # Správny súdny poriadok
+  - {act: "2018/18", versions: all}    # zákon o ochrane osobných údajov
+  # current version
+  - {act: "1995/233", versions: current}   # Exekučný poriadok
+  - {act: "1967/71", versions: current}    # Správny poriadok
+  - {act: "2005/36", versions: current}    # zákon o rodine
+  - {act: "2003/595", versions: current}   # zákon o dani z príjmov
+  - {act: "2004/222", versions: current}   # zákon o dani z pridanej hodnoty
+  - {act: "2009/563", versions: current}   # Daňový poriadok
+  - {act: "2015/185", versions: current}   # Autorský zákon
+  - {act: "2000/211", versions: current}   # zákon o slobodnom prístupe k informáciám
+  - {act: "2015/400", versions: current}   # zákon o tvorbe právnych predpisov a o Zbierke zákonov
+  - {act: "2004/757", versions: current}   # zákon o súdoch
+  - {act: "2018/314", versions: current}   # zákon o Ústavnom súde
+  - {act: "1993/171", versions: current}   # zákon o Policajnom zbore
+  - {act: "1990/369", versions: current}   # zákon o obecnom zriadení (369/1990 Zb.)
+  - {act: "2003/461", versions: current}   # zákon o sociálnom poistení
+  - {act: "2004/5", versions: current}     # zákon o službách zamestnanosti
+  - {act: "2006/124", versions: current}   # zákon o bezpečnosti a ochrane zdravia pri práci
+  - {act: "2006/125", versions: current}   # zákon o inšpekcii práce
+  - {act: "2004/576", versions: current}   # zákon o zdravotnej starostlivosti
+  - {act: "2015/343", versions: current}   # zákon o verejnom obstarávaní
+  - {act: "2002/543", versions: current}   # zákon o ochrane prírody a krajiny
+  - {act: "2011/404", versions: current}   # zákon o pobyte cudzincov

@@ -34,6 +34,7 @@ from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.bwb import BwbConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
+from ulis.sources.connectors.esbirka_opendata import EsbirkaOpenDataConnector
 from ulis.sources.connectors.eli_sejm import EliSejmConnector
 from ulis.sources.connectors.eu_cellar import CellarConnector
 from ulis.sources.connectors.eu_cellar_case_law import CellarCaseLawConnector
@@ -53,6 +54,7 @@ from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
 from ulis.sources.connectors.ris_ogd import RisOgdConnector
+from ulis.sources.connectors.slovlex_static import SlovLexStaticConnector
 from ulis.sources.connectors.uscode_house import UscodeHouseConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef, ParseSkipped
 from ulis.sources.parsers import (
@@ -62,6 +64,7 @@ from ulis.sources.parsers import (
     bwb,
     egov_law,
     eli_sejm,
+    esbirka_opendata,
     eu_cellar,
     eu_cellar_case_law,
     fedlex,
@@ -79,6 +82,7 @@ from ulis.sources.parsers import (
     riigi_teataja,
     riksdagen_sfs,
     ris,
+    slovlex_static,
     uslm,
 )
 from ulis.sources.registry import SourceDescriptor, licence_gate
@@ -112,6 +116,8 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "riigi_teataja_xml": riigi_teataja.parse_riigi_teataja,
     "eli_sejm_bundle": eli_sejm.parse_eli_sejm,
     "infoleg_ar_html": infoleg_ar.parse_infoleg_ar,
+    "esbirka_opendata_json": esbirka_opendata.parse_esbirka,
+    "slovlex_static_html": slovlex_static.parse_slovlex_static,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -138,6 +144,8 @@ PARSER_VERSIONS = {
     "riigi_teataja_xml": riigi_teataja.PARSER_VERSION,
     "eli_sejm_bundle": eli_sejm.PARSER_VERSION,
     "infoleg_ar_html": infoleg_ar.PARSER_VERSION,
+    "esbirka_opendata_json": esbirka_opendata.PARSER_VERSION,
+    "slovlex_static_html": slovlex_static.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -197,6 +205,8 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "eli_sejm": EliSejmConnector,
     "uscode_house": UscodeHouseConnector,
     "infoleg_ar": InfolegArConnector,
+    "esbirka_opendata": EsbirkaOpenDataConnector,
+    "slovlex_static": SlovLexStaticConnector,
 }
 
 
@@ -239,6 +249,8 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or riigi_teataja.resolve_uri(uri)
         or eli_sejm.resolve_uri(uri)
         or infoleg_ar.resolve_uri(uri)
+        or esbirka_opendata.resolve_uri(uri)
+        or slovlex_static.resolve_uri(uri)
         or (uri, None)
     )
 

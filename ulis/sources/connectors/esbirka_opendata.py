@@ -53,7 +53,7 @@ DATASETS = {
     "fragments": "004PravniAktFragment.json.gz",
     "metadata": "006PravniAktMetadata.json.gz",
 }
-SLICE_VERSION = 2
+SLICE_VERSION = 3
 SEPARATOR = b"\n},\n{\n"
 ITEMS_KEY = '"položky"'.encode()
 FRAGMENT_LIST_KEY = '  "právní-akt-znění-fragment" : ['.encode()
@@ -68,6 +68,7 @@ FRAGMENT_COLUMNS = (
     "label_number",  # znění-fragment-označení-uzlu
     "label_text",  # znění-fragment-označení-uzlu-text
     "url",  # znění-fragment-url
+    "hierarchy",  # znění-fragment-hierarchie ("/1/2/": position among the siblings at every level)
     "differs_from",  # znění-fragment-odlišná-účinnost
     "selected_from",  # znění-fragment-vybrané-od
     "selected_to",  # znění-fragment-vybrané-do
@@ -131,9 +132,11 @@ class Selection:
 
     as_of: date
     collections: tuple[str, ...]
-    full_history: frozenset[str]  # act ids "sb/2012/89"
+    full_history: frozenset[str]  # act ids "sb/2012/89": every version up to ``as_of``
     in_force: bool  # also the version in force on ``as_of`` of every other act of the collections
     skip: frozenset[str] = field(default_factory=frozenset)  # act ids never taken
+    current: frozenset[str] = field(default_factory=frozenset)  # act ids: only the version in force on ``as_of``
+    years: tuple[int, int] | None = None  # restricts ``in_force`` to acts numbered in these years (inclusive)
 
     def fingerprint(self) -> str:
         payload = json.dumps(
@@ -143,6 +146,8 @@ class Selection:
                 sorted(self.full_history),
                 self.in_force,
                 sorted(self.skip),
+                sorted(self.current),
+                list(self.years) if self.years else None,
                 SLICE_VERSION,
             ]
         )
@@ -171,10 +176,20 @@ def parse_selection(manifest: dict[str, Any]) -> Selection:
         return frozenset(out)
 
     full = act_ids("full_history")
+    current = act_ids("current")
     in_force = bool(sel.get("in_force", False))
-    if not full and not in_force:
+    if not full and not current and not in_force:
         raise ManifestError("the selection names no act and does not ask for acts in force")
-    return Selection(as_of, collections, full, in_force, act_ids("skip"))
+    years = None
+    if sel.get("in_force_years"):
+        try:
+            low, high = (int(y) for y in sel["in_force_years"])
+        except (TypeError, ValueError) as exc:
+            raise ManifestError("selection.in_force_years must be [first year, last year]") from exc
+        if not 1918 <= low <= high <= 2100:
+            raise ManifestError("selection.in_force_years is out of range")
+        years = (low, high)
+    return Selection(as_of, collections, full, in_force, act_ids("skip"), current, years)
 
 
 def gunzip_chunks(path: Path, size: int = 1 << 23) -> Iterator[bytes]:
@@ -266,7 +281,12 @@ def _wanted(sel: Selection, act: str, version: dict[str, Any]) -> bool:
         return False
     if act in sel.full_history:
         return True
-    return sel.in_force and (not end or date.fromisoformat(end) >= sel.as_of)
+    if end and date.fromisoformat(end) < sel.as_of:
+        return False
+    if act in sel.current:
+        return True
+    year = int(act.split("/")[1])
+    return sel.in_force and (sel.years is None or sel.years[0] <= year <= sel.years[1])
 
 
 class EsbirkaOpenDataConnector:
@@ -449,7 +469,7 @@ class EsbirkaOpenDataConnector:
             act = _act_of(record[iri_pos + 13 : end].decode("utf8"))
             if act is None or act in selection.skip or act.split("/", 1)[0] not in selection.collections:
                 continue
-            if act not in selection.full_history and not selection.in_force:
+            if act not in selection.full_history and act not in selection.current and not selection.in_force:
                 continue
             version = _split_version(record)
             if not _wanted(selection, act, version):
@@ -467,7 +487,7 @@ class EsbirkaOpenDataConnector:
             if start in starts.get(act, set()):
                 continue
             if act not in selection.full_history and act in starts:
-                continue  # an act in force with consolidated versions: its current one was chosen above
+                continue  # an act with consolidated versions: its current one was chosen above
             chosen[doc_id] = (act, start, payload)
         db.executemany(
             "insert or replace into version values (?, ?, ?, ?)",
@@ -497,6 +517,7 @@ class EsbirkaOpenDataConnector:
                 "label_number": item.get("znění-fragment-označení-uzlu"),
                 "label_text": item.get("znění-fragment-označení-uzlu-text"),
                 "url": item.get("znění-fragment-url"),
+                "hierarchy": item.get("znění-fragment-hierarchie"),
                 "differs_from": item.get("znění-fragment-odlišná-účinnost"),
                 "selected_from": item.get("znění-fragment-vybrané-od"),
                 "selected_to": item.get("znění-fragment-vybrané-do"),
@@ -579,8 +600,10 @@ class EsbirkaOpenDataConnector:
             extra = json.loads(text[0]) if text else {"type": None, "text": None}
             row.update(extra)
             rows.append([row.get(c) for c in FRAGMENT_COLUMNS])
+        as_of = db.execute("select value from meta where key='as_of'").fetchone()[0]
         document = {
             "format": "esbirka-opendata-slice/1",
+            "as_of": as_of,
             "datasets": files,
             "version": version,
             "metadata": json.loads(meta_row[0]) if meta_row else None,
