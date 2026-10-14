@@ -14,7 +14,7 @@ from sqlalchemy.orm import Session
 
 from ulis.catalog import Catalog
 from ulis.db import models as m
-from ulis.languages import search_config
+from ulis.languages import search_config, segment_for_search
 
 INDEX_VERSION = 1
 
@@ -77,6 +77,8 @@ def _index_instruments(session: Session, instrument_ids: list[Any]) -> int:
                     search_config=search_config(pv.language),
                     context=". ".join(context_parts),
                     text=pv.text,
+                    search_context=segment_for_search(". ".join(context_parts)),
+                    search_text=segment_for_search(pv.text),
                     status=pv.status,
                     valid_from=pv.valid_from,
                     valid_to=pv.valid_to,
@@ -121,6 +123,8 @@ def _index_judgments(session: Session, judgment_ids: list[Any]) -> int:
                 search_config=search_config(version.language),
                 context=context,
                 text=para.text,
+                search_context=segment_for_search(context),
+                search_text=segment_for_search(para.text),
                 status="decided",
                 valid_from=judgment.decision_date,
                 valid_to=None,

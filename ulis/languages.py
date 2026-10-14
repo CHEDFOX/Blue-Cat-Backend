@@ -67,6 +67,24 @@ SEARCH_CONFIGS = {
     "el": "greek",
 }
 FALLBACK_CONFIG = "simple"
+
+# Han, Hiragana, Katakana and Hangul are written without spaces between words, and PostgreSQL
+# has no word segmenter for them: such runs are indexed and queried as overlapping character
+# bigrams ("個人情報" -> "個人 人情 情報"), a standard, dictionary-free approach.
+_CJK_RUN = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uac00-\ud7af\u31f0-\u31ff]+")
+
+
+def _bigrams(run: str) -> str:
+    return run if len(run) == 1 else " ".join(run[i : i + 2] for i in range(len(run) - 1))
+
+
+def segment_for_search(text: str) -> str | None:
+    """Text prepared for full-text search when it contains CJK runs; None when unchanged."""
+    if not _CJK_RUN.search(text):
+        return None
+    return _CJK_RUN.sub(lambda m: f" {_bigrams(m.group(0))} ", text)
+
+
 _CONFIG_RE = re.compile(r"^[a-z_]+$")
 
 

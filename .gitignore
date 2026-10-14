@@ -9,3 +9,4 @@ var/
 *.egg-info/
 build/
 dist/
+/.claude/worktrees/

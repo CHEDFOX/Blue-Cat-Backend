@@ -199,3 +199,11 @@ def test_law_of_a_regional_organisation_applies_only_to_members_and_only_from_ac
         == "foreign"
     )  # type: ignore[arg-type]
     assert reg.organisations_on("XA-NP", date(2020, 1, 1)) == ["XR"]  # provinces share the State's memberships
+
+
+def test_scripts_without_spaces_are_searched_as_character_bigrams() -> None:
+    from ulis.languages import segment_for_search
+
+    assert segment_for_search("Article 1") is None  # other scripts are left to PostgreSQL
+    assert segment_for_search("個人情報").split() == ["個人", "人情", "情報"]  # type: ignore[union-attr]
+    assert segment_for_search("개인정보 보호법").split() == ["개인", "인정", "정보", "보호", "호법"]  # type: ignore[union-attr]

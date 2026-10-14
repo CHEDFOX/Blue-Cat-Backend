@@ -528,11 +528,15 @@ class Passage(Base):
     search_config: Mapped[str] = mapped_column(REGCONFIG)
     context: Mapped[str] = mapped_column(Text, default="")
     text: Mapped[str] = mapped_column(Text)
+    # Search forms of context/text when they differ (CJK bigrams, see ulis.languages); the
+    # exact text above is what results show and cite.
+    search_context: Mapped[str | None] = mapped_column(Text)
+    search_text: Mapped[str | None] = mapped_column(Text)
     tsv: Mapped[Any] = mapped_column(
         TSVECTOR,
         Computed(
-            "setweight(to_tsvector(search_config, coalesce(context, '')), 'B') || "
-            "setweight(to_tsvector(search_config, text), 'A')",
+            "setweight(to_tsvector(search_config, coalesce(search_context, context, '')), 'B') || "
+            "setweight(to_tsvector(search_config, coalesce(search_text, text)), 'A')",
             persisted=True,
         ),
     )

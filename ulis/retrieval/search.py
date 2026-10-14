@@ -28,7 +28,7 @@ from sqlalchemy.orm import Session
 from ulis.catalog import Catalog
 from ulis.db import models as m
 from ulis.jurisdictions.modules import ProvisionCitationInput
-from ulis.languages import all_search_configs
+from ulis.languages import FALLBACK_CONFIG, all_search_configs, segment_for_search
 from ulis.retrieval.authority import Authority, TreatyStatus, classify_judgment, classify_provision
 from ulis.retrieval.coverage import coverage_for
 from ulis.retrieval.details import load_judgment_paragraph, load_provision
@@ -199,8 +199,12 @@ def _candidates(
 ) -> list[_Candidate]:
     params: dict[str, Any] = {"q": req.q, "as_of": as_of, "budget": budget}
     match_parts, rank_parts, direct_parts = [], [], []
+    segmented = segment_for_search(req.q)
+    if segmented is not None:
+        params["q_segmented"] = segmented
     for config in all_search_configs():
-        tsq = f"websearch_to_tsquery(CAST('{config}' AS regconfig), :q)"
+        q_param = "q_segmented" if segmented is not None and config == FALLBACK_CONFIG else "q"
+        tsq = f"websearch_to_tsquery(CAST('{config}' AS regconfig), :{q_param})"
         expanded = tsq
         for i, label in enumerate(expansions.get(config, [])):
             name = f"x_{config}_{i}"
