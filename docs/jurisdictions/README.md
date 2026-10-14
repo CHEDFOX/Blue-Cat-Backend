@@ -26,3 +26,4 @@ gaps and the actual test and ingestion results. See
 | Austria (planned, blocked) | RIS OGD | [at.md](at.md) |
 | Latvia | Likumi.lv (Latvijas Vēstnesis) | [lv.md](lv.md) |
 | Estonia | Riigi Teataja | [ee.md](ee.md) |
+| New Zealand (planned, blocked) | NZ Legislation (PCO) | [nz.md](nz.md) |

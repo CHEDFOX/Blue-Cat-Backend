@@ -1,0 +1,86 @@
+schema_version: 1
+id: nz-pco-legislation
+name: New Zealand Legislation website and Legislation API (v0)
+publisher: Parliamentary Counsel Office (PCO), New Zealand
+kind: official_legislation_portal
+# Conservative until the publisher's own statement of "official" status per publication is read
+# (the PCO's terms pages could not be fetched; see licence.notes). To verify.
+authority: official_non_authentic
+jurisdictions: [NZ]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  Acts, bills, amendment papers and secondary legislation of New Zealand, as works with dated
+  versions (each consolidation of an Act is a new version; API documentation, "Conceptual model").
+  ULIS ingests nothing from it (status planned).
+access:
+  method: api
+  endpoint: https://api.legislation.govt.nz/v0/
+  authentication: >-
+    API key required on every /v0 endpoint (X-Api-Key header or api_key query parameter). Checked
+    on 2026-10-14: an unauthenticated GET of /v0/works/act_public_1990_109/versions/ returned
+    HTTP 401 {"error":"API key is required"}. The key is linked to a named person and is issued on
+    request by email to contact@pco.govt.nz after agreeing to the API terms of use (as reported by
+    a web search result quoting https://www.legislation.govt.nz/learn-more/legislation-data/developer-api/;
+    that page itself could not be fetched). ULIS has no key and must not request one on a person's behalf.
+update_frequency: >-
+  Not stated in the API documentation. A new version exists for each consolidation of an Act;
+  re-fetch to refresh.
+rate_limits: >-
+  API documentation (https://api.legislation.govt.nz/docs/, read 2026-10-14, "Rate limiting"):
+  10,000 requests per key per day (quota resets at midnight NZ local time; HTTP 429 beyond it) and a
+  burst limit of 2,000 requests per IP address per five minutes (HTTP 403 beyond it). robots.txt of
+  api.legislation.govt.nz: HTTP 404 (none). robots.txt of www.legislation.govt.nz, where the XML,
+  HTML and PDF formats are served: not readable, the host answers every request, including
+  /robots.txt, with HTTP 202 and header x-amzn-waf-action: challenge (AWS WAF bot challenge).
+licence:
+  id: UNVERIFIED
+  name: Licence not verified - the PCO terms and copyright pages were not readable by ULIS
+  url: https://www.legislation.govt.nz/learn-more/legislation-data/api-terms-of-use/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ DIRECTLY: https://api.legislation.govt.nz/docs/ (API
+    documentation; states no licence, copyright or attribution wording; the XML, HTML and PDF
+    "formats" it links to are on www.legislation.govt.nz). NOT READ (bot-challenged for ULIS's
+    identifying user agent: www.legislation.govt.nz HTTP 202 WAF challenge, www.pco.govt.nz HTTP 403
+    Azure WAF JS challenge, data.govt.nz Incapsula challenge): the API terms of use
+    (https://www.legislation.govt.nz/learn-more/legislation-data/api-terms-of-use/), the developer
+    API page, the XML data page (https://www.legislation.govt.nz/learn-more/legislation-data/xml-data/)
+    and the copyright statement. SECOND-HAND ONLY (web search result snippets, not checked against
+    the pages): the data is free to reuse; the terms say the API may be unavailable or change,
+    the data is not legal advice, and some pilot secondary legislation may be inaccurate; the PCO
+    showcase at https://data.govt.nz/use-data/showcase/parliamentary-counsel-office is said to
+    state that there is no copyright in New Zealand Acts, Bills, legislative instruments and
+    Supplementary Order Papers. A Creative Commons licence (CC BY 4.0) was NOT confirmed.
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - Do not fetch from www.legislation.govt.nz (WAF bot challenge) and do not try to pass it.
+    - An API key must be obtained by a person (email to contact@pco.govt.nz), who must read and accept the API terms of use; the key is personal and confidential.
+    - Re-review the licence, attribution wording and "official" status once the terms pages can be read.
+  notes: >-
+    STOPPED, nothing ingested. Even with a key the API only returns metadata (works, versions and
+    links to formats); the XML itself is linked on www.legislation.govt.nz, which challenges
+    automated clients, so a key alone may not make ingestion possible. A person should ask the
+    PCO (contact@pco.govt.nz) for a key and for confirmation that the XML endpoints may be fetched
+    by an identified research client (or for a bulk XML export), and should read the terms.
+provenance: >-
+  Official New Zealand Legislation website operated by the Parliamentary Counsel Office. The API
+  documentation (https://api.legislation.govt.nz/docs/, "Version Zero", a test release that may
+  change) models works (work_id, e.g. act_public_1990_109 for the New Zealand Bill of Rights Act
+  1990), versions (version_id, e.g. act_public_1990_109_en_2022-08-30) and formats (xml, html, pdf).
+  Per the brief for this task, the Legislation Act 2019 makes the electronic version official and
+  "official" status is declared per publication - not verified by ULIS.
+known_limitations:
+  - Nothing is ingested. Access needs a personal API key (not held) and the XML is served from a host that issues a bot challenge.
+  - The licence, attribution wording and the authoritative status of each publication were not verified; the permissions above are "unknown".
+  - "The API is \"Version Zero\" (a test release): endpoints and fields may change."
+  - "English only (the API documentation says the language segment of identifiers currently takes only the value en); te reo Maori texts of selected Acts are a known gap and are not modelled."
+# Planned, not active: blocked by a bot challenge on www.legislation.govt.nz and an API key that only
+# a person can request. No connector or parser exists for this source and none was written, because no
+# real document could be fetched to build or test them against. See docs/jurisdictions/nz.md.
+status: planned

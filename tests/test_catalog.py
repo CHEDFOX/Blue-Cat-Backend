@@ -53,6 +53,7 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "AT",
         "LV",
         "EE",
+        "NZ",
     }
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"

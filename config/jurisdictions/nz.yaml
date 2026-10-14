@@ -1,0 +1,87 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. New Zealand (the Realm's self-governing territories - Cook Islands,
+# Niue - and Tokelau are not profiled). Profile only: no source could be ingested (nz-pco-legislation is planned).
+schema_version: 1
+id: NZ
+profile_version: 0.1.0
+name: New Zealand
+names: {en: New Zealand, mi: Aotearoa}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en, mi]
+legal_system:
+  families: [common_law]
+  structure: unitary
+  treaty_reception: dualist
+  notes: >-
+    To verify - common-law system with an uncodified constitution and parliamentary sovereignty: the
+    Parliament (the House of Representatives, unicameral, with the Sovereign) can make or unmake any law,
+    and the New Zealand Bill of Rights Act 1990 is an ordinary statute that the courts cannot use to
+    invalidate other Acts (they must prefer a rights-consistent meaning where one is available). Dualist:
+    a treaty that New Zealand has ratified is not domestic law until Parliament implements it by
+    legislation. Official languages are English (in practice), te reo Maori and New Zealand Sign Language;
+    te reo Maori text of selected Acts exists and is NOT ingested (known gap). The Treaty of Waitangi (te
+    Tiriti o Waitangi) is relevant to interpretation of many statutes and is not modelled.
+legislative_institutions:
+  - id: NZ-PARL
+    name: Parliament of New Zealand (House of Representatives and the Sovereign)
+    instrument_types: [act]
+instrument_types: [act, regulation]
+norm_hierarchy: [act, regulation]
+courts:
+  - id: NZ-SC
+    name: Supreme Court of New Zealand
+    rank: 1
+  - id: NZ-CA
+    name: Court of Appeal of New Zealand
+    rank: 2
+    appeals_to: [NZ-SC]
+    binds_self: true
+  - id: NZ-HC
+    name: High Court of New Zealand
+    rank: 3
+    appeals_to: [NZ-CA]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+  notes: >-
+    To verify - the Supreme Court (established 2004, replacing the Privy Council as the final appeal court)
+    binds all lower courts; the Court of Appeal binds the High Court and lower courts and generally follows
+    its own decisions; the High Court is bound by the Court of Appeal and Supreme Court and generally
+    follows its own decisions unless convinced they are clearly wrong. The District Court, Employment
+    Court, Environment Court, Maori Land Court, Family Court and tribunals are not profiled.
+citation:
+  module: default
+  notes: >-
+    Statutes are cited by short title and year, then the pinpoint: "Privacy Act 2020, s 22",
+    "Crimes Act 1961, s 128(1)(a)" (the New Zealand Law Style Guide convention, to verify). No `nz`
+    citation module exists yet: it is to be written together with a parser once a source can be
+    fetched, so the default module is named here and no citation is produced by ULIS for New Zealand.
+  examples:
+    - "Privacy Act 2020, s 22"
+    - "Crimes Act 1961, s 128(1)(a)"
+    - "New Zealand Bill of Rights Act 1990, s 21"
+    - "Employment Relations Act 2000, s 103A"
+publication:
+  official_sources: [nz-pco-legislation]
+  commencement: >-
+    To verify - an Act normally comes into force on a date stated in it, or on the day after the Royal
+    assent if it says nothing; many Acts commence by Order in Council. The brief names the Legislation Act
+    2019 as the governing statute for publication; not read.
+  amendment: >-
+    Textual amendment by later Acts. The Parliamentary Counsel Office publishes a new version of an Act
+    (a consolidation) each time it is amended, with the date the version takes effect in its
+    identifier (Legislation API documentation, "Conceptual model"). To verify how amendments not yet in
+    force are shown.
+  repeal: To verify - express repeal by later Act; the Legislation website marks repealed Acts and provisions.
+coverage:
+  corpus_status: none
+  known_gaps:
+    - No New Zealand legislation or case law has been ingested. The one candidate source, nz-pco-legislation, is planned - the Legislation API needs a personal API key that only a person can request, and the website that serves the XML answers automated clients with a bot challenge.
+    - The licence, attribution wording and the authoritative ("official") status of the PCO's publications were not verified because the terms pages could not be read.
+    - The six Acts planned for a first sample were not fetched - New Zealand Bill of Rights Act 1990, Crimes Act 1961, Contract and Commercial Law Act 2017, Privacy Act 2020, Employment Relations Act 2000 and Companies Act 1993 or Consumer Guarantees Act 1993. Their work identifiers were not verified (only act_public_1990_109 for the Bill of Rights Act appears in the API documentation).
+    - Te reo Maori texts of selected Acts are a known gap.
+    - No secondary legislation, bills, treaties or Maori Land Court, tribunal and district-level material; no citator coverage; no `nz` citation module.
