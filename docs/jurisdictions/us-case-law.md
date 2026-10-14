@@ -61,7 +61,8 @@ U.S. Government Publishing Office. Research aid, not legal advice. Legislation: 
   "partial-birth abortion" -> Gonzales v. Carhart, 550 U.S. 124, 141; "Hatch Act political activity ..." -> United Public Workers v.
   Mitchell, 330 U.S. 75, 82; "Consumer Safety Officer removal ..." -> Kolenc v. HHS (Fed. Cir.). Labels `precedent_vertical` (Supreme
   Court), `binding_precedent` for the Federal Circuit with `forum_court US-CAFC`, `persuasive_precedent` otherwise.
-- Tests: the full suite against `ulis_test_usgov` is in the final report of the work (see the commit log).
+- Checks: `ruff check`, `ruff format --check` and `mypy ulis` clean; full suite against `ulis_test_usgov`: **786 passed** (741
+  before; 45 new tests in the three US case-law test files).
 
 ## Known gaps
 
