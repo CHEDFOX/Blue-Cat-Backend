@@ -1,0 +1,18 @@
+# Argentine national legislation fetched from InfoLEG (Ministerio de Justicia, https://www.argentina.gob.ar/normativa).
+# Per norm: its summary page /normativa/nacional/norma-<id> and the text page it links to (/actualizacion = "texto
+# actualizado", /texto = "texto original"). `id` is InfoLEG's norm id (the number at the end of the page address).
+# The Constitution has no updated text on the site, so its "texto original" (the official text ordered by Ley 24.430)
+# is used. Terms: https://www.argentina.gob.ar/terminos-y-condiciones (CC BY 4.0); robots.txt: Crawl-delay 10, none of
+# these paths disallowed (see config/sources/ar-infoleg.yaml).
+schema_version: 1
+source_id: ar-infoleg
+base_url: https://www.argentina.gob.ar
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 10
+laws:
+  - {id: 804, text: original, title: Constitución de la Nación Argentina}      # Ley 24.430 (texto oficial, reforma de 1994)
+  - {id: 235975, text: actualizado, title: Código Civil y Comercial de la Nación}  # Ley 26.994, Anexo I
+  - {id: 16546, text: actualizado, title: Código Penal}                         # Ley 11.179 (t.o. 1984 actualizado)
+  - {id: 64790, text: actualizado, title: Ley de Protección de los Datos Personales}  # Ley 25.326
+  - {id: 25552, text: actualizado, title: Ley de Contrato de Trabajo}            # Ley 20.744 (t.o. 1976)
+  - {id: 22363, text: actualizado, title: Ley de Procedimientos Administrativos}  # Ley 19.549

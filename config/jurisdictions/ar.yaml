@@ -1,0 +1,98 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Argentina (national legislation). The provinces and the Ciudad Autónoma
+# de Buenos Aires are not profiled yet; their legislation is out of scope.
+schema_version: 1
+id: AR
+profile_version: 0.1.0
+name: Argentina
+names: {en: Argentina, es: Argentina}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [es]
+legal_system:
+  families: [civil_law]
+  structure: federal
+  treaty_reception: monist
+  notes: >-
+    To verify - federal republic of 23 provinces and the Ciudad Autónoma de Buenos Aires (arts. 1, 5 and 129 CN);
+    the provinces keep the powers they did not delegate to the Nation (art. 121 CN), but the Congress enacts the
+    national codes (Civil y Comercial, Penal, de Minería, del Trabajo y de la Seguridad Social: art. 75 inc. 12
+    CN), which the federal and provincial courts apply. Codified civil-law system.
+    Treaties and concordats rank above laws (art. 75 inc. 22 CN), and the human-rights treaties listed there have
+    constitutional hierarchy; the Corte Suprema has treated international law as part of the domestic order since
+    the 1990s ("Ekmekdjian c. Sofovich"), which is why the reception is recorded as monist. Constitutional review is
+    diffuse: every judge may decline to apply a norm in a concrete case, and the Corte Suprema has the last word
+    (recurso extraordinario federal). Spanish is the language of the law (the Constitution names no official language;
+    to verify).
+legislative_institutions:
+  - id: AR-CONGRESO
+    name: Congreso de la Nación Argentina (Cámara de Diputados and Senado)
+    instrument_types: [constitution, law]
+  - id: AR-PEN
+    name: Poder Ejecutivo Nacional
+    instrument_types: [decree]
+instrument_types: [constitution, law, decree]
+norm_hierarchy: [constitution, law, decree]
+courts:
+  - id: AR-CSJN
+    name: Corte Suprema de Justicia de la Nación
+    rank: 1
+  - id: AR-CFA
+    name: Cámaras Federales de Apelaciones
+    rank: 2
+    appeals_to: [AR-CSJN]
+  - id: AR-JF
+    name: Juzgados federales de primera instancia
+    rank: 3
+    appeals_to: [AR-CFA]
+precedent:
+  doctrine: jurisprudence_constante
+  vertical_binding: false
+  notes: >-
+    To verify - there is no formal stare decisis: judgments bind the parties. The Corte Suprema's doctrine is
+    nevertheless strongly followed: lower courts are expected to apply it, and departing from it without new
+    arguments is a ground of appeal (the "deber moral de acatamiento" of "Cerámica San Lorenzo", 1985). Plenary
+    judgments of the national chambers (fallos plenarios) bind the chamber's judges. The ordinary national courts
+    of the Ciudad de Buenos Aires (Cámaras Nacionales), the provincial courts and the specialised federal courts
+    are not listed; the three entries are simplified (one entry stands for many courts).
+citation:
+  module: ar
+  notes: >-
+    Argentine style with the article's own numbering ("14 bis"): the article first, then the abbreviation of the
+    code (CN, CCCN, CP, LCT) or, for other laws, the law's number with the thousands dot (art. 4 inc. a), Ley
+    25.326). Articles are stored as one provision each, so ULIS cites down to the article. The InfoLEG norm id is
+    kept in ext.infoleg_id.
+  examples:
+    - "art. 1109 CCCN"
+    - "art. 79 CP"
+    - "art. 14 bis CN"
+    - "art. 245 LCT"
+    - "art. 5, Ley 25.326"
+    - "art. 4 inc. a), Ley 25.326"
+    - "disp. trans. primera CN"
+publication:
+  official_sources: [ar-infoleg]
+  commencement: >-
+    Laws bind after the eighth day following their official publication, or from the day they determine (art. 5
+    CCCN, as printed in the ingested text); the Boletín Oficial is the authentic publication (decretos 659/1947 and
+    207/2016, quoted by InfoLEG).
+  amendment: >-
+    Textual amendment by later norms. InfoLEG's editors update the text and note each express modification
+    ("Artículo sustituido por art. ... de la Ley ... B.O. ..."); they do not record tacit modifications.
+  repeal: >-
+    Express repeal (shown in the updated text as "(Artículo derogado por ...)"); tacit repeal is not reflected in
+    InfoLEG's texts.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Six instruments only (see the source manifest); no other laws, decrees, resolutions, treaties or Boletín Oficial issues.
+    - InfoLEG's updated texts are informative; the authentic text is the Boletín Oficial, which is not ingested. Only express modifications are recorded.
+    - Each text is attested at its retrieval date. When a provision took effect, and earlier versions of an amended provision, are not recorded (history not indexed); the Constitution's text is the original text of Ley 24.430, without an updated version.
+    - Articles are the smallest provisions. Paragraphs and numbered or lettered items stay inside the article text; in the Constitution, the codes and Ley 19.549 the article's rubric is part of its first line.
+    - The Civil and Commercial Code is Anexo I of Ley 26.994 only (not the approving law's own articles nor Anexo II, which amends other laws); the Constitution is the text from the Preamble to the last transitory clause (not the articles of Ley 24.430 around it).
+    - Ley 19.549 was issued in 1972 by the de facto executive; InfoLEG lists it as a law and it is in force as amended, but the profile does not model de facto legislation.
+    - Provincial and municipal law, the Ciudad Autónoma de Buenos Aires and the Mercosur order are out of scope; no case law (Corte Suprema, Cámaras Federales).
+    - Courts and precedent rules are a simplified draft ("To verify").

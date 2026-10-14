@@ -1,0 +1,110 @@
+{
+ "constitucion": {
+  "infoleg_id": 804,
+  "text_kind": "original",
+  "summary": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-804",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-804",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:40:03.389217+00:00"
+  },
+  "text": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-804/texto",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-804/texto",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:40:13.354616+00:00"
+  }
+ },
+ "ley-25326": {
+  "infoleg_id": 64790,
+  "text_kind": "actualizado",
+  "summary": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-64790",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-64790",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:41:03.461517+00:00"
+  },
+  "text": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-64790/actualizacion",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-64790/actualizacion",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:41:14.534815+00:00"
+  }
+ },
+ "ley-19549": {
+  "infoleg_id": 22363,
+  "text_kind": "actualizado",
+  "summary": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-22363",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-22363",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:41:44.316868+00:00"
+  },
+  "text": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-22363/actualizacion",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-22363/actualizacion",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:41:53.545098+00:00"
+  }
+ },
+ "cccn": {
+  "infoleg_id": 235975,
+  "text_kind": "actualizado",
+  "summary": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-235975",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-235975",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:40:23.363964+00:00"
+  },
+  "text": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-235975/actualizacion",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-235975/actualizacion",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:40:33.590541+00:00"
+  }
+ },
+ "codigo-penal": {
+  "infoleg_id": 16546,
+  "text_kind": "actualizado",
+  "summary": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-16546",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-16546",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:40:45.612785+00:00"
+  },
+  "text": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-16546/actualizacion",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-16546/actualizacion",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:40:53.460086+00:00"
+  }
+ },
+ "lct": {
+  "infoleg_id": 25552,
+  "text_kind": "actualizado",
+  "summary": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-25552",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-25552",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:41:23.383183+00:00"
+  },
+  "text": {
+   "url": "https://www.argentina.gob.ar/normativa/nacional/norma-25552/actualizacion",
+   "final_url": "https://www.argentina.gob.ar/normativa/nacional/norma-25552/actualizacion",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "retrieved_at": "2026-10-14T15:41:33.611903+00:00"
+  }
+ }
+}

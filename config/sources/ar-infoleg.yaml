@@ -1,0 +1,102 @@
+# InfoLEG - Leyes Argentinas (Ministerio de Justicia de la Nación). Terms read on 2026-10-14 from the site itself
+# (pages cached under var/sources/www.argentina.gob.ar/):
+#   https://www.argentina.gob.ar/terminos-y-condiciones - "Propiedad intelectual": "El Administrador licencia todos
+#        sus contenidos bajo la licencia Creative Commons Atribución 4.0 Internacional, cuyo texto legal puede
+#        encontrarse en creativecommons.org/licenses/by/4.0/deed.es, excepto cuando se declare lo contrario." The
+#        terms forbid harassment, access to restricted data and searching for vulnerabilities; they say nothing
+#        against automated reading of public pages. (The CC BY line in the footer of the norm pages is commented
+#        out in the HTML; the terms page is the statement relied on.)
+#   https://www.argentina.gob.ar/normativa/aviso-legal - "Las normas contenidas en la base de este sitio son
+#        solamente aquellas que se publican en el Boletín Oficial de la República Argentina", which per decrees
+#        659/1947 and 207/2016 is authentic and obligatory by its publication; "Este sitio no se hace responsable
+#        por la exactitud de los textos actualizados": InfoLEG's editors do not "ordenar" legislation and record only
+#        express modifications ("por las razones ya expuestas no volcamos en los textos modificaciones [...] que no
+#        sean expresas"). The updated texts are therefore informative.
+#   https://www.argentina.gob.ar/robots.txt - for User-agent * "Crawl-delay: 10"; disallows "*?tca=*", the
+#        directory /sites/default/files/infoleg/ (InfoLEG's file downloads), "/*.pdf$", "/*.doc$", "/*.docx$",
+#        "/*.xls$", "/*.xlsx$", /search, /buscar, /servicios, /tramitar and others. The pages ULIS fetches,
+#        /normativa/nacional/norma-<id> and its /texto and /actualizacion subpages (the pages the site's own
+#        "Ver norma original" / "Ver texto actualizado" buttons open), are not disallowed. The connector reads
+#        robots.txt first, applies the Crawl-delay and refuses any disallowed path.
+#   https://servicios.infoleg.gob.ar/robots.txt - 404 (no rules). The legacy host (verNorma.do?id=..., anexos/.../
+#        norma.htm, texact.htm) is not used: the current site is argentina.gob.ar/normativa, the one whose terms
+#        grant the licence.
+#   https://datos.gob.ar/dataset/justicia-base-infoleg-normativa-nacional - open-data record "Base Infoleg de
+#        Normativa Nacional" (Ministerio de Justicia, licence "Creative Commons Attribution 4.0", updated monthly
+#        per the record, last update shown 2023-09-01). Resources are CSV/ZIP files on datos.jus.gob.ar (robots.txt
+#        of both hosts allows dataset downloads). The 1000-row sample CSV read on 2026-10-14 holds norm metadata
+#        (id_norma, tipo_norma, numero_norma, organismo_origen, fecha_sancion, fecha_boletin, titulo_resumido,
+#        texto_resumido, texto_original and texto_actualizado as links to the legacy host, modificada_por,
+#        modifica_a), not the texts. It is not used; it would only serve to list norms.
+schema_version: 1
+id: ar-infoleg
+name: InfoLEG - Leyes Argentinas (argentina.gob.ar/normativa)
+publisher: >-
+  Ministerio de Justicia de la Nación, Centro de Documentación e Información (InfoLEG), published on the portal
+  Argentina.gob.ar
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [AR]
+document_kinds: [constitution, act]
+languages: [es]
+coverage: >-
+  Argentine national legislation published in the Boletín Oficial: for each norm a summary page and its texts
+  ("texto original" and, for amended norms, "texto actualizado" with the editors' notes on amendments). ULIS
+  ingests the current text of six instruments in Spanish - the Constitución Nacional (texto oficial of Ley 24.430,
+  1994 reform), Código Civil y Comercial de la Nación (Ley 26.994, Anexo I), Código Penal (Ley 11.179), Ley 25.326
+  (protección de los datos personales), Ley de Contrato de Trabajo (Ley 20.744) and Ley 19.549 (procedimientos
+  administrativos).
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ar-infoleg.yaml
+update_frequency: >-
+  continuous (the editors update a text when an amendment is published); the pages state no date of update, so ULIS
+  attests each text at its retrieval date
+rate_limits: >-
+  robots.txt (2026-10-14): "Crawl-delay: 10". ULIS waits 10 s between requests, identifies itself, caches every
+  download and refuses any path robots.txt disallows (13 requests for the six instruments).
+licence:
+  id: CC-BY-4.0
+  name: Creative Commons Atribución 4.0 Internacional (stated by the portal's terms for all its contents)
+  url: https://creativecommons.org/licenses/by/4.0/deed.es
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - Términos y condiciones of Argentina.gob.ar ("El Administrador licencia todos sus contenidos bajo
+    la licencia Creative Commons Atribución 4.0 Internacional", https://www.argentina.gob.ar/terminos-y-condiciones);
+    the Aviso legal of the Leyes Argentinas section (https://www.argentina.gob.ar/normativa/aviso-legal) restricts
+    nothing but disclaims responsibility for the accuracy of updated texts; robots.txt allows the norm pages
+    (Crawl-delay 10); the open-data record of the InfoLEG database states CC BY 4.0 as well.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Fuente: InfoLEG - Información Legislativa, Ministerio de Justicia de la Nación, Argentina.gob.ar/normativa -
+    licenciado bajo CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/deed.es). Texto sin modificaciones;
+    estructura y metadatos preparados por ULIS. El texto auténtico es el publicado en el Boletín Oficial; los textos
+    actualizados son informativos.
+  conditions:
+    - Attribution under CC BY 4.0 (the portal prescribes no wording; the attribution text above is ULIS's).
+    - Updated texts are informative; the Boletín Oficial is authentic (stated on every result).
+    - Respect robots.txt (Crawl-delay 10; never the file directories under /sites/default/files/infoleg/, *.pdf, or query strings with tca=) - enforced by the connector.
+    - Polite retrieval (identifying User-Agent, cached downloads); stop on any refusal.
+    - Do not use the legacy host servicios.infoleg.gob.ar or the datos.jus.gob.ar files without a new review.
+  notes: >-
+    The CC BY 4.0 statement is general ("todos sus contenidos ... excepto cuando se declare lo contrario"); the norm
+    pages declare no exception, and the legal norms themselves are public documents. The terms do not mention
+    automated retrieval either way. Counsel review recommended before production use.
+provenance: >-
+  Official legal information service of the Ministry of Justice. The authentic text of each norm is its publication
+  in the Boletín Oficial de la República Argentina (decretos 659/1947 and 207/2016). Each bundle (summary page and
+  text page) is stored with its URLs, retrieval times and SHA-256.
+known_limitations:
+  - Informative text; the Boletín Oficial is authentic. InfoLEG does not warrant the accuracy of updated texts and records express modifications only (tacit repeals and court rulings are not reflected).
+  - The pages state no date of update; each text is attested at its retrieval date. When a provision took effect is not recorded (no history, no point-in-time versions); the "Antecedentes normativos" list of amending norms is not ingested.
+  - Editorial notes ("Artículo sustituido por ...", "Nota Infoleg", "Corresponde al Artículo ...") are kept as notes, never as text.
+  - The Constitution is only available as the original text of Ley 24.430 (the site offers no updated text for it).
+  - Only the six instruments of the manifest; no decrees, resolutions, treaties or other laws.
+status: active
+connector: infoleg_ar
+parser: infoleg_ar_html

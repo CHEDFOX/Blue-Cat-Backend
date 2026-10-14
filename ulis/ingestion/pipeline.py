@@ -40,6 +40,7 @@ from ulis.sources.connectors.fedlex import FedlexConnector
 from ulis.sources.connectors.finlex import FinlexConnector
 from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
+from ulis.sources.connectors.infoleg_ar import InfolegArConnector
 from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.likumi_lv import LikumiLvConnector
@@ -63,6 +64,7 @@ from ulis.sources.parsers import (
     fedlex,
     finlex,
     gesetze_im_internet,
+    infoleg_ar,
     irish_statute_book,
     justice_canada,
     legislation_gov_uk,
@@ -103,6 +105,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "likumi_lv_html": likumi_lv.parse_likumi_lv,
     "riigi_teataja_xml": riigi_teataja.parse_riigi_teataja,
     "eli_sejm_bundle": eli_sejm.parse_eli_sejm,
+    "infoleg_ar_html": infoleg_ar.parse_infoleg_ar,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -126,6 +129,7 @@ PARSER_VERSIONS = {
     "likumi_lv_html": likumi_lv.PARSER_VERSION,
     "riigi_teataja_xml": riigi_teataja.PARSER_VERSION,
     "eli_sejm_bundle": eli_sejm.PARSER_VERSION,
+    "infoleg_ar_html": infoleg_ar.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -180,6 +184,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "riigi_teataja": RiigiTeatajaConnector,
     "eli_sejm": EliSejmConnector,
     "uscode_house": UscodeHouseConnector,
+    "infoleg_ar": InfolegArConnector,
 }
 
 
@@ -220,6 +225,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or likumi_lv.resolve_uri(uri)
         or riigi_teataja.resolve_uri(uri)
         or eli_sejm.resolve_uri(uri)
+        or infoleg_ar.resolve_uri(uri)
         or (uri, None)
     )
 
