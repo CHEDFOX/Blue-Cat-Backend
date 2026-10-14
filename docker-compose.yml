@@ -1,4 +1,9 @@
-# Local development stack: PostgreSQL + API. Not a production deployment.
+# DEVELOPMENT ONLY: a throwaway PostgreSQL 16 for local runs and `pytest` (README quick start: `docker compose up db`).
+# It listens on localhost only and uses a public password on purpose.
+#
+# The PRODUCTION stack (API + database + HTTPS proxy, backups, corpus loading) is deploy/docker-compose.yml;
+# see docs/deployment.md. There is no API service here any more: run `uvicorn ulis.api.app:create_app --factory`
+# from your virtualenv.
 services:
   db:
     image: postgres:16
@@ -6,22 +11,11 @@ services:
       POSTGRES_USER: ulis
       POSTGRES_PASSWORD: ulis
       POSTGRES_DB: ulis
-    ports: ["5432:5432"]
+    ports: ["127.0.0.1:5432:5432"]
     volumes: [pgdata:/var/lib/postgresql/data]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ulis"]
       interval: 5s
       retries: 10
-  api:
-    build: .
-    depends_on:
-      db: {condition: service_healthy}
-    environment:
-      ULIS_DATABASE_URL: postgresql+psycopg://ulis:ulis@db:5432/ulis
-      ULIS_OBJECT_STORE_DIR: /data/objects
-      ULIS_ENV: development
-    volumes: [objects:/data/objects]
-    ports: ["8000:8000"]
 volumes:
   pgdata:
-  objects:

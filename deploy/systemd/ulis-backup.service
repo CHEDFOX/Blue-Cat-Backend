@@ -1,0 +1,19 @@
+# Nightly database backup (see ulis-backup.timer). Install:
+#   sudo cp deploy/systemd/ulis-*.service deploy/systemd/ulis-*.timer /etc/systemd/system/
+#   sudo sed -i 's#/opt/ulis#/path/to/your/checkout#g' /etc/systemd/system/ulis-*.service
+#   sudo systemctl daemon-reload && sudo systemctl enable --now ulis-backup.timer ulis-refresh.timer ulis-verify.timer
+# Check: systemctl list-timers 'ulis-*';  journalctl -u ulis-backup.service
+# Written without a systemd host to test on; `systemd-analyze verify /etc/systemd/system/ulis-backup.*` checks syntax.
+[Unit]
+Description=ULIS database backup
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+# Directory of the repository checkout that holds deploy/ (docker-compose.yml and .env live in deploy/).
+WorkingDirectory=/opt/ulis/deploy
+ExecStart=/opt/ulis/deploy/backup.sh
+# Add --with-objects, or set ULIS_BACKUP_OBJECTS=1 in deploy/.env, to archive the raw document store too.
+Nice=10
+IOSchedulingClass=idle

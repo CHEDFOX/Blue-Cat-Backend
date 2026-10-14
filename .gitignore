@@ -10,3 +10,7 @@ var/
 build/
 dist/
 /.claude/worktrees/
+# deployment: local secrets, database dumps and corpus exports never go into git
+deploy/.env
+deploy/backups/
+deploy/exports/

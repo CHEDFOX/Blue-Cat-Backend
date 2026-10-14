@@ -17,6 +17,7 @@ from ulis.db import make_engine, make_session_factory, session_scope
 from ulis.db import models as m
 from ulis.ingestion.catalog_sync import sync_catalog
 from ulis.ingestion.pipeline import Ingestor
+from ulis.ops.commands import OPS_COMMANDS, add_ops_parsers, run_ops_command
 from ulis.retrieval.indexer import rebuild_passages
 from ulis.retrieval.search import SearchRequest, search
 from ulis.settings import REPO_ROOT, load_settings
@@ -44,6 +45,7 @@ def main(argv: list[str] | None = None) -> int:
     ing.add_argument("--actor", default="cli")
     sub.add_parser("reindex", help="rebuild the passages index from canonical tables")
     sub.add_parser("verify-sources", help="re-derive every stored text from its raw source document")
+    add_ops_parsers(sub)  # load-all, status (ulis/ops)
     srch = sub.add_parser("search", help="search the corpus")
     srch.add_argument("q")
     srch.add_argument("--jurisdiction")
@@ -67,6 +69,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "migrate":
         migrate(settings.database_url)
         return 0
+
+    if args.cmd in OPS_COMMANDS:
+        return run_ops_command(args, settings, catalog)
 
     factory = make_session_factory(make_engine(settings.database_url))
     store = LocalObjectStore(settings.object_store_dir)

@@ -1,0 +1,87 @@
+# Caddy reverse proxy for the ULIS API: automatic HTTPS (Let's Encrypt), security headers, request size limit,
+# timeouts suited to a job/polling API, and an access log without query strings.
+# Syntax checked by eye only (no Caddy binary was available when this was written). To check on the server:
+#   docker compose run --rm --no-deps caddy caddy validate --config /etc/caddy/Caddyfile
+#
+# {$ULIS_DOMAIN} and {$ULIS_ACME_EMAIL} come from deploy/.env (see docker-compose.yml).
+# For a local trial set ULIS_DOMAIN=localhost: Caddy then issues a certificate from its own local CA.
+
+{
+	email {$ULIS_ACME_EMAIL}
+
+	servers {
+		timeouts {
+			read_header 10s
+			read_body 30s
+			write 60s
+			idle 2m
+		}
+	}
+}
+
+{$ULIS_DOMAIN} {
+	encode zstd gzip
+
+	# Largest accepted request body. The API enforces its own, tighter limits per route
+	# (ULIS_MAX_BODY_BYTES, ULIS_MAX_BODY_BYTES_RESEARCH); this is the outer fence.
+	request_body {
+		max_size 2MB
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "no-referrer"
+		Permissions-Policy "geolocation=(), microphone=(), camera=()"
+		Content-Security-Policy "default-src 'none'; frame-ancestors 'none'"
+		-Server
+	}
+
+	# Access log: JSON on stdout (docker compose logs caddy). The request URI is cut at the first "?" so that
+	# query strings (which can carry legal questions) are never written, and credential headers are removed.
+	log {
+		output stdout
+		format filter {
+			wrap json
+			fields {
+				request>uri regexp "[?].*" ""
+				request>headers>X-Api-Key delete
+				request>headers>Authorization delete
+				request>headers>Cookie delete
+				request>headers>Referer delete
+			}
+		}
+	}
+
+	# The interactive API docs are off in production; refuse them here as well. (`handle` blocks are tried in
+	# the order written and the first match wins; a bare `respond` would be sorted after them.)
+	@docs path /docs /docs/* /redoc /openapi.json
+	handle @docs {
+		respond 404
+	}
+
+	handle {
+		reverse_proxy api:8000 {
+			# Active health check against the liveness probe; traffic stops while it fails.
+			health_uri /health
+			health_interval 30s
+			health_timeout 5s
+
+			transport http {
+				dial_timeout 5s
+				# Research endpoints answer 202 immediately and are polled, so no request needs minutes:
+				# a response that takes longer than this is a stuck worker, not a long-running job.
+				response_header_timeout 90s
+			}
+		}
+	}
+}
+
+# --- Optional: the web interface on its own hostname (enable the `web` service in docker-compose.yml) ---------
+# The browser then talks to the web app only; the web app's server calls the API with its own key, so no API key
+# ever reaches a browser and CORS stays unnecessary (ULIS_CORS_ORIGINS empty). Give it its own CSP/headers.
+# {$ULIS_WEB_DOMAIN} {
+# 	encode zstd gzip
+# 	reverse_proxy web:3000
+# }

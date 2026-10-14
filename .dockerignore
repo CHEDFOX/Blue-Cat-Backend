@@ -1,0 +1,27 @@
+# Build context filter for deploy/Dockerfile (context = repository root).
+# Keep the context small and keep local data and secrets out of every image layer.
+.git
+.github
+.claude
+.venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+*.egg-info
+build
+dist
+
+# Local data: the downloaded corpus (var/ can be many GB), env files, backups and exports.
+var
+.env
+**/.env
+deploy/backups
+deploy/exports
+
+# Not needed at run time.
+tests
+docs
+scripts
+README.md

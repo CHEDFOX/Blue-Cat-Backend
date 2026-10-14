@@ -1,0 +1,10 @@
+[Unit]
+Description=Monthly ULIS source integrity check
+
+[Timer]
+OnCalendar=*-*-01 05:00:00
+RandomizedDelaySec=1h
+Persistent=true
+
+[Install]
+WantedBy=timers.target

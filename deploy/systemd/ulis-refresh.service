@@ -1,0 +1,20 @@
+# Weekly refresh of the corpus (see ulis-refresh.timer). Re-runs `load-all` for the LIVE sources only: those whose
+# publisher keeps changing the text. Static pins (a fixed commit, release point or explicit version list, see
+# ulis/ops/sources.py STATIC_PINS) are skipped: they change only when you edit their manifest.
+# Cached downloads older than 7 days are discarded first, so the run re-fetches (politely, at each source's crawl
+# delay) and only NEW or CHANGED texts become new point-in-time versions. A big source such as the German federal
+# laws is thousands of requests; make it monthly by adding `--skip de-gesetze-im-internet` here and running it
+# yourself, or raise --max-cache-age-days.
+# Exit status is non-zero when any source errored: `systemctl --failed` / journalctl show it.
+[Unit]
+Description=ULIS corpus refresh (live sources)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/ulis/deploy
+ExecStart=/usr/bin/docker compose --project-directory /opt/ulis/deploy -f /opt/ulis/deploy/docker-compose.yml --profile tools run --rm -T cli load-all --refresh --max-cache-age-days 7
+# A refresh can take many hours.
+TimeoutStartSec=infinity
+Nice=10

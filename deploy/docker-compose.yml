@@ -1,0 +1,160 @@
+# ULIS production stack for ONE server: PostgreSQL 16 + API + Caddy (automatic HTTPS).
+#
+#   cd deploy && cp .env.example .env && $EDITOR .env      # see docs/deployment.md
+#   docker compose up -d --build
+#   docker compose --profile tools run --rm cli load-all   # hours; see docs/deployment.md
+#
+# Only Caddy publishes ports (80, 443). The database and the API are reachable on the compose network only.
+# Written without a Docker daemon available: validated as YAML, not run. See docs/deployment.md.
+
+name: ulis   # volumes become ulis_pgdata, ulis_caddy_data, ...; keeps `docker compose` names stable
+
+x-logging: &logging
+  driver: json-file
+  options: {max-size: "10m", max-file: "5"}
+
+# Shared by the API and the one-off CLI container. Everything else in deploy/.env (API keys, CORS origins,
+# rate limits, ANTHROPIC_API_KEY, ULIS_LLM_MODEL, ...) reaches the containers through `env_file`; settings left
+# out of .env keep the application's own defaults. Values set here win over .env.
+x-ulis-env: &ulis-env
+  ULIS_ENV: ${ULIS_ENV:-production}
+  ULIS_DATABASE_URL: postgresql+psycopg://ulis:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in deploy/.env}@db:5432/ulis
+  ULIS_OBJECT_STORE_DIR: /data/objects
+  ULIS_SOURCE_CACHE_DIR: /data/sources
+  # The API sees Caddy's address; trust X-Forwarded-For only from the private ranges of the compose network.
+  ULIS_TRUSTED_PROXIES: ${ULIS_TRUSTED_PROXIES:-10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ulis
+      POSTGRES_DB: ulis
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in deploy/.env}
+    # Sized for an 8 GB machine; raise shared_buffers / effective_cache_size on larger ones (see .env.example).
+    command:
+      - postgres
+      - -c
+      - shared_buffers=${PG_SHARED_BUFFERS:-2GB}
+      - -c
+      - effective_cache_size=${PG_EFFECTIVE_CACHE_SIZE:-5GB}
+      - -c
+      - maintenance_work_mem=${PG_MAINTENANCE_WORK_MEM:-512MB}
+      - -c
+      - work_mem=32MB
+      - -c
+      - max_connections=50
+      - -c
+      - random_page_cost=1.1
+      - -c
+      - wal_compression=on
+      - -c
+      - max_wal_size=4GB
+      - -c
+      - checkpoint_timeout=15min
+      - -c
+      - log_min_duration_statement=2000
+    shm_size: 512mb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ulis -d ulis"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    logging: *logging
+    # No published ports: reach it with `docker compose exec db psql -U ulis` (or the backup scripts).
+
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: ulis-backend:${ULIS_VERSION:-local}
+    restart: unless-stopped
+    init: true
+    depends_on:
+      db: {condition: service_healthy}
+    env_file: .env
+    environment: *ulis-env
+    # Migrate and sync the catalog on every start, then serve with two workers. Rate limits are enforced
+    # per worker process (two workers: up to twice the configured value).
+    command:
+      - sh
+      - -c
+      - >-
+        python -m ulis.cli migrate && python -m ulis.cli sync-catalog &&
+        exec uvicorn ulis.api.app:create_app --factory --host 0.0.0.0 --port 8000
+        --workers 2 --no-access-log --no-server-header --timeout-keep-alive 5
+    volumes:
+      - ${ULIS_DATA_DIR:-/srv/ulis}/objects:/data/objects
+      - ${ULIS_DATA_DIR:-/srv/ulis}/sources:/data/sources
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=4).status == 200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    logging: *logging
+    # No published ports: Caddy is the only way in.
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      api: {condition: service_healthy}
+    environment:
+      ULIS_DOMAIN: ${ULIS_DOMAIN:?set ULIS_DOMAIN in deploy/.env}
+      ULIS_ACME_EMAIL: ${ULIS_ACME_EMAIL:?set ULIS_ACME_EMAIL in deploy/.env}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data      # certificates: keep this volume, Let's Encrypt rate-limits re-issuing
+      - caddy_config:/config
+    security_opt: ["no-new-privileges:true"]
+    logging: *logging
+
+  # One-off operator commands in the same image, network and volumes (not started by `up`):
+  #   docker compose --profile tools run --rm cli status
+  #   docker compose --profile tools run --rm cli load-all --dry-run
+  #   docker compose --profile tools run -d --name ulis-load cli load-all      # detached, survives logout
+  cli:
+    profiles: ["tools"]
+    image: ulis-backend:${ULIS_VERSION:-local}
+    init: true
+    depends_on:
+      db: {condition: service_healthy}
+    env_file: .env
+    environment: *ulis-env
+    entrypoint: ["python", "-m", "ulis.cli"]
+    volumes:
+      - ${ULIS_DATA_DIR:-/srv/ulis}/objects:/data/objects
+      - ${ULIS_DATA_DIR:-/srv/ulis}/sources:/data/sources
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    logging: *logging
+
+  # Optional: the web interface (separate repository, Next.js) on the same host. Uncomment, set the
+  # image, and enable the matching block in Caddyfile. It calls the API server-side with its own key.
+  # web:
+  #   image: ${ULIS_WEB_IMAGE:?build or pull the web image}
+  #   restart: unless-stopped
+  #   depends_on:
+  #     api: {condition: service_healthy}
+  #   environment:
+  #     ULIS_API_URL: http://api:8000
+  #     ULIS_API_KEY: ${ULIS_WEB_API_KEY:?one of ULIS_API_KEYS}
+  #   security_opt: ["no-new-privileges:true"]
+  #   cap_drop: [ALL]
+  #   logging: *logging
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

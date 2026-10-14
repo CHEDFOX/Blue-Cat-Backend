@@ -1,0 +1,11 @@
+[Unit]
+Description=Nightly ULIS database backup
+
+[Timer]
+OnCalendar=*-*-* 02:30:00
+RandomizedDelaySec=10min
+# Run once at boot if the machine was off at 02:30.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

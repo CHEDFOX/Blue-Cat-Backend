@@ -1,0 +1,14 @@
+# Monthly integrity check (see ulis-verify.timer): re-derive every stored text from its raw source document and compare
+# hashes (`verify-sources`). Detects a damaged or tampered object store or database. Exit status is non-zero when any
+# document fails. It re-parses every stored document, so it takes a long time on a full corpus.
+[Unit]
+Description=ULIS source integrity check
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/ulis/deploy
+ExecStart=/usr/bin/docker compose --project-directory /opt/ulis/deploy -f /opt/ulis/deploy/docker-compose.yml --profile tools run --rm -T cli verify-sources
+TimeoutStartSec=infinity
+Nice=15
