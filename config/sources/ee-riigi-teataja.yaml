@@ -1,0 +1,110 @@
+# Riigi Teataja (Justiits- ja Digiministeerium): Estonian legislation, consolidated texts in XML. Terms,
+# access rules and documentation read on 2026-10-14 from the publisher's own files (cached under var/sources/
+# by the connector; the first four also fetched once by hand with the same User-Agent):
+#   https://www.riigiteataja.ee/robots.txt - "User-agent: *"; Disallow: */kohtulahendid/*, */kohtuteave/*,
+#        */kronoloogia/1998/3*, */kronoloogia/1998-07-03*, */kronoloogia/1998-07-03/3*, and about 5 600 lines
+#        "*/akt/<id>/*" for individual acts; no Allow, no Crawl-delay, no Sitemap. /avaandmed/ is not disallowed.
+#        Court-decision paths are never requested; the connector applies the rules to the archive path and to the
+#        page (/akt/<id>) of every act it is asked to ingest, and stops on a match.
+#   https://www.riigiteataja.ee/avaandmed/ERT/ - directory "Index of /avaandmed/ERT/": yearly archives xml.2024.zip,
+#        xml.2025.zip, xml.2026.zip (and *.en.zip, English), MD5SUMS, SHA1SUMS, SHA256SUMS, LOEMIND.txt. LOEMIND.txt:
+#        "Riigi Teataja avaandmed on genereeritud 2026-10-11 seisuga." (Riigi Teataja open data, generated as of
+#        2026-10-11). xml.2026.zip is 43 027 540 045 bytes with 254 454 members <globaalID>.xml, the whole corpus
+#        (all versions of acts); the server answers HTTP range requests (206, Accept-Ranges: bytes), so single members
+#        are read without downloading the archive. The publisher itself calls these files "avaandmed" (open data).
+#   https://www.riigiteataja.ee/en/avaandmed (the site's open-data page) and the other pages of the site are produced
+#        by a JavaScript application; their text cannot be read without running it, and the application's internal
+#        API (/public-api/) is not documented, so it is not used. Per-act links such as /akt/<id>.xml and .pdf return
+#        the application shell, not XML. No licence or terms text of the publisher's own was therefore available to
+#        ULIS beyond the files above; the basis for reuse recorded below is statutory.
+#   Riigi Teataja seadus (RTS; Riigi Teataja Act), consolidated text valid from 2026-07-01 (globaalID 110022026003, read
+#        from the archive): § 1(1) "Riigi Teataja on Eesti Vabariigi ametlik võrguväljaanne, milles avaldatakse
+#        õigusaktid ja muud dokumendid"; § 2(1) "Riigi Teatajas avaldatakse aktid ametlike algtekstidena neljas osas";
+#        § 3(1) "Riigi Teatajas avaldatakse koos algtekstiga selle alusel koostatud kõiki muudatusi sisaldavad ...
+#        õigusaktide ametlikud terviktekstid" (seadus, määrus, ...); § 3(2) "Avaldamisel lisab Riigi Teataja väljaandja
+#        terviktekstile kehtivusaja andmed."; § 7(1) "Riigi Teataja on Internetis tasuta kättesaadav."; § 8(1) "Riigi
+#        Teatajat annab välja Justiits- ja Digiministeerium."; § 10(4) "Kui avaldatud terviktekst ei vasta koostamise
+#        aluseks olevale algtekstile, teatatakse veast Riigi Teataja väljaandjale, kes kontrollib vea olemasolu ja parandab
+#        selle ..."; § 12(1) acts published in Riigi Teataja "võib avaldada muudes väljaannetes ja veebilehtedel märkusega,
+#        et ametlik tekst on avaldatud Riigi Teatajas, lisades sellele viite või lingi Riigi Teataja veebiaadressile".
+#        The Act does not say in these provisions that a consolidated text prevails over the original text; ULIS
+#        therefore treats the consolidated text as official but not as the enacted text (see authority below).
+#   Autoriõiguse seadus (Copyright Act), consolidated text valid 2021-04-01 - 2022-01-07 (globaalID 104012021020, read
+#        from the archive): § 5(1) p 3 "Käesolevat seadust ei kohaldata: ... õigusaktidele ja haldusdokumentidele
+#        (seadused, seadlused, määrused, põhimäärused, juhendid, käskkirjad) ning nende ametlikele tõlgetele" - legislation
+#        is not protected by copyright. (Database rights, if any, are not examined; to verify with counsel.)
+schema_version: 1
+id: ee-riigi-teataja
+name: Riigi Teataja - consolidated texts of Estonian acts (open-data XML archive)
+publisher: Justiits- ja Digiministeerium (Ministry of Justice and Digital Affairs) - riigiteataja.ee
+kind: official_legislation_portal
+# Riigi Teataja is the official gazette; the consolidated texts are "ametlikud terviktekstid" (RTS § 3(1)), made on
+# the basis of the originally published act (algtekst), which is the enacted text; the XML in the archive is a
+# data export, not the published page. Modelled as official but not authentic until counsel confirms the legal
+# force of consolidated texts (RTS § 10(4) treats a mismatch with the algtekst as an error to be corrected).
+authority: official_non_authentic
+jurisdictions: [EE]
+document_kinds: [constitution, act]
+languages: [et]
+coverage: >-
+  Riigi Teataja holds all Estonian acts published since 1990 (originals and consolidated texts with their validity
+  periods, XML of all versions in the yearly archives) plus unofficial English translations. ULIS ingests the
+  consolidated texts of six acts listed in the manifest: the Constitution (four versions, 2011-2026), the Personal
+  Data Protection Act (three), the Employment Contracts Act (two), the Penal Code, the Law of Obligations Act and the
+  Administrative Procedure Act (the version in force on 2026-10-14).
+access:
+  method: bulk_download
+  endpoint: config/manifests/ee-riigi-teataja.yaml
+  authentication: none
+update_frequency: archives are regenerated regularly (xml.2026.zip generated 2026-10-11 per LOEMIND.txt); a new consolidated text is published with each amending act
+rate_limits: >-
+  robots.txt states no crawl delay; ULIS waits at least 5 s between requests (the connector refuses a smaller delay),
+  identifies itself, makes about 25 small requests (robots.txt, LOEMIND.txt, the end of the archive, its 25 MB central
+  directory once, one range per act version), caches every response and stops on any refusal. The 43 GB archive is
+  never downloaded.
+licence:
+  id: EE-RT-OPEN-DATA-STATUTORY
+  name: Riigi Teataja avaandmed (open data) - legislation not protected by copyright (Autoriõiguse seadus § 5(1) p 3); free access (RTS § 7(1)); reuse elsewhere with a note and link to Riigi Teataja (RTS § 12(1))
+  url: https://www.riigiteataja.ee/avaandmed/ERT/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-14, from the publisher's robots.txt, the /avaandmed/ERT/ directory and LOEMIND.txt, and the
+    statutory texts of the Riigi Teataja Act and the Copyright Act read from Riigi Teataja's own XML (quoted in the
+    comments above). The publisher's open-data page and any terms text on it could not be read (JavaScript
+    application); no licence text of the publisher's own was found. Approved on the statutory basis only - the acts are
+    not protected by copyright, the archive is offered as open data, and nothing found restricts automated reuse.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: true
+  attribution_text: >-
+    Allikas: Riigi Teataja (www.riigiteataja.ee), Justiits- ja Digiministeerium. Terviktekstid on esitatud
+    avaandmete XML-failidest; ametlik tekst on avaldatud Riigi Teatajas. Struktuur normaliseeritud ULIS-i poolt.
+  conditions:
+    - Do not crawl the court-decision paths or the acts that robots.txt disallows (the connector refuses them); stay polite - at least 5 s between requests, only the members listed in the manifest, no download of the whole archive.
+    - When acts are reproduced, state that the official text is published in Riigi Teataja and link to it (RTS § 12(1)); the attribution text and the limitations on every result do this.
+    - Do not present the consolidated text as the enacted text; the originally published act (algtekst) is the enacted text and a mismatch is an error to be corrected (RTS § 10(4)).
+    - Unofficial English translations published by Riigi Teataja are not ingested; the English archives are not used.
+  notes: >-
+    No explicit licence statement of the publisher was available (see the comments above), so counsel review is
+    recommended before production use, in particular of database rights and of the terms on the open-data page of the
+    site. The Public Information Act (Avaliku teabe seadus) provisions on open data were not read.
+provenance: >-
+  Members <globaalID>.xml of https://www.riigiteataja.ee/avaandmed/ERT/xml.2026.zip, read with HTTP range requests
+  (end of the archive, central directory, then each member's local header and compressed data), CRC-32 and size
+  checked against the central directory, fetched with an identifying User-Agent; each response is cached with its
+  URL and retrieval time under var/sources/www.riigiteataja.ee/ and the decompressed XML is stored unchanged
+  (SHA-256 addressed). The archive's generation date comes from LOEMIND.txt (2026-10-11).
+known_limitations:
+  - Consolidated texts are official consolidations made from the originally published acts, which are the enacted texts; ULIS does not mark them authentic (RTS § 3(1), § 10(4)), and the XML export is not the published page.
+  - Versions are whole-act snapshots dated by each consolidated text's validity period (kehtivuse algus and lõpp); the source gives no validity dates for single provisions. It marks the amending act and entry into force of each changed provision, which is kept as a note.
+  - XML dates may carry a time-zone offset (e.g. 2019-01-15+02:00); ULIS uses the calendar date as written. Riigi Teataja's web pages may display some dates one day earlier.
+  - Only the versions listed in the manifest are ingested; consolidated texts that start after 2026-10-14 (published in advance) and, for Isikuandmete kaitse seadus, those between 2023-11-01 and 2026-03-15 are not.
+  - Annexes, the introductory formula, tables other than as text, and cross-reference links are not ingested.
+  - The archive is regenerated; members may be added or corrected after retrieval. A re-fetched member whose bytes differ is refused as a conflict with the version already recorded.
+  - The publisher's terms for the open data could not be read (JavaScript application); see licence notes.
+status: active
+connector: riigi_teataja
+parser: riigi_teataja_xml

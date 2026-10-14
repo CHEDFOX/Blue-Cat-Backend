@@ -1,0 +1,50 @@
+# Estonian consolidated texts (terviktekstid) read from Riigi Teataja's open-data archive
+# (https://www.riigiteataja.ee/avaandmed/ERT/, "Riigi Teataja avaandmed"), single members only, with
+# HTTP range requests (the archive is 43 GB and is never downloaded). Each version is named by its
+# globaalID (the member is <globaalID>.xml); versions are listed OLDEST FIRST (whole-act snapshots).
+# IDs were found by reading the metadata (lyhend, terviktekstiGrupiID, kehtivuseAlgus/Lopp) of the
+# archive's members on 2026-10-14 (archive generated 2026-10-11, LOEMIND.txt); the last version of
+# each work is the one in force on 2026-10-14. Consolidated texts that start later are not listed.
+schema_version: 1
+source_id: ee-riigi-teataja
+base_url: https://www.riigiteataja.ee
+archive: avaandmed/ERT/xml.2026.zip
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+works:
+  - name: Eesti Vabariigi põhiseadus
+    abbreviation: PS
+    group_id: 151381
+    versions:
+      - "127042011002"   # 2011-07-22 - 2015-08-12
+      - "115052015002"   # 2015-08-13 - 2025-07-08
+      - "111042025002"   # 2025-07-09 - 2026-02-28
+      - "111042025003"   # 2026-03-01 - (in force)
+  - name: Karistusseadustik
+    abbreviation: KarS
+    group_id: 162500
+    versions:
+      - "109072026028"   # 2026-10-01 - 2026-12-31 (in force on 2026-10-14)
+  - name: Võlaõigusseadus
+    abbreviation: VÕS
+    group_id: 153569
+    versions:
+      - "120062026018"   # 2026-09-01 - 2026-12-31 (in force on 2026-10-14)
+  - name: Isikuandmete kaitse seadus
+    abbreviation: IKS
+    group_id: 1045568
+    versions:
+      - "104012019011"   # 2019-01-15 - 2023-10-31 (the consolidated texts between 2023-11-01 and 2026-03-15 are not ingested)
+      - "106032026010"   # 2026-03-16 - 2026-09-30
+      - "130062026052"   # 2026-10-01 - (in force)
+  - name: Töölepingu seadus
+    abbreviation: TLS
+    group_id: 331584
+    versions:
+      - "103072026034"   # 2026-07-13 - 2026-09-30
+      - "103072026035"   # 2026-10-01 - 2026-12-31 (in force on 2026-10-14)
+  - name: Haldusmenetluse seadus
+    abbreviation: HMS
+    group_id: 153445
+    versions:
+      - "106072023031"   # 2024-01-01 - 2026-12-31 (in force on 2026-10-14)

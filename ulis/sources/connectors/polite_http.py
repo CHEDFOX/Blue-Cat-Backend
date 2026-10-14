@@ -105,6 +105,9 @@ class PoliteHttp:
             extra: dict[str, Any] = {"context": self.ssl_context} if self.ssl_context is not None else {}
             try:
                 with urllib.request.urlopen(request, timeout=self.timeout, **extra) as response:  # noqa: S310 - https only
+                    if headers and any(k.lower() == "range" for k in headers) and response.status != 206:
+                        # A server that ignores Range would send the whole (possibly huge) file.
+                        raise FetchError(f"{url}: the range request was not honoured (HTTP {response.status})")
                     data = response.read()
                     if self.cookie_jar is not None:
                         self.cookie_jar.extract_cookies(response, request)

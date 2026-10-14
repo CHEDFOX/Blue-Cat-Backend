@@ -46,6 +46,7 @@ from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
 from ulis.sources.connectors.retsinformation import RetsinformationConnector
+from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
 from ulis.sources.connectors.ris_ogd import RisOgdConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
@@ -66,6 +67,7 @@ from ulis.sources.parsers import (
     moj_law,
     normattiva,
     retsinformation,
+    riigi_teataja,
     riksdagen_sfs,
     ris,
     uslm,
@@ -96,6 +98,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "eisb_act_xml": irish_statute_book.parse_irish_statute_book,
     "ris_bundesrecht_xml": ris.parse_ris_bundesrecht,
     "likumi_lv_html": likumi_lv.parse_likumi_lv,
+    "riigi_teataja_xml": riigi_teataja.parse_riigi_teataja,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -117,6 +120,7 @@ PARSER_VERSIONS = {
     "eisb_act_xml": irish_statute_book.PARSER_VERSION,
     "ris_bundesrecht_xml": ris.PARSER_VERSION,
     "likumi_lv_html": likumi_lv.PARSER_VERSION,
+    "riigi_teataja_xml": riigi_teataja.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -168,6 +172,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "irish_statute_book": IrishStatuteBookConnector,
     "ris_ogd": RisOgdConnector,
     "likumi_lv": LikumiLvConnector,
+    "riigi_teataja": RiigiTeatajaConnector,
 }
 
 
@@ -206,6 +211,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or normattiva.resolve_uri(uri)
         or irish_statute_book.resolve_uri(uri)
         or likumi_lv.resolve_uri(uri)
+        or riigi_teataja.resolve_uri(uri)
         or (uri, None)
     )
 

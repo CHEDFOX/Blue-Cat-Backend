@@ -1,0 +1,114 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Estonia (national legislation). Local government acts
+# (RT IV) are not profiled. EU membership is deliberately not recorded here (added separately with
+# the EU profile).
+schema_version: 1
+id: EE
+profile_version: 0.1.0
+name: Estonia
+names: {et: Eesti, en: Estonia}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [et]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: >-
+    To verify - unitary parliamentary republic under the Constitution of the Republic of Estonia
+    (Eesti Vabariigi põhiseadus, adopted by referendum on 28 June 1992, in force from 3 July 1992).
+    Civil-law system with strong German influence (general part of the Civil Code Act, Law of
+    Obligations Act, Penal Code). Legislative power is exercised by the Riigikogu (PS § 59, § 65);
+    laws are proclaimed by the President and published in Riigi Teataja. Treaties ratified by the
+    Riigikogu become part of the domestic legal system and prevail over conflicting Estonian laws
+    (PS § 3(2), § 121, § 123(2)): monist - to verify. Estonian is the only official language of
+    legislation; texts in other languages (including English translations published in Riigi
+    Teataja) are not official.
+legislative_institutions:
+  - id: EE-RIIGIKOGU
+    name: Riigikogu (Parliament) - constitution (amended under PS ch. XV) and acts (seadused)
+    instrument_types: [constitution, act]
+  - id: EE-EXECUTIVE
+    name: Vabariigi Valitsus (Government) and ministers - regulations (määrused) under statutory authority
+    instrument_types: [regulation]
+instrument_types: [constitution, act, regulation]
+norm_hierarchy: [constitution, act, regulation]
+courts:
+  - id: EE-RK
+    name: Riigikohus (Supreme Court; also the court of constitutional review, through its Constitutional Review Chamber)
+    rank: 1
+  - id: EE-RKOHUS
+    name: Ringkonnakohtud (circuit courts of appeal - Tallinn and Tartu)
+    rank: 2
+    appeals_to: [EE-RK]
+  - id: EE-MK
+    name: Maakohtud (county courts - Harju, Pärnu, Tartu, Viru)
+    rank: 3
+    appeals_to: [EE-RKOHUS]
+  - id: EE-HK
+    name: Halduskohtud (administrative courts - Tallinn and Tartu)
+    rank: 3
+    appeals_to: [EE-RKOHUS]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal rule of binding precedent (civil-law system); in practice the lower
+    courts follow the case law of the Riigikohus, whose interpretations of the Constitution and of
+    statutes carry great weight, and the Riigikohus can depart from its own earlier decisions
+    (the full court, Riigikohtu erikogu, decides on departures between chambers). The Riigikohus
+    reviews the constitutionality of laws and other acts in a Constitutional Review Chamber
+    (põhiseaduslikkuse järelevalve kolleegium); there is no separate constitutional court. Ordinary
+    courts hear civil and criminal cases (maakohus, ringkonnakohus, Riigikohus) and administrative
+    courts hear public-law disputes (halduskohus, ringkonnakohus, Riigikohus); the exact appeal
+    routes (leave to appeal, cassation) are simplified here. Case law is not ingested: Riigi Teataja
+    court-decision pages are disallowed for robots, and no other source has been reviewed.
+citation:
+  module: ee
+  notes: >-
+    Estonian convention: the statute's official abbreviation, then the pinpoint with § (paragrahv),
+    lg (lõige), p (punkt) and alap (alapunkt): "KarS § 113 lg 1", "PS § 10", "KarS § 121 lg 2 p 1".
+    Superscript numbers ("§ 5¹") are written with Unicode superscripts. The abbreviation is the
+    one Riigi Teataja gives each act (metadata field lyhend); an act without one is cited by its
+    title. The genitive form used in running text ("karistusseadustiku § 113") is not generated.
+  examples:
+    - "PS § 10"
+    - "KarS § 113 lg 1"
+    - "VÕS § 105 lg 1"
+    - "TLS § 91 lg 1"
+    - "HMS § 40 lg 1"
+    - "IKS § 10 lg 1"
+publication:
+  official_sources: [ee-riigi-teataja]
+  commencement: >-
+    Acts are proclaimed by the President (PS § 107) and published in Riigi Teataja (PS § 108: laws
+    are published in the official gazette; Riigi Teataja Act); an act states its entry into force,
+    otherwise it enters into force on the tenth day after publication (to verify - Riigi Teataja
+    Act). Riigi Teataja has been published only electronically since 1 June 2010.
+  amendment: >-
+    Textual amendment by amending acts (muutmise seadus). Riigi Teataja publishes consolidated
+    texts (terviktekst) with their validity period (kehtivuse algus and lõpp): a new
+    consolidated text is published for each version of the act, including those that take effect
+    in the future. The consolidated text carries legal force (Riigi Teataja Act) - to verify the
+    exact wording; the originally published act prevails in case of inconsistency.
+  repeal: >-
+    Express repeal (kehtetuks tunnistamine); a repealed provision stays in the consolidated text
+    as "Kehtetu - " followed by the publication reference of the repealing act.
+memberships:
+  # Accession to the European Union on 1 May 2004 (to verify).
+  - organisation: EU
+    from_date: 2004-05-01
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only six acts are ingested, as Riigi Teataja consolidated texts - the Constitution (PS), Penal Code (KarS), Law of Obligations Act (VÕS), Personal Data Protection Act (IKS), Employment Contracts Act (TLS) and Administrative Procedure Act (HMS); no other acts, no regulations (määrused), no local-government acts, no treaties, no explanatory notes and no case law.
+    - Estonian only. Riigi Teataja publishes unofficial English translations of many acts; they are not ingested.
+    - Case law (Riigikohus and lower courts) is not ingested; Riigi Teataja's court-decision paths are disallowed by its robots.txt.
+    - The history of most acts is limited to the versions listed in the manifest; the Constitution (and IKS) have several consolidated texts, the others only the version in force on the retrieval date. Consolidated texts that take effect after that date are not ingested.
+    - Versions are whole-act snapshots dated by the consolidated text's validity period; the source gives no validity dates for single provisions (it marks the amending act and entry into force of each changed provision, which ULIS keeps as a note).
+    - Annexes (lisad), the introductory formula and footnotes outside the provisions are not ingested; tables inside provisions are flattened to text.
+    - Cross-references between acts (links to other Riigi Teataja acts) are not stored as links.
+    - Estonian has no PostgreSQL text-search configuration, so the "simple" configuration is used (no stemming; Estonian is highly inflected, so searches need the exact word forms).

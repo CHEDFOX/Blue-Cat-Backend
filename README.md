@@ -113,6 +113,7 @@ tests/             unit + PostgreSQL integration tests
 | `ie-irish-statute-book` | IE | 6 Acts as enacted (English): Unfair Dismissals 1977, Non-Fatal Offences 1997, Theft and Fraud 2001, Consumer Protection 2007, Companies 2014, Data Protection 2018 ([notes](docs/jurisdictions/ie.md)) | Real, Oireachtas (Open Data) PSI Licence; amendments not applied |
 | `it-normattiva` | IT | 6 instruments in Italian: Costituzione (27 versions), Codice civile, Codice penale, privacy code, Statuto dei lavoratori, L. 241/1990 ([notes](docs/jurisdictions/it.md)) | Real, Normattiva legal note (reproduction allowed naming the source; not authentic) |
 | `lv-likumi` | LV | 10 pages in Latvian, current edition: Satversme, Krimināllikums, Civillikums, data processing, Darba and administrative-procedure acts ([notes](docs/jurisdictions/lv.md)) | Real, likumi.lv terms (free access, no copyright in legislation); informative, not authentic |
+| `ee-riigi-teataja` | EE | 6 acts in Estonian: Põhiseadus (4 versions), Isikuandmete kaitse seadus (3), Töölepingu seadus (2), Karistusseadustik, Võlaõigusseadus, Haldusmenetluse seadus ([notes](docs/jurisdictions/ee.md)) | Real, no copyright in legislation (Copyright Act § 5); publisher terms not read - counsel review recommended |
 | `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
 
 Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO
