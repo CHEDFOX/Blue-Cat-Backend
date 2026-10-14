@@ -3,9 +3,8 @@
 GovInfo (www.govinfo.gov, U.S. Government Publishing Office) publishes ``robots.txt`` with a sitemap per collection and
 no crawl delay, and states that sitemaps "can be used by systems to crawl and harvest content from GovInfo". ULIS uses
 only the keyless routes: the collection sitemaps, ``/metadata/pkg/<package>/mods.xml`` and ``/content/pkg/...``.
-It never
-uses the JSON API (``api.govinfo.gov``), which needs an api.data.gov key. Requests are sequential, at least 5 s apart,
-cached, and every URL is checked against the host's ``robots.txt``, read first.
+It never uses the JSON API (``api.govinfo.gov``), which needs an api.data.gov key. Requests are sequential, at least
+5 s apart, cached, and every URL is checked against the host's ``robots.txt``, read first.
 """
 
 from __future__ import annotations
