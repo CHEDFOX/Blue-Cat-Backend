@@ -1,0 +1,81 @@
+# PLANNED - NOT INGESTED. The publisher's robots.txt disallows automated access for every user agent
+# except the European Commission's ECLI crawler, so ULIS fetched nothing beyond robots.txt.
+# Checked on 2026-10-14 (details in docs/jurisdictions/de-case-law.md):
+#   https://www.rechtsprechung-im-internet.de/robots.txt - redirects to /jportal/docs/eclicrawler/robots.txt, which
+#        reads "User-agent: *" / "Disallow: /" / "User-agent: DG_JUSTICE_CRAWLER" followed by 252 "Sitemap:" lines
+#        (daily ECLI sitemaps). Every path, including /rii-toc.xml, the per-decision XML zips and the Hinweise and
+#        Impressum pages, is disallowed for the ULIS research bot (checked with urllib.robotparser). The copy fetched
+#        is kept in tests/fixtures/rechtsprechung_im_internet/robots.txt.
+#   The site's own Hinweise / Impressum pages were therefore NOT read. What they say about reuse is known only
+#        second-hand from the European e-Justice Portal, page "Nationale Rechtsprechung - Deutschland"
+#        (https://e-justice.europa.eu/topics/legislation-and-case-law/national-case-law/de_de, updated 2025-04-11,
+#        seen through a search-engine excerpt only): selected decisions of the Bundesverfassungsgericht, the
+#        supreme federal courts and the Bundespatentgericht from 2010, free of charge, updated daily;
+#        "Die Entscheidungen sind anonymisiert und werden grundsätzlich ungekürzt veröffentlicht"; "Die
+#        Entscheidungen stehen in allen angebotenen Formaten zur freien Nutzung und Weiterverwendung zur
+#        Verfügung"; separately, the federal courts publish decisions on their own websites "zur nicht
+#        gewerblichen Nutzung".
+#   https://www.gesetze-im-internet.de/urhg/__5.html - § 5 Abs. 1 UrhG: "Gesetze, Verordnungen, amtliche Erlasse
+#        und Bekanntmachungen sowie Entscheidungen und amtlich verfaßte Leitsätze zu Entscheidungen genießen keinen
+#        urheberrechtlichen Schutz." (read by the de-gesetze-im-internet review, same day)
+#   Alternative checked: the federal legal information portal in its test phase (NeuRIS):
+#        https://testphase.rechtsinformationen.bund.de/robots.txt and https://docs.rechtsinformationen.bund.de/robots.txt
+#        both read "User-agent: *" / "Disallow: /". Not used either.
+schema_version: 1
+id: de-rechtsprechung-im-internet
+name: Rechtsprechung im Internet
+publisher: >-
+  Bundesministerium der Justiz and Bundesamt für Justiz (per the European e-Justice Portal; the
+  site's own Impressum was not read because robots.txt disallows automated access)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [DE]
+document_kinds: [judgment]
+languages: [de]
+coverage: >-
+  Selected decisions of the Bundesverfassungsgericht, the supreme federal courts (BGH, BVerwG, BFH,
+  BAG, BSG) and the Bundespatentgericht from 2010, anonymised and generally unabridged, with a table
+  of contents (rii-toc.xml) and one XML zip per decision (as described by the European e-Justice
+  Portal and the task brief; not verified on the site). Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.rechtsprechung-im-internet.de/rii-toc.xml
+update_frequency: daily (per the European e-Justice Portal; not verified on the site)
+rate_limits: >-
+  robots.txt (2026-10-14): "User-agent: *" / "Disallow: /"; only DG_JUSTICE_CRAWLER (the ECLI
+  search engine crawler of the European e-Justice Portal) is let in. Automated retrieval by ULIS is
+  therefore not permitted.
+licence:
+  id: DE-UrhG-5-official-works
+  name: >-
+    Official works without copyright (§ 5 Abs. 1 UrhG: decisions and officially written headnotes);
+    free use and re-use reported by the European e-Justice Portal
+  url: https://www.gesetze-im-internet.de/urhg/__5.html
+  review_status: pending_review
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: not_allowed
+  automated_processing: unknown
+  commercial_use: unknown
+  conditions:
+    - Automated retrieval only if robots.txt admits the ULIS research bot or the publisher gives written permission.
+    - Only decisions and official headnotes are free of copyright under § 5 Abs. 1 UrhG; any other editorial matter in the XML needs its own review.
+  notes: >-
+    Legal basis looks sound (§ 5 Abs. 1 UrhG; a reported statement of free use and re-use in all
+    formats), but the access policy forbids automated retrieval: robots.txt disallows every path for
+    every user agent except DG_JUSTICE_CRAWLER. ULIS respects robots.txt and works around no refusal
+    (no other user agent, no mirror, no browser automation), so nothing was fetched beyond robots.txt
+    and the source stays planned. Whether the texts are "amtlich" (official versions) and whether the
+    headnotes are official was not verified on the site. To proceed: written permission from the
+    publisher (Bundesamt für Justiz) for an identified research bot, or a robots.txt that admits it.
+    The courts' own websites offer decisions only "zur nicht gewerblichen Nutzung" (reported) and were
+    not checked; third-party collections of unclear licence are excluded.
+provenance: >-
+  Official federal case-law database (decisions supplied by the federal courts). Not retrieved.
+known_limitations:
+  - Not ingested - robots.txt disallows automated access (2026-10-14); no German case law in ULIS.
+  - The site's own terms (Hinweise, Impressum) were not read for the same reason; licence facts are second-hand.
+  - Official status of the published texts ("amtlich") and of the headnotes not verified.
+status: planned
+connector: null
+parser: null
