@@ -66,5 +66,5 @@ Development database (PostgreSQL 16), sync-catalog, ingestion in batches (`scrip
   2010-01-01; "responsable du traitement données à caractère personnel" gives `Loi n° 78-17 du 6 janvier 1978, art. 112` first; "la souveraineté nationale
   appartient au peuple" gives `Constitution du 4 octobre 1958, art. 3` then `Cons. const., 9 avr. 1992, n° 92-308 DC, § 10`; "période d'essai contrat de travail
   renouvellement" gives `C. trav., art. L. 1221-23`.
-- **verify-sources**: VERIFY_RESULT
+- **verify-sources**: all 18,839 stored source documents (5,275 bundles, 7,408 + 5,474 + 682 decisions) re-parsed from their raw bytes and passed, none failed (681 s).
 - Tests: 789 passed in the whole suite (`tests/test_dila_legi.py` and `tests/test_dila_case_law.py` hold the French ones); ruff and mypy clean.
