@@ -1,0 +1,102 @@
+schema_version: 1
+id: lu-legilux
+name: Legilux - Journal officiel du Grand-Duché de Luxembourg, consolidated legislation (Akoma Ntoso XML)
+publisher: Ministère d'État - Service central de législation, Luxembourg (editor of the Journal officiel)
+kind: official_legislation_portal
+# Consolidations are published "sans valeur légale"; the authentic text is the one published in the Mémorial A.
+authority: official_non_authentic
+jurisdictions: [LU]
+document_kinds: [constitution, code, law, regulation]
+languages: [fr]
+coverage: >-
+  Legilux publishes the Journal officiel (Mémorial A, B and C), consolidated texts of the legislation in force
+  (codes, the Constitution, laws, grand-ducal and ministerial regulations) and legislative drafts, with linked
+  data (JOLux and ELI) on a SPARQL endpoint. ULIS ingests the French Akoma Ntoso XML of the consolidations under
+  /eli/etat/leg/ that have an XML file: the Constitution, 10 codes (some codes exist only as HTML, PDF and Word
+  files), consolidated laws and regulations, in every consolidation date listed in config/manifests/lu-legilux.yaml.
+access:
+  method: api
+  endpoint: config/manifests/lu-legilux.yaml
+update_frequency: >-
+  A new consolidation for every amendment that takes effect; rebuild the manifest
+  (scripts/build_legilux_manifest.py) and re-ingest to refresh.
+rate_limits: >-
+  No published rate limit and no Crawl-delay. robots.txt of legilux.public.lu (read 2026-10-14) disallows
+  /publications-regroupees, /api/rss-adm.xml, /eli/etat/adm/, /reg_ue/, /dir_ue/, /search, /*.svg, /*.docx and
+  a few named ELI pages; it allows /filestore/eli/etat/leg/. robots.txt of data.legilux.public.lu disallows
+  /eli/* and /filestore/* for all user agents (and /api/rss-adm.xml) but not the SPARQL endpoint
+  (/sparqlendpoint). ULIS queries the SPARQL endpoint on data.legilux.public.lu once per manifest build, never
+  fetches /eli/* or /filestore/* from that host, and downloads the XML files from
+  https://legilux.public.lu/filestore/..., the host and path the Legilux website itself serves them from
+  (https://legilux.public.lu/api/settings: "manifestation_prefix": "https://legilux.public.lu"), checking every
+  URL against the robots.txt of legilux.public.lu first, with an identifying User-Agent and 5 s between requests.
+  Administrative acts (/eli/etat/adm/) are not fetched.
+licence:
+  id: CC-BY-4.0
+  name: Creative Commons Attribution 4.0 International (texts and metadata of the Casemates / data.legilux project)
+  url: https://creativecommons.org/licenses/by/4.0/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the publisher's own pages, read 2026-10-14 (the Legilux site is a JavaScript application;
+    its help pages are served as HTML fragments from https://legilux.public.lu/api/assets/faq/questions/):
+    (1) "Introduction et licence d'utilisation des données" (page https://legilux.public.lu/help/projet-casemates,
+    fragment 12-introduction): "Les textes et les métadonnées sont mis à disposition selon la licence d'utilisation
+    http://creativecommons.org/licenses/by/4.0/ qui autorise leur réutilisation pour des utilisations commerciales
+    ou non." and that the project makes it possible to "récupérer et réutiliser aussi bien les fichiers de contenu
+    que les métadonnées descriptives de la législation". (2) The data.public.lu record "Legilux - Journal officiel
+    du Grand-Duché de Luxembourg" (https://data.public.lu/fr/datasets/legilux-journal-officiel-du-grand-duche-de-luxembourg-1/,
+    API https://data.public.lu/api/1/datasets/?q=legilux): licence cc-by, publisher Ministère d'Etat - Service
+    central de législation. (3) Every XML file carries <scl:jolux scl:name="license">
+    http://creativecommons.org/licenses/by/4.0/</scl:jolux> and "Copyright : Ministère d'Etat - Service central de
+    législation - du Grand-Duché de Luxembourg". (4) "Comment récupérer les données de Casemates" (fragment
+    12-recuperer-les-donnees): the XML/LegalDocML of a text is obtained from the download icon of its Legilux page,
+    metadata from the SPARQL endpoint, and a systematic harvest of ELI metadata is foreseen (sitemap
+    https://legilux.public.lu/pillar4/sitemap_index.xml). (5) The general conditions of use of the site
+    (https://legilux.public.lu/help/conditions-utilisations, fragment 14-utilisation) say that, "sauf indication
+    contraire", documents may be used for personal, private information only, unmodified and not distributed
+    outside the site; the CC BY 4.0 statement in (1) is such an indication for the texts and metadata, but the
+    two statements are not reconciled by the publisher. (6) robots.txt of both hosts (see rate_limits). The
+    task brief expected CC0; the publisher states CC BY 4.0.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Source : Legilux, Journal officiel du Grand-Duché de Luxembourg - Ministère d'État, Service central de
+    législation (https://legilux.public.lu) - licence CC BY 4.0 (http://creativecommons.org/licenses/by/4.0/).
+    Texte consolidé sans valeur légale : seule la publication au Mémorial fait foi. Texte non modifié ; structure
+    et métadonnées préparées par ULIS.
+  conditions:
+    - Attribution under CC BY 4.0 (the publisher prescribes no wording; the attribution text above is ULIS's).
+    - Follow robots.txt of each host (see rate_limits); do not fetch data.legilux.public.lu/eli/* or /filestore/*, nor /eli/etat/adm/.
+    - Keep the text unmodified and say that consolidations have no legal value (the general conditions of use ask that documents are not modified).
+    - Counsel review recommended before production use, in particular of the fetch path (the website host instead of the disallowed linked-data host) and of the conflict between the general conditions of use and the CC BY 4.0 statement.
+  notes: >-
+    Legal status: the consolidated texts, whether published separately or as codes and recueils, have no legal
+    value (help page "Qu'est-ce que Legilux ?", https://legilux.public.lu/help/1-legilux); for publications
+    after 1 January 2017 only the electronic Journal officiel is authentic (loi du 23 décembre 2016 concernant le
+    Journal officiel du Grand-Duché de Luxembourg, as quoted on that page). Laws are drafted in French
+    (loi du 24 février 1984 sur le régime des langues); German and English versions on Legilux are translations
+    and are not ingested.
+provenance: >-
+  Official publication portal of the Grand Duchy of Luxembourg. Each consolidation is identified by the ELI of
+  its work (for example http://data.legilux.public.lu/eli/etat/leg/code/civil) and its date of applicability
+  (jolux:dateApplicability); the list of consolidations comes from the JOLux linked data (SPARQL), the text from
+  the Akoma Ntoso XML file of each consolidation.
+known_limitations:
+  - Consolidations have no legal value; the Mémorial A prevails.
+  - Only consolidations with an XML file are ingested; 1,018 consolidations (for example the Code de l'environnement, the Code de la sécurité sociale and most of the Code de la santé) exist only as HTML, PDF and Word files and are not ingested.
+  - Recueils (thematic compilations), administrative acts, texts of the Mémorial B and C, legislative drafts, EU texts, treaties and case law are not ingested.
+  - Annexes, the subject index of codes and unnumbered content directly under a chapter are not read; acts that are a single unnumbered text (decisions, statutes) are skipped.
+  - >-
+    Some files carry the metadata of another consolidation (and two ELIs can serve the same file, for example the Code civil of
+    2018-11-01 and 2019-04-28). ULIS dates a consolidation by its ELI, keeps the date stated in the file in ext.metadata_date,
+    and the text may then be later than the date.
+  - Amendment references printed in the consolidated text, such as "(L. 4 juillet 2014)", stay in the text.
+  - Consolidations are whole texts without per-article validity dates; a version of an article starts at the first consolidation that shows its new wording. Consolidations without XML leave gaps.
+  - Consolidations applicable after the manifest build date are listed in the manifest but not fetched.
+status: active
+connector: legilux
+parser: legilux_akn

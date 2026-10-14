@@ -57,6 +57,8 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "NZ",
         "PL",
         "AR",
+        "LU",
+        "PT",
     }
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"
@@ -154,6 +156,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "ee-riigi-teataja",
         "pl-eli-sejm",
         "ar-infoleg",
+        "lu-legilux",
     }
     for source_id in approved:
         licence_gate(catalog.sources.get(source_id))

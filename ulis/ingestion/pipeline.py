@@ -44,6 +44,7 @@ from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnect
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.infoleg_ar import InfolegArConnector
 from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
+from ulis.sources.connectors.legilux import LegiluxConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.likumi_lv import LikumiLvConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
@@ -73,6 +74,7 @@ from ulis.sources.parsers import (
     infoleg_ar,
     irish_statute_book,
     justice_canada,
+    legilux,
     legislation_gov_uk,
     likumi_lv,
     moj_law,
@@ -103,6 +105,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "eu_cellar_case_law": eu_cellar_case_law.parse_eu_case_law,
     "fedlex_akn": fedlex.parse_fedlex,
     "fedlex_treaty": fedlex_treaty.parse_fedlex_treaty,
+    "legilux_akn": legilux.parse_legilux,
     "finlex_akn": finlex.parse_finlex,
     "frl_epub": au_federal_register.parse_federal_register,
     "bwb_xml": bwb.parse_bwb,
@@ -131,6 +134,7 @@ PARSER_VERSIONS = {
     "eu_cellar_case_law": eu_cellar_case_law.PARSER_VERSION,
     "fedlex_akn": fedlex.PARSER_VERSION,
     "fedlex_treaty": fedlex_treaty.PARSER_VERSION,
+    "legilux_akn": legilux.PARSER_VERSION,
     "finlex_akn": finlex.PARSER_VERSION,
     "frl_epub": au_federal_register.PARSER_VERSION,
     "bwb_xml": bwb.PARSER_VERSION,
@@ -189,6 +193,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "eu_cellar": CellarConnector,
     "eu_cellar_case_law": CellarCaseLawConnector,
     "fedlex": FedlexConnector,
+    "legilux": LegiluxConnector,
     "finlex": FinlexConnector,
     "au_federal_register": FederalRegisterConnector,
     "bwb": BwbConnector,
@@ -238,6 +243,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or eu_cellar_case_law.resolve_uri(uri)
         or fedlex_treaty.resolve_uri(uri)
         or fedlex.resolve_uri(uri)
+        or legilux.resolve_uri(uri)
         or finlex.resolve_uri(uri)
         or au_federal_register.resolve_uri(uri)
         or bwb.resolve_uri(uri)
