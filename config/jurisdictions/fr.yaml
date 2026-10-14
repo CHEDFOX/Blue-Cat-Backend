@@ -1,0 +1,128 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. France (national law: the Constitution, the codes, laws, ordinances; decisions of
+# the Conseil constitutionnel, the Cour de cassation and the administrative courts). Overseas collectivities with their own
+# legislation (New Caledonia, French Polynesia...) are not profiled. EU membership is deliberately not recorded here.
+schema_version: 1
+id: FR
+profile_version: 0.2.0
+name: France
+names: {fr: France, en: France}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [fr]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: monist
+  notes: >-
+    To verify - decentralised unitary Republic (communes, departments, regions, overseas collectivities with partly
+    separate legislation). Codified civil-law system with a separate administrative jurisdiction (Conseil d'Etat at its
+    head) beside the judicial one (Cour de cassation at its head). Treaties duly ratified or approved have, on
+    publication, an authority superior to that of statutes, subject to application by the other party (art. 55 of the
+    Constitution of 4 October 1958), so reception is monist; the Conseil constitutionnel reviews statutes against the
+    Constitution (art. 61, art. 61-1 for the "question prioritaire de constitutionnalité"), the ordinary courts review
+    them against treaties.
+legislative_institutions:
+  - id: FR-PARLEMENT
+    name: Parlement (Assemblée nationale and Sénat); the Congrès for constitutional laws; organic laws under art. 46 of the Constitution
+    instrument_types: [constitution, constitutional_act, organic_act, act]
+  - id: FR-GOUVERNEMENT
+    name: Gouvernement (ordonnances under art. 38; décrets of the President of the Republic and the Prime Minister; arrêtés of ministers and other authorities)
+    instrument_types: [ordinance, decree_law, decree, order]
+instrument_types:
+  [constitution, constitutional_act, organic_act, act, ordinance, decree_law, decree, order, code, other_text]
+norm_hierarchy:
+  [constitution, constitutional_act, organic_act, act, ordinance, decree_law, decree, order]
+courts:
+  - id: FR-CC
+    name: Conseil constitutionnel
+    rank: 1
+  - id: FR-CE
+    name: Conseil d'État
+    rank: 1
+  - id: FR-CCASS
+    name: Cour de cassation
+    rank: 1
+  - id: FR-TC
+    name: Tribunal des conflits
+    rank: 1
+  - id: FR-CAA
+    name: Cours administratives d'appel
+    rank: 2
+    appeals_to: [FR-CE]
+  - id: FR-TA
+    name: Tribunaux administratifs
+    rank: 3
+    appeals_to: [FR-CAA, FR-CE]
+  - id: FR-CA
+    name: Cours d'appel
+    rank: 2
+    appeals_to: [FR-CCASS]
+  - id: FR-TJ
+    name: Tribunaux judiciaires et juridictions du premier degré
+    rank: 3
+    appeals_to: [FR-CA, FR-CCASS]
+precedent:
+  doctrine: jurisprudence_constante
+  vertical_binding: false
+  notes: >-
+    To verify - no formal stare decisis: decisions bind the parties only and a judge may not lay down general rules
+    (art. 5 of the Code civil), but the settled case law ("jurisprudence constante") of the Cour de cassation and the
+    Conseil d'Etat is very persuasive in practice. Decisions of the Conseil constitutionnel are binding on public
+    authorities and all administrative and jurisdictional authorities and cannot be appealed (art. 62 of the
+    Constitution); a provision declared unconstitutional is repealed from the publication of the decision or a later
+    date set by it (art. 62 al. 2). The pace and effect of the Conseil's reservations of interpretation are to verify.
+citation:
+  module: fr
+  notes: >-
+    French practice: the code (abbreviated or in full), then "art." and the article number, the letter of a code's part
+    (L., R., D.) followed by a point and the number: "C. civ., art. 1240", "C. trav., art. L. 1234-5". Decisions are
+    cited by court, formation, date and number: "Cass. civ. 1re, 12 juill. 2012, n° 11-17.738", "CE, 5 mars 1999,
+    n° 196283", "Cons. const., 16 juillet 1971, n° 71-44 DC". The abbreviations in the profile extensions are
+    conventional (not given by the source) and to verify.
+  examples:
+    - "C. civ., art. 1240"
+    - "C. trav., art. L. 1234-5"
+    - "Code de commerce, art. L. 233-3"
+    - "Loi n° 78-17 du 6 janvier 1978, art. 22"
+    - "Constitution du 4 octobre 1958, art. 61-1"
+publication:
+  official_sources: [fr-dila-legi]
+  commencement: >-
+    To verify - laws and decrees are published in the Journal officiel de la République française (JORF) and enter
+    into force, unless they provide otherwise, on the day after their publication (art. 1 of the Code civil; the
+    previous system of the day of arrival in each arrondissement has been abolished). The database states the period
+    of every version of every article (DATE_DEBUT, DATE_FIN).
+  amendment: >-
+    Amending laws and decrees are published in the JORF; the DILA (Direction de l'information légale et administrative)
+    consolidates them into the codes and texts of Légifrance, normally within three working days of publication
+    (DILA data sheet).
+  repeal: >-
+    Express or implied repeal; the database keeps the repealed wording with the state ABROGE and the date it ended.
+coverage:
+  corpus_status: partial
+  known_gaps:
+    - "Consolidated legislation comes from the DILA LEGI database (Licence Ouverte 2.0): all codes, the Constitutions, laws, organic laws, constitutional laws, ordinances and decree-laws (see docs/jurisdictions/fr.md for the exact numbers). Decrees and orders (arrêtés) that are not codified are NOT ingested (the manifest can add them: about 55,000 decrees and 83,000 orders)."
+    - "The consolidated texts are the DILA's consolidation, not the authentic text: only the publication in the Journal officiel is authentic. Visas, signatures, preparatory works and tables outside articles are not ingested; articles are not split into paragraphs (alinéas)."
+    - "ANNULE and MODIFIE_MORT_NE article versions are not ingested (annulled retroactively / never in force). The 11 texts the stock holds in both its in-force and not-in-force trees keep the copy listed first."
+    - "No territorial applicability (overseas collectivities), no link graph between texts (citations, concordances), no treaties, no EU law, no Journal officiel, no regional or local law, no collective agreements (KALI)."
+    - "Case law: see docs/jurisdictions/fr.md for the decisions ingested (pseudonymised by the publisher). Not a complete corpus of French case law; no tribunaux judiciaires or conseils de prud'hommes decisions beyond those the DILA bases publish; no subsequent-history tracking."
+extensions:
+  fr:
+    # Conventional abbreviations of the main codes (legal practice, not given by the source); `title` must equal the
+    # code's short title in the DILA database, `cite_as` is the abbreviation used in citations. To verify.
+    abbreviations:
+      LEGITEXT000006070721: {title: Code civil, cite_as: C. civ.}
+      LEGITEXT000006070719: {title: Code pénal, cite_as: C. pén.}
+      LEGITEXT000006072050: {title: Code du travail, cite_as: C. trav.}
+      LEGITEXT000005634379: {title: Code de commerce, cite_as: C. com.}
+      LEGITEXT000006070716: {title: Code de procédure civile, cite_as: CPC}
+      LEGITEXT000006071154: {title: Code de procédure pénale, cite_as: CPP}
+      LEGITEXT000006069565: {title: Code de la consommation, cite_as: C. consom.}
+      LEGITEXT000006069414: {title: Code de la propriété intellectuelle, cite_as: CPI}
+      LEGITEXT000006069577: {title: Code général des impôts, cite_as: CGI}
+      LEGITEXT000006070933: {title: Code de justice administrative, cite_as: CJA}
+      LEGITEXT000031366350: {title: Code des relations entre le public et l'administration, cite_as: CRPA}

@@ -1,0 +1,21 @@
+# INCA: Arrêts inédits de la Cour de cassation (DILA open data) from the DILA open data (https://echanges.dila.gouv.fr/OPENDATA/INCA/).
+#
+# One stock (Freemium_inca_global_20250713-140000.tar.gz) pinned by size (the SHA-256 is not pinned: the stock was not downloaded in the build environment), then the daily archives published after it; the connector downloads the stock once
+# (resumable, cached under var/sources/echanges.dila.gouv.fr/), reads the archives as streams, newest first (so the latest
+# published version of a decision is the one kept) and yields the selected decisions as published. robots.txt of the host is read
+# first (it publishes none: 404, no restrictions); requests are at least 5 s apart.
+#
+# select: decisions of 2020 onwards; remove year_from for all (since 1989)
+schema_version: 1
+source_id: fr-dila-inca
+database: INCA
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+stock:
+  file: Freemium_inca_global_20250713-140000.tar.gz
+  date: 2025-07-13
+  bytes: 687104280
+incrementals:
+  enabled: true
+  through: null   # every archive the host lists after the stock; set a date to stop there
+select: {year_from: 2020}

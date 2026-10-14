@@ -1,0 +1,81 @@
+# CONSTIT: Décisions du Conseil constitutionnel (DILA open data). Terms and access rules read on 2026-10-14 from the publisher's own pages (cached under var/sources/);
+# details in docs/jurisdictions/fr.md:
+#   https://echanges.dila.gouv.fr/robots.txt -> 404 (none published, so no restrictions); the directory
+#        https://echanges.dila.gouv.fr/OPENDATA/CONSTIT/ is an open Apache index: one stock (Freemium_constit_global_20250713-140000.tar.gz, 12,511,366 bytes) and one
+#        incremental archive per publication day (CONSTIT_<date>.tar.gz), no login.
+#   https://echanges.dila.gouv.fr/OPENDATA/CONSTIT/DILA_CONSTIT_Presentation_20170824.pdf - DILA data sheet, updated 24 August 2017: "Les données sont
+#        réutilisables gratuitement sous licence ouverte v2.0. Les réutilisateurs s'obligent à mentionner : la paternité des
+#        données (DILA) ; l'URL d'accès longue de téléchargement ; le nom du fichier téléchargé ainsi que la date du fichier."
+#        Producer: the Conseil constitutionnel. "L'utilisateur qui souhaite intégrer et/ou rediffuser les données pour la première fois s'oblige à
+#        utiliser le dernier stock mis à disposition." The Conseil constitutionnel's decisions are published with the names the Council gives.
+#   https://www.dila.gouv.fr/home/open-data-et-api (updated 11 February 2026) and
+#        https://www.dila.gouv.fr/services/repertoire-des-informations-publiques/les-donnees-juridiques: the free reuse of the
+#        DILA legal databases (JORF, LEGI, KALI, JADE, CONSTIT, CASS, INCA, CAPP, CNIL and CIRCULAIRES) is the subject of the
+#        arrêté of 24 June 2014; https://www.dila.gouv.fr/robots.txt allows these pages (Crawl-delay: 1).
+schema_version: 1
+id: fr-dila-constit
+name: CONSTIT - Décisions du Conseil constitutionnel (DILA open data)
+publisher: >-
+  Direction de l'information légale et administrative (DILA), services of the Prime Minister, from the data of the Conseil constitutionnel;
+  published on Légifrance
+authority: official_non_authentic
+kind: official_court_database
+jurisdictions: [FR]
+document_kinds: [judgment]
+languages: [fr]
+coverage: >-
+  Every decision of the Conseil constitutionnel since its creation by the Constitution of 4 October 1958: constitutionality review (DC, L, LOM...), priority questions of constitutionality (QPC), electoral disputes (AN, SEN, PDR...), referendums and other decisions, 7,112 decisions in the 2025-07-13 stock; for DC decisions the data sheet adds the referral letters and the Government's observations (empty in most files).
+access:
+  method: bulk_download
+  endpoint: config/manifests/fr-dila-constit.yaml
+  authentication: none
+update_frequency: >-
+  Daily or several times a week (DILA data sheet); a new stock at least once a year. ULIS applies the archives published after the
+  pinned stock, newest first, so that the latest published version of a decision is the one kept.
+rate_limits: >-
+  None published for the host. ULIS downloads the stock once (resumable), then one request per daily archive, at least 5 s
+  apart, with an identifying User-Agent, and caches everything.
+licence:
+  id: Etalab-Licence-Ouverte-2.0
+  name: >-
+    Licence Ouverte / Open Licence version 2.0 (Etalab), as stated by the DILA data sheet; free reuse of the DILA legal
+    databases (Arrêté du 24 juin 2014)
+  url: https://www.etalab.gouv.fr/licence-ouverte-open-licence/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the DILA data sheet for CONSTIT (DILA_CONSTIT_Presentation_20170824.pdf: free reuse under licence ouverte v2.0 with the attribution it lists), the
+    DILA pages "Open data et API" and "Les données juridiques" (arrêté of 24 June 2014) and the host's robots.txt (none). Not
+    reviewed by counsel.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Source: Direction de l'information légale et administrative (DILA), base CONSTIT, Licence Ouverte 2.0. Téléchargé sur
+    https://echanges.dila.gouv.fr/OPENDATA/CONSTIT/Freemium_constit_global_20250713-140000.tar.gz (fichier Freemium_constit_global_20250713-140000.tar.gz du 13 juillet 2025) et les archives quotidiennes
+    CONSTIT_<date>.tar.gz du même répertoire. Conformément à la recommandation de la CNIL du 29 novembre 2001, les données nominatives
+    concernant les personnes physiques sont pseudonymisées par l'éditeur. ULIS n'est pas lié à la DILA ni à la juridiction.
+  conditions:
+    - "Mention the paternity of the data (DILA), the long download URL, and the name and date of the downloaded file (DILA data sheet)."
+    - "Use the latest stock when first integrating the data (DILA data sheet); the manifest pins the stock and the ingestion must be redone when a newer one is published."
+    - "The decisions are pseudonymised by the publisher (CNIL recommendation of 29 November 2001); the DILA data sheet adds that the provision of data that may contain personal data does not release the reuser from the Informatique et Libertés law (an \"Avertissement\" document it refers to was not found on the DILA site). ULIS stores the text as published, keeps no name of judges, lawyers or parties outside it, and must not be used to re-identify persons."
+    - "The Licence Ouverte 2.0 conditions apply (attribution, no suggestion of official endorsement); to be read in full by counsel before production use."
+  notes: >-
+    The DILA data sheet is dated 2017 and the licence text itself (Etalab) was not fetched (etalab.gouv.fr was not reachable through
+    the project's proxy); the statement that the data are reusable under Licence Ouverte v2.0, with the attribution listed, comes
+    from the DILA's own data sheet, and the free-reuse basis from the DILA's current pages. Counsel review recommended before
+    production use (in particular on personal data in published decisions).
+provenance: >-
+  The publisher's own open-data archives. The stock and each daily archive are stored as received (cache under var/sources/); each
+  decision is stored as the XML file the publisher distributes, byte for byte, addressed by SHA-256, with the archive it came from.
+known_limitations:
+  - "Pseudonymised publication of the decision, not the signed original; not authoritative."
+  - "Only decisions the courts supply to the DILA are published: a selection, not all the decisions of the courts."
+  - "The referral letters (SAISINES) and observations of the Government (OBSERVATIONS) the data sheet mentions are not ingested; the files hold none for most decisions."
+  - "The decisions carry no machine-readable links to the texts they apply (the data has no LIEN elements): articles are linked only where the decision names them with a strict pattern (article number directly followed by the name of a code, a law or the Constitution)."
+  - "Case-law links come only from the publisher's markup (the Cour de cassation's list of texts applied) and strict text patterns for articles of the codes, laws and the Constitution that are ingested; later history (overruling, distinguishing) is not tracked, and names of judges, lawyers and parties are not stored."
+status: active
+connector: dila_case_law
+parser: dila_juri_xml

@@ -33,6 +33,8 @@ from ulis.sources.connectors.au_federal_register import FederalRegisterConnector
 from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.bwb import BwbConnector
+from ulis.sources.connectors.dila_case_law import DilaCaseLawConnector
+from ulis.sources.connectors.dila_legi import DilaLegiConnector
 from ulis.sources.connectors.ecfr import EcfrConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
 from ulis.sources.connectors.eli_sejm import EliSejmConnector
@@ -70,6 +72,8 @@ from ulis.sources.parsers import (
     au_federal_register,
     boe_consolidada,
     bwb,
+    dila_juri,
+    dila_legi,
     ecfr,
     egov_law,
     eli_sejm,
@@ -126,6 +130,8 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "finlex_akn_decision": finlex_decisions.parse_finlex_decision,
     "frl_epub": au_federal_register.parse_federal_register,
     "bwb_xml": bwb.parse_bwb,
+    "dila_legi_xml": dila_legi.parse_dila_legi,
+    "dila_juri_xml": dila_juri.parse_dila_juri,
     "rechtspraak_xml": rechtspraak.parse_rechtspraak,
     "rattspraxis_se_json": rattspraxis_se.parse_rattspraxis,
     "uksc_html": uksc_html.parse_uksc,
@@ -163,6 +169,8 @@ PARSER_VERSIONS = {
     "finlex_akn_decision": finlex_decisions.PARSER_VERSION,
     "frl_epub": au_federal_register.PARSER_VERSION,
     "bwb_xml": bwb.PARSER_VERSION,
+    "dila_legi_xml": dila_legi.PARSER_VERSION,
+    "dila_juri_xml": dila_juri.PARSER_VERSION,
     "rechtspraak_xml": rechtspraak.PARSER_VERSION,
     "rattspraxis_se_json": rattspraxis_se.PARSER_VERSION,
     "uksc_html": uksc_html.PARSER_VERSION,
@@ -230,6 +238,8 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "finlex_decisions": FinlexDecisionsConnector,
     "au_federal_register": FederalRegisterConnector,
     "bwb": BwbConnector,
+    "dila_legi": DilaLegiConnector,
+    "dila_case_law": DilaCaseLawConnector,
     "rechtspraak": RechtspraakConnector,
     "rattspraxis_se": RattspraxisConnector,
     "uksc": UkscConnector,

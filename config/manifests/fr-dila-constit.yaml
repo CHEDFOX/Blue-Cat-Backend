@@ -1,0 +1,22 @@
+# CONSTIT: Décisions du Conseil constitutionnel (DILA open data) from the DILA open data (https://echanges.dila.gouv.fr/OPENDATA/CONSTIT/).
+#
+# One stock (Freemium_constit_global_20250713-140000.tar.gz) pinned by size and SHA-256, then the daily archives published after it; the connector downloads the stock once
+# (resumable, cached under var/sources/echanges.dila.gouv.fr/), reads the archives as streams, newest first (so the latest
+# published version of a decision is the one kept) and yields the selected decisions as published. robots.txt of the host is read
+# first (it publishes none: 404, no restrictions); requests are at least 5 s apart.
+#
+# select: every decision since 1958
+schema_version: 1
+source_id: fr-dila-constit
+database: CONSTIT
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+stock:
+  file: Freemium_constit_global_20250713-140000.tar.gz
+  date: 2025-07-13
+  bytes: 12511366
+  sha256: 67270556060b481ec139f21436244af913cccd3eb6e074c65d6600f48596f627
+incrementals:
+  enabled: true
+  through: null   # every archive the host lists after the stock; set a date to stop there
+select: {}
