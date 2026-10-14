@@ -1,0 +1,97 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Ireland (the Republic; the island's northern part is in the UK
+# profiles). EU membership is deliberately not recorded here (added separately with the EU profile).
+schema_version: 1
+id: IE
+profile_version: 0.1.0
+name: Ireland
+names: {en: Ireland, ga: Éire}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [ga, en]
+legal_system:
+  families: [common_law]
+  structure: unitary
+  treaty_reception: dualist
+  notes: >-
+    To verify - common-law system under Bunreacht na hÉireann (the Constitution of 1937), which has
+    supremacy over statute; legislative power rests in the Oireachtas (the President, Dáil Éireann and
+    Seanad Éireann). Irish is the first official language and English the second (Constitution Art 8);
+    Acts are enacted in both languages and the Irish text is understood to prevail on conflict (Art 25),
+    but only English is ingested. Dualist: an international agreement is part of domestic law only as
+    the Oireachtas determines (Art 29.6). EU law has direct effect through the Constitution (Art 29.4.6)
+    - not modelled here.
+legislative_institutions:
+  - id: IE-OIREACHTAS
+    name: Oireachtas (President, Dáil Éireann and Seanad Éireann)
+    instrument_types: [act]
+instrument_types: [act]
+norm_hierarchy: [act]
+courts:
+  - id: IE-SC
+    name: Supreme Court
+    rank: 1
+  - id: IE-CA
+    name: Court of Appeal
+    rank: 2
+    appeals_to: [IE-SC]
+    binds_self: true
+  - id: IE-HC
+    name: High Court
+    rank: 3
+    appeals_to: [IE-CA]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+  notes: >-
+    To verify - decisions of the Supreme Court bind all lower courts and those of the Court of Appeal
+    (established 28 October 2014) bind the High Court and lower courts; the Court of Appeal generally
+    follows its own decisions and the Supreme Court may depart from its own, which is not modelled beyond
+    binds_self on the Court of Appeal. The High Court hears constitutional challenges to statutes
+    (Art 34) with appeal to the Court of Appeal or, in some cases, direct to the Supreme Court. The
+    Circuit and District Courts, the Special Criminal Court and tribunals are not profiled.
+citation:
+  module: ie
+  notes: >-
+    Acts are cited by short title and year, then the pinpoint: "Data Protection Act 2018, s 60(3)(a)".
+    Schedules as "Sch 1" and "Sch 2, Pt 1"; a definition as "s 2(1) (definition of “controller”)". The
+    Act number (e.g. Number 7 of 2018) is kept in the work URI and the instrument data, not in the
+    citation. The conventions follow common Irish practice and are to be verified against the Irish Legal
+    Citation Guide.
+  examples:
+    - "Data Protection Act 2018, s 60(3)(a)"
+    - "Criminal Justice (Theft and Fraud Offences) Act 2001, s 4(1)"
+    - "Non-Fatal Offences against the Person Act 1997, s 2(1)(a)"
+    - "Consumer Protection Act 2007, s 2(1) (definition of “consumer”)"
+    - "Unfair Dismissals Act 1977, s 6(1)"
+    - "Companies Act 2014, s 228(1)(a)"
+publication:
+  official_sources: [ie-irish-statute-book]
+  commencement: >-
+    An Act becomes law when signed by the President (Art 25) and is published in the Acts of the Oireachtas
+    series. Whether and when its provisions take effect is stated in the Act itself: on the passing of the
+    Act, on a fixed or relative date, or - often - on a day appointed by ministerial order (commencement
+    order). To verify the general rules against the Interpretation Act 2005.
+  amendment: >-
+    Textual amendment by later Acts and by statutory instruments. The Law Reform Commission publishes
+    administrative consolidations (Revised Acts); the eISB Legislation Directory records amendments and
+    commencement. The Revised Acts are not an official text.
+  repeal: Express repeal by statute, often listed in a schedule of enactments repealed.
+memberships:
+  # Accession to the European Communities on 1 January 1973 (to verify).
+  - organisation: EU
+    from_date: 1973-01-01
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only six Acts are ingested, as enacted - Unfair Dismissals Act 1977, Non-Fatal Offences against the Person Act 1997, Criminal Justice (Theft and Fraud Offences) Act 2001, Consumer Protection Act 2007, Companies Act 2014 and Data Protection Act 2018; no other Acts, no statutory instruments, no case law and no treaties.
+    - Acts are as enacted. Later amendments, repeals and revocations are NOT applied (and several of these Acts have been amended substantially), so a provision may have changed or ceased to be law; the Law Reform Commission's Revised Acts, which would show the current text, have no stated re-use licence and are not ingested.
+    - The enacted XML carries no commencement dates and many of these Acts commence by ministerial order; every provision is dated from the enactment date, which is only a lower bound, and commencement orders are not ingested.
+    - Bunreacht na hÉireann (the Constitution) is NOT ingested - eISB offers it as HTML and PDF only, not as XML.
+    - English text only; the Irish-language versions of the Acts are not ingested.
+    - Schedules are indexed as one passage per Schedule (or per Part of a Schedule); numbered paragraphs inside Schedules are not separated, and images and tables are reduced to text.
+    - The structure of subsections, paragraphs and sub-paragraphs is rebuilt from printed labels because the XML is presentational; labels inside quoted amending text are not treated as provisions.
+    - Citator coverage is none; Irish courts other than the three profiled, and Northern Ireland (GB-NIR), are out of scope.

@@ -21,3 +21,4 @@ gaps and the actual test and ingestion results. See
 | Taiwan | Laws & Regulations Database (MOJ) | [tw.md](tw.md) |
 | Sweden | Riksdagens öppna data (SFS) | [se.md](se.md) |
 | Denmark | Retsinformation | [dk.md](dk.md) |
+| Ireland | electronic Irish Statute Book | [ie.md](ie.md) |

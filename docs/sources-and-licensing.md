@@ -67,6 +67,7 @@ or without conditions); connector and parser configured.
 | `se-riksdagen-sfs` | active | Riksdag open data: free use and redistribution naming the source; statutes not protected by copyright (lag 1960:729, 9 §) | **Admitted** | Government Offices' consolidations republished by the Riksdag; current text only |
 | `de-rechtsprechung-im-internet` | planned | Decisions free of copyright (§ 5 UrhG) | Refused | robots.txt disallows all robots except the EU ECLI crawler; needs the Federal Office of Justice's permission |
 | `dk-retsinformation` | active | Free, non-exclusive, unrestricted use including commercial (Civilstyrelsen API terms); laws not protected by copyright (ophavsretsloven § 9) | **Admitted** | XML by ELI, one request per 10 s; no implied endorsement |
+| `ie-irish-statute-book` | active | Oireachtas (Open Data) PSI Licence (incorporates CC BY 4.0, with attribution and disclaimer duties) | **Admitted** | eISB XML of Acts as enacted; no robots.txt; revised Acts (Law Reform Commission) have no stated licence and are not fetched |
 | `gb-find-case-law` | planned | Open Justice Licence (to confirm) | Refused | Our understanding: computational analysis requires a separate licence. Recorded as `automated_processing: not_allowed` until held |
 | `us-uscode-house` | planned | US government work, 17 U.S.C. 105 (to confirm) | Refused | Non-positive-law titles are prima facie evidence (1 U.S.C. 204) |
 | `eu-eur-lex` | planned | Commission Decision 2011/833/EU reuse (to confirm) | Refused | Only the e-OJ is authentic; consolidations are documentation |

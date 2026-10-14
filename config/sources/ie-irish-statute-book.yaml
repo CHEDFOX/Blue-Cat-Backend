@@ -1,0 +1,93 @@
+# electronic Irish Statute Book (eISB): Acts of the Oireachtas as enacted. Terms read on 2026-10-14 from the
+# publisher's own pages (cached under var/sources/):
+#   https://www.irishstatutebook.ie/open-data.html (redirects to /eli/open-data.html) - "Re-use of the data on this
+#        web site is subject to the OIREACHTAS (OPEN DATA) PSI LICENCE, which is a standard licence for the purposes
+#        of Directive (EU) 2019/1024 ... as transposed into Irish law by ... S.I. No. 376/2021. This licence
+#        incorporates the Creative Commons Attribution 4.0 International License"; "The XML source for Acts from 1922
+#        to date is available using the ELI format of xml"; example http://www.irishstatutebook.ie/eli/2017/act/8/enacted/en/xml
+#   https://www.irishstatutebook.ie/disclaimer.html - "the State and Attorney General ... assume no responsibility for
+#        and give no guarantees, undertakings or warranties concerning the accuracy, completeness or up to date nature
+#        of the information"; "the publication of legislation on this web site does not indicate that any particular
+#        provision in a statute or statutory instrument was, or is currently, in force"; the helpdesk gives no help
+#        with interpretation or with updating
+#   https://www.oireachtas.ie/en/copyright-and-reuse/ (linked from the open-data page) - most of the information,
+#        including legislation, is copyright of the Houses of the Oireachtas; re-use "free of charge, and in any
+#        format" under the Oireachtas (Open Data) PSI Licence; you must "acknowledge the Houses of the Oireachtas as
+#        creator ... and acknowledge the copyright of the Houses; retain the Houses' copyright notice; refer and, if
+#        possible, link, to the Oireachtas (Open Data) PSI Licence; and retain all disclaimers"; "producing or using an
+#        inaccurate version of legislation, or even a copy incorrectly appearing to be an official version, are serious
+#        offences ... If you publish a version of the text of legislation, you must include a disclaimer that it is not
+#        the official text of the Act or an official restatement"
+#   https://data.oireachtas.ie/ie/oireachtas/corporate/governanceAndReform/2016/2016-03-27_oireachtas-psi-licence-open-data_en.pdf
+#        - the licence: terms of CC BY 4.0 written into it (3.1); the licensee must identify the Houses of the
+#        Oireachtas as creator, retain the copyright notice, retain a reference to the licence and retain disclaimer
+#        notices (3.2); logos, crests and insignia (the harp) and third-party rights are outside it (recital B)
+#   https://www.irishstatutebook.ie/robots.txt - 404 (no robots.txt); no rate limit is published
+#   https://revisedacts.lawreform.ie/robots.txt - "User-agent: * / Disallow:" (see ie-revised-acts-lrc: not ingested)
+schema_version: 1
+id: ie-irish-statute-book
+name: electronic Irish Statute Book - Acts of the Oireachtas as enacted (XML)
+publisher: >-
+  Office of the Attorney General (Ireland), which produces the electronic Irish Statute Book; the
+  text of Acts is copyright of the Houses of the Oireachtas
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [IE]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  Acts of the Oireachtas 1922 to date as enacted, in XML (ELI format "xml") with English text. ULIS ingests
+  six Acts in English as enacted: Unfair Dismissals Act 1977, Non-Fatal Offences against the Person Act 1997,
+  Criminal Justice (Theft and Fraud Offences) Act 2001, Consumer Protection Act 2007, Companies Act 2014 and
+  Data Protection Act 2018. Later amendments are not applied (see known limitations).
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ie-irish-statute-book.yaml
+update_frequency: new Acts are added continuously; the enacted text of an Act does not change
+rate_limits: >-
+  No robots.txt (404) and no published rate limit. ULIS waits 5 s between requests, identifies itself,
+  fetches one file per Act and caches every download.
+licence:
+  id: IE-Oireachtas-Open-Data-PSI
+  name: Oireachtas (Open Data) PSI Licence (incorporating the Creative Commons Attribution 4.0 International License)
+  url: https://data.oireachtas.ie/ie/oireachtas/corporate/governanceAndReform/2016/2016-03-27_oireachtas-psi-licence-open-data_en.pdf
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the eISB open-data page states that re-use of the data on the site (and offers the XML source
+    of Acts) is under the Oireachtas (Open Data) PSI Licence; the licence (read in full) incorporates CC BY 4.0
+    and adds attribution duties; the Oireachtas copyright-and-re-use page states re-use is free of charge, in any
+    format, and adds the legislation disclaimer rule.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Acts of the Oireachtas from the electronic Irish Statute Book (www.irishstatutebook.ie), Office of the
+    Attorney General. (c) Houses of the Oireachtas, re-used under the Oireachtas (Open Data) PSI Licence
+    (CC BY 4.0). This is not the official text of the Act or an official restatement; no warranty of accuracy,
+    completeness or currency, and publication does not indicate that any provision is in force.
+  conditions:
+    - Identify the Houses of the Oireachtas as creator, retain the copyright notice, refer to the Oireachtas (Open Data) PSI Licence and retain the disclaimers (licence 3.2).
+    - Include a disclaimer that the reproduction is not the official text of the Act or an official restatement (Oireachtas copyright-and-re-use page; stated on every result).
+    - Images (the harp) and other logos, crests and insignia are outside the licence and are not ingested.
+    - Do not present the as-enacted text as the law currently in force (the site's disclaimer says that publication does not indicate that any provision was or is in force).
+  notes: >-
+    The licence is explicit and open. The authenticity position is not: the site disclaims accuracy and the
+    signed and enrolled text of the Act (Constitution Art 25, to verify) is the authentic one, so ULIS records the XML as an official
+    conversion, not an authentic text. Counsel review still recommended before production use.
+provenance: >-
+  Official electronic Irish Statute Book of the Office of the Attorney General; the text is that of the Act as
+  passed by the Oireachtas. Each download is stored byte-for-byte (SHA-256) with its URL and retrieval time and
+  pinned by SHA-256 in the manifest.
+known_limitations:
+  - Acts as enacted only. Amendments, repeals and revocations made after enactment are not applied, so a provision may no longer be law in this wording (the Non-Fatal Offences Act 1997, for example, has since been amended).
+  - The XML carries no commencement dates. Many Acts commence by ministerial order or on a day after passing; each provision is dated from the enactment date, which is only a lower bound.
+  - Not the authentic text and not an official restatement; the eISB gives no warranty.
+  - English text only; the Irish-language versions are not ingested (the Irish text is understood to prevail if the two differ, Constitution Art 25, to verify).
+  - The Law Reform Commission's Revised Acts (administrative consolidations) are a separate source with no stated re-use licence and are not ingested.
+  - The Constitution (Bunreacht na hÉireann) is not available as XML on eISB and is not ingested; statutory instruments, pre-1922 Acts and the Legislation Directory are not ingested.
+status: active
+connector: irish_statute_book
+parser: eisb_act_xml

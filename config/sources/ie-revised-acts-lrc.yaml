@@ -1,0 +1,55 @@
+# PLANNED - NOT INGESTED. Revised Acts (administrative consolidations by the Law Reform Commission) would give the
+# current text of Irish Acts, but no re-use licence was found, so nothing was fetched beyond the pages below.
+# Checked on 2026-10-14 (pages cached under var/sources/revisedacts.lawreform.ie/):
+#   https://revisedacts.lawreform.ie/robots.txt - "User-agent: * / Disallow:" (everything allowed)
+#   https://revisedacts.lawreform.ie/revacts/intro - "A Revised Act is an administrative consolidation of that Act";
+#        over 500 Revised Acts; footer "All content Copyright 2026"; no re-use licence, terms of use or open-data
+#        statement on the page or in the footer links (Privacy Policy, Data Protection Policy only)
+#   https://revisedacts.lawreform.ie/eli/1997/act/26/revised/en/html - one Revised Act ("Updated to 31 December 2024"):
+#        "This Revised Act is an administrative consolidation ... prepared by the Law Reform Commission"; disclaimer
+#        of accuracy, completeness and currency; "there are changes to this Act which have not been implemented by
+#        the Revised Acts editorial team"; no licence statement
+#   The eISB open-data licence (Oireachtas Open Data PSI Licence) covers the eISB and Oireachtas material; it does not
+#        say that it extends to Law Reform Commission publications, so it is not assumed to.
+# To proceed: written confirmation of the licence (or an open-data statement) from the Law Reform Commission
+# (revisedacts@lawreform.ie).
+schema_version: 1
+id: ie-revised-acts-lrc
+name: Revised Acts (Law Reform Commission)
+publisher: Law Reform Commission (Ireland)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [IE]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  Administrative consolidations of more than 500 Acts: around 170 pre-2004 Acts and all Acts since 2004 that have
+  been textually amended (except the Finance Acts), with annotations, in HTML and PDF (as described on the site's
+  introduction page). Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://revisedacts.lawreform.ie/revacts/intro
+update_frequency: maintained on an ongoing basis ("Updated to 31 December 2024" on the Revised Act read)
+rate_limits: robots.txt (2026-10-14) allows all paths; no published rate limit.
+licence:
+  id: IE-LRC-revised-acts-unstated
+  name: No re-use licence stated ("All content Copyright 2026")
+  url: https://revisedacts.lawreform.ie/revacts/intro
+  review_status: pending_review
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  conditions:
+    - Written confirmation of re-use terms from the Law Reform Commission before any retrieval.
+  notes: >-
+    robots.txt allows access but the site states no licence, only a copyright line, and an administrative
+    consolidation is an editorial work. ULIS does not assume that the Oireachtas Open Data PSI Licence applies.
+provenance: >-
+  Law Reform Commission, Revised Acts service (administrative consolidations; not an official or authentic text,
+  per the Revised Act's own disclaimer).
+known_limitations:
+  - Not ingested; the as-enacted Acts in ie-irish-statute-book therefore lack all later amendments.
+  - Administrative consolidations only; the Commission accepts no responsibility for accuracy or currency.
+status: planned

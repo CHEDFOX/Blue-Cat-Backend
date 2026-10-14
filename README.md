@@ -110,6 +110,7 @@ tests/             unit + PostgreSQL integration tests
 | `tw-moj-laws` | TW | 8 laws in Traditional Chinese, current text: Constitution, Additional Articles, Civil Code, Criminal Code, Code of Civil Procedure, Administrative Procedure Act, Personal Data Protection Act, Labor Standards Act ([notes](docs/jurisdictions/tw.md)) | Real, Open Government Data License 1.0; the Presidential Office Gazette is authentic |
 | `se-riksdagen-sfs` | SE | 8 statutes in Swedish, current text: Regeringsformen, Brottsbalken, Avtalslagen, Ärvdabalken, LAS, Förvaltningslagen, 2018:218, Rättegångsbalken ([notes](docs/jurisdictions/se.md)) | Real, free reuse naming "Källa: Sveriges riksdag"; consolidations are not authentic |
 | `dk-retsinformation` | DK | 6 Acts in Danish (official consolidations): Straffeloven, Aftaleloven, Arveloven, Funktionærloven, Forvaltningsloven, Databeskyttelsesloven; earlier consolidations for two ([notes](docs/jurisdictions/dk.md)) | Real, free unrestricted use (Civilstyrelsen terms); Lovtidende is authentic |
+| `ie-irish-statute-book` | IE | 6 Acts as enacted (English): Unfair Dismissals 1977, Non-Fatal Offences 1997, Theft and Fraud 2001, Consumer Protection 2007, Companies 2014, Data Protection 2018 ([notes](docs/jurisdictions/ie.md)) | Real, Oireachtas (Open Data) PSI Licence; amendments not applied |
 | `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
 
 Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO
