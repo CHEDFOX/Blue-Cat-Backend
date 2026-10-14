@@ -1,0 +1,58 @@
+{
+ "constitucion": {
+  "path": "constitucion/1967-1967",
+  "url": "https://www.impo.com.uy/bases/constitucion/1967-1967?json=true",
+  "retrieved_at": "2026-10-14T18:35:26.249601+00:00",
+  "content_type": "application/json; charset=ISO-8859-1",
+  "articles_in_source": 332,
+  "articles_in_fixture": 4
+ },
+ "codigo-civil": {
+  "path": "codigo-civil/16603-1994",
+  "url": "https://www.impo.com.uy/bases/codigo-civil/16603-1994?json=true",
+  "retrieved_at": "2026-10-14T18:37:55.756832+00:00",
+  "content_type": "application/json; charset=ISO-8859-1",
+  "articles_in_source": 2334,
+  "articles_in_fixture": 8
+ },
+ "codigo-penal": {
+  "path": "codigo-penal/9155-1933",
+  "url": "https://www.impo.com.uy/bases/codigo-penal/9155-1933?json=true",
+  "retrieved_at": "2026-10-14T18:38:14.412041+00:00",
+  "content_type": "application/json; charset=ISO-8859-1",
+  "articles_in_source": 423,
+  "articles_in_fixture": 4
+ },
+ "ley-18331": {
+  "path": "leyes/18331-2008",
+  "url": "https://www.impo.com.uy/bases/leyes/18331-2008?json=true",
+  "retrieved_at": "2026-10-14T18:35:29.989468+00:00",
+  "content_type": "application/json; charset=ISO-8859-1",
+  "articles_in_source": 51,
+  "articles_in_fixture": 6
+ },
+ "ley-17016": {
+  "path": "leyes/17016-1998",
+  "url": "https://www.impo.com.uy/bases/leyes/17016-1998?json=true",
+  "retrieved_at": "2026-10-14T18:46:33.994903+00:00",
+  "content_type": "application/json; charset=ISO-8859-1",
+  "articles_in_source": 7,
+  "articles_in_fixture": 7
+ },
+ "decreto-414-2009": {
+  "path": "decretos/414-2009",
+  "url": "https://www.impo.com.uy/bases/decretos/414-2009?json=true",
+  "retrieved_at": "2026-10-14T18:46:55.364895+00:00",
+  "content_type": "application/json; charset=ISO-8859-1",
+  "articles_in_source": 41,
+  "articles_in_fixture": 3
+ },
+ "decreto-ley-14653": {
+  "path": "decretos-ley/14653-1977",
+  "url": "https://www.impo.com.uy/bases/decretos-ley/14653-1977?json=true",
+  "retrieved_at": "2026-10-14T19:36:56.763970+00:00",
+  "content_type": "application/json; charset=ISO-8859-1",
+  "articles_in_source": 5,
+  "articles_in_fixture": 5
+ }
+}

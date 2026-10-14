@@ -60,7 +60,7 @@ NOTE_LIMIT = 4000
 # IMPO's own address of a norm: bases/<kind>/<number>-<year>, e.g. leyes/18331-2008, decretos/414-2009,
 # constitucion/1967-1967, codigo-civil/16603-1994.
 PATH_PATTERN = r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*/[1-9][0-9]{0,6}-[0-9]{4}"
-_PATH = re.compile(rf"(?P<kind>[a-z][a-z0-9]*(?:-[a-z0-9]+)*)/(?P<number>[1-9][0-9]{{0,6}})-(?P<year>[0-9]{{4}})")
+_PATH = re.compile(r"(?P<kind>[a-z][a-z0-9]*(?:-[a-z0-9]+)*)/[1-9][0-9]{0,6}-[0-9]{4}")
 _NORM_URI = re.compile(
     rf"^(?:{re.escape(SITE)}|https?://(?:www\.)?impo\.com\.uy)/bases/(?P<path>{PATH_PATTERN})(?:/(?P<article>[0-9A-Za-z_-]+))?/?$"
 )
@@ -132,7 +132,7 @@ def decode_body(body: str) -> str:
 
 def _plain(fragment: str) -> str:
     """Tags out, entities decoded, line ends normalised; no other change."""
-    s = _BR.sub("\n", fragment)
+    s = _BR.sub("\n\n", fragment)  # an explicit <br> is a paragraph break
     s = _PRE.sub("", s)
     s = _TAG.sub("", s)
     s = htmllib.unescape(s)
@@ -191,7 +191,9 @@ def _date(value: Any) -> date | None:
 
 
 def _headings(raw: Any) -> list[str]:
-    parts = [re.sub(r"\s+", " ", _MARKER.sub("", htmllib.unescape(_TAG.sub("", p)))).strip() for p in _BR.split(raw or "")]
+    parts = [
+        re.sub(r"\s+", " ", _MARKER.sub("", htmllib.unescape(_TAG.sub("", p)))).strip() for p in _BR.split(raw or "")
+    ]
     return [p for p in parts if p]
 
 
@@ -290,14 +292,17 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
         raise ImpoParseError(f"not an IMPO bundle: {exc}") from exc
     if not isinstance(bundle, dict) or bundle.get("format") != BUNDLE_FORMAT:
         raise ImpoParseError(f"unsupported bundle (expected format {BUNDLE_FORMAT!r})")
-    path = bundle.get("path")
-    m = _PATH.fullmatch(path) if isinstance(path, str) else None
-    if m is None:
-        raise ImpoParseError(f"invalid norm path {path!r}")
-    kind, number, year = m.group("kind"), m.group("number"), int(m.group("year"))
+    raw_path = bundle.get("path")
+    m = _PATH.fullmatch(raw_path) if isinstance(raw_path, str) else None
+    if m is None or not isinstance(raw_path, str):
+        raise ImpoParseError(f"invalid norm path {raw_path!r}")
+    path: str = raw_path
+    kind = m.group("kind")
     instrument_type = instrument_type_of(kind)
     if instrument_type is None:
-        raise ImpoParseError(f"IMPO kind {kind!r} is not one ULIS knows (constitucion, leyes, decretos-ley, decretos, codigo-*)")
+        raise ImpoParseError(
+            f"IMPO kind {kind!r} is not one ULIS knows (constitucion, leyes, decretos-ley, decretos, codigo-*)"
+        )
     try:
         retrieved = datetime.fromisoformat(bundle["retrieved_at"]).astimezone(UTC).date()
         norm = json.loads(decode_body(bundle["body"]), strict=False)  # bare control characters occur in strings
@@ -336,7 +341,9 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
         note_text = _note(notes_html)
         # Entries that hold several articles are split at their inline labels.
         pieces = _SUBARTICLE.split(raw_text)
-        segments = [(label, pieces[0])] + [(pieces[i].strip().replace(" ", ""), pieces[i + 1]) for i in range(1, len(pieces) - 1, 2)]
+        segments = [(label, pieces[0])] + [
+            (pieces[i].strip().replace(" ", ""), pieces[i + 1]) for i in range(1, len(pieces) - 1, 2)
+        ]
         ref_list = _refs_from_notes(notes_html, path)
         for index, (seg_label, seg_text) in enumerate(segments):
             if not _ARTICLE_LABEL.match(seg_label):
@@ -390,7 +397,9 @@ def parse_impo_uy(content: bytes) -> list[ParsedDocument]:
         events.insert(0, ParsedEvent("promulgation", promulgated, None, what, "ficha/fechaPromulgacion"))
     if published:
         events.append(
-            ParsedEvent("publication", published, None, f"Publicación en el Diario Oficial ({named})", "ficha/fechaPublicacion")
+            ParsedEvent(
+                "publication", published, None, f"Publicación en el Diario Oficial ({named})", "ficha/fechaPublicacion"
+            )
         )
     events.append(
         ParsedEvent("version_change", retrieved, None, "Retrieval date of the updated text shown by IMPO", "json")

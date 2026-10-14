@@ -106,7 +106,9 @@ class ImpoUyConnector:
             path = norm["path"]
             request_path = f"/bases/{path}?json=true"
             if any(rule.match(request_path) for rule in disallowed):
-                self.fetch_errors.append(f"impo-uy:{path}: {BASE_URL}{request_path} is disallowed by robots.txt; not fetched")
+                self.fetch_errors.append(
+                    f"impo-uy:{path}: {BASE_URL}{request_path} is disallowed by robots.txt; not fetched"
+                )
                 continue
             url = f"{BASE_URL}{request_path}"
             try:
@@ -137,7 +139,9 @@ class ImpoUyConnector:
                 continue
             body = data.decode("latin-1")  # lossless: every byte is one code point; the parser decodes the text
             try:
-                parsed = json.loads(body, strict=False)  # IMPO leaves bare control characters (a CR before <br>) in strings
+                parsed = json.loads(
+                    body, strict=False
+                )  # IMPO leaves bare control characters (a CR before <br>) in strings
             except ValueError:
                 parsed = None
             if not isinstance(parsed, dict) or not isinstance(parsed.get("articulos"), list):

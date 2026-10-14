@@ -1,0 +1,75 @@
+{
+ "tipoNorma": "Ley",
+ "nroNorma": "18331",
+ "anioNorma": 2008,
+ "nombreNorma": "LEY DE PROTECCION DE DATOS PERSONALES",
+ "leyenda": " Documento Actualizado ",
+ "urlVerImagen": "/diariooficial/2008/08/18/5",
+ "fechaPromulgacion": "11/08/2008",
+ "fechaPublicacion": "18/08/2008",
+ "RNLD": {
+  "tomo": "1",
+  "semestre": 2,
+  "anio": 2008,
+  "pagina": 378
+ },
+ "referenciasNorma": " <b>Reglamentada por:</b> Decreto <a class=\"linkFicha\" href=\"/bases/decretos/414-2009\" >Nº 414/009</a> de 31/08/2009.\r\n<b>Ver:</b> Ley Nº 19.438 de 14/10/2016 artículo <a class=\"linkFicha\" href=\"/bases/leyes/19438-2016/189\" >189</a> (declara que se exceptua a \r\nUTE, ANTEL y OSE, de las limitaciones para brindar información a los \r\nGobiernos Departamentales).\r\n ",
+ "urlReferenciasTodaLaNorma": "/bases/leyes/18331-2008?verreferencias=norma",
+ "vistos": "  ",
+ "articulos": [
+  {
+   "nroArticulo": "1",
+   "secArticulo": "",
+   "titulosArticulo": " CAPITULO I - DISPOSICIONES GENERALES<br> ",
+   "tituloArticulo": "Artículo 1",
+   "urlArticulo": "/bases/leyes/18331-2008/1",
+   "textoArticulo": "  Derecho Humano.- El derecho a la protección de datos personales es\r\ninherente a la persona humana, por lo que está comprendido en el artículo\r\n72 de la Constitución de la República.\r\n ",
+   "urlReferenciasArticulo": "/bases/leyes/18331-2008/1?verreferencias=articulo"
+  },
+  {
+   "nroArticulo": "3",
+   "secArticulo": "",
+   "tituloArticulo": "Artículo 3",
+   "urlArticulo": "/bases/leyes/18331-2008/3",
+   "textoArticulo": "  Ambito objetivo.- El régimen de la presente ley será de aplicación a los\r\ndatos personales registrados en cualquier soporte que los haga\r\nsusceptibles de tratamiento, y a toda modalidad de uso posterior de estos\r\ndatos por los ámbitos público o privado.\r\nNo será de aplicación a las siguientes bases de datos:\r\nA) A las mantenidas por personas físicas en el ejercicio de\r\n   actividades exclusivamente personales o domésticas.\r\nB) Las que tengan por objeto la seguridad pública, la defensa, la\r\n   seguridad del Estado y sus actividades en materia penal, investigación\r\n   y represión del delito.\r\nC) A las bases de datos creadas y reguladas por leyes especiales.\r\n ",
+   "notasArticulo": "Literal C) <b>reglamentado por:</b> Decreto <a class=\"linkFicha\" href=\"/bases/decretos/437-2009\" >Nº 437/009</a> de 28/09/2009.\r\n",
+   "urlReferenciasArticulo": "/bases/leyes/18331-2008/3?verreferencias=articulo"
+  },
+  {
+   "nroArticulo": "9",
+   "secArticulo": "",
+   "tituloArticulo": "Artículo 9",
+   "urlArticulo": "/bases/leyes/18331-2008/9",
+   "textoArticulo": "  Principio del previo consentimiento informado.- El tratamiento de datos\r\npersonales es lícito cuando el titular hubiere prestado su consentimiento\r\nlibre, previo, expreso e informado, el que deberá documentarse.\r\n El referido consentimiento prestado con otras declaraciones, deberá figurar en forma expresa y destacada, previa notificación al requerido de datos, de la información descrita en el artículo 13 de la presente\r\nley. (*)\r\n No será necesario el previo consentimiento cuando:\r\nA) Los datos provengan de fuentes públicas de información, tales como\r\n   registros o publicaciones en medios masivos de comunicación.\r\nB) Se recaben para el ejercicio de funciones propias de los poderes\r\n   del Estado o en virtud de una obligación legal.\r\nC) Se trate de listados cuyos datos se limiten en el caso de personas\r\n   físicas a nombres y apellidos, documento de identidad, nacionalidad,\r\n   domicilio y fecha de nacimiento. En el caso de personas jurídicas,\r\n   razón social, nombre de fantasía, registro único de contribuyentes,\r\n   domicilio, teléfono e identidad de las personas a cargo de la misma.\r\nD) Deriven de una relación contractual, científica o profesional del\r\n   titular de los datos, y sean necesarios para su desarrollo o\r\n   cumplimiento.\r\nE) Se realice por personas físicas para su uso exclusivo personal,\r\n   individual o doméstico. (*)\r\n ",
+   "notasArticulo": "Inciso 2º) <b><font color=\"#0000FF\">redacción dada por:</font></b> Ley Nº 18.719 de 27/12/2010 artículo <a class=\"linkFicha\" href=\"/bases/leyes/18719-2010/152\" >152</a>.\r\nInciso 3º) literal E) <b><font color=\"#0000FF\">redacción dada por:</font></b> Ley Nº 18.719 de 27/12/2010 \r\nartículo <a class=\"linkFicha\" href=\"/bases/leyes/18719-2010/156\" >156</a>.\r\n<b>Ver en esta norma, artículos:</b> <a class=\"linkFicha\" href=\"/bases/leyes/18331-2008/17\" >17</a> y <a class=\"linkFicha\" href=\"/bases/leyes/18331-2008/18_BIS\" >18 - BIS</a>.\r\n<b>Ver:</b> Ley Nº 19.355 de 19/12/2015 artículo <a class=\"linkFicha\" href=\"/bases/leyes/19355-2015/84\" >84</a> (interpretativo).\r\n<br><b><font color=\"#008200\">TEXTO ORIGINAL:</font></b> Ley Nº 18.331 de 11/08/2008 artículo <a class=\"linkFicha\" href=\"/bases/leyes-originales/18331-2008/9\" >9</a>.\r\n",
+   "urlReferenciasArticulo": "/bases/leyes/18331-2008/9?verreferencias=articulo"
+  },
+  {
+   "nroArticulo": "9",
+   "secArticulo": "BIS",
+   "tituloArticulo": "Artículo 9-BIS",
+   "urlArticulo": "/bases/leyes/18331-2008/9_BIS",
+   "textoArticulo": "    A los efectos de lo dispuesto por el literal I) del artículo 4°, por\r\nel literal A) del inciso tercero del artículo 9° y por los artículos 11,\r\n21 y 22 de la presente ley, se consideran como públicas o accesibles al\r\npúblico, las siguientes fuentes o documentos:\r\n    A) El Diario Oficial y las publicaciones oficiales, cualquiera sea su\r\n       soporte de registro o canal de comunicación.\r\n    B) Las publicaciones en medios masivos de comunicación, entendiendo\r\n       por tales los provenientes de la prensa, cualquiera sea el soporte\r\n       en el que figuren o el canal a través del cual se practique la\r\n       comunicación.\r\n    C) Las guías, anuarios, directorios y similares en los que figuren\r\n       nombres y domicilios, u otros datos personales que hayan sido\r\n       incluidos con el consentimiento del titular.\r\n    D) Todo otro registro o publicación en el que prevalezca el interés\r\n       general en cuanto a que los datos personales en ellos contenidos\r\n       puedan ser consultados, difundidos o utilizados por parte de\r\n       terceros. En caso contrario, se podrá hacer uso del registro o\r\n       publicación mediante técnicas de disociación u ocultamiento de los\r\n       datos personales.\r\n  La Unidad Reguladora de Control de Datos Personales, de oficio o a\r\nsolicitud de cualquier interesado, se expedirá sobre el derecho a la protección de datos personales, en situaciones relacionadas con los apartados precedentes literales A) y B) del inciso primero del artículo 34 de la presente ley. (*) ",
+   "notasArticulo": "<b><font color=\"#FF0000\">Ver vigencia:</font></b> Ley Nº 18.996 de 07/11/2012 artículo <a class=\"linkFicha\" href=\"/bases/leyes/18996-2012/2\" >2</a>.\r\n<b><font color=\"#0000FF\">Agregado/s por:</font></b> Ley Nº 18.996 de 07/11/2012 artículo <a class=\"linkFicha\" href=\"/bases/leyes/18996-2012/43\" >43</a>.\r\n"
+  },
+  {
+   "nroArticulo": "12",
+   "secArticulo": "",
+   "tituloArticulo": "Artículo 12",
+   "urlArticulo": "/bases/leyes/18331-2008/12",
+   "textoArticulo": "    (Principio de responsabilidad).- El responsable de la base de datos o tratamiento y el encargado, en su caso, serán responsables de la violación\r\nde las disposiciones de la presente ley.\r\n\r\n   En ejercicio de una responsabilidad proactiva, deberán adoptar las\r\nmedidas técnicas y organizativas apropiadas: privacidad desde el diseño,\r\nprivacidad por defecto, evaluación de impacto a la protección de datos,\r\nentre otras, a fin de garantizar un tratamiento adecuado de los datos\r\npersonales y demostrar su efectiva implementación.\r\n\r\n   La reglamentación determinará las medidas que correspondan según los\r\ntipos de datos, tratamientos y responsables, así como la oportunidad para\r\nsu revisión y actualización. (*)\r\n ",
+   "notasArticulo": "<b><font color=\"#0000FF\">Redacción dada por:</font></b> Ley Nº 19.670 de 15/10/2018 artículo <a class=\"linkFicha\" href=\"/bases/leyes/19670-2018/39\" >39</a>.\r\n<b><font color=\"#FF0000\">Ver vigencia:</font></b> Ley Nº 19.670 de 15/10/2018 artículo <a class=\"linkFicha\" href=\"/bases/leyes/19670-2018/2\" >2</a>.\r\n<b>Reglamentado por:</b> Decreto <a class=\"linkFicha\" href=\"/bases/decretos/64-2020\" >Nº 64/020</a> de 17/02/2020.\r\n<br><b><font color=\"#008200\">TEXTO ORIGINAL:</font></b> Ley Nº 18.331 de 11/08/2008 artículo <a class=\"linkFicha\" href=\"/bases/leyes-originales/18331-2008/12\" >12</a>.\r\n",
+   "urlReferenciasArticulo": "/bases/leyes/18331-2008/12?verreferencias=articulo"
+  },
+  {
+   "nroArticulo": "18",
+   "secArticulo": "BIS",
+   "titulosArticulo": "  ",
+   "tituloArticulo": "Artículo 18-BIS",
+   "urlArticulo": "/bases/leyes/18331-2008/18_BIS",
+   "textoArticulo": "    (Datos biométricos).- Los datos biométricos regulados en la presente ley podrán ser objeto de tratamiento en el marco de lo dispuesto en el artículo 9° de la presente ley, previa realización de una evaluación de impacto en la protección de datos personales. (*)\r\n ",
+   "notasArticulo": "<b><font color=\"#FF0000\">Ver vigencia:</font></b> Ley Nº 19.924 de 18/12/2020 artículo <a class=\"linkFicha\" href=\"/bases/leyes/19924-2020/3\" >3</a>.\r\n<b><font color=\"#0000FF\">Agregado/s por:</font></b> Ley Nº 19.924 de 18/12/2020 artículo <a class=\"linkFicha\" href=\"/bases/leyes/19924-2020/87\" >87</a>.\r\n"
+  }
+ ],
+ "firmantes": " TABARE VAZQUEZ - DAISY TOURNE - GONZALO FERNANDEZ - DANILO ASTORI - JOSE BAYARDI - MARIA SIMON - VICTOR ROSSI - DANIEL MARTINEZ - EDUARDO BONOMI - MARIA JULIA MUÑOZ - ERNESTO AGAZZI - HECTOR LESCANO - CARLOS COLACCE - MARINA ARISMENDI\r\n "
+}
