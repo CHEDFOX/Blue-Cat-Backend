@@ -20,7 +20,7 @@ recommended before production use.
 
 ## What is ingested
 
-The manifest lists **214 norms** (IMPO offers no list of norms to a visitor who is not registered, so it was built from the
+The manifest lists **214 norms** (175 stored, 39 skipped because IMPO's JSON holds no article text for them) (IMPO offers no list of norms to a visitor who is not registered, so it was built from the
 source itself): the Constitution of 1967; nine codes (Civil, Penal, de Comercio, General del Proceso, Tributario, Aduanero, de
 la Niñez y la Adolescencia, Aeronáutico, de Minería); ten laws or decrees on common subjects (data protection and its decree,
 access to information, consumers, companies, labour procedure, abortion, gender violence, drugs, LUC); and every law,
@@ -37,8 +37,9 @@ no provision start dates, one version per norm; point-in-time requests before th
 ("Redacción dada por: Ley Nº 18.719 de 27/12/2010 artículo 152") give one `amendment` / `repeal` event per amending norm,
 dated with **that norm's own date**, not the day the change took effect ("Ver vigencia" links are kept in the notes). Repealed
 articles ("DEROGADO por ..." or an empty article with "Derogado/s por:") have status `repealed`, no text and the statement
-in `note`. An amending law's article that IMPO publishes without text keeps empty text and the note. A norm with neither
-text nor notes (some 19th-century laws) is skipped.
+in `note`. An entry that IMPO gives without text and that is not repealed (blanked to "(*)" with a pointer to the original
+text, or an article of an amending law: "Este artículo dio nueva redacción a: ...") is **not stored** - nothing says it is in
+force - and is counted in `ext.articulos_sin_texto`; a norm left with no provision is skipped (`documents_skipped`).
 
 ## Text handling
 
@@ -58,4 +59,18 @@ See `coverage.known_gaps` in the profile: a 214-norm subset of a database of ten
 the Constitution's transitional provisions (one IMPO entry for all clauses) are not ingested; articles are the smallest unit;
 no case law; courts and precedent rules are a draft.
 
-RESULTS_PLACEHOLDER
+## Results (2026-10-14, dev database `ulis_uy`)
+
+- Fetch: all 214 norms downloaded once each (10 s apart, about 40 minutes), no fetch error, no refusal.
+- `ingest uy-impo`: 214 seen, **175 new, 39 skipped** (no article text in IMPO's JSON), 0 errors, 0 conflicts; 175 instruments
+  (1 constitution, 121 laws and codes, 53 decrees), **19,844 provisions** (732 repealed), 19,112 passages indexed, 1,505
+  lifecycle events, 19,376 citation links (16,199 resolved).
+- `verify-sources`: **175 pass, 0 fail**, 19,844 units checked.
+- Searches (`ulis search ... --jurisdiction UY`): "hecho ilícito que causa un daño obligación de repararlo" -> `artículo 1319
+  del Código Civil`; "derecho a la protección de datos personales inherente a la persona humana" -> `artículo 1 de la Ley Nº
+  18.331`; "relación de consumo proveedor información al consumidor" -> `artículo 15 de la Ley Nº 17.250`; "interrupción
+  voluntaria del embarazo" -> `artículo 2 de la Ley Nº 18.987`; "derecho de acceso a la información pública sujetos obligados"
+  -> `artículo 21 de la Ley Nº 18.381`. Hits carry the limitations `ATTESTED_ONLY_AT`, `SOURCE_NOT_AUTHENTIC` and
+  `PROFILE_UNVERIFIED` (asserted in the tests).
+- Tests: `tests/test_impo_uy.py` 23 tests (parser, citations, connector offline and failure handling, manifest, PostgreSQL
+  ingest/search/point-in-time/verify), `tests/test_latam_planned.py` 8; the full suite (all pre-existing tests included) **768 passed** against `ulis_test_uy`; `ruff check`, `ruff format --check` and `mypy ulis` are clean.

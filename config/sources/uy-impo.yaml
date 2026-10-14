@@ -92,7 +92,8 @@ known_limitations:
   - The JSON states no date of update; each text is attested at its retrieval date. When a provision took effect, and earlier wordings of an amended article, are not recorded (no history, no point-in-time versions); amendment events carry the amending norm's own date.
   - Editorial notes ("Redacción dada por", "Ver en esta norma", "TEXTO ORIGINAL") are kept as notes, never as text; IMPO's (*) markers are removed from the text.
   - IMPO's JSON is hard-wrapped at 72 columns and not strictly valid JSON (bare control characters in strings); ULIS reads it leniently and re-joins wrapped lines.
-  - The manifest is a 214-norm subset (IMPO offers no list of norms to a non-registered visitor); the Disposiciones Transitorias de la Constitución, resolutions and departmental norms are not ingested.
+  - The manifest is a 214-norm subset (IMPO offers no list of norms to a non-registered visitor); 39 of them have no article text in IMPO's JSON and are skipped (175 stored); the Disposiciones Transitorias de la Constitución, the original-text bases, resolutions and departmental norms are not ingested.
+  - Entries IMPO gives without text (blanked to "(*)", or articles of an amending law) are not stored, so their status is not claimed.
 status: active
 connector: impo_uy
 parser: impo_uy_json

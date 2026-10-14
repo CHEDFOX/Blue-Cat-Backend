@@ -90,5 +90,5 @@ coverage:
     - Each text is attested at its retrieval date. When a provision took effect, and earlier wordings of an amended provision, are not recorded (IMPO links only the original text of an article, which is not ingested); amendment events carry the amending norm's date, not the date the change took effect.
     - The Disposiciones Transitorias y Especiales de la Constitución are a separate IMPO norm whose JSON holds all clauses in one entry; they are not ingested.
     - Articles are the smallest provisions. Paragraphs and lettered items stay inside the article text, and lines are re-joined from IMPO's 72-column wrapping.
-    - Articles an amending law only used to change another text are published by IMPO without text and are stored without text.
+    - 'IMPO''s JSON gives some entries no text ("(*)" with a pointer to the original text, or "Este artículo dio nueva redacción a: ..." for the articles of an amending law): they are not stored, and 39 of the 214 manifest norms (19th-century laws, decrees whose every article is blanked) hold nothing to store and are skipped; the original-text bases (leyes-originales, decretos-originales) are not ingested.'
     - No case law (Suprema Corte, Tribunales de Apelaciones); courts and precedent rules are a simplified draft ("To verify").
