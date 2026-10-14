@@ -33,6 +33,17 @@
   machine`, shown only next to the original, and flagged `MACHINE_TRANSLATION` (critical).
   They are never indexed as if they were source text.
 
+## False friends and long passages (found on real data)
+
+- **False friends.** English "conservation" matched the French label *conservation*
+  (= retention) and expanded an English fisheries query into data-retention provisions. A
+  `query_language` parameter now restricts label matching to the question's language; the UI
+  defaults to English and offers "Any" explicitly. Tested.
+- **Very long passages.** A public law section that enacts a whole code title "as follows"
+  (438,000 characters) matched almost every query. Ranking now normalises by length
+  (`ts_rank_cd` flag 1) and down-weights passages over 5,000 characters, and the factor is
+  returned in the score breakdown. Tested.
+
 ## Known limitations of the current slice
 
 - Languages without a PostgreSQL stemmer (e.g. Hindi and other Indic languages) use the

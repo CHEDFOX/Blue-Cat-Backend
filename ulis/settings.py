@@ -17,6 +17,7 @@ class Settings:
     database_url: str
     config_dir: Path
     object_store_dir: Path
+    source_cache_dir: Path
     environment: str
     # Raw API keys accepted by the HTTP API. Empty means "no authentication",
     # which is only permitted when environment == "development".
@@ -40,6 +41,7 @@ def load_settings() -> Settings:
         database_url=os.environ.get("ULIS_DATABASE_URL", DEFAULT_DATABASE_URL),
         config_dir=Path(os.environ.get("ULIS_CONFIG_DIR", REPO_ROOT / "config")),
         object_store_dir=Path(os.environ.get("ULIS_OBJECT_STORE_DIR", REPO_ROOT / "var" / "objects")),
+        source_cache_dir=Path(os.environ.get("ULIS_SOURCE_CACHE_DIR", REPO_ROOT / "var" / "sources")),
         environment=os.environ.get("ULIS_ENV", "development"),
         api_keys=_split(os.environ.get("ULIS_API_KEYS")),
         retrieval_candidate_budget=int(os.environ.get("ULIS_RETRIEVAL_CANDIDATE_BUDGET", "200")),

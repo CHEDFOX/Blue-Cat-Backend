@@ -103,7 +103,13 @@ def _source_info(session: Session, catalog: Catalog, doc_id: uuid.UUID, locator:
     )
 
 
-def provision_citation(catalog: Catalog, instrument: m.Instrument, provision: m.Provision, language: str) -> str:
+def provision_citation(
+    catalog: Catalog,
+    instrument: m.Instrument,
+    provision: m.Provision,
+    language: str,
+    version_date: date | None = None,
+) -> str:
     module = catalog.module_for(instrument.jurisdiction_id)
     profile = catalog.jurisdictions.get(instrument.jurisdiction_id)
     return module.provision_citation(
@@ -116,6 +122,8 @@ def provision_citation(catalog: Catalog, instrument: m.Instrument, provision: m.
             language=language,
             ext=instrument.ext or {},
             profile_extensions=profile.extensions,
+            work_date=instrument.work_date,
+            version_date=version_date,
         )
     )
 
@@ -184,7 +192,7 @@ def _citing(session: Session, catalog: Catalog, link: m.CitationLink) -> Treatme
             relation=link.relation,
             citing_kind="legislation",
             citing_title=inst.title,
-            citing_citation=provision_citation(catalog, inst, prov, pv.language),
+            citing_citation=provision_citation(catalog, inst, prov, pv.language, pv.valid_from),
             citing_uri=prov.uri,
             date=pv.valid_from or inst.work_date,
             pinpoint=None,
@@ -235,7 +243,7 @@ def load_provision(session: Session, catalog: Catalog, version_id: uuid.UUID) ->
             "authoritative": iv2.authoritative,
             "text_origin": iv2.text_origin,
             "text": v.text,
-            "citation": provision_citation(catalog, instrument, provision, v.language),
+            "citation": provision_citation(catalog, instrument, provision, v.language, iv2.version_date),
         }
         for v, iv2 in session.execute(
             select(m.ProvisionVersion, m.InstrumentVersion)
@@ -279,7 +287,7 @@ def load_provision(session: Session, catalog: Catalog, version_id: uuid.UUID) ->
         instrument=instrument,
         instrument_version=iv,
         source=_source_info(session, catalog, pv.source_document_id, pv.source_locator),
-        citation=provision_citation(catalog, instrument, provision, pv.language),
+        citation=provision_citation(catalog, instrument, provision, pv.language, iv.version_date),
         currency_date=currency,
         outstanding_changes=outstanding,
         timeline=timeline,

@@ -34,6 +34,9 @@ class ProvisionCitationInput:
     language: str
     ext: dict[str, Any] = field(default_factory=dict)
     profile_extensions: dict[str, Any] = field(default_factory=dict)
+    # Date of the work (e.g. enactment) and of the expression cited (e.g. a CFR edition).
+    work_date: date | None = None
+    version_date: date | None = None
 
 
 @dataclass(frozen=True)

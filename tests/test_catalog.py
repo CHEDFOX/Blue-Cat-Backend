@@ -21,7 +21,7 @@ def _profile(**overrides: object) -> dict[str, object]:
 
 
 def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
-    assert set(catalog.jurisdictions.profiles) == {"INT", "XR", "XA", "XA-NP", "XA-SP", "XB", "IN"}
+    assert set(catalog.jurisdictions.profiles) == {"INT", "XR", "XA", "XA-NP", "XA-SP", "XB", "IN", "US"}
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"
     assert catalog.jurisdictions.get("IN").coverage.corpus_status == "none"
@@ -90,10 +90,12 @@ def test_profile_hash_is_stable(catalog: Catalog) -> None:
     assert profile.sha256() == JurisdictionProfile.model_validate(profile.model_dump(mode="json")).sha256()
 
 
-def test_licence_gate_allows_only_the_approved_sample(catalog: Catalog) -> None:
-    licence_gate(catalog.sources.get("ulis-fictional-sample"))
+def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
+    approved = {"ulis-fictional-sample", "us-gpo-uslm-samples"}
+    for source_id in approved:
+        licence_gate(catalog.sources.get(source_id))
     for source in catalog.sources:
-        if source.id == "ulis-fictional-sample":
+        if source.id in approved:
             continue
         with pytest.raises(LicenceNotApproved) as exc:
             licence_gate(source)

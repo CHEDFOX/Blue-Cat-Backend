@@ -14,6 +14,7 @@ Properties the pipeline guarantees:
 from __future__ import annotations
 
 import hashlib
+import uuid
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
@@ -28,14 +29,22 @@ from ulis.db import models as m
 from ulis.retrieval.indexer import rebuild_passages
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import Connector, RawDocument
+from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef
-from ulis.sources.parsers.akn import PARSER_VERSION, parse_akn
+from ulis.sources.parsers import akn, uslm
 from ulis.sources.registry import SourceDescriptor, licence_gate
 from ulis.storage.object_store import ObjectStore
 from ulis.temporal.validity import Span, derive_valid_to
 
-PARSERS: dict[str, Callable[[bytes], ParsedDocument]] = {"akn3": parse_akn}
+# A parser turns one raw document into one or more normalised documents
+# (e.g. one CFR volume contains many regulation parts).
+PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
+    "akn3": lambda content: [akn.parse_akn(content)],
+    "uslm": uslm.parse_uslm,
+}
+PARSER_VERSIONS = {"akn3": akn.PARSER_VERSION, "uslm": uslm.PARSER_VERSION}
+PROPOSED_TYPES = ("bill", "resolution")
 
 
 class ValidationError(ValueError):
@@ -65,12 +74,28 @@ class IngestionReport:
         return asdict(self)
 
 
-def build_connector(source: SourceDescriptor, base_dir: Path = REPO_ROOT) -> Connector:
+def build_connector(source: SourceDescriptor, base_dir: Path = REPO_ROOT, cache_dir: Path | None = None) -> Connector:
+    if not source.access.endpoint:
+        raise ValueError(f"source {source.id} has no manifest endpoint")
     if source.connector == "local_manifest":
-        if not source.access.endpoint:
-            raise ValueError(f"source {source.id} has no manifest endpoint")
         return LocalManifestConnector(base_dir / source.access.endpoint, source.id)
+    if source.connector == "git_snapshot":
+        return GitSnapshotConnector(
+            base_dir / source.access.endpoint, source.id, cache_dir or base_dir / "var" / "sources"
+        )
     raise ValueError(f"no connector implementation named {source.connector!r}")
+
+
+def resolve_uri(uri: str) -> tuple[str, str | None]:
+    """Split a citation target into (work URI, provision eId or None).
+
+    Supports Akoma Ntoso portions (``<work>/~<eId>``) and USLM identifiers
+    (``/us/cfr/t12/s220.1/b/1``, ``/us/pl/115/6/s2/a``, ``/us/bill/116/hr/1000/s2/a/1``).
+    """
+    if "/~" in uri:
+        work, _, eid = uri.partition("/~")
+        return work, eid or None
+    return uslm.resolve_identifier(uri) or (uri, None)
 
 
 def _sha(text: str) -> str:
@@ -78,18 +103,26 @@ def _sha(text: str) -> str:
 
 
 class Ingestor:
-    def __init__(self, session: Session, catalog: Catalog, store: ObjectStore, base_dir: Path = REPO_ROOT):
+    def __init__(
+        self,
+        session: Session,
+        catalog: Catalog,
+        store: ObjectStore,
+        base_dir: Path = REPO_ROOT,
+        cache_dir: Path | None = None,
+    ):
         self.session = session
         self.catalog = catalog
         self.store = store
         self.base_dir = base_dir
+        self.cache_dir = cache_dir
 
     # ------------------------------------------------------------------ entry point
     def ingest_source(self, source_id: str, actor: str, connector: Connector | None = None) -> IngestionReport:
         source = self.catalog.sources.get(source_id)
         licence_gate(source)  # raises LicenceNotApproved
         parser = PARSERS[source.parser or ""]
-        connector = connector or build_connector(source, self.base_dir)
+        connector = connector or build_connector(source, self.base_dir, self.cache_dir)
 
         run = m.IngestionRun(source_id=source_id, actor=actor, status="running")
         self.session.add(run)
@@ -110,13 +143,25 @@ class Ingestor:
             try:
                 with self.session.begin_nested():
                     doc_row = self._store_raw(source, raw, sha)
-                    parsed = parser(raw.content)
-                    self._validate(parsed)
-                    if parsed.doc_kind == "judgment":
-                        touched_judgments.add(self._persist_judgment(parsed, doc_row, report))
-                    else:
-                        touched_instruments.add(self._persist_legislation(parsed, doc_row, report))
-                    self._verify(doc_row, "parse", "pass", {"parser": source.parser, "parser_version": PARSER_VERSION})
+                    parsed_docs = parser(raw.content)
+                    for parsed in parsed_docs:
+                        self._validate(parsed)
+                    for parsed in parsed_docs:
+                        if parsed.doc_kind == "judgment":
+                            touched_judgments.add(self._persist_judgment(parsed, doc_row, report))
+                        else:
+                            touched_instruments.add(self._persist_legislation(parsed, doc_row, report))
+                    self._verify(
+                        doc_row,
+                        "parse",
+                        "pass",
+                        {
+                            "parser": source.parser,
+                            "parser_version": PARSER_VERSIONS[source.parser or ""],
+                            "documents": len(parsed_docs),
+                        },
+                    )
+                    self.session.flush()
                 report.documents_new += 1
             except Exception as exc:  # recorded, then the run continues with the next document
                 report.errors.append(f"{raw.external_id}: {exc}")
@@ -222,7 +267,7 @@ class Ingestor:
                 short_title=parsed.short_title,
                 number=parsed.number,
                 work_date=parsed.work_date,
-                is_proposed=parsed.instrument_type == "bill",
+                is_proposed=parsed.instrument_type in PROPOSED_TYPES,
                 extent=parsed.extent,
                 ext=parsed.ext,
             )
@@ -248,6 +293,7 @@ class Ingestor:
             version_date=parsed.version_date,
             currency_date=parsed.currency_date,
             outstanding_changes=parsed.outstanding_changes,
+            validity_basis=parsed.validity_basis,
             source_document_id=doc.id,
         )
         s.add(version)
@@ -258,11 +304,18 @@ class Ingestor:
             select(func.max(m.InstrumentVersion.version_date)).where(m.InstrumentVersion.instrument_id == instrument.id)
         )
         is_latest = latest_date is None or parsed.version_date >= latest_date
-        ids_by_eid: dict[str, Any] = {}
-        for prov in parsed.provisions:
-            ids_by_eid[prov.eid] = self._persist_provision(
-                instrument, version, prov, ids_by_eid, doc, report, is_latest
+        provisions = {
+            p.eid: p for p in s.scalars(select(m.Provision).where(m.Provision.instrument_id == instrument.id))
+        }
+        versions: dict[tuple[Any, str, str, Any], m.ProvisionVersion] = {
+            (pv.provision_id, pv.language, pv.status, pv.valid_from): pv
+            for pv in s.scalars(
+                select(m.ProvisionVersion).join(m.Provision).where(m.Provision.instrument_id == instrument.id)
             )
+        }
+        for prov in parsed.provisions:
+            self._persist_provision(instrument, version, prov, provisions, versions, doc, report, is_latest)
+        s.flush()
 
         for ev in parsed.events:
             duplicate = s.scalar(
@@ -314,49 +367,38 @@ class Ingestor:
         instrument: m.Instrument,
         version: m.InstrumentVersion,
         prov: ParsedProvision,
-        ids_by_eid: dict[str, Any],
+        provisions: dict[str, m.Provision],
+        versions: dict[tuple[Any, str, str, Any], m.ProvisionVersion],
         doc: m.SourceDocument,
         report: IngestionReport,
         is_latest: bool,
-    ) -> Any:
+    ) -> None:
         s = self.session
-        row = s.scalar(
-            select(m.Provision).where(m.Provision.instrument_id == instrument.id, m.Provision.eid == prov.eid)
-        )
+        row = provisions.get(prov.eid)
         if row is not None and is_latest:
             # Document order follows the most recent expression (inserted provisions slot in).
             row.sort_order = prov.sort_order
         if row is None:
+            parent = provisions.get(prov.parent_eid) if prov.parent_eid else None
             row = m.Provision(
+                id=uuid.uuid4(),
                 instrument_id=instrument.id,
                 eid=prov.eid,
                 uri=f"{instrument.uri}/~{prov.eid}",
                 kind=prov.kind,
                 num_path=prov.num_path,
                 top_kind=prov.top_kind,
-                parent_id=ids_by_eid.get(prov.parent_eid) if prov.parent_eid else None,
+                parent_id=parent.id if parent else None,
                 sort_order=prov.sort_order,
                 extent=prov.extent,
                 index_unit=prov.is_leaf or prov.has_own_content,
             )
             s.add(row)
-            s.flush()
+            provisions[prov.eid] = row
 
         text_sha = _sha(prov.text)
-        existing = next(
-            (
-                pv
-                for pv in s.scalars(
-                    select(m.ProvisionVersion).where(
-                        m.ProvisionVersion.provision_id == row.id,
-                        m.ProvisionVersion.language == version.language,
-                        m.ProvisionVersion.status == prov.status,
-                    )
-                )
-                if pv.valid_from == prov.valid_from
-            ),
-            None,
-        )
+        key = (row.id, version.language, prov.status, prov.valid_from)
+        existing = versions.get(key)
         if existing is not None:
             if existing.text_sha256 == text_sha:
                 s.add(
@@ -379,9 +421,10 @@ class Ingestor:
                     "fail",
                     {"provision": row.uri, "existing_version": str(existing.id)},
                 )
-            return row.id
+            return
 
         pv = m.ProvisionVersion(
+            id=uuid.uuid4(),
             provision_id=row.id,
             instrument_version_id=version.id,
             language=version.language,
@@ -397,7 +440,7 @@ class Ingestor:
             source_locator=prov.eid,
         )
         s.add(pv)
-        s.flush()
+        versions[key] = pv
         s.add(
             m.ProvisionVersionSource(
                 provision_version_id=pv.id,
@@ -410,7 +453,6 @@ class Ingestor:
         for ref in prov.refs:
             self._add_link("provision_version", pv.id, instrument.uri, ref, doc)
             report.citation_links_created += 1
-        return row.id
 
     def _persist_judgment(self, parsed: ParsedDocument, doc: m.SourceDocument, report: IngestionReport) -> Any:
         s = self.session
@@ -492,34 +534,41 @@ class Ingestor:
                 Span(pv.id, pv.status, pv.valid_from, pv.valid_to, pv.valid_to_basis == "explicit") for pv in group
             ]
             derived = derive_valid_to(spans)
+            # Successive stages of a bill form their own chain: each stage's text is
+            # superseded by the next stage's.
+            derived.update(derive_valid_to(spans, statuses=("proposed",)))
             for pv in group:
                 valid_to, basis = derived[pv.id]
-                if pv.status in ("prospective", "proposed"):
+                if pv.status == "prospective":
                     valid_to, basis = None, "open"
                 pv.valid_to, pv.valid_to_basis = valid_to, basis
         s.flush()
 
     def resolve_citations(self) -> int:
         s = self.session
+        instruments = {uri: id_ for uri, id_ in s.execute(select(m.Instrument.uri, m.Instrument.id))}
+        judgments = {uri: id_ for uri, id_ in s.execute(select(m.Judgment.uri, m.Judgment.id))}
+        provision_ids: dict[Any, dict[str, Any]] = {}
         resolved = 0
         for link in s.scalars(
             select(m.CitationLink).where(
                 m.CitationLink.to_instrument_id.is_(None), m.CitationLink.to_judgment_id.is_(None)
             )
         ):
-            work_uri, _, eid = link.to_uri.partition("/~")
-            instrument = s.scalar(select(m.Instrument).where(m.Instrument.uri == work_uri))
-            if instrument is not None:
-                link.to_instrument_id = instrument.id
+            work_uri, eid = resolve_uri(link.to_uri)
+            instrument_id = instruments.get(work_uri)
+            if instrument_id is not None:
+                link.to_instrument_id = instrument_id
                 if eid:
-                    link.to_provision_id = s.scalar(
-                        select(m.Provision.id).where(m.Provision.instrument_id == instrument.id, m.Provision.eid == eid)
-                    )
+                    if instrument_id not in provision_ids:
+                        rows = s.execute(
+                            select(m.Provision.eid, m.Provision.id).where(m.Provision.instrument_id == instrument_id)
+                        )
+                        provision_ids[instrument_id] = {eid_: id_ for eid_, id_ in rows}
+                    link.to_provision_id = provision_ids[instrument_id].get(eid)
                 resolved += 1
-                continue
-            judgment_id = s.scalar(select(m.Judgment.id).where(m.Judgment.uri == work_uri))
-            if judgment_id is not None:
-                link.to_judgment_id = judgment_id
+            elif work_uri in judgments:
+                link.to_judgment_id = judgments[work_uri]
                 resolved += 1
         s.flush()
         return resolved

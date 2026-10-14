@@ -1,6 +1,6 @@
 # Test results
 
-Recorded on 2026-10-14 in the build container: Python 3.13.16, PostgreSQL 16.15, Node 22,
+Recorded on 2026-10-14 in the build container (updated after adding the US corpus): Python 3.13.16, PostgreSQL 16.15, Node 22,
 Chromium (Playwright 1.56.1). These are the actual outputs of the runs, not targets.
 
 ## Backend (`Blue-Cat-Backend`)
@@ -8,16 +8,39 @@ Chromium (Playwright 1.56.1). These are the actual outputs of the runs, not targ
 | Check | Command | Result |
 |---|---|---|
 | Lint | `ruff check ulis tests migrations scripts` | All checks passed |
-| Format | `ruff format --check ...` | 55 files already formatted |
-| Types | `mypy ulis` | No issues in 43 source files |
-| Config | `python -m ulis.cli validate-config` | 7 jurisdictions, 6 sources, 4 concepts |
-| Migrations | `alembic upgrade head` / `downgrade base` / `upgrade head` | Applied, rolled back and re-applied cleanly |
-| Unit tests (no DB) | `pytest -q` without `ULIS_TEST_DATABASE_URL` | 37 passed, 39 skipped (DB tests skip cleanly) |
-| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q` | **76 passed** in about 7 s |
+| Format | `ruff format --check ...` | 63 files already formatted |
+| Types | `mypy ulis` | No issues in 46 source files |
+| Config | `python -m ulis.cli validate-config` | 8 jurisdictions, 7 sources, 4 concepts |
+| Migrations | `alembic upgrade head` (0001 core schema, 0002 validity basis) | Applied cleanly |
+| Unit tests (no DB) | `pytest -q` without `ULIS_TEST_DATABASE_URL` | 52 passed, 49 skipped (DB tests skip cleanly) |
+| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q` | **101 passed** in about 15 s |
 
 Tests per file: `test_catalog.py` 14 · `test_parser_and_storage.py` 11 · `test_rules.py` 12 ·
 `test_ingestion.py` 8 · `test_search.py` 17 · `test_lookup_and_verification.py` 7 ·
-`test_api.py` 7.
+`test_api.py` 7 · `test_uslm.py` 15 · `test_us_federal.py` 10 (real US documents, fixtures in
+`tests/fixtures/uslm`).
+
+## Real US federal corpus (dev database, full manifest)
+
+| Step | Result |
+|---|---|
+| `ingest us-gpo-uslm-samples` (clone of pinned GPO commit + parse + persist + index) | 96 documents, 299 instruments, 310 versions, 68,373 provision versions, 29,257 citation links (7,690 resolved inside the corpus), 60,488 passages, **0 errors, 0 conflicts**, about 8 min |
+| Excluded at manifest build (with reasons) | 12 files: engrossed amendments (3), bill stages with no dated action (7), 1 bill without type/stage, 1 compilation without an approval date |
+| `verify-sources` (all sources) | **110/110 documents pass**; 68,497 units re-derived from raw bytes in 23 s |
+| Search latency on about 60k passages | 0.06–0.33 s per query (single node, no tuning) |
+
+### Defects found on real data (and fixed, with regression tests)
+
+1. GPO data tags "§ 226.5a" and "§ 226.5b" with `value="226.5"`; the parser now prefers the
+   printed number when it is a more specific form of the value.
+2. Public Law 113-287 embeds a whole new US Code title inside section 3 without quotation
+   markup; the parser had turned the quoted sections into provisions of the Act. Structural
+   containers nested inside a provision are now treated as text of that provision.
+3. That 438,000-character section then outranked focused provisions; ranking is now
+   length-normalised.
+4. False friend: English "conservation" triggered the French label *conservation* (=
+   retention). Concept matching can now be restricted to the question's language
+   (`query_language`).
 
 ### Defects found by the tests during development (and fixed)
 
@@ -88,13 +111,14 @@ $ python -m ulis.cli search "retain personal data" --jurisdiction XA --as-of 202
 | `tsc --noEmit` | Pass |
 | `vitest run` | 8 passed |
 | `next build` (Next 15.5.27) | Compiled successfully; routes `/`, `/provision`, `/coverage` |
-| `playwright test` against the live API + production server | **5 passed**: date-dependent version with exact text and limitations; point-in-time timeline; India "no corpus" behaviour; cross-lingual grouping of authentic versions; coverage and licence register |
+| `playwright test` against the live API + production server | **7 passed**: date-dependent version with exact text and limitations; point-in-time timeline; India "no corpus" behaviour; real US public law (citation, presumed effective date, absent before enactment); real CFR text flagged as attested only at its edition date; cross-lingual grouping of authentic versions; coverage and licence register |
 
 ## Not verified
 
 - `Dockerfile` and `docker-compose.yml` were written but not built: no Docker daemon was
   available in the build container.
 - The GitHub Actions workflows have not run yet (they will on the first push).
-- Nothing was tested against real legal sources. Their hosts were blocked by the
-  environment's network policy, and their licences are pending review.
+- Only one real source has been tested (US GPO USLM samples). Other official portals were
+  blocked by the environment's network policy, and their licences are pending review.
+- Parser accuracy on real data has not been measured against a hand-checked sample.
 - Ranking quality has not been evaluated: there is no expert-built evaluation set yet.

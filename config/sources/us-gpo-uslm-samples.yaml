@@ -1,0 +1,42 @@
+schema_version: 1
+id: us-gpo-uslm-samples
+name: US GPO USLM sample files
+publisher: United States Government Publishing Office
+kind: open_data_repository
+authority: official_non_authentic
+jurisdictions: [US]
+document_kinds: [act, regulation, bill, resolution]
+languages: [en]
+coverage: >-
+  The GPO's published USLM (United States Legislative Markup) sample files: public laws of
+  the 113th-115th Congresses as enacted, statute compilations, CFR annual-edition volumes
+  (2018-2019) and bill/resolution versions (mainly 116th Congress). A sample set chosen by
+  GPO to illustrate the format - not a complete or current collection.
+access:
+  method: bulk_download
+  endpoint: config/manifests/us-gpo-uslm-samples.yaml
+update_frequency: static (pinned commit)
+licence:
+  id: US-GOV-PD-CC0
+  name: US Government work not subject to copyright (17 U.S.C. 105), with a CC0 1.0 worldwide waiver
+  url: https://github.com/usgpo/uslm/blob/main/LICENSE.md
+  review_status: approved
+  reviewed_by: ULIS project - explicit public-domain dedication in the repository LICENSE.md and in each file's dc:rights
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  notes: Counsel review is still recommended before production use.
+provenance: >-
+  github.com/usgpo/uslm at a pinned commit; every file pinned by SHA-256 in the manifest.
+  USLM files are converted by GPO from print/locator formats; the authenticated versions are
+  the PDFs on govinfo.gov.
+known_limitations:
+  - Not authenticated; GPO notes that converted bills with non-standard structures may contain inconsistencies.
+  - Some files tag sections with truncated numbers (e.g. "226.5" for § 226.5a); the parser prefers the printed number.
+  - Statute compilations state that they are not an official version of any federal statute (1 U.S.C. 112, 204).
+status: active
+connector: git_snapshot
+parser: uslm

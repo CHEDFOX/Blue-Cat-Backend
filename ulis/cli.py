@@ -76,7 +76,9 @@ def main(argv: list[str] | None = None) -> int:
         elif args.cmd == "ingest":
             sync_catalog(session, catalog, actor=args.actor)
             try:
-                report = Ingestor(session, catalog, store).ingest_source(args.source_id, actor=args.actor)
+                report = Ingestor(session, catalog, store, cache_dir=settings.source_cache_dir).ingest_source(
+                    args.source_id, actor=args.actor
+                )
             except LicenceNotApproved as exc:
                 print(f"refused: {exc}", file=sys.stderr)
                 return 2

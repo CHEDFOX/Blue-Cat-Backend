@@ -35,29 +35,33 @@ def verify_source_document(
     if raw is not None:
         if hashlib.sha256(raw).hexdigest() != doc.sha256:
             problems.append("raw bytes do not match the recorded SHA-256")
-        parser = PARSERS[catalog.sources.get(doc.source_id).parser or ""]
-        parsed = parser(raw)
-        by_eid = {p.eid: p for p in parsed.provisions}
-        for pvs, pv in session.execute(
-            select(m.ProvisionVersionSource, m.ProvisionVersion)
+        parsed_docs = PARSERS[catalog.sources.get(doc.source_id).parser or ""](raw)
+        units = {(d.work_uri, p.eid): p.text for d in parsed_docs for p in d.provisions}
+        paras = {(d.work_uri, p.eid): p.text for d in parsed_docs for p in d.paragraphs}
+        for pvs, pv, work_uri in session.execute(
+            select(m.ProvisionVersionSource, m.ProvisionVersion, m.Instrument.uri)
             .join(m.ProvisionVersion, m.ProvisionVersionSource.provision_version_id == m.ProvisionVersion.id)
+            .join(m.InstrumentVersion, m.ProvisionVersionSource.instrument_version_id == m.InstrumentVersion.id)
+            .join(m.Instrument, m.InstrumentVersion.instrument_id == m.Instrument.id)
             .where(m.ProvisionVersionSource.source_document_id == doc.id)
         ):
             checked += 1
-            source_prov = by_eid.get(pvs.source_locator)
-            if source_prov is None:
+            source_text = units.get((work_uri, pvs.source_locator))
+            if source_text is None:
                 problems.append(f"{pvs.source_locator}: not found in source")
-            elif _sha(source_prov.text) != pv.text_sha256:
+            elif _sha(source_text) != pv.text_sha256:
                 problems.append(f"{pvs.source_locator}: stored text differs from source")
             if _sha(pv.text) != pv.text_sha256:
                 problems.append(f"{pvs.source_locator}: stored text does not match its own hash")
-        paras = {p.eid: p for p in parsed.paragraphs}
-        for para in session.scalars(
-            select(m.JudgmentParagraph).join(m.JudgmentVersion).where(m.JudgmentVersion.source_document_id == doc.id)
+        for para, work_uri in session.execute(
+            select(m.JudgmentParagraph, m.Judgment.uri)
+            .join(m.JudgmentVersion, m.JudgmentParagraph.judgment_version_id == m.JudgmentVersion.id)
+            .join(m.Judgment, m.JudgmentVersion.judgment_id == m.Judgment.id)
+            .where(m.JudgmentVersion.source_document_id == doc.id)
         ):
             checked += 1
-            source_para = paras.get(para.eid)
-            if source_para is None or _sha(source_para.text) != para.text_sha256 or _sha(para.text) != para.text_sha256:
+            source_text = paras.get((work_uri, para.eid))
+            if source_text is None or _sha(source_text) != para.text_sha256 or _sha(para.text) != para.text_sha256:
                 problems.append(f"{para.eid}: paragraph text differs from source")
     result = "pass" if not problems else "fail"
     session.add(

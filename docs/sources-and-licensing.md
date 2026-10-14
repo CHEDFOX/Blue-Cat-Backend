@@ -52,6 +52,7 @@ or without conditions); connector and parser configured.
 | Source | Status | Licence (preliminary) | Gate result | Notes |
 |---|---|---|---|---|
 | `ulis-fictional-sample` | active | CC0-1.0, self-authored | **Admitted** | Fictional; pinned by SHA-256 manifest |
+| `us-gpo-uslm-samples` | active | US government work (17 U.S.C. 105) + CC0 waiver, stated in the repository `LICENSE.md` and each file's `dc:rights` | **Admitted** | Real; GitHub `usgpo/uslm` pinned to one commit, files pinned by SHA-256; converted XML, not authenticated |
 | `gb-legislation-gov-uk` | planned | Open Government Licence v3.0 (to confirm) | Refused | Point-in-time XML and extent data; outstanding effects must be surfaced |
 | `gb-find-case-law` | planned | Open Justice Licence (to confirm) | Refused | Our understanding: computational analysis requires a separate licence. Recorded as `automated_processing: not_allowed` until held |
 | `us-uscode-house` | planned | US government work, 17 U.S.C. 105 (to confirm) | Refused | Non-positive-law titles are prima facie evidence (1 U.S.C. 204) |
@@ -80,7 +81,9 @@ is the best-documented example. India is an important target, but the reuse term
 legislation text and court sources are not yet established and must be reviewed first. The
 choice is a product and legal decision for the team. The platform supports either.
 
-**Environment note (2026-10-14):** the build container's network policy blocked the official
+**First real source (2026-10-14):** US federal law from the GPO's public GitHub repository
+(the only official publisher reachable from the build container), via the `git_snapshot`
+connector. **Environment note:** the container's network policy blocked the official
 portals tried (legislation.gov.uk, govinfo.gov, uscode.house.gov, eur-lex.europa.eu,
 publications.europa.eu, indiacode.nic.in). To build real connectors with recorded fixtures,
 those hosts must be allowed in the environment's network settings.

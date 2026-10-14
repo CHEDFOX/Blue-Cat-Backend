@@ -36,6 +36,15 @@ question concerns an earlier date.
   substantive effect (e.g. "until 30 June 2017") is text, not inferred validity. Phase 4 will
   add structured transitional rules where sources provide them.
 
+## How validity dates were obtained (`instrument_versions.validity_basis`)
+
+| Basis | Used for | Effect on answers |
+|---|---|---|
+| `source_periods` | Sources that state periods (Akoma Ntoso `temporalData`) | Dates shown as published; derived end dates flagged |
+| `enactment_date_presumed` | US public laws as enacted | In force from approval date under the default rule; `EFFECTIVE_DATE_PRESUMED` warning |
+| `attested_at_edition` | CFR annual editions; statute compilations | Start unknown, so `ATTESTED_ONLY_AT` and authority "applicability unverified" |
+| `proposal_stage` | Bill and resolution versions | Each stage supersedes the previous (`LATER_STAGE_EXISTS`); never law |
+
 ## Point-in-time algorithm (`ulis/temporal/validity.py`)
 
 ```

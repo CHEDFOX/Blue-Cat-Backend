@@ -41,6 +41,9 @@ ignore = ["S101", "S608"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S"]
+# git is invoked with a fixed argv (no shell); inputs are validated manifest values.
+"ulis/sources/connectors/git_snapshot.py" = ["S603", "S607"]
+"scripts/*" = ["S603", "S607"]
 "migrations/*" = ["E501"]
 
 [tool.mypy]

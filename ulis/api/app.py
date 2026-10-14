@@ -147,6 +147,7 @@ def create_app(
         include_prospective: bool = False,
         include_case_law: bool = True,
         forum_court: str | None = None,
+        query_language: str | None = None,
         limit: Annotated[int, Query(ge=1, le=50)] = 10,
     ) -> dict[str, Any]:
         req = SearchRequest(
@@ -160,6 +161,7 @@ def create_app(
             include_prospective=include_prospective,
             include_case_law=include_case_law,
             forum_court=forum_court or None,
+            query_language=query_language or None,
             limit=limit,
         )
         result = search(

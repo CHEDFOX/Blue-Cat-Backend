@@ -202,6 +202,9 @@ class InstrumentVersion(Base):
     # The date up to which the publisher asserts this consolidation reflects known changes.
     currency_date: Mapped[date | None] = mapped_column(Date)
     outstanding_changes: Mapped[list[Any]] = mapped_column(JSONB, default=list)
+    # How validity dates were obtained: source_periods | enactment_date_presumed |
+    # attested_at_edition | proposal_stage. Drives legal-status limitations.
+    validity_basis: Mapped[str] = mapped_column(String(32), default="source_periods", server_default="source_periods")
     source_document_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("source_documents.id"))
     created_at: Mapped[datetime] = created_at()
 

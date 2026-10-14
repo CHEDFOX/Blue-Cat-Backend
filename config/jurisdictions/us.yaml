@@ -1,0 +1,61 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED.
+# Federal level only. States, territories, tribes and the federal court system below the
+# Supreme Court are not yet modelled. Every statement must be confirmed by a qualified
+# US lawyer before verification.status can become "reviewed".
+schema_version: 1
+id: US
+profile_version: 0.1.0
+name: United States of America (federal)
+names: {en: United States of America}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: federal
+  treaty_reception: mixed
+  notes: >-
+    To verify - self-executing treaties have domestic effect without implementing
+    legislation; non-self-executing treaties require it.
+legislative_institutions:
+  - id: US-CONGRESS
+    name: Congress of the United States
+    instrument_types: [act, bill, resolution]
+instrument_types: [constitution, act, regulation, bill, resolution]
+norm_hierarchy: [constitution, act, regulation]
+courts:
+  - id: US-SC
+    name: Supreme Court of the United States
+    rank: 1
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+  notes: >-
+    To verify - decisions of the Supreme Court bind lower federal courts and, on federal
+    questions, state courts. Courts of appeals and district courts are not yet modelled.
+citation:
+  module: us
+  examples:
+    - "Promoting Women in Entrepreneurship Act, Pub. L. No. 115-6, § 2(1), 131 Stat. 11 (2017)"
+    - "27 C.F.R. § 478.11 (2018)"
+    - "H.R. 1000, 116th Cong. § 2(a) (2019)"
+publication:
+  official_sources: [us-gpo-uslm-samples, us-uscode-house]
+  commencement: >-
+    To verify - absent a contrary provision, an Act takes effect on the date of enactment.
+    Agency rules take effect on the date stated in the Federal Register.
+  amendment: Textual amendment by later Acts and rules; the US Code and the CFR are codifications.
+  repeal: Express repeal by later Act; regulations are removed or amended by agency rule.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only the US Government Publishing Office's USLM sample files are ingested; this is a sample, not a complete or current collection.
+    - The United States Code (consolidated statutes) is not ingested; public laws are as enacted, not as amended.
+    - CFR text is from 2018-2019 annual editions only; later amendments are not reflected.
+    - Federal Register documents, Statutes at Large volumes, engrossed amendments and some bill stages without a dated action are not ingested.
+    - No case law; no State, territorial or tribal law.
+    - Provision-specific effective dates are not extracted from Acts or rules.

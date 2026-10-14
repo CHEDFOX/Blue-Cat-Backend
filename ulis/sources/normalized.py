@@ -112,3 +112,7 @@ class ParsedDocument:
     judgment: ParsedJudgmentMeta | None = None
     paragraphs: list[ParsedParagraph] = field(default_factory=list)
     stage: str | None = None
+    # How provision validity dates were obtained: source_periods (stated by the source),
+    # enactment_date_presumed, attested_at_edition (known in force only at the edition date),
+    # proposal_stage (text of a bill at a legislative stage).
+    validity_basis: str = "source_periods"

@@ -44,6 +44,18 @@ DISCLAIMER = (
     "authority against the official source before relying on it."
 )
 EXPANSION_PENALTY = 0.8
+# ts_rank_cd normalisation: 1 = divide by 1 + log(length), so one very long passage (e.g. a section
+# enacting a whole code title) does not outrank focused provisions; 32 = scale into [0, 1).
+RANK_NORMALIZATION = 1 | 32
+# Passages longer than this are down-weighted: they are imprecise pinpoints (e.g. a section
+# that enacts a whole code title) and match almost any query.
+LENGTH_PENALTY_START = 5000
+
+
+def length_factor(length: int) -> float:
+    return 1.0 if length <= LENGTH_PENALTY_START else (LENGTH_PENALTY_START / length) ** 0.25
+
+
 # Keeps one long judgment from crowding out other authorities.
 MAX_PARAGRAPHS_PER_JUDGMENT = 2
 _LANG_RE = re.compile(r"^[a-z]{2,3}(-[A-Za-z0-9]{2,8})?$")
@@ -66,6 +78,8 @@ class SearchRequest:
     include_case_law: bool = True
     forum_court: str | None = None
     limit: int = 10
+    # Language the question is written in (BCP 47). Restricts concept-label matching; None = any.
+    query_language: str | None = None
 
 
 @dataclass
@@ -84,6 +98,7 @@ class _Candidate:
     valid_to: date | None
     lexical: float
     direct: bool
+    text_length: int
     authority: Authority | None = None
     final: float = 0.0
     group_key: tuple[Any, ...] = ()
@@ -106,19 +121,25 @@ def _validate(catalog: Catalog, req: SearchRequest) -> None:
             req.jurisdiction
         ):
             raise SearchError("forum_court must belong to the target jurisdiction's legal system")
-    for lang in req.languages:
+    for lang in [*req.languages, *([req.query_language] if req.query_language else [])]:
         if not _LANG_RE.match(lang):
             raise SearchError(f"invalid language code {lang!r}")
 
 
-def _expansions(session: Session, q: str) -> tuple[list[dict[str, Any]], dict[str, list[str]]]:
+def _expansions(
+    session: Session, q: str, query_language: str | None
+) -> tuple[list[dict[str, Any]], dict[str, list[str]]]:
+    # With a known query language, labels are matched only in that language: otherwise a word
+    # that exists in two languages with different meanings (English "conservation" vs French
+    # "conservation" = retention) would trigger a false expansion.
     matched = (
         session.execute(
             text(
                 "SELECT DISTINCT c.key FROM concept_labels l JOIN legal_concepts c ON c.id = l.concept_id "
-                "WHERE to_tsvector(l.search_config, :q) @@ phraseto_tsquery(l.search_config, l.label)"
+                "WHERE to_tsvector(l.search_config, :q) @@ phraseto_tsquery(l.search_config, l.label) "
+                "AND (CAST(:lang AS text) IS NULL OR l.language = CAST(:lang AS text))"
             ),
-            {"q": q},
+            {"q": q, "lang": query_language},
         )
         .scalars()
         .all()
@@ -185,7 +206,7 @@ def _candidates(
             expanded += f" || phraseto_tsquery(CAST('{config}' AS regconfig), :{name})"
         is_cfg = f"p.search_config = CAST('{config}' AS regconfig)"
         match_parts.append(f"({is_cfg} AND p.tsv @@ ({expanded}))")
-        rank_parts.append(f"WHEN {is_cfg} THEN ts_rank_cd(p.tsv, ({expanded}), 32)")
+        rank_parts.append(f"WHEN {is_cfg} THEN ts_rank_cd(p.tsv, ({expanded}), {RANK_NORMALIZATION})")
         direct_parts.append(f"WHEN {is_cfg} THEN p.tsv @@ {tsq}")
 
     filters = [
@@ -194,7 +215,8 @@ def _candidates(
         " OR (p.status = 'in_force' AND (p.valid_from IS NULL OR :hist"
         "     OR (p.valid_from <= :as_of AND (p.valid_to IS NULL OR p.valid_to > :as_of))))"
         " OR (p.status = 'prospective' AND :prosp)"
-        " OR (p.status = 'proposed' AND :proposed AND p.valid_from <= :as_of)"
+        " OR (p.status = 'proposed' AND :proposed AND p.valid_from <= :as_of"
+        "     AND (p.valid_to IS NULL OR p.valid_to > :as_of))"
         ")",
         "(:case_law OR p.kind <> 'judgment_paragraph')",
     ]
@@ -222,7 +244,7 @@ def _candidates(
         "SELECT p.id, p.kind, p.provision_version_id, p.judgment_paragraph_id, p.instrument_id, p.judgment_id,"
         " p.jurisdiction_id, p.doc_type, p.language, p.status, p.valid_from, p.valid_to,"
         f" CASE {' '.join(rank_parts)} ELSE 0 END AS lexical,"
-        f" CASE {' '.join(direct_parts)} ELSE false END AS direct"
+        f" CASE {' '.join(direct_parts)} ELSE false END AS direct, length(p.text) AS text_length"
         f" FROM passages p WHERE ({' OR '.join(match_parts)}) AND {' AND '.join(filters)}"
         " ORDER BY lexical DESC, p.id LIMIT :budget"
     )
@@ -309,12 +331,16 @@ def _classify(
                 para_rows.get(c.judgment_paragraph_id) if c.judgment_paragraph_id else None,
             )
         else:
-            applies = (
-                c.status == "in_force"
-                and c.valid_from is not None
-                and c.valid_from <= as_of
-                and (c.valid_to is None or as_of < c.valid_to)
-            )
+            applies: bool | None
+            if c.status == "in_force" and c.valid_from is None:
+                applies = None  # attested only at the source's edition date
+            else:
+                applies = (
+                    c.status == "in_force"
+                    and c.valid_from is not None
+                    and c.valid_from <= as_of
+                    and (c.valid_to is None or as_of < c.valid_to)
+                )
             c.authority = classify_provision(
                 reg,
                 target=req.jurisdiction,
@@ -329,7 +355,13 @@ def _classify(
             assert c.provision_version_id is not None
             prov_id, vf = pv_rows[c.provision_version_id]
             c.group_key = ("p", prov_id, vf, c.status)
-        c.final = round(float(c.lexical) * c.authority.weight * (1.0 if c.direct else EXPANSION_PENALTY), 6)
+        c.final = round(
+            float(c.lexical)
+            * c.authority.weight
+            * (1.0 if c.direct else EXPANSION_PENALTY)
+            * length_factor(c.text_length),
+            6,
+        )
 
 
 def search(
@@ -337,7 +369,7 @@ def search(
 ) -> dict[str, Any]:
     _validate(catalog, req)
     as_of = req.as_of or today
-    expansion_report, expansions = _expansions(session, req.q)
+    expansion_report, expansions = _expansions(session, req.q, req.query_language)
     scope = _scope(session, catalog, req.jurisdiction)
     candidates = _candidates(session, req, as_of, scope, expansions, candidate_budget)
     _classify(session, catalog, req, as_of, candidates)
@@ -471,6 +503,7 @@ def _score(c: _Candidate) -> dict[str, Any]:
         "final": c.final,
         "lexical": round(float(c.lexical), 6),
         "authority_weight": c.authority.weight,
+        "length_factor": round(length_factor(c.text_length), 4),
         "matched_via": "query" if c.direct else "concept_expansion",
     }
 

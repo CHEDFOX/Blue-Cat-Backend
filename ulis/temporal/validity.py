@@ -38,21 +38,26 @@ class Span:
     valid_to_explicit: bool = False
 
 
-def _dated(versions: Sequence[VersionLike]) -> list[VersionLike]:
+LEGAL_CHAIN = ("in_force", "repealed")
+
+
+def _dated(versions: Sequence[VersionLike], statuses: tuple[str, ...] = LEGAL_CHAIN) -> list[VersionLike]:
     return sorted(
-        (v for v in versions if v.valid_from is not None and v.status in ("in_force", "repealed")),
+        (v for v in versions if v.valid_from is not None and v.status in statuses),
         key=lambda v: v.valid_from,  # type: ignore[arg-type, return-value]
     )
 
 
-def derive_valid_to(versions: Sequence[Span]) -> dict[Any, tuple[date | None, str]]:
+def derive_valid_to(
+    versions: Sequence[Span], statuses: tuple[str, ...] = LEGAL_CHAIN
+) -> dict[Any, tuple[date | None, str]]:
     """Return ``{version_id: (valid_to, basis)}`` for versions of one provision in one language.
 
     ``basis`` is ``explicit`` (stated by the source), ``derived`` (start of the next version)
     or ``open`` (no later version known).
     """
     out: dict[Any, tuple[date | None, str]] = {}
-    dated = _dated(versions)
+    dated = _dated(versions, statuses)
     for i, v in enumerate(dated):
         span = v if isinstance(v, Span) else None
         if span is not None and span.valid_to_explicit and span.valid_to is not None:
@@ -61,8 +66,9 @@ def derive_valid_to(versions: Sequence[Span]) -> dict[Any, tuple[date | None, st
             out[v.id] = (dated[i + 1].valid_from, "derived")
         else:
             out[v.id] = (None, "open")
-    for v in versions:
-        out.setdefault(v.id, (None, "open"))
+    if statuses == LEGAL_CHAIN:
+        for v in versions:
+            out.setdefault(v.id, (None, "open"))
     return out
 
 
@@ -74,7 +80,15 @@ def covers(version: VersionLike, as_of: date) -> bool:
     )
 
 
-PointInTimeStatus = Literal["in_force", "repealed", "not_yet_in_force", "prospective_only", "no_version"]
+PointInTimeStatus = Literal[
+    "in_force",
+    "repealed",
+    "not_yet_in_force",
+    "prospective_only",
+    "no_version",
+    "in_force_date_unverified",
+    "proposed",
+]
 
 
 @dataclass
@@ -93,10 +107,17 @@ def resolve_at(versions: Sequence[VersionLike], as_of: date) -> PointInTime:
     current = next((v for v in reversed(dated) if covers(v, as_of)), None)
     earlier = [v for v in dated if v.valid_to is not None and v.valid_to <= as_of]
     later = [v for v in dated if v.valid_from is not None and v.valid_from > as_of]
+    undated = [v for v in versions if v.status == "in_force" and v.valid_from is None]
+    proposed = next((v for v in reversed(_dated(versions, ("proposed",))) if covers(v, as_of)), None)
     if current is not None:
         status: PointInTimeStatus = "in_force" if current.status == "in_force" else "repealed"
     elif dated and as_of < dated[0].valid_from:  # type: ignore[operator]
         status = "not_yet_in_force"
+    elif undated:
+        # Known to be in force only at a source date (e.g. a code edition); the start is unknown.
+        status, current = "in_force_date_unverified", undated[-1]
+    elif proposed is not None:
+        status, current = "proposed", proposed
     elif prospective:
         status = "prospective_only"
     else:

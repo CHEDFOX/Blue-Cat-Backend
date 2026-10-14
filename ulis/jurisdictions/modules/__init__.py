@@ -12,8 +12,11 @@ from ulis.jurisdictions.modules.base import (
     ProvisionCitationInput,
 )
 from ulis.jurisdictions.modules.fictional import AureliaModule, BorealisModule
+from ulis.jurisdictions.modules.us import UsModule
 
-MODULES: dict[str, JurisdictionModule] = {m.id: m for m in (JurisdictionModule(), AureliaModule(), BorealisModule())}
+MODULES: dict[str, JurisdictionModule] = {
+    m.id: m for m in (JurisdictionModule(), AureliaModule(), BorealisModule(), UsModule())
+}
 
 
 def get_module(module_id: str) -> JurisdictionModule:

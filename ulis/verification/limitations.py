@@ -66,14 +66,39 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
     j = data.instrument.jurisdiction_id
     out = jurisdiction_limitations(catalog, j)
 
+    iv = data.instrument_version
     if data.instrument.is_proposed:
-        out.append(
-            Limitation(
-                "PROPOSED_NOT_LAW",
-                "critical",
-                "This is the text of a bill as introduced. It is not law and may change or lapse.",
+        if data.instrument.instrument_type == "resolution":
+            out.append(
+                Limitation(
+                    "RESOLUTION_NOT_LAW",
+                    "critical",
+                    f"This is the text of {iv.title}. A simple or concurrent resolution is not law.",
+                )
             )
-        )
+        else:
+            out.append(
+                Limitation(
+                    "PROPOSED_NOT_LAW",
+                    "critical",
+                    f"This is the text of {iv.title}. It is not law and may change or lapse.",
+                )
+            )
+        if v.valid_to is not None:
+            out.append(
+                Limitation(
+                    "LATER_STAGE_EXISTS", "info", f"A later version of this measure is recorded from {v.valid_to}."
+                )
+            )
+        if str((data.instrument.ext or {}).get("version_date_basis", "")).endswith("lower_bound"):
+            out.append(
+                Limitation(
+                    "VERSION_DATE_APPROXIMATE",
+                    "info",
+                    f"The version date {v.valid_from} is the latest dated action found in the "
+                    "document; the stage itself may be later.",
+                )
+            )
     if v.status == "repealed":
         out.append(
             Limitation(
@@ -98,14 +123,36 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
         else:
             period += "; no end date recorded"
         out.append(Limitation("VERSION_PERIOD", "info", f"This version applies {period}."))
-        if v.valid_from is None:
+        if v.valid_from is None and iv.validity_basis == "attested_at_edition":
+            out.append(
+                Limitation(
+                    "ATTESTED_ONLY_AT",
+                    "warning",
+                    f"The source attests this text as in force on {data.currency_date} "
+                    f"({iv.consolidation_kind.replace('_', ' ')}). When it took effect, and whether it applied on "
+                    f"{as_of}, is not recorded.",
+                )
+            )
+        elif v.valid_from is None:
             out.append(
                 Limitation(
                     "EFFECTIVE_DATE_UNKNOWN", "warning", "The source does not state when this version took effect."
                 )
             )
+        if iv.validity_basis == "enactment_date_presumed" and v.valid_from is not None:
+            out.append(
+                Limitation(
+                    "EFFECTIVE_DATE_PRESUMED",
+                    "warning",
+                    f"Dated from enactment ({v.valid_from}) under the default rule that an Act takes effect "
+                    "on enactment unless it provides otherwise. Provision-specific effective dates were not "
+                    "extracted, and later amendments to this Act are not tracked.",
+                )
+            )
+        if v.note:
+            out.append(Limitation("VERSION_NOTE", "info", v.note))
         applies = v.valid_from is not None and v.valid_from <= as_of and (v.valid_to is None or as_of < v.valid_to)
-        if not applies:
+        if v.valid_from is not None and not applies:
             out.append(
                 Limitation(
                     "NOT_APPLICABLE_ON_DATE",
@@ -210,9 +257,30 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
                     f"Equally authentic language versions exist ({langs}); interpretation may require comparing them.",
                 )
             )
+    if iv.text_origin == "unofficial_compilation":
+        out.append(
+            Limitation(
+                "COMPILATION_NOT_OFFICIAL",
+                "warning",
+                "Statute compilation: the publisher states it does not represent an official version of any federal "
+                "statute; the official text is in the Statutes at Large and the United States Code "
+                "(1 U.S.C. 112, 204).",
+            )
+        )
+    elif iv.text_origin == "official_conversion":
+        out.append(
+            Limitation(
+                "NOT_AUTHENTICATED",
+                "info",
+                "XML converted by the official publisher; it is not the authenticated publication of this text.",
+            )
+        )
     if data.instrument_version.text_origin == "machine_translation":
         out.append(Limitation("MACHINE_TRANSLATION", "critical", "Machine translation: not an authentic text."))
-    elif not data.instrument_version.authoritative:
+    elif not data.instrument_version.authoritative and iv.text_origin not in (
+        "unofficial_compilation",
+        "official_conversion",
+    ):
         out.append(Limitation("NOT_AUTHENTIC_TEXT", "warning", "This language version is not an authentic text."))
 
     if authority.category in ("treaty_obligation", "treaty_not_in_force_for_state", "foreign"):

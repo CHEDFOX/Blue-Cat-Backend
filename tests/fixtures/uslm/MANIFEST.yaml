@@ -1,0 +1,36 @@
+# Test fixtures: unmodified GPO USLM files (public domain). See README.md.
+schema_version: 1
+source_id: us-gpo-uslm-samples
+documents:
+- path: 113publ287-uslm.xml
+  external_id: usgpo-uslm:113publ287-uslm
+  media_type: application/xml
+  sha256: a8fac3cdb1ad95f09285669fbc28b911c2d62757d92b77c589f12ea3e3d4a7b0
+- path: 115publ11-uslm.xml
+  external_id: usgpo-uslm:115publ11-uslm
+  media_type: application/xml
+  sha256: cb3278272edf135b0cc09363ccc9fd26e4e1c226d34d313eef3ce97d7a8c7d71
+- path: 115publ6-uslm.xml
+  external_id: usgpo-uslm:115publ6-uslm
+  media_type: application/xml
+  sha256: d56099491ac4e83f1c873dddd8c582055ae8ff0c033104fe9bccd46512a9bc62
+- path: CFR-2018-title27-vol3-uslm.xml
+  external_id: usgpo-uslm:cfr-2018-title27-vol3-uslm
+  media_type: application/xml
+  sha256: 48ee6e25d789a8a410fdfc30b3e741edbdadb76f7ae2a1038f72b5e00b32400b
+- path: COMPS-1656.xml
+  external_id: usgpo-uslm:comps-1656
+  media_type: application/xml
+  sha256: daf554ec65948b1130fb7d259b249d403daa065322870deb6af8631cb89978fe
+- path: HJ37_RFS.XML
+  external_id: usgpo-uslm:hj37_rfs
+  media_type: application/xml
+  sha256: 0c8e54a30c0622272e248e3cbc6f8e964d108abf49c764d024139276a65961b8
+- path: HJ37_RH.XML
+  external_id: usgpo-uslm:hj37_rh
+  media_type: application/xml
+  sha256: 42edbcd3d9418c9f1ced471c8fb52aaae5a0d9fd9e48f74737b0d11bd76e3c59
+- path: HR1000_IH.XML
+  external_id: usgpo-uslm:hr1000_ih
+  media_type: application/xml
+  sha256: 63c0717a991aa4616b21459927ef757298c903d6d219e14d349735f0047fedec

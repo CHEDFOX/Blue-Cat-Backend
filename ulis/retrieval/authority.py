@@ -15,15 +15,18 @@ from ulis.jurisdictions.registry import JurisdictionRegistry
 CATEGORIES: dict[str, tuple[str, float]] = {
     "binding_constitution": ("Binding: constitutional provision in force", 1.35),
     "binding_legislation": ("Binding: legislation in force", 1.25),
+    "binding_regulation": ("Binding: regulation in force", 1.2),
     "binding_precedent": ("Binding precedent for the forum court", 1.2),
     "precedent_vertical": ("Precedent: binds courts below the deciding court", 1.1),
     "treaty_obligation": ("Treaty in force for the State", 1.0),
+    "applicability_unverified": ("In force at the source date; applicability on the requested date unverified", 0.9),
     "persuasive_precedent": ("Persuasive only", 0.85),
     "historical_legislation": ("Historical version: not the version in force on the date", 0.6),
     "prospective_legislation": ("Enacted but not in force", 0.5),
     "foreign": ("Foreign authority: not binding", 0.5),
     "treaty_not_in_force_for_state": ("Treaty not in force for the State on the date", 0.4),
     "proposed": ("Proposed: not law", 0.4),
+    "non_binding_resolution": ("Resolution: not law", 0.35),
     "overruled_precedent": ("Overruled: not good law on the point decided", 0.3),
 }
 
@@ -64,13 +67,18 @@ def classify_provision(
     passage_jurisdiction: str,
     doc_type: str,
     status: str,
-    applies_on_date: bool,
+    applies_on_date: bool | None,
     as_of: date,
     treaty_parties: list[TreatyStatus] | None = None,
     implementing_titles: list[str] | None = None,
 ) -> Authority:
     home = target or passage_jurisdiction
     if status == "proposed":
+        if doc_type == "resolution":
+            return _make(
+                "non_binding_resolution",
+                "A simple or concurrent resolution expresses the position of one or both chambers; it is not law.",
+            )
         return _make("proposed", "A bill or draft has no legal effect unless and until it is enacted.")
     if doc_type == "treaty":
         state = reg.sovereign(home)
@@ -99,8 +107,17 @@ def classify_provision(
         return _make("foreign", f"Legislation of {passage_jurisdiction} does not apply in {home}.")
     if status == "prospective":
         return _make("prospective_legislation", "Enacted, but no commencement has been recorded.")
+    if applies_on_date is None:
+        return _make(
+            "applicability_unverified",
+            "The source attests this text only as of its edition date; when it "
+            f"took effect, and whether it applied on {as_of.isoformat()}, is not "
+            "recorded.",
+        )
     if not applies_on_date:
         return _make("historical_legislation", f"This version did not apply on {as_of.isoformat()}.")
+    if doc_type == "regulation":
+        return _make("binding_regulation", f"Regulation of {passage_jurisdiction} in force on {as_of.isoformat()}.")
     if doc_type == "constitution":
         return _make("binding_constitution", f"Constitution of {passage_jurisdiction}; highest norm in the hierarchy.")
     return _make(

@@ -45,15 +45,17 @@ def provision_at(
 
     limitations: list[Limitation] = []
     selected: dict[str, Any] | None = None
+    selected_version_date: date | None = None
     if pit.version is not None:
         data = load_provision(session, catalog, pit.version.id)  # type: ignore[arg-type]
+        selected_version_date = data.instrument_version.version_date
         authority = classify_provision(
             catalog.jurisdictions,
             target=None,
             passage_jurisdiction=instrument.jurisdiction_id,
             doc_type=instrument.instrument_type,
             status=data.version.status,
-            applies_on_date=pit.status == "in_force",
+            applies_on_date=None if pit.status == "in_force_date_unverified" else pit.status == "in_force",
             as_of=as_of,
         )
         limitations = provision_limitations(catalog, data, authority, as_of)
@@ -98,7 +100,7 @@ def provision_at(
             "eid": provision.eid,
             "kind": provision.kind,
             "num_path": list(provision.num_path),
-            "citation": provision_citation(catalog, instrument, provision, language),
+            "citation": provision_citation(catalog, instrument, provision, language, selected_version_date),
         },
         "instrument": {
             "uri": instrument.uri,

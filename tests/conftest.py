@@ -76,3 +76,23 @@ def session(session_factory: sessionmaker[Session], ingested: IngestionReport) -
     finally:
         s.rollback()
         s.close()
+
+
+US_FIXTURES = REPO_ROOT / "tests" / "fixtures" / "uslm"
+
+
+@pytest.fixture(scope="session")
+def us_ingested(
+    session_factory: sessionmaker[Session], catalog: Catalog, store: LocalObjectStore, ingested: IngestionReport
+) -> IngestionReport:
+    """Real US federal documents (GPO USLM fixtures), ingested through the licence-gated pipeline."""
+    from ulis.sources.connectors.local_manifest import LocalManifestConnector
+
+    with session_factory() as session:
+        report = Ingestor(session, catalog, store).ingest_source(
+            "us-gpo-uslm-samples",
+            actor="pytest",
+            connector=LocalManifestConnector(US_FIXTURES / "MANIFEST.yaml", "us-gpo-uslm-samples"),
+        )
+        session.commit()
+    return report

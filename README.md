@@ -3,9 +3,11 @@
 Jurisdiction-aware legal corpus, retrieval and verification backend (Python, FastAPI,
 PostgreSQL). The frontend is in [`Blue-Cat-Web`](https://github.com/CHEDFOX/Blue-Cat-Web).
 
-> **Status:** Phase 1 foundations plus a working Phase 2 slice, demonstrated on a
-> **fictional** sample corpus. ULIS does not yet cover any real jurisdiction and makes no
-> claim of legal competence. Research aid only, not legal advice.
+> **Status:** Phase 1 foundations plus a working Phase 2 slice. Real data: a **sample of US
+> federal law** from the US Government Publishing Office (96 official USLM files: public
+> laws, statute compilations, CFR editions, bills and resolutions). Plus a fictional
+> multi-jurisdiction test corpus. Coverage is partial and stated on every response; ULIS
+> makes no claim of legal competence. Research aid only, not legal advice.
 
 ## What works today
 
@@ -40,6 +42,7 @@ python -m ulis.cli migrate
 python -m ulis.cli ingest ulis-fictional-sample      # licence-gated; prints a run report
 python -m ulis.cli verify-sources                    # re-derives every text from raw bytes
 python -m ulis.cli search "retain personal data" --jurisdiction XA --as-of 2020-06-01
+python -m ulis.cli ingest us-gpo-uslm-samples        # real US federal sample (git clone of a pinned GPO commit)
 python -m ulis.cli ingest in-india-code              # refused: licence review pending (exit 2)
 uvicorn ulis.api.app:create_app --factory --port 8000
 ```
@@ -85,10 +88,14 @@ tests/             unit + PostgreSQL integration tests
 [Security and evaluation](docs/security-and-evaluation.md) ·
 [Test results](docs/test-results.md)
 
-## About the sample corpus
+## Corpora
 
-The Federal Republic of Aurelia (`XA`), its provinces, the Kingdom of Borealis (`XB`) and
-the Northern Union (`XR`) are **invented** (ISO user-assigned codes). Real official
-sources were not reachable from the build environment and are pending licence review; see
-[sources-and-licensing.md](docs/sources-and-licensing.md). India (`IN`) has a *draft,
-unverified* profile and no corpus. Queries for `IN` say so explicitly.
+| Source | Jurisdiction | Content | Status |
+|---|---|---|---|
+| `us-gpo-uslm-samples` | US (federal) | 96 official GPO USLM files pinned to commit `4ec9db2`: 14 public laws as enacted, 11 statute compilations, 7 CFR edition volumes (221 parts), 64 bill/resolution versions; 12 files excluded with recorded reasons | Real, public domain; sample only |
+| `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
+
+Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO
+user-assigned codes). India (`IN`) has a *draft, unverified* profile and no corpus; queries
+for `IN` say so explicitly. Other official portals are pending network access and licence
+review; see [sources-and-licensing.md](docs/sources-and-licensing.md).
