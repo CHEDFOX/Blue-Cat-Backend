@@ -42,7 +42,7 @@ def _subs(parts: list[str]) -> str:
 
 class IeModule(JurisdictionModule):
     id: ClassVar[str] = "ie"
-    version: ClassVar[str] = "1.0.0"
+    version: ClassVar[str] = "1.1.0"
     ext_model: ClassVar[type[BaseModel]] = IeExt
 
     def pinpoint(self, c: ProvisionCitationInput) -> str:
@@ -54,6 +54,9 @@ class IeModule(JurisdictionModule):
             rest = [p for p in c.num_path[1:] if p]
             if rest and rest[0].startswith("part:"):
                 head += f", Pt {rest[0][5:]}"
+                rest = rest[1:]
+            if rest and rest[0].startswith("chapter:"):
+                head += f", Ch {rest[0][8:]}"
                 rest = rest[1:]
             return head + _subs(rest)
         parts = [p for p in c.num_path if p]

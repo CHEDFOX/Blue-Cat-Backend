@@ -1,5 +1,10 @@
 """Polite fetcher for the electronic Irish Statute Book (www.irishstatutebook.ie), Acts as enacted.
 
+The text is each Act AS ENACTED: later amendments, repeals and commencement orders are not applied. The committed
+manifest lists every Public Act of the Statute Book's own year lists, 1922 to date (about 4,000; see
+``scripts/build_ie_manifest.py``); an Act whose file is missing (404) or is not Act XML is reported in
+``fetch_errors`` and the run goes on, a refusal stops it.
+
 For every Act in the manifest it downloads the XML rendition that the site's open-data page
 documents (``https://www.irishstatutebook.ie/eli/<year>/act/<number>/enacted/en/xml``: "The XML
 source for Acts from 1922 to date is available using the ELI format of xml") and yields it exactly as
@@ -51,6 +56,7 @@ class IrishStatuteBookConnector:
         self.offline = offline
         self._sleep = sleep
         self.http: PoliteHttp | None = None
+        self.fetch_errors: list[str] = []
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -63,14 +69,19 @@ class IrishStatuteBookConnector:
         acts = manifest.get("acts") or []
         if not acts:
             raise ManifestError("the manifest lists no acts")
+        seen: set[tuple[int, int]] = set()
         for act in acts:
             year, number = act.get("year"), act.get("number")
             if not (isinstance(year, int) and 1922 <= year <= 2100 and isinstance(number, int) and 1 <= number <= 999):
                 raise ManifestError(f"invalid act reference {year!r}/{number!r}")
+            if (year, number) in seen:
+                raise ManifestError(f"Act {number} of {year} is listed twice")
+            seen.add((year, number))
         return manifest
 
     def fetch(self) -> Iterator[RawDocument]:
         manifest = self._manifest()
+        self.fetch_errors = []
         self.http = PoliteHttp(
             self.cache_dir,
             manifest["user_agent"],
@@ -84,17 +95,21 @@ class IrishStatuteBookConnector:
             url = act_url(year, number)
             got = self.http.get(url)
             if got is None:
-                raise FetchError(f"{url}: not found (404)")
+                self.fetch_errors.append(f"irishstatutebook:act/{year}/{number}: {url}: not found (404); skipped")
+                continue
             data, meta = got
             final = meta.get("final_url") or url
             if urllib.parse.urlsplit(final).netloc != HOST:
                 raise FetchError(f"{url}: redirected away from {HOST} to {final}; not ingested")
             head = data[:600].lstrip().lower()
-            if not (head.startswith(b"<?xml") or head.startswith(b"<!doctype act") or head.startswith(b"<act")):
-                raise FetchError(
-                    f"{url}: response is not Act XML ({meta.get('content_type')}); not ingested. "
-                    f"Remove {self.http.cache_path(url)} after checking the site."
+            # Some old Acts open with the processing instruction <?version xml="1.0"?> (well formed), not <?xml version.
+            if not (head.startswith((b"<?xml", b"<?version xml", b"<!doctype act", b"<act"))):
+                self.fetch_errors.append(
+                    f"irishstatutebook:act/{year}/{number}: {url}: response is not Act XML "
+                    f"({meta.get('content_type')}); not ingested; remove {self.http.cache_path(url)} "
+                    "after checking the site"
                 )
+                continue
             pinned = act.get("sha256")
             if pinned and hashlib.sha256(data).hexdigest() != pinned:
                 raise ManifestError(f"{year}/{number}: sha256 does not match the manifest pin")

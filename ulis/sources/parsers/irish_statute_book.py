@@ -32,7 +32,7 @@ from defusedxml.ElementTree import fromstring
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef
 
 PARSER_ID = "eisb_act_xml"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.2.0"
 SITE = "https://www.irishstatutebook.ie"
 
 EMPTY_CHARS = {
@@ -44,9 +44,11 @@ EMPTY_CHARS = {
     "pound": "£",
     "euro": "€",
     "nbsp": " ",
+    "degree": "°",  # "Article 34.5.4°"
+    "eolhyphen": "-",  # a hyphen printed at the end of a line; kept, as the source prints it
 }
 # Elements that carry no text (rules, images, column definitions).
-NO_TEXT = {"hr1", "graphic", "col", "colgroup"}
+NO_TEXT = {"hr1", "graphic", "col", "colgroup", "page"}  # "page": the printed page number (a page break)
 FADA = re.compile(r"^([aeiouAEIOU])fada$")
 
 
@@ -569,12 +571,19 @@ def parse_irish_statute_book(content: bytes) -> list[ParsedDocument]:
                 continue
             if child.tag == "sectionreference":
                 node.notes.append(inline_text(child))
-            elif child.tag == "part":
+            elif child.tag in ("part", "chapter"):  # a Part, or a Chapter (of a Part) of a Schedule
+                word = child.tag
                 first = (_title_lines(child.find("title")) or [""])[0]
-                m = re.match(r"(?i)^part\s+(\S+)", first)
-                key = f"part:{m.group(1)}" if m else f"part:{len(node.children) + 1}"
+                m = re.match(rf"(?i)^{word}\s+(\S+)", first)
+                key = f"{word}:{m.group(1)}" if m else f"{word}:{len(node.children) + 1}"
                 part = _Node(
-                    "schedule_part", key, f"Part {key[5:]}", 0, 1.0, _heading(child.find("title")), parent=node
+                    "schedule_part",
+                    key,
+                    f"{word.capitalize()} {key[len(word) + 1 :]}",
+                    0,
+                    1.0,
+                    _heading(child.find("title")),
+                    parent=node,
                 )
                 node.items.append(part)
                 schedule_lines(child, part)

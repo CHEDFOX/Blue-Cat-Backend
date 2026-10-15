@@ -39,7 +39,7 @@ FIX = REPO_ROOT / "tests" / "fixtures" / "irish_statute_book"
 META = json.loads((FIX / "meta.json").read_text())
 SOURCE = "ie-irish-statute-book"
 # Full files as published, except the Companies Act 2014, an excerpt (see the fixtures README).
-NAMES = ("1977-10", "1997-26", "2001-50", "2007-19", "2014-38-excerpt", "2018-7")
+NAMES = ("1977-10", "1997-26", "2001-50", "2007-19", "2014-38-excerpt", "2018-7", "1938-16")
 
 
 def _xml(name: str) -> bytes:
@@ -150,6 +150,47 @@ def test_every_section_keeps_the_printed_text_in_order(name: str) -> None:
         assert re.sub(r"\s+", "", printed) == re.sub(r"\s+", "", by_eid[f"section-{ib.slug(num)}"].text), num
         checked += 1
     assert checked >= 5
+
+
+def test_page_breaks_degree_signs_and_line_end_hyphens_in_older_acts() -> None:
+    # Older Acts carry <page number="456"/>, <degree/> and <eolhyphen/> (seen in Acts 1980/14, 1992/20, 1995/14, 2005/22
+    # and 2014/18): the page number is not text, the other two are characters.
+    body = SECT.replace(
+        "Text.",
+        'Under Article 34.5.4<degree/> of the Constitution, after <page number="456"/>the regulation, Bord Altra'
+        "<ifada/><eolhyphen/>Tr<efada/>idliachta.",
+    )
+    (doc,) = parse_irish_statute_book(_act(body))
+    texts = [p.text for p in doc.provisions if "Article" in p.text]
+    assert texts and all(
+        "Under Article 34.5.4° of the Constitution, after the regulation, Bord Altraí-Tréidliachta." in t for t in texts
+    )
+
+
+def test_chapters_of_a_schedule_part_are_provisions_with_a_citation() -> None:
+    # Acts 1991/6 and 2024/7 have <chapter> inside a Schedule (or a Part of one).
+    schedule = (
+        '<backmatter><schedule id="SCHED1"><title><p>SCHEDULE 1</p></title>'
+        '<part id="P1"><title><p>PART 1</p></title>'
+        '<chapter id="C1"><title><p>CHAPTER I</p></title><p>Text of the first chapter.</p></chapter>'
+        '<chapter id="C2"><title><p>CHAPTER II</p></title><p>Text of the second chapter.</p></chapter>'
+        "</part></schedule></backmatter>"
+    )
+    (doc,) = parse_irish_statute_book(_act(SECT, extra=schedule))
+    chapter = _p(doc, "schedule-1-part-1-chapter-ii")
+    assert chapter.num_path == ["1", "part:1", "chapter:II"] and "second chapter" in chapter.text
+    module = get_module("ie")
+    c = ProvisionCitationInput(
+        doc.short_title or doc.title,
+        "act",
+        "IE",
+        chapter.top_kind,
+        chapter.num_path,
+        "en",
+        ext=doc.ext,
+        eid=chapter.eid,
+    )
+    assert module.provision_citation(c).endswith(", Sch 1, Pt 1, Ch II")
 
 
 def test_text_is_exact_and_special_characters_are_resolved() -> None:
@@ -504,12 +545,24 @@ def test_connector_refuses_bad_manifests_and_non_xml_responses(tmp_path: Path) -
     cache = _cache(tmp_path, ("1977-10",))
     xml = cache / "www.irishstatutebook.ie" / "eli" / "1977" / "act" / "10" / "enacted" / "en" / "xml"
     xml.write_bytes(b"<!DOCTYPE html><html>Error</html>")
-    with pytest.raises(FetchError, match="not Act XML"):
-        list(
-            IrishStatuteBookConnector(
-                _manifest(tmp_path, [{"year": 1977, "number": 10}]), SOURCE, cache, offline=True
-            ).fetch()
-        )
+    connector = IrishStatuteBookConnector(
+        _manifest(tmp_path, [{"year": 1977, "number": 10}]), SOURCE, cache, offline=True
+    )
+    assert list(connector.fetch()) == []  # reported, not passed on, and the run would go on with the next Act
+    assert len(connector.fetch_errors) == 1 and "not Act XML" in connector.fetch_errors[0]
+    with pytest.raises(ManifestError, match="listed twice"):
+        twice = _manifest(tmp_path, [{"year": 1977, "number": 10}, {"year": 1977, "number": 10}])
+        list(IrishStatuteBookConnector(twice, SOURCE, cache, offline=True).fetch())
+    # Some old Acts (e.g. 1938/16) open with the processing instruction <?version xml="1.0"?>: well formed, accepted.
+    odd = _act(SECT).replace(b'<?xml version="1.0"?>', b'<?version xml="1.0"?>')
+    xml.write_bytes(odd)
+    assert [
+        d.content
+        for d in IrishStatuteBookConnector(
+            _manifest(tmp_path, [{"year": 1977, "number": 10}]), SOURCE, cache, offline=True
+        ).fetch()
+    ] == [odd]
+    assert len(parse_irish_statute_book(odd)) == 1
     xml.write_bytes(_xml("1977-10"))
     meta = xml.with_name("xml.meta.json")
     info = json.loads(meta.read_text())
@@ -523,8 +576,10 @@ def test_connector_refuses_bad_manifests_and_non_xml_responses(tmp_path: Path) -
 
 
 def test_repository_manifest_and_pins_are_consistent(catalog: Catalog) -> None:
-    manifest = yaml.safe_load((REPO_ROOT / "config" / "manifests" / f"{SOURCE}.yaml").read_text())
-    assert [(a["year"], a["number"]) for a in manifest["acts"]] == [
+    path = REPO_ROOT / "config" / "manifests" / f"{SOURCE}.yaml"
+    manifest = yaml.safe_load(path.read_text())
+    acts = manifest["acts"]
+    assert [(a["year"], a["number"]) for a in acts[:6]] == [
         (1977, 10),
         (1997, 26),
         (2001, 50),
@@ -532,10 +587,18 @@ def test_repository_manifest_and_pins_are_consistent(catalog: Catalog) -> None:
         (2014, 38),
         (2018, 7),
     ]
-    assert all(len(a["sha256"]) == 64 for a in manifest["acts"])
+    assert all(len(a["sha256"]) == 64 for a in acts[:6]) and not any("sha256" in a for a in acts[6:])
+    # the publisher's whole list of Public Acts: 1922 to date, each once, in the order of the year lists
+    assert len(acts) > 3500 and len({(a["year"], a["number"]) for a in acts}) == len(acts)
+    assert min(a["year"] for a in acts) == 1922 and max(a["year"] for a in acts) >= 2025
+    assert acts[6:] == sorted(acts[6:], key=lambda a: (a["year"], a["number"]))
+    assert all(a["title"] for a in acts)
+    assert (1922, 1) in {(a["year"], a["number"]) for a in acts}
+    # the committed manifest passes the connector's own validation
+    IrishStatuteBookConnector(path, SOURCE, Path("/nonexistent"))._manifest()
     assert META["1977-10"]["bytes"] == len(_xml("1977-10"))
-    assert hashlib.sha256(_xml("1977-10")).hexdigest() == manifest["acts"][0]["sha256"]  # fixture = the pinned download
-    assert hashlib.sha256(_xml("2018-7")).hexdigest() == manifest["acts"][5]["sha256"]
+    assert hashlib.sha256(_xml("1977-10")).hexdigest() == acts[0]["sha256"]  # fixture = the pinned download
+    assert hashlib.sha256(_xml("2018-7")).hexdigest() == acts[5]["sha256"]
     assert manifest["user_agent"].startswith("ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)")
     assert isinstance(build_connector(catalog.sources.get(SOURCE)), IrishStatuteBookConnector)
 
@@ -598,6 +661,29 @@ def test_ingest_report_counts(ie_ingested: IngestionReport) -> None:
     assert ie_ingested.documents_new == len(NAMES) and ie_ingested.instruments_created == len(NAMES)
     assert ie_ingested.provision_versions_created == sum(len(_doc(n).provisions) for n in NAMES)
     assert ie_ingested.citation_links_created > 0 and ie_ingested.passages_indexed > 1000
+
+
+@pytest.mark.db
+def test_an_act_of_1938_is_found_as_enacted_and_says_so(
+    session: Session, catalog: Catalog, ie_ingested: IngestionReport
+) -> None:
+    # The whole collection of Public Acts since 1922 is ingested as enacted: an old Act carries the same labels, and the
+    # warnings that it is the Act as passed (no later amendment or repeal applied).
+    res = _search(session, catalog, q="unlawful to import flour or wheaten meal unless", as_of=date(2026, 1, 1))
+    hit = res["results"][0]
+    assert hit["citation"].startswith("Agricultural Produce (Cereals) Act 1938, s 9")
+    assert hit["text"].startswith("It shall not be lawful for any person to import any flour or wheaten meal")
+    assert hit["version"]["valid_from"] == "1938-05-16"
+    codes = {lim["code"] for lim in hit["limitations"]}
+    assert {
+        "EFFECTIVE_DATE_PRESUMED",
+        "OUTSTANDING_CHANGES_INSTRUMENT",
+        "NOT_AUTHENTICATED",
+        "SOURCE_NOT_AUTHENTIC",
+    } <= codes
+    # the document title and the version both say "as enacted"
+    assert hit["document"]["title"] == "Agricultural Produce (Cereals) Act 1938 (Number 16 of 1938, as enacted)"
+    assert hit["version"]["consolidation"] == "as_enacted" and hit["version"]["text_origin"] == "official_conversion"
 
 
 @pytest.mark.db
