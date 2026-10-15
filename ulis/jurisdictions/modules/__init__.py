@@ -24,6 +24,7 @@ from ulis.jurisdictions.modules.eu import EuModule
 from ulis.jurisdictions.modules.fi import FiModule
 from ulis.jurisdictions.modules.fictional import AureliaModule, BorealisModule
 from ulis.jurisdictions.modules.gb import GbModule
+from ulis.jurisdictions.modules.hr import HrModule
 from ulis.jurisdictions.modules.ie import IeModule
 from ulis.jurisdictions.modules.it import ItModule
 from ulis.jurisdictions.modules.jp import JpModule
@@ -63,6 +64,7 @@ MODULES: dict[str, JurisdictionModule] = {
         AtModule(),
         ArModule(),
         LiModule(),
+        HrModule(),
     )
 }
 

@@ -1,0 +1,91 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Croatia (national law). Memberships (EU, Council of Europe, NATO) are not recorded here.
+schema_version: 1
+id: HR
+profile_version: 0.1.0
+name: Croatia
+names: {hr: Republika Hrvatska, en: Republic of Croatia}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [hr]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: unknown
+  notes: >-
+    To verify - unitary parliamentary republic under the Constitution of 1990 (consolidated text NN 85/2010). The Hrvatski
+    sabor (parliament) passes laws; the President of the Republic promulgates them within eight days of their passing
+    (Ustav članak 89); the Government (Vlada) issues regulations (uredbe) and ministers rulebooks (pravilnici). Civil-law
+    system with codified law (Austrian and German influences). Local self-government (općine, gradovi) and counties
+    (županije) issue their own acts; they are not ingested. How international treaties rank and take effect is not
+    modelled here - to verify against the Constitution.
+legislative_institutions:
+  - id: HR-SABOR
+    name: Hrvatski sabor (acts - zakoni, ustavni zakoni; the Constitution is amended by the Sabor under the Constitution's chapter on amendments)
+    instrument_types: [constitution, constitutional_act, act]
+  - id: HR-VLADA
+    name: Vlada (Government - uredbe, odluke)
+    instrument_types: [regulation]
+instrument_types: [constitution, constitutional_act, act, regulation]
+norm_hierarchy: [constitution, constitutional_act, act, regulation]
+courts:
+  - id: HR-USRH
+    name: Ustavni sud Republike Hrvatske (Constitutional Court)
+    rank: 1
+  - id: HR-VSRH
+    name: Vrhovni sud Republike Hrvatske (Supreme Court)
+    rank: 1
+  - id: HR-VISOKI
+    name: Visoki sudovi (High Commercial, Misdemeanour and Administrative Courts; appeal instance in their fields)
+    rank: 2
+    appeals_to: [HR-VSRH]
+  - id: HR-ZUPANIJSKI
+    name: Županijski sudovi (County Courts; appeal and first instance)
+    rank: 2
+    appeals_to: [HR-VSRH]
+  - id: HR-OPCINSKI
+    name: Općinski sudovi (Municipal Courts; first instance)
+    rank: 3
+    appeals_to: [HR-ZUPANIJSKI]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal rule of binding precedent for the ordinary courts; the case law of the Vrhovni sud is followed
+    in practice and cited as persuasive. Decisions of the Ustavni sud on constitutionality are binding. The court list is
+    simplified (the specialised High Courts, the Administrative Courts and other tribunals are not placed exactly, and
+    appeals between the levels differ by subject); every entry is a draft to verify. Case law is not ingested.
+citation:
+  module: hr
+  notes: >-
+    Article, paragraph, point and sub-point in full words, then the act's name in the genitive and the gazette reference:
+    "članak 5. stavak 2. točka 3. Zakona o službenoj iskaznici (NN 30/2023)"; an inserted article is "članak 12.a";
+    a consolidated text is "Zakona o radu (pročišćeni tekst, NN 137/2004)". Titles without a regular genitive are
+    cited as "<title>, članak 5. (NN 30/2023)". Abbreviations of the act names ("ZOR") are not generated.
+  examples:
+    - "članak 90. Ustava Republike Hrvatske (pročišćeni tekst, NN 85/2010)"
+    - "članak 2. stavak 1. Zakona o službenoj iskaznici (NN 30/2023)"
+    - "članak 33. stavak 1. podtočka a) Zakona o državnim službenicima (NN 155/2023)"
+publication:
+  official_sources: [hr-narodne-novine]
+  commencement: >-
+    Laws and other state regulations are published in Narodne novine before they take effect; a law takes effect on the
+    eighth day after its publication at the earliest, unless it provides otherwise for especially justified reasons
+    (Ustav članak 90). The date is usually in the last article of the act itself; the source's metadata do not state it.
+  amendment: >-
+    Textual amendment by amending laws ("Zakon o izmjenama i dopunama ..."), each published in its own edition. The
+    gazette does not consolidate; for some laws it publishes an official consolidated text ("pročišćeni tekst").
+  repeal: >-
+    Express repeal by a later act (often "prestaje važiti ..."); the source does not mark an older act as repealed.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - "Each act is the text as published in Narodne novine; amendments are separate acts and are not applied, so an older law may be amended or repealed. Consolidated texts (pročišćeni tekst) are ingested only where the gazette published them (about 150)."
+    - The source states no entry-into-force date and no end of validity; no validity period is recorded (start unknown), so searches show every provision as in force and point-in-time lookups cannot be answered.
+    - Only laws, consolidated texts and the Constitution of the official part are listed (4,769 acts, 1990-2026); no regulations, decisions, rulings, international agreements, local acts or case law.
+    - Structure (article, paragraph, point, sub-point) is read from the printed numbering of old and new markup; unusual layouts leave text in the enclosing unit. Tables are reduced to text rows.
+    - Whether the web edition is the authentic publication was not established; it is recorded as non-authentic.
+    - "No PostgreSQL text-search configuration exists for Croatian, so the simple configuration is used (no stemming; inflected forms are matched only when identical)."

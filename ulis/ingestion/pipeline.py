@@ -48,6 +48,7 @@ from ulis.sources.connectors.lilex import LilexConnector
 from ulis.sources.connectors.likumi_lv import LikumiLvConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
+from ulis.sources.connectors.narodne_novine import NarodneNovineConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
 from ulis.sources.connectors.rechtspraak import RechtspraakConnector
 from ulis.sources.connectors.retsinformation import RetsinformationConnector
@@ -75,6 +76,7 @@ from ulis.sources.parsers import (
     lilex,
     likumi_lv,
     moj_law,
+    narodne_novine,
     normattiva,
     rechtspraak,
     retsinformation,
@@ -115,6 +117,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "eli_sejm_bundle": eli_sejm.parse_eli_sejm,
     "infoleg_ar_html": infoleg_ar.parse_infoleg_ar,
     "lilex_html": lilex.parse_lilex,
+    "narodne_novine_html": narodne_novine.parse_narodne_novine,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -142,6 +145,7 @@ PARSER_VERSIONS = {
     "eli_sejm_bundle": eli_sejm.PARSER_VERSION,
     "infoleg_ar_html": infoleg_ar.PARSER_VERSION,
     "lilex_html": lilex.PARSER_VERSION,
+    "narodne_novine_html": narodne_novine.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -202,6 +206,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "uscode_house": UscodeHouseConnector,
     "infoleg_ar": InfolegArConnector,
     "lilex": LilexConnector,
+    "narodne_novine": NarodneNovineConnector,
 }
 
 
