@@ -164,6 +164,12 @@ class LawInfo:
             raise EgovParseError(f"unsupported law_type {self.law_type!r}") from exc
 
     @property
+    def number(self) -> str | None:
+        """The law number (法令番号) for the instruments table, whose column holds 40 characters; a longer one
+        (a joint order of eight ministries) is only in ``ext.law_num``, never shortened."""
+        return self.law_num if len(self.law_num) <= 40 else None
+
+    @property
     def work_uri(self) -> str:
         return f"/jp/{self.instrument_type}/{self.law_id}"
 
@@ -525,7 +531,10 @@ def _parse_law_data(root: Element) -> ParsedDocument:
     for index, table in enumerate(body.findall("AppdxTable"), start=1):
         builder.appendix_table(table, index)
     if not builder.provisions:
-        raise ParseSkipped(f"revision {revision_id}: the law has no provisions to index")
+        parts = [*body.findall("MainProvision"), *body.findall("SupplProvision"), *body.findall("AppdxTable")]
+        if any("".join(p.itertext()).strip() for p in parts):
+            raise EgovParseError(f"revision {revision_id}: no provisions found in a law that has text")
+        raise ParseSkipped(f"revision {revision_id}: the law has no text to index")
 
     original = (rev.findtext("amendment_type") or "").strip() == "1"
     by_uri, by_label = _amendment(rev)
@@ -539,7 +548,7 @@ def _parse_law_data(root: Element) -> ParsedDocument:
         work_title=title,
         title=title,
         short_title=title,
-        number=info.law_num,
+        number=info.number,
         work_date=info.promulgation_date,
         language="ja",
         # The Official Gazette (官報) is authentic; e-Gov data is a revised text that yields to it.
@@ -645,7 +654,7 @@ def _parse_revisions(root: Element) -> ParsedDocument:
         work_title=title,
         title=title,
         short_title=title,
-        number=info.law_num,
+        number=info.number,
         work_date=info.promulgation_date,
         language="ja",
         authoritative=False,

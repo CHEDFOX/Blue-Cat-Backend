@@ -59,7 +59,7 @@ sub-items (号細分), the law's own original supplementary provisions (附則) 
 - **Manifest** `config/manifests/jp-egov-laws.yaml`, written by `python -m scripts.build_egov_manifest` from the
   API's own list endpoint, `GET /api/2/laws?repeal_status=None&limit=1000&offset=N` (10 requests; spec
   `lawapi-v2.yaml`, parameters `repeal_status`, `law_type`, `limit`). `total_count` 9,003 laws not repealed or
-  expired (a further 561 are repealed or expired and are left out). 14 of the 9,003 have no revision in force yet
+  expired (a further 561 are repealed, expired, suspended or without effect, `repeal_status` ≠ `None`, and are left out). 14 of the 9,003 have no revision in force yet
   (`current_revision_info` is `UnEnforced`) and are left out. Listed: **8,989** = the seven laws above (their
   `history` flags unchanged) + Act 2,073, Cabinet Order 2,310, Imperial Order 66, Ministerial Ordinance 4,103,
   Rule 409 and 21 that the list types twice (`Act,CabinetOrder` 16, `Act,ImperialOrder` 3,
@@ -71,14 +71,19 @@ sub-items (号細分), the law's own original supplementary provisions (附則) 
   back-off) goes to `fetch_errors` and the run continues; a refusal (401/403/429/451) or 20 failures in a row
   stops it; a law is yielded only when all its requests succeeded; duplicate ids in the manifest are refused.
   **Parser** 1.1.0: a law with nothing to index raises `ParseSkipped`; double types are mapped.
-- **Cost of the full run:** 2 requests per law = about 18,000 requests = **25 hours** at the 5 s delay; text about
-  2.5 GB (28-law sample: mean 265 KB, median 21 KB per law, plus 16 KB per revision list). Database estimated
-  **4-9 GB** (1-2 million provision versions): the sample gave 185 provision versions and 0.97 MB per law, but
-  60 % of it is one organisation rule (財務省組織規則, 3,114 provision versions); without it 77 and 0.4 MB.
-  Responses are cached (`var/sources/`), so an interrupted run resumes without new requests; use
-  `python -m scripts.ingest_in_batches jp-egov-laws --batch 50` to commit in batches.
+- **Cost of the full run:** 2 requests per law = about 18,000 requests = **25 hours** at the 5 s delay; XML about
+  **1.5 GB**. From a random sample of 98 laws (the 28 below + 70 more, seeded): 163 KB of XML, 127 provision
+  versions and 0.63 MB of database per law (5 KB per provision version, most of it the search passages), so
+  about 1.1 million provision versions and **4-8 GB** of database (the sample's mean is pulled up by a few
+  large laws, e.g. 財務省組織規則 with 3,114 provision versions). Responses are cached (`var/sources/`), so an
+  interrupted run resumes without new requests; use `python -m scripts.ingest_in_batches jp-egov-laws
+  --batch 50` to commit in batches.
 - **Slice run** (manifest = the seven laws + 28 laws drawn at random, seeded, by type: Act 6, Cabinet Order 6,
-  Ministerial Ordinance 8, Rule 3, Imperial Order 2, one of each double type; 56 requests, 5 min): documents seen
+  Ministerial Ordinance 8, Rule 3, Imperial Order 2, one of each double type; 56 requests, 5 min). The other 70
+  random laws (140 requests, 12 min) were loaded into a scratch database: 138 documents, 69 laws, 7,202
+  provision versions; one error, a law number longer than the 40-character `instruments.number` column (a joint
+  order of eight ministries): such a number is kept only in `ext.law_num` and `number` is NULL (parser 1.1.0).
+  The slice of 35: documents seen
   106, instruments 35, instrument versions 71, provision versions 19,125 (+21,235 corroborated), passages 19,442,
   **0 errors** (first run: 3, the double types above; re-run: 103 unchanged, 3 new). `verify-sources`: **106/106
   pass**, 40,360 units. Searches (`ulis.cli search … --jurisdiction JP`): `予防接種の実施` → 予防接種実施規則第1条;

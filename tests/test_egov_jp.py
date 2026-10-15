@@ -290,6 +290,15 @@ def test_cabinet_order_and_ministerial_ordinance() -> None:
     assert _by_eid(ordinance)["article-2-item-1"].text.startswith("別表の上欄の指定表示製品の区分ごとに")
 
 
+def test_a_law_number_longer_than_the_column_is_kept_in_ext_only() -> None:
+    doc = _doc("law_data/322M40010B72001_19560521_331M50000040033.xml")  # a joint order of eight ministries
+    assert doc.number is None and len(doc.ext["law_num"]) > 40
+    assert doc.ext["law_num"] == "昭和二十二年総理庁・大蔵省・外務省・商工省・運輸省・農林省・厚生省・司法省令第一号"
+    assert doc.work_uri == "/jp/ministerial_ordinance/322M40010B72001"
+    assert _doc("law_revisions/322M40010B72001.xml").number is None
+    assert _doc(CABINET_ORDER).number == "昭和五十三年政令第百六十七号"
+
+
 def test_laws_listed_under_two_types_keep_one_identity() -> None:
     """e-Gov's list and revision-list endpoints say "Act,CabinetOrder" / "Act,ImperialOrder" for 21 laws, its text
     endpoint says "Act": the text and its revision list must describe the same work."""
@@ -309,7 +318,7 @@ def test_a_law_with_no_provisions_is_skipped_not_an_error() -> None:
     page = _read(CABINET_ORDER).decode()
     for tag in ("MainProvision", "SupplProvision", "AppdxTable"):
         page = re.sub(rf"<{tag}\b.*?</{tag}>", "", page, flags=re.S)
-    with pytest.raises(ParseSkipped, match="no provisions"):
+    with pytest.raises(ParseSkipped, match="no text"):
         parse_egov(page.encode())
 
 

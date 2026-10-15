@@ -25,3 +25,4 @@ Added with the widened manifest (retrieved 2026-10-15, same layout, unmodified):
 | `law_revisions/405M50000400033.xml` + `law_data/405M50000400033_20260401_…` | 密閉形蓄電池の表示の標準となるべき事項を定める省令 (a Ministerial Ordinance) |
 | `law_revisions/322CO0000000052.xml` + `law_data/322CO0000000052_19530801_…` | 昭和二十二年政令第五十二号 - typed `Act,CabinetOrder` by the revision list, `Act` by the text |
 | `law_revisions/320IO0000000730.xml` + `law_data/320IO0000000730_19451229_…` | 昭和二十年勅令第七百三十号 - typed `Act,ImperialOrder` by the revision list, `Act` by the text |
+| `law_revisions/322M40010B72001.xml` + `law_data/322M40010B72001_19560521_…` | 昭和二十二年総理庁・大蔵省・…・司法省令第一号 (a joint order whose law number is longer than the 40-character `instruments.number` column) |

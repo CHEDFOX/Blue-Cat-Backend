@@ -8,10 +8,10 @@
 # laws below (two with history) and then the other 8,982, written by scripts/build_egov_manifest.py from
 # GET /api/2/laws?repeal_status=None (Act 2,073, Cabinet Order 2,310, Imperial Order 66, Ministerial Ordinance
 # 4,103, Rule 409, and 21 listed under two types such as "Act,CabinetOrder"; the Constitution is the first
-# entry). Left out: 561 repealed or expired laws and 14 laws none of whose revisions is in force yet.
+# entry). Left out: 561 repealed, expired, suspended or ineffective laws and 14 laws none of whose revisions is in force yet.
 # Cost of a full run: two requests per law (revision list, then text) = about 18,000 requests = 25 hours at
-# the 5 s crawl delay; about 2.5 GB of XML (a sample of 28 laws averaged 265 KB of text + 16 KB of revision
-# list, median text 21 KB) and, estimated from that sample, 1-2 million provision versions and 4-9 GB of
+# the 5 s crawl delay; about 1.5 GB of XML and, estimated from a random sample of 98 laws (163 KB of XML,
+# 127 provision versions and 0.63 MB of database per law), about 1.1 million provision versions and 4-8 GB of
 # database. Responses are cached, so an interrupted run resumes without new requests. Load it in batches
 # (python -m scripts.ingest_in_batches jp-egov-laws --batch 50) if one long transaction is not wanted.
 schema_version: 1
