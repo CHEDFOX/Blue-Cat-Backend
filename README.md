@@ -3,8 +3,8 @@
 Jurisdiction-aware legal corpus, retrieval and verification backend (Python, FastAPI,
 PostgreSQL). The frontend is in [`Blue-Cat-Web`](https://github.com/CHEDFOX/Blue-Cat-Web).
 
-> **Status:** a working backend with real law from 19 countries and the EU (see the corpora table
-> below), 61 court decisions, an LLM research assistant and a one-server deployment kit. Coverage is
+> **Status:** a working backend with real law from 27 countries and the EU (see
+> [docs/corpus.md](docs/corpus.md)), court decisions from several jurisdictions, an LLM research assistant and a one-server deployment kit. Coverage is
 > partial and stated on every response; ULIS makes no claim of legal competence, and the real
 > language-model path and the Docker/Caddy/systemd kit have not yet been run end to end. Research
 > aid only, not legal advice. **To run it on a server: [docs/deployment.md](docs/deployment.md).**
@@ -102,32 +102,25 @@ tests/             unit + PostgreSQL integration tests
 
 ## Corpora
 
-| Source | Jurisdiction | Content | Status |
-|---|---|---|---|
-| `us-gpo-uslm-samples` | US (federal) | 96 official GPO USLM files pinned to commit `4ec9db2`: 14 public laws as enacted, 11 statute compilations, 7 CFR edition volumes (221 parts), 64 bill/resolution versions; 12 files excluded with recorded reasons | Real, public domain; sample only |
-| `gb-legislation-gov-uk` | GB, England and Wales, Scotland, Wales | 9 works with every point-in-time version (159 versions): Theft Act 1968, Interpretation Act 1978, Human Rights Act 1998, Consumer Rights Act 2015, Data Protection Act 2018, an SI, a Scottish Act, a Welsh Measure and a Welsh Act; territorial extent, repeals, outstanding effects | Real, Open Government Licence v3.0; selection only |
-| `ca-justice-laws-xml` | CA (federal) | **All 953 consolidated Acts** in English and French (1,906 files) pinned to commit `b7292cf`: about 515,000 provision versions; two duplicate-identifier conflicts recorded (N-16.62) | Real, Open Government Licence – Canada; not an official version |
-| `de-gesetze-im-internet` | DE (federal) | Manifest lists all 6,139 federal laws and ordinances (current consolidation, German); about 2.6% carry no text and are skipped and counted; a first load needs at least 8.5 h of polite downloading ([notes](docs/jurisdictions/de.md)) | Real, free reuse (§ 5 UrhG; site terms); not the authentic text |
-| `eu-eur-lex` | EU | 8 instruments in English, French and German: GDPR, Rome I, Brussels Ia, Consumer Rights Directive, AI Act (OJ texts as adopted), Charter, TEU and TFEU (2016 consolidated, documentation only); applies inside member States from accession ([notes](docs/jurisdictions/eu.md)) | Real, reuse under Decision 2011/833/EU; amendments listed, not applied |
-| `es-boe-consolidada` | ES (State) | 6 norms with every consolidated version: Constitución, Código Civil, Código Penal, LOPDGDD, Ley 39/2015, Estatuto de los Trabajadores ([notes](docs/jurisdictions/es.md)) | Real, BOE reuse licence; informative, not the official text |
-| `jp-egov-laws` | JP | 7 laws in Japanese: Constitution, Civil Code, Penal Code (14 revisions), Code of Civil Procedure, Personal Information Protection Act (24 revisions), Labour Standards Act, Companies Act ([notes](docs/jurisdictions/jp.md)) | Real, Public Data License 1.0; the Official Gazette prevails |
-| `ch-fedlex` | CH (federal) | 7 laws in German, French and Italian: Federal Constitution, ZGB/CC, OR/CO, StGB/CP, DSG/LPD, ZPO/CPC, VwVG/PA; consolidation history since 2021 for four ([notes](docs/jurisdictions/ch.md)) | Real, free reuse (Art. 5 URG, Art. 19 PublA); the SR is not the authoritative publication |
-| `fi-finlex` | FI | 7 Acts in Finnish and Swedish (consolidated): Constitution, Criminal Code, Contracts Act, Inheritance Code, Employment Contracts Act, Administrative Procedure Act, Data Protection Act; history for two ([notes](docs/jurisdictions/fi.md)) | Real, CC BY 4.0; consolidations are not authentic |
-| `au-federal-register` | AU (Commonwealth) | 8 titles: Constitution, Acts Interpretation Act, Crimes Act, Privacy Act, Family Law Act, Criminal Code Act, Insurance Contracts Act, Electronic Transactions Act; full compilation history for four ([notes](docs/jurisdictions/au.md)) | Real, CC BY 4.0; only the stamped PDF is the authorised version |
-| `nl-bwb` | NL | 6 Acts: Grondwet and UAVG with every consolidated version since 2002/2018, BW Boek 1 and 6, Wetboek van Strafrecht, Awb ([notes](docs/jurisdictions/nl.md)) | Real, CC0 1.0; consolidations are not official |
-| `tw-moj-laws` | TW | 8 laws in Traditional Chinese, current text: Constitution, Additional Articles, Civil Code, Criminal Code, Code of Civil Procedure, Administrative Procedure Act, Personal Data Protection Act, Labor Standards Act ([notes](docs/jurisdictions/tw.md)) | Real, Open Government Data License 1.0; the Presidential Office Gazette is authentic |
-| `se-riksdagen-sfs` | SE | 8 statutes in Swedish, current text: Regeringsformen, Brottsbalken, Avtalslagen, Ärvdabalken, LAS, Förvaltningslagen, 2018:218, Rättegångsbalken ([notes](docs/jurisdictions/se.md)) | Real, free reuse naming "Källa: Sveriges riksdag"; consolidations are not authentic |
-| `dk-retsinformation` | DK | 6 Acts in Danish (official consolidations): Straffeloven, Aftaleloven, Arveloven, Funktionærloven, Forvaltningsloven, Databeskyttelsesloven; earlier consolidations for two ([notes](docs/jurisdictions/dk.md)) | Real, free unrestricted use (Civilstyrelsen terms); Lovtidende is authentic |
-| `ie-irish-statute-book` | IE | 6 Acts as enacted (English): Unfair Dismissals 1977, Non-Fatal Offences 1997, Theft and Fraud 2001, Consumer Protection 2007, Companies 2014, Data Protection 2018 ([notes](docs/jurisdictions/ie.md)) | Real, Oireachtas (Open Data) PSI Licence; amendments not applied |
-| `it-normattiva` | IT | 6 instruments in Italian: Costituzione (27 versions), Codice civile, Codice penale, privacy code, Statuto dei lavoratori, L. 241/1990 ([notes](docs/jurisdictions/it.md)) | Real, Normattiva legal note (reproduction allowed naming the source; not authentic) |
-| `lv-likumi` | LV | 10 pages in Latvian, current edition: Satversme, Krimināllikums, Civillikums, data processing, Darba and administrative-procedure acts ([notes](docs/jurisdictions/lv.md)) | Real, likumi.lv terms (free access, no copyright in legislation); informative, not authentic |
-| `ee-riigi-teataja` | EE | 6 acts in Estonian: Põhiseadus (4 versions), Isikuandmete kaitse seadus (3), Töölepingu seadus (2), Karistusseadustik, Võlaõigusseadus, Haldusmenetluse seadus ([notes](docs/jurisdictions/ee.md)) | Real, no copyright in legislation (Copyright Act § 5); publisher terms not read - counsel review recommended |
-| `pl-eli-sejm` | PL | 5 acts in Polish as consolidated texts dated 2019-2024 (Kodeks cywilny, karny, pracy, postępowania administracyjnego, data protection act); newer consolidated texts exist only as PDF and are listed as outstanding changes; the Constitution is PDF-only and not ingested ([notes](docs/jurisdictions/pl.md)) | Real, no copyright in official texts (Prawo autorskie art. 4); not current law without the later changes |
-| `us-uscode-house` | US (federal) | 10 positive-law titles of the US Code, official OLRC XML: 1, 5, 11, 17, 18, 28, 31, 35, 38, 44 - about 70,000 provisions at one release point ([notes](docs/jurisdictions/us-code.md)) | Real, public domain (17 U.S.C. 105); no history |
-| `ar-infoleg` | AR | 6 instruments in Spanish: Constitución Nacional (original text), Código Civil y Comercial, Código Penal, Ley 25.326, Ley de Contrato de Trabajo, Ley 19.549 ([notes](docs/jurisdictions/ar.md)) | Real, CC BY 4.0 (portal terms); informative, the Boletín Oficial is authentic |
-| `nl-rechtspraak` | NL (case law) | 30 Dutch court decisions 1919-2022 (Hoge Raad, Raad van State, CRvB, CBb, lower courts) with numbered considerations and links to the ingested statutes ([notes](docs/jurisdictions/nl-case-law.md)) | Real, Rechtspraak open data (source attribution); hand-picked sample |
-| `eu-cellar-case-law` | EU (case law) | 31 judgments of the Court of Justice and General Court in English and French (Schrems, Google Spain, Van Gend en Loos, Costa v ENEL, Francovich, Kadi ...) with links to the ingested EU legislation ([notes](docs/jurisdictions/eu-case-law.md)) | Real, Cellar dataset statement (acknowledgement); hand-picked sample |
-| `ulis-fictional-sample` | XA, XA-NP, XB, XR | Invented constitution, Acts, bill, judgments, bilingual code and treaty | Fictional test data |
+The full, generated list is in **[docs/corpus.md](docs/corpus.md)**: 51 active sources (laws and court decisions)
+and 96 recorded as blocked or unlicensed, each with the publisher's own findings. In short:
+
+* **Laws, current text** for Argentina, Australia (Commonwealth, Queensland, Tasmania), Austria (blocked), Canada (all 953
+  federal Acts in English and French, plus Ontario and Manitoba), Croatia, Czechia, Denmark, Estonia, the EU, Finland,
+  France (108 codes and the main laws, with history), Germany (all 6,139 federal laws and ordinances, manifest only until
+  loaded), Ireland, Italy, Japan, Latvia, Liechtenstein, Luxembourg, the Netherlands, Poland, Slovakia, Slovenia, Spain,
+  Sweden, Switzerland, Taiwan, the UK (England and Wales, Scotland, Wales), the US (federal: US Code, CFR, samples;
+  states: Texas, Utah, Washington, Oregon) and Uruguay.
+* **Court decisions**: Netherlands, EU Court of Justice and General Court, France (Conseil constitutionnel, Cour de
+  cassation, administrative courts), the UK Supreme Court, Sweden, US Supreme Court reports (to 586 U.S.) and the
+  federal courts of appeals, Finland (data-protection decisions).
+* **International**: treaty texts (European Convention on Human Rights, UN Charter, ICJ and ICC statutes ...) as
+  published by the Swiss Federal Chancellery.
+* The committed manifests list the publishers' whole open corpus where an official bulk route exists; the development
+  database holds slices of the largest ones, so figures in the per-country notes are for what was actually loaded.
+* Blocked or waiting for permission: India, New Zealand, Austria's RIS, German court decisions, UK Find Case Law, the
+  European Court of Human Rights, the Supreme Court of Canada, Australian courts, most of Africa and Asia, and others
+  (see the generated list and [docs/permission-requests.md](docs/permission-requests.md)).
 
 Aurelia (`XA`), Borealis (`XB`) and the Northern Union (`XR`) are **invented** (ISO
 user-assigned codes). India (`IN`) has a *draft, unverified* profile and no corpus; queries

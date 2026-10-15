@@ -1,6 +1,6 @@
 # Test results
 
-Recorded on 2026-10-14 in the build container: Python 3.13.16, PostgreSQL 16.15, Node 22, Chromium
+Recorded on 2026-10-14 and 2026-10-15 in the build container: Python 3.13.16, PostgreSQL 16.15, Node 22, Chromium
 (Playwright 1.56.1). These are the actual outputs of the runs, not targets. Older per-corpus sections below
 keep their original numbers; the first table is the current state.
 
@@ -8,28 +8,38 @@ keep their original numbers; the first table is the current state.
 
 | Check | Command | Result |
 |---|---|---|
-| Lint, format, types | `ruff check`, `ruff format --check`, `mypy ulis` | clean (mypy: no issues in 133 source files) |
-| Config | `python -m ulis.cli validate-config` | 34 jurisdictions, 31 sources |
-| Migrations | `alembic upgrade head` (0001-0006: core schema, validity basis, valid-from basis, expression short title, search text for unspaced scripts, research jobs) | applied cleanly |
-| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q` | **737 passed** in 284 s |
+| Lint, format, types | `ruff check`, `ruff format --check`, `mypy ulis` | clean (mypy: no issues in 206 source files) |
+| Config | `python -m ulis.cli validate-config` | 70 jurisdictions, 147 sources (51 active, 96 planned or rejected), 4 concepts |
+| Migrations | `alembic upgrade head` (0001-0006) | applied cleanly |
+| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q` | **1,202 tests** (1,201 passed in the last full run; the one failure, a court-ranking assertion that did not expect the new state courts, was fixed and its file passes) in about 5.5 min |
 
-Real data in the development database: 26 jurisdiction ids, 2,463 instruments, 741,226 provisions, 961,804
-passages, 3,696 source documents, all re-derived from raw bytes by `verify-sources` (`cli status`). The
-fictional jurisdictions (XA, XA-NP, XB, XR) are invented test data.
+Real data in the main development database (`cli status`, taken after the first 30 sources; later sources were
+ingested by their workers into their own scratch databases and each passed `verify-sources` there): 2,463 instruments,
+741,226 provisions, 961,804 passages, 3,696 source documents, all re-derived from raw bytes. Per-source numbers are in
+`docs/jurisdictions/*.md`. The fictional jurisdictions (XA, XA-NP, XB, XR) are invented test data.
+
+What each worker ran on its own scratch database (ingest errors, `verify-sources`): France 5,275 texts and 13,000+
+decisions, 0 errors, 18,839/18,839 pass; eCFR 537 parts, 537/537; Czechia 142 versions, Slovakia 88 pages, all pass;
+Luxembourg 99 consolidations, pass; US Reports and appeals courts (slice) 56/56; US states (TX, UT complete; WA, OR slices)
+158/158; Uruguay 175/175; Sweden, UK Supreme Court, Finland decisions 935/935; Canada provinces and Australian states
+96/96; Liechtenstein, Croatia, Slovenia (slices) 74/74. Only slices of the largest corpora were ingested in the sandbox;
+the committed manifests are the full lists, run by `load-all` on the server.
 
 Known gaps and conflicts, stated rather than hidden:
 
 * Canada: 953 Acts in both languages ingested with **0 errors and 2 conflicts** (a duplicate provision identifier
   in N-16.62, section 15.1-2, in both languages); the second occurrence is not stored.
-* Germany: a 1,101-law trial from the download cache ingested in 191 s: 1,064 laws, about 102,000 provisions, 27
-  laws that contain no text skipped and counted (not errors), **0 errors**. The full 6,139-law load has not been run
-  (the download is at one request per 5 s, at least 8.5 h).
+* Germany: a 1,101-law trial from the download cache ingested in 191 s (1,064 laws, about 102,000 provisions, 27
+  laws that contain no text skipped and counted, **0 errors**). The full 6,139-law load has not been run (at least 8.5 h).
 * Not run here: the Docker image, `docker compose up`, Caddy, systemd, the real language-model path (no API key in
   the sandbox) and any load test. The research pipeline was run end to end with a scripted stand-in for the model on
-  the real database (verifier removes invented claims), and the website was run against the real API in the same
+  the real database (the verifier removes invented claims), and the website was run against the real API in the same
   way (login, job, polling, result).
 * Search quality is uneven: Spanish ranking is weak because the instrument title in the context boosts every
-  provision of that law; Japanese and Chinese search uses character pairs (no morphological analysis).
+  provision of that law; Japanese and Chinese search uses character pairs (no morphological analysis); Czech, Slovak,
+  Croatian and Slovene use the `simple` configuration (no stemming).
+* Licence readings rest on the publishers' own statements and have not been reviewed by counsel; see
+  `docs/licence-review.md` for the open questions.
 
 ## Backend, older breakdown (at the Canada stage)
 
