@@ -231,7 +231,8 @@ def test_manitoba_act() -> None:
     assert d.version_date == date(2025, 6, 3) and d.currency_date == date(2026, 10, 12)
     assert d.work_date == date(1987, 7, 17) and d.validity_basis == "revision_snapshot"
     assert p["section-8-1.1"].text == (
-        "The Lieutenant Governor in Council must designate one member of the adjudication panel as the chief adjudicator."
+        "The Lieutenant Governor in Council must designate one member of the adjudication panel "
+        "as the chief adjudicator."
     )
     assert p["section-8-1.1"].heading == "Chief adjudicator"
     assert p["section-1-def-court"].text == '"court" means the Court of King\'s Bench; (« tribunal »)'
@@ -283,8 +284,9 @@ def test_profiles_scope_provincial_law_to_the_province(catalog: Catalog) -> None
     assert reg.extent_covers(["CA-ON"], "CA-ON")
     assert not reg.extent_covers(["CA-ON"], "CA") and not reg.extent_covers(["CA-ON"], "CA-MB")
     assert not reg.extent_covers(["AU-QLD"], "AU") and not reg.extent_covers(["AU-QLD"], "AU-TAS")
-    assert set(reg.children("CA")) == {f"CA-{c}" for c in "ON BC AB QC MB NS SK NB NL PE YT NT NU".split()}
-    assert set(reg.children("AU")) == {f"AU-{c}" for c in "NSW VIC QLD WA SA TAS ACT NT".split()}
+    provinces = ["ON", "BC", "AB", "QC", "MB", "NS", "SK", "NB", "NL", "PE", "YT", "NT", "NU"]
+    assert set(reg.children("CA")) == {f"CA-{c}" for c in provinces}
+    assert set(reg.children("AU")) == {f"AU-{c}" for c in ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"]}
     for jid, status in (
         ("CA-ON", "pilot"),
         ("CA-MB", "pilot"),
@@ -360,7 +362,7 @@ def test_the_blocking_findings_are_recorded(catalog: Catalog) -> None:
     assert get("au-vic-legislation").licence.automated_processing == "not_allowed"
 
 
-# --------------------------------------------------------------------------- connectors (offline, with a fake HTTP layer)
+# ---- connectors (offline, with a fake HTTP layer)
 
 
 class FakeHttp:
