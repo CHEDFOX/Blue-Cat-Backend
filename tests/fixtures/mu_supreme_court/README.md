@@ -14,6 +14,6 @@ not acceptable.
 | File | What it is |
 |---|---|
 | `robots.txt` | the site's robots.txt as served on 2026-10-14 |
-| `listing-2026-0000.html` | four rows of the listing page, verbatim (Noorbux, Turquoise, Spice Finance II, Govind), in a minimal page shell with a one-page pager |
+| `listing-2026-0000.html` | four rows of the listing page, verbatim except the checkbox values (Noorbux, Turquoise, Spice Finance II, Govind), in a minimal page shell with a one-page pager |
 | `noorbux.pdf` | the PDF of `2026 LPW 125` (Mohammad Nowsad Noorbux v Police), unchanged (405 KB) |
 | `bundle-<node id>.json` | the bundle the connector builds for each of the four rows (listing row, PDF URL/SHA-256/size, `pdftotext 24.02.0` text): 19490869 Noorbux (`2026 LPW 125`, number on its own line), 19490555 Turquoise (`2026 INT 287`, Intermediate Court, numbering glitches, quotation), 19493399 Spice Finance (`2026 PL3 14`, unnumbered, "Page n" footers), 19480656 Govind (`2026 BMB 59`, `[n]` markers) |
