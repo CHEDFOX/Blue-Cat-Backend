@@ -31,7 +31,7 @@ from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
-from ulis.sources.connectors.uscode_house import UscodeHouseConnector, title_url
+from ulis.sources.connectors.uscode_house import UscodeHouseConnector, parse_download_page, title_url
 from ulis.sources.normalized import ParsedDocument
 from ulis.sources.parsers import uslm
 from ulis.sources.parsers.uslm import UslmParseError, parse_uslm, resolve_identifier
@@ -379,9 +379,85 @@ def test_source_is_active_licence_approved_and_registered(catalog: Catalog) -> N
     assert source.authority == "official_non_authentic" and source.jurisdictions == ["US"]
     real = yaml.safe_load((REPO_ROOT / source.access.endpoint).read_text())
     assert real["base_url"] == "https://uscode.house.gov" and real["release_point"]["id"] == "119-120"
-    assert [t["number"] for t in real["titles"]] == [1, 5, 11, 17, 18, 28, 31, 35, 38, 44]
+    assert real["release_point"]["current_through"] == "Public Law 119-120 (10/07/2026)"
     assert real["release_point"]["id"] in uslm.USC_RELEASE_POINT_DATES
     UscodeHouseConnector(REPO_ROOT / source.access.endpoint, SOURCE, Path("unused"))._manifest()
+
+
+def test_committed_manifest_lists_every_main_title_with_its_pin_and_legal_status() -> None:
+    """The whole open scope: titles 1-52 and 54 (53 is reserved), 27 of them positive law, every archive pinned."""
+    real = yaml.safe_load((REPO_ROOT / "config" / "manifests" / "us-uscode-house.yaml").read_text())
+    titles = real["titles"]
+    assert [t["number"] for t in titles] == [*range(1, 53), 54]
+    assert all(len(t["sha256"]) == 64 and set(t["sha256"]) <= set("0123456789abcdef") for t in titles)
+    assert len({t["sha256"] for t in titles}) == 53 and all(t["name"] for t in titles)
+    positive = [t["number"] for t in titles if t["positive_law"]]
+    assert positive == [
+        1,
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        13,
+        14,
+        17,
+        18,
+        23,
+        28,
+        31,
+        32,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        44,
+        46,
+        49,
+        51,
+        54,
+    ]
+    assert {26, 42} <= {t["number"] for t in titles if not t["positive_law"]}
+    by_number = {t["number"]: t for t in titles}
+    assert by_number[1]["sha256"] == SHA[1] and by_number[17]["sha256"] == SHA[17]
+    assert by_number[27]["sha256"] == SHA[27]
+    # the status in the manifest is the status the XML states, for every fixture
+    for n in (1, 17, 27):
+        assert _doc(n).ext["positive_law"] is by_number[n]["positive_law"]
+
+
+def test_download_page_is_read_as_the_olrc_prints_it() -> None:
+    """An excerpt of the real page: the asterisk marks positive law, the changed-title class and a style
+    attribute do not hide a title, and the reserved title 53 and the appendix rows are not main titles."""
+    page = parse_download_page((FIX / "download_page_excerpt.html").read_text(encoding="utf-8"))
+    assert (page.release_point, page.current_through) == ("119-120", "Public Law 119-120 (10/07/2026)")
+    assert page.titles == [
+        {"number": 1, "name": "General Provisions", "positive_law": True},
+        {"number": 2, "name": "The Congress", "positive_law": False},
+        {"number": 5, "name": "Government Organization and Employees", "positive_law": True},
+        {"number": 31, "name": "Money and Finance", "positive_law": True},
+        {"number": 54, "name": "National Park Service and Related Programs", "positive_law": True},
+    ]
+    with pytest.raises(ManifestError, match="currency"):
+        parse_download_page("<html></html>")
+
+
+def test_a_missing_archive_is_reported_and_the_other_titles_are_still_fetched(tmp_path: Path) -> None:
+    manifest = _manifest(tmp_path, [1, 17])
+    cache = _cache(tmp_path, [17])
+    url = title_url("119-120", 1)
+    gone = cache / "uscode.house.gov" / url.removeprefix("https://uscode.house.gov/")
+    gone.parent.mkdir(parents=True, exist_ok=True)
+    gone.write_bytes(b"")
+    gone.with_name(gone.name + ".meta.json").write_text(json.dumps({"url": url, "status": 404}))
+    connector = UscodeHouseConnector(manifest, SOURCE, cache, offline=True)
+    docs = list(connector.fetch())
+    assert [d.external_id for d in docs] == ["uscode-house:usc17@119-120"]
+    assert len(connector.fetch_errors) == 1 and "not found (404)" in connector.fetch_errors[0]
 
 
 # ---------------------------------------------------------------- PostgreSQL
@@ -504,6 +580,12 @@ def test_documents_say_whether_the_title_is_positive_law(
     hit27 = next(h for h in liquor["results"] if h["document"]["uri"] == "/us/usc/t27")
     assert hit27["citation"].startswith("27 U.S.C. § ")
     assert "not enacted as positive law - prima facie evidence only, 1 U.S.C. 204" in hit27["document"]["title"]
+    # the legal status is also a limitation on the result itself, and only on non-positive-law titles
+    assert "NOT_POSITIVE_LAW" in _codes(hit27) and "NOT_POSITIVE_LAW" not in _codes(hit)
+    message = next(lim for lim in hit27["limitations"] if lim["code"] == "NOT_POSITIVE_LAW")["message"]
+    assert "only prima facie evidence of the law (1 U.S.C. 204)" in message and "Statutes at Large prevails" in message
+    detail = provision_at(session, catalog, hit27["unit"]["uri"], date(2026, 10, 14))
+    assert "NOT_POSITIVE_LAW" in _codes(detail)
 
 
 @pytest.mark.db

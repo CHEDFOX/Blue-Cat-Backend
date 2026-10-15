@@ -17,6 +17,7 @@ from ulis.db import models as m
 from ulis.languages import search_config, segment_for_search
 
 INDEX_VERSION = 1
+CHUNK = 10_000  # ids per IN (...) list
 
 
 def rebuild_passages(
@@ -30,14 +31,21 @@ def rebuild_passages(
     inst_ids = list(session.scalars(select(m.Instrument.id))) if rebuild_all else list(instrument_ids or [])
     judg_ids = list(session.scalars(select(m.Judgment.id))) if rebuild_all else list(judgment_ids or [])
     count = 0
-    if inst_ids:
-        session.execute(delete(m.Passage).where(m.Passage.instrument_id.in_(inst_ids)))
-        count += _index_instruments(session, inst_ids)
-    if judg_ids:
-        session.execute(delete(m.Passage).where(m.Passage.judgment_id.in_(judg_ids)))
-        count += _index_judgments(session, judg_ids)
+    # In chunks: a statement takes at most 65,535 bind parameters, and a run over the Statutes at Large or the
+    # annual CFR editions touches far more instruments than that.
+    for inst_chunk in _chunks(inst_ids):
+        session.execute(delete(m.Passage).where(m.Passage.instrument_id.in_(inst_chunk)))
+        count += _index_instruments(session, inst_chunk)
+    for judg_chunk in _chunks(judg_ids):
+        session.execute(delete(m.Passage).where(m.Passage.judgment_id.in_(judg_chunk)))
+        count += _index_judgments(session, judg_chunk)
     session.flush()
     return count
+
+
+def _chunks(ids: list[Any]) -> Iterable[list[Any]]:
+    for start in range(0, len(ids), CHUNK):
+        yield ids[start : start + CHUNK]
 
 
 def _index_instruments(session: Session, instrument_ids: list[Any]) -> int:
@@ -52,7 +60,7 @@ def _index_instruments(session: Session, instrument_ids: list[Any]) -> int:
             .join(m.Provision, m.ProvisionVersion.provision_id == m.Provision.id)
             .where(m.Provision.instrument_id == instrument.id)
         ).all()
-        headings = _headings_by_provision_language(session, list(provisions))
+        headings = _headings_by_provision_language(session, instrument.id)
         for pv, iv in rows:
             prov = provisions[pv.provision_id]
             if not prov.index_unit or pv.status == "repealed" or not pv.text:
@@ -92,11 +100,15 @@ def _index_instruments(session: Session, instrument_ids: list[Any]) -> int:
     return count
 
 
-def _headings_by_provision_language(session: Session, provision_ids: list[Any]) -> dict[tuple[Any, str], str]:
+def _headings_by_provision_language(session: Session, instrument_id: Any) -> dict[tuple[Any, str], str]:
+    """First heading of each provision per language. Joined on the instrument, not an ``IN (ids)`` list: a title of
+    the United States Code has more provisions than PostgreSQL accepts bind parameters in one statement (65,535)."""
     out: dict[tuple[Any, str], str] = {}
-    if not provision_ids:
-        return out
-    for pv in session.scalars(select(m.ProvisionVersion).where(m.ProvisionVersion.provision_id.in_(provision_ids))):
+    for pv in session.scalars(
+        select(m.ProvisionVersion)
+        .join(m.Provision, m.ProvisionVersion.provision_id == m.Provision.id)
+        .where(m.Provision.instrument_id == instrument_id)
+    ):
         if pv.heading:
             out.setdefault((pv.provision_id, pv.language), pv.heading)
     return out

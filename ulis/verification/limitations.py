@@ -310,6 +310,16 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
                     f"Equally authentic language versions exist ({langs}); interpretation may require comparing them.",
                 )
             )
+    if (data.instrument.ext or {}).get("positive_law") is False:
+        out.append(
+            Limitation(
+                "NOT_POSITIVE_LAW",
+                "warning",
+                "This title of the United States Code has not been enacted into positive law: it is an editorial "
+                "compilation of Federal statutes and only prima facie evidence of the law (1 U.S.C. 204). The wording "
+                "may be rebutted by the underlying statute, and the text in the Statutes at Large prevails.",
+            )
+        )
     if iv.text_origin == "unofficial_compilation":
         out.append(
             Limitation(
