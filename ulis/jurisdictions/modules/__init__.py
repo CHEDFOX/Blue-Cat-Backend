@@ -33,6 +33,10 @@ from ulis.jurisdictions.modules.pl import PlModule
 from ulis.jurisdictions.modules.se import SeModule
 from ulis.jurisdictions.modules.tw import TwModule
 from ulis.jurisdictions.modules.us import UsModule
+from ulis.jurisdictions.modules.us_or import UsOrModule
+from ulis.jurisdictions.modules.us_tx import UsTxModule
+from ulis.jurisdictions.modules.us_ut import UsUtModule
+from ulis.jurisdictions.modules.us_wa import UsWaModule
 
 MODULES: dict[str, JurisdictionModule] = {
     m.id: m
@@ -58,6 +62,10 @@ MODULES: dict[str, JurisdictionModule] = {
         NlModule(),
         PlModule(),
         UsModule(),
+        UsOrModule(),
+        UsTxModule(),
+        UsUtModule(),
+        UsWaModule(),
         AuModule(),
         AtModule(),
         ArModule(),

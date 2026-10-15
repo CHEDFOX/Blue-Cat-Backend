@@ -1,0 +1,68 @@
+# Oregon Revised Statutes (ORS), chapter files of the Oregon Legislature's website.
+# Facts below were read on 2026-10-14 from the publisher's own pages:
+#   https://www.oregonlegislature.gov/robots.txt - "User-agent: MS Search 6.0 Robot / Disallow:" (an empty Disallow for one
+#        Microsoft search robot); no rule for any other robot, no Crawl-delay
+#   https://www.oregonlegislature.gov/Pages/disclaimer.aspx - "Information on the Oregon Legislature's website is made
+#        available as a public service. It does not constitute or represent an official record of the Oregon Legislature ...
+#        The Legislature, its offices, and employees make no warranty as to the accuracy, reliability, completeness, or
+#        timeliness of any information"; no copyright statement, no terms about automated use
+#   https://www.oregonlegislature.gov/bills_laws/Pages/ORS.aspx - "Oregon Revised Statutes (ORS) - 2025 Edition. The
+#        Oregon Revised Statutes are the codified laws ... Disclaimer: The text appearing in this database was produced from
+#        material provided by the Legislative Counsel Committee of the Oregon Legislative Assembly. The official text is the
+#        printed published copy of the Oregon Revised Statutes. The text in the database is not the official text of Oregon
+#        law." ORS annotations are a separate publication. The page's SharePoint list endpoints (_vti_bin/owssvr.dll)
+#        answered 401 and are not used.
+#   https://www.oregonlegislature.gov/bills_laws/BillsLawsEDL/ORS_TitlesChapters.pdf - the Table of Titles and Chapters
+#        (chapter ranges of each title), the basis of the manifest's candidate chapter list
+schema_version: 1
+id: us-or-ors
+name: Oregon Revised Statutes (2025 Edition), chapter files
+publisher: Oregon Legislative Assembly (Legislative Counsel Committee)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [US-OR]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  The chapters of the ORS 2025 Edition inside the ranges of the Table of Titles and Chapters (689 candidate chapter
+  numbers, of which those that exist are ingested), current text with the Legislative Counsel's bracketed source
+  credits; no annotations, no Oregon Laws (session laws), no Oregon Constitution or rules.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/us-or-ors.yaml
+update_frequency: a new edition every odd year; the 2025 Edition does not include the 2025 special session or the 2026 regular session
+rate_limits: >-
+  None published. ULIS waits 5 s between requests (about 1 hour for all candidates), identifies itself and caches every file.
+licence:
+  id: OR-LEG-PUBLIC-SERVICE
+  name: Published as a public service; no licence or copyright statement; the database text is declared not official
+  url: https://www.oregonlegislature.gov/Pages/disclaimer.aspx
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - read the Legislature's disclaimer and the ORS page (above). Neither forbids copying or automated
+    retrieval, no robots rule applies to ULIS, and no copyright claim is made on these pages. The files hold the
+    enacted statutes without annotations. Approved for research use (search, quotation with citation) on that reading
+    only; counsel review is recommended before production use.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: unknown
+  attribution_required: false
+  attribution_text: >-
+    Oregon Revised Statutes, 2025 Edition, Oregon Legislature (oregonlegislature.gov). Database text, not the official print.
+  conditions:
+    - The publisher states that the printed ORS, not this text, is official; verify against it.
+    - Counsel review is recommended before a commercial deployment.
+provenance: >-
+  The chapter file exactly as received (Windows-1252 HTML) inside the shared envelope of ulis.sources.us_state_bundle
+  (SHA-256 recorded). The printed ORS is the official text.
+known_limitations:
+  - Database text, not the official printed ORS (the publisher says so). The 2025 Edition does not include the 2025 special session or the 2026 regular session; chapters affected by them carry the Legislative Counsel's notices, which are recorded as outstanding changes without text.
+  - Dated by retrieval date only (attested_at_edition); no start dates, so no point-in-time history (ORS Archives are single PDFs and are not ingested).
+  - Sections are not split into subsections. Repealed and renumbered sections (printed only as a bracket of history) are recorded as repealed with no text. Editorial Note paragraphs (and session-law text printed in them) are kept as notes, not text.
+  - "The chapter list is a set of candidates (the publisher lists ranges, not files): numbers without a file are skipped, and a chapter with a letter that is not in the manifest is missed."
+  - Cross references in the text are plain "ORS 163.095" strings and are not turned into links.
+status: active
+connector: us_or_ors
+parser: us_or_ors_html

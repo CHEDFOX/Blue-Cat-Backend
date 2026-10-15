@@ -1,0 +1,72 @@
+# Utah Code, title XML files of the Utah Legislature's website (Office of Legislative Research and General Counsel).
+# Facts below were read on 2026-10-14 from the publisher's own pages:
+#   https://le.utah.gov/robots.txt - "User-agent: * / Crawl-delay: 10 / Disallow: /templates/ /ASP/ /asp/ /includes/ /JSP/
+#        /RSS/ /lfa/cobi/t3$t/ /lfa/dashboard_dev/ /lfa/devTest/"; the paths ULIS reads (/xcode/...) are not disallowed
+#   https://le.utah.gov/documents/disclaimer.htm - Terms of Use: "The information made available at a web site maintained by
+#        the staff offices of the Utah State Legislature ... is made available on the web site as a public service ...
+#        2. Use of Information: Except when specifically stated on a legislative web site and except for the design or
+#        layout of a web page, anyone may view, copy, or distribute information found on a legislative web site for
+#        personal use without owing an obligation to the Legislature. A person or entity may not use any part of the
+#        information on a legislative web site for commercial purposes or publish the information for commercial gain
+#        without proper attribution of source. The Legislature reserves the right ... to elect to charge a fee ... 4. The
+#        Legislature makes no warranty that information on a legislative web site is free from copyright claims"
+#   https://le.utah.gov/xcode/js/code.js (the page script of the Code): "The Office of Legislative Research and General
+#        Counsel is the official publisher of the Utah Code. The code provisions available above constitute the current
+#        and official electronic record of the Utah Code. Other, unofficial, publications of the Utah Code, including
+#        annotated versions, are produced by third parties."
+#   https://le.utah.gov/xcode/code.html + C_1800010118000101.html (index of 96 titles) and Title<N>/C<N>_<version>.xml
+#        (the download options of every chapter page offer PDF, RTF and XML; title files are linked by the same scheme)
+schema_version: 1
+id: us-ut-code
+name: Utah Code (title XML)
+publisher: Utah State Legislature (Office of Legislative Research and General Counsel)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [US-UT]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  The 96 titles of the Utah Code listed by the current index (about 23,000 sections), current text with the
+  legislature's history lines and the future versions it prints (effective and end dates); no annotations, no Utah
+  Constitution, Laws of Utah or administrative rules.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/us-ut-code.yaml
+update_frequency: as the legislature enacts changes (a new file name for a title when it changes)
+rate_limits: >-
+  robots.txt asks for Crawl-delay 10: ULIS waits 10 s between requests (98 requests, about 17 minutes), identifies
+  itself, caches every file and checks every URL against robots.txt.
+licence:
+  id: UT-LEG-TERMS-OF-USE
+  name: Utah Legislature Terms of Use - copying and distribution allowed for personal use; commercial use or publication for commercial gain only with attribution of source
+  url: https://le.utah.gov/documents/disclaimer.htm
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - read the Terms of Use (above): viewing and copying are allowed, and use for commercial purposes
+    needs "proper attribution of source"; nothing forbids automated retrieval, and robots.txt allows the paths.
+    The legislature declares the Code on its site "the current and official electronic record of the Utah Code".
+    ULIS always carries the attribution below. Approved for research use; the Legislature reserves the right to charge.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Utah Code, Utah State Legislature, Office of Legislative Research and General Counsel (le.utah.gov/xcode).
+  conditions:
+    - Attribute the source (Utah Legislature) whenever the text is used commercially or published for commercial gain.
+    - The Legislature may charge a fee or change the terms; re-read the Terms of Use before each large re-download.
+  notes: >-
+    The Terms exclude "the design or layout of a web page" and give no warranty that the information is free of third-party
+    copyright claims (annotated editions are third-party publications and are not ingested).
+provenance: >-
+  The title XML exactly as received inside the shared envelope of ulis.sources.us_state_bundle (SHA-256 recorded).
+known_limitations:
+  - The publisher calls the online Code its "current and official electronic record"; ULIS records it as non-authentic because no statute making it legally authentic was verified.
+  - "The XML states no start date for a section already in force: such text is attested at the retrieval date (attested_at_edition). Only versions that the Code prints for the future carry stated dates (effdate, enddate); earlier versions (the Historical Code) are not ingested."
+  - "Sections are not split into subsections: the text keeps each subsection on its own line with its printed label, and a subsection is cited by pinpoint within the section."
+  - Tables are flattened to lines of cells; a character the XML encodes by code (char set/char) is written as a placeholder because the XML does not say what it is.
+status: active
+connector: us_ut_code
+parser: us_ut_code_xml

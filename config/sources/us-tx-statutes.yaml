@@ -1,0 +1,70 @@
+# Texas statutes (Texas Constitution and Statutes site of the Texas Legislative Council), HTML zips of the codes.
+# Facts below were read on 2026-10-14 from the publisher's own pages:
+#   https://tcss.legis.texas.gov/robots.txt (the file host), https://tlc.texas.gov/robots.txt - HTTP 404: no rules
+#   https://statutes.capitol.texas.gov/robots.txt - HTTP 200 text/html: the single-page application's shell, not a rules file
+#        (the website itself is not fetched; only the file host is)
+#   https://capitol.texas.gov/robots.txt - disallows /Help/, /Search/, /Reports/, /TLODOCS/ ... of the legislative-information
+#        site (a different host that ULIS does not use; its Help pages, where terms might be, are therefore not read)
+#   https://statutes.capitol.texas.gov/download ("Download Statutes" page; its list is assets/StatuteCodeDownloads.json):
+#        "The form on this page allows you to choose a statute code and then select a PDF, HTML or Word document to download
+#        to your device ... 'Zipped' chapter files that include individual chapter files for a single code within a zip
+#        archive." Files are served from https://tcss.legis.texas.gov/resources/Zips/<CODE>.htm.zip
+#   https://statutes.capitol.texas.gov/information - privacy policy only ("The Texas Legislative Council (TLC) maintains the
+#        Texas Constitution and Statutes site as a public service"); no copyright notice or terms of use on the site
+#   Texas Government Code 323.0145(d) (read in the Council's own GV.htm.zip): the Council's Internet access to legislative
+#        information "(2) does not alter, diminish, or relinquish any copyright or other proprietary interest or entitlement
+#        of the State of Texas or a private entity under contract with the state"
+schema_version: 1
+id: us-tx-statutes
+name: Texas statutes (Texas Legislative Council), HTML zip per code
+publisher: Texas Legislative Council
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [US-TX]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  The 30 codes offered on the Download Statutes page (29 codes and Vernon's Civil Statutes), current text, as one
+  HTML zip per code (about 120,000 sections and articles); the Texas Constitution is not ingested (not a statute).
+access:
+  method: bulk_download
+  endpoint: config/manifests/us-tx-statutes.yaml
+update_frequency: after each session (the site states what legislative session the statutes are current through)
+rate_limits: >-
+  None published. ULIS waits 5 s between requests (30 requests, about 70 MB), identifies itself and caches every file.
+licence:
+  id: TX-TLC-PUBLIC-SERVICE
+  name: Published by the Council as a public service for download; no licence stated; state copyright reserved by Government Code 323.0145(d)(2)
+  url: https://statutes.capitol.texas.gov/download
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the Council offers the zips for download on its official site, publishes no robots.txt for the file
+    host and no terms of use for the statutes site; Government Code 323.0145(d)(2) says electronic access does not give
+    up any state copyright. The statutes are enacted law (no annotations are in the files). Approved for research use
+    (search, quotation with citation) on that reading only; counsel review is recommended before production use.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: unknown
+  attribution_required: false
+  attribution_text: >-
+    Texas Statutes, Texas Legislative Council (statutes.capitol.texas.gov). Online version, not the official print.
+  conditions:
+    - The State of Texas reserves any copyright; the enacted statutes are public law, but a compilation claim cannot be excluded.
+    - Counsel review is recommended before a commercial deployment.
+  notes: >-
+    No terms of use were found for the statutes site (the Council's legislative-information site, which has a Help
+    area, disallows robots from /Help/ and was not read).
+provenance: >-
+  The zip exactly as received inside the shared envelope of ulis.sources.us_state_bundle (SHA-256 recorded). Zip
+  members are HTML chapter files.
+known_limitations:
+  - Online version, not the official print; the site states the legislative session the statutes are current through (not recorded in the files). Dated by retrieval date only (attested_at_edition).
+  - The files print several versions of a provision side by side with the Council's notes ("Text of section effective until ..."); the notes stay in the text and are not turned into dates. A section number printed more than once (conflicting amendments) is kept as separate provisions with a note.
+  - Sections are not split into subsections. Source credit lines and notes after a section are kept in the note; a section whose credit lines end with "Repealed by" is recorded as repealed with no text.
+  - Stale copies inside the zips (members named *-old, *_old, "* - Copy") are not ingested.
+  - Texas Constitution, rules of procedure and local laws outside the Special District Local Laws Code are not ingested.
+status: active
+connector: us_tx_statutes
+parser: us_tx_statutes_zip

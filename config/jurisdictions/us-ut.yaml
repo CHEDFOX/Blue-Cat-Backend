@@ -1,0 +1,61 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED.
+# Utah state law: the statutes only (no case law, no regulations, no constitution). Every statement must be
+# confirmed by a qualified Utah lawyer before verification.status can become "reviewed".
+schema_version: 1
+id: US-UT
+profile_version: 0.1.0
+name: Utah
+names: {en: Utah}
+kind: constituent_unit
+parent: US
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: >-
+    To verify - a State of the United States; its law applies inside the State only, federal law applies in it
+    (profile US, reached through the parent chain). The State's courts are bound by the federal Constitution and
+    by the U.S. Supreme Court on federal questions.
+legislative_institutions:
+  - id: US-UT-LEG
+    name: Utah State Legislature
+    instrument_types: [act]
+instrument_types: [act]
+norm_hierarchy: [act]
+courts:
+  - id: US-UT-SC
+    name: Utah Supreme Court
+    rank: 1
+    appeals_to: [US-SC]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+  notes: >-
+    To verify - decisions of the State's highest court bind the State's lower courts; only the apex court(s) are
+    modelled, intermediate courts are not. Case law is not ingested.
+citation:
+  module: us_ut
+  notes: >-
+    The official (non-annotated) Utah Code is cited Utah Code § <title>-<chapter>-<section>, for example Utah Code § 76-5-203(2).
+  examples:
+    - "Utah Code § 76-5-203"
+    - "Utah Code § 78B-6-101"
+    - "Utah Code § 59-10-104"
+publication:
+  official_sources: [us-ut-code]
+  commencement: >-
+    To verify - To verify - an Act takes effect 60 days after the general session adjourns unless it sets another date (Utah Const. art. VI, 25).
+  amendment: Textual amendment by later session laws; the code is a compilation of the enacted law.
+  repeal: Express repeal by a later enactment.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - "Only the Utah Code (96 titles, current text, with the history lines and the future versions the Code prints). No Utah Constitution, Laws of Utah, administrative rules, annotated editions, case law or local law."
+    - "Past versions (the Historical Code) are not ingested; a section in force has no stated start date and is attested at the retrieval date. Only versions printed for the future carry stated start and end dates."
+    - "Sections are not split into subsections (each subsection is a line with its label). Tables are flattened; one encoded character is written as a placeholder."
+    - "The Terms of Use ask for attribution of the source in commercial use; the legislature reserves the right to charge a fee."
