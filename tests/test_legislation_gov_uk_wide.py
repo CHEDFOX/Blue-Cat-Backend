@@ -11,13 +11,15 @@ import io
 import re
 import shutil
 import urllib.error
-from datetime import date
+from datetime import UTC, date, datetime
 from email.message import Message
 from pathlib import Path
 from typing import Any
 
 import pytest
 import yaml
+from sqlalchemy import Engine, text
+from sqlalchemy.exc import DBAPIError
 from sqlalchemy.orm import Session, sessionmaker
 
 from ulis.catalog import Catalog
@@ -315,3 +317,44 @@ def test_search_finds_a_regnal_year_act_with_its_citation(
     codes = {lim["code"] for lim in hit["limitations"]}
     assert {"REVISED_TEXT", "PROFILE_UNVERIFIED"} <= codes
     assert hit["source"]["attribution"].startswith("Contains public sector information")
+
+
+@pytest.mark.db
+def test_a_run_keeps_autovacuum_off_its_tables(
+    engine: Engine,
+    session_factory: sessionmaker[Session],
+    catalog: Catalog,
+    store: LocalObjectStore,
+    regnal_ingested: IngestionReport,
+) -> None:
+    """A run is one transaction: autovacuum, which cannot see its rows, would record "no rows" for the tables it
+    fills and the planner would then take minutes per Act (measured on a 56-Act slice). The run's ANALYZE holds the
+    lock that makes vacuum wait, so a vacuum tried in the middle of a run is refused here by a short lock timeout."""
+    now = datetime(2026, 10, 15, tzinfo=UTC)
+    docs = [
+        RawDocument(f"test:{name}", f"https://example.org/{name}", "application/akn+xml", _read(path), now, {})
+        for name, path in (("clerk", CLERK), ("burial", BURIAL))
+    ]
+    outcome: dict[str, str] = {}
+
+    class _MidRunVacuum:
+        fetch_errors: list[str] = []
+
+        def fetch(self):  # type: ignore[no-untyped-def]
+            yield docs[0]
+            with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as conn:
+                conn.execute(text("SET lock_timeout = '1s'"))
+                try:
+                    conn.execute(text("VACUUM provisions"))
+                    outcome["vacuum"] = "ran"
+                except DBAPIError as exc:
+                    outcome["vacuum"] = type(exc.orig).__name__
+            yield docs[1]
+
+    with session_factory() as session:
+        report = Ingestor(session, catalog, store).ingest_source(
+            "gb-legislation-gov-uk", actor="pytest", connector=_MidRunVacuum()
+        )
+        session.commit()
+    assert outcome == {"vacuum": "LockNotAvailable"}
+    assert report.errors == [] and report.documents_seen == 2

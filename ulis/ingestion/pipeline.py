@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any
 
 from sqlalchemy import func, select, text
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import Session
 
 from ulis.catalog import Catalog
@@ -404,15 +405,22 @@ class Ingestor:
         self._statistics_at = 0.0
 
     def _refresh_statistics(self) -> None:
-        """ANALYZE the tables a run fills, inside the run's transaction.
+        """ANALYZE the tables a run fills, inside the run's transaction, and keep autovacuum away from them.
 
         A run is one transaction, so autovacuum cannot see the rows it has inserted. When autovacuum vacuums these
         tables meanwhile (an empty table, the leftovers of a rolled-back run) it records "no rows", the planner then
         plans the per-instrument lookups as nested loops over sequential scans, and each Act takes minutes
         (measured: 2 minutes per document once 25,000 provision versions were in the transaction). ANALYZE counts
-        the rows of its own transaction.
+        the rows of its own transaction, and the lock it needs (held to the end of the transaction) makes autovacuum
+        skip the table. The lock is only tried: when another run holds it (``load-all --jobs``), that run keeps the
+        statistics current and this one does not wait for it.
         """
         for table in STATISTICS_TABLES:
+            try:
+                with self.session.begin_nested():
+                    self.session.execute(text(f"LOCK TABLE {table} IN SHARE UPDATE EXCLUSIVE MODE NOWAIT"))
+            except OperationalError:
+                continue
             self.session.execute(text(f"ANALYZE {table}"))
         self._statistics_at = time.monotonic()
 
