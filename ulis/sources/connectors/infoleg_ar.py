@@ -12,6 +12,12 @@ It yields one *bundle* per norm (JSON, format ``ulis-infoleg-bundle/1``): both p
 (decoded UTF-8), with their URLs and retrieval times. The pages state no date of update, so the bundle is
 what lets the parser attest the text at its retrieval date. The bundle is the stored raw document.
 
+A manifest entry that carries ``dataset_row`` (the whole-collection manifest of ``scripts/build_infoleg_manifest.py``
+lists every national law that has a text, from the Ministry's open-data CSV) takes its metadata from that row instead
+of the summary page, which halves the number of requests: the text page is the only one fetched, and the bundle
+(format ``ulis-infoleg-bundle/2``) holds it together with the row and the dataset's identity. A page that is missing
+(404) or has no text is skipped and reported in ``fetch_errors``; a refusal (403, 429 ...) stops the run.
+
 Built on :class:`PoliteHttp`: identifying User-Agent, a delay between requests (the larger of the manifest's
 and robots.txt's ``Crawl-delay``, which is 10 s), HTTPS to this one host only, refusals respected, cache under
 ``<cache_dir>/www.argentina.gob.ar/normativa/nacional/norma-<id>/``. robots.txt is read first (one cached
@@ -35,7 +41,7 @@ from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.likumi_lv import robots_disallowed
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
-from ulis.sources.parsers.infoleg_ar import BUNDLE_FORMAT
+from ulis.sources.parsers.infoleg_ar import BUNDLE_FORMAT, BUNDLE_FORMAT_V2
 
 HOST = "www.argentina.gob.ar"
 BASE_URL = f"https://{HOST}"
@@ -84,6 +90,7 @@ class InfolegArConnector:
         self.offline = offline
         self._sleep = sleep
         self.http: PoliteHttp | None = None
+        self.fetch_errors: list[str] = []
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -96,21 +103,35 @@ class InfolegArConnector:
         laws = manifest.get("laws") or []
         if not laws:
             raise ManifestError("the manifest lists no documents")
+        if float(manifest.get("crawl_delay_seconds", 10)) < 10:
+            raise ManifestError("crawl_delay_seconds must be at least 10 (robots.txt Crawl-delay)")
+        seen: set[str] = set()
         for law in laws:
-            if not re.fullmatch(r"[1-9][0-9]{0,8}", str(law.get("id", ""))):
-                raise ManifestError(f"invalid document id {law.get('id')!r}")
+            if not re.fullmatch(r"[1-9][0-9]{0,8}", str(law.get("id", ""))) or str(law["id"]) in seen:
+                raise ManifestError(f"invalid or repeated document id {law.get('id')!r}")
+            seen.add(str(law["id"]))
             if law.get("text") not in TEXT_PATHS:
                 raise ManifestError(f"document {law.get('id')}: text must be one of {sorted(TEXT_PATHS)}")
+            row = law.get("dataset_row")
+            if row is not None and (
+                not isinstance(row, dict)
+                or row.get("tipo_norma") != "Ley"
+                or not re.fullmatch(r"[0-9]{1,6}", str(row.get("numero_norma", "")))
+            ):
+                raise ManifestError(f"document {law['id']}: dataset_row must describe a numbered Ley")
+        if any("dataset_row" in law for law in laws) and not (manifest.get("dataset") or {}).get("sha256"):
+            raise ManifestError("entries with dataset_row need the manifest's dataset block (record, file, sha256)")
         return manifest
 
-    def _get(self, path: str, cache_key: str, disallowed: list[re.Pattern[str]]) -> tuple[str, dict[str, Any]]:
+    def _get(self, path: str, cache_key: str, disallowed: list[re.Pattern[str]]) -> tuple[str, dict[str, Any]] | None:
+        """The page and its metadata; None for 404. A disallowed path or a refusal raises."""
         if any(rule.match(path) for rule in disallowed):
             raise FetchError(f"{BASE_URL}{path} is disallowed by robots.txt; not fetched")
         assert self.http is not None
         url = f"{BASE_URL}{path}"
         got = self.http.get(url, cache_key=cache_key)
         if got is None:
-            raise FetchError(f"{url}: not found (404)")
+            return None
         data, meta = got
         try:
             return data.decode("utf-8"), meta
@@ -137,32 +158,55 @@ class InfolegArConnector:
             norm_id = int(law["id"])
             kind = law["text"]
             base = f"/normativa/nacional/norma-{norm_id}"
-            summary_key = f"normativa/nacional/norma-{norm_id}/resumen.html"
-            summary, summary_meta = self._get(base, summary_key, disallowed)
-            if f'href="{BASE_URL}{base}"' not in summary or '<dl class="normativa">' not in summary:
-                raise FetchError(
-                    f"{BASE_URL}{base}: not an InfoLEG summary page for norm {norm_id}; not ingested. "
-                    f"Remove {self.http.cache_path(BASE_URL + base, summary_key)} after checking the site."
-                )
+            row = law.get("dataset_row")
+            summary: tuple[str, dict[str, Any]] | None = None
+            if row is None:
+                summary_key = f"normativa/nacional/norma-{norm_id}/resumen.html"
+                summary = self._get(base, summary_key, disallowed)
+                if summary is None:
+                    self.fetch_errors.append(f"infoleg-ar:{norm_id}: {BASE_URL}{base} not found (404); skipped")
+                    continue
+                if f'href="{BASE_URL}{base}"' not in summary[0] or '<dl class="normativa">' not in summary[0]:
+                    raise FetchError(
+                        f"{BASE_URL}{base}: not an InfoLEG summary page for norm {norm_id}; not ingested. "
+                        f"Remove {self.http.cache_path(BASE_URL + base, summary_key)} after checking the site."
+                    )
+                text_path = f"{base}/{TEXT_PATHS[kind]}"
+                if f'href="{text_path}"' not in summary[0]:
+                    raise FetchError(
+                        f"{BASE_URL}{base}: the page does not link to {text_path} (no {kind} text offered); "
+                        "set the manifest's text: for this norm accordingly"
+                    )
             text_path = f"{base}/{TEXT_PATHS[kind]}"
-            if f'href="{text_path}"' not in summary:
-                raise FetchError(
-                    f"{BASE_URL}{base}: the page does not link to {text_path} (no {kind} text offered); "
-                    "set the manifest's text: for this norm accordingly"
-                )
             text_key = f"normativa/nacional/norma-{norm_id}/{TEXT_PATHS[kind]}.html"
-            text, text_meta = self._get(text_path, text_key, disallowed)
+            page = self._get(text_path, text_key, disallowed)
+            if page is None:
+                self.fetch_errors.append(f"infoleg-ar:{norm_id}: {BASE_URL}{text_path} not found (404); skipped")
+                continue
+            text, text_meta = page
             if f'class="infoleg-norma-body infoleg-mode-{kind}"' not in text:
-                raise FetchError(f"{BASE_URL}{text_path}: no {kind} text found in the page; not ingested")
-            bundle = {
-                "format": BUNDLE_FORMAT,
-                "infoleg_id": norm_id,
-                "text_kind": kind,
-                "pages": {
-                    "summary": _page(summary, summary_meta),
-                    "text": _page(text, text_meta),
-                },
-            }
+                if row is None:
+                    raise FetchError(f"{BASE_URL}{text_path}: no {kind} text found in the page; not ingested")
+                self.fetch_errors.append(f"infoleg-ar:{norm_id}: {BASE_URL}{text_path} holds no {kind} text; skipped")
+                continue
+            if row is None:
+                assert summary is not None
+                bundle: dict[str, Any] = {
+                    "format": BUNDLE_FORMAT,
+                    "infoleg_id": norm_id,
+                    "text_kind": kind,
+                    "pages": {"summary": _page(*summary), "text": _page(text, text_meta)},
+                }
+            else:
+                bundle = {
+                    "format": BUNDLE_FORMAT_V2,
+                    "infoleg_id": norm_id,
+                    "text_kind": kind,
+                    "number_ambiguous": bool(law.get("number_ambiguous")),
+                    "dataset": manifest["dataset"],
+                    "dataset_row": row,
+                    "pages": {"text": _page(text, text_meta)},
+                }
             yield RawDocument(
                 external_id=f"infoleg-ar:{norm_id}:{kind}",
                 uri=f"{BASE_URL}{text_path}",

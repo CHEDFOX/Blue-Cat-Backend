@@ -1,0 +1,127 @@
+{
+ "65053": {
+  "infoleg_id": 65053,
+  "text_kind": "actualizado",
+  "number_ambiguous": false,
+  "url": "https://www.argentina.gob.ar/normativa/nacional/norma-65053/actualizacion",
+  "retrieved_at": "2026-10-15T09:50:42.527290+00:00",
+  "dataset_row": {
+   "tipo_norma": "Ley",
+   "numero_norma": "25344",
+   "organismo_origen": "HONORABLE CONGRESO DE LA NACION ARGENTINA",
+   "fecha_sancion": "2000-10-19",
+   "numero_boletin": "29530",
+   "fecha_boletin": "2000-11-21",
+   "pagina_boletin": "1",
+   "titulo_resumido": "MARCO LEGAL",
+   "titulo_sumario": "EMERGENCIA ECONOMICA-FINANCIERA",
+   "modificada_por": "60",
+   "modifica_a": "9"
+  }
+ },
+ "280985": {
+  "infoleg_id": 280985,
+  "text_kind": "original",
+  "number_ambiguous": true,
+  "url": "https://www.argentina.gob.ar/normativa/nacional/norma-280985/texto",
+  "retrieved_at": "2026-10-15T09:53:23.247323+00:00",
+  "dataset_row": {
+   "tipo_norma": "Ley",
+   "numero_norma": "274",
+   "organismo_origen": "HONORABLE CONGRESO DE LA NACION ARGENTINA",
+   "fecha_sancion": "1861-07-13",
+   "titulo_resumido": "CREDITO SUPLEMENTARIO PARA GASTOS DEL SENADO - AUTORIZACION",
+   "titulo_sumario": "ESTADO NACIONAL",
+   "observaciones": "LA NUMERACION DE LA PRESENTE LEY CORRESPONDE A LAS LEYES NUMEROS 1 A 292 SANCIONADAS POR EL HONORABLE CONGRESO NACIONAL INSTALADO EN LA CIUDAD DE PARANA, CAPITAL PROVISORIA DE LA CONFEDERACION DURANTE LOS AÑOS 1854 A 1861. PUBLICADA EN 'REGISTRO NACIONAL DE LA REPUBLICA ARGENTINA - TOMO IV - 1857 A 1862', PAG. 406.",
+   "modificada_por": "1"
+  }
+ },
+ "48854": {
+  "infoleg_id": 48854,
+  "text_kind": "actualizado",
+  "number_ambiguous": false,
+  "url": "https://www.argentina.gob.ar/normativa/nacional/norma-48854/actualizacion",
+  "retrieved_at": "2026-10-15T09:51:41.394365+00:00",
+  "dataset_row": {
+   "tipo_norma": "Ley",
+   "numero_norma": "346",
+   "organismo_origen": "HONORABLE CONGRESO DE LA NACION ARGENTINA",
+   "fecha_sancion": "1869-10-01",
+   "titulo_resumido": "REGIMEN",
+   "titulo_sumario": "CIUDADANIA",
+   "observaciones": "EL PRESENTE TEXTO CONSERVA LA REDACCION ORIGINAL DE LA NORMA. PUBLICADA EN R.N.1863/69, T. IV, PAG.517. ABROGADA POR ART. 30 DE LA LEY N° 21.795 B.O. 23/05/1978. RESTITUIDA SU VIGENCIA POR ART. 2 DE LA LEY N° 23.059 B.O. 10/04/1984.",
+   "modificada_por": "24"
+  }
+ },
+ "148387": {
+  "infoleg_id": 148387,
+  "text_kind": "original",
+  "number_ambiguous": false,
+  "url": "https://www.argentina.gob.ar/normativa/nacional/norma-148387/texto",
+  "retrieved_at": "2026-10-15T09:53:43.103431+00:00",
+  "dataset_row": {
+   "tipo_norma": "Ley",
+   "numero_norma": "26453",
+   "organismo_origen": "HONORABLE CONGRESO DE LA NACION ARGENTINA",
+   "fecha_sancion": "2008-12-10",
+   "numero_boletin": "31553",
+   "fecha_boletin": "2008-12-16",
+   "pagina_boletin": "1",
+   "titulo_resumido": "IMPUESTO AL VALOR AGREGADO - CONCESIONES DE OBRAS DE DRAGADO",
+   "titulo_sumario": "IMPUESTOS",
+   "modificada_por": "1",
+   "modifica_a": "1"
+  }
+ },
+ "281640": {
+  "infoleg_id": 281640,
+  "text_kind": "original",
+  "number_ambiguous": false,
+  "url": "https://www.argentina.gob.ar/normativa/nacional/norma-281640/texto",
+  "retrieved_at": "2026-10-15T10:01:22.943805+00:00",
+  "dataset_row": {
+   "tipo_norma": "Ley",
+   "numero_norma": "645",
+   "organismo_origen": "HONORABLE CONGRESO DE LA NACION ARGENTINA",
+   "fecha_sancion": "1873-09-30",
+   "titulo_resumido": "PRESUPUESTO NACIONAL",
+   "titulo_sumario": "MINISTERIO DEL INTERIOR",
+   "observaciones": "LA NUMERACION DE LA PRESENTE LEY CORRESPONDE A LAS LEYES NUMEROS 1 A 10366 SANCIONADAS POR EL HONORABLE CONGRESO NACIONAL EN LA ACTUAL CAPITAL FEDERAL DE BUENOS AIRES DURANTE LOS PERIODOS LEGISLATIVOS DE 1862 A 1917. LA PRESENTE NORMA SE ENCUENTRA PUBLICADA EN EL REGISTRO NACIONAL, TOMO VI 1870-1873, PAGINA 486. EL PRESENTE TEXTO CONSERVA LA REDACCION ORIGINAL DE LA LEY.",
+   "modificada_por": "0"
+  }
+ },
+ "280913": {
+  "infoleg_id": 280913,
+  "text_kind": "original",
+  "number_ambiguous": true,
+  "url": "https://www.argentina.gob.ar/normativa/nacional/norma-280913/texto",
+  "retrieved_at": "2026-10-15T09:51:12.950724+00:00",
+  "dataset_row": {
+   "tipo_norma": "Ley",
+   "numero_norma": "5",
+   "organismo_origen": "HONORABLE CONGRESO DE LA NACION ARGENTINA",
+   "fecha_sancion": "1854-11-21",
+   "titulo_resumido": "FACULTADES DEL PODER EJECUTIVO",
+   "titulo_sumario": "SEGURIDAD NACIONAL",
+   "observaciones": "LA NUMERACION DE LA PRESENTE LEY CORRESPONDE A LAS LEYES NUMEROS 1 A 292 SANCIONADAS POR EL HONORABLE CONGRESO NACIONAL INSTALADO EN LA CIUDAD DE PARANA, CAPITAL PROVISORIA DE LA CONFEDERACION DURANTE LOS AÑOS 1854 A 1861, SEGUN CLASIFICACION INDICADA EN LAS COMPILACIONES DE LEYES NACIONALES REALIZADAS POR AUGUSTO DA ROCHA Y JOSE GIUSTINIAN. PUBLICADA EN 'REGISTRO NACIONAL DE LA REPUBLICA ARGENTINA REGISTRO NACIONAL TOMO 1852-1856', PAGINA 168.",
+   "modificada_por": "1"
+  }
+ },
+ "283850": {
+  "infoleg_id": 283850,
+  "text_kind": "original",
+  "number_ambiguous": false,
+  "url": "https://www.argentina.gob.ar/normativa/nacional/norma-283850/texto",
+  "retrieved_at": "2026-10-15T09:51:52.118192+00:00",
+  "dataset_row": {
+   "tipo_norma": "Ley",
+   "numero_norma": "2268",
+   "organismo_origen": "HONORABLE CONGRESO DE LA NACION ARGENTINA",
+   "fecha_sancion": "1888-07-03",
+   "titulo_resumido": "PLAGAS DEL GANADO-CUARENTENA-INSPECCION PORTUARIA DE ANIMALES-REPRODUCTORES",
+   "titulo_sumario": "SANIDAD ANIMAL",
+   "observaciones": "ABROGADA POR EL ARTICULO 1° DEL DECRETO 27/2018, B.O. 11/01/2018, PAGINA 3. VIGENCIA: VER ARTICULO 190 DE LA NORMA PRECEDENTEMENTE CITADA. ABROGADA POR EL ARTICULO 111 DE LA LEY N° 27.444, B.O. 18/06/2018 PAGINA 28.",
+   "modificada_por": "2"
+  }
+ }
+}

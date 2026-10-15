@@ -28,8 +28,14 @@ from ulis.sources.connectors.infoleg_ar import InfolegArConnector, robots_crawl_
 from ulis.sources.connectors.likumi_lv import robots_disallowed
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
-from ulis.sources.normalized import ParsedDocument, ParsedProvision
-from ulis.sources.parsers.infoleg_ar import BUNDLE_FORMAT, InfolegParseError, parse_infoleg_ar, resolve_uri
+from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkipped
+from ulis.sources.parsers.infoleg_ar import (
+    BUNDLE_FORMAT,
+    BUNDLE_FORMAT_V2,
+    InfolegParseError,
+    parse_infoleg_ar,
+    resolve_uri,
+)
 from ulis.sources.registry import LicenceNotApproved, licence_gate
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
@@ -478,8 +484,8 @@ def test_connector_refuses_what_robots_or_the_pages_do_not_allow(tmp_path: Path)
 def test_connector_refuses_bad_manifests(tmp_path: Path) -> None:
     good = [{"id": 804, "text": "original"}]
     for laws, extra, message in (
-        ([{"id": "804/../x", "text": "original"}], {}, "invalid document id"),
-        ([{"id": 0, "text": "original"}], {}, "invalid document id"),
+        ([{"id": "804/../x", "text": "original"}], {}, "invalid or repeated document id"),
+        ([{"id": 0, "text": "original"}], {}, "invalid or repeated document id"),
         ([{"id": 804}], {}, "text must be one of"),
         ([{"id": 804, "text": "vigente"}], {}, "text must be one of"),
         (good, {"base_url": "http://www.argentina.gob.ar"}, "base_url"),
@@ -497,15 +503,24 @@ def test_real_manifest_registration_and_profile() -> None:
     source = catalog.sources.get(SOURCE)
     assert isinstance(build_connector(source), InfolegArConnector)
     manifest = yaml.safe_load((REPO_ROOT / source.access.endpoint).read_text(encoding="utf-8"))
-    laws = {law["id"]: law["text"] for law in manifest["laws"]}
-    assert laws == {
-        804: "original",
-        235975: "actualizado",
-        16546: "actualizado",
-        64790: "actualizado",
-        25552: "actualizado",
-        22363: "actualizado",
-    }
+    # The six pilot instruments come first, unchanged; every national law with a text follows (open-data CSV).
+    assert [(law["id"], law["text"]) for law in manifest["laws"][:6]] == [
+        (804, "original"),
+        (235975, "actualizado"),
+        (16546, "actualizado"),
+        (64790, "actualizado"),
+        (25552, "actualizado"),
+        (22363, "actualizado"),
+    ]
+    assert not any("dataset_row" in law for law in manifest["laws"][:6])
+    widened = manifest["laws"][6:]
+    assert len(widened) > 8000 and all(law["dataset_row"]["tipo_norma"] == "Ley" for law in widened)
+    assert {law["text"] for law in widened} == {"original", "actualizado"}
+    assert (
+        manifest["dataset"]["record"].startswith("https://datos.gob.ar/dataset/")
+        and len(manifest["dataset"]["sha256"]) == 64
+    )
+    InfolegArConnector(REPO_ROOT / source.access.endpoint, SOURCE, Path("/nonexistent"))._manifest()  # noqa: SLF001
     assert manifest["crawl_delay_seconds"] >= 10 and "ULIS-research-bot" in manifest["user_agent"]
     licence_gate(source)
     assert source.licence.review_status == "approved" and source.authority == "official_non_authentic"
@@ -514,7 +529,7 @@ def test_real_manifest_registration_and_profile() -> None:
     profile = catalog.jurisdictions.get("AR")
     assert profile.verification.status == "draft_unverified" and profile.official_languages == ["es"]
     assert profile.legal_system.structure == "federal" and profile.citation.module == "ar"
-    assert profile.coverage.corpus_status == "pilot" and profile.memberships == []
+    assert profile.coverage.corpus_status == "partial" and profile.memberships == []
     assert [c.id for c in profile.courts][0] == "AR-CSJN"
     assert catalog.module_for("AR").id == "ar"
 
@@ -649,3 +664,272 @@ def test_fixture_bundle_pattern_matches_the_connector_format() -> None:
     bundle = json.loads(_bundle("lct"))
     assert bundle["format"] == BUNDLE_FORMAT and set(bundle["pages"]) == {"summary", "text"}
     assert re.fullmatch(r"20\d\d-\d\d-\d\dT.*", bundle["pages"]["text"]["retrieved_at"])
+
+
+# --------------------------------------------------------------------------- any national law (open-data CSV row)
+# Fixtures in tests/fixtures/infoleg_ar/generic/: the text body of real pages of laws taken from the whole-collection
+# manifest, with the CSV row the manifest carries for each (generic.json).
+
+GENERIC = FIX / "generic"
+GENERIC_META = json.loads((GENERIC / "generic.json").read_text(encoding="utf-8"))
+DATASET = json.loads((GENERIC / "dataset.json").read_text(encoding="utf-8"))
+LEY_25344, LEY_274, LEY_346, LEY_26453, LEY_645_IMAGE, LEY_5, LEY_2268 = (
+    "65053",
+    "280985",
+    "48854",
+    "148387",
+    "281640",
+    "280913",
+    "283850",
+)
+
+
+def _generic_bundle(nid: str, html: str | None = None, **changes: Any) -> bytes:
+    info = GENERIC_META[nid]
+    bundle: dict[str, Any] = {
+        "format": BUNDLE_FORMAT_V2,
+        "infoleg_id": info["infoleg_id"],
+        "text_kind": info["text_kind"],
+        "number_ambiguous": info["number_ambiguous"],
+        "dataset": DATASET,
+        "dataset_row": info["dataset_row"],
+        "pages": {
+            "text": {
+                "url": info["url"],
+                "retrieved_at": info["retrieved_at"],
+                "content_type": "text/html; charset=utf-8",
+                "html": html if html is not None else (GENERIC / f"{nid}.text.html").read_text(encoding="utf-8"),
+            }
+        },
+        **changes,
+    }
+    return json.dumps(bundle, ensure_ascii=False, sort_keys=True).encode("utf-8")
+
+
+def _generic(nid: str) -> ParsedDocument:
+    return parse_infoleg_ar(_generic_bundle(nid))[0]
+
+
+def test_any_national_law_is_read_from_its_text_page_and_the_dataset_row() -> None:
+    doc = _generic(LEY_25344)
+    assert (doc.instrument_type, doc.work_uri, doc.number) == ("law", "/ar/ley/25344", "25344")
+    assert doc.title.startswith("Ley 25.344 - ") and doc.title.split(" - ", 1)[1] == doc.ext["titulo_resumido"]
+    assert doc.text_origin == "official_revised" and doc.consolidation_kind == "current_consolidation"
+    assert doc.validity_basis == "attested_at_edition" and doc.authoritative is False
+    assert doc.work_date == date(2000, 10, 19) and doc.ext["fecha_sancion"] == "2000-10-19"
+    assert doc.ext["organismo"] == "HONORABLE CONGRESO DE LA NACION ARGENTINA"
+    assert doc.ext["modificada_por"] >= 1 and doc.ext["texto"] == "actualizado"
+    assert [p.eid for p in doc.provisions][:3] == ["art-1", "art-2", "art-3"]
+    assert _citation(doc, "art-1") == "art. 1, Ley 25.344"
+    assert get_module("ar").validate_ext(doc.ext)["numero"] == "25344"
+    assert doc.outstanding_changes == []  # an updated text, and the editors say nothing about abrogation
+
+
+def test_nineteenth_century_laws_with_an_ordinal_sign_and_no_stop_are_read() -> None:
+    doc = _generic(LEY_274)
+    assert doc.work_uri == "/ar/ley/274-1861"  # the number was issued twice: the year of sanction tells them apart
+    assert _eids(doc) == ["art-1", "art-2"]
+    assert _prov(doc, "art-1").text.startswith("Abrese un crédito suplementario")
+    assert _citation(doc, "art-2") == "art. 2, Ley 274"
+    other = _generic(LEY_5)
+    assert other.work_uri == "/ar/ley/5-1854" and other.work_date == date(1854, 11, 21)
+
+
+def test_what_the_editors_say_about_abrogation_and_missing_updates_is_a_warning() -> None:
+    abrogated = _generic(LEY_346)
+    assert "ABROGADA POR ART. 30 DE LA LEY N° 21.795" in abrogated.ext["observaciones"]
+    descriptions = [c["description"] for c in abrogated.outstanding_changes]
+    assert descriptions == ["InfoLEG's observation on this law reads: " + abrogated.ext["observaciones"]]
+    modified = _generic(LEY_26453)
+    assert modified.ext["texto"] == "original" and modified.ext["modificada_por"] >= 1
+    assert len(modified.outstanding_changes) == 1
+    assert modified.outstanding_changes[0]["description"].startswith("InfoLEG lists 1 norm(s) that modify this law")
+    assert "publishes no updated text" in modified.outstanding_changes[0]["description"]
+    both = _generic(LEY_2268)
+    assert len(both.outstanding_changes) == 2 and both.text_origin == "official_conversion"
+
+
+def test_pages_with_nothing_readable_are_skipped_not_errors() -> None:
+    with pytest.raises(ParseSkipped, match="an image inside"):
+        parse_infoleg_ar(_generic_bundle(LEY_645_IMAGE))
+    body = (GENERIC / f"{LEY_25344}.text.html").read_text(encoding="utf-8")
+    with pytest.raises(ParseSkipped, match="unsupported markup"):
+        parse_infoleg_ar(_generic_bundle(LEY_25344, html=body.replace("Ley 25.344", "Ley 25.<sup>3</sup>44", 1)))
+    with pytest.raises(ParseSkipped, match="no article to read"):
+        parse_infoleg_ar(_generic_bundle(LEY_25344, html=re.sub(r"(?i)art[ií]culo|art\.", "Disposicion", body)))
+    # the six pilot instruments keep their loud failures
+    with pytest.raises(InfolegParseError, match="no provisions found"):
+        parse_infoleg_ar(_bundle("ley-25326", pages=_bundle_pages_without_articles()))
+
+
+def _bundle_pages_without_articles() -> dict[str, Any]:
+    pages = json.loads(_bundle("ley-25326"))["pages"]
+    pages["text"]["html"] = '<div class="infoleg-norma-body infoleg-mode-actualizado"><p>Sin articulos</p></div>'
+    return pages
+
+
+def test_dataset_rows_must_describe_a_numbered_law() -> None:
+    row = GENERIC_META[LEY_25344]["dataset_row"]
+    for bad in ({**row, "tipo_norma": "Decreto"}, {**row, "numero_norma": "S/N"}):
+        raw = json.loads(_generic_bundle(LEY_25344))
+        raw["dataset_row"] = bad
+        with pytest.raises(InfolegParseError, match="only numbered laws"):
+            parse_infoleg_ar(json.dumps(raw).encode())
+    with pytest.raises(InfolegParseError, match="unsupported bundle"):
+        parse_infoleg_ar(json.dumps({"format": "ulis-infoleg-bundle/3"}).encode())
+
+
+def _generic_cache(tmp_path: Path, ids: tuple[str, ...]) -> Path:
+    """A cache with the robots.txt and only the text pages: a dataset-row entry never asks for the summary page."""
+    host = tmp_path / "www.argentina.gob.ar"
+    host.mkdir(parents=True)
+    (host / "robots.txt").write_bytes((FIX / "robots.txt").read_bytes())
+    (host / "robots.txt.meta.json").write_text(
+        json.dumps({"url": "https://www.argentina.gob.ar/robots.txt", "status": 200})
+    )
+    for nid in ids:
+        info = GENERIC_META[nid]
+        folder = host / "normativa" / "nacional" / f"norma-{nid}"
+        folder.mkdir(parents=True)
+        name = "actualizacion.html" if info["text_kind"] == "actualizado" else "texto.html"
+        (folder / name).write_bytes((GENERIC / f"{nid}.text.html").read_bytes())
+        (folder / f"{name}.meta.json").write_text(
+            json.dumps(
+                {
+                    "url": info["url"],
+                    "final_url": info["url"],
+                    "status": 200,
+                    "content_type": "text/html; charset=utf-8",
+                    "retrieved_at": info["retrieved_at"],
+                }
+            )
+        )
+    return tmp_path
+
+
+def _entry(nid: str) -> dict[str, Any]:
+    info = GENERIC_META[nid]
+    return {
+        "id": info["infoleg_id"],
+        "text": info["text_kind"],
+        "title": "x",
+        "dataset_row": info["dataset_row"],
+        **({"number_ambiguous": True} if info["number_ambiguous"] else {}),
+    }
+
+
+def test_connector_makes_one_request_per_law_and_skips_what_it_cannot_read(tmp_path: Path) -> None:
+    cache = _generic_cache(tmp_path, (LEY_25344, LEY_274))
+    gone = cache / "www.argentina.gob.ar" / "normativa" / "nacional" / "norma-1" / "texto.html"
+    gone.parent.mkdir(parents=True)
+    gone.write_bytes(b"")
+    gone.with_name("texto.html.meta.json").write_text('{"url": "x", "status": 404}')
+    empty = cache / "www.argentina.gob.ar" / "normativa" / "nacional" / "norma-2" / "texto.html"
+    empty.parent.mkdir(parents=True)
+    empty.write_text("<html>no text</html>")
+    empty.with_name("texto.html.meta.json").write_text(
+        '{"url": "https://www.argentina.gob.ar/x", "status": 200, "retrieved_at": "2026-10-15T00:00:00+00:00"}'
+    )
+    row = GENERIC_META[LEY_25344]["dataset_row"]
+    laws = [
+        _entry(LEY_25344),
+        {"id": 1, "text": "original", "dataset_row": {**row, "numero_norma": "1"}},
+        {"id": 2, "text": "original", "dataset_row": {**row, "numero_norma": "2"}},
+        _entry(LEY_274),
+    ]
+    connector = InfolegArConnector(_manifest(tmp_path, laws, dataset=DATASET), SOURCE, cache, offline=True)
+    docs = list(connector.fetch())
+    assert [d.external_id for d in docs] == [f"infoleg-ar:{LEY_25344}:actualizado", f"infoleg-ar:{LEY_274}:original"]
+    assert docs[0].content == _generic_bundle(LEY_25344) and docs[1].content == _generic_bundle(LEY_274)
+    assert connector.http is not None and connector.http.requests_made == 0
+    assert len(connector.fetch_errors) == 2
+    assert "norma-1/texto not found (404)" in connector.fetch_errors[0]
+    assert "norma-2/texto holds no original text" in connector.fetch_errors[1]
+    bundle = json.loads(docs[0].content)
+    assert bundle["format"] == BUNDLE_FORMAT_V2 and "summary" not in bundle["pages"]
+    assert bundle["dataset"]["sha256"] == DATASET["sha256"]
+
+
+def test_connector_validates_dataset_entries(tmp_path: Path) -> None:
+    good = _entry(LEY_25344)
+    for laws, extra, message in (
+        (
+            [{**good, "dataset_row": {**good["dataset_row"], "tipo_norma": "Decreto"}}],
+            {"dataset": DATASET},
+            "numbered Ley",
+        ),
+        (
+            [{**good, "dataset_row": {**good["dataset_row"], "numero_norma": "S/N"}}],
+            {"dataset": DATASET},
+            "numbered Ley",
+        ),
+        ([good], {}, "dataset block"),
+        ([good, good], {"dataset": DATASET}, "invalid or repeated document id"),
+        ([good], {"dataset": DATASET, "crawl_delay_seconds": 5}, "crawl_delay_seconds"),
+    ):
+        with pytest.raises(ManifestError, match=message):
+            list(InfolegArConnector(_manifest(tmp_path, laws, **extra), SOURCE, tmp_path, offline=True).fetch())
+
+
+def test_manifest_script_drops_control_characters_from_metadata() -> None:
+    from scripts.build_infoleg_manifest import _clean
+
+    assert _clean("CANCELACI\x96N DE\x80 DEUDAS \n") == "CANCELACIN DE DEUDAS"
+    assert _clean("  Ley 25.344 ") == "Ley 25.344"
+
+
+@pytest.mark.db
+def test_generic_laws_ingest_search_and_carry_their_warnings(
+    session: Session, catalog: Catalog, store: LocalObjectStore, ingested: IngestionReport
+) -> None:
+    class _Docs:
+        def __init__(self, ids: tuple[str, ...]):
+            self.ids = ids
+            self.fetch_errors: list[str] = []
+
+        def fetch(self) -> Iterator[RawDocument]:
+            for nid in self.ids:
+                info = GENERIC_META[nid]
+                yield RawDocument(
+                    f"infoleg-ar:{nid}:{info['text_kind']}",
+                    info["url"],
+                    "application/json",
+                    _generic_bundle(nid),
+                    datetime.fromisoformat(info["retrieved_at"]),
+                    {},
+                )
+
+    ids = (LEY_25344, LEY_274, LEY_346, LEY_26453, LEY_5, LEY_2268)
+    report = Ingestor(session, catalog, store).ingest_source("ar-infoleg", actor="pytest", connector=_Docs(ids))
+    assert report.errors == [] and report.conflicts == [] and report.documents_new == 6
+    uris = set(session.scalars(select(m.Instrument.uri).where(m.Instrument.jurisdiction_id == "AR")))
+    assert {"/ar/ley/25344", "/ar/ley/274-1861", "/ar/ley/5-1854", "/ar/ley/346"} <= uris
+    first = _generic(LEY_25344).provisions[0]
+    phrase = " ".join(first.text.split()[:4])
+    res = search(
+        session,
+        catalog,
+        SearchRequest(q=phrase, jurisdiction="AR", as_of=TODAY, query_language="es"),
+        today=TODAY,
+    )
+    assert [r["citation"] for r in res["results"]][:5] == ["art. 1, Ley 25.344"], res["results"][:1]
+    hit = next(r for r in res["results"] if r["citation"] == "art. 1, Ley 25.344")
+    codes = {lim["code"] for lim in hit["limitations"]}
+    assert {"ATTESTED_ONLY_AT", "PROFILE_UNVERIFIED", "REVISED_TEXT"} <= codes
+    assert hit["source"]["attribution"].startswith("Fuente: InfoLEG")
+    old = search(
+        session,
+        catalog,
+        SearchRequest(q="Abrese un crédito suplementario", jurisdiction="AR", as_of=TODAY, query_language="es"),
+        today=TODAY,
+    )
+    assert old["results"][0]["citation"] == "art. 1, Ley 274"
+    warned = search(
+        session,
+        catalog,
+        SearchRequest(q=_generic(LEY_346).provisions[0].text[:80], jurisdiction="AR", as_of=TODAY, query_language="es"),
+        today=TODAY,
+    )["results"][0]
+    assert any(
+        "ABROGADA" in lim["message"] for lim in warned["limitations"] if lim["code"] == "OUTSTANDING_CHANGES_INSTRUMENT"
+    )
