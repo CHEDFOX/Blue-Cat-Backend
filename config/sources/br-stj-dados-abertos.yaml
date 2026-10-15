@@ -1,0 +1,65 @@
+# PLANNED - NOT INGESTED. Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15). Checked on that date:
+#   https://dadosabertos.web.stj.jus.br/robots.txt - "User-agent: *" / "Disallow: /dataset/rate/" / "Disallow: /revision/" /
+#        "Disallow: /dataset/*/history" / "Disallow: /api/" / "Crawl-Delay: 10". So the CKAN API (/api/) is NOT used; the HTML dataset pages
+#        and the resource download links (/dataset/<id>/resource/<id>/download/<file>) are not disallowed. Only HTML pages and one HEAD
+#        request to a download link were requested, 10 s apart.
+#   https://dadosabertos.web.stj.jus.br/dataset/integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica ("Portal de Dados Abertos
+#        do STJ", organisation "Superior Tribunal de Justiça"): "Licença Creative Commons Atribuição" (the page names no version);
+#        "Este conjunto de dados contém as íntegras e metadados das decisões terminativas e acórdãos publicados no Diário da Justiça."
+#        "O conjunto é composto de um arquivo ZIP com os textos das decisões ou acórdãos, um arquivo JSON com seus metadados e um CSV com o
+#        dicionário dos dados."; "As atualizações são realizadas diariamente pela adição de arquivos referentes à publicação do dia
+#        anterior"; "Não estão disponíveis dados de processos em segredo de justiça." Daily files from 2021-01-04 (texts: textos<date>.zip /
+#        <date>.zip, metadata: metadados<date>.json); 616 ZIP links in the first 2 MB of the page (up to 2023-11, page not read further);
+#        one daily ZIP (20231109.zip) is 7,311,046 bytes. Selected for the set: monocratic decisions marked terminative by the ministers'
+#        offices in the main case or in listed petitions (agravos, embargos de declaração, recursos ...), plus acórdãos.
+#   Same portal, ten "Espelhos de acórdãos" datasets (Corte Especial, three Seções, six Turmas; "Licença Creative Commons Atribuição"): the
+#        Court's structured "espelho do acórdão" (editorial documentation of selected acórdãos); JSON, monthly additions. These are the
+#        Court's own editorial summaries, not the decision text; not proposed for ingestion without a decision.
+schema_version: 1
+id: br-stj-dados-abertos
+name: Superior Tribunal de Justiça (Brazil) - Portal de Dados Abertos, full text of decisions and acórdãos
+publisher: Superior Tribunal de Justiça (STJ), Brazil
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [BR]
+document_kinds: [judgment]
+languages: [pt]
+coverage: >-
+  Full text and metadata of the terminative monocratic decisions and the acórdãos of the Superior Tribunal de Justiça published in the
+  Diário da Justiça, as daily ZIP and JSON files from 4 January 2021 (a dataset of the Court's own open data portal). First Brazilian
+  court decisions in ULIS. Nothing is ingested; the full date range and document count were not measured.
+access:
+  method: bulk_download
+  endpoint: https://dadosabertos.web.stj.jus.br/dataset/integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica
+  authentication: none
+update_frequency: daily (files for the previous day's publication)
+rate_limits: robots.txt Crawl-Delay 10 seconds; the API path /api/ is disallowed and must not be used.
+licence:
+  id: CC-BY
+  name: Licença Creative Commons Atribuição (as shown on the dataset page; the version is not stated)
+  url: https://dadosabertos.web.stj.jus.br/dataset/integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica
+  review_status: pending_review
+  reviewed_by: ULIS bulk-datasets survey (dataset pages and robots.txt read on 2026-10-15). Not reviewed by counsel.
+  reviewed_on: 2026-10-15
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Superior Tribunal de Justiça, Portal de Dados Abertos (https://dadosabertos.web.stj.jus.br/), Licença Creative Commons Atribuição. (Wording is ULIS's.)
+  conditions:
+    - Credit the STJ as the source and give the licence (Creative Commons Atribuição); the page names no version, so confirm it with the Court before commercial use.
+    - Respect the Crawl-Delay and do not use the disallowed /api/ path; download the daily files from the resource links on the HTML page.
+    - Personal data in decisions is the Court's; secret-of-justice cases are excluded by the publisher; do not re-identify persons.
+  notes: >-
+    The dataset page states the licence for the dataset, not for each decision; Brazilian law treats judicial decisions as free of
+    copyright (Lei 9.610/98 art. 8, IV) - to be confirmed by counsel (not read here).
+provenance: Published by the STJ on its own open data portal from the texts published in the Diário da Justiça; not retrieved.
+known_limitations:
+  - Not ingested - survey result only; no data file was downloaded (one HEAD request).
+  - Covers only decisions the Court selected for the dataset (terminative monocratic decisions and acórdãos), from 2021.
+  - Earlier STJ jurisprudence and the Supremo Tribunal Federal (host refused robots.txt, HTTP 403) are not covered.
+status: planned
+connector: null
+parser: null

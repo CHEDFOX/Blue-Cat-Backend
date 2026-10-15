@@ -1,0 +1,61 @@
+# PLANNED - NOT INGESTED. Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15). Same publisher and terms as the
+# active us-govinfo-usreports and us-govinfo-uscourts sources (see their headers); only the collections differ.
+#   https://www.govinfo.gov/robots.txt - allowed for /bulkdata, /bulkdata/json/STATUTE, /bulkdata/STATUTE, /bulkdata/xml/PLAW (checked with
+#        urllib.robotparser for the ULIS agent, 2026-10-15); no Crawl-delay.
+#   https://www.govinfo.gov/bulkdata (index page): "GPO makes select collections available in bulk in a machine-readable format (i.e. XML) via
+#        our Bulk Data Repository." Listed there: "Statutes at Large (xml uslm beta)" (last modified 06-Oct-2026), "Public and Private Laws
+#        (xml uslm beta)" (10-Oct-2026), "Statute Compilations (xml uslm beta)" (09-Oct-2026).
+#   https://www.govinfo.gov/bulkdata/STATUTE - one folder per volume, 1 to 138 (folders only; which volumes hold XML and how complete the
+#        early volumes are was NOT examined). /bulkdata/PLAW - 113th to 119th Congress, public and private laws (2013-2026).
+#        /bulkdata/COMPS - 2,705 COMPS-<n>.xml statute compilations plus COMPS.zip.
+#   https://www.govinfo.gov/about/policies, "Public Domain & Copyright Notice": "Title 17, Section 105, United States Code, provides that:
+#        Copyright protection under this title is not available for any work of the United States Government ... By virtue of the
+#        foregoing, public documents can generally be reprinted without legal restriction. However, Government publications may contain
+#        copyrighted material which was used with permission of the copyright owner."
+schema_version: 1
+id: us-govinfo-bulk-statutes
+name: GovInfo Bulk Data Repository - Statutes at Large, Public and Private Laws, Statute Compilations (USLM XML, beta)
+publisher: U.S. Government Publishing Office (GovInfo)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [US]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  The Statutes at Large (volumes 1 to 138 are listed), the public and private laws of the 113th to 119th Congress, and 2,705 statute
+  compilations, as USLM XML marked "beta" by GPO. Fills the gap between the US Code titles ULIS holds (as codified) and the laws as
+  enacted. Nothing is ingested; the contents of each volume were not examined.
+access:
+  method: bulk_download
+  endpoint: https://www.govinfo.gov/bulkdata/
+  authentication: none
+update_frequency: STATUTE and PLAW updated as laws are published (last modified October 2026); COMPS by the Office of the Law Revision Counsel
+rate_limits: No Crawl-delay in robots.txt; use PoliteHttp (at least 5 s between requests); the collections are directory listings with downloadable XML/ZIP files.
+licence:
+  id: US-GovWork-17USC105
+  name: Work of the United States Government, not protected by copyright (17 U.S.C. 105), per GovInfo's Public Domain & Copyright Notice
+  url: https://www.govinfo.gov/about/policies
+  review_status: pending_review
+  reviewed_by: ULIS bulk-datasets survey (GovInfo policies page and bulk data index read on 2026-10-15). Not reviewed by counsel.
+  reviewed_on: 2026-10-15
+  redistribution: allowed
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: U.S. Government Publishing Office, GovInfo Bulk Data Repository (https://www.govinfo.gov/bulkdata/).
+  conditions:
+    - GovInfo warns that "Government publications may contain copyrighted material"; private laws and some enrolled texts may embed third-party material (rare).
+    - The XML is labelled beta by GPO; the authenticated version of a public law is GPO's signed PDF, not this XML.
+  notes: >-
+    Extends US coverage from codified law to enacted law. Check which volumes of STATUTE actually contain text before building a manifest.
+provenance: >-
+  GPO's own XML (USLM beta) of Statutes at Large, public and private laws and statute compilations, listed in the GovInfo Bulk Data
+  Repository. Not retrieved.
+known_limitations:
+  - Not ingested - survey result only; no file was downloaded.
+  - USLM XML "beta"; completeness of the early Statutes at Large volumes not examined.
+  - Statute compilations are the Office of the Law Revision Counsel's editorial compilations of Acts, not the enacted text.
+status: planned
+connector: null
+parser: null

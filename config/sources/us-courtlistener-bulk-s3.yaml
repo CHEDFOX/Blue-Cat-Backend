@@ -1,0 +1,74 @@
+# PLANNED - NOT INGESTED. Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15). Candidate to replace the
+# refused website route recorded in us-courtlistener-bulk.yaml (which stays as the record of the refusal).
+#   https://www.courtlistener.com/robots.txt - HTTP 403 (CloudFront "Request blocked") to the ULIS bot, 2026-10-15 again. ULIS stopped
+#        on that host: nothing was requested from www.courtlistener.com after it, and ULIS must never fetch from it.
+#   https://free.law/robots.txt - "User-agent: *" / "Disallow:" (everything allowed). https://wiki.free.law/robots.txt - "Allow: /c/".
+#   https://wiki.free.law/c/courtlistener/help/api/bulk-data/bulk-legal-data (Free Law Project's own documentation of the bulk files):
+#        "On a quarterly basis, we generate huge data files for many of the data types in our system."; "As they are generated,
+#        bulk data files are streamed to an AWS S3 bucket."; "Files are snapshots, not deltas, meaning each file contains everything in
+#        our database at the time of generation."; under "Copyright": "Our bulk data files are free of known copyright restrictions."
+#        with the Creative Commons Public Domain Mark (https://creativecommons.org/publicdomain/mark/1.0/). Format: PostgreSQL
+#        COPY CSV, UTF-8, header row, bz2; schema.sql and load-bulk-data-*.sh are published with each generation.
+#   https://com-courtlistener-storage.s3-us-west-2.amazonaws.com/?list-type=2&prefix=bulk-data/ - bucket listing only (metadata, no file
+#        downloaded). Latest generation 2026-09-30: opinions-2026-09-30.csv.bz2 55,252,643,429 bytes; opinion-clusters 2,467,613,433;
+#        dockets 5,144,011,100; citation-map 533,110,848; courts 81,226; also parentheticals, oral arguments, people-db.
+#   https://huggingface.co/datasets/harvard-lil/cold-cases (Harvard LIL with Free Law Project, CC0 on its card): "COLD Cases is a dataset
+#        of 8.3 million United States legal decisions with text and metadata"; it "reformats CourtListener's bulk data" and says "we have
+#        filtered out cases blocked or deindexed by CourtListener" - so ULIS must honour any such flags itself where the raw files carry them.
+#   Not checked: CourtListener's website terms (host refused); which text column holds the court's own text for each opinion.
+schema_version: 1
+id: us-courtlistener-bulk-s3
+name: CourtListener bulk data files (Free Law Project), public S3 bucket
+publisher: Free Law Project (CourtListener). Not an official court publication.
+kind: open_data_repository
+authority: unofficial
+jurisdictions: [US]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  United States federal and state case law aggregated by CourtListener: dockets, opinion clusters, opinions (full text in several
+  columns), citation map, courts, parentheticals. Millions of opinions (COLD Cases, built from these files, states 8.3 million);
+  the opinions file of 2026-09-30 is 55 GB compressed. Nothing is ingested.
+access:
+  method: bulk_download
+  endpoint: https://com-courtlistener-storage.s3-us-west-2.amazonaws.com/list.html?prefix=bulk-data/
+  authentication: none (public bucket named by the publisher's documentation); the website's API needs a token and is not used
+update_frequency: quarterly (last day of March, June, September and December), full snapshots
+rate_limits: >-
+  None stated for the bucket. Download once per generation, sequentially. Never contact www.courtlistener.com (HTTP 403 to the ULIS bot).
+licence:
+  id: PDM-1.0
+  name: >-
+    Free Law Project bulk data page, "Copyright": "Our bulk data files are free of known copyright restrictions."
+    (Creative Commons Public Domain Mark 1.0)
+  url: https://wiki.free.law/c/courtlistener/help/api/bulk-data/bulk-legal-data
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS bulk-datasets survey (read the wiki page above and the bucket listing on 2026-10-15). Not reviewed by counsel; the
+    publisher's website terms were not readable.
+  reviewed_on: 2026-10-15
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: null
+  attribution_text: >-
+    Free Law Project, CourtListener bulk data (https://free.law/). (Wording is ULIS's; the publisher states no attribution
+    condition.)
+  conditions:
+    - The Public Domain Mark says "free of known copyright restrictions", not "no restrictions", so some documents may carry third-party rights or court-ordered restrictions; keep per-document origin fields where the files have them and honour the removal flags the schema carries (the COLD card says CourtListener blocks or deindexes some cases).
+    - Because the website host refused the ULIS bot, ask Free Law Project in writing (contact form on free.law) to confirm that an identified research bot may download the bucket files before the first download.
+    - Use the columns that hold the court's own text (to be identified in the published schema.sql), not any column with publisher-added citation mark-up.
+  notes: >-
+    Replaces nothing yet: us-courtlistener-bulk stays as the record of the refusal. Most opinions are also in the Caselaw Access
+    Project (whose static host disallows robots) and, for the federal courts of appeals, in GovInfo.
+provenance: >-
+  Aggregated by Free Law Project from court websites and other public sources, including Harvard's Caselaw Access Project (per the
+  COLD Cases and Common Pile cards); whether each cluster record carries a source code and each opinion a download URL is to be
+  confirmed on first read (schema.sql is published with each generation). Not retrieved.
+known_limitations:
+  - Not ingested - survey result only; the website host refused the ULIS bot and the bucket was only listed, never downloaded.
+  - Unofficial aggregation; text may be OCR or converted from third-party HTML; judicial treatment is not inferred.
+status: planned
+connector: null
+parser: null

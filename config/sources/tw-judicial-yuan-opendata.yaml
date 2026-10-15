@@ -1,0 +1,66 @@
+# PLANNED - NOT INGESTED. Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15). Checked on that date:
+#   https://opendata.judicial.gov.tw/ - 司法院資料開放平臺 (Judicial Yuan open data platform), a script-rendered application with a Cloudflare
+#        Turnstile script; /robots.txt returns the application shell (no robots.txt published). Only the home page, one licence script,
+#        one guide script and one API specification PDF were requested; the application's data endpoints were not called.
+#   Licence terms (授權條款, the platform's script https://opendata.judicial.gov.tw/js/license-terms.24f18109.js, published 108-11-16 by 司法院):
+#        "司法院網站上刊載之所有資料與素材，其得受著作權保護之範圍，以無償、非專屬，得再授權之方式提供公眾使用，使用者得不限時間及地域，
+#        重製、改作、編輯、公開傳輸或為其他方式之利用，開發各種產品或服務（簡稱加值衍生物），此一授權行為不會嗣後撤回，使用者亦無須取得本機關之書面
+#        或其他方式授權；然使用時，應註明出處。" (free, non-exclusive, sublicensable, no time or territory limit; reproduce, adapt, edit, transmit,
+#        build products or services; irrevocable; attribution required.) Also: "使用本授權提供之資料與素材，不得惡意變更其相關資訊" (no malicious
+#        alteration); personal data published by the parties or by law must be handled under the Personal Data Protection Act; "部分的影音、
+#        圖像、樂譜、專人專案撰文或其他著作，經機關特別聲明須經同意方可使用" (some media excluded).
+#   API specification (https://opendata.judicial.gov.tw/api/Newses/42/file, PDF, 6 pages, version of 114.08.22 per a search summary): the
+#        account and password registered on the platform give a Token valid for 6 hours; JList (https://data.judicial.gov.tw/jdg/api/JList)
+#        returns the ids (jid) of judgments changed on the day 7 days before the call; JDoc (.../JDoc) returns one judgment by jid; when the
+#        judgment is a PDF or has attachments the response gives a download URL; "服務時間為每日凌晨 0 時至 6 時止" (service hours 00:00-06:00
+#        daily); a jid fetched again means the judgment may have changed. The data host data.judicial.gov.tw was NOT contacted.
+#   Not done: no account was registered; the volume, the age of the archive and any back-catalogue file for members were not verified.
+schema_version: 1
+id: tw-judicial-yuan-opendata
+name: Judicial Yuan open data platform (司法院資料開放平臺) - judgments (裁判書)
+publisher: 司法院 (Judicial Yuan, Taiwan)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [TW]
+document_kinds: [judgment]
+languages: [zh-Hant]
+coverage: >-
+  Judgments (裁判書) of the Taiwanese courts as published by the Judicial Yuan through its open data platform API (change list by day,
+  full text by judgment id). Fills the Taiwanese case-law gap (ULIS holds Taiwanese legislation only). Size and date range not verified.
+access:
+  method: api
+  endpoint: https://data.judicial.gov.tw/jdg/api/
+  authentication: free account registered on the platform by the operator (user and password -> 6-hour token); ULIS must never register or log in by itself
+update_frequency: daily change list (changes of the day 7 days earlier)
+rate_limits: Service hours 00:00-06:00 daily (per the specification); be sequential; no other limit read.
+licence:
+  id: TW-JY-opendata-terms
+  name: 司法院資料開放平臺 授權條款 (free, non-exclusive, sublicensable licence to reproduce, adapt and build products; attribution required)
+  url: https://opendata.judicial.gov.tw/
+  review_status: pending_review
+  reviewed_by: ULIS bulk-datasets survey (licence script and API specification PDF read on 2026-10-15). Not reviewed by counsel; the Chinese text was read by the survey, not by a Chinese lawyer.
+  reviewed_on: 2026-10-15
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed
+  attribution_required: true
+  attribution_text: >-
+    Source: Judicial Yuan (Taiwan) open data platform, https://opendata.judicial.gov.tw/ . (Wording is ULIS's; the licence requires the source to be named.)
+  conditions:
+    - Name the source (註明出處) and do not maliciously alter the information; show the text unchanged.
+    - Observe the Personal Data Protection Act for personal data in the judgments.
+    - Use only the publisher's API within its service hours and with an account the operator holds; do not pass the Turnstile challenge on the website or use other hosts.
+  notes: >-
+    The licence is the most permissive found in the survey for court decisions, but the access route needs an account and a service
+    window, and the change list covers one day per call, so a full back catalogue needs a bulk file from the platform (not verified).
+provenance: >-
+  Published by the Judicial Yuan; each judgment has a jid in the change list (the specification's example is
+  "CDEV,105,橋司附民移調,101,20161219,1"). Not retrieved.
+known_limitations:
+  - Not ingested - survey result only; the API was not called and no account exists.
+  - The specification is a PDF of 6 pages read in text form only; field names of the JDoc response were not examined.
+  - Back catalogue, volume and date range unverified; PDF judgments (attachments) would need a PDF text parser.
+status: planned
+connector: null
+parser: null
