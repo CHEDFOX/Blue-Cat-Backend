@@ -1,0 +1,77 @@
+# Uradni list Republike Slovenije - the official gazette of Slovenia (archive at www.uradni-list.si, issues up to 28 February 2026;
+# later issues are published on pisrs.si). Terms read on 2026-10-14 from the site itself (pages cached under
+# var/sources/www.uradni-list.si/):
+#   https://www.uradni-list.si/podjetje/pravna-obvestila - general terms of Uradni list d.o.o., 2.1 "Avtorske pravice": all rights on the
+#        site are reserved; downloading and printing "z namenom ogledovanja in branja za nekomercialne namene" is allowed and
+#        "Vsako drugo kopiranje, distribuiranje, ponovno objavljanje, spreminjanje ... brez predhodnega pisnega dovoljenja je
+#        prepovedano"; and then: "Omejitve uporabe gradiv ne veljajo za Uradni list Republike Slovenije in v njem objavljene
+#        vsebine." (The restrictions on the use of materials do not apply to the Official Gazette of the Republic of Slovenia and
+#        the content published in it.)
+#   https://www.uradni-list.si/robots.txt - "User-agent: * / Disallow: /_pdf/*/*a/" only; no Crawl-delay. The connector fetches the
+#        HTML page of an act (/glasilo-uradni-list-rs/vsebina/<id>), never a /_pdf/ file.
+#   Every issue index (/glasilo-uradni-list-rs/celotno-kazalo/<year><issue>) says: "Prikazana vsebina je v skladu s 33. členom ZoUL
+#        arhivska. Izdaje uradnega lista, izdane po 28.2.2026, so dostopne na PISRS."
+#   https://www.uradni-list.si/glasilo-uradni-list-rs/vsebina/2006-01-2788 (Uredba o Pravno-informacijskem sistemu, 3. člen):
+#        "Podatki, objavljeni v pravno-informacijskem sistemu, so informativnega značaja, razen elektronske izdaje Uradnega lista
+#        Republike Slovenije, ki je uradna izdaja od 1. januarja 2006 dalje."
+schema_version: 1
+id: si-uradni-list
+name: Uradni list Republike Slovenije - arhiv
+publisher: Uradni list Republike Slovenije d.o.o. (publisher of the official gazette), www.uradni-list.si
+kind: official_gazette
+authority: official_non_authentic
+jurisdictions: [SI]
+document_kinds: [constitution, constitutional_act, act]
+languages: [sl]
+coverage: >-
+  Laws and official consolidated texts ("uradno prečiščeno besedilo") published in Uradni list RS, each as published in the
+  issue named on its page. The manifest lists the acts of the gazette's "Zakoni" section and the consolidated texts of
+  laws found in the issue indexes of January 2020 - February 2026; see the manifest for the exact list.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/si-uradni-list.yaml
+update_frequency: archive (closed on 28 February 2026; later issues are on pisrs.si)
+rate_limits: >-
+  None published; robots.txt sets no Crawl-delay. ULIS waits 5 s between requests, identifies itself, caches every
+  download, fetches sequentially and stops on any refusal.
+licence:
+  id: SI-UL-NOTICE-OFFICIAL-GAZETTE
+  name: >-
+    Uradni list d.o.o. general terms 2.1: restrictions on the use of the site's materials "ne veljajo za Uradni list Republike
+    Slovenije in v njem objavljene vsebine" (do not apply to the Official Gazette and the content published in it)
+  url: https://www.uradni-list.si/podjetje/pravna-obvestila
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the general terms' copyright clause and its exemption of the gazette's content (quoted above), robots.txt
+    (only /_pdf/*/*a/ disallowed) and the archive notice, read on uradni-list.si itself. The exemption is a statement by the
+    publisher, not a licence text; whether it covers automated copying is not spelled out. Counsel review recommended.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: >-
+    Vir: Uradni list Republike Slovenije (https://www.uradni-list.si). Besedilo je prevzeto, kakor je bilo objavljeno; poznejši
+    predpisi, ki ga spreminjajo, niso upoštevani.
+  conditions:
+    - Only the gazette's own content (the acts published in it) - not the site's other materials (books, seminars, e-comments).
+    - Respect robots.txt (/_pdf/*/*a/) - enforced by the connector; polite retrieval (identifying User-Agent, 5 s, cache); stop on any refusal.
+    - The text is the act as published; later amendments are separate acts and are not applied (stated on every result).
+  notes: >-
+    PISRS (pisrs.si) holds the same acts and unofficial consolidated texts but its terms forbid reproducing the database and its API needs a
+    key (see si-pisrs, planned); this source is the gazette itself. Which form of the gazette is the authentic one (the HTML view, the
+    signed PDF) was not established, so the source is recorded as non-authentic.
+provenance: >-
+  Official gazette of the Republic of Slovenia (archive). Each page is stored byte-for-byte (SHA-256) with its address and retrieval
+  time; identity, issue and publication date are read from the page (canonical address, title and issue lines).
+known_limitations:
+  - Each act is the text as published in its issue; Uradni list does not consolidate, so amendments are separate acts and the text of an amended law is not updated. No end of validity is stated.
+  - The page states no entry-into-force date (it is in the act's text, usually the last article); no validity period is recorded, every provision is "in force, start unknown", and point-in-time answers are not possible.
+  - Only the acts listed in the manifest (laws and consolidated texts from January 2020 to February 2026, plus core laws); no regulations, decisions, municipal acts or case law.
+  - Article, paragraph, point and sub-point structure is read from the printed numbering; a line that matches no numbering stays text of the unit above. Tables are reduced to one line per row.
+  - The promulgation decree and title (preamble) and the signature lines (closing) are separate provisions; annexes are one provision each.
+  - "Text search uses the simple configuration (PostgreSQL has no Slovenian stemmer): inflected forms match only when identical."
+status: active
+connector: uradni_list
+parser: uradni_list_html

@@ -55,6 +55,7 @@ from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
 from ulis.sources.connectors.ris_ogd import RisOgdConnector
+from ulis.sources.connectors.uradni_list import UradniListConnector
 from ulis.sources.connectors.uscode_house import UscodeHouseConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef, ParseSkipped
 from ulis.sources.parsers import (
@@ -83,6 +84,7 @@ from ulis.sources.parsers import (
     riigi_teataja,
     riksdagen_sfs,
     ris,
+    uradni_list,
     uslm,
 )
 from ulis.sources.registry import SourceDescriptor, licence_gate
@@ -118,6 +120,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "infoleg_ar_html": infoleg_ar.parse_infoleg_ar,
     "lilex_html": lilex.parse_lilex,
     "narodne_novine_html": narodne_novine.parse_narodne_novine,
+    "uradni_list_html": uradni_list.parse_uradni_list,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -146,6 +149,7 @@ PARSER_VERSIONS = {
     "infoleg_ar_html": infoleg_ar.PARSER_VERSION,
     "lilex_html": lilex.PARSER_VERSION,
     "narodne_novine_html": narodne_novine.PARSER_VERSION,
+    "uradni_list_html": uradni_list.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -207,6 +211,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "infoleg_ar": InfolegArConnector,
     "lilex": LilexConnector,
     "narodne_novine": NarodneNovineConnector,
+    "uradni_list": UradniListConnector,
 }
 
 

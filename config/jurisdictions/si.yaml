@@ -1,0 +1,92 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Slovenia (national law). Memberships (EU, Council of Europe, NATO) are not recorded here.
+schema_version: 1
+id: SI
+profile_version: 0.1.0
+name: Slovenia
+names: {sl: Republika Slovenija, en: Republic of Slovenia}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [sl]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: unknown
+  notes: >-
+    To verify - unitary parliamentary republic under the Constitution of 1991. The Državni zbor (National Assembly) passes
+    laws; the President of the Republic promulgates them by a decree (ukaz o razglasitvi) based on Art. 91 of the Constitution
+    (the decree is printed before each law in Uradni list RS); the Government issues decrees (uredbe) and ministers rules
+    (pravilniki). Civil-law system with codified law (Austrian and German influences). Municipalities (občine) issue their own
+    acts; they are not ingested. How international treaties rank and take effect is not modelled here - to verify.
+legislative_institutions:
+  - id: SI-DZ
+    name: Državni zbor (National Assembly - zakoni, ustavni zakoni; the Constitution is amended by the Assembly)
+    instrument_types: [constitution, constitutional_act, act]
+  - id: SI-VLADA
+    name: Vlada (Government - uredbe, odloki)
+    instrument_types: [regulation]
+instrument_types: [constitution, constitutional_act, act, regulation, other]
+norm_hierarchy: [constitution, constitutional_act, act, regulation]
+courts:
+  - id: SI-US
+    name: Ustavno sodišče Republike Slovenije (Constitutional Court)
+    rank: 1
+  - id: SI-VS
+    name: Vrhovno sodišče Republike Slovenije (Supreme Court)
+    rank: 1
+  - id: SI-VISJA
+    name: Višja sodišča (Higher Courts; appeal instance)
+    rank: 2
+    appeals_to: [SI-VS]
+  - id: SI-OKROZNA
+    name: Okrožna sodišča (District Courts; first instance in serious cases, appeal from local courts)
+    rank: 3
+    appeals_to: [SI-VISJA]
+  - id: SI-OKRAJNA
+    name: Okrajna sodišča (Local Courts; first instance)
+    rank: 4
+    appeals_to: [SI-OKROZNA]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal rule of binding precedent for the ordinary courts; the case law of the Vrhovno sodišče is followed in
+    practice and cited as persuasive. Decisions of the Ustavno sodišče on constitutionality are binding. The court list is
+    simplified (the Upravno sodišče and the labour, social and other specialised courts are not placed) and every entry is a
+    draft to verify. Case law is not ingested.
+citation:
+  module: si
+  notes: >-
+    From the smallest unit to the largest, the cited unit in the nominative and every container in the genitive, paragraphs
+    as ordinal words: "3. člen ZJRM-2", "prvi odstavek 3. člena ZJRM-2", "2. točka prvega odstavka 3. člena ZJRM-2",
+    "podtočka a) 2. točke prvega odstavka 3. člena ZJRM-2"; an inserted article is "12.a člen". The act is named by the
+    abbreviation in the last parenthesis of its title; a title without one is cited in the genitive ("Zakona o ...") or put
+    first ("<title>, 3. člen").
+  examples:
+    - "1. člen ZJRM-2"
+    - "prvi odstavek 3. člena ZJRM-2"
+    - "2. točka 2. člena ZPUG"
+publication:
+  official_sources: [si-uradni-list]
+  commencement: >-
+    Acts are promulgated by the President and published in Uradni list RS; each act states its own entry into force, usually in
+    its last article ("Ta zakon začne veljati trideseti dan po objavi v Uradnem listu Republike Slovenije"). The page of the
+    gazette states no commencement date.
+  amendment: >-
+    Textual amendment by amending laws ("Zakon o spremembah in dopolnitvah ..."), each published in its own issue. The gazette
+    does not consolidate; for some laws it publishes an official consolidated text ("uradno prečiščeno besedilo", UPB).
+  repeal: >-
+    Express repeal by a later act; the source does not mark an older act as repealed.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - "Each act is the text as published in Uradni list RS; amendments are separate acts and are not applied, so an older law may be amended or repealed. Consolidated texts (UPB) are ingested only where the gazette published them."
+    - The source states no entry-into-force date and no end of validity; no validity period is recorded (start unknown), so searches show every provision as in force and point-in-time lookups cannot be answered.
+    - Only the acts in the manifest (laws and consolidated texts of January 2020 - February 2026 and a few core laws); no regulations, decisions, municipal acts, treaties or case law; the gazette since March 2026 (on pisrs.si) is not ingested.
+    - The unofficial consolidated texts of PISRS are not ingested (its terms forbid reproducing the database; its API needs a key).
+    - Structure (article, paragraph, point, sub-point) is read from the printed numbering; unusual layouts leave text in the enclosing unit. Tables are reduced to text rows.
+    - Whether the HTML page is the authentic publication was not established; it is recorded as non-authentic.
+    - "No PostgreSQL text-search configuration exists for Slovenian, so the simple configuration is used (no stemming; inflected forms are matched only when identical)."
