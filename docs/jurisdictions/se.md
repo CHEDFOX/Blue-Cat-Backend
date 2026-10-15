@@ -72,8 +72,10 @@ eIds: `chapter-3-section-1-paragraph-2-point-1` (chapter only when sections rest
 regeringsformen`, `36 § första stycket avtalslagen`, `7 § första stycket lagen (1982:80) om anställningsskydd`,
 `9 § första stycket förvaltningslagen (2017:900)`, `2 kap. 1 § första stycket 1 regeringsformen`, `30 kap. 1 § första
 stycket andra strecksatsen brottsbalken`, `regeringsformen, övergångsbestämmelserna till SFS 1976:871 punkt 2`.
-Unnumbered statutes: `första stycket förordningen (2014:1308) om uppräkningsfaktorer vid beräkning av preliminära kommunalskattemedel för 2015`; annexes: `bilagan till lagen (2013:125) om avtal mellan Sverige och Antigua och Barbuda om utbyte av upplysningar i skatteärenden` (`bilaga 2 till ...` when numbered). Codes and the four fundamental laws (regeringsformen, successionsordningen, tryckfrihetsförordningen, yttrandefrihetsgrundlagen) are cited by name; "avtalslagen" is an established short name (table in the parser);
-others from the title with the SFS number. "första stycket" is cited even for single-stycke sections. To confirm.
+Unnumbered statutes: `första stycket förordningen (2014:1308) om uppräkningsfaktorer ...`; annexes: `bilagan till lagen (2013:125)
+om avtal mellan Sverige och Antigua och Barbuda ...` (`bilaga 2 till ...` when numbered). Codes and the four fundamental laws
+(regeringsformen, successionsordningen, tryckfrihetsförordningen, yttrandefrihetsgrundlagen) are cited by name; "avtalslagen" is an
+established short name (table in the parser); others from the title with the SFS number. "första stycket" is cited even for single-stycke sections. To confirm.
 
 ## Known gaps
 
@@ -86,37 +88,21 @@ others from the title with the SFS number. "första stycket" is cited even for s
 - A statute marked in force by the list may be repealed before its record is republished; the parser then skips it.
 - Swedish search uses PostgreSQL `swedish` (no compound splitting). An undated wording's stated end is kept in its note.
 
-## Results (2026-10-14)
+## Results
 
-- ~24 HTTPS requests (terms, robots, 11 documents incl. 2 reference Acts); the ingest ran from the cache.
-- `ruff check`, `ruff format --check`, `mypy ulis`: pass. Full suite on `ulis_test_se`: **226 passed** (129 s),
-  10 of them in `tests/test_riksdagen_sfs.py` (7 unit, 3 PostgreSQL; fixtures: 6 gzip responses, 337 KB).
-- Fresh `ulis_se`: `migrate`, `sync-catalog` (22 jurisdictions, 14 sources), `ingest se-riksdagen-sfs`: documents 8/8
-  new, instruments 8, provision versions 8,018, passages 5,692, conflicts 0, errors 0. Re-run: 8 unchanged.
-  `verify-sources`: **8/8 pass** (8,018 units).
-- Searches (`jurisdiction=SE`): "uppsägning … sakliga skäl" → `7 § första stycket lagen (1982:80) om anställningsskydd`;
-  "berövar annan livet döms för mord" → `3 kap. 1 § första stycket brottsbalken`; "avtalsvillkor jämkas oskäligt" →
-  `36 § första stycket avtalslagen`; "prövningstillstånd ledning av rättstillämpningen" → `54 kap. 10 § första stycket
-  rättegångsbalken`; "Sveriges utrikes underrättelsetjänst personuppgifter": 0 hits on 2026-10-14, on 2027-02-01
-  `1 kap. 3 § första stycket 4 lagen (2018:218) …` (from 2027-01-01, `OUTSTANDING_CHANGES`). Hits carry
-  `PROFILE_UNVERIFIED`, `ATTESTED_ONLY_AT`, `AS_OF_AFTER_CURRENCY`, `REVISED_TEXT`, `SOURCE_NOT_AUTHENTIC`.
-- Point in time: 2018:218 1 kap. 3 § → old wording (`in_force_date_unverified`) on 2026-10-14, new one on 2027-02-01;
-  its new point 4 is `not_yet_in_force` before 2027-01-01; BrB 32 kap. 1 § has a wording valid on 2027-01-01 only.
-
-## Widening run (2026-10-15; sample, not the whole manifest)
-
-- Requests during development: about 90 list pages and about 500 statutes (cached afterwards).
-- Samples drawn at random from the committed manifest (plus the pilot eight), fresh database, parser 1.2.0: 150 statutes -> **158
-  documents, 156 stored, 2 skipped (records with no text), 0 errors** (17,110 provision versions, 12,290 passages); 200 statutes ->
-  **208 documents, 187 new + 20 already stored, 1 skipped, 0 errors**. So 0 errors in 350 statutes and 3 records without text. Before
-  the parser fixes 13 of the first 100 documents failed (unnumbered statutes, "1 §." sections) and 3 of the third draw's 200 ("AVDELNING
-  I." and "m. m." headings, a one-sentence announcement read as a heading). A draw of 140 statutes from the unfiltered list had 69
-  repealed ones (skipped) and one `mom.` error (1944:407, still unsupported).
-- 408 statutes stored in the final sample database (the two draws above plus the pilot eight and a draw of 140 from the unfiltered
-  list: 65 new, 69 repealed and skipped). `verify-sources` on it (together with 311 Irish, 227 Dutch and 18 Danish documents):
-  **964 of 964 pass**, 128,588 units re-derived from the raw bytes. `tests/test_riksdagen_sfs.py` now has 18 tests (15 unit, 3
-  PostgreSQL).
-- Searches (`jurisdiction=SE`): "bidrag till arbetslivsmuseer" -> `1 § första stycket förordningen (2000:1078) om bidrag till
-  arbetslivsmuseer`; "uppräkningsfaktorer preliminära kommunalskattemedel 2015" -> `första stycket förordningen (2014:1308) om
-  uppräkningsfaktorer ...`; "skattefrihet anslag lågkonjunkturfond" -> `2 § första stycket kungörelsen (1959:82) om skattefrihet ...`;
-  "Antigua och Barbuda utbyte av upplysningar i skatteärenden" -> the Act's text and `bilagan till lagen (2013:125) ...`.
+- Pilot (2026-10-14, `ulis_se`): 8 statutes, 8,018 provision versions, 5,692 passages, `verify-sources` 8/8, 0 errors; ingest idempotent.
+  Point in time: 2018:218 1 kap. 3 § gives the old wording on 2026-10-14 and the new one on 2027-02-01 (its new point 4 is
+  `not_yet_in_force` before 2027-01-01); BrB 32 kap. 1 § has a wording valid on 2027-01-01 only. Hits carry `PROFILE_UNVERIFIED`,
+  `ATTESTED_ONLY_AT`, `AS_OF_AFTER_CURRENCY`, `REVISED_TEXT`, `SOURCE_NOT_AUTHENTIC`.
+- Widening (2026-10-15, sample, not the whole manifest; about 90 list pages and 500 statutes fetched): fresh database, parser 1.2.0,
+  random draws from the manifest plus the pilot eight: 150 statutes -> 158 documents, 156 stored, 2 skipped (records with no text),
+  0 errors; 200 statutes -> 208 documents, 187 new, 20 already stored, 1 skipped, 0 errors. Before the parser fixes 13 of the first
+  100 documents and 3 of the third draw failed (unnumbered statutes, "1 §.", "AVDELNING I.", "m. m.", a one-sentence announcement).
+  A draw of 140 from the unfiltered list had 69 repealed (skipped) and one `mom.` error (1944:407, unsupported).
+- Final sample database: 408 Swedish statutes (with 311 Irish, 227 Dutch, 18 Danish documents): `verify-sources` **964 of 964 pass**
+  (128,588 units re-derived from the raw bytes). `tests/test_riksdagen_sfs.py`: 18 tests (15 unit, 3 PostgreSQL).
+- Searches (`jurisdiction=SE`): "berövar annan livet döms för mord" -> `3 kap. 1 § första stycket brottsbalken`; "bidrag till
+  arbetslivsmuseer" -> `1 § första stycket förordningen (2000:1078) om bidrag till arbetslivsmuseer`; "skattefrihet anslag
+  lågkonjunkturfond" -> `2 § första stycket kungörelsen (1959:82) ...`; "Antigua och Barbuda utbyte av upplysningar i skatteärenden"
+  -> `bilagan till lagen (2013:125) ...`; "Sveriges utrikes underrättelsetjänst personuppgifter": 0 hits on 2026-10-14, on 2027-02-01
+  `1 kap. 3 § första stycket 4 lagen (2018:218) ...` (`OUTSTANDING_CHANGES`).
