@@ -71,6 +71,10 @@ docker compose --profile tools run --rm cli status                  # per-jurisd
   2 usage, 3 another `load-all` is running, 130 interrupted. `--only SRC...`, `--skip SRC...`, `--dry-run`.
 * **Resumable**: downloads are cached under `/srv/ulis/sources` and ingestion is idempotent (documents are keyed by
   SHA-256). After a crash, reboot or Ctrl-C run the same command again; cached files are not fetched twice.
+* **Statistics during a load**: each source is one transaction, and the loader refreshes the planner statistics of the three big
+  tables itself (`ANALYZE` inside the transaction, with a lock that keeps autovacuum off them until the source commits).
+  So a manual `VACUUM`/`ANALYZE` on `provisions`, `provision_versions` or `provision_version_sources` waits until the running
+  source commits; do the post-load `VACUUM ANALYZE` after `load-all` has finished.
 * **Commercial use**: set `ULIS_COMMERCIAL_USE=1` in `.env` before any paid or public offering. The loader then refuses
   every source whose licence does not permit commercial use (today Washington, Texas, Oregon and Normattiva are
   "unknown"; the list is in [licence-review.md](licence-review.md)). The early-access test is not commercial.
