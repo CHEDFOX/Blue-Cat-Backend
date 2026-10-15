@@ -71,6 +71,9 @@ docker compose --profile tools run --rm cli status                  # per-jurisd
   2 usage, 3 another `load-all` is running, 130 interrupted. `--only SRC...`, `--skip SRC...`, `--dry-run`.
 * **Resumable**: downloads are cached under `/srv/ulis/sources` and ingestion is idempotent (documents are keyed by
   SHA-256). After a crash, reboot or Ctrl-C run the same command again; cached files are not fetched twice.
+* **Commercial use**: set `ULIS_COMMERCIAL_USE=1` in `.env` before any paid or public offering. The loader then refuses
+  every source whose licence does not permit commercial use (today Washington, Texas, Oregon and Normattiva are
+  "unknown"; the list is in [licence-review.md](licence-review.md)). The early-access test is not commercial.
 * **Parallel**: `--jobs 4` loads four sources at once (default 1). Two sources whose publishers share a domain are never
   loaded together, so every publisher still sees one polite client; sources on different sites overlap. Sequentially
   the network time of the 50 active sources is at least 31 hours (`--dry-run` prints it); with `--jobs 4` the wall time

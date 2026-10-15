@@ -82,6 +82,9 @@ def law_page_info(page: bytes, lgbl: str) -> tuple[str, list[tuple[int, str]], i
     return chrono_id, versions, selected
 
 
+UNNOTIFIED_LIMIT = 25  # laws fetched per run before the Rechtsdienst has been notified
+
+
 class LilexConnector:
     def __init__(
         self,
@@ -127,7 +130,18 @@ class LilexConnector:
             manifest, HOST, self.cache_dir, offline=self.offline, sleep=self._sleep, robots_required=False
         )
         default = manifest.get("default_versions", "current")
-        for law in manifest["laws"]:
+        laws = list(manifest["laws"])
+        if not manifest.get("notified_on") and len(laws) > UNNOTIFIED_LIMIT:
+            # The publisher states no terms and the source descriptor asks that the Rechtsdienst der Regierung be
+            # told before the full manifest (about 2,500 requests) runs: until `notified_on: <date>` is set in the
+            # manifest, only a slice runs.
+            self.fetch_errors.append(
+                f"li-lilex: only the first {UNNOTIFIED_LIMIT} of {len(laws)} laws are fetched: the manifest has no "
+                "`notified_on` date. Tell info.rdr@llv.li, then set `notified_on` in the manifest "
+                "(see config/sources/li-lilex.yaml)."
+            )
+            laws = laws[:UNNOTIFIED_LIMIT]
+        for law in laws:
             lgbl = str(law["lgbl"])
             try:
                 page, page_meta = self.session.get(f"/konso/{lgbl}")

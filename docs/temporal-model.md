@@ -41,6 +41,7 @@ question concerns an earlier date.
 | Basis | Used for | Effect on answers |
 |---|---|---|
 | `source_periods` | Sources that state periods (Akoma Ntoso `temporalData`; legislation.gov.uk restrictions) | Dates shown as published; derived end dates flagged. A UK period with an end but no start runs from the start of the revised data (first lifecycle date after enactment) |
+| `revision_snapshot` | Sources that publish each version as a whole-instrument snapshot without per-provision dates (for example Czechia, Poland, Denmark, Italy and several others) | `ulis/ingestion/snapshots.py`: unchanged wording continues from the earlier snapshot, a provision absent from a later snapshot ends there, oldest first; the start of the first snapshot is the earliest date the source attests (`SNAPSHOT_DATES` limitation) and an end that is not stated by the source is a derived end, flagged |
 | `enactment_date_presumed` | US public laws as enacted | In force from approval date under the default rule; `EFFECTIVE_DATE_PRESUMED` warning |
 | `attested_at_edition` | CFR annual editions; statute compilations | Start unknown, so `ATTESTED_ONLY_AT` and authority "applicability unverified" |
 | `proposal_stage` | Bill and resolution versions | Each stage supersedes the previous (`LATER_STAGE_EXISTS`); never law |

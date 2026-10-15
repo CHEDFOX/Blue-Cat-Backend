@@ -1,3 +1,8 @@
+# SUSPENDED (status: suspended) after the independent licence review of 2026-10-15 (docs/licence-review.md): every page
+# carries `noindex, nofollow` and the approval rested on the statute alone (the portal's terms could not be read), so
+# ULIS stops loading it until the Ministry of Justice of the Slovak Republic confirms in writing that these pages may
+# be retrieved and indexed, or a person reads the portal's terms and they allow it. The connector and parser stay in
+# the code (tested on fixtures) and the committed manifest is unchanged.
 # Slov-lex, static version (Ministerstvo spravodlivosti SR): time versions ("časové verzie") of acts of the Slovak
 # Collection of Laws as script-free HTML. Terms, access rules and documentation read on 2026-10-14 from the
 # publisher's own files, fetched with the User-Agent below:
@@ -101,6 +106,6 @@ known_limitations:
   - Footnote texts are kept as notes of the provisions that mark them; the table of contents, signatures, tables in annexes (flattened to text) and the layout are not kept.
   - Superscripts are written as Unicode superscript digits; runs of white space, including non-breaking spaces, become one space.
   - The portal's terms of use could not be read (JavaScript application); see licence notes.
-status: active
+status: suspended
 connector: slovlex_static
 parser: slovlex_static_html

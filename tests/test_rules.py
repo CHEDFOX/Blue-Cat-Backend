@@ -223,3 +223,25 @@ def test_scripts_without_spaces_are_searched_as_character_bigrams() -> None:
     assert segment_for_search("Article 1") is None  # other scripts are left to PostgreSQL
     assert segment_for_search("個人情報").split() == ["個人", "人情", "情報"]  # type: ignore[union-attr]
     assert segment_for_search("개인정보 보호법").split() == ["개인", "인정", "정보", "보호", "호법"]  # type: ignore[union-attr]
+
+
+def test_commercial_deployments_refuse_sources_whose_commercial_use_is_unknown(
+    catalog: Catalog, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from ulis.sources.registry import LicenceNotApproved, licence_gate
+
+    unknown = [
+        s
+        for s in catalog.sources
+        if s.status == "active" and s.licence.commercial_use not in ("allowed", "allowed_with_conditions")
+    ]
+    assert {s.id for s in unknown} >= {"us-wa-rcw", "us-tx-statutes", "us-or-ors", "it-normattiva"}
+    monkeypatch.delenv("ULIS_COMMERCIAL_USE", raising=False)
+    licence_gate(catalog.sources.get("us-wa-rcw"))  # the closed research test is not commercial
+    for source in unknown:
+        with pytest.raises(LicenceNotApproved, match="commercial"):
+            licence_gate(source, commercial=True)
+    monkeypatch.setenv("ULIS_COMMERCIAL_USE", "1")
+    with pytest.raises(LicenceNotApproved, match="commercial"):
+        licence_gate(catalog.sources.get("us-wa-rcw"))
+    licence_gate(catalog.sources.get("de-gesetze-im-internet"))  # CC-style free reuse stays loadable

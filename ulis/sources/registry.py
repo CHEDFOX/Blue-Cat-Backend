@@ -8,6 +8,7 @@ accessibility never substitutes for an approved licence review.
 
 from __future__ import annotations
 
+import os
 from datetime import date
 from pathlib import Path
 from typing import Literal
@@ -85,9 +86,25 @@ class LicenceNotApproved(PermissionError):
     pass
 
 
-def licence_gate(source: SourceDescriptor) -> None:
-    """Raise unless the source may be ingested and processed automatically."""
+def commercial_deployment() -> bool:
+    """``ULIS_COMMERCIAL_USE=1`` declares that this deployment is, or will be, offered commercially."""
+    return os.environ.get("ULIS_COMMERCIAL_USE", "").strip().lower() in ("1", "true", "yes")
+
+
+def licence_gate(source: SourceDescriptor, *, commercial: bool | None = None) -> None:
+    """Raise unless the source may be ingested and processed automatically.
+
+    In a commercial deployment (``commercial=True``, or ``ULIS_COMMERCIAL_USE=1`` when not given) the licence must also
+    permit commercial use; sources whose commercial use is unknown or not permitted are refused until the publisher
+    has answered. The closed early-access test is not commercial.
+    """
     problems: list[str] = []
+    if commercial is None:
+        commercial = commercial_deployment()
+    if commercial and source.licence.commercial_use not in ("allowed", "allowed_with_conditions"):
+        problems.append(
+            f"commercial deployment: licence does not permit commercial use ({source.licence.commercial_use!r})"
+        )
     if source.status != "active":
         problems.append(f"source status is {source.status!r}")
     if source.licence.review_status not in ("approved", "not_required"):

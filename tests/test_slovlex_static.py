@@ -26,6 +26,7 @@ from ulis.sources.connectors.polite_http import FetchError
 from ulis.sources.connectors.slovlex_static import SlovLexStaticConnector, history_versions, select_versions
 from ulis.sources.normalized import ParsedDocument, ParsedProvision
 from ulis.sources.parsers.slovlex_static import SlovLexParseError, parse_slovlex_static
+from ulis.sources.registry import LicenceNotApproved, licence_gate
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
 
@@ -368,9 +369,23 @@ def test_committed_manifest_loads_and_source_uses_this_connector(catalog: Catalo
     assert isinstance(build_connector(catalog.sources.get(SOURCE)), SlovLexStaticConnector)
     source = catalog.sources.get(SOURCE)
     assert source.authority == "official_non_authentic" and source.licence.review_status == "approved"
+    # Suspended after the licence review: pages are noindex, nofollow and no terms could be read.
+    assert source.status == "suspended"
+    with pytest.raises(LicenceNotApproved):
+        licence_gate(source)
 
 
 # --------------------------------------------------------------------------- PostgreSQL
+
+
+@pytest.fixture(scope="module", autouse=True)
+def _fixtures_bypass_the_suspension() -> Iterator[None]:
+    """The source is suspended (planned), so the real gate refuses it; the pipeline tests below exercise the parser
+    and connector on fixtures with the pipeline's gate lifted, while the test above proves the real gate refuses it."""
+    patch = pytest.MonkeyPatch()
+    patch.setattr("ulis.ingestion.pipeline.licence_gate", lambda source: None)
+    yield
+    patch.undo()
 
 
 class _Fixtures:

@@ -17,9 +17,9 @@ Robots rules are enforced here, because ``PoliteHttp`` does not parse robots.txt
   disallowed path is refused, not fetched. A site whose robots.txt disallows everything therefore
   yields nothing (those sources stay ``planned``; see ``config/sources``).
 
-Robustness: a document that is not found (404) or that does not look like the expected document (for
-example a bot-challenge page) is recorded in ``fetch_errors`` and the run goes on, but three
-unrecognisable documents in a row stop the run: the site is then challenging the client and ULIS never
+Robustness: a document that is not found (404) or that does not look like the expected document is recorded in
+``fetch_errors`` and the run goes on. A page that looks like a bot challenge or an access-denied page stops the run at
+once; three unrecognisable documents in a row stop it too: the site is then challenging the client and ULIS never
 works around a challenge.
 """
 
@@ -41,6 +41,24 @@ from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
 
 MIN_DELAY = 5.0
 MAX_CONSECUTIVE_UNRECOGNISED = 3
+# Words that only appear on a bot-challenge or access-denied page: the first one stops the run (a refusal is respected).
+CHALLENGE_MARKERS = (
+    b"captcha",
+    b"perfdrive",
+    b"__uzdbm",
+    b"challenge-platform",
+    b"cf-chl",
+    b"verify you are human",
+    b"are you a robot",
+    b"incapsula",
+    b"access denied",
+    b"request unsuccessful",
+)
+
+
+def looks_like_challenge(data: bytes) -> bool:
+    head = data[:20000].lower()
+    return any(marker in head for marker in CHALLENGE_MARKERS)
 
 
 def robots_crawl_delay(robots: str) -> float | None:
@@ -163,6 +181,11 @@ class SubnationalConnector:
                 continue
             data, meta = got
             if not self.recognise(doc_id, data):
+                if looks_like_challenge(data):
+                    raise FetchError(
+                        f"{url}: the site answered with a bot-challenge or access-denied page. Stopping at once "
+                        "(ULIS never works around a challenge); try again later or ask the publisher."
+                    )
                 unrecognised += 1
                 self.fetch_errors.append(
                     f"{self.EXTERNAL_PREFIX}:{doc_id}: {url}: not the expected document "

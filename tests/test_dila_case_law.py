@@ -461,9 +461,11 @@ def test_committed_manifests_are_valid(catalog: Catalog, source_id: str) -> None
         REPO_ROOT / (source.access.endpoint or ""), source_id, Path("/nonexistent")
     ).manifest()
     assert manifest.incrementals.enabled and manifest.database == source_id.split("-")[-1].upper()
-    assert source.licence.id == "Etalab-Licence-Ouverte-2.0" and "pseudonymis" in (
-        source.licence.attribution_text or ""
-    )
+    assert source.licence.id == "Etalab-Licence-Ouverte-2.0"
+    text = source.licence.attribution_text or ""
+    # CASS, INCA and JADE are pseudonymised by the publisher; the Constitutional Council publishes its decisions
+    # with the names it gives, so its attribution must not claim pseudonymisation.
+    assert ("pseudonymis" in text) == (source_id != "fr-dila-constit")
     assert source.licence.review_status == "approved"
 
 

@@ -55,12 +55,12 @@ licence:
   attribution_text: >-
     Source: Direction de l'information légale et administrative (DILA), base CONSTIT, Licence Ouverte 2.0. Téléchargé sur
     https://echanges.dila.gouv.fr/OPENDATA/CONSTIT/Freemium_constit_global_20250713-140000.tar.gz (fichier Freemium_constit_global_20250713-140000.tar.gz du 13 juillet 2025) et les archives quotidiennes
-    CONSTIT_<date>.tar.gz du même répertoire. Conformément à la recommandation de la CNIL du 29 novembre 2001, les données nominatives
-    concernant les personnes physiques sont pseudonymisées par l'éditeur. ULIS n'est pas lié à la DILA ni à la juridiction.
+    CONSTIT_<date>.tar.gz du même répertoire. Les décisions sont publiées par le Conseil constitutionnel avec les noms qu'il donne;
+    ULIS ne les modifie pas. ULIS n'est pas lié à la DILA ni à la juridiction.
   conditions:
     - "Mention the paternity of the data (DILA), the long download URL, and the name and date of the downloaded file (DILA data sheet)."
     - "Use the latest stock when first integrating the data (DILA data sheet); the manifest pins the stock and the ingestion must be redone when a newer one is published."
-    - "The decisions are pseudonymised by the publisher (CNIL recommendation of 29 November 2001); the DILA data sheet adds that the provision of data that may contain personal data does not release the reuser from the Informatique et Libertés law (an \"Avertissement\" document it refers to was not found on the DILA site). ULIS stores the text as published, keeps no name of judges, lawyers or parties outside it, and must not be used to re-identify persons."
+    - "The decisions are published by the Constitutional Council with the names it gives (they are not pseudonymised by ULIS); the DILA data sheet adds that the provision of data that may contain personal data does not release the reuser from the Informatique et Libertés law (an \"Avertissement\" document it refers to was not found on the DILA site). ULIS stores the text as published, keeps no name of judges, lawyers or parties outside it, and must not be used to re-identify persons."
     - "The Licence Ouverte 2.0 conditions apply (attribution, no suggestion of official endorsement); to be read in full by counsel before production use."
   notes: >-
     The DILA data sheet is dated 2017 and the licence text itself (Etalab) was not fetched (etalab.gouv.fr was not reachable through
@@ -71,11 +71,11 @@ provenance: >-
   The publisher's own open-data archives. The stock and each daily archive are stored as received (cache under var/sources/); each
   decision is stored as the XML file the publisher distributes, byte for byte, addressed by SHA-256, with the archive it came from.
 known_limitations:
-  - "Pseudonymised publication of the decision, not the signed original; not authoritative."
+  - "Publication of the decision as the Council gives it, not the signed original; not authoritative."
   - "Only decisions the courts supply to the DILA are published: a selection, not all the decisions of the courts."
   - "The referral letters (SAISINES) and observations of the Government (OBSERVATIONS) the data sheet mentions are not ingested; the files hold none for most decisions."
   - "The decisions carry no machine-readable links to the texts they apply (the data has no LIEN elements): articles are linked only where the decision names them with a strict pattern (article number directly followed by the name of a code, a law or the Constitution)."
-  - "Case-law links come only from the publisher's markup (the Cour de cassation's list of texts applied) and strict text patterns for articles of the codes, laws and the Constitution that are ingested; later history (overruling, distinguishing) is not tracked, and names of judges, lawyers and parties are not stored."
+  - "Case-law links come only from the publisher's markup (where the data marks them) and strict text patterns for articles of the codes, laws and the Constitution that are ingested; later history (overruling, distinguishing) is not tracked, and names of judges, lawyers and parties are not stored."
 status: active
 connector: dila_case_law
 parser: dila_juri_xml

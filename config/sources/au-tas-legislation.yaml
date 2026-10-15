@@ -39,7 +39,7 @@ licence:
   commercial_use: allowed_with_conditions
   attribution_required: true
   attribution_text: >-
-    Based on material from the Tasmanian Legislation website at [full date of download]. For the latest
+    Based on material from the Tasmanian Legislation website at {retrieved_date}. For the latest
     information on Tasmanian Government legislation please go to www.legislation.tas.gov.au. Licensed under
     CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); changes: text extracted from the XML and divided
     into provisions.

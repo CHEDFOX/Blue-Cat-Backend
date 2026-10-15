@@ -35,6 +35,19 @@ def test_what_law_applied_on_the_date(session: Session, catalog: Catalog) -> Non
     assert "LATER_VERSION_EXISTS" in codes(old)
 
 
+def test_provision_and_judgment_lookups_carry_the_source_attribution_fields(session: Session, catalog: Catalog) -> None:
+    """Licences that require attribution need it on every result, not only on search hits."""
+    expected = catalog.sources.get("ulis-fictional-sample").licence
+    source = provision_at(session, catalog, S12_1, date(2024, 5, 1))["version"]["source"]
+    assert source["licence_name"] == expected.name and source["licence_id"] == expected.id
+    assert source["attribution"] == expected.attribution_text  # None here: the fictional sample requires none
+    assert {"source_id", "source_name", "sha256", "retrieved_at", "locator"} <= set(source)
+    judgment = judgment_detail(session, catalog, "/akn/xa/judgment/xasc/2023/7")
+    jsource = judgment["versions"][0]["source"]
+    assert jsource["source_id"] == "ulis-fictional-sample" and jsource["licence_name"] == expected.name
+    assert "attribution" in jsource and jsource["sha256"]
+
+
 def test_repealed_prospective_and_not_yet_in_force(session: Session, catalog: Catalog) -> None:
     repealed = provision_at(session, catalog, "/akn/xa/act/2015/12/~sec_20", date(2024, 1, 1))
     assert repealed["status_on_date"] == "repealed" and "REPEALED" in codes(repealed)
@@ -122,3 +135,29 @@ def test_source_integrity_detects_tampering(
     result = verify_source_document(session, catalog, LocalObjectStore(store_dir), doc.id)
     assert result["result"] == "fail"
     assert any("does not match its own hash" in p for p in result["problems"])
+
+
+def test_attribution_placeholder_is_filled_with_the_retrieval_date() -> None:
+    from datetime import UTC, datetime
+
+    from ulis.retrieval.details import _render_attribution
+
+    text = "Based on content from the X website at {retrieved_date}. Licensed under CC BY 4.0."
+    got = _render_attribution(text, datetime(2026, 10, 14, 12, 0, tzinfo=UTC))
+    assert got == "Based on content from the X website at 2026-10-14. Licensed under CC BY 4.0."
+    assert _render_attribution(None, datetime(2026, 1, 1, tzinfo=UTC)) is None
+
+
+def test_no_attribution_text_keeps_an_unfilled_placeholder() -> None:
+    import re
+    from pathlib import Path
+
+    import yaml
+
+    from ulis.settings import REPO_ROOT
+
+    for path in (REPO_ROOT / "config" / "sources").glob("*.yaml"):
+        text = (yaml.safe_load(path.read_text(encoding="utf-8")).get("licence") or {}).get("attribution_text") or ""
+        for token in re.findall(r"\{[a-z_]+\}|\[[^\]]*date of download[^\]]*\]", text):
+            assert token == "{retrieved_date}", f"{path.name}: unfilled placeholder {token}"
+        assert isinstance(path, Path)

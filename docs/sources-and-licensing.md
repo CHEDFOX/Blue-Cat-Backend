@@ -1,8 +1,13 @@
 # Source discovery and licensing strategy
 
 > Licence statements about real sources in this repository are **preliminary research
-> notes**. They are recorded with `review_status: pending_review` and must be confirmed by
-> counsel. Nothing here is legal advice about reuse rights.
+> notes**. `review_status: approved` in a source descriptor means the **ULIS project's own
+> sign-off** (`reviewed_by` says who and when), taken from the publisher's own words; it is
+> **not counsel's opinion**. Counsel has reviewed none of them yet and must confirm them before
+> any commercial offering. An independent review of every active source (green, amber, red, with
+> the open questions) is in [licence-review.md](licence-review.md); the generated list of what is
+> loaded and what is blocked is [corpus.md](corpus.md). Nothing here is legal advice about reuse
+> rights.
 
 ## 1. Principles
 
@@ -79,7 +84,6 @@ or without conditions); connector and parser configured.
 | `eu-cellar-case-law` | active | Cellar dataset statement (Decision 2011/833/EU applies to Commission documents; judgments are covered through the Publications Office dataset statement); acknowledgement required; counsel review needed | **Admitted** (conditions) | publications.europa.eu `/resource/` (robots allow); curia and EUR-Lex not used (bot challenges) |
 | `gb-find-case-law` | planned | Open Justice Licence (to confirm) | Refused | Our understanding: computational analysis requires a separate licence. Recorded as `automated_processing: not_allowed` until held |
 | `us-uscode-house` | active | US government work, 17 U.S.C. 105 (OLRC pages state no licence; basis quoted in GovInfo's Public Domain & Copyright Notice); robots.txt blocks only Slurp and the connector applies it to every URL | **Admitted** (counsel review recommended) | Official US Code XML per title (OLRC release point; titles 1, 5, 11, 17, 18, 28, 31, 35, 38, 44, all positive law); release date taken from the download page |
-| `eu-eur-lex` | planned | Commission Decision 2011/833/EU reuse (to confirm) | Refused | Only the e-OJ is authentic; consolidations are documentation |
 | `in-india-code` | planned | **Unknown** | Refused | Review site terms and Copyright Act 1957 s.52(1)(q) (reproduction of Acts with commentary; judgments treated differently) |
 
 ## 5. Discovery process for a new jurisdiction

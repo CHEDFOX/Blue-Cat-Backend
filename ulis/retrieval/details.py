@@ -84,6 +84,11 @@ class JudgmentData:
     cites: list[dict[str, Any]]
 
 
+def _render_attribution(text: str | None, retrieved_at: datetime) -> str | None:
+    """Fill ``{retrieved_date}`` (licences that ask for the date of download) with the document's retrieval date."""
+    return text.replace("{retrieved_date}", retrieved_at.date().isoformat()) if text else text
+
+
 def _source_info(session: Session, catalog: Catalog, doc_id: uuid.UUID, locator: str) -> SourceInfo:
     doc = session.get(m.SourceDocument, doc_id)
     assert doc is not None
@@ -94,7 +99,7 @@ def _source_info(session: Session, catalog: Catalog, doc_id: uuid.UUID, locator:
         source_authority=descriptor.authority,
         licence_id=descriptor.licence.id,
         licence_name=descriptor.licence.name,
-        attribution=descriptor.licence.attribution_text,
+        attribution=_render_attribution(descriptor.licence.attribution_text, doc.retrieved_at),
         document_id=str(doc.id),
         external_id=doc.external_id,
         document_uri=doc.uri,

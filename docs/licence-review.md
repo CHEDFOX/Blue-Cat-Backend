@@ -241,3 +241,25 @@ Counts: **1 RED, 31 AMBER, 19 GREEN.**
      - TX: date the "effective on/until" variants;
    - (f) document `revision_snapshot` in `docs/temporal-model.md` (C6);
    - (g) one standard for US states with no terms (C4).
+
+
+## Status after the review (2026-10-15, same day)
+
+Done in code and config (tests added for each):
+
+- **C1** `/v1/provisions` and `/v1/judgments` now return the source block with `attribution` and `licence_name` (judgments per version).
+- **Australian attribution sentences** carry the real download date: the placeholder is `{retrieved_date}` in the three descriptors and `ulis/retrieval/details.py` fills it with the document's retrieval date; a test fails on any other unfilled placeholder.
+- **`fr-dila-constit`** no longer claims pseudonymisation (attribution, conditions, limitations).
+- **`sk-slovlex-static` is `suspended`** (RED): `load-all` skips it; its parser and tests stay (the pipeline tests lift the gate for fixtures only).
+- **C2** `docs/sources-and-licensing.md` now says `approved` is the project's own sign-off, not counsel's, and the duplicate `eu-eur-lex` row is gone.
+- **C3** `ULIS_COMMERCIAL_USE=1` makes the licence gate refuse every source whose `commercial_use` is not allowed (Washington, Texas, Oregon and Normattiva today).
+- **C5** the sub-national connector (QLD, TAS, ON, MB) stops at the first page that looks like a bot challenge or an access-denied page (three other unrecognised pages in a row still stop it).
+- **C6** `docs/temporal-model.md` documents `revision_snapshot`.
+- **`li-lilex`** runs only 25 laws until the manifest carries `notified_on: <date>` (the Rechtsdienst has to be told first).
+
+Still open (nothing was changed; these need a decision, a publisher or counsel):
+
+- Permission requests and counsel questions (items 3 to 5 above); the Fedlex `/filestore` host mapping and Luxembourg's conflicting terms.
+- **Dates**: Normattiva's one-off exports should be `attested_at_edition`; Poland and Denmark end an older snapshot's wording only when a later text starts, not at an intervening amendment; Ireland, Croatia and Slovenia label as-enacted or as-published acts `in_force` (the limitation text is shown, the label is not honest); Texas future-effective variants are attested as current. Treat date answers for these sources as indicative.
+- **C4** one standard for US states with no terms (Oregon and Texas are active on "no terms found"; Minnesota and Florida are not).
+- Counsel review of every `approved`, and reading the terms pages ULIS could not read (item 4).

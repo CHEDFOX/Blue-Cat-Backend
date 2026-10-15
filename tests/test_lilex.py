@@ -360,6 +360,22 @@ def test_connector_reports_missing_laws_and_goes_on(tmp_path: Path) -> None:
     assert "2020.998" in connector.fetch_errors[1] and "not a Lilex law page" in connector.fetch_errors[1]
 
 
+def test_a_full_manifest_waits_for_the_publisher_to_be_notified(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from ulis.sources.connectors import lilex
+
+    monkeypatch.setattr(lilex, "UNNOTIFIED_LIMIT", 2)
+    cache = _cache(tmp_path)
+    laws = [{"lgbl": "2020.999"}, {"lgbl": "2020.998"}, {"lgbl": "1999.096"}]
+    unnotified = LilexConnector(_manifest(tmp_path, laws), SOURCE, cache, offline=True)
+    assert list(unnotified.fetch()) == []  # the third law (the only cached real one) was not even tried
+    assert any("only the first 2 of 3 laws" in e and "notified_on" in e for e in unnotified.fetch_errors)
+    notified = LilexConnector(_manifest(tmp_path, laws, notified_on="2026-10-20"), SOURCE, cache, offline=True)
+    assert [d.external_id for d in notified.fetch()] == ["li-lilex:1999.096@v7"]
+    assert not any("only the first" in e for e in notified.fetch_errors)
+
+
 def test_connector_is_offline_and_refuses_robots_disallowed_paths(tmp_path: Path) -> None:
     cache = _cache(tmp_path)
     with pytest.raises(FetchError, match="offline and not cached"):

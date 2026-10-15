@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import asdict
 from datetime import date
 from typing import Any
 
@@ -11,7 +12,13 @@ from sqlalchemy.orm import Session
 from ulis.catalog import Catalog
 from ulis.db import models as m
 from ulis.retrieval.authority import classify_provision
-from ulis.retrieval.details import judgment_citation, load_provision, provision_citation, title_in
+from ulis.retrieval.details import (
+    _source_info,
+    judgment_citation,
+    load_provision,
+    provision_citation,
+    title_in,
+)
 from ulis.temporal.validity import resolve_at
 from ulis.verification.limitations import Limitation, jurisdiction_limitations, provision_limitations
 
@@ -22,6 +29,13 @@ class NotFound(LookupError):
 
 def _iso(d: date | None) -> str | None:
     return d.isoformat() if d else None
+
+
+def _source_block(src: Any) -> dict[str, Any]:
+    """The source of a text with the attribution its licence requires: returned with every result."""
+    block = asdict(src)
+    block["retrieved_at"] = src.retrieved_at.isoformat()
+    return block
 
 
 def provision_at(
@@ -76,15 +90,7 @@ def provision_at(
             "expression_uri": data.instrument_version.uri,
             "currency_date": _iso(data.currency_date),
             "authority": {"category": authority.category, "label": authority.label, "rationale": authority.rationale},
-            "source": {
-                "source_id": data.source.source_id,
-                "source_name": data.source.source_name,
-                "document_id": data.source.document_id,
-                "sha256": data.source.sha256,
-                "retrieved_at": data.source.retrieved_at.isoformat(),
-                "locator": data.source.locator,
-                "licence_id": data.source.licence_id,
-            },
+            "source": _source_block(data.source),
         }
     else:
         limitations = jurisdiction_limitations(catalog, instrument.jurisdiction_id)
@@ -224,6 +230,7 @@ def judgment_detail(session: Session, catalog: Catalog, uri: str) -> dict[str, A
                 "language": v.language,
                 "authoritative": v.authoritative,
                 "text_origin": v.text_origin,
+                "source": _source_block(_source_info(session, catalog, v.source_document_id, "")),
                 "paragraphs": [
                     {
                         "id": str(p.id),

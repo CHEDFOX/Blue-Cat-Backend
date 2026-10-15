@@ -50,8 +50,7 @@ licence:
   commercial_use: allowed_with_conditions
   attribution_required: true
   attribution_text: >-
-    Based on content from the Federal Register of Legislation at [date of download: see the source
-    document's retrieval date]. For the latest information on Australian Government legislation
+    Based on content from the Federal Register of Legislation at {retrieved_date}. For the latest information on Australian Government legislation
     please go to https://www.legislation.gov.au. Licensed under CC BY 4.0
     (https://creativecommons.org/licenses/by/4.0/); changes: text extracted from the EPUB
     compilation and divided into provisions.

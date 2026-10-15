@@ -407,6 +407,14 @@ def test_earlier_dates_are_a_history_gap_not_absence(
 
 
 @pytest.mark.db
+def test_provision_lookup_returns_the_attribution_the_licence_asks_for(
+    session: Session, catalog: Catalog, de_ingested: IngestionReport
+) -> None:
+    source = provision_at(session, catalog, "/de/bund/stgb/~para-242-abs-1", date(2026, 9, 28))["version"]["source"]
+    assert source["attribution"].startswith("Quelle: Gesetze im Internet") and source["licence_name"]
+
+
+@pytest.mark.db
 def test_reingest_is_idempotent_and_sources_verify(
     session_factory: sessionmaker[Session], catalog: Catalog, store: LocalObjectStore, de_ingested: IngestionReport
 ) -> None:

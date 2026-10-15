@@ -450,9 +450,16 @@ def test_connector_stops_on_a_refusal_and_on_repeated_challenge_pages(
     for i in ("90c43", "90h19", "90s22", "90b16"):
         fake_http.pages[f"https://{host}/laws/statute/{i}"] = b"<html><script>__uzdbm_1</script></html>"
     connector = CONNECTORS["ontario_e_laws"](path, "ca-on-e-laws", tmp_path)
-    with pytest.raises(FetchError, match="challenging"):
+    with pytest.raises(FetchError, match="bot-challenge"):
         list(connector.fetch())  # type: ignore[attr-defined]
-    assert len(connector.fetch_errors) == 3  # type: ignore[attr-defined]
+    assert f"https://{host}/laws/statute/90h19" not in fake_http.requested  # stopped at the first challenge page
+    # Pages that are merely not the expected document stop the run only after three in a row.
+    for i in ("90c43", "90h19", "90s22", "90b16"):
+        fake_http.pages[f"https://{host}/laws/statute/{i}"] = b"<html><body>Something else</body></html>"
+    other = CONNECTORS["ontario_e_laws"](path, "ca-on-e-laws", tmp_path / "other")
+    with pytest.raises(FetchError, match="challenging"):
+        list(other.fetch())  # type: ignore[attr-defined]
+    assert len(other.fetch_errors) == 3  # type: ignore[attr-defined]
     assert f"https://{host}/laws/statute/90b16" not in fake_http.requested  # stopped after the third
 
 
