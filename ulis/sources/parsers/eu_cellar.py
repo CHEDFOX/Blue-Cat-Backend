@@ -61,7 +61,7 @@ from defusedxml.ElementTree import fromstring
 from ulis.ingestion.snapshots import SNAPSHOT_BASIS
 from ulis.jurisdictions.modules.eu import DOMAIN_CODES, TREATY_ABBREVIATION, designation
 from ulis.sources.connectors.eu_cellar import BUNDLE_FORMAT, LANG3
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "eu_cellar"
 PARSER_VERSION = "1.1.0"
@@ -603,7 +603,7 @@ def formex_files(parts: list[Part]) -> list[tuple[str, bytes]]:
 
 def parse_formex(parts: list[Part]) -> tuple[FormexDoc, list[Prov]]:
     b = _Builder()
-    main: Element | None = None
+    mains: list[Element] = []
     annexes: list[Element] = []
     descriptor: Element | None = None
     for name, data in formex_files(parts):
@@ -613,24 +613,48 @@ def parse_formex(parts: list[Part]) -> tuple[FormexDoc, list[Prov]]:
         elif root.tag == "ANNEX":
             annexes.append(root)
         elif root.tag in ("ACT", "GENERAL", "CONS.ACT") and root.find(".//ENACTING.TERMS") is not None:
-            if main is not None:
-                raise EuParseError("more than one main Formex document")
-            main = root
+            mains.append(root)
         elif root.tag in ("ACT", "GENERAL", "TOC", "PUBLICATION"):
             continue  # a table of contents or an issue description
         else:
             raise EuParseError(f"{name}: unsupported Formex root {root.tag!r}")
-    if main is None:
+    if not mains:
         raise EuParseError("no Formex document with enacting terms")
+    if any(m.tag == "CONS.ACT" for m in mains) and len(mains) > 1:
+        raise EuParseError("more than one main Formex document in a consolidated version")
+    main = mains[0]
     consolidated = main.tag == "CONS.ACT"
     doc_root = main.find("CONS.DOC") if consolidated else main
     if doc_root is None:
         raise EuParseError("CONS.ACT without CONS.DOC")
     title_el = doc_root.find("TITLE")
     title = _ws(" ".join(fmx_lines(title_el))) if title_el is not None else ""
-    terms = main.find(".//ENACTING.TERMS")
-    assert terms is not None
-    fmx_body(b, terms, [])
+    # One Official Journal publication can carry several acts under one CELEX number (a decision and the decision it
+    # amends ...): the first is the main act, the others follow it, their title as the context of their provisions.
+    for index, act in enumerate(mains):
+        terms = act.find(".//ENACTING.TERMS")
+        assert terms is not None
+        act_title = act.find("TITLE")
+        context = [] if index == 0 else [_ws(" ".join(fmx_lines(act_title))) if act_title is not None else ""]
+        before = len(b.provisions)
+        fmx_body(b, terms, context)
+        if len(b.provisions) == before:
+            # Enacting terms without a numbered article (older decisions, single-sentence acts): the operative text
+            # is one provision, cited by the instrument alone.
+            lines = fmx_lines(terms)
+            if lines:
+                b.add(
+                    Prov(
+                        b.eid(None, "terms"),
+                        "article",
+                        None,
+                        "\n".join(lines),
+                        None,
+                        True,
+                        False,
+                        context[0] if context else None,
+                    )
+                )
     for annex in annexes:
         fmx_annex(b, annex)
     no_doc = doc_root.find("BIB.INSTANCE/NO.DOC")
@@ -1123,7 +1147,7 @@ def parse_eu_cellar(content: bytes) -> list[ParsedDocument]:
         number = None
         publication = meta.document_date
     if not provs:
-        raise EuParseError(f"{celex}: no provisions")
+        raise ParseSkipped(f"{celex}: the Formex file holds no operative text to ingest")
 
     # ---- dates
     events: list[ParsedEvent] = []

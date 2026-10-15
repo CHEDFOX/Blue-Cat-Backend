@@ -40,7 +40,7 @@ from ulis.sources.connectors.eu_cellar import (
 )
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
-from ulis.sources.normalized import ParsedDocument, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkipped
 from ulis.sources.parsers.eu_cellar import EuParseError, parse_eu_cellar, resolve_uri
 from ulis.storage.object_store import LocalObjectStore
 
@@ -855,3 +855,45 @@ def test_a_consolidated_version_is_ingested_searched_and_resolved_by_date(
         session, catalog, "/eu/reg/2016/679/~art_37__para_1__point_c", date(2020, 1, 1), language="en"
     )
     assert "Article 9 or personal data" in point_c["version"]["text"]
+
+
+def test_formex_with_unnumbered_enacting_terms_and_with_several_acts(bundles: dict[str, RawDocument]) -> None:
+    """Constructed minimal Formex 4 files for the two shapes the random sample of real acts showed."""
+    from ulis.sources.parsers.eu_cellar import Part, parse_formex
+
+    unnumbered = (
+        "<ACT><TITLE><TI><P>Decision A</P></TI></TITLE>"
+        "<ENACTING.TERMS><P>The Commission has decided as follows.</P></ENACTING.TERMS></ACT>"
+    )
+    doc, provs = parse_formex([Part("item:fmx4", "u1", unnumbered.encode())])
+    assert [(p.eid, p.text) for p in provs] == [("terms", "The Commission has decided as follows.")]
+
+    def act(title: str) -> str:
+        return (
+            f"<ACT><TITLE><TI><P>{title}</P></TI></TITLE><ENACTING.TERMS>"
+            '<ARTICLE IDENTIFIER="001"><TI.ART>Article 1</TI.ART><ALINEA>Text of ' + title + ".</ALINEA></ARTICLE>"
+            "</ENACTING.TERMS></ACT>"
+        )
+
+    doc, provs = parse_formex(
+        [Part("item:fmx4", "u1", act("First").encode()), Part("item:fmx4", "u2", act("Second").encode())]
+    )
+    assert doc.title == "First" and [p.eid for p in provs] == ["art_1", "art_1-2"]
+    assert provs[0].context is None and provs[1].context == "Second"
+    empty = "<ACT><TITLE><TI><P>X</P></TI></TITLE><ENACTING.TERMS/></ACT>"
+    with pytest.raises(ParseSkipped):
+        parse_eu_cellar(_bundle_with_formex(bundles["cellar:32008R0593:en"].content, empty))
+
+
+def _bundle_with_formex(content: bytes, xml: str) -> bytes:
+    """A bundle of the Rome I fixture whose Formex file is replaced by ``xml`` (to reach the parser's guards)."""
+    import copy
+
+    raw = json.loads(content)
+    parts = copy.deepcopy(raw["parts"])
+    for part in parts:
+        if part["role"] == "item:fmx4":
+            part["content"], part["encoding"] = xml, "utf-8"
+            part["sha256"] = hashlib.sha256(xml.encode()).hexdigest()
+    raw["parts"] = parts[:4]
+    return json.dumps(raw).encode()
