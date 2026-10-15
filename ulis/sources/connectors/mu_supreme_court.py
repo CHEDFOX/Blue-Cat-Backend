@@ -10,10 +10,11 @@ first) until a page has no rows, and for every row downloads the PDF the row lin
 
 Access rules (see ``config/sources/mu-supreme-court-judgments.yaml``): the site's terms allow reproduction
 of its judgments free of charge in any format or medium if accurate, not misleading, with the source named and
-the copyright acknowledged; ``robots.txt`` is the standard Drupal file (it disallows ``/search/`` and the like,
-no crawl delay) and every URL is checked against it. ULIS makes sequential requests at least 5 s apart
-(PoliteHttp: identifying User-Agent, back-off on 429/5xx, any other refusal stops the run, HTTPS to this one
-host only, cache under ``var/sources/``). Per-document problems (a missing PDF, a response that is not a PDF) are
+the copyright acknowledged, BUT its ``robots.txt`` closes the whole site to robots (``Disallow: /``), so every URL
+checked against it is refused and the source is ``planned``: this connector does not run against the live site
+until the court gives written permission. ULIS makes sequential requests at least 5 s apart (PoliteHttp:
+identifying User-Agent, back-off on 429/5xx, any other refusal stops the run, HTTPS to this one host only,
+cache under ``var/sources/``). Per-document problems (a missing PDF, a response that is not a PDF) are
 collected in ``fetch_errors`` and the run goes on; a refusal (401/403/429/451) stops it.
 """
 
@@ -70,8 +71,8 @@ def parse_listing(page: str) -> tuple[list[dict[str, str]], int]:
         title = re.search(r'(?s)<span class="document-title">(.*?)</span>', tr)
         by = re.search(r'(?s)<span class="delivered-by">(.*?)</span>', tr)
         number = re.search(r"(?s)<li>(.*?)</li>", tr)
-        delivered = re.search(r'(?s)views-field-field-delivered-on[^>]*>\s*<a[^>]*>(.*?)</a>', tr)
-        summary = re.search(r'(?s)<td[^>]*views-field-field-summary[^>]*>(.*?)</td>', tr)
+        delivered = re.search(r"(?s)views-field-field-delivered-on[^>]*>\s*<a[^>]*>(.*?)</a>", tr)
+        summary = re.search(r"(?s)<td[^>]*views-field-field-summary[^>]*>(.*?)</td>", tr)
         if not (link and title and delivered):
             raise FetchError("a row of the Judgment Search table has no link, title or date; the markup changed?")
         pdf = urllib.parse.unquote(link.group(2)).split("#", 1)[0]
@@ -150,7 +151,11 @@ class MuSupremeCourtConnector:
         if float(manifest.get("crawl_delay_seconds", MIN_DELAY)) < MIN_DELAY:
             raise ManifestError(f"crawl_delay_seconds must be at least {MIN_DELAY:g}")
         years = manifest.get("years") or []
-        if not years or not all(isinstance(y, int) and 1990 <= y <= 2100 for y in years) or len(set(years)) != len(years):
+        if (
+            not years
+            or not all(isinstance(y, int) and 1990 <= y <= 2100 for y in years)
+            or len(set(years)) != len(years)
+        ):
             raise ManifestError("years must be a list of distinct years (integers, 1990-2100)")
         limit = manifest.get("max_documents")
         if limit is not None and (not isinstance(limit, int) or limit < 1):
@@ -244,7 +249,9 @@ class MuSupremeCourtConnector:
             return None
         bundle = {
             "schema": BUNDLE_SCHEMA,
-            "listing": {k: row[k] for k in ("node_id", "title", "delivered_by", "document_number", "delivered_on", "summary")},
+            "listing": {
+                k: row[k] for k in ("node_id", "title", "delivered_by", "document_number", "delivered_on", "summary")
+            },
             "pdf": {"url": row["pdf_url"], "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data)},
             "text": text,
         }

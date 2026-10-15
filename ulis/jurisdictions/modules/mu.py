@@ -18,7 +18,6 @@ from pydantic import BaseModel, ConfigDict
 
 from ulis.jurisdictions.modules.base import JudgmentCitationInput, JurisdictionModule
 
-
 MONTHS = [
     "January",
     "February",

@@ -56,14 +56,68 @@ DOCUMENT_NUMBER = re.compile(r"^(\d{4}) ([A-Z][A-Z0-9]{1,5}) (\d{1,5})$")
 MARKER = re.compile(r"^(?:(\d{1,3})\.|\[(\d{1,3})\])(?:\s+(.*))?$")
 PAGE_NUMBER = re.compile(r"^(?:Page\s+)?\d{1,3}(?:\s*(?:of|/)\s*\d{1,3})?$", re.IGNORECASE)
 HEADING = re.compile(
-    r"^(?:(?:BAIL |FINAL |INTERIM |SUPPLEMENTARY |SENTENCING |SUMMARY )?(?:JUDG(?:E)?MENT|RULING|ORDER|DECISION|SENTENCE)"
+    r"^(?:(?:BAIL |FINAL |INTERIM |SUPPLEMENTARY |SENTENCING |SUMMARY )?"
+    r"(?:JUDG(?:E)?MENT|RULING|ORDER|DECISION|SENTENCE)"
     r"(?:\s+ON\s+[A-Z ]{3,40})?)[\s.:–-]*$",
     re.IGNORECASE,
 )
 SENTENCE_END = tuple(".;:?!)”»\"'’")
 
-ENGLISH_WORDS = frozenset("the of and to in that was is for with be as by on not his her it at this were has have".split())
-FRENCH_WORDS = frozenset("le la les des du de et que qui dans est pour par sur au aux une un il elle ont été ne pas".split())
+ENGLISH_WORDS = frozenset(
+    [
+        "the",
+        "of",
+        "and",
+        "to",
+        "in",
+        "that",
+        "was",
+        "is",
+        "for",
+        "with",
+        "be",
+        "as",
+        "by",
+        "on",
+        "not",
+        "his",
+        "her",
+        "it",
+        "at",
+        "this",
+        "were",
+        "has",
+        "have",
+    ]
+)
+FRENCH_WORDS = frozenset(
+    [
+        "le",
+        "la",
+        "les",
+        "des",
+        "du",
+        "de",
+        "et",
+        "que",
+        "qui",
+        "dans",
+        "est",
+        "pour",
+        "par",
+        "sur",
+        "au",
+        "aux",
+        "une",
+        "un",
+        "il",
+        "elle",
+        "ont",
+        "été",
+        "ne",
+        "pas",
+    ]
+)
 
 
 class MuParseError(ValueError):
@@ -269,7 +323,9 @@ def parse_mu_judgment(content: bytes) -> list[ParsedDocument]:
     header, units = split_paragraphs(bundle.get("text") or "")
     if not units:
         raise ParseSkipped(f"node {node_id}: the text layer is empty")
-    court_id, court_basis = classify_court(delivered_by, header or [ln for ln in (bundle["text"] or "").split("\n")[:12]])
+    court_id, court_basis = classify_court(
+        delivered_by, header or [ln for ln in (bundle["text"] or "").split("\n")[:12]]
+    )
 
     paragraphs: list[ParsedParagraph] = []
     used: set[str] = set()
