@@ -1,0 +1,31 @@
+# The Constitution of the Kyrgyz Republic (Russian), one PDF on www.shailoo.gov.kg (the file is stored under media/.../2021/08/28/).
+# See config/sources/kg-shailoo-constitution.yaml.
+schema_version: 1
+source_id: kg-shailoo-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.shailoo.gov.kg
+documents:
+- slug: kg-ru
+  jurisdiction: KG
+  url: https://www.shailoo.gov.kg/media/ruslan_pressa/2021/08/28/dtmvnt.pdf
+  format: pdf
+  language: ru
+  title: Конституция Кыргызской Республики
+  citation_name: Kyrgyzstan Constitution
+  edition_label: the Commission's PDF; no consolidation date printed
+  events:
+  - type: entry_into_force_law
+    date: '2021-05-05'
+    description: Введена в действие Законом Кыргызской Республики от 5 мая 2021 года
+    locator: first page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    paragraphs: dot
+    chapter_title_lines: 0
+    preamble_regex: ^Мы, народ Кыргызской Республики,$
+  note: >-
+    First lines of the file, not stored as an article: «КОНСТИТУЦИЯ КЫРГЫЗСКОЙ РЕСПУБЛИКИ (Введена в действие Законом Кыргызской
+    Республики от 5 мая 2021 года)»

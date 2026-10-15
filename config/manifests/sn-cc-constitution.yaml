@@ -1,0 +1,85 @@
+# The Constitution of Senegal (fr): 1 document(s) on conseilconstitutionnel.sn. See config/sources/sn-cc-constitution.yaml.
+schema_version: 1
+source_id: sn-cc-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- conseilconstitutionnel.sn
+documents:
+- slug: sn-fr
+  jurisdiction: SN
+  url: https://conseilconstitutionnel.sn/la-constitution/
+  format: html
+  language: fr
+  title: Constitution du Sénégal
+  citation_name: Senegal Constitution
+  adopted_on: '2001-01-07'
+  edition_label: >-
+    consolidated by the Conseil constitutionnel up to the loi constitutionnelle n° 2018-14 du 11 mai 2018 (no date of the
+    consolidation printed)
+  events:
+  - type: adoption
+    date: '2001-01-07'
+    description: adoptée lors du référendum du 7 janvier 2001
+    locator: Note explicative
+  - type: promulgation
+    date: '2001-01-22'
+    description: Loi n° 2001-03 du 22 janvier 2001 portant Constitution, publiée au JORS n° 5963 du 22 janvier 2001
+    locator: Note explicative
+  - type: amendment
+    date: '2003-06-19'
+    description: loi n° 2003-15
+    locator: Note explicative
+  - type: amendment
+    date: '2006-11-15'
+    description: loi n° 2006-37
+    locator: Note explicative
+  - type: amendment
+    date: '2007-02-12'
+    description: loi n° 2007-06
+    locator: Note explicative
+  - type: amendment
+    date: '2007-02-19'
+    description: loi n° 2007-19
+    locator: Note explicative
+  - type: amendment
+    date: '2007-05-25'
+    description: loi n° 2007-26
+    locator: Note explicative
+  - type: amendment
+    date: '2008-08-07'
+    description: lois n° 2008-30 à 2008-34
+    locator: Note explicative
+  - type: amendment
+    date: '2008-10-21'
+    description: lois n° 2008-66 et 2008-67
+    locator: Note explicative
+  - type: amendment
+    date: '2009-06-19'
+    description: loi n° 2009-22
+    locator: Note explicative
+  - type: amendment
+    date: '2012-09-28'
+    description: loi n° 2012-16
+    locator: Note explicative
+  - type: amendment
+    date: '2016-04-05'
+    description: loi n° 2016-10
+    locator: Note explicative
+  - type: amendment
+    date: '2018-05-11'
+    description: loi n° 2018-14
+    locator: Note explicative
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    html_select:
+      class: elementor-element-8fc256f
+    note_lines:
+    - ^Articles? \S+ de la loi (constitutionnelle )?n°
+    - ^Article unique de la loi
+  note: >-
+    Note explicative of the Conseil constitutionnel (page 'La constitution', not stored as an article): the Constitution
+    was adopted by the referendum of 7 January 2001 and promulgated by the Loi n° 2001-03 du 22 janvier 2001 portant Constitution,
+    modifiée (JORS, numéro spécial 5963 du 22 janvier 2001, p. 27); the Council integrated the modifications of the laws
+    it lists, in order of date.

@@ -1,0 +1,44 @@
+# The Constitution of Kenya (en): 1 document(s) on www.parliament.go.ke. See config/sources/ke-parliament-constitution.yaml.
+schema_version: 1
+source_id: ke-parliament-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.parliament.go.ke
+documents:
+- slug: ke-en
+  jurisdiction: KE
+  url: https://www.parliament.go.ke/sites/default/files/2025-04/The_Constitution_of_Kenya_2010.pdf
+  format: pdf
+  language: en
+  title: The Constitution of Kenya, 2010
+  citation_name: Kenya Constitution
+  adopted_on: '2010-08-04'
+  edition_label: >-
+    Laws of Kenya, Revised Edition 2010 ("Rev. 2010") of the National Council for Law Reporting, as posted on the Parliament's
+    site; no edition date printed
+  events:
+  - type: adoption
+    date: '2010-08-04'
+    description: '''ratified the proposed New Constitution of Kenya through a referendum held on the 4th August, 2010'''
+    locator: Promulgation
+  - type: promulgation
+    date: '2010-08-27'
+    description: >-
+      'declare that the Constitution set out in the Schedule shall be the new Constitution of Kenya with effect from the
+      27th August, 2010'
+    locator: Promulgation
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    style: numdot
+    unit_kind: article
+    page_numbers: true
+    drop_lines:
+    - ^Constitution of Kenya, 2010$
+    heading_before_regex: ^(?=.{4,92}$)[A-Z][^()]*[A-Za-z]\.?$
+    heading_wrap: true
+    chapter_regex: ^(CHAPTER|PART) [A-Z]+
+    chapter_title_lines: 1
+    preamble_regex: ^PREAMBLE$
+    tail_regex: ^SCHEDULES?$

@@ -1,0 +1,78 @@
+# Constitution of Vietnam from the Government Electronic Newspaper of Vietnam (Chinhphu.vn) (xaydungchinhsach.chinhphu.vn). Read on 2026-10-15, before any document was fetched:
+#   robots.txt - xaydungchinhsach.chinhphu.vn/robots.txt: "User-agent: *" "Allow: /" (nothing disallowed); no Crawl-delay
+#   Terms - page footer: "© BÁO ĐIỆN TỬ CHÍNH PHỦ ... Giấy phép số: 19/GP-CBC, cấp ngày 10/5/2024 ... Bản quyền thuộc Báo Điện tử Chính phủ - Cổng Thông tin điện tử Chính phủ." (copyright belongs to the Government Electronic Newspaper - the Government Portal) - a copyright line of a news site; no terms-of-use, licence or reuse page was found on the page read
+#   The document - The page is an article headed "TOÀN VĂN: Hiến pháp nước Cộng hòa xã hội chủ nghĩa Việt Nam", dated 28/12/2023 07:07, with the lead "(Chinhphu.vn) - Toàn văn Hiến pháp nước Cộng hòa xã hội chủ nghĩa Việt Nam (2013)." It prints the text of the 2013 Constitution and, at its end, the line "Hiến pháp này đã được Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam khóa XIII, kỳ họp thứ 6 thông qua ngày 28 tháng 11 năm 2013."
+schema_version: 1
+id: vn-chinhphu-constitution
+name: >-
+  Constitution of Vietnam - the Government Electronic Newspaper of Vietnam (Chinhphu.vn) (xaydungchinhsach.chinhphu.vn)
+publisher: >-
+  Báo điện tử Chính phủ (Government Electronic Newspaper) of the Government Portal of Vietnam, xaydungchinhsach.chinhphu.vn
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- VN
+document_kinds:
+- constitution
+languages:
+- vi
+coverage: >-
+  The Constitution of Vietnam in vi as published by the Government Electronic Newspaper of Vietnam (Chinhphu.vn): 1 document(s).
+  The preamble (Lời nói đầu) and 120 articles in eleven chapters, as the article prints them; the news-site chrome (menus,
+  related articles, comments) is not stored.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/vn-chinhphu-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: VN-official-text-no-terms
+  name: >-
+    Official legal text published by the Government Electronic Newspaper of Vietnam (Chinhphu.vn); page footer: "© BÁO ĐIỆN
+    TỬ CHÍNH PHỦ ... Giấy phép số: 19/GP-CBC, cấp ngày 10/5/2024 ... Bản quyền thuộc Báo Điện tử Chính phủ - Cổng Thông
+  url: https://xaydungchinhsach.chinhphu.vn/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the publisher's own pages quoted in the header of this file: robots.txt
+    (xaydungchinhsach.chinhphu.vn/robots.txt: "User-agent: *" "Allow: /" (nothing disallowed); no Crawl-delay) and the terms
+    (page footer: "© BÁO ĐIỆN TỬ CHÍNH PHỦ ... Giấy phép số: 19/GP-CBC, cấp ngày 10/5/2024 ... Bản quyền thuộc Báo Điện
+    tử Chính phủ - Cổng Thông tin điện tử Chính phủ." (copyright belongs to the Government Electronic Newspaper - the Government
+    Portal) - a copyright line of a news site; no terms-of-use, licence or reuse page was found on the page read). The page
+    is an article headed "TOÀN VĂN: Hiến pháp nước Cộng hòa xã hội chủ nghĩa Việt Nam", dated 28/12/2023 07:07, with the
+    lead "(Chinhphu.vn) - Toàn văn Hiến pháp nước Cộng hòa xã hội chủ nghĩa Việt Nam (2013)." It prints the text of the
+    2013 Constitution and, at its end, the line "Hiến pháp này đã được Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam
+    khóa XIII, kỳ họp thứ 6 thông qua ngày 28 tháng 11 năm 2013." The Constitution is an official legal text; the Vietnamese
+    Law on Intellectual Property is believed not to protect legislative texts (to verify; not read on a publisher's page).
+    Reading: AMBER - the publisher states no restriction on reusing the text; no permission for automated retrieval is stated
+    either.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Vietnam, the Government Electronic Newspaper of Vietnam (Chinhphu.vn) (xaydungchinhsach.chinhphu.vn);
+    retrieved {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (vi), not the authentic publication; amendments after the edition date are not applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/vn-chinhphu-constitution.yaml, stored byte for byte inside JSON bundles with
+  the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+status: active
+connector: constitution_docs
+parser: constitution_text

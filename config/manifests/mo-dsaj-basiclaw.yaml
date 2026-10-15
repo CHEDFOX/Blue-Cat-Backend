@@ -1,0 +1,116 @@
+# The Constitution of Macao Special Administrative Region (en, pt, zh-Hant): 3 document(s) on bo.dsaj.gov.mo. See config/sources/mo-dsaj-basiclaw.yaml.
+schema_version: 1
+source_id: mo-dsaj-basiclaw
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- bo.dsaj.gov.mo
+documents:
+- slug: mo-en
+  jurisdiction: MO
+  url: https://bo.dsaj.gov.mo/bo/i/1999/leibasica/index_uk.asp
+  format: html
+  language: en
+  title: Basic Law of the Macao Special Administrative Region of the People's Republic of China
+  citation_name: Macao Basic Law
+  adopted_on: '1993-03-31'
+  edition_label: unofficial translation of the Boletim Oficial; no edition date on the page
+  events:
+  - type: adoption
+    date: '1993-03-31'
+    description: Adopted by the Eighth National People's Congress at its First Session on 31 March 1993
+    locator: page heading
+  - type: promulgation
+    date: '1993-03-31'
+    description: Decree of the President of the People's Republic of China No. 3, dated 31 March 1993
+    locator: Decree on the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    encoding: cp1252
+    html_replace:
+    - - (?i)</?(table|tbody|tr|td)\b[^>]*>
+      - ''
+    unit_kind: article
+    chapter_regex: ^(Chapter [IVX]+|Section [0-9]+)\b
+    chapter_title_lines: 1
+    preamble_regex: ^Decree of the President
+    tail_regex: ^Annex I\b
+    paragraphs: paren
+  note: >-
+    Heading of the page, not stored as an article: 'Basic Law of the Macao Special Administrative Region of the People's
+    Republic of China (Adopted by the Eighth National People's Congress at its First Session on 31 March 1993) (Unofficial
+    Translation, For Reference Only)'. The Decree of the President (No. 3) and the Preamble are stored together as the preamble.
+- slug: mo-pt
+  jurisdiction: MO
+  url: https://bo.dsaj.gov.mo/bo/i/1999/leibasicapt/
+  format: html
+  language: pt
+  title: Lei Básica da Região Administrativa Especial de Macau da República Popular da China
+  citation_name: Macao Basic Law
+  adopted_on: '1993-03-31'
+  edition_label: página do Boletim Oficial; sem data de edição na página
+  events:
+  - type: adoption
+    date: '1993-03-31'
+    description: >-
+      Adoptada em 31 de Março de 1993, pela Primeira Sessão da Oitava Legislatura da Assembleia Popular Nacional da República
+      Popular da China
+    locator: título da página
+  - type: commencement
+    date: '1999-12-20'
+    description: >-
+      promulgada pelo Decreto n.º 3 do Presidente da República Popular da China para entrar em vigor no dia 20 de Dezembro
+      de 1999
+    locator: título da página
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    encoding: cp1252
+    html_replace:
+    - - (?i)</?(table|tbody|tr|td)\b[^>]*>
+      - ''
+    unit_kind: article
+    chapter_regex: ^(CAPÍTULO [IVX]+|SECÇÃO [IVX0-9]+)\b
+    chapter_title_lines: 1
+    preamble_regex: ^Preâmbulo$
+    tail_regex: ^ANEXO I\b
+    paragraphs: none
+  note: >-
+    Título da página, não guardado como artigo: 'LEI BÁSICA DA REGIÃO ADMINISTRATIVA ESPECIAL DE MACAU DA REPÚBLICA POPULAR
+    DA CHINA (Adoptada em 31 de Março de 1993, pela Primeira Sessão da Oitava Legislatura da Assembleia Popular Nacional
+    da República Popular da China e promulgada pelo Decreto n.º 3 do Presidente da República Popular da China para entrar
+    em vigor no dia 20 de Dezembro de 1999)'.
+- slug: mo-zh
+  jurisdiction: MO
+  url: https://bo.dsaj.gov.mo/bo/i/1999/leibasicacn/
+  format: html
+  language: zh-Hant
+  title: 中華人民共和國澳門特別行政區基本法
+  citation_name: 澳門基本法
+  adopted_on: '1993-03-31'
+  edition_label: 公報頁面；頁面沒有版本日期
+  events:
+  - type: adoption
+    date: '1993-03-31'
+    description: 1993年3月31日第八屆全國人民代表大會第一次會議通過
+    locator: 頁面標題
+  - type: commencement
+    date: '1999-12-20'
+    description: 1993年3月31日中華人民共和國主席令第3號公佈自1999年12月20日起實施
+    locator: 頁面標題
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    encoding: big5
+    html_replace:
+    - - (?i)</?(table|tbody|tr|td)\b[^>]*>
+      - ''
+    unit_kind: article
+    chapter_regex: ^第[一二三四五六七八九十]+[章節]$
+    chapter_title_lines: 1
+    preamble_regex: ^序言$
+    tail_regex: ^附件一$
+    paragraphs: none
+  note: >-
+    頁面標題，不作為條文儲存：'中華人民共和國澳門特別行政區基本法（1993年3月31日第八屆全國人民代表大會第一次會議通過－1993年3月31日中華人民共和國主席令第3號公佈自1999年12月20日起實施）'。

@@ -1,0 +1,71 @@
+# The Constitution of the Republic of Uzbekistan (new edition adopted by the referendum of 30 April 2023) as PDF files of
+# https://constitution.gov.uz in Russian, English (labelled "Unofficial translation"), Uzbek (Latin) and Uzbek (Cyrillic).
+# The Karakalpak version (constitution_qr.pdf) is not ingested. See config/sources/uz-constitution-site.yaml.
+schema_version: 1
+source_id: uz-constitution-site
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- constitution.gov.uz
+documents:
+- slug: uz-ru
+  jurisdiction: UZ
+  url: https://constitution.gov.uz/uploads/constitution_ru.pdf
+  format: pdf
+  language: ru
+  title: Конституция Республики Узбекистан
+  citation_name: Uzbekistan Constitution
+  adopted_on: '2023-04-30'
+  edition_label: new edition adopted by the referendum of 30 April 2023 (no consolidation date printed)
+  events:
+  - type: adoption
+    date: '2023-04-30'
+    description: новая редакция Конституции принята путем всенародного голосования на референдуме 30 апреля 2023 года
+    locator: first page
+  authoritative: false
+  text_origin: official_consolidation
+  structure: {}
+  note: >-
+    First page of the file, not stored as an article: «КОНСТИТУЦИЯ РЕСПУБЛИКИ УЗБЕКИСТАН. Настоящая новая редакция Конституции
+    Республики Узбекистан принята путем всенародного голосования на референдуме Республики Узбекистан, проведенном 30 апреля
+    2023 года.»
+- slug: uz-en
+  jurisdiction: UZ
+  url: https://constitution.gov.uz/uploads/constitution_en.pdf
+  format: pdf
+  language: en
+  title: The Constitution of the Republic of Uzbekistan
+  citation_name: Uzbekistan Constitution
+  edition_label: the portal's file, headed "Unofficial translation" (no consolidation date printed)
+  authoritative: false
+  text_origin: official_consolidation
+  structure: {}
+  note: The portal's file starts with the words 'Unofficial translation'.
+- slug: uz-uz
+  jurisdiction: UZ
+  url: https://constitution.gov.uz/uploads/constitution_oz.pdf
+  format: pdf
+  language: uz
+  title: O‘zbekiston Respublikasi Konstitutsiyasi
+  citation_name: Uzbekistan Constitution
+  edition_label: new edition adopted by the referendum of 30 April 2023 (no consolidation date printed)
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    keywords_after:
+    - modda
+    preamble_regex: (?i)^muqaddima$
+- slug: uz-uz-cyrl
+  jurisdiction: UZ
+  url: https://constitution.gov.uz/uploads/constitution_uz.pdf
+  format: pdf
+  language: uz-Cyrl
+  title: Ўзбекистон Республикаси Конституцияси
+  citation_name: Uzbekistan Constitution
+  edition_label: new edition adopted by the referendum of 30 April 2023 (no consolidation date printed)
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    keywords_after:
+    - модда
+    preamble_regex: ^МУҚАДДИМА$

@@ -1,0 +1,102 @@
+# Constitution of Bangladesh from the Legislative and Parliamentary Affairs Division of Bangladesh (Laws of Bangladesh) (bdlaws.minlaw.gov.bd). Read on 2026-10-15, before any document was fetched:
+#   robots.txt - bdlaws.minlaw.gov.bd/robots.txt: "User-agent: *" "Allow: /" (two rules, nothing disallowed for the act pages); no Crawl-delay
+#   Terms - page footer: "Copyright © 2019, Legislative and Parliamentary Affairs Division, Ministry of Law, Justice and Parliamentary Affairs" - a generic footer; no terms-of-use, licence or disclaimer page is linked from the home page or the page of the Constitution
+#   The document - The page "The Constitution of the People's Republic of Bangladesh" prints the English text with the amendments applied, the footnote reference of each amendment before the amended passage ("5[2A. The state religion ...") and the footnotes at the end ("Substituted for the words ... by the Constitution (Fifteenth Amendment) Act, 2011 (Act XIV of 2011), section 3"). It prints no edition date. Article 153(2) says that the authentic text is the Bengali one and that the English text is an authorised translation ("in the event of conflict between the Bengali and the English text, the Bengali text shall prevail").
+schema_version: 1
+id: bd-bdlaws-constitution
+name: >-
+  Constitution of Bangladesh - the Legislative and Parliamentary Affairs Division of Bangladesh (Laws of Bangladesh) (bdlaws.minlaw.gov.bd)
+publisher: >-
+  Legislative and Parliamentary Affairs Division, Ministry of Law, Justice and Parliamentary Affairs of Bangladesh - "Laws
+  of Bangladesh" (bdlaws.minlaw.gov.bd)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- BD
+document_kinds:
+- constitution
+languages:
+- bn
+- en
+coverage: >-
+  The Constitution of Bangladesh in bn, en as published by the Legislative and Parliamentary Affairs Division of Bangladesh
+  (Laws of Bangladesh): 2 document(s). The preamble and 153 articles (with the articles added by amendment, such as 2A,
+  7A, 141A) in eleven Parts, as the page of the Division prints them; the footnotes of the amending Acts follow as blocks
+  of paragraphs. The Schedules are not on the English page.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/bd-bdlaws-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 3 request(s) (robots.txt and 2 document(s)).
+licence:
+  id: BD-official-text-no-terms
+  name: >-
+    Official legal text published by the Legislative and Parliamentary Affairs Division of Bangladesh (Laws of Bangladesh);
+    page footer: "Copyright © 2019, Legislative and Parliamentary Affairs Division, Ministry of Law, Justice and Parliamentary
+    Affairs" - a gene
+  url: https://bdlaws.minlaw.gov.bd/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the publisher's own pages quoted in the header of this file: robots.txt
+    (bdlaws.minlaw.gov.bd/robots.txt: "User-agent: *" "Allow: /" (two rules, nothing disallowed for the act pages); no Crawl-delay)
+    and the terms (page footer: "Copyright © 2019, Legislative and Parliamentary Affairs Division, Ministry of Law, Justice
+    and Parliamentary Affairs" - a generic footer; no terms-of-use, licence or disclaimer page is linked from the home page
+    or the page of the Constitution). The page "The Constitution of the People's Republic of Bangladesh" prints the English
+    text with the amendments applied, the footnote reference of each amendment before the amended passage ("5[2A. The state
+    religion ...") and the footnotes at the end ("Substituted for the words ... by the Constitution (Fifteenth Amendment)
+    Act, 2011 (Act XIV of 2011), section 3"). It prints no edition date. Article 153(2) says that the authentic text is
+    the Bengali one and that the English text is an authorised translation ("in the event of conflict between the Bengali
+    and the English text, the Bengali text shall prevail"). The Constitution is an official legal text; the Copyright Act
+    2000 of Bangladesh is believed not to protect the constitution and legislation (to verify; not read on a publisher's
+    page). Reading: AMBER - the publisher states no restriction on reusing the text; no permission for automated retrieval
+    is stated either.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Bangladesh, the Legislative and Parliamentary Affairs Division of Bangladesh (Laws of Bangladesh) (bdlaws.minlaw.gov.bd);
+    retrieved {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (bn, en), not the authentic publication; amendments after the edition date are not
+    applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/bd-bdlaws-constitution.yaml, stored byte for byte inside JSON bundles with
+  the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- >-
+  The English text is an authorised translation; under article 153(2) the Bengali text prevails in a conflict. This source
+  is not an authentic text.
+- >-
+  The Bengali page numbers the articles with Bengali digits and a danda ("৭ক।") and a letter for added articles ("ক", "খ"
+  ...); the parser reads the digits as 7 and the letters as a, b ... for the identifier (art-7a), the label is the document's
+  own. The authentic text is the Bengali one under article 153(2), but this page is the Division's copy, not the authenticated
+  publication.
+- >-
+  The page prints no edition date; the retrieval date is the edition date. The latest amendment the text shows is the Constitution
+  (Seventeenth Amendment) Act, 2018; later amendments, if any, are not applied.
+- >-
+  The footnote references of the amendments ("5[2A. ...") are part of the printed text and stay in it; where a reference
+  stands before the number of an article, the note of that article says so, and the reference is not part of its stored
+  text.
+- >-
+  The footnotes of the amending Acts that the page prints after article 153 are stored as blocks of paragraphs (blk-N),
+  not attached to the articles. The four Schedules of the Constitution are not on this page.
+status: active
+connector: constitution_docs
+parser: constitution_text

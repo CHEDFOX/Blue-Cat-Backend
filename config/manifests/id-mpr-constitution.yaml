@@ -1,0 +1,25 @@
+# The Constitution of Indonesia (id): 1 document(s) on www.mpr.go.id. See config/sources/id-mpr-constitution.yaml.
+schema_version: 1
+source_id: id-mpr-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.mpr.go.id
+documents:
+- slug: id-id
+  jurisdiction: ID
+  url: https://www.mpr.go.id/uploads/jdih/UUD_1945_DALAM_SATU_NASKAH.pdf
+  format: pdf
+  language: id
+  title: Undang-Undang Dasar Negara Republik Indonesia Tahun 1945
+  citation_name: Indonesia Constitution
+  edition_label: UUD 1945 in one text (dalam satu naskah) with the four Amendments; no consolidation date printed
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    soft_hyphen: hyphen
+    page_numbers: true
+    drop_lines:
+    - ^MAJELIS PERMUSYAWARATAN RAKYAT$
+    - ^SEKRETARIAT JENDERAL$
+    tail_regex: ^ATURAN PERALIHAN$

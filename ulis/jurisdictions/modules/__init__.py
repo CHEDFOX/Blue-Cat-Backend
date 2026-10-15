@@ -19,6 +19,7 @@ from ulis.jurisdictions.modules.br import BrModule
 from ulis.jurisdictions.modules.ca import CaModule
 from ulis.jurisdictions.modules.ca_prov import CaProvModule
 from ulis.jurisdictions.modules.ch import ChModule
+from ulis.jurisdictions.modules.constitution import ConstitutionModule
 from ulis.jurisdictions.modules.constitution_b import ConstitutionBModule
 from ulis.jurisdictions.modules.cz import CzModule
 from ulis.jurisdictions.modules.de import DeModule
@@ -102,6 +103,7 @@ MODULES: dict[str, JurisdictionModule] = {
         BrModule(),
         ConstitutionBModule(),
         OecdModule(),
+        ConstitutionModule(),
     )
 }
 

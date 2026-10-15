@@ -1,0 +1,81 @@
+# Constitution of Pakistan from the Council of Common Interests of Pakistan (cci.gov.pk). Read on 2026-10-15, before any document was fetched:
+#   robots.txt - cci.gov.pk/robots.txt answered HTTP 404 (no robots.txt): no crawling rules to apply; the connector reads it anyway
+#   Terms - home page footer: "Copyright (c)2026 All Rights" [Reserved] - a generic footer; no terms-of-use or licence page was found
+#   The document - The PDF cover reads "THE CONSTITUTION OF THE ISLAMIC REPUBLIC OF PAKISTAN [As modified upto the 31st May, 2018] NATIONAL ASSEMBLY OF PAKISTAN"; it carries no copyright notice. The National Assembly's own site (na.gov.pk, which lists an edition up to 21 November 2025) reset the connection from this sandbox and was not used; a Sindh Government copy "as amended upto the Twenty-sixth Amendment" (sindhlaws.gov.pk) has an unreliable text-layer order and was not used.
+schema_version: 1
+id: pk-cci-constitution
+name: Constitution of Pakistan - the Council of Common Interests of Pakistan (cci.gov.pk)
+publisher: Council of Common Interests, Government of Pakistan (cci.gov.pk)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- PK
+document_kinds:
+- constitution
+languages:
+- en
+coverage: >-
+  The Constitution of Pakistan in en as published by the Council of Common Interests of Pakistan: 1 document(s). Preamble
+  and 280 Articles (with letter-numbered Articles such as 2A, 25A) in 12 Parts, as modified up to 31 May 2018.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/pk-cci-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: PK-official-text-no-terms
+  name: >-
+    Official legal text published by the Council of Common Interests of Pakistan; home page footer: "Copyright (c)2026 All
+    Rights" [Reserved] - a generic footer; no terms-of-use or licence page was found
+  url: https://cci.gov.pk/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the publisher's own pages quoted in the header of this file: robots.txt
+    (cci.gov.pk/robots.txt answered HTTP 404 (no robots.txt): no crawling rules to apply; the connector reads it anyway)
+    and the terms (home page footer: "Copyright (c)2026 All Rights" [Reserved] - a generic footer; no terms-of-use or licence
+    page was found). The PDF cover reads "THE CONSTITUTION OF THE ISLAMIC REPUBLIC OF PAKISTAN [As modified upto the 31st
+    May, 2018] NATIONAL ASSEMBLY OF PAKISTAN"; it carries no copyright notice. The National Assembly's own site (na.gov.pk,
+    which lists an edition up to 21 November 2025) reset the connection from this sandbox and was not used; a Sindh Government
+    copy "as amended upto the Twenty-sixth Amendment" (sindhlaws.gov.pk) has an unreliable text-layer order and was not
+    used. The Constitution is an official legal text; no statutory basis is claimed (the Pakistani copyright statute was
+    not read). Reading: AMBER - the publisher states no restriction on reusing the text; no permission for automated retrieval
+    is stated either.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Pakistan, the Council of Common Interests of Pakistan (cci.gov.pk); retrieved {retrieved_date}. Structured
+    and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (en), not the authentic publication; amendments after the edition date are not applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/pk-cci-constitution.yaml, stored byte for byte inside JSON bundles with the
+  URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- >-
+  The text is "as modified upto the 31st May, 2018". Amendments adopted afterwards (the Twenty-sixth Amendment of 2024 and
+  later) are NOT in it, so this is not the current text of the Constitution.
+- >-
+  Footnote numbers and bracketed insertions of the amending acts are part of the PDF text as printed; the Schedules are
+  stored as blocks of paragraphs.
+- >-
+  Headings of Articles are kept in the text of each Article where the PDF prints them on the line of the number.
+status: active
+connector: constitution_docs
+parser: constitution_text

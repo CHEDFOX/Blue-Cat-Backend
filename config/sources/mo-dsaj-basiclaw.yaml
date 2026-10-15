@@ -1,0 +1,95 @@
+# Constitution of Macao Special Administrative Region from the Legal Affairs Bureau (DSAJ) of the Macao SAR, Boletim Oficial (bo.dsaj.gov.mo). Read on 2026-10-15, before any document was fetched:
+#   robots.txt - bo.dsaj.gov.mo/robots.txt: "User-agent: *" "Disallow:" (an empty Disallow: nothing is disallowed); no Crawl-delay. (www.dsaj.gov.mo answers with a challenge page and is not used.)
+#   Terms - page footer of www.bo.dsaj.gov.mo: "Copyright © DSAJ 2026" - a generic footer; no terms of use, licence or disclaimer page was found on the home page, the legislation list or the Basic Law pages
+#   The document - The English page is headed "(Unofficial Translation, For Reference Only)"; the Portuguese and Chinese pages carry no such label and no statement about authenticity. All three give "(Adopted by the Eighth National People's Congress at its First Session on 31 March 1993)" (Portuguese: "... para entrar em vigor no dia 20 de Dezembro de 1999").
+schema_version: 1
+id: mo-dsaj-basiclaw
+name: >-
+  Constitution of Macao Special Administrative Region - the Legal Affairs Bureau (DSAJ) of the Macao SAR, Boletim Oficial
+  (bo.dsaj.gov.mo)
+publisher: >-
+  Direcção dos Serviços de Assuntos de Justiça (DSAJ), Government of the Macao Special Administrative Region - Boletim Oficial
+  (bo.dsaj.gov.mo)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- MO
+document_kinds:
+- constitution
+languages:
+- en
+- pt
+- zh-Hant
+coverage: >-
+  The Constitution of Macao Special Administrative Region in en, pt, zh-Hant as published by the Legal Affairs Bureau (DSAJ)
+  of the Macao SAR, Boletim Oficial: 3 document(s). The Basic Law of the Macao Special Administrative Region: Preamble and
+  145 articles in nine chapters (with the Decree of the President in the English page), and the Annexes as blocks of paragraphs.
+  Portuguese and Chinese (traditional characters, Big5 page) are the Boletim Oficial's own pages; the English page is its
+  unofficial translation.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/mo-dsaj-basiclaw.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 4 request(s) (robots.txt and 3 document(s)).
+licence:
+  id: MO-official-text-no-terms
+  name: "Official legal text published by the Legal Affairs Bureau (DSAJ) of the Macao SAR, Boletim Oficial; page footer\
+    \ of www.bo.dsaj.gov.mo: \"Copyright © DSAJ 2026\" - a generic footer; no terms of use, licence or disclaimer page was\
+    \ found on the "
+  url: https://www.bo.dsaj.gov.mo/pt/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the publisher's own pages quoted in the header of this file: robots.txt
+    (bo.dsaj.gov.mo/robots.txt: "User-agent: *" "Disallow:" (an empty Disallow: nothing is disallowed); no Crawl-delay.
+    (www.dsaj.gov.mo answers with a challenge page and is not used.)) and the terms (page footer of www.bo.dsaj.gov.mo:
+    "Copyright © DSAJ 2026" - a generic footer; no terms of use, licence or disclaimer page was found on the home page,
+    the legislation list or the Basic Law pages). The English page is headed "(Unofficial Translation, For Reference Only)";
+    the Portuguese and Chinese pages carry no such label and no statement about authenticity. All three give "(Adopted by
+    the Eighth National People's Congress at its First Session on 31 March 1993)" (Portuguese: "... para entrar em vigor
+    no dia 20 de Dezembro de 1999"). The Constitution is an official legal text; the Macao copyright regime is believed
+    to exclude official legislative texts (to verify; not read on a publisher's page). Reading: AMBER - the publisher states
+    no restriction on reusing the text; no permission for automated retrieval is stated either.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Macao Special Administrative Region, the Legal Affairs Bureau (DSAJ) of the Macao SAR, Boletim Oficial
+    (bo.dsaj.gov.mo); retrieved {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed
+    by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (en, pt, zh-Hant), not the authentic publication; amendments after the edition date
+    are not applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/mo-dsaj-basiclaw.yaml, stored byte for byte inside JSON bundles with the URL
+  and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- >-
+  The English text is headed "(Unofficial Translation, For Reference Only)"; it is not an authentic text. The Portuguese
+  and Chinese pages of the Boletim Oficial are the Government's own electronic copies; the pages do not say whether they
+  are authentic.
+- >-
+  The pages give no edition date; the retrieval date is the edition date. Amendments of the Annexes (if any) after the retrieval
+  date are not applied.
+- The Annexes are stored as blocks of paragraphs, not as articles.
+- >-
+  The index (table of contents) of each page, the header of the gazette site and its footer are not stored (the note of
+  the first article counts the front-matter lines left out).
+status: active
+connector: constitution_docs
+parser: constitution_text

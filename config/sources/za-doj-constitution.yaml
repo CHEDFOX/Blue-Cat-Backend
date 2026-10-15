@@ -1,0 +1,111 @@
+# Constitution of the Republic of South Africa, 1996, from the Department of Justice and Constitutional Development's site
+# "The South African Constitution" (https://www.justice.gov.za/constitution/). Pages read on 2026-10-15 before any PDF was fetched:
+#   https://www.justice.gov.za/robots.txt - "User-agent: *" "Disallow: /admin/ /login/ /cart/ /checkout/ /search/ /cgi-bin/"
+#        "Allow: /"; no Crawl-delay. The PDFs under /constitution/docs/ are not disallowed.
+#   https://www.justice.gov.za/about_web/terms_conditions.htm - "Usage and copyright": "Users may view, copy, download to a local
+#        drive, print and distribute the content of this website, or any part thereof only for non-commercial informational or
+#        reference purposes. Users who wish to use content from this site for commercial purposes may only do so with the prior
+#        written permission obtained from the web manager ... Any reproduction and/or copy of the content or portion thereof for
+#        commercial purposes must include this copyright notice in its entirety: (c) Department of Justice and Constitutional
+#        Development: ALL RIGHTS RESERVED. All moral and any other rights of the ... (DoJCD) or other legal entity ... not
+#        expressly granted are reserved."
+#   https://www.justice.gov.za/constitution/pdf.html - "Full Text Translations" in the eleven languages (the PDFs under
+#        docs/30y-2026/); "Latest amednment: Constitution Seventeenth Amendment Act of 2012. Text as Monday, 25 May, 2026".
+# The same terms are used by https://www.gov.za (GCIS) and were recorded for the legislation portal in za-gov-legislation.
+schema_version: 1
+id: za-doj-constitution
+name: >-
+  The South African Constitution - Department of Justice and Constitutional Development (www.justice.gov.za/constitution)
+publisher: >-
+  Department of Justice and Constitutional Development of the Republic of South Africa (www.justice.gov.za)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- ZA
+document_kinds:
+- constitution
+languages:
+- en
+- af
+- zu
+coverage: >-
+  The Constitution of the Republic of South Africa, 1996 - preamble, 243 sections in 14 chapters and the schedules - as
+  amended up to the Constitution Seventeenth Amendment Act of 2012, in English, Afrikaans and isiZulu (three of the eleven
+  languages the Department publishes). Text as of the Department's page (25 May 2026).
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/za-doj-constitution.yaml
+  authentication: none
+update_frequency: >-
+  Not stated; the Department's page prints "Text as Monday, 25 May, 2026" and names the Seventeenth Amendment Act of 2012
+  as the latest amendment.
+rate_limits: >-
+  robots.txt sets no Crawl-delay: ULIS waits 5 s between requests, identifies itself, caches each PDF and makes one request
+  per language (three PDFs, about 1.8 MB each).
+licence:
+  id: ZA-DoJCD-website-terms
+  name: >-
+    DoJ&CD website terms, "Usage and copyright": view, copy, download, print and distribute for non-commercial informational
+    or reference purposes; commercial use only with written permission
+  url: https://www.justice.gov.za/about_web/terms_conditions.htm
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the Department's own pages quoted in the header of this file: robots.txt
+    (the PDFs are not disallowed) and the terms' "Usage and copyright" section, which grants "view, copy, download to a
+    local drive, print and distribute ... only for non-commercial informational or reference purposes" and reserves commercial
+    use. Storing the text and showing it in a non-commercial research service is within that grant; a commercial deployment
+    is not (ULIS_COMMERCIAL_USE refuses this source). The terms do not mention automated retrieval; three files are fetched
+    at the crawl delay.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: not_allowed
+  attribution_required: true
+  attribution_text: >-
+    Source: Constitution of the Republic of South Africa, 1996, Department of Justice and Constitutional Development, Republic
+    of South Africa (https://www.justice.gov.za/constitution/), text as of 25 May 2026; retrieved {retrieved_date}. Not
+    the authentic text and not endorsed by the Department; structured and indexed by ULIS. For non-commercial informational
+    or reference use only.
+  conditions:
+  - >-
+    Non-commercial informational or reference use only; commercial use needs the Department's written permission (so a commercial
+    deployment must not use this source).
+  - >-
+    Where text is reproduced for commercial purposes the Department's copyright notice must be included in full (not applicable
+    while the source is non-commercial).
+  - >-
+    The text is the Department's edition, not the authentic text (the English text signed by the President is authentic);
+    keep the "Seventeenth Amendment Act of 2012" currency statement visible.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    AMBER. The terms grant non-commercial copying and distribution but say nothing on automated retrieval or on use as input
+    to an AI system. The Constitution is an official text; the grant is the Department's own.
+provenance: >-
+  PDFs https://www.justice.gov.za/constitution/docs/30y-2026/SAConstitution-30yearsAnniversary-Eng-2026.pdf (and -2026-Afrikaans.pdf,
+  -2026-isiZulu.pdf), stored byte for byte in a JSON bundle with the URL and retrieval time; the text is the PDF's text
+  layer (pdftotext -layout). The cover prints "As adopted on 8 May 1996 and amended on 11 October 1996 by the Constitutional
+  Assembly"; the English title page lists the seventeen Amendment Acts (1997-2012).
+known_limitations:
+- >-
+  Not the authentic text. The English text signed by the President is authentic; the Department's PDFs are its edition ("30
+  years" pocket-size edition) of the full text.
+- >-
+  Amended up to the Seventeenth Amendment Act of 2012, the latest the Department lists; a later amendment would not be in
+  it. The Department states the text "as" 25 May 2026.
+- >-
+  Only English, Afrikaans and isiZulu are ingested; the other eight official languages are published on the same page and
+  are not ingested.
+- >-
+  Footnotes recording the amending acts are part of the PDF text and are kept in the text of the provision they follow,
+  not as notes.
+- >-
+  Schedules and annexures are stored as blocks of paragraphs after section 243 (not as numbered sections); the running heads
+  of the PDF pages are not stored.
+- >-
+  The Afrikaans cover prints "8 Maart 1996" for the adoption date where the English prints "8 May 1996"; both are as printed.
+  ULIS records the English date.
+status: active
+connector: constitution_docs
+parser: constitution_text

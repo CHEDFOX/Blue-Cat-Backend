@@ -1,0 +1,104 @@
+# The Constitution of the Republic of South Africa, 1996, in three of its eleven official languages (English, Afrikaans, isiZulu),
+# as full-text PDFs of the DoJ&CD's "30 years" edition (docs/30y-2026/). The other eight languages are on the same page
+# (pdf.html) and can be added with the same hints once their headings are checked (see docs/constitutions-africa-asia-oceania.md).
+# See config/sources/za-doj-constitution.yaml.
+schema_version: 1
+source_id: za-doj-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.justice.gov.za
+documents:
+- slug: za-en
+  jurisdiction: ZA
+  url: https://www.justice.gov.za/constitution/docs/30y-2026/SAConstitution-30yearsAnniversary-Eng-2026.pdf
+  format: pdf
+  language: en
+  title: Constitution of the Republic of South Africa, 1996
+  citation_name: South Africa Constitution
+  adopted_on: '1996-05-08'
+  edition_date: '2026-05-25'
+  edition_label: >-
+    the Department's page "Text as Monday, 25 May, 2026"; latest amendment listed - Constitution Seventeenth Amendment Act
+    of 2012
+  events:
+  - type: adoption
+    date: '1996-05-08'
+    description: As adopted on 8 May 1996 by the Constitutional Assembly
+    locator: cover
+  - type: amendment
+    date: '1996-10-11'
+    description: amended on 11 October 1996 by the Constitutional Assembly
+    locator: cover
+  - type: assent
+    date: '1996-12-10'
+    description: Assented to 10 December 1996
+    locator: title page
+  - type: promulgation
+    date: '1996-12-18'
+    description: Date of promulgation 18 December 1996
+    locator: title page
+  - type: commencement
+    date: '1997-02-04'
+    description: Date of commencement 4 February 1997 (unless otherwise indicated)
+    locator: title page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    layout: true
+    page_numbers: true
+    heading_before: true
+    unit_kind: section
+    drop_lines:
+    - '^Chapter [0-9]+: '
+    - '^Schedule [0-9A-B]+: '
+    - '^Annexure [A-D]: '
+- slug: za-af
+  jurisdiction: ZA
+  url: >-
+    https://www.justice.gov.za/constitution/docs/30y-2026/SAConstitution-30yearsAnniversary-2026-Afrikaans.pdf
+  format: pdf
+  language: af
+  title: Grondwet van die Republiek van Suid-Afrika, 1996
+  citation_name: South Africa Constitution
+  edition_date: '2026-05-25'
+  edition_label: the Department's page "Text as Monday, 25 May, 2026"
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    layout: true
+    page_numbers: true
+    heading_before: true
+    unit_kind: section
+    preamble_regex: (?i)^aanhef$
+    chapter_regex: ^HOOFSTUK [0-9]
+    tail_regex: (?i)^bylae [0-9]
+    drop_lines:
+    - '^Hoofstuk [0-9]+:'
+    - '^Bylae [0-9A-B]+:'
+    - '^Aanhangsel [A-D]:'
+- slug: za-zu
+  jurisdiction: ZA
+  url: >-
+    https://www.justice.gov.za/constitution/docs/30y-2026/SAConstitution-30yearsAnniversary-2026-isiZulu.pdf
+  format: pdf
+  language: zu
+  title: Umthethosisekelo weRiphabhuliki yaseNingizimu Afrika
+  citation_name: South Africa Constitution
+  edition_date: '2026-05-25'
+  edition_label: the Department's page "Text as Monday, 25 May, 2026"
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    layout: true
+    page_numbers: true
+    heading_before: true
+    unit_kind: section
+    preamble_regex: (?i)^isendlalelo$
+    chapter_regex: ^ISAHLUKO [0-9]+$
+    tail_regex: (?i)^isheduli [0-9]
+    drop_lines:
+    - '^Isahluko [0-9]+:'
+    - '^ISAHLUKO [0-9]+:'
+    - '^Isheduli [0-9A-B]+:'
+    - '^Isihlomelo [A-D]:'

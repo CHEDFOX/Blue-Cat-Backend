@@ -1,0 +1,104 @@
+# The Basic Law of the Hong Kong Special Administrative Region (English) from the Basic Law website of the Constitutional and
+# Mainland Affairs Bureau. Pages read on 2026-10-15, before any document was fetched:
+#   https://www.basiclaw.gov.hk/robots.txt - HTTP 200 with no rules for any agent; no Crawl-delay.
+#   https://www.basiclaw.gov.hk/en/notices/index.html - "Important Notices", linked from the footer of every page:
+#        Disclaimer: "The information contained in this website has no legal status, and is made available for information only
+#        and should not be relied on as an official version of the Basic Law and related constitutional instruments herein."
+#        Copyright Notice: "The contents available on this website, including but not limited to all texts, graphics, drawings,
+#        diagrams, photographs and compilation of data or other materials are protected by copyright. The Government of the Hong
+#        Kong Special Administrative Region is the owner of all copyright works contained in this website. Any reproduction,
+#        adaptation, distribution, dissemination or making available of such copyright works to the public for commercial
+#        purposes is strictly prohibited unless prior written authorization has been obtained from the Secretary for
+#        Constitutional and Mainland Affairs. Permission is however given for the dissemination or reproduction of information
+#        contained in this website for non-commercial purposes provided that the Constitutional and Mainland Affairs Bureau as the
+#        source of the information is acknowledged."
+#   https://www.basiclaw.gov.hk/en/basiclaw/index.html - the contents page: the text is offered as one HTML page per part
+#        (decree, preamble, nine chapters, three annexes, other instruments) and as a PDF booklet ("Important Notice: The
+#        information contained in this booklet has no legal status"); the HTML pages are used, the booklet is not.
+schema_version: 1
+id: hk-cmab-basiclaw
+name: >-
+  Basic Law of the Hong Kong Special Administrative Region on the Basic Law website (www.basiclaw.gov.hk)
+publisher: >-
+  Constitutional and Mainland Affairs Bureau, Government of the Hong Kong Special Administrative Region (www.basiclaw.gov.hk)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- HK
+document_kinds:
+- constitution
+languages:
+- en
+coverage: >-
+  The Basic Law of the Hong Kong Special Administrative Region of the People's Republic of China in English, as the Basic
+  Law website prints it: the Decree of the President and the Preamble (stored together as the preamble), 160 articles in
+  nine chapters, and the annexes and other instruments (stored as blocks of paragraphs). One document, 15 pages.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/hk-cmab-basiclaw.yaml
+  authentication: none
+update_frequency: >-
+  Not stated. The pages carry a revision date in their script (30 April 2021); ULIS re-reads them only when the manifest
+  is run again.
+rate_limits: >-
+  robots.txt has no rules and no Crawl-delay: ULIS waits 5 s between requests, identifies itself, caches every page and
+  makes 15 requests for the pages (plus robots.txt).
+licence:
+  id: HK-basiclaw-website-copyright-notice
+  name: >-
+    Copyright Notice of the Basic Law website - non-commercial reproduction permitted with acknowledgement of the Constitutional
+    and Mainland Affairs Bureau; commercial use needs written authorisation
+  url: https://www.basiclaw.gov.hk/en/notices/index.html
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the publisher's own pages quoted in the header of this file: robots.txt
+    (no rules) and the Important Notices page. The Copyright Notice permits "dissemination or reproduction of information
+    contained in this website for non-commercial purposes provided that the Constitutional and Mainland Affairs Bureau as
+    the source of the information is acknowledged" and prohibits reproduction, dissemination or making available "for commercial
+    purposes" without prior written authorisation. It says nothing against automated retrieval. Reading: AMBER/GREEN for
+    a non-commercial deployment (storing and showing the text with the source named); commercial use excluded (ULIS_COMMERCIAL_USE
+    refuses this source).
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: not_allowed
+  attribution_required: true
+  attribution_text: >-
+    The Basic Law of the Hong Kong Special Administrative Region, Basic Law website of the Constitutional and Mainland Affairs
+    Bureau, Government of the Hong Kong SAR (https://www.basiclaw.gov.hk/en/basiclaw/index.html); retrieved {retrieved_date}.
+    The website's text has no legal status and is not an official version; structured and indexed by ULIS, not endorsed
+    by the publisher.
+  conditions:
+  - >-
+    Non-commercial purposes only, with the Constitutional and Mainland Affairs Bureau acknowledged as the source (Copyright
+    Notice); a commercial deployment must not use this source (ULIS_COMMERCIAL_USE refuses it).
+  - >-
+    The website says its information "has no legal status" and "should not be relied on as an official version of the Basic
+    Law"; the authentic text is the one promulgated by the President's Decree No. 26 of 4 April 1990 and published by the
+    National People's Congress.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached pages); stop on any refusal; robots.txt is read
+    before the pages.
+  notes: >-
+    No licence is granted beyond the permission quoted; it is limited to non-commercial purposes. Counsel review is recommended
+    before production use.
+provenance: >-
+  The 15 HTML pages listed in config/manifests/hk-cmab-basiclaw.yaml, each stored byte for byte inside one JSON bundle with
+  its URL and the retrieval time; the text is re-derived from the pages in the order of the contents page. The headings
+  that name each page ("Chapter I General Principles", "Annex I" ...) are the contents page's own words and are added by
+  the manifest.
+known_limitations:
+- >-
+  The website states that its text "has no legal status" and is "for information only"; it is a convenience copy, not the
+  authentic text promulgated by the Decree of the President and published by the National People's Congress.
+- >-
+  The text is the website's, with a revision date of 30 April 2021 in the pages' scripts; any later change of the Basic
+  Law (none is known to this project) is not applied. No history is held.
+- >-
+  The Decree of the President (No. 26) and the Preamble are stored together as the preamble; the annexes and the other instruments
+  (decisions of the National People's Congress and its Standing Committee) are stored as blocks of paragraphs, not as articles.
+- English only. The Chinese text is not ingested.
+status: active
+connector: constitution_docs
+parser: constitution_text

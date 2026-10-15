@@ -1,0 +1,96 @@
+# The Basic Law of the Hong Kong Special Administrative Region (en): one document made of 15 pages on www.basiclaw.gov.hk, read in
+# the order of the site's contents page. See config/sources/hk-cmab-basiclaw.yaml.
+schema_version: 1
+source_id: hk-cmab-basiclaw
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.basiclaw.gov.hk
+documents:
+- slug: hk-en
+  jurisdiction: HK
+  url: https://www.basiclaw.gov.hk/en/basiclaw/index.html
+  format: html
+  language: en
+  title: The Basic Law of the Hong Kong Special Administrative Region of the People's Republic of China
+  citation_name: Hong Kong Basic Law
+  adopted_on: '1990-04-04'
+  edition_label: the pages of the Basic Law website (revision date 30 April 2021 in the pages' scripts)
+  events:
+  - type: adoption
+    date: '1990-04-04'
+    description: adopted at the Third Session of the Seventh National People's Congress on 4 April 1990
+    locator: Decree of the President
+  - type: promulgation
+    date: '1990-04-04'
+    description: promulgated by Decree No. 26 of the President of the People's Republic of China, signed 4 April 1990
+    locator: Decree of the President
+  - type: commencement
+    date: '1997-07-01'
+    description: shall be put into effect as of 1 July 1997
+    locator: Decree of the President
+  - type: amendment
+    date: '2010-08-28'
+    description: >-
+      Annex I and Annex II amended, as approved/recorded at the Sixteenth Meeting of the Standing Committee of the Eleventh
+      National People's Congress on 28 August 2010
+    locator: heading lines of Annex I and Annex II
+  - type: amendment
+    date: '2021-03-30'
+    description: >-
+      Annex I and Annex II amended at the Twenty-Seventh Meeting of the Standing Committee of the Thirteenth National People's
+      Congress on 30 March 2021
+    locator: heading lines of Annex I and Annex II
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    html_skip_classes:
+    - nav-btn-wrap
+    - accordionBtns
+    html_skip_tags:
+    - title
+    html_replace:
+    - - (<span class="hd">[^<]*</span>)
+      - '\1 '
+    unit_kind: article
+    heading: text
+    preamble_regex: ^Decree of the President of the People's Republic of China$
+    chapter_regex: '^Chapter [IVX]+ '
+    tail_regex: ^Annex I$
+  note: >-
+    The Decree of the President (No. 26) and the Preamble are stored together as the preamble. Before each page the manifest
+    puts the label of that page in the website's contents page ('Decree of the President of the People's Republic of China',
+    'Preamble', 'Chapter I General Principles' ... 'Annex I', 'Annex II', 'Annex III', 'Other Instruments'); these labels
+    are not text of the pages.
+  parts:
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/decree.html
+    heading: Decree of the President of the People's Republic of China
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/preamble.html
+    heading: Preamble
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/chapter1.html
+    heading: Chapter I General Principles
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/chapter2.html
+    heading: >-
+      Chapter II Relationship between the Central Authorities and the Hong Kong Special Administrative Region
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/chapter3.html
+    heading: Chapter III Fundamental Rights and Duties of the Residents
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/chapter4.html
+    heading: Chapter IV Political Structure
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/chapter5.html
+    heading: Chapter V Economy
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/chapter6.html
+    heading: Chapter VI Education, Science, Culture, Sports, Religion, Labour and Social Services
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/chapter7.html
+    heading: Chapter VII External Affairs
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/chapter8.html
+    heading: Chapter VIII Interpretation and Amendment of the Basic Law
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/chapter9.html
+    heading: Chapter IX Supplementary Provisions
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/annex1.html
+    heading: Annex I
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/annex2.html
+    heading: Annex II
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/annex3.html
+    heading: Annex III
+  - url: https://www.basiclaw.gov.hk/en/basiclaw/annex-instrument.html
+    heading: Other Instruments

@@ -1,0 +1,39 @@
+# The Constitution of Thailand (en): 1 document(s) on www.senate.go.th. See config/sources/th-senate-constitution.yaml.
+schema_version: 1
+source_id: th-senate-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.senate.go.th
+documents:
+- slug: th-en
+  jurisdiction: TH
+  url: https://www.senate.go.th/assets/portals/1/fileups/419/files/Constitution2560.pdf
+  format: pdf
+  language: en
+  title: Constitution of the Kingdom of Thailand
+  citation_name: Thailand Constitution
+  adopted_on: '2017-04-06'
+  edition_label: >-
+    text as enacted on the 6th day of April B.E. 2560 (2017) (official translation of the Office of the Council of State)
+  events:
+  - type: adoption
+    date: '2017-04-06'
+    description: Enacted on the 6th Day of April B.E. 2560 (2017)
+    locator: first page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    page_numbers: true
+    preamble_regex: ^HIS MAJESTY KING MAHA VAJIRALONGKORN BODINDRADEBAYAVARANGKUN$
+    tail_regex: ^Countersigned by$
+    note_lines:
+    - '^Remark: This translation'
+    - ^information purposes only
+    - ^and correctness of the translation
+    - ^remain the sole authoritative
+    - ^\*$
+    - ^Published in the Government Gazette
+  note: >-
+    Heading of the file, not stored as an article: 'Official Translation CONSTITUTION OF THE KINGDOM OF THAILAND* ... Enacted
+    on the 6th Day of April B.E. 2560; Being the 2nd Year of the Present Reign.'

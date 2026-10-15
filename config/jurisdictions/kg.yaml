@@ -1,0 +1,61 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Kyrgyzstan: a minimal profile created for the constitution sweep of Africa, the
+# Middle East, Asia and Oceania. Only the constitution is loaded; nothing else about the legal system is profiled.
+schema_version: 1
+id: KG
+profile_version: 0.1.0
+name: Kyrgyzstan
+names:
+  en: Kyrgyz Republic
+  ky: Кыргыз Республикасы
+  ru: Кыргызская Республика
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages:
+- ky
+- ru
+legal_system:
+  families: []
+  structure: unitary
+  treaty_reception: unknown
+  notes: >-
+    To verify - a unitary republic; Kyrgyz is the state language and Russian is the official language (Constitution art
+    10). The current Constitution was introduced by the Law of 5 May 2021 (text of 'Введена в действие Законом Кыргызской
+    Республики от 5 мая 2021 года').
+legislative_institutions: []
+instrument_types:
+- constitution
+norm_hierarchy:
+- constitution
+courts: []
+precedent:
+  doctrine: not_applicable
+  vertical_binding: false
+  notes: >-
+    Not profiled: only the constitution is loaded, no court decisions. To verify - how precedent works in this jurisdiction.
+citation:
+  module: constitution
+  notes: >-
+    The constitution is cited as "Kyrgyzstan Constitution art. N" (a label, with the article number as the document itself
+    prints it). To verify - the country's own citation convention.
+  examples:
+  - Kyrgyzstan Constitution art. 1
+  - Kyrgyzstan Constitution art. 23(1)
+publication:
+  official_sources:
+  - kg-shailoo-constitution
+coverage:
+  corpus_status: pilot
+  known_gaps:
+  - >-
+    Only the constitution is loaded (Russian text of the 2021 Constitution; the Kyrgyz text is not ingested). No legislation,
+    regulations, treaties or case law of Kyrgyzstan are ingested.
+  - >-
+    The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since
+    are not applied, and no history is held (docs/constitutions-africa-asia-oceania.md).
+  - >-
+    Courts, legislative institutions, legal families and treaty reception are not profiled: this is a minimal profile, not
+    reviewed by counsel.

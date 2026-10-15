@@ -33,6 +33,7 @@ from ulis.sources.connectors.au_federal_register import FederalRegisterConnector
 from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.bwb import BwbConnector
+from ulis.sources.connectors.constitution_docs import ConstitutionDocsConnector
 from ulis.sources.connectors.constitution_pages_b import ConstitutionPagesBConnector
 from ulis.sources.connectors.dila_case_law import DilaCaseLawConnector
 from ulis.sources.connectors.dila_legi import DilaLegiConnector
@@ -90,6 +91,7 @@ from ulis.sources.parsers import (
     boe_consolidada,
     bwb,
     constitution_pages_b,
+    constitution_text,
     dila_juri,
     dila_legi,
     ecfr,
@@ -197,6 +199,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "uradni_list_html": uradni_list.parse_uradni_list,
     "constitution_pages_b": constitution_pages_b.parse_constitution_pages_b,
     "oecd_legal_instruments": oecd_legal_instruments.parse_oecd_legal_instruments,
+    "constitution_text": constitution_text.parse_constitution,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -251,6 +254,7 @@ PARSER_VERSIONS = {
     "uradni_list_html": uradni_list.PARSER_VERSION,
     "constitution_pages_b": constitution_pages_b.PARSER_VERSION,
     "oecd_legal_instruments": oecd_legal_instruments.PARSER_VERSION,
+    "constitution_text": constitution_text.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -338,6 +342,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "uradni_list": UradniListConnector,
     "constitution_pages_b": ConstitutionPagesBConnector,
     "oecd_legal_instruments": OecdLegalInstrumentsConnector,
+    "constitution_docs": ConstitutionDocsConnector,
 }
 
 
