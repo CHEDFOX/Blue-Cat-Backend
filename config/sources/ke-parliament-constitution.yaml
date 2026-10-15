@@ -1,0 +1,92 @@
+# Constitution of Kenya from the Parliament of Kenya (copy of the National Council for Law Reporting's edition) (www.parliament.go.ke). Read on 2026-10-15, before any document was fetched:
+#   robots.txt - www.parliament.go.ke/robots.txt: the standard Drupal file, one "User-agent: *" group disallowing /core/, /profiles/, /admin/, /comment/reply/, /search/, /user/... and similar paths; no Crawl-delay; /sites/default/files/ is not disallowed
+#   Terms - page footer: "© Copyright Parliament of Kenya. All rights reserved." - a generic footer; no terms-of-use, licence or disclaimer page was found on the pages read (home page, glossary)
+#   The document - The PDF is headed "LAWS OF KENYA THE CONSTITUTION OF KENYA, 2010 Published by the National Council for Law Reporting with the Authority of the Attorney-General www.kenyalaw.org"; its file properties give the title "Rev. 2010]". It prints no copyright notice and no edition date. The text of the Constitution is followed by the Schedules and by the Promulgation by the President (the referendum of 4 August 2010; in effect from 27 August 2010).
+schema_version: 1
+id: ke-parliament-constitution
+name: >-
+  Constitution of Kenya - the Parliament of Kenya (copy of the National Council for Law Reporting's edition) (www.parliament.go.ke)
+publisher: >-
+  Parliament of Kenya (www.parliament.go.ke) - the PDF is the National Council for Law Reporting's "Laws of Kenya" edition
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- KE
+document_kinds:
+- constitution
+languages:
+- en
+coverage: >-
+  The Constitution of Kenya in en as published by the Parliament of Kenya (copy of the National Council for Law Reporting's
+  edition): 1 document(s). The preamble and 264 articles in eighteen Chapters (with Parts), as in the NCLR revised edition
+  2010; the Schedules and the Promulgation follow as blocks of paragraphs.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ke-parliament-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: KE-official-text-no-terms
+  name: >-
+    Official legal text published by the Parliament of Kenya (copy of the National Council for Law Reporting's edition);
+    page footer: "© Copyright Parliament of Kenya. All rights reserved." - a generic footer; no terms-of-use, licence or
+    disclaimer page was fou
+  url: https://www.parliament.go.ke/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the publisher's own pages quoted in the header of this file: robots.txt
+    (www.parliament.go.ke/robots.txt: the standard Drupal file, one "User-agent: *" group disallowing /core/, /profiles/,
+    /admin/, /comment/reply/, /search/, /user/... and similar paths; no Crawl-delay; /sites/default/files/ is not disallowed)
+    and the terms (page footer: "© Copyright Parliament of Kenya. All rights reserved." - a generic footer; no terms-of-use,
+    licence or disclaimer page was found on the pages read (home page, glossary)). The PDF is headed "LAWS OF KENYA THE
+    CONSTITUTION OF KENYA, 2010 Published by the National Council for Law Reporting with the Authority of the Attorney-General
+    www.kenyalaw.org"; its file properties give the title "Rev. 2010]". It prints no copyright notice and no edition date.
+    The text of the Constitution is followed by the Schedules and by the Promulgation by the President (the referendum of
+    4 August 2010; in effect from 27 August 2010). The Constitution is an official legal text; the Kenyan Copyright Act
+    is believed not to protect the Constitution and other official texts (to verify; not read on a publisher's page). Reading:
+    AMBER - the publisher states no restriction on reusing the text; no permission for automated retrieval is stated either.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Kenya, the Parliament of Kenya (copy of the National Council for Law Reporting's edition) (www.parliament.go.ke);
+    retrieved {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (en), not the authentic publication; amendments after the edition date are not applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/ke-parliament-constitution.yaml, stored byte for byte inside JSON bundles with
+  the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- >-
+  The PDF is the National Council for Law Reporting's edition of 2010 ("Rev. 2010"), a copy posted on the Parliament's site;
+  it prints no edition date, so the retrieval date is the edition date. Amendments to the Constitution after 2010, if any,
+  are not applied here.
+- >-
+  The marginal headings of the articles stand above the article in the PDF; they are recognised from their shape (a short
+  line starting with a capital letter, directly above the number), and a heading of two lines is joined. A heading may rarely
+  be mis-assigned; the text of every article is kept.
+- >-
+  The running header "Constitution of Kenya, 2010" and the page numbers are removed; the Schedules, the subsidiary legislation
+  list and the President's Promulgation are stored as blocks of paragraphs (blk-N).
+- >-
+  The Parliament is not the publisher of the text; the National Council for Law Reporting is, and its own site (Kenya Law)
+  is a separate source whose terms were not accepted.
+status: active
+connector: constitution_docs
+parser: constitution_text

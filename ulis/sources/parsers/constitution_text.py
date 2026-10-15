@@ -313,7 +313,7 @@ def find_candidates(lines: list[str], style: str, keywords: list[str], words_aft
     return out
 
 
-def body_chain(cands: list[Candidate], lines: list[str], max_gap: int = MAX_GAP) -> list[Candidate]:
+def body_chain(cands: list[Candidate], lines: list[str], max_gap: int = MAX_GAP, max_first: int = 3) -> list[Candidate]:
     """The most text-bearing run of consecutive numbers among the candidates (dynamic programming)."""
     if not cands:
         return []
@@ -323,7 +323,7 @@ def body_chain(cands: list[Candidate], lines: list[str], max_gap: int = MAX_GAP)
     best = [0] * len(cands)
     prev = [-1] * len(cands)
     for i, c in enumerate(cands):
-        best[i] = c.weight if c.base <= 3 else 0
+        best[i] = c.weight if c.base <= max_first else 0
         for j in range(i):
             d = c.base - cands[j].base
             follows = (1 <= d <= max_gap) or (d == 0 and c.suffix and c.suffix != cands[j].suffix)
@@ -575,6 +575,10 @@ def _is_tail(line: str, tail_re: re.Pattern[str], strict: bool) -> bool:
     return not strict or (len(line.split()) <= 8 and not line.endswith((".", ";", ",")))
 
 
+WRAPPED_TAIL = re.compile(r"^[a-z][^()]{1,70}\.$")
+WRAPPED_HEADING = re.compile(r"^[A-Z][^()]{2,90}[^.;:,\u2014\u2013]$")
+
+
 def _split_region(
     region: list[str],
     chapter_re: re.Pattern[str],
@@ -582,6 +586,7 @@ def _split_region(
     before: bool,
     heading_re: re.Pattern[str] | None = None,
     line_mode: bool = False,
+    wrap: bool = False,
 ) -> tuple[list[str], str | None, str | None]:
     """Split the lines between two articles into (rest, chapter heading, heading of the next article).
 
@@ -591,9 +596,36 @@ def _split_region(
     paragraph - is the heading of the article that follows. A ``heading_re`` (Turkish "II. Cumhuriyetin nitelikleri")
     names the heading line itself: the last line before the number, when it matches."""
     positions = [i for i, x in enumerate(region) if x]
+    if (
+        before
+        and heading_re is not None
+        and wrap
+        and len(positions) > 1
+        and not heading_re.match(region[positions[-1]])
+    ):
+        # the second line of a wrapped heading may start in lower case ("... anti-corruption" / "commission.")
+        tail, first = region[positions[-1]], region[positions[-2]]
+        if (
+            WRAPPED_TAIL.match(tail)
+            and WRAPPED_HEADING.match(first)
+            and not first.isupper()
+            and not chapter_re.match(first)
+        ):
+            rest, chapter, _ = _split_region(region[: positions[-2]], chapter_re, title_lines, False)
+            return rest, chapter, f"{first} {tail}"
     if before and heading_re is not None and positions and heading_re.match(region[positions[-1]]):
-        rest, chapter, _ = _split_region(region[: positions[-1]], chapter_re, title_lines, False)
-        return rest, chapter, region[positions[-1]]
+        start, heading = positions[-1], region[positions[-1]]
+        # a heading wrapped over two lines: the line above has the shape of a heading's first line (no end mark)
+        if (
+            wrap
+            and len(positions) > 1
+            and WRAPPED_HEADING.match(region[positions[-2]])
+            and not region[positions[-2]].isupper()
+            and not chapter_re.match(region[positions[-2]])
+        ):
+            start, heading = positions[-2], f"{region[positions[-2]]} {heading}"
+        rest, chapter, _ = _split_region(region[:start], chapter_re, title_lines, False)
+        return rest, chapter, heading
     window = positions[-(CHAPTER_TRAIL + title_lines + (1 if before else 0)) :]
     for i in window:
         if chapter_re.match(region[i]):
@@ -626,7 +658,10 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
         order = ["keyword", "numdot", *(["numword"] if words_after else [])] if style == "auto" else [style]
         for name in order:
             found = body_chain(
-                find_candidates(lines, name, keywords, words_after), lines, int(hints.get("max_gap", MAX_GAP))
+                find_candidates(lines, name, keywords, words_after),
+                lines,
+                int(hints.get("max_gap", MAX_GAP)),
+                int(hints.get("max_first", 3)),
             )
             if len(found) >= MIN_UNITS and len(found) > len(chain):
                 chain, chosen = found, name
@@ -657,6 +692,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
     heading_re = re.compile(hints["heading_before_regex"]) if hints.get("heading_before_regex") else None
     heading_before = bool(hints.get("heading_before")) or heading_re is not None
     heading_line = hints.get("heading_before") == "line"
+    heading_wrap = bool(hints.get("heading_wrap"))
     pending: str | None = None  # the heading printed above the next number (heading_before)
     first = chain[0].line
     tops: list[tuple[Unit, str | None]] = []
@@ -669,7 +705,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
             stored_from = markers[-1]
             region = lines[markers[-1] + 1 : first]
             region, context, found_heading = _split_region(
-                region, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line
+                region, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line, heading_wrap
             )
             pending = found_heading
             body = [x for x in _nonblank(region) if not any(p.search(x) for p in note_re)]
@@ -680,7 +716,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
                 tops.append((unit, None))
     if context is None:
         _, context, found_heading = _split_region(
-            pre_region, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line
+            pre_region, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line, heading_wrap
         )
         pending = found_heading
     front_lines = len([x for x in lines[:stored_from] if x])
@@ -712,7 +748,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
             if cut is not None:  # unnumbered text between two numbered units (provisional provisions ...)
                 region, between = region[:cut], region[cut:]
                 between, found_chapter, next_heading = _split_region(
-                    between, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line
+                    between, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line, heading_wrap
                 )
                 inter_blocks = _blocks(
                     _trim(between),
@@ -723,7 +759,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
                 block_no += len(inter_blocks)
             else:
                 region, found_chapter, next_heading = _split_region(
-                    region, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line
+                    region, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line, heading_wrap
                 )
             if found_chapter:
                 next_context = found_chapter

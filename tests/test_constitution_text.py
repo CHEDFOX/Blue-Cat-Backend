@@ -484,6 +484,47 @@ def test_footnote_marks_danda_numbers_headings_on_their_own_line_and_wide_gaps()
     assert [p.eid for p in tops(doc)] == ["preamble", "art-1", "art-2", "art-2a", "art-3", "art-4", "art-5"]
 
 
+KE_HINTS = {
+    "style": "numdot",
+    "unit_kind": "article",
+    "page_numbers": True,
+    "drop_lines": ["^Constitution of Kenya, 2010$"],
+    "heading_before_regex": r"^(?=.{4,92}$)[A-Z][^()]*[A-Za-z]\.?$",
+    "heading_wrap": True,
+    "max_first": 100,  # the fixture is an excerpt: it starts at article 76
+    "chapter_regex": "^(CHAPTER|PART) [A-Z]+",
+    "preamble_regex": "^PREAMBLE$",
+    "tail_regex": "^SCHEDULES?$",
+}
+
+
+def test_kenya_pdf_headings_above_the_number_wrapped_headings_and_page_furniture() -> None:
+    doc = parse(
+        bundle(
+            make_pdf(_pages("ke-en-pages.json")),
+            "pdf",
+            cc="KE",
+            structure=KE_HINTS,
+            title="The Constitution of Kenya, 2010",
+            citation_name="Kenya Constitution",
+        )
+    )
+    units = [p for p in doc.provisions if p.kind == "article" and p.parent_eid is None]
+    numbers = [int(p.eid.split("-")[1]) for p in units]
+    assert numbers == list(range(numbers[0], numbers[0] + len(numbers))) and 79 in numbers and 84 in numbers
+    # a heading wrapped over two lines is joined (its second line starts in lower case in the PDF)
+    assert prov(doc, "art-79").heading == "Legislation to establish the ethics and anti-corruption commission."
+    assert (
+        prov(doc, "art-84").heading == "Candidates for election and political parties to comply with code of conduct."
+    )
+    # neither heading line is left at the end of the article above
+    assert not prov(doc, "art-78").text.rstrip().endswith(("anti-corruption", "commission."))
+    assert not prov(doc, "art-83").text.rstrip().endswith(("code", "of conduct."))
+    # running header and page numbers are not text
+    assert all("Constitution of Kenya, 2010" not in p.text for p in doc.provisions)
+    assert prov(doc, "art-79").text.startswith("Parliament shall enact legislation to establish an independent")
+
+
 def test_page_furniture_is_only_removed_when_the_manifest_names_it() -> None:
     pages = [
         ["Article 1", "Words of the first article.", "", "- 7 -"],
@@ -832,6 +873,7 @@ ACTIVE = [
     "mo-dsaj-basiclaw",
     "lb-presidency-constitution",
     "bd-bdlaws-constitution",
+    "ke-parliament-constitution",
 ]
 
 
@@ -881,6 +923,7 @@ def test_commercial_deployments_are_refused_where_the_terms_forbid_commercial_us
         "mo-dsaj-basiclaw",
         "lb-presidency-constitution",
         "bd-bdlaws-constitution",
+        "ke-parliament-constitution",
     ):
         assert catalog.sources.get(source_id).licence.commercial_use == "unknown"
         with pytest.raises(LicenceNotApproved, match="commercial"):
