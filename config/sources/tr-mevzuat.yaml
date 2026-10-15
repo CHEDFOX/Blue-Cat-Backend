@@ -1,0 +1,46 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: tr-mevzuat
+name: Mevzuat Bilgi Sistemi (Turkey) and the Constitutional Court's decisions database
+publisher: Presidency of the Republic of Turkey (Mevzuat); Anayasa Mahkemesi
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- TR
+document_kinds:
+- act
+- regulation
+- judgment
+languages:
+- tr
+coverage: Turkish legislation (https://www.mevzuat.gov.tr), the Official Gazette (https://www.resmigazete.gov.tr) and Constitutional
+  Court decisions (https://kararlarbilgibankasi.anayasa.gov.tr).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.mevzuat.gov.tr/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms not read - hosts unreachable
+  url: https://www.mevzuat.gov.tr/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: mevzuat.gov.tr and resmigazete.gov.tr:
+    the request for robots.txt timed out (20 s) on all three attempts; www.anayasa.gov.tr: TLS certificate chain could not
+    be verified; kararlarbilgibankasi.anayasa.gov.tr: reachable (robots.txt 404, redirect to /kbb/) but a React application
+    with its own API (no terms found). Not reachable or not usable from the ULIS network. Turkish has a PostgreSQL ''turkish''
+    configuration.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Main hosts time out from the ULIS network; the court database is a client-side application.
+status: planned
+connector: null
+parser: null

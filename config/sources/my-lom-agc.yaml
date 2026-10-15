@@ -1,0 +1,44 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: my-lom-agc
+name: Laws of Malaysia (AGC) - lom.agc.gov.my
+publisher: Attorney General's Chambers of Malaysia
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- MY
+document_kinds:
+- act
+- regulation
+- constitution
+languages:
+- en
+- ms
+coverage: Reprints of Malaysian federal Acts (https://lom.agc.gov.my).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://lom.agc.gov.my/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms not read - host unreachable
+  url: https://lom.agc.gov.my/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: https://lom.agc.gov.my/robots.txt:
+    connection reset by peer on the one request made; https://www.federalgazette.agc.gov.my/robots.txt answered HTTP 502
+    from the proxy. Not reachable from ULIS; terms not read.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Host not reachable from the ULIS network (connection reset).
+status: planned
+connector: null
+parser: null

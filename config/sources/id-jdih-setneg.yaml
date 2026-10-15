@@ -1,0 +1,47 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: id-jdih-setneg
+name: JDIH Kementerian Sekretariat Negara (Indonesia) and national legal documentation network
+publisher: Kementerian Sekretariat Negara RI (State Secretariat)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- ID
+document_kinds:
+- act
+- regulation
+- judgment
+languages:
+- id
+coverage: Indonesian laws (UU), government regulations and presidential instruments with court decisions (https://jdih.setneg.go.id).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://jdih.setneg.go.id/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms not found
+  url: https://jdih.setneg.go.id/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt (https://jdih.setneg.go.id/robots.txt):
+    ''User-agent: * Disallow:'' (allows all). The site is a Next.js application whose lists are loaded client-side from
+    an API (the page data is empty); no terms or copyright page was found; the ''Dasar hukum'' page was fetched but not
+    interpreted. Other Indonesian sources: https://peraturan.go.id/robots.txt - connection reset; https://peraturan.bpk.go.id/robots.txt
+    - Cloudflare challenge (HTTP 403); https://jdihn.go.id - connection reset. Law no. 28 of 2014 on Copyright, art. 42,
+    as ULIS understands it (not read here), states that there is no copyright in laws and regulations; to be confirmed before
+    use. Indonesian has a PostgreSQL ''indonesian'' text-search configuration.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Client-side API behind the pages, no terms found, documents are PDFs; the main portals are blocked or unreachable.
+status: planned
+connector: null
+parser: null

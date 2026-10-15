@@ -1,0 +1,71 @@
+# REJECTED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: laws-africa-lii-network
+name: Laws.Africa-run legal information institutes (LawLibrary SA, ULII, TanzLII, ZambiaLII, NigeriaLII, GhaLII, NamibLII,
+  RwandaLII, MauritiusLII, ZimLII, MalawiLII, SierraLII)
+publisher: Laws.Africa NPC and partner institutions (the Akoma Ntoso platform Indigo/Peachjar family)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- ZA
+- UG
+- TZ
+- ZM
+- NG
+- GH
+- NA
+- RW
+- MU
+- ZW
+- MW
+- SL
+document_kinds:
+- act
+- judgment
+- regulation
+languages:
+- en
+coverage: Legislation (Akoma Ntoso, at /akn/<country>/act/...) and case law of many African countries on one platform; the
+  platform's formats would allow one parser for all of them.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://lawlibrary.org.za/ (and the other hosts)
+  authentication: none
+update_frequency: unknown
+licence:
+  id: NOT-GRANTED
+  name: CC BY-NC 4.0, with a ban on scraping and bulk download (platform terms of use, section 4 and 9)
+  url: https://lawlibrary.org.za/terms-of-use/
+  review_status: rejected
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: READ: robots.txt of
+    lawlibrary.org.za, ulii.org, tanzlii.org, zambialii.org, nigerialii.org, ghalii.org, namiblii.org, rwandalii.org, zimlii.org,
+    malawilii.org, mauritiuslii.org (same text): ''Content-Signal: ai-train=no, search=yes, ai-input=no'' (an express reservation
+    of rights under Art. 4 of EU Directive 2019/790), Crawl-delay 5, Disallow /api/, /search/, /judgments/, /gazettes/,
+    /akn/*/judgment/, /akn/*/officialGazette/, /akn/*/provision/*; named AI crawlers (ClaudeBot, anthropic-ai, ...) are
+    disallowed. TERMS OF USE (same text at https://lawlibrary.org.za/terms-of-use/, https://ulii.org/en/terms-of-use/, zambialii.org,
+    nigerialii.org, ghalii.org, namiblii.org, rwandalii.org, mauritiuslii.org; tanzlii.org redirects to the same page):
+    ''Scraping and bulk downloading from this Website is strictly prohibited. We are a donor-funded organisation and bulk
+    and frequent scraping affects our costs ... There are more efficient ways of obtaining access to our data in bulk. Please
+    email us if you would like to access our data in bulk.'' Licence (section 9): primary and secondary law content may
+    be re-used under Creative Commons Attribution-NonCommercial 4.0 International, crediting LawLibrary, not for commercial
+    gain; some collections are more permissive. The Content API at api.laws.africa is under robots ''Disallow: /'' and needs
+    a token (not requested). Conclusion: automated bulk retrieval is forbidden and the content licence is non-commercial:
+    REJECTED unless the operators grant bulk access in writing (they invite requests by email) on terms that allow ULIS''s
+    use. SAFLII (Cloudflare) and Kenya Law (HTTP 403) are separate blocked sources, see their descriptors.'
+  reviewed_on: '2026-10-14'
+  redistribution: not_allowed
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: not_allowed
+  attribution_required: null
+  attribution_text: null
+  notes: A written bulk-access agreement with Laws.Africa would be the route; see docs/jurisdictions/africa-asia-mideast-oceania.md.
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Scraping and bulk downloading are prohibited by the terms; bulk data on request by email.
+- 'CC BY-NC 4.0: non-commercial use only; ai-input and ai-train are reserved (''no'') in robots.txt.'
+- Judgments and gazettes are disallowed to all robots.
+status: rejected
+connector: null
+parser: null

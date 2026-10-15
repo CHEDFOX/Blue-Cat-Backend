@@ -1,0 +1,47 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: pacific-paclii
+name: Pacific Islands Legal Information Institute (PacLII)
+publisher: University of the South Pacific School of Law (PacLII)
+kind: official_court_database
+authority: unofficial
+jurisdictions:
+- FJ
+- PG
+- SB
+- VU
+- WS
+- TO
+document_kinds:
+- act
+- judgment
+languages:
+- en
+coverage: Legislation and case law of Fiji, Papua New Guinea and other Pacific island countries (http://www.paclii.org).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.paclii.org/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms not read - bot challenge
+  url: https://www.paclii.org/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: https://www.paclii.org/robots.txt
+    answered HTTP 403 with a Cloudflare ''Just a moment...'' challenge page to ULIS''s identifying User-Agent. A refusal:
+    ULIS does not work around it. Terms not read.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Access refused to ULIS (Cloudflare challenge).
+status: planned
+connector: null
+parser: null

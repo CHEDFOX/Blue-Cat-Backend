@@ -1,0 +1,49 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: vn-chinhphu-vanban
+name: 'Government of Vietnam: legal documents system (vanban.chinhphu.vn) and electronic Official Gazette (congbao.chinhphu.vn)'
+publisher: Cuc Thong tin va Truyen thong Chinh phu (Government Office)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- VN
+document_kinds:
+- act
+- regulation
+- decree
+languages:
+- vi
+coverage: Legal documents of Vietnam (laws, decrees, circulars) as attached signed PDF files (https://datafiles.chinhphu.vn/cpp/files/vbpq/...)
+  listed by https://vanban.chinhphu.vn/he-thong-van-ban, and the Official Gazette (https://congbao.chinhphu.vn).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://vanban.chinhphu.vn/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Attribution notice in the site footers ('ghi ro nguon')
+  url: https://vanban.chinhphu.vn/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt of vanban.chinhphu.vn
+    and congbao.chinhphu.vn: ''User-agent: * Allow: /''; https://datafiles.chinhphu.vn/robots.txt: HTTP 403 (object store
+    XML). Footers of both sites: ''Ghi ro nguon ... khi phat hanh lai thong tin tu cac nguon nay'' (name the source - ''Cuc
+    Thong tin va Truyen thong Chinh phu'' / ''www.chinhphu.vn'' / ''congbao.chinhphu.vn'' - when republishing information
+    from these sources): an attribution condition, not a licence text. The Gazette listing is filled by JavaScript; document
+    pages of vanban.chinhphu.vn reset the connection on the one try made; documents are PDFs. The Law on Intellectual Property
+    art. 15 (as ULIS understands it; not read here) excludes legal documents from copyright. Vietnamese has no PostgreSQL
+    stemmer (''simple'').'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Attribution requirement only; JS-driven lists, PDF documents, unstable connections.
+status: planned
+connector: null
+parser: null

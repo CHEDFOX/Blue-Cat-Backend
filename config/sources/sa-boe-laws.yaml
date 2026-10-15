@@ -1,0 +1,43 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: sa-boe-laws
+name: Laws and Regulations Portal of the Bureau of Experts (laws.boe.gov.sa)
+publisher: Bureau of Experts at the Council of Ministers (Saudi Arabia)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- SA
+document_kinds:
+- act
+- regulation
+languages:
+- ar
+- en
+coverage: Saudi laws and regulations (https://laws.boe.gov.sa); the Official Gazette Umm Al-Qura is at https://www.uqn.gov.sa.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://laws.boe.gov.sa/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms not read - host unreachable
+  url: https://laws.boe.gov.sa/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: https://laws.boe.gov.sa/robots.txt:
+    connection reset by peer. https://www.uqn.gov.sa/robots.txt: served (blocks some commercial crawlers; disallows /*page=,
+    /*redirect=, /ajax/) but the gazette was not evaluated. Terms not read.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- BOE portal unreachable from the ULIS network.
+status: planned
+connector: null
+parser: null

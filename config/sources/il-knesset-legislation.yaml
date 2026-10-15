@@ -1,0 +1,43 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: il-knesset-legislation
+name: Knesset legislation database and open data (OData)
+publisher: The Knesset (Israel)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- IL
+document_kinds:
+- act
+- bill
+languages:
+- he
+coverage: Laws and bills of Israel (https://main.knesset.gov.il, OData service https://knesset.gov.il/OdataV4/ParliamentInfo).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://knesset.gov.il/OdataV4/ParliamentInfo
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms not read - geo-restricted
+  url: https://main.knesset.gov.il/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: Every request, including
+    /robots.txt of main.knesset.gov.il and knesset.gov.il and the OData $metadata URL, is answered with HTTP 303 to https://www.knesset.gov.il/maintenance-page-geo:
+    access is restricted by geographic location, and ULIS''s network is outside it. ULIS does not work around it. Nevo (https://www.nevo.co.il)
+    is a commercial database and is not a candidate. Hebrew has no PostgreSQL stemmer (''simple'').'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- 'Geo-restricted: refused from outside Israel.'
+status: planned
+connector: null
+parser: null

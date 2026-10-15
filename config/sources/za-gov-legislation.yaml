@@ -1,0 +1,53 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: za-gov-legislation
+name: South African Government (gov.za) and Department of Justice (justice.gov.za) legislation pages
+publisher: Government Communication and Information System (gov.za); Department of Justice and Constitutional Development
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- ZA
+document_kinds:
+- act
+- constitution
+- regulation
+languages:
+- en
+coverage: Acts of Parliament (PDF/Word documents under https://www.gov.za/documents/acts and https://www.justice.gov.za/legislation/acts/acts_full.html)
+  and the Constitution of 1996 (HTML chapters at https://www.justice.gov.za/constitution/index.html).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.gov.za/documents/acts
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: 'Website terms and conditions: non-commercial informational or reference use only'
+  url: https://www.gov.za/terms-and-conditions-use-0
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt read first:
+    www.gov.za disallows /core/, /profiles/, /admin/, /search/ and similar (Drupal file, no crawl delay); www.justice.gov.za:
+    ''Allow: /'', disallows /admin/, /login/, /cart/, /checkout/, /search/, /cgi-bin/. TERMS read: https://www.gov.za/terms-and-conditions-use-0
+    and https://www.justice.gov.za/about_web/terms_conditions.htm, section ''Usage and copyright'' (identical text): ''Users
+    may view, copy, download to a local drive, print and distribute the content of this website, or any part thereof only
+    for non-commercial informational or reference purposes. Users who wish to use content from this site for commercial
+    purposes may only do so with the prior written permission obtained from the web manager'' (electronic@gcis.gov.za; webmaster@justice.gov.za);
+    commercial copies must carry ''(c) GCIS: ALL RIGHTS RESERVED'' / ''(c) Department of Justice and Constitutional Development:
+    ALL RIGHTS RESERVED''; ''By accessing data on this website the user is not licensed or authorised'' beyond that. ULIS
+    cannot rely on a non-commercial-only permission for a service the owner may deploy commercially, and the terms say nothing
+    about automated retrieval. Acts are PDF/Word files, not structured text.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: not_allowed
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Non-commercial informational use only; commercial use needs written permission from the web manager.
+- Acts are PDFs or Word files (no structured text); a PDF parser would be needed.
+status: planned
+connector: null
+parser: null

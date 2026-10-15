@@ -1,0 +1,42 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: jo-lob
+name: Legislation and Opinion Bureau of Jordan (lob.gov.jo)
+publisher: Legislation and Opinion Bureau (Jordan)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- JO
+document_kinds:
+- act
+- regulation
+languages:
+- ar
+coverage: Jordanian legislation (https://www.lob.gov.jo).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.lob.gov.jo/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: No terms found
+  url: https://www.lob.gov.jo/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt: HTTP 404
+    (none). The home page is an AngularJS application (unrendered template placeholders, content loaded by script); no terms
+    found. Not evaluated further.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Client-side application; no terms found.
+status: planned
+connector: null
+parser: null

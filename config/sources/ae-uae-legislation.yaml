@@ -1,0 +1,44 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: ae-uae-legislation
+name: UAE Legislation portal (uaelegislation.gov.ae)
+publisher: Ministry of Justice of the United Arab Emirates
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- AE
+document_kinds:
+- act
+- regulation
+- decree
+languages:
+- ar
+- en
+coverage: Federal and emirate-level legislation (https://uaelegislation.gov.ae).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://uaelegislation.gov.ae/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms not read - access refused
+  url: https://uaelegislation.gov.ae/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt (https://uaelegislation.gov.ae/robots.txt)
+    was served (''User-agent: * Disallow:''), but the home page (/ and /en) answered HTTP 403 with a Cloudflare error page.
+    A refusal: ULIS does not work around it. Terms not read.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Access refused to ULIS (HTTP 403 on pages).
+status: planned
+connector: null
+parser: null
