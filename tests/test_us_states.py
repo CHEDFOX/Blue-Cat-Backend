@@ -254,6 +254,50 @@ def test_ors_group_headings_are_not_law_text_and_notices_are_outstanding_changes
     assert not any(p.text.isupper() for p in d.provisions if p.text)
 
 
+def test_ors_headings_forms_and_notes_on_a_minimal_file() -> None:
+    """Modelled on the structure of the real files (Word HTML): not a copy of any chapter."""
+
+    def p(*runs: str) -> str:
+        return "<p class=MsoNormal>" + "".join(runs) + "</p>\n"
+
+    def b(text: str) -> str:
+        return f"<b><span>{text}</span></b>"
+
+    def t(text: str) -> str:
+        return f"<span>{text}</span>"
+
+    html = (
+        "<html><head><title>Oregon Revised Statutes</title></head><body>"
+        + p(t("Chapter 3 — Circuit Courts"))
+        + p(t("2025 EDITION"))
+        + p(t("3.010 Court established"))  # table of contents line (not bold)
+        + p(b("3.010 Court established."), t(" The court is established. [1971 c.1 §1]"))
+        + p(b("3.020"), t(" [Repealed by 1981 c.215 §8]"))
+        + p(t("FAMILY LAW"))
+        + p(t("(Family Court Departments)"))
+        + p(b("3.030 Form of oath."), t(" The oath shall read:"))
+        + p(t("OATH OF OFFICE"))
+        + p(t("I, ____, swear. [1971 c.1 §2]"))
+        + p(t("Note: Section 9, chapter 1, Oregon Laws 2025, provides: Sec. 9. This section is repealed."))
+        + p(t("Sec. 10. A later uncodified section."))
+        + "</body></html>"
+    )
+    d = parse_or_ors(_bundle("OR", "3", html.encode("cp1252")))[0]
+    by = _by(d)
+    assert list(by) == ["sec-3.010", "sec-3.020", "sec-3.030"]
+    assert (
+        by["sec-3.010"].text == "The court is established." and by["sec-3.010"].note == "Source credit: [1971 c.1 §1]"
+    )
+    # The two heading lines belong to no section: 3.020 stays an empty repealed placeholder.
+    assert by["sec-3.020"].status == "repealed" and by["sec-3.020"].text == ""
+    # An upper-case line inside a section is text; the Note paragraphs (and what follows) are the note.
+    assert by["sec-3.030"].text == "The oath shall read:\nOATH OF OFFICE\nI, ____, swear."
+    assert (by["sec-3.030"].note or "").startswith(
+        "Source credit: [1971 c.1 §2] Source note: Note: Section 9, chapter 1"
+    )
+    assert "A later uncodified section." in (by["sec-3.030"].note or "")
+
+
 def test_ors_parser_refuses_the_wrong_chapter() -> None:
     with pytest.raises(StateParseError, match="not the file of ORS chapter 13"):
         parse_or_ors(_bundle("OR", "13", _gz("or_ors012.html.gz")))

@@ -47,6 +47,7 @@ TITLE_LINE = re.compile(r"^Chapter ([0-9]{1,3}[A-Z]?) — (.+)$")
 EDITION_LINE = re.compile(r"^(\d{4}) EDITION$", re.IGNORECASE)
 CREDIT = re.compile(r"\s*(\[(?:\d{4}|Formerly|Amended|Repealed|Renumbered|Enacted)[^\[\]]*\])\s*$")
 GROUP_HEADING = re.compile(r"^[A-Z][A-Z0-9 ,;:'’&()/.-]{3,}$")
+SUBHEADING = re.compile(r"^\([A-Za-z][A-Za-z ,;:'’&/.-]{2,80}\)$")  # "(Family Court Departments)"
 NOTE = re.compile(r"^Notes?\b", re.IGNORECASE)
 
 
@@ -142,6 +143,22 @@ def parse_or_ors(content: bytes) -> list[ParsedDocument]:
         drafts.append(current)
         current, in_note, note_lines = None, False, []
 
+    # Group headings: a run of upper-case lines (and parenthesised sub-headings) right before a section starts or
+    # at the end of the chapter. Upper-case lines anywhere else are text (the captions of forms).
+    headings: set[int] = set()
+    for i, (kind, v) in enumerate(items):
+        if kind != "para" or not GROUP_HEADING.match(v) or (i > 0 and i - 1 in headings):
+            continue
+        j = i
+        while (
+            j < len(items)
+            and items[j][0] == "para"
+            and (GROUP_HEADING.match(items[j][1]) or SUBHEADING.match(items[j][1]))
+        ):
+            j += 1
+        if j == len(items) or items[j][0] == "start":
+            headings.update(range(i, j))
+
     for i, (kind, v) in enumerate(items):
         if kind == "start":
             close()
@@ -152,9 +169,8 @@ def parse_or_ors(content: bytes) -> list[ParsedDocument]:
             continue
         if current is None:
             continue
-        nxt = items[i + 1] if i + 1 < len(items) else None
-        if GROUP_HEADING.match(v) and (nxt is None or nxt[0] == "start") and not in_note:
-            close()  # a group heading ("HOMICIDE") between two sections
+        if i in headings and not in_note:
+            close()  # a group heading ("HOMICIDE", "FAMILY LAW" + "(Family Court Departments)") between two sections
             continue
         if in_note or NOTE.match(v):
             in_note = True
