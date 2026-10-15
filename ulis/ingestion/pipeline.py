@@ -38,6 +38,7 @@ from ulis.sources.connectors.dila_case_law import DilaCaseLawConnector
 from ulis.sources.connectors.dila_legi import DilaLegiConnector
 from ulis.sources.connectors.ecfr import EcfrConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
+from ulis.sources.connectors.oecd_legal_instruments import OecdLegalInstrumentsConnector
 from ulis.sources.connectors.eli_sejm import EliSejmConnector
 from ulis.sources.connectors.esbirka_opendata import EsbirkaOpenDataConnector
 from ulis.sources.connectors.eu_cellar import CellarConnector
@@ -115,6 +116,7 @@ from ulis.sources.parsers import (
     moj_law,
     narodne_novine,
     normattiva,
+    oecd_legal_instruments,
     ontario_elaws,
     qld_legislation,
     rattspraxis_se,
@@ -191,6 +193,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "narodne_novine_html": narodne_novine.parse_narodne_novine,
     "uradni_list_html": uradni_list.parse_uradni_list,
     "constitution_pages_b": constitution_pages_b.parse_constitution_pages_b,
+    "oecd_legal_instruments": oecd_legal_instruments.parse_oecd_legal_instruments,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -243,6 +246,7 @@ PARSER_VERSIONS = {
     "narodne_novine_html": narodne_novine.PARSER_VERSION,
     "uradni_list_html": uradni_list.PARSER_VERSION,
     "constitution_pages_b": constitution_pages_b.PARSER_VERSION,
+    "oecd_legal_instruments": oecd_legal_instruments.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -327,6 +331,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "narodne_novine": NarodneNovineConnector,
     "uradni_list": UradniListConnector,
     "constitution_pages_b": ConstitutionPagesBConnector,
+    "oecd_legal_instruments": OecdLegalInstrumentsConnector,
 }
 
 

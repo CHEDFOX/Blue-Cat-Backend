@@ -1,0 +1,63 @@
+# OECD Compendium of Legal Instruments (legalinstruments.oecd.org): a SELECTION of 16 individual instruments
+# out of the 504 the Compendium lists. The Compendium "shall not be reproduced in whole or significant part without
+# express permission from the OECD", individual instruments may be reproduced unaltered; the connector refuses more than 25.
+# Built by scripts/build_oecd_manifest.py from the Compendium's own index (/api/instruments/keys?lang=en, one request);
+# `title` is the index's English title and is documentation only. Each instrument is read at /api/instruments/<id> and its
+# English and French HTML texts: three requests per instrument, 5 s apart.
+schema_version: 1
+source_id: int-oecd-legal-instruments
+host: legalinstruments.oecd.org
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+languages:
+- en
+- fr
+instruments:
+- id: 187
+  key: OECD/LEGAL/0162
+  title: Recommendation of the Council concerning Action against Restrictive Business Practices relating to the Use of Trademarks and Trademark Licences
+- id: 114
+  key: OECD/LEGAL/0188
+  title: Recommendation of the Council concerning Guidelines Governing the Protection of Privacy and Transborder Flows of Personal Data
+- id: 96
+  key: OECD/LEGAL/0235
+  title: Convention on Mutual Administrative Assistance in Tax Matters
+- id: 205
+  key: OECD/LEGAL/0293
+  title: Convention on Combating Bribery of Foreign Public Officials in International Business Transactions
+- id: 233
+  key: OECD/LEGAL/0307
+  title: Decision of the Council on the Guidelines for Multinational Enterprises on Responsible Business Conduct
+- id: 258
+  key: OECD/LEGAL/0378
+  title: Recommendation of the Council for Further Combating Bribery of Foreign Public Officials in International Business Transactions
+- id: 317
+  key: OECD/LEGAL/0382
+  title: Protocol amending the Convention on Mutual Administrative Assistance in Tax Matters
+- id: 261
+  key: OECD/LEGAL/0383
+  title: Declaration on Propriety, Integrity and Transparency in the Conduct of International Business and Finance
+- id: 272
+  key: OECD/LEGAL/0389
+  title: Recommendation of the Council on Children in the Digital Environment
+- id: 273
+  key: OECD/LEGAL/0390
+  title: Recommendation of the Council on Regulatory Policy and Governance
+- id: 304
+  key: OECD/LEGAL/0404
+  title: Declaration on Automatic Exchange of Information in Tax Matters
+- id: 322
+  key: OECD/LEGAL/0413
+  title: Recommendation of the Council on Principles of Corporate Governance
+- id: 336
+  key: OECD/LEGAL/0422
+  title: Recommendation of the Council on Consumer Protection in E-commerce
+- id: 648
+  key: OECD/LEGAL/0449
+  title: Recommendation of the Council on Artificial Intelligence
+- id: 652
+  key: OECD/LEGAL/0452
+  title: Recommendation of the Council concerning Effective Action against Hard Core Cartels
+- id: 668
+  key: OECD/LEGAL/0463
+  title: Recommendation of the Council on Enhancing Access to and Sharing of Data

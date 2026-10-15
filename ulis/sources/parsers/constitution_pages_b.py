@@ -221,6 +221,7 @@ class _HtmlText(HTMLParser):
 
     def handle_data(self, data: str) -> None:
         if not self._skip:
+            data = re.sub(r"\s+", " ", data)  # HTML collapses white space, line feeds included; only elements break lines
             self.parts.append(data.translate(SUPERSCRIPT) if self._sup else data)
 
 
@@ -449,9 +450,13 @@ LEVELS = {
 
 
 def split_items(
-    source: Source, regex: re.Pattern[str] | None, note_re: re.Pattern[str] | None
+    source: Source, regex: re.Pattern[str] | None, note_re: re.Pattern[str] | None, *, series: bool = True
 ) -> tuple[list[Item], list[str]]:
-    """Walk the lines once: articles, notes, structural headings; returns (items, lines before the first heading)."""
+    """Walk the lines once: articles, notes, structural headings; returns (items, lines before the first heading).
+
+    ``series``: a numbering restart in a "transitional" / "final" section becomes a separate series (labels ``T1``...); a caller
+    whose documents number such articles continuously (a treaty's final provisions) passes ``series=False``.
+    """
     items: list[Item] = []
     before: list[str] = []
     stack: dict[int, str] = {}
@@ -492,7 +497,7 @@ def split_items(
         if head is not None:
             close()
             label, rest = head
-            if transitional:
+            if transitional and series:
                 label = "T" + label
             cur = Item("article", label, [rest] if rest else [], context=context())
             started = True

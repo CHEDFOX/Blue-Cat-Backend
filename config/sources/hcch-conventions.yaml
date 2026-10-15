@@ -1,0 +1,52 @@
+# HCCH Conventions and instruments (www.hcch.net): PLANNED, NOT INGESTED. robots.txt allows the instruments' pages (Crawl-delay: 10), but the
+# Disclaimer authorises reproduction of the information only "except for commercial purposes"; a non-commercial-only permission is not
+# accepted for ULIS without a decision by the owner (the project's rule for NonCommercial terms). Read 2026-10-15.
+schema_version: 1
+id: hcch-conventions
+name: HCCH - Conventions, Protocols and Principles (Hague Conference on Private International Law)
+publisher: Hague Conference on Private International Law (HCCH, www.hcch.net)
+kind: international_organisation
+authority: official_non_authentic
+jurisdictions: [INT]
+document_kinds: [treaty]
+languages: [en, fr]
+coverage: >-
+  The Hague Conventions (service, evidence, child abduction, apostille, choice of court, judgments and others) as published on
+  www.hcch.net ("Instruments" > "Conventions" > "Full text"). ULIS ingests nothing from it.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.hcch.net/en/instruments/conventions
+  authentication: null
+update_frequency: Not stated.
+rate_limits: >-
+  https://www.hcch.net/robots.txt (HTTP 200, read 2026-10-15): "User-agent: Baiduspider / Disallow: /"; "User-agent: * / Disallow: /admin/ /
+  Disallow: /WEB-INF/ / Disallow: /en/search-results/ ..." and "Crawl-delay: 10". https://assets.hcch.net/robots.txt (the host of the
+  documents): "User-agent: * / disallow: /upload/ / disallow: /catalogue/".
+licence:
+  id: HCCH-DISCLAIMER
+  name: 'Copyright notice on the HCCH Disclaimer: "Reproduction of the information is authorised, except for commercial purposes, provided the source is duly acknowledged."'
+  url: https://www.hcch.net/en/disclaimer
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-15. READ https://www.hcch.net/en/disclaimer: "The Permanent Bureau has established this site to facilitate and
+    enhance public access to information about the work and achievements of the Hague Conference on Private International Law. While the
+    Permanent Bureau makes every effort to ensure that information available on this site is updated and accurate, neither can be
+    guaranteed, especially in non-official languages of the Organisation." and "Copyright notice: Reproduction of the information is
+    authorised, except for commercial purposes, provided the source is duly acknowledged."; page footer "(c) HCCH 1951-2026. All Rights
+    Reserved." Also fetched: the full-text page of one Convention (to see where the documents are served); no document was fetched.
+  reviewed_on: 2026-10-15
+  redistribution: allowed_with_conditions
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: not_allowed
+  attribution_required: true
+  attribution_text: null
+  conditions:
+    - Source acknowledged; no commercial purposes. Whether ULIS's use is commercial is the owner's decision; until it is made as non-commercial, nothing is ingested.
+  notes: >-
+    Same wording as the UNIDROIT Disclaimer (source unidroit-instruments). The notice does not say whether automated retrieval or
+    indexing is covered; the documents are PDFs on assets.hcch.net (not examined).
+provenance: Two robots.txt files, the Disclaimer and one Convention full-text page fetched once each on 2026-10-15. Nothing stored.
+known_limitations:
+  - Not ingested.
+status: planned
