@@ -25,6 +25,7 @@ import re
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from html.parser import HTMLParser
+from typing import Any
 
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
 from ulis.sources.parsers.subnational_common import ws
@@ -80,7 +81,7 @@ class _Page(HTMLParser):
         self.meta_text: list[str] = []
         self._divs: list[str] = []  # classes of the open <div>s
         self._row: _Row | None = None
-        self._block: dict[str, object] | None = None
+        self._block: dict[str, Any] | None = None
         self._span: str | None = None
         self._bold = False
         self._h1: list[str] = []

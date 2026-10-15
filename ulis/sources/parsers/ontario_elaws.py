@@ -268,7 +268,7 @@ def parse_ontario_elaws(content: bytes) -> list[ParsedDocument]:
                 level = LEVELS[cls]
                 if not label and level > 2:  # closing words of the paragraphs above (no number of their own)
                     parents = (subpara, para, defn, sub, section)[5 - level :]
-                    holder = next((n for n in parents if n is not None), section)
+                    holder: _Node | None = next((n for n in parents if n is not None), section)
                     if holder is not None:
                         holder.set_text(text, hist)
                     continue
