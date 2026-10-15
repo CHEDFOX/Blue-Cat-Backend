@@ -42,6 +42,27 @@ your own domain, with a page describing the service, gets answers faster than a 
 | `gb-find-case-law` | The National Archives, Find Case Law (use the contact address on their website) | Judgments in the Find Case Law service, bulk | Computational analysis needs a separate licence application; ask for the "computational analysis" licence and its terms |
 | `ie-revised-acts-lrc` | Law Reform Commission, Ireland (use the contact address on their website) | The Revised Acts (administrative consolidations) | Only a copyright line, no reuse licence; the Oireachtas PSI licence is not assumed to cover it |
 
+## Added after the second collection round
+
+All of these are `planned` or `rejected` in `config/sources/` with the publisher's own wording (see
+[corpus.md](corpus.md)). The data is public; the website's robots.txt, error response or terms stand in the way.
+
+| Source (id) | Who to ask | Why it is blocked now |
+|---|---|---|
+| `us-caselaw-access-project` | Harvard Library Innovation Lab (static.case.law) | Data is CC0, but `robots.txt` on the data host disallows all robots; ask for an identified-bot exception or a bulk copy |
+| `us-courtlistener-bulk` | Free Law Project (CourtListener) | `robots.txt` returned 403 twice; ask about their bulk-data files |
+| `coe-echr-hudoc` | Council of Europe, European Court of Human Rights registry | Terms allow private/information use only; other use needs written permission; the CoE sites answer with a Cloudflare 403 |
+| `icj-cij` | International Court of Justice registry | Terms: no commercial use |
+| `ca-scc-decisions` | Supreme Court of Canada (Judgments) | CAPTCHA 403 on the fifth request; ask for a feed or bulk copy |
+| `au-hca-judgments` | High Court of Australia | Connection dropped or Cloudflare challenge |
+| `laws-africa-lii-network` | Laws.Africa (AfricanLII platforms: South Africa, Uganda, Tanzania, Zambia, Nigeria, Ghana, Namibia, Rwanda, Mauritius) | Terms forbid scraping and bulk download, content CC BY-NC; one Akoma Ntoso parser would cover them all if bulk access is granted |
+| `ca-bc-bclaws`, `ca-ab-kings-printer`, `ca-qc-legisquebec` | Queen's/King's Printers of British Columbia, Alberta, Québec | `robots.txt` disallows (BC, Alberta); HTTP 403 (Québec) |
+| `au-nsw-legislation`, `au-sa-legislation`, `au-act-legislation`, `au-wa-legislation` | Parliamentary Counsel's Offices of NSW, South Australia, the ACT and Western Australia | HTTP 403 (NSW, SA); licence unclear or unreadable (ACT, WA) |
+| `us-ca-leginfo`, `us-ny-laws`, `us-pa-consolidated` | California Legislative Counsel, New York Legislative Bill Drafting Commission, Pennsylvania Legislative Reference Bureau | Cloudflare challenge on robots.txt (CA); API key and challenge page (NY); no reuse terms (PA, the best next state) |
+| `us-wa-rcw`, `us-tx-statutes` (active, ask to be safe) | Washington Statute Law Committee; Texas Legislative Council | Both claim copyright in the compilation and state no terms for automated or commercial use (Washington asks to be contacted before the code is sold) |
+| `cl-bcn-leychile` | Biblioteca del Congreso Nacional de Chile | API key required; terms: CC BY-NC-ND and no mass extraction without authorisation |
+| `hu-njt`, `ro-portal-legislativ`, `bg-dv-parliament`, `gr-et-fek`, `mt-legislation` | Hungarian, Romanian, Bulgarian, Greek and Maltese official gazettes | Connection closed or timed out; PDF only; no reuse terms |
+
 Also worth asking, where the answer is not yet in the register: Hong Kong (e-Legislation), Norway (Lovdata's public
 texts), Belgium (Belgisch Staatsblad / Justel), Lithuania (e-TAR), the Philippines (Official Gazette / Lawphil), Mexico
 (Diputados) and Poland (ISAP's API). Research each publisher's current terms first; the site may already offer an open
