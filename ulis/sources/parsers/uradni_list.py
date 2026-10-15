@@ -102,7 +102,7 @@ def parse_uradni_list(content: bytes) -> list[ParsedDocument]:
     if m is None:
         raise HtmlParseError("not an Uradni list RS act page (no canonical address)")
     year, part, number_in_year = int(m.group(1)), m.group(2), int(m.group(3))
-    ul_id = f"{year}-{part}-{number_in_year}"
+    ul_id = f"{year}-{part}-{m.group(3)}"  # as the gazette writes it, possibly zero-padded ("2006-01-0970")
     h2s = [ws(render(n).text) for n in root.find_all(lambda n: n.tag == "h2" and "ul-content-title" in n.classes)]
     issue = next((ISSUE_LINE.match(h) for h in h2s if ISSUE_LINE.match(h)), None)
     heading = next((ACT_TITLE.match(h) for h in h2s if ACT_TITLE.match(h)), None)

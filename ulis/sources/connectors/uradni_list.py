@@ -41,7 +41,7 @@ from ulis.sources.connectors.site_session import PageNotAvailable, SiteSession, 
 
 HOST = "www.uradni-list.si"
 BASE_URL = f"https://{HOST}"
-ACT_ID = re.compile(r"(?:19[89][0-9]|20[0-9]{2})-[0-9]{2}-[1-9][0-9]{0,5}")
+ACT_ID = re.compile(r"(?:19[89][0-9]|20[0-9]{2})-[0-9]{2}-[0-9]{1,6}")  # the number may be zero-padded: 2006-01-0970
 
 
 class UradniListConnector:

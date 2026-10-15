@@ -1,9 +1,9 @@
 # Uradni list RS (www.uradni-list.si) - laws and consolidated texts of laws published in the gazette.
 # Built on 2026-10-15 from the gazette's own issue indexes (/glasilo-uradni-list-rs/celotno-kazalo/<year><issue>, one request per
-# issue, issues of 2025-2026 read; the archive ends with issue 17/2026 of 27 February 2026): every act whose title starts "Zakon"
-# or "Ustavni zakon" (131 acts, of which 2 "uradno prečiščeno besedilo"), plus the core laws listed under
-# `core` in `section`. Not listed: decrees, rules, decisions, municipal acts, treaties and the other kinds. Each act is fetched at
-# /glasilo-uradni-list-rs/vsebina/<id> (one request, 5 s apart: about 0.2 hours for the whole list).
+# issue; issues read - 2026: issues 1-17; 2025: issues 1-114; the archive ends with issue 17/2026 of 27 February 2026): every act whose title starts "Zakon"
+# or "Ustavni zakon" (210 acts, of which 5 "uradno prečiščeno besedilo"), plus the core laws listed under
+# `core` in `section` (found through the gazette's own pages). Not listed: decrees, rules, decisions, municipal acts, treaties and the other kinds. Each act is fetched at
+# /glasilo-uradni-list-rs/vsebina/<id> (one request, 5 s apart: about 0.3 hours for the whole list).
 # `title`, `issue` and `section` are the index's own values and are documentation only. To extend: read the issue indexes of earlier
 # years with the same rule and append the new rows.
 schema_version: 1
@@ -12,6 +12,11 @@ base_url: https://www.uradni-list.si
 user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
 crawl_delay_seconds: 5
 acts:
+- {id: 1991-01-1409, title: Ustava Republike Slovenije, issue: 33/1991, section: core}
+- {id: 2006-01-0970, title: Zakon o splošnem upravnem postopku (uradno prečiščeno besedilo) (ZUP-UPB2), issue: 24/2006, section: core}
+- {id: 2007-01-4826, title: Obligacijski zakonik (uradno prečiščeno besedilo) (OZ-UPB1), issue: 97/2007, section: core}
+- {id: 2012-01-2065, title: Kazenski zakonik (KZ-1-UPB2) (uradno prečiščeno besedilo), issue: 50/2012, section: core}
+- {id: 2022-01-4187, title: Zakon o varstvu osebnih podatkov (ZVOP-2), issue: 163/2022, section: core}
 - {id: 2025-01-0308, title: Zakon o spremembah in dopolnitvah Zakona o nalogah in pooblastilih policije (ZNPPol-C), issue: 8/2025, section: 'Zakoni, obvezne razlage zakonov'}
 - {id: 2025-01-0309, title: Zakon o dopolnitvi Zakona o uresničevanju javnega interesa za kulturo (ZUJIK-H), issue: 8/2025, section: 'Zakoni, obvezne razlage zakonov'}
 - {id: 2025-01-0318, title: Zakon o nujnih ukrepih za omilitev posledic obračuna visoke omrežnine za gospodinjske odjemalce (ZNUOPOVO), issue: 9/2025, section: 'Zakoni, obvezne razlage zakonov'}
@@ -80,12 +85,86 @@ acts:
 - {id: 2025-01-2342, title: Zakon o spremembah in dopolnitvah Zakona o zaščiti živali (ZZZiv-G), issue: 60/2025, section: 'Zakoni, obvezne razlage zakonov'}
 - {id: 2025-01-2460, title: Zakon o medijih (ZMed-1), issue: 69/2025, section: 'Zakoni, obvezne razlage zakonov'}
 - {id: 2025-01-2488, title: Zakon o spremembah in dopolnitvah Zakona o urejanju trga dela (ZUTD-I), issue: 70/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2619, title: Zakon o spremembah in dopolnitvah Zakona o urejanju prostora (ZUreP-3C), issue: 75/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2620, title: Zakon o spremembah in dopolnitvah Gradbenega zakona (GZ-1B), issue: 75/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2728, title: Zakon o gostinstvu (ZGos-1), issue: 77/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2729, title: Zakon o spremembah in dopolnitvah Zakona o uresničevanju javnega interesa za kulturo (ZUJIK-I), issue: 77/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2730, title: Zakon o spremembah in dopolnitvah Zakona o upravljavcih alternativnih investicijskih skladov (ZUAIS-C), issue: 77/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2731, title: Zakon o spremembah in dopolnitvah Zakona o trgu finančnih instrumentov (ZTFI-1D), issue: 77/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2732, title: Zakon o spremembah in dopolnitvah Zakona o investicijskih skladih in družbah za upravljanje (ZISDU-3E), issue: 77/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2733, title: Zakon o spremembi Zakona o spremembah in dopolnitvah Zakona o gospodarskih družbah (ZGD-1N), issue: 77/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2734, title: Zakon o spremembah in dopolnitvah Zakona o zavarovalništvu (ZZavar-1D), issue: 77/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2735, title: Zakon o spremembah in dopolnitvah Zakona o uvajanju naprav za proizvodnjo električne energije iz obnovljivih virov energije (ZUNPEOVE-B), issue: 77/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2736, title: Zakon o spremembah in dopolnitvah Zakona o katastru nepremičnin (ZKN-A), issue: 77/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2737, title: Zakon o spremembah in dopolnitvi Zakona o Kmetijsko gozdarski zbornici Slovenije (ZKGZ-D), issue: 77/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2953, title: Zakon o objavljanju v Uradnem listu Republike Slovenije (ZOUL), issue: 83/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2954, title: Zakon o spremembah in dopolnitvah Zakona o urejanju trga dela (ZUTD-J), issue: 83/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-2955, title: Zakon o spremembah in dopolnitvah Zakona o odpravi posledic naravnih nesreč (ZOPNN-G), issue: 83/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3030, title: Zakon o plačilnih in javnofinančnih storitvah (ZPJS), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3031, title: Zakon o Poslovnem registru Slovenije (ZPRS-2), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3032, title: Zakon o izmenjavi elektronskih računov in drugih elektronskih dokumentov (ZIERDED), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3033, title: Zakon o sofinanciranju organizacije Evropskega prvenstva v košarki 2029 za moške v Ljubljani (ZSOEPK), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3034, title: Zakon o uporabi jezika gluhoslepih (ZUJG), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3035, title: Zakon o izvajanju uredbe (EU) o določitvi harmoniziranih pravil o umetni inteligenci (ZIUDHPUI), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3036, title: 'Zakon o izvajanju uredbe (EU) o tujih subvencijah, ki izkrivljajo notranji trg (ZIUTS)', issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3037, title: Zakon o izvajanju uredbe (EU) o zaščiti geografskih označb obrtnih in industrijskih izdelkov (ZIUZGOI), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3038, title: Zakon o lastniški zadrugi delavcev (ZLZD), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3039, title: Zakon o dopolnitvi Zakona o industrijski lastnini (ZIL-1G), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3040, title: Zakon o dopolnitvi Zakona o Družbi za avtoceste v Republiki Sloveniji (ZDARS-1A), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3041, title: Zakon o spremembah in dopolnitvah Zakona o davku od dobička od odsvojitve izvedenih finančnih instrumentov (ZDDOIFI-B), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3042, title: Zakon o spremembah in dopolnitvah Zakona o davku od dohodkov pravnih oseb (ZDDPO-2V), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3043, title: Zakon o spremembah in dopolnitvah Zakona o izvrševanju kazenskih sankcij (ZIKS-1J), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3044, title: Zakon o spremembah in dopolnitvah Zakona o elektronski identifikaciji in storitvah zaupanja (ZEISZ-A), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3045, title: Zakon o spremembah in dopolnitvah Zakona o varstvu pred utopitvami (ZVU-C), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3046, title: Zakon o spremembah in dopolnitvah Zakona o splošnem upravnem postopku (ZUP-I), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3047, title: Zakon o spremembah in dopolnitvah Zakona o organiziranosti in delu v policiji (ZODPol-I), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3048, title: Zakon o spremembah in dopolnitvah Zakona o gozdovih (ZG-H), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3049, title: Zakon o spremembah in dopolnitvah Zakona o vrtcih (ZVrt-H), issue: 85/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3100, title: Zakon o interventnem ukrepu podaljšanja veljavnosti letnih elektronskih vinjet (ZIUPVLV), issue: 87/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3161, title: Zakon o spremembah in dopolnitvah Zakona o pokojninskem in invalidskem zavarovanju (ZPIZ-2O), issue: 90/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3162, title: Zakon o spremembah in dopolnitvah Zakona o zdravljenju neplodnosti in postopkih oploditve z biomedicinsko pomočjo (ZZNPOB-A), issue: 90/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3172, title: Zakon o pravici do zimskega regresa ter prenovi ugotavljanja davčne osnove z upoštevanjem normiranih odhodkov (ZPZR), issue: 91/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3173, title: Zakon o ukrepih za optimizacijo določenih postopkov na centrih za socialno delo in domovih za starejše ob uvedbi novega sistema dolgotrajne oskrbe (ZUOPCSD), issue: 91/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3242, title: Zakon o nujnih ukrepih za zagotavljanje javne varnosti (ZNUZJV), issue: 93/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3360, title: Zakon o izvrševanju proračunov Republike Slovenije za leti 2026 in 2027 (ZIPRS2627), issue: 95/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3367, title: Zakon o spremembah in dopolnitvah Zakona o ohranjanju narave (ZON-F), issue: 97/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3369, title: Ustavni zakon o dopolnitvi III. poglavja Ustave Republike Slovenije (UZ74a), issue: 98/2025, section: Ustavni zakoni}
+- {id: 2025-01-3383, title: Zakon o sodiščih (ZS-1), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3384, title: Zakon o sodnikih (ZSod), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3385, title: Zakon o centralnem kreditnem registru (ZCKR-1), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3386, title: Zakon o psihoterapevtski dejavnosti (ZPtD), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3387, title: Zakon o digitalizaciji zdravstva (ZDigZ), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3388, title: Zakon za urejanje položaja študentov (ZUPŠ-2), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3389, title: Zakon o hrani (ZHra), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3390, title: Zakon o zdravju živali (ZZdrŽiv), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3391, title: Zakon o varni hrani in krmi (ZVHK), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3392, title: Zakon o kmetijstvu (ZKme-2), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3393, title: Zakon o spremembah in dopolnitvah Zakona o kmetijskih zemljiščih (ZKZ-H), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3394, title: Zakon o spremembah in dopolnitvah Zakona o spodbujanju razvoja turizma (ZSRT-1A), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3395, title: Zakon o spremembah in dopolnitvah Zakona o odnosih Republike Slovenije s Slovenci zunaj njenih meja (ZORSSZNM-B), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3396, title: Zakon o spremembah in dopolnitvah Zakona o davčnem postopku (ZDavP-2P), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3397, title: Zakon o spremembah in dopolnitvah Zakona o državnem tožilstvu (ZDT-1F), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3398, title: Zakon o spremembah in dopolnitvah Zakona o sodnem svetu (ZSSve-A), issue: 100/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3400, title: Zakon o dopolnitvi Zakona o voznikih (ZVoz-1F), issue: 102/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3528, title: Zakon o dopolnitvi Zakona o orožju (ZOro-1D), issue: 104/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3976, title: Zakon o dodatnih interventnih ukrepih na področju zdravstva (ZDIUPZ), issue: 111/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3977, title: Zakon o spodbujanju rabe obnovljivih virov energije (ZSROVE-1), issue: 112/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3978, title: Zakon o varstvu javnega reda in miru (ZJRM-2), issue: 112/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3979, title: Zakon o potrjevanju učnih gradiv (ZPUG), issue: 112/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3980, title: Zakon o spremembah in dopolnitvah Zakona o zunanjih zadevah (ZZZ-1E), issue: 112/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3981, title: Zakon o spremembah in dopolnitvah Zakona o službi v Slovenski vojski (ZSSloV-C), issue: 112/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3982, title: Zakon o spremembah in dopolnitvah Zakona o financiranju in spodbujanju gradnje javnih najemnih stanovanj (ZFSGJNS-A), issue: 112/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3983, title: Zakon o spremembah in dopolnitvah Zakona o izenačevanju možnosti invalidov (ZIMI-D), issue: 112/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3984, title: Zakon o spremembah in dopolnitvah Zakona o Radioteleviziji Slovenija (ZRTVS-1C), issue: 112/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3985, title: Zakon o spremembah in dopolnitvah Zakona o socialnem varstvu (ZSV-L), issue: 112/2025, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2025-01-3986, title: Zakon o spremembah in dopolnitvah Zakona o javnih financah (ZJF-K), issue: 112/2025, section: 'Zakoni, obvezne razlage zakonov'}
 - {id: 2025-02-0003, title: Zakon o ratifikaciji Sporazuma v okviru Konvencije Združenih narodov o pomorskem mednarodnem pravu glede ohranjanja in trajnostne rabe morske biotske raznovrstnosti na območjih zunaj nacionalne jurisdikcije (MKORMBR), issue: 8/2025, section: Državni zbor Republike Slovenije}
 - {id: 2025-02-0004, title: Zakon o ratifikaciji Konvencije o zmanjšanju števila oseb brez državljanstva (MKZŠOBD), issue: 8/2025, section: Državni zbor Republike Slovenije}
 - {id: 2025-02-0006, title: Zakon o ratifikaciji Okvirnega sporazuma o obsežnem partnerstvu in sodelovanju med Evropsko unijo in njenimi državami članicami na eni strani ter Kraljevino Tajsko na drugi strani (MOPSEUTH), issue: 24/2025, section: Državni zbor Republike Slovenije}
 - {id: 2025-02-0009, title: Zakon o ratifikaciji Konvencije o ustanovitvi Evropske organizacije za jedrske raziskave in priloženega finančnega protokola ter Protokola o privilegijih in imunitetah Evropske organizacije za jedrske raziskave (MKEOJR), issue: 32/2025, section: Državni zbor Republike Slovenije}
 - {id: 2025-02-0011, title: Zakon o ratifikaciji Okrepljenega sporazuma o partnerstvu in sodelovanju med Evropsko unijo in njenimi državami članicami na eni strani ter Kirgiško republiko na drugi strani (MSPSEUKG), issue: 47/2025, section: Državni zbor Republike Slovenije}
 - {id: 2025-02-0018, title: 'Zakon o ratifikaciji Sporazuma med Republiko Slovenijo in Novo Zelandijo o odpravi dvojnega obdavčevanja v zvezi z davki od dohodka ter o preprečevanju davčnih utaj in izogibanja davkom, s protokolom (BNZODO)', issue: 55/2025, section: Državni zbor Republike Slovenije}
+- {id: 2025-02-0032, title: 'Zakon o ratifikaciji Sporazuma med Vlado Republike Slovenije in Vlado Republike Hrvaške o graditvi, upravljanju in vzdrževanju obstoječih premostitvenih objektov na državni meji (BHRGUVPO)', issue: 86/2025, section: Državni zbor Republike Slovenije}
 - {id: 2026-01-0344, title: Zakon o kazenski obravnavi mladoletnikov (ZKOM), issue: 10/2026, section: 'Zakoni, obvezne razlage zakonov'}
 - {id: 2026-01-0345, title: Zakon o zaščitnih ukrepih zoper strateške tožbe za onemogočanje javnega udejstvovanja (ZZUSTOJU), issue: 10/2026, section: 'Zakoni, obvezne razlage zakonov'}
 - {id: 2026-01-0346, title: Zakon o spremembi in dopolnitvi Zakona o postopku sodnega varstva nekdanjih imetnikov kvalificiranih obveznosti bank (ZPSVIKOB-1A), issue: 10/2026, section: 'Zakoni, obvezne razlage zakonov'}
