@@ -4,8 +4,13 @@
 # after its page (https://www.normattiva.it/uri-res/N2Ls?<urn>) has started the session the export needs.
 # The server answers with the version of the act that applies on the requested date (the version's own
 # date is in the file); dates that fall in the same version yield it once. Dates are listed oldest first.
-# "Current" is the text applicable on 2026-10-14, the date this manifest was written: to refresh, change
-# that date and re-ingest (the cache is keyed by the request).
+# "Current" is the text applicable on the work's own `vigenza` date (2026-10-14 for the Constitution and the five
+# pilot acts, 2026-10-15 for the others, whose entries `scripts/build_normattiva_manifest.py` appended): to refresh,
+# regenerate or change that date and re-ingest (the cache is keyed by the request).
+# Scope: the Constitution, the pilot acts and the 35 acts of Normattiva's page "Costituzione e Codici"
+# (https://www.normattiva.it/staticPage/codici): the only listing of acts a robot may read (the others are under
+# /ricerca/, which robots.txt disallows, or on dati.normattiva.it, which answers HTTP 409). 41 works, ~110 requests
+# at 6 s; about 54,000 provision versions, ~0.2 GB of PostgreSQL (docs/jurisdictions/it.md).
 # I testi presenti nella banca dati "Normattiva" non hanno carattere di ufficialità: l'unico testo
 # ufficiale e definitivo è quello pubblicato sulla Gazzetta Ufficiale (note legali, www.normattiva.it/staticPage/legal).
 schema_version: 1

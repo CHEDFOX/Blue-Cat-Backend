@@ -4,7 +4,9 @@ Profile `ES` (`config/jurisdictions/es.yaml`, `draft_unverified`), source `es-bo
 (`config/sources/es-boe-consolidada.yaml`), manifest `config/manifests/es-boe-consolidada.yaml`,
 connector `ulis/sources/connectors/boe_consolidada.py`, parser
 `ulis/sources/parsers/boe_consolidada.py`, citation module `ulis/jurisdictions/modules/es.py`,
-tests `tests/test_boe_consolidada.py`. This is a **pilot sample**: six State norms.
+tests `tests/test_boe_consolidada.py`, manifest generator `scripts/build_boe_manifest.py`. The manifest now lists **the
+whole State collection of the BOE list: 8,814 norms** (section "The whole collection" below); the six norms of the first
+pilot come first and are described in the tables that follow.
 
 ## Source and licence
 
@@ -41,7 +43,51 @@ Politeness: `PoliteHttp` with the ULIS User-Agent, 5 s between requests, cache u
 `var/sources/www.boe.es/`. **Requests made in total: 11** (robots.txt, aviso legal, datosabiertos
 page, API PDF, API FAQ, and one request per norm). The real ingestion read the cache (0 requests).
 
-## What is ingested
+## The whole collection (widened 2026-10-15)
+
+`python -m scripts.build_boe_manifest` reads the API's list endpoint (`GET .../legislacion-consolidada?limit=-1`,
+`Accept: application/json`, [APIconsolidada.pdf](https://www.boe.es/datosabiertos/documentos/APIconsolidada.pdf) section
+2.1; list ordered by last update). The service stops at 10,000 rows, so the script asks again with `to=<date of the
+oldest update received>` (2 pages, 3 requests with robots.txt, 18 MB): **12,434 consolidated norms**, of which
+**8,814 are State** (`ambito` "Estatal", all identifiers `BOE-A-...`) and 3,620 autonomous-community norms (`Autonómico`),
+which are left out because ULIS has no profile for the communities. robots.txt names 1,685 identifiers, none in the list,
+and the connector re-checks that on every run. By rango: Real Decreto 3,512, Orden 2,412, Ley 859, Resolución 810,
+Real Decreto-ley 315, Acuerdo Internacional 254, Ley Orgánica 184, Circular 144, Decreto 123, Instrucción 122, Real
+Decreto Legislativo 44, Acuerdo 30, Reglamento 2, Decreto-ley 2, Constitución 1. 1,988 of them have `vigencia_agotada`
+= S (all provisions repealed or spent).
+
+Parser 1.1.0 maps the new rangos to instrument types (`decree_law`, `decree`, `regulation`, `ministerial_order`,
+`resolution`, `circular`, `instruction`, `agreement`, `international_agreement`) and to the ELI codes the BOE uses
+(`dl`, `d`, `reg`, `o`, `res`, `cir`, `ins`, `a`, `ai`); the profile declares them and a rank order (to verify). Citations:
+`art. 1 de la Orden CUL/1014/2007`, `art. 1 del Real Decreto 996/2001`; a norm without an official number (most
+Resoluciones, Acuerdos) is cited by the head of its title (`Resolución de 31 de mayo de 2016, de la Dirección General
+de Seguros y Fondos de Pensiones, Primero`), cut at the clause that says what it does and at 160 characters.
+
+**Norms repealed in full.** The text of a repealed norm keeps showing its last wording, so without a rule every
+provision of the 1,988 spent norms would read as in force. The metadata give `estatus_derogacion` S with
+`fecha_derogacion` (and `estatus_anulacion` / `fecha_anulacion`): every open-ended provision of the norm ends on that date
+(`valid_to`, with a note), a `repeal` event is recorded (the repealing norm "per the BOE analysis" is quoted), and the
+ext keeps the dates. A norm marked spent without such a date keeps `vigencia_agotada` in the ext and no end date. Test:
+BOE-A-2001-17164 (RD 996/2001, repealed 2017-04-01) is found for 2010-01-01 with `valid_to` 2017-04-01 and not for today.
+A text with no provision at all raises `ParseSkipped`. The connector skips a norm the API does not know (404) and
+continues (`fetch_errors`); a refusal stops the run.
+
+**Scale.** 8,815 requests at 5 s = **12.2 h**. A uniform random sample of 80 of the 8,814 (cached, parsed, 0 failures,
+2026-10-15): 130.5 provision versions per norm (median 33, max 2,786, s.d. 327), 2.5 expressions per norm; raw API
+document 0.96 MB on average (median 78 KB, largest 63 MB). Extrapolated: **~1.15 million provision versions (plausibly 0.5-1.8
+million), ~4 GB of PostgreSQL** (the 74-norm slice below: 3.3 KB per version including passages and indexes) and
+**~8 GB of raw documents** in the object store (heavy tail, uncertain). Use `python -m scripts.ingest_in_batches
+es-boe-consolidada --batch 50` rather than one transaction for the whole list.
+
+**Slice run (dev database `ulis_es`).** 74 norms (the 6 pilot norms, LEC, LECrim, Ley 40/2015, 3 current and 2 repealed norms
+of each of 15 rangos, and the one norm marked `Desactualizado`; 71 requests, 391 s): `ingest` 0 errors, 692 instrument versions,
+38,733 provision versions, 32,946 passages in 103 s; `verify-sources` **74 of 74 pass**. Searches (`jurisdiction=ES`):
+"tutela efectiva de los jueces y tribunales" -> `art. 24.1 CE`; "detención preventiva plazo máximo setenta y dos
+horas" -> `art. 520.1 LECrim`, `art. 17.2 CE`; "Comisión Española sobre la digitalización ..." -> `art. 1.2 de la Orden
+CUL/1014/2007`; "procedimiento de examen previo aplicable patentes alimentación" for 2010-01-01 -> `art. 2 del Real
+Decreto 996/2001` (valid to 2017-04-01) and nothing from that decree for 2026-10-15.
+
+## What is ingested (the six pilot norms)
 
 | Norm | BOE id | Type (BOE rango) | Work URI | Expressions (version dates) | Provisions | Provision versions | Repealed versions | Passages |
 |---|---|---|---|---|---|---|---|---|
@@ -134,8 +180,8 @@ oficial, ELI and department are kept in `ext` (`EsExt`).
 
 ## Known gaps
 
-* Six hand-picked State norms only; no other laws, regulations or orders; no regional
-  (autonomous community) law; no case law (TC, TS, AN, TSJ).
+* State norms only (8,814 of the list's 12,434): no regional (autonomous community) law, 3,620 norms; no case law
+  (TC, TS, AN, TSJ). The abbreviation table still covers only nine norms; the rest are cited by rango and number.
 * Castilian Spanish only: co-official languages (Catalan/Valencian, Galician, Basque) and
   translations are not ingested.
 * Consolidated texts are informative only; the authentic BOE publication is not ingested. Only

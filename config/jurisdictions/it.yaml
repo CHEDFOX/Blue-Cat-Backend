@@ -3,7 +3,7 @@
 # not recorded in this profile yet.
 schema_version: 1
 id: IT
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Italy
 names: {en: Italy, it: Italia}
 kind: sovereign_state
@@ -113,11 +113,11 @@ memberships:
 coverage:
   corpus_status: pilot
   known_gaps:
-    - Only six State instruments are ingested (Costituzione, Codice civile, Codice penale, d.lgs. 196/2003, L. 300/1970, L. 241/1990); no other codes (procedural codes, Codice della strada, ...), no other legislation, no regulations, no international treaties.
+    - "41 State works are ingested: the Costituzione, the five pilot acts (Codice civile, Codice penale, d.lgs. 196/2003, L. 300/1970, L. 241/1990) and the codes and implementing regulations that Normattiva's page Costituzione e Codici links to. Ordinary laws, decreti legislativi and decreti-legge outside that page are not ingested: Normattiva lists them only under /ricerca/ (disallowed to robots) and on dati.normattiva.it (blocked), so a polite client cannot enumerate them. No international treaties."
     - The text is Normattiva's non-authentic, non-official "multivigente" text; only the Gazzetta Ufficiale is authentic and prevails. The Gazzetta Ufficiale itself is not ingested.
-    - History only for the Constitution (27 versions, from the text of 1948-01-01 to the version of 2023-10-22, requested 30 days after the Gazzetta Ufficiale publication of each amendment listed in the export; amendments in force within 30 days of one another may share a version, and an amendment missing from that list would be missed). The other five instruments carry only the text applicable on 2026-10-14, so their provisions start, in ULIS, on the date of that version, not on the date the wording came into force.
+    - History only for the Constitution (27 versions, from the text of 1948-01-01 to the version of 2023-10-22, requested 30 days after the Gazzetta Ufficiale publication of each amendment listed in the export; amendments in force within 30 days of one another may share a version, and an amendment missing from that list would be missed). The other works carry only the text applicable on 2026-10-14/15, so their provisions start, in ULIS, on the date of that version, not on the date the wording came into force.
     - The export gives no repeal dates, so a repealed provision starts, in ULIS, on the date of the first ingested version that shows it repealed (the repealing act is named in its note). Partial repeals appear only as Normattiva's markers inside the text.
     - Commi that the source does not number (the Constitution, the codes and older acts print them as unnumbered blocks) are not separate provisions; the article is one provision. Books, parts, titles and chapters are not recorded.
-    - The annexes of the d.lgs. 196/2003 and the decrees that approve the two codes are not ingested.
+    - The annexes of the d.lgs. 196/2003 and of the new codes, the tables of the codes, and the articles of the decrees that approve a code exported as one attachment per article are not ingested.
     - Older texts spell accented vowels as vowel plus apostrophe (e', puo'); full-text search with accented query words can miss them for a few words.
     - No regional or local law, no case law (Corte costituzionale, Corte di cassazione, Consiglio di Stato), no EU law, no minority-language versions. EU membership is not recorded in this profile.

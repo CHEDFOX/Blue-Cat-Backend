@@ -1,8 +1,10 @@
 # Italy (State law) - Normattiva
 
 Profile `IT` (draft, unverified), source `it-normattiva`, parser `normattiva_akn`, connector
-`normattiva`, module `it`. Status: **pilot sample** of six State instruments, Italian only. Regional
-law, case law and EU membership are not covered.
+`normattiva`, module `it`. Status: **pilot**, Italian only: the Constitution, the five pilot acts and, since
+2026-10-15, **every code and implementing regulation on Normattiva's "Costituzione e Codici" page - 41 works in all** (section
+"Widening"). Ordinary laws, decreti legislativi and decreti-legge are NOT covered: a polite client cannot list them.
+Regional law, case law and EU membership are not covered either.
 
 ## Source and licence (read 2026-10-14)
 
@@ -21,7 +23,50 @@ elettronico è consentita purchè venga menzionata la fonte, il carattere non au
 [FAQ](https://www.normattiva.it/staticPage/faq)). Approved with conditions (source, non-authentic and free
 character shown as attribution; selected acts only); commercial use is `unknown`; counsel review recommended.
 
-## What is ingested
+## Widening (2026-10-15): what the service lets a polite client list
+
+The brief was every code, law, decreto legislativo and decreto-legge in force that Normattiva lets a polite client export. The
+export works for any act whose address is known; the question is where a list of acts can be read:
+
+* acts are listed by year, type and date under `/ricerca/` (including `/ricerca/elencoPerData`, the one list the sitemap
+  names) and `/mfr/ricerca/`: **disallowed by robots.txt** (`Disallow: /ricerca/`, `/mfr/ricerca/`; re-read 2026-10-15);
+* the open-data portal `dati.normattiva.it` (bulk collections) answered its `robots.txt` with HTTP 409 on 2026-10-14 and on
+  2026-10-15 (one request each day, the same polite request); ULIS stopped, and did not try `api.normattiva.it`;
+* the sitemap lists 20 static pages; `/staticPage/leggi_approvate` and `/staticPage/gazzetta` are shells whose lists load
+  by script; the page of a partial URN (`urn:nir:stato:decreto.legislativo:2003`) is an error page;
+* the **one readable list is `/staticPage/codici`**: the Constitution and 41 acts (codes and their implementing regulations).
+  Guessing acts from number ranges (tens of thousands of requests for pages that mostly do not exist) would be mass
+  harvesting of a service that already blocks its open-data host, and is not done.
+
+So `python -m scripts.build_normattiva_manifest` reads that page (and each act's page, to find its Gazzetta date and redactional
+code) and adds **35 acts** to the manifest: 41 works with the Constitution and the five pilot acts, 67 documents (the Constitution has
+27 versions), about 110 requests at 6 s. Two ministerial decrees on the page (`regolamento di esecuzione` of the c.p.p. and of the
+codice della proprietà industriale) have a URN the parser does not read and are skipped by the script. The acts: c.p.c. and
+disp. att.; c.p.p. (d.P.R. 447/1988) and its norme di attuazione; codice della strada and its regolamento; codice di giustizia
+contabile, del processo tributario, del processo amministrativo, del consumo, delle assicurazioni, dell'ambiente (d.lgs. 152/2006),
+dei beni culturali, della proprietà industriale, dell'amministrazione digitale, delle comunicazioni elettroniche, del turismo,
+antimafia, del Terzo settore, della protezione civile, della crisi d'impresa, degli incentivi, della nautica da diporto, delle
+pari opportunità, dell'ordinamento militare, postale, della navigazione and its regolamento, the codici penali militari, and three
+editions of the codice dei contratti pubblici (d.lgs. 36/2023 in force; 50/2016 and 163/2006 as Normattiva still serves them).
+
+Parser 1.1.0 reads what these codes need: **codes exported as one attachment per article** (any act with at least 10 attachments
+named `<code>-art. N` and more of them than articles of its own: c.p.c., c. nav., disp. att., codici penali militari, codice postale,
+regolamento di navigazione marittima, norme di attuazione c.p.p.; abbreviations `c.p.c.`, `cod. nav.`, `disp. att. c.p.c.`,
+`disp. att. c.c.`, `c.p.m.p.` and `c.p.m.g.`, otherwise `<type> <n>/<year>`), **several attachment sets that number alike** (d.lgs.
+174/2016 has an Allegato 1, 2 and 3: the commonest is `art. N`, the others are cited as `art. 1 Allegato 2 Norme di attuazione ...`),
+**an act that numbers two articles alike** (d.lgs. 152/2006 has two art. 298-bis: `art_298-bis` and `art_298-bis--2`), a duplicated
+attachment name whose text is another article (c.p.m.g. "art. 33" is art. 22: not read, listed by `skipped_attachments`), and the
+redactional code of acts from 2010 (`18G00011`). Guards: an act with annexed codes of conduct but its own articles (d.lgs. 196/2003)
+is not "flat".
+
+**Result** (`ulis_it`, whole manifest from the cache): `ingest` 67 documents, 41 instruments, **53,857 provision versions** (4,031
+corroborated), 46,067 passages, 8,285 citation links (1,919 resolved), 0 errors, 69 s; `verify-sources` **67 of 67 pass**;
+database 173 MB. Searches (`jurisdiction=IT`, 2026-10-15): "citazione a comparire a udienza fissa" -> `art. 163 c.p.c.`;
+"guida sotto l'influenza dell'alcool" -> `art. 186, comma 1, d.lgs. 285/1992`; "diritto di recesso del consumatore contratti a
+distanza quattordici giorni" -> `art. 59-octies, comma 1, d.lgs. 206/2005`; "perdita ... assistenza e salvataggio" ->
+`art. 552 cod. nav.`; "Chiunque cagiona la morte di un uomo" -> `art. 575 c.p.`. All carry `SNAPSHOT_DATES` and `CURRENCY_UNKNOWN`.
+
+## What is ingested (the pilot instruments)
 
 | Instrument | Work URI | Provisions | Versions |
 |---|---|---|---|
@@ -59,8 +104,9 @@ Space after a bare article, commas otherwise. To verify with an Italian reviewer
 
 ## Known gaps
 
-Only six instruments; no other codes, regional law, regulations, treaties, case law (Corte costituzionale,
-Cassazione, Consiglio di Stato), EU law. Commi the source does not number (Constitution, codes, older acts)
+41 works only (Constitution, the codes of Normattiva's codes page, five pilot acts); no ordinary laws, decreti legislativi or
+decreti-legge outside that page (no list a polite client may read), regional law, treaties, case law (Corte costituzionale,
+Cassazione, Consiglio di Stato), EU law. Of two ministerial decrees on the codes page neither is read. Commi the source does not number (Constitution, codes, older acts)
 are not separate provisions; books/titles/chapters are not recorded (the export renders them unreliably);
 annexes of the d.lgs. 196/2003 and the articles of the decrees approving the codes are not read. Source slips
 are handled, not fixed (e.g. c.c. art. 1159-bis printed as 1159: the attachment name wins; 1519-novies/nonies:

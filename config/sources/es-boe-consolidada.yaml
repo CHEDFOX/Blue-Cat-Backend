@@ -5,14 +5,31 @@ publisher: Agencia Estatal Boletín Oficial del Estado (AEBOE)
 kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions: [ES]
-document_kinds: [constitution, organic_law, law, royal_legislative_decree, royal_decree_law, royal_decree]
+document_kinds:
+  - constitution
+  - organic_law
+  - law
+  - royal_legislative_decree
+  - royal_decree_law
+  - decree_law
+  - royal_decree
+  - decree
+  - regulation
+  - ministerial_order
+  - resolution
+  - instruction
+  - circular
+  - agreement
+  - international_agreement
 languages: [es]
 coverage: >-
-  Consolidated texts of the main norms of the Spanish legal order (State and autonomous
-  communities) prepared by the AEBOE's documentation services, with every intermediate version
-  since the original publication, served by the BOE open-data API
-  (https://www.boe.es/datosabiertos/api/legislacion-consolidada). ULIS ingests a selected list
-  of State norms (see the manifest) in Castilian Spanish with their full version history.
+  Consolidated texts of the norms of the Spanish legal order prepared by the AEBOE's documentation services, with
+  every intermediate version since the original publication, served by the BOE open-data API
+  (https://www.boe.es/datosabiertos/api/legislacion-consolidada). ULIS ingests every State (ambito "Estatal") norm
+  of the API's list - 8,814 on 2026-10-15: laws, royal decrees, orders, resolutions, circulars, instructions,
+  agreements, international agreements and the older decrees - in Castilian Spanish with their full version history
+  (see the manifest, generated from the list endpoint). The 3,620 norms of the autonomous communities that the same
+  list holds are not ingested.
 access:
   method: api
   endpoint: config/manifests/es-boe-consolidada.yaml
@@ -20,10 +37,11 @@ update_frequency: >-
   Continuous. Per the API FAQ, a new consolidated version is prepared 1 to 3 days after a
   modifying norm is published; re-fetch to refresh.
 rate_limits: >-
-  No rate limit is published. https://www.boe.es/robots.txt (fetched 2026-10-14) has a single
-  "User-agent: *" group, no Crawl-delay, and does not disallow /datosabiertos/ (its per-document
-  disallows concern other paths and none of the manifest identifiers). ULIS waits 5 s between
-  requests and needs one request per norm.
+  No rate limit is published. https://www.boe.es/robots.txt (fetched 2026-10-15) has a single "User-agent: *" group,
+  no Crawl-delay, and does not disallow /datosabiertos/ (it disallows about 12,300 per-document paths on other parts
+  of the site - privacy de-indexing of documents of other sections; the connector reads robots.txt on every run and
+  skips a norm whose API path a rule names: none of the 8,814 does). The list endpoint (3 requests, 18 MB) and one
+  request per norm: ULIS waits 5 s between requests, so a full run is 8,815 requests = 12.2 h.
 licence:
   id: AEBOE-reutilizacion-2024
   name: >-
@@ -89,7 +107,9 @@ known_limitations:
   - Consolidated texts are informative, not official; only the BOE publication is authentic.
   - Only express amendments and repeals are consolidated; tacit repeals and other effects that need interpretation are not reflected (API FAQ).
   - Co-official languages (Catalan, Galician, Basque/Euskera) and translations are not fetched.
-  - Regional (autonomous community) legislation, also consolidated by the AEBOE, is not ingested.
+  - Regional (autonomous community) legislation, also consolidated by the AEBOE, is not ingested (3,620 norms in the list; ULIS has no profile for the communities).
+  - A norm repealed or annulled in full ends on the date its metadata give (fecha_derogacion, fecha_anulacion); a norm marked vigencia_agotada without such a date (a spent measure) is stored with the flag and no end date.
+  - The API lists norms by their last update; the manifest is a snapshot of the list (regenerate with scripts/build_boe_manifest.py to refresh).
 status: active
 connector: boe_consolidada
 parser: boe_consolidada_xml
