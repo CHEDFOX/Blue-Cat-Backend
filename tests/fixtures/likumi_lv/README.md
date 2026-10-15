@@ -1,7 +1,8 @@
 # Likumi.lv fixtures
 
-Excerpts of five real document pages from https://likumi.lv (official publisher "Latvijas Vēstnesis"),
-retrieved 2026-10-14 with the project's polite fetcher (identifying User-Agent, 5 s between requests).
+Excerpts of seven real document pages from https://likumi.lv (official publisher "Latvijas Vēstnesis"),
+five retrieved 2026-10-14 and two (Cabinet regulations) 2026-10-15 with the project's polite fetcher (identifying
+User-Agent, 5 s between requests).
 `meta.json` has each page's URL and retrieval time. The pages were fetched under the portal's terms of use
 (https://likumi.lv/par-mums/portala-lietosanas-noteikumi: free access, no restriction on reuse) and
 Autortiesību likums 6. panta pirmā daļa 1. punkts (legislative acts and their official consolidated versions
@@ -18,5 +19,7 @@ inside a block is altered, but most blocks of each act are left out:
 | `darba-likums.html` | Darba likums (26019) | Art. 1, 100, 101, transitional 1 and headings |
 | `civillikums-1.html` | Civillikums, PIRMĀ DAĻA (90223) | Art. 26-28 and headings |
 | `administrativa-procesa-likums.html` | Administratīvā procesa likums (55567) | Art. 1 and 317 (sub-points) |
+| `mk-noteikumi-377.html` | Ministru kabineta 2011. gada 17. maija noteikumi Nr. 377, "Speciālo aviācijas darbu licencēšanas kārtība" (230390) | formula, title, legal basis (TV900), points 1-7 with sub-points 2.1., 3.1., 5.1. ...; a page with a single edition (empty edition list, `version_date` 21.05.2011); retrieved 2026-10-15 |
+| `mk-noteikumi-166.html` | Ministru kabineta 2007. gada 6. marta noteikumi Nr. 166, "Noteikumi par ziņām, kas ierakstāmas bāriņtiesu izdarīto apliecinājumu un citu ..." (154193) | formula, title, legal basis, chapter headings, points 1, 2, 5, the signature, and the start of the annex (heading, one table, signature) that is not ingested; retrieved 2026-10-15 |
 
 They are test inputs only; the texts are informative systematisations, the official publication is in Latvijas Vēstnesis.

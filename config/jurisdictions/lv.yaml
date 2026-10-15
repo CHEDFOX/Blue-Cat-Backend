@@ -2,7 +2,7 @@
 # (added separately with the EU profile).
 schema_version: 1
 id: LV
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Latvia
 names: {lv: Latvija, en: Latvia}
 kind: sovereign_state
@@ -73,8 +73,10 @@ citation:
     genitive and the cited unit in the nominative: "Krimināllikuma 117. pants", "Satversmes 91. pants",
     "Darba likuma 101. panta pirmās daļas 1. punkts", with parts as ordinal words and inserted articles with a
     superscript ("38.¹ pants"). Transitional provisions: "Krimināllikuma pārejas noteikumu 11. punkts". Genitive names
-    are set for the ingested acts only; the formal reference to the official publication (Latvijas Vēstnesis number
-    and date) is not generated.
+    are set for a table of well-known laws and for titles ending in "likums" or "kodekss"; a Cabinet regulation is cited
+    by its date and number ("Ministru kabineta 2011. gada 17. maija noteikumu Nr. 377 2.1. apakšpunkts"); any other
+    document as "5. pants (Title)". The formal reference to the official publication (Latvijas Vēstnesis number and
+    date) is not generated.
   examples:
     - "Krimināllikuma 117. pants"
     - "Satversmes 91. pants"
@@ -101,11 +103,11 @@ memberships:
   - organisation: EU
     from_date: 2004-05-01
 coverage:
-  corpus_status: pilot
+  corpus_status: partial
   known_gaps:
-    - Only the current edition of six instruments is ingested - the Satversme, Krimināllikums, Civillikums (Ievads and the four parts), Fizisko personu datu apstrādes likums, Darba likums and Administratīvā procesa likums; no other acts, no Cabinet regulations (noteikumi), treaties, local regulations or case law (Satversmes tiesa, Augstākā tiesa).
+    - Only the current edition is ingested, of the laws (likumi) and Cabinet regulations (Ministru kabineta noteikumi) that Likumi.lv shows as in force - about 4 000 documents, among them the Satversme, Krimināllikums, Civillikums (Ievads and the four parts), Fizisko personu datu apstrādes likums, Darba likums and Administratīvā procesa likums. No amending acts, orders, municipal binding regulations (saistošie noteikumi), notices, treaties or case law (Satversmes tiesa, Augstākā tiesa); a law or regulation whose page title does not make it a candidate in the manifest is missing.
     - No history - earlier editions are disallowed by Likumi.lv's robots.txt and are not fetched; the edition list is recorded only as the start of the current edition, and later editions are reported as outstanding changes without text.
     - Dates are those of the whole edition (revision snapshot); the page gives no per-provision dates, so a provision's own commencement is not known.
     - The texts are informative systematisations; the authentic text is the publication in Latvijas Vēstnesis, which is not ingested, nor are the amending acts.
-    - The enacting formula, adoption statement and signatures, annexes and tables are not ingested (none of the six instruments has an annex in the pages used); English translations on the site are not ingested.
+    - The enacting formula, adoption statement and signatures, annexes (pielikumi) and tables are not ingested (a document that has them says so in its metadata); English translations on the site are not ingested.
     - No PostgreSQL text-search configuration exists for Latvian, so the simple configuration is used (no stemming; inflected forms are matched only when identical).

@@ -33,10 +33,14 @@ document_kinds: [act]
 languages: [pl]
 coverage: >-
   Polish legislation published in the Dziennik Ustaw (Journal of Laws). ULIS ingests the consolidated texts (teksty
-  jednolite, announced by the Marszałek Sejmu as obwieszczenia in the Dziennik Ustaw) of six acts, in Polish, for which the
-  API offers an HTML text - the Kodeks cywilny, Kodeks karny, ustawa o ochronie danych osobowych (2018), Kodeks pracy, Kodeks
-  postępowania administracyjnego and Kodeks rodzinny i opiekuńczy - two successive consolidated texts of each, except the
-  data protection act (one). The Constitution is offered as PDF only and is not ingested.
+  jednolite, announced by the Marszałek Sejmu as obwieszczenia in the Dziennik Ustaw), in Polish, of every ustawa for which an
+  announcement of a consolidated text is in force today and the API offers an HTML text: 789 acts (the manifest is generated
+  from the API's own search by scripts/build_eli_manifest.py). Of them 409 are listed with their current consolidated text and
+  380 with an older one, because their current text (announced from 2025 on) is offered as PDF only. Six acts of the first
+  pilot - the Kodeks cywilny, Kodeks karny, ustawa o ochronie danych osobowych (2018), Kodeks pracy, Kodeks postępowania
+  administracyjnego and Kodeks rodzinny i opiekuńczy - keep two successive texts each (one for the data protection act); every
+  other act has its newest HTML text. 23 acts with a current consolidated text have none in HTML and are not listed. The
+  Constitution is offered as PDF only and is not ingested.
 access:
   method: api
   endpoint: config/manifests/pl-eli-sejm.yaml
@@ -45,8 +49,10 @@ update_frequency: >-
   the Act on the publication of normative acts); ULIS ingests listed texts only and does not refresh by itself
 rate_limits: >-
   None published (API documentation and OpenAPI description). ULIS waits 5 s between requests, identifies itself, runs
-  sequentially, caches every response under var/sources/api.sejm.gov.pl/ and, for a full run of the manifest, makes about 30
-  requests. It reads robots.txt of api.sejm.gov.pl (404) and would honour one if it appeared.
+  sequentially, caches every response under var/sources/api.sejm.gov.pl/ and, for a full run of the manifest, makes 2 377
+  requests (three per act: the consolidated text's record and HTML, and the act's record), about 3.3 hours at the 5 s delay.
+  Building the manifest takes 12 requests (500 records each). It reads robots.txt of api.sejm.gov.pl (404) and would honour
+  one if it appeared. A run goes on after an act that fails (reported as a run error); a refusal (401/403/429/451) stops it.
 licence:
   id: PL-PA-4-official-documents
   name: >-
@@ -85,10 +91,12 @@ provenance: >-
   HTML text, plus one envelope with the act's JSON record (SHA-256 recorded for each), together with the URLs and retrieval times.
 known_limitations:
   - The consolidated text (tekst jednolity) is an official announcement published in the Dziennik Ustaw; the authentic text of the law is the act and its amending acts as published there. ULIS marks the texts as official consolidations, not authentic.
-  - For announcements from 2025 on the API offers PDF only (textHTML false), and PDF is not parsed. The newest ingested text of each act is therefore older than the newest published one; later consolidated texts and later amending acts are reported as outstanding changes, without text.
-  - Each text is dated by its legal-status date ("stan prawny", legalStatusDate); the source dates no individual provision, so history is a series of whole-act snapshots.
+  - For announcements from 2025 on (483 of them, 2025-2026) the API offers PDF only (textHTML false), and PDF is not parsed. For 380 of the 789 acts the ingested text is therefore older than the newest published one; later consolidated texts and later amending acts are reported as outstanding changes, without text. 23 acts in force with a consolidated text have none in HTML and are not ingested.
+  - Only ustawy with a consolidated text are listed. Acts that are in force without one (never amended, or not yet consolidated), regulations (rozporządzenia), the Monitor Polski and treaties are not ingested.
+  - Each text is dated by its legal-status date ("stan prawny", legalStatusDate); the source dates no individual provision, so history is a series of whole-act snapshots (one text per act except the six pilot acts).
   - The footnotes (publisher's notes, references to Constitutional Tribunal judgments, transposed directives) are kept as notes; the amending acts and the Tribunal's judgments are not ingested.
-  - The Constitution of 1997 (Dz.U. 1997 nr 78 poz. 483) is offered as PDF only and is not ingested.
+  - Tables are kept as lines of text (rows on lines, cells separated by " | "), formulas as the TeX the source gives; layout, images and annex files are not.
+  - The Constitution of 1997 (Dz.U. 1997 nr 78 poz. 483) is offered as PDF only (textHTML false, checked 2026-10-15) and is not ingested.
 status: active
 connector: eli_sejm
 parser: eli_sejm_bundle

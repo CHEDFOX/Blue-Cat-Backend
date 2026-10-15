@@ -83,6 +83,13 @@ class EliParseError(ValueError):
     pass
 
 
+def generic_cite_as(title: str) -> str | None:
+    """The long form of an act without a customary abbreviation: "ustawy z dnia 10 maja 2018 r. o ochronie ..." from the
+    title "Ustawa z dnia 10 maja 2018 r. o ochronie ..." (the first word in the genitive, the rest as printed)."""
+    m = re.match(r"^Ustawa(\s+z dnia\s+\d{1,2}\s+\w+\s+\d{4}\s*r\..+)$", title.strip())
+    return "ustawy " + re.sub(r"\s+", " ", m.group(1)).strip().rstrip(".") if m else None
+
+
 # --------------------------------------------------------------------------- tiny tolerant DOM
 
 VOID = frozenset({"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "wbr"})
@@ -211,15 +218,24 @@ def render(node: Node) -> Rendered:
                 parts.append("\n")
             elif child.tag == "sup":
                 parts.append(superscript(ws(render(child).text)))
-            elif child.tag in ("p", "div", "li"):
+            elif child.tag in ("p", "div", "li", "tr"):
                 parts.append("\n")
                 walk(child)
                 parts.append("\n")
+            elif child.tag in ("td", "th"):
+                if child.find_all(lambda n: n.tag in ("tr", "table")):
+                    walk(child)  # a layout cell around a table
+                else:
+                    cell = render(child)
+                    notes.extend(cell.notes)
+                    parts.append(" ".join(cell.text.split("\n")) + " | ")
             else:
                 walk(child)
 
     walk(node)
     lines = [ws(x) for x in "".join(parts).split("\n")]
+    # Table cells end with " | "; empty cells and the bars at the ends of a row are layout, not text.
+    lines = [re.sub(r"^(?:\|\s*)+|(?:\s*\|)+$", "", re.sub(r"(?:\s*\|){2,}", " |", line)).strip() for line in lines]
     return Rendered("\n".join(line for line in lines if line), notes)
 
 
@@ -238,7 +254,7 @@ CONTAINERS = {"book", "part", "titl", "bran", "chpt", "schp"}
 REPEALED_TEXT = re.compile(
     r"^\(\s*(?:uchylon\w+|pominięt\w+|skreślon\w+|utracił\w*\s+moc|utraciły\s+moc)\s*\)\s*[.;,]*$", re.IGNORECASE
 )
-REPEALED_NOTE = re.compile(r"\(.*(?:uchylon|pominięt|skreślon|utracił).*\)\s*$", re.IGNORECASE)
+REPEALED_NOTE = re.compile(r"\(.*(?:uchylon|pominięt|skreślon|utracił).*\)\s*$", re.IGNORECASE | re.DOTALL)
 PREAMBLE_REPEALED = re.compile(r"^Preambuła\s*\(\s*uchylon\w+\s*\)\s*$", re.IGNORECASE)
 BOOKMARK_PARAGRAPH = re.compile(r"_a[0-9a-z_]+_p(\d+)$")
 
@@ -352,6 +368,21 @@ def build_unit(div: Node) -> Unit:
         if child.tag == "div" and "unit" in child.classes:
             if kind_code in CONTAINERS:  # the units inside a division are walked by the caller
                 continue
+            if "unit_none" in child.classes:
+                # An unnumbered line the source labels ("A." / "Banki państwowe", a stray sub-heading inside art. 13b):
+                # text of this unit, label and text as printed.
+                sub_head = next((c for c in child.elements() if c.tag == "h3"), None)
+                sub_inner = next((c for c in child.elements() if c.tag == "div" and "unit-inner" in c.classes), None)
+                if sub_head is None or sub_inner is None:
+                    raise EliParseError(f"unit {child.attrs.get('id')!r} has no heading or body")
+                if _unit_divs(sub_inner):  # it holds units of its own: a division, hoisted like the others
+                    unit.stray.append(child)
+                    continue
+                r = render(sub_inner)
+                line = f"{render(sub_head).text} {r.text}".strip()
+                unit.content.append(line)
+                unit.notes.extend(r.notes)
+                continue
             if any(c.startswith("unit_") and c[5:] in CONTAINERS for c in child.classes):
                 unit.stray.append(child)
                 continue
@@ -367,6 +398,26 @@ def build_unit(div: Node) -> Unit:
             r = render_quotation(child)
             unit.content.append(r.text)
             unit.notes.extend(r.notes)
+        elif child.tag == "ul" and child.attrs.get("data-template") == "xEnum":
+            # An unnumbered list ("- text" items, "tiret"): each item is a line of the unit's own text.
+            for item in child.elements():
+                r = render(item)
+                lines = r.text.split("\n")
+                if len(lines) > 1 and lines[0] in ("-", "\u2013", "\u2014"):
+                    lines = [f"{lines[0]} {lines[1]}", *lines[2:]]
+                unit.content.extend(line for line in lines if line)
+                unit.notes.extend(r.notes)
+        elif child.tag in ("tr", "table"):
+            # A table the source places in the unit: its rows as lines, cells separated by " | ".
+            r = render(child)
+            if r.text:
+                unit.content.append(r.text)
+            unit.notes.extend(r.notes)
+        elif child.tag == "div" and "eqtn" in child.classes:
+            # A formula: the TeX the source gives (\( ... \)), kept as written.
+            r = render(child)
+            if r.text:
+                unit.content.append(r.text)
         else:
             raise EliParseError(
                 f"unexpected <{child.tag} class={child.attrs.get('class')!r}> in unit {div.attrs.get('id')!r}"
@@ -477,7 +528,7 @@ def parse_consolidated_text(bundle: dict[str, Any]) -> ParsedDocument:
     status_date = _date(record.get("legalStatusDate"))
     if status_date is None:
         raise EliParseError(f"{tj_id}: no legal-status date")
-    short, cite_as = INSTRUMENTS.get(act_id, (act["title"].rstrip("."), None))
+    short, cite_as = INSTRUMENTS.get(act_id, (act["title"].rstrip("."), generic_cite_as(act["title"])))
     root = parse_html(bundle["text_html"])
     annex = _annex(root)
 
@@ -541,6 +592,24 @@ def parse_consolidated_text(bundle: dict[str, Any]) -> ParsedDocument:
 
     def walk(divs: list[Node]) -> None:
         for div in divs:
+            if "unit_none" in div.classes:
+                # A division the source labels but does not name ("A." / "Plany naprawy" inside a chapter): the lowest
+                # heading level; the units inside it are walked, and the heading ends with it.
+                sub_head = next((c for c in div.elements() if c.tag == "h3"), None)
+                sub_inner = next((c for c in div.elements() if c.tag == "div" and "unit-inner" in c.classes), None)
+                if sub_head is None or sub_inner is None:
+                    raise EliParseError(f"unit {div.attrs.get('id')!r} has no heading or body")
+                subtitle = " ".join(
+                    render(c).text
+                    for c in sub_inner.elements()
+                    if c.tag == "div" and "unit" not in c.classes and c.attrs.get("data-template") == "xText"
+                )
+                while headings and headings[-1][0] >= 9:
+                    headings.pop()
+                headings.append((9, f"{render(sub_head).text} {subtitle}".strip()))
+                walk(_unit_divs(sub_inner))
+                headings.pop()
+                continue
             u = build_unit(div)
             if u.kind in CONTAINERS:
                 while headings and headings[-1][0] >= rank[u.kind]:
@@ -549,10 +618,20 @@ def parse_consolidated_text(bundle: dict[str, Any]) -> ParsedDocument:
                     headings.append((rank[u.kind], u.heading))
                 own = u.own_text()
                 inner = next(c for c in div.elements() if c.tag == "div" and "unit-inner" in c.classes)
+                if own and not REPEALED_NOTE.match(own):
+                    # A second line of the heading ("Dział III - Odpowiedzialność dyscyplinarna." / "Zawieszenie
+                    # oraz rozwiązanie stosunku pracy z ekspertem"): part of the heading, not of a provision.
+                    if len(own) > 200:
+                        raise EliParseError(f"division {u.heading!r} has text of its own: {own[:60]!r}")
+                    had_heading = bool(u.heading)
+                    u.heading = " - ".join(x for x in (u.heading, *own.split("\n")) if x)
+                    if had_heading:
+                        headings[-1] = (rank[u.kind], u.heading)
+                    else:
+                        headings.append((rank[u.kind], u.heading))
+                    own = ""
                 if own:
                     # A division with a statement of its own such as "(zawierający art. 295¹ i art. 295² - uchylony)".
-                    if not REPEALED_NOTE.match(own):
-                        raise EliParseError(f"division {u.heading!r} has text of its own: {own[:60]!r}")
                     # The HTML id holds the division's whole path (``bran_DWUNASTY-chpt_III``), which keeps it stable.
                     eid = unique("div-" + re.sub(r"[^0-9A-Za-zÀ-ſ_-]+", "-", div.attrs.get("id", "")))
                     provisions.append(
@@ -757,7 +836,9 @@ def parse_change_report(bundle: dict[str, Any]) -> ParsedDocument:
                 ),
             }
         )
-    short, cite_as = INSTRUMENTS.get(act_id, (str(record.get("title", act_id)).rstrip("."), None))
+    short, cite_as = INSTRUMENTS.get(
+        act_id, (str(record.get("title", act_id)).rstrip("."), generic_cite_as(str(record.get("title", ""))))
+    )
     return ParsedDocument(
         doc_kind="legislation",
         instrument_type="act",

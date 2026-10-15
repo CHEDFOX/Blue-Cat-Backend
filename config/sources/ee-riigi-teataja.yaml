@@ -44,14 +44,17 @@ kind: official_legislation_portal
 # force of consolidated texts (RTS § 10(4) treats a mismatch with the algtekst as an error to be corrected).
 authority: official_non_authentic
 jurisdictions: [EE]
-document_kinds: [constitution, act]
+document_kinds: [constitution, act, regulation]
 languages: [et]
 coverage: >-
   Riigi Teataja holds all Estonian acts published since 1990 (originals and consolidated texts with their validity
-  periods, XML of all versions in the yearly archives) plus unofficial English translations. ULIS ingests the
-  consolidated texts of six acts listed in the manifest: the Constitution (four versions, 2011-2026), the Personal
-  Data Protection Act (three), the Employment Contracts Act (two), the Penal Code, the Law of Obligations Act and the
-  Administrative Procedure Act (the version in force on 2026-10-14).
+  periods, XML of all versions in the yearly archives) plus unofficial English translations. ULIS ingests (a) the
+  consolidated texts of six acts pinned in the manifest with their history - the Constitution (four versions, 2011-2026),
+  the Personal Data Protection Act (three), the Employment Contracts Act (two), the Penal Code, the Law of Obligations Act
+  and the Administrative Procedure Act - and (b) the text in force on the archive's date (2026-10-11) of every act (seadus)
+  and regulation (määrus) of the state and of the local governments, found by reading the archive: an estimated 16 000-21 000
+  acts and regulations (3 000-8 000 of the state, about 13 000 of the local governments; the count is known only after the scan),
+  in Estonian. The local governments' regulations can be left out with `exclude_issuers` in the manifest.
 access:
   method: bulk_download
   endpoint: config/manifests/ee-riigi-teataja.yaml
@@ -59,9 +62,11 @@ access:
 update_frequency: archives are regenerated regularly (xml.2026.zip generated 2026-10-11 per LOEMIND.txt); a new consolidated text is published with each amending act
 rate_limits: >-
   robots.txt states no crawl delay; ULIS waits at least 5 s between requests (the connector refuses a smaller delay),
-  identifies itself, makes about 25 small requests (robots.txt, LOEMIND.txt, the end of the archive, its 25 MB central
-  directory once, one range per act version), caches every response and stops on any refusal. The 43 GB archive is
-  never downloaded.
+  identifies itself, caches every small response and stops on any refusal. The pinned works need about 25 small requests
+  (robots.txt, LOEMIND.txt, the end of the archive, its 25 MB central directory once, one range per act version). Selecting
+  the acts in force reads the whole archive in ranges: 810 of 64 MiB (30.9 GB) plus 582 first-20-KB probes of members larger
+  than 8 MiB, about 1 400 requests = 2 hours at the 5 s delay plus the transfer of about 31 GB; a range answered with the
+  whole file (HTTP 200 instead of 206, seen now and then) is not read and is repeated after a pause; ranges are not kept.
 licence:
   id: EE-RT-OPEN-DATA-STATUTORY
   name: Riigi Teataja avaandmed (open data) - legislation not protected by copyright (Autoriõiguse seadus § 5(1) p 3); free access (RTS § 7(1)); reuse elsewhere with a note and link to Riigi Teataja (RTS § 12(1))
@@ -83,7 +88,7 @@ licence:
     Allikas: Riigi Teataja (www.riigiteataja.ee), Justiits- ja Digiministeerium. Terviktekstid on esitatud
     avaandmete XML-failidest; ametlik tekst on avaldatud Riigi Teatajas. Struktuur normaliseeritud ULIS-i poolt.
   conditions:
-    - Do not crawl the court-decision paths or the acts that robots.txt disallows (the connector refuses them); stay polite - at least 5 s between requests, only the members listed in the manifest, no download of the whole archive.
+    - Do not crawl the court-decision paths or the acts that robots.txt disallows (the connector refuses them); stay polite - at least 5 s between requests, identifying User-Agent, one 64 MiB range per request, no range kept after use. Reading the archive in ranges is the use the publisher offers it for (open data, "avaandmed"); it is not a crawl of the site's pages.
     - When acts are reproduced, state that the official text is published in Riigi Teataja and link to it (RTS § 12(1)); the attribution text and the limitations on every result do this.
     - Do not present the consolidated text as the enacted text; the originally published act (algtekst) is the enacted text and a mismatch is an error to be corrected (RTS § 10(4)).
     - Unofficial English translations published by Riigi Teataja are not ingested; the English archives are not used.
@@ -101,7 +106,9 @@ known_limitations:
   - Consolidated texts are official consolidations made from the originally published acts, which are the enacted texts; ULIS does not mark them authentic (RTS § 3(1), § 10(4)), and the XML export is not the published page.
   - Versions are whole-act snapshots dated by each consolidated text's validity period (kehtivuse algus and lõpp); the source gives no validity dates for single provisions. It marks the amending act and entry into force of each changed provision, which is kept as a note.
   - XML dates may carry a time-zone offset (e.g. 2019-01-15+02:00); ULIS uses the calendar date as written. Riigi Teataja's web pages may display some dates one day earlier.
-  - Only the versions listed in the manifest are ingested; consolidated texts that start after 2026-10-14 (published in advance) and, for Isikuandmete kaitse seadus, those between 2023-11-01 and 2026-03-15 are not.
+  - History only for the six pinned works (for Isikuandmete kaitse seadus without 2023-11-01 to 2026-03-15); every other act has the one text in force on 2026-10-11, and texts that start later (published in advance) are not ingested.
+  - The text in force is the group's latest consolidated text up to the archive's date, because the XML does not always give the end of a superseded text (so the end date is not used). Acts whose newest text is an empty tombstone (repealed), an old HTML fragment, larger than 50 MB or disallowed by robots.txt (5 647 ids) are not ingested, and no older text of them is.
+  - Only acts (seadus) and regulations (määrus), of the state and of the local governments; decisions, orders (korraldus, käskkiri, otsus), treaties and drafts (eelnõu, the publisher's schema examples) are not.
   - Annexes, the introductory formula, tables other than as text, and cross-reference links are not ingested.
   - The archive is regenerated; members may be added or corrected after retrieval. A re-fetched member whose bytes differ is refused as a conflict with the version already recorded.
   - The publisher's terms for the open data could not be read (JavaScript application); see licence notes.

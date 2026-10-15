@@ -13,7 +13,13 @@
 #        informatīvi. Pretrunu gadījumā vadās pēc oficiālās publikācijas."
 #   https://likumi.lv/robots.txt - for User-agent * disallows asset directories, /search.php, /body_print.php, /doc.php/*,
 #        /l.php, "/*/redakcijas-datums/" and "/*&version_date=" (pages of earlier editions) and ~480 individual document
-#        ids; "Crawl-delay: 1". None of the ten documents ingested is disallowed; earlier editions are NOT fetched.
+#        ids; "Crawl-delay: 1". None of the ten pilot documents is disallowed and the generated manifest leaves out the disallowed ids; earlier editions are NOT fetched.
+#   https://likumi.lv/sitemap-index.xml (named by robots.txt: "Sitemap: https://likumi.lv/sitemap-index.xml"; read 2026-10-15,
+#        with sitemap.xml, sitemap-1.xml and sitemap-2.xml: 125 436 addresses of the form /ta/id/<id>-<slug>, 30 MB in all) -
+#        the only list of documents the portal publishes. The listings /ta/veids/... and /ta/tema/... are filled by a POST to
+#        /search.php, which robots.txt disallows, so the status of a document is known only from its own page. The rules
+#        "Disallow: /*id=<id>$" and "/*id=<id>&" of robots.txt name 483 documents the publisher asks robots not to fetch; they match
+#        the query addresses (/doc.php?id=...), not /ta/id/<id>, but ULIS treats the document as disallowed and never requests it.
 #   https://likumi.lv/ta/id/5138-autortiesibu-likums - Autortiesību likums 6. pants (1): "Autortiesības neaizsargā:
 #        1) normatīvos un administratīvos aktus ... (likumus, tiesu spriedumus, lēmumus un citus oficiālus dokumentus),
 #        kā arī šo tekstu oficiālos tulkojumus un oficiālās konsolidētās versijas".
@@ -25,20 +31,25 @@ publisher: >-
 kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions: [LV]
-document_kinds: [constitution, act]
+document_kinds: [constitution, act, regulation]
 languages: [lv]
 coverage: >-
-  Latvian legislation, systematised (consolidated) by the official publisher: the current edition of each
-  act, with the list of earlier and later editions. ULIS ingests the current edition of six instruments in
-  Latvian - the Satversme, Krimināllikums, Civillikums (five parts), Fizisko personu datu apstrādes likums,
-  Darba likums and Administratīvā procesa likums.
+  Latvian legislation, systematised (consolidated) by the official publisher: the current edition of each act, with the list
+  of earlier and later editions. ULIS ingests the current edition, in Latvian, of the laws (likumi) and the Cabinet
+  regulations (Ministru kabineta noteikumi) in force: the manifest lists 20 344 candidate pages taken from the portal's sitemap
+  (the ten pilot documents - the Satversme, Krimināllikums, Civillikums in five parts, Fizisko personu datu apstrādes likums,
+  Darba likums and Administratīvā procesa likums - and every other Latvian-language document page except amending acts,
+  orders, municipal binding rules, notices and Cabinet minutes). The parser keeps what is a law or a Cabinet regulation in
+  force (about one page in five, some 4 000 documents) and skips the rest.
 access:
   method: permitted_web_retrieval
   endpoint: config/manifests/lv-likumi.yaml
 update_frequency: continuous (new editions appear when amendments enter into force; the page shows the edition in force)
 rate_limits: >-
-  No published rate limit; robots.txt (2026-10-14) sets "Crawl-delay: 1". ULIS waits 5 s between requests,
-  identifies itself, caches every download, and refuses any document robots.txt disallows.
+  No published rate limit; robots.txt (2026-10-14) sets "Crawl-delay: 1". ULIS waits 5 s between requests, identifies itself,
+  caches every download, and refuses any document robots.txt disallows. A full run of the manifest is one request per candidate
+  (20 344 requests, 28 hours at the 5 s delay, about 190 KB a page, some 4 GB) plus 5 for robots.txt and the sitemap; a page
+  that is gone or disallowed is reported as a run error and the run goes on, a refusal (401/403/429/451) stops it.
 licence:
   id: LV-AL-6-official-works
   name: >-
@@ -76,10 +87,13 @@ provenance: >-
 known_limitations:
   - Informative systematised text; the official publication in Latvijas Vēstnesis is authentic.
   - Only the current edition of each act is ingested; earlier editions' pages are disallowed by robots.txt, so there is no history.
-  - The page states no per-provision dates and no "up to date" date; editions are dated by their start (and, if stated, end).
+  - The page states no per-provision dates and no "up to date" date; editions are dated by their start (and, if stated, end). A page with a single edition names only its start (version_date).
   - Editions published for the future ("Nākotnes") are reported as outstanding changes without text.
-  - Amendment notes ("Ar grozījumiem, kas izdarīti ar ...") are kept as notes; the amending acts are not ingested.
+  - Amendment notes ("Ar grozījumiem, kas izdarīti ar ...") are kept as notes; the amending acts ("Grozījumi ...") are not ingested.
+  - The portal has no list of the acts in force, so the manifest lists candidates by address and the parser decides. Laws titled "Par ..." are candidates only if named (five curated ones), Cabinet regulations of that form are not; documents of other types or issuers (Cabinet orders and instructions, regulations of the central bank and regulators, municipal rules) are skipped.
+  - Annexes (pielikumi) and tables are not ingested (half of the regulations have annexes); each such document says so in its ext (omitted). Cabinet regulations are numbered by points (``12.``, ``12.1.``, ``a)``); other numbering is text.
   - English translations on the same site are not ingested.
+  - Database rights in the compiled collection become a question as the scope grows (see docs/licence-review.md); counsel review is recommended before production use.
 status: active
 connector: likumi_lv
 parser: likumi_lv_html

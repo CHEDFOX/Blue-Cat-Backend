@@ -346,6 +346,50 @@ def test_citation_without_an_abbreviation_and_unrepresentable_superscripts() -> 
         module.validate_ext({"dz_u": "x", "eli": "y", "short_name": "z", "unknown": 1})
 
 
+def test_markup_of_the_wider_corpus_lists_tables_formulas_and_unnamed_divisions() -> None:
+    """Verbatim units of consolidated texts of 2024 (Prawo bankowe, and units from three other texts)."""
+    doc = _doc("forms_2024_1646")
+    assert doc.work_uri == "/pl/du/1997/939" and doc.version_date == date(2024, 9, 26)
+    assert doc.ext["cite_as"] == "ustawy z dnia 29 sierpnia 1997 r. - Prawo bankowe"
+    # an unnumbered list ("- text" items) stays in the text of its letter, one item per line
+    letter = _prov(doc, "art-4-ust1-pkt35-lita")
+    assert letter.text.startswith("spełnia co najmniej jeden z warunków:\n- akcje banku zostały dopuszczone do obrotu")
+    assert "\n- udział banku w aktywach sektora bankowego jest nie mniejszy niż 2 %,\n" in letter.text
+    # a labelled line inside an article ("A." / "Banki państwowe") is text of that article
+    assert _prov(doc, "art-13b").text.endswith("\nA. Banki państwowe")
+    # a table the source places in a unit: rows as lines, cells separated by " | "
+    table = _prov(doc, "art-5-ust5").text
+    assert table.startswith("Ustala się następujące przeliczniki powierzchni użytków rolnych:\n")
+    assert "\nOkręgi podatkowe | I | II | III | IV | I | II | III | IV\n" in table
+    assert "\nI | 1,95 | 1,80 | 1,65 | 1,45 | 1,75 | 1,60 | 1,45 | 1,35" in table
+    # a formula: the TeX the source gives, as printed
+    formula = _prov(doc, "art-8-ust2-pkt3").text
+    assert "\n\\( Ś_{inne}^{} = Ś \\times {{S_{SI} - S_{SIN} } \\over S} \\)\n" in formula
+    # a division the source labels without naming ("A." / "Plany naprawy") holds articles: they are walked
+    assert _prov(doc, "art-141m").context_heading == "Rozdział 1 - Przepisy ogólne › A. Plany naprawy"
+    assert _prov(doc, "art-141m-ust3-pkt1").context_heading == "Rozdział 1 - Przepisy ogólne › A. Plany naprawy"
+    # a division whose body starts with a second heading line: both lines are the heading
+    division = "Dział III - Odpowiedzialność dyscyplinarna. - Zawieszenie oraz rozwiązanie stosunku pracy z ekspertem"
+    assert _prov(doc, "art-273").context_heading == division
+    assert _cite("forms_2024_1646", "art-4-ust1-pkt35-lita") == (
+        "art. 4 ust. 1 pkt 35 lit. a ustawy z dnia 29 sierpnia 1997 r. - Prawo bankowe"
+    )
+
+
+def test_generic_citation_form_of_an_act_without_an_abbreviation() -> None:
+    from ulis.sources.parsers.eli_sejm import generic_cite_as
+
+    assert (
+        generic_cite_as("Ustawa z dnia 10 maja 2018 r. o ochronie danych osobowych.")
+        == "ustawy z dnia 10 maja 2018 r. o ochronie danych osobowych"
+    )
+    assert generic_cite_as("Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny.") == (
+        "ustawy z dnia 23 kwietnia 1964 r. - Kodeks cywilny"
+    )
+    assert generic_cite_as("Konstytucja Rzeczypospolitej Polskiej z dnia 2 kwietnia 1997 r.") is None
+    assert generic_cite_as("Dekret z dnia 1 stycznia 1950 r. o x") is None
+
+
 def test_references_resolve_to_work_uris() -> None:
     assert resolve_uri("https://eli.gov.pl/eli/DU/1964/93/ogl") == ("/pl/du/1964/93", None)
     assert resolve_uri("https://api.sejm.gov.pl/eli/acts/DU/1997/553/text.html") == ("/pl/du/1997/553", None)
@@ -513,6 +557,43 @@ def test_connector_requires_increasing_legal_status_dates(tmp_path: Path) -> Non
         list(EliSejmConnector(_manifest(tmp_path), SOURCE, cache, offline=True).fetch())
 
 
+def test_connector_in_skip_mode_reports_an_instrument_and_goes_on(tmp_path: Path) -> None:
+    cache = _cache(tmp_path)
+    # the second instrument's text was never cached (as if the API no longer served it): offline, so "not cached"
+    instruments = [
+        {"key": "gone", "act": "DU/1997/553", "consolidated": ["DU/2024/17"]},
+        {"key": "uodo", "act": "DU/2018/1000", "consolidated": ["DU/2019/1781"]},
+    ]
+    with pytest.raises(FetchError, match="offline and not cached"):
+        list(EliSejmConnector(_manifest(tmp_path, instruments), SOURCE, cache, offline=True).fetch())
+    connector = EliSejmConnector(
+        _manifest(tmp_path, instruments, on_instrument_error="skip"), SOURCE, cache, offline=True
+    )
+    docs = list(connector.fetch())
+    # nothing of the failed instrument is delivered (not its text without its change report), the other is whole
+    assert [d.external_id for d in docs] == ["pl-eli:DU/2019/1781", "pl-eli:DU/2018/1000:references"]
+    assert len(connector.fetch_errors) == 1 and connector.fetch_errors[0].startswith("pl-eli:DU/1997/553: ")
+    with pytest.raises(ManifestError, match="on_instrument_error"):
+        list(EliSejmConnector(_manifest(tmp_path, instruments, on_instrument_error="ignore"), SOURCE, cache).fetch())
+
+
+def test_connector_refusal_always_stops_a_skip_mode_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    cache = _cache(tmp_path)
+    connector = EliSejmConnector(_manifest(tmp_path, on_instrument_error="skip"), SOURCE, cache, offline=False)
+    from ulis.sources.connectors.polite_http import PoliteHttp
+
+    original = PoliteHttp.get
+
+    def refuse(self: Any, url: str, *args: Any, **kwargs: Any) -> Any:
+        if url.endswith("/DU/2019/1781/text.html"):
+            raise FetchError(f"{url}: HTTP 403 (not retried: a refusal is respected)")
+        return original(self, url, *args, **kwargs)
+
+    monkeypatch.setattr(PoliteHttp, "get", refuse)
+    with pytest.raises(FetchError, match="HTTP 403"):
+        list(connector.fetch())
+
+
 def test_connector_honours_a_robots_txt_if_one_appears(tmp_path: Path) -> None:
     ok = _cache(tmp_path, robots="User-agent: *\nDisallow:\n")
     assert len(list(EliSejmConnector(_manifest(tmp_path), SOURCE, ok, offline=True).fetch())) == 5
@@ -548,7 +629,8 @@ def test_real_manifest_and_registration() -> None:
     manifest = yaml.safe_load((REPO_ROOT / source.access.endpoint).read_text(encoding="utf-8"))
     acts = {i["key"]: (i["act"], i["consolidated"]) for i in manifest["instruments"]}
     assert acts["kc"] == ("DU/1964/93", ["DU/2023/1610", "DU/2024/1061"])
-    assert {k: v[0] for k, v in acts.items()} == {
+    # the six pilot instruments are kept exactly; the rest is the generated list of every ustawa with a current text
+    pilot = {
         "kc": "DU/1964/93",
         "kk": "DU/1997/553",
         "uodo": "DU/2018/1000",
@@ -556,7 +638,14 @@ def test_real_manifest_and_registration() -> None:
         "kpa": "DU/1960/168",
         "kro": "DU/1964/59",
     }
-    assert sum(len(v[1]) for v in acts.values()) == 11
+    assert {k: acts[k][0] for k in pilot} == pilot
+    assert sum(len(acts[k][1]) for k in pilot) == 11
+    assert len(acts) > 600 and len({v[0] for v in acts.values()}) == len(acts)
+    assert manifest["on_instrument_error"] == "skip"
+    # the connector's own validation accepts the committed manifest (addresses, order, no duplicates)
+    connector = build_connector(source)
+    assert isinstance(connector, EliSejmConnector)
+    assert len(connector._manifest()["instruments"]) == len(acts)
     assert manifest["base_url"] == "https://api.sejm.gov.pl/eli" and manifest["crawl_delay_seconds"] >= 5
     assert "ULIS-research-bot" in manifest["user_agent"]
     # DU/1997/483 (the Constitution) is PDF only and is not listed
@@ -587,6 +676,7 @@ def test_fixtures_readme_names_the_source_and_licence() -> None:
             "2026-10-14"
         )
         assert (FIX / f"{name}.json").stat().st_size < 100_000
+    assert "forms_2024_1646.json" in text and (FIX / "forms_2024_1646.json").stat().st_size < 100_000
 
 
 # --------------------------------------------------------------------------- database
@@ -618,6 +708,35 @@ def pl_ingested(
 
 def _search(session: Session, catalog: Catalog, **kw: Any) -> dict[str, Any]:
     return search(session, catalog, SearchRequest(jurisdiction="PL", **kw), today=TODAY)
+
+
+@pytest.mark.db
+def test_an_act_without_an_abbreviation_is_cited_by_its_long_form(
+    session_factory: sessionmaker[Session], catalog: Catalog, store: LocalObjectStore, pl_ingested: IngestionReport
+) -> None:
+    class One:
+        def fetch(self) -> Iterator[RawDocument]:
+            yield RawDocument(
+                "pl-eli:fixture/forms_2024_1646",
+                "https://api.sejm.gov.pl/eli/acts/DU/2024/1646/text.html",
+                "application/json",
+                _bytes("forms_2024_1646"),
+                datetime(2026, 10, 15, 9, 0, tzinfo=UTC),
+                {"fixture": "forms_2024_1646"},
+            )
+
+    with session_factory() as session:
+        report = Ingestor(session, catalog, store).ingest_source(SOURCE, actor="pytest", connector=One())
+        assert report.errors == [] and report.documents_new == 1 and report.instruments_created == 1
+        res = _search(
+            session, catalog, q="Plan naprawy obejmuje czynności służące utrzymaniu lub przywróceniu wypłacalności"
+        )
+        hit = res["results"][0]
+        assert hit["citation"] == "art. 141m ust. 3 ustawy z dnia 29 sierpnia 1997 r. - Prawo bankowe"
+        assert hit["text"].startswith(
+            "Plan naprawy obejmuje:\n1) czynności służące utrzymaniu lub przywróceniu wypłacalności"
+        )
+        session.rollback()  # the other tests count the documents of the source
 
 
 @pytest.mark.db
