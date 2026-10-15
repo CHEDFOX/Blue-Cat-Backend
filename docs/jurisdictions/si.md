@@ -17,7 +17,11 @@ match only when identical). EU membership is not recorded here.
 
 ## What is ingested (manifest `config/manifests/si-uradni-list.yaml`)
 
-MANIFEST_SUMMARY
+424 acts, read from the gazette's own issue indexes (`/glasilo-uradni-list-rs/celotno-kazalo/<year><issue>`, 2026: issues 1-17, 2025: 1-114, 2024: 1-114, 2023: 1-136,
+about 400 requests): every act whose title starts "Zakon" or "Ustavni zakon" (laws, amending laws, ratification laws; part 01 and part 02 of the gazette) plus five core acts found
+through the gazette's pages - the Constitution (UL 33/1991), Kazenski zakonik KZ-1-UPB2 (50/2012), Obligacijski zakonik OZ-UPB1 (97/2007), Zakon o splošnem upravnem postopku
+ZUP-UPB2 (24/2006) and ZVOP-2 (163/2022). The older consolidated texts are as published then, **not current law** (the results say so). Not listed: decrees, rules, decisions, municipal
+acts, treaties, earlier years (extend by reading earlier indexes with the same rule). The full manifest is about 0.6 hours at 5 s per request; a slice was run (below).
 
 ## Structure, dates and versions
 
@@ -35,9 +39,13 @@ an abbreviation in its title: `3. člen Uredbe o Pravno-informacijskem sistemu R
 
 ## Results (2026-10-15)
 
-RESULTS
+- Tests: `tests/test_uradni_list.py` 17 passed (parser on three real pages of different eras, connector offline incl. 404, foreign page and robots-disallowed path, committed
+  manifest, PostgreSQL ingest, no point-in-time answer, verify). Full suite with the other jurisdictions' tests: see the report.
+- Real slice (`ulis_eur`, 27 acts incl. the five core acts and a sample of 2023-2026 laws; 28 requests): 27 documents, 9,107 provision versions, 7,599 passages, 0 errors;
+  `verify-sources` (all three sources of this branch): 74 pass, 0 other. Searches: "Kdor komu vzame življenje" -> `prvi odstavek 115. člena KZ-1-UPB2`;
+  "Pogodba je sklenjena, ko se stranki sporazumeta" -> `15. člen OZ-UPB1`; "pravica do osebnega dostojanstva in varnosti" -> `34. člen Ustave Republike Slovenije`.
 
 ## Known gaps
 
-Amendments not applied; no validity periods; only the manifest's laws and consolidated texts (Jan 2025 - Feb 2026 and five core acts); no regulations, municipal acts, treaties
+Amendments not applied; no validity periods; only the manifest's laws and consolidated texts (Jan 2023 - Feb 2026 and five core acts); no regulations, municipal acts, treaties
 or case law; the gazette since March 2026 (pisrs.si) and the PISRS consolidated texts are not ingested; structure is read from printed numbering; tables are text rows.

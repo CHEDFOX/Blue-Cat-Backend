@@ -59,8 +59,18 @@ REPEALED = re.compile(r"^\(?\s*(črtan[aoei]?|prenehal[aoi]? veljati)\s*\)?\.?$"
 ANNEX = re.compile(r"^(PRILOGA|Priloga)\b")
 STRUCTURAL = re.compile(r"^(?:[IVXLC]+\.\s|[A-ZČŠŽ]\.\s|DEL\b|POGLAVJE\b)")
 SUBSTRUCTURAL = re.compile(r"^(?:\d+\.\s|[A-Za-zčšž]\)\s|\d+\.\d+\s)")
-ABBREVIATION = re.compile(r"\(([A-ZČŠŽ][A-Za-zČŠŽčšž0-9\-]{1,14})\)\s*$")
+ABBREVIATION = re.compile(r"\(([A-ZČŠŽ][A-Za-zČŠŽčšž0-9\-]{1,14})\)")
 SEGMENT = re.compile(r"^esegment_([a-z0-9]+?)x?$")
+
+
+def abbreviation_of(title: str) -> str | None:
+    """The act's abbreviation, the last parenthesis such as "(ZJRM-2)" or "(KZ-1-UPB2)" of the title.
+
+    The phrase "(uradno prečiščeno besedilo)" is not an abbreviation, and neither is a bare "(UPB1)".
+    """
+    cleaned = re.sub(r"\((?:uradno )?prečiščeno besedilo\)", "", title, flags=re.IGNORECASE)
+    groups = ABBREVIATION.findall(cleaned)
+    return next((g for g in reversed(groups) if not re.fullmatch(r"UPB\d*", g)), None)
 
 
 def rank_of(text: str) -> int | None:
@@ -202,8 +212,7 @@ def parse_uradni_list(content: bytes) -> list[ParsedDocument]:
         tops.insert(0, (preamble, None))
 
     provisions: list[ParsedProvision] = build_provisions(tops, extent=[JURISDICTION], valid_from=None, valid_to=None)
-    am_ = ABBREVIATION.search(re.sub(r"\s*\(uradno prečiščeno besedilo\)\s*(?=\()", " ", title, flags=re.IGNORECASE))
-    abbreviation = am_.group(1) if am_ else None
+    abbreviation = abbreviation_of(title)
     base = f"/si/ul/{ul_id}"
     outstanding = [
         {

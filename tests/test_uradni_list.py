@@ -28,7 +28,7 @@ from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
 from ulis.sources.connectors.uradni_list import UradniListConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision
 from ulis.sources.parsers.legal_html import HtmlParseError
-from ulis.sources.parsers.uradni_list import parse_uradni_list
+from ulis.sources.parsers.uradni_list import abbreviation_of, parse_uradni_list
 from ulis.sources.registry import licence_gate
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
@@ -193,6 +193,15 @@ def test_citation_forms_for_deeper_units() -> None:
     )
     no_name = ProvisionCitationInput(instrument_title="Sklep o nečem", num_path=["art:2"], ext={}, **base)
     assert module.provision_citation(no_name) == "Sklep o nečem, 2. člen"
+
+
+def test_abbreviation_comes_from_the_title() -> None:
+    assert abbreviation_of("Zakon o varstvu javnega reda in miru (ZJRM-2)") == "ZJRM-2"
+    assert abbreviation_of("Kazenski zakonik (KZ-1-UPB2) (uradno prečiščeno besedilo)") == "KZ-1-UPB2"
+    assert abbreviation_of("Obligacijski zakonik (uradno prečiščeno besedilo) (OZ-UPB1)") == "OZ-UPB1"
+    assert abbreviation_of("Zakon o X (uradno prečiščeno besedilo) (UPB1)") is None
+    assert abbreviation_of("Ustava Republike Slovenije") is None
+    assert abbreviation_of("Uredba o nečem (Uradni list RS, št. 1/2000)") is None
 
 
 def test_parser_rejects_foreign_pages() -> None:

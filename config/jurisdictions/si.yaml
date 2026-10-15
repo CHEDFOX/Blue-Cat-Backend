@@ -85,7 +85,7 @@ coverage:
   known_gaps:
     - "Each act is the text as published in Uradni list RS; amendments are separate acts and are not applied, so an older law may be amended or repealed. Consolidated texts (UPB) are ingested only where the gazette published them."
     - The source states no entry-into-force date and no end of validity; no validity period is recorded (start unknown), so searches show every provision as in force and point-in-time lookups cannot be answered.
-    - Only the acts in the manifest (laws and consolidated texts of January 2020 - February 2026 and a few core laws); no regulations, decisions, municipal acts, treaties or case law; the gazette since March 2026 (on pisrs.si) is not ingested.
+    - Only the acts in the manifest (laws and consolidated texts of January 2023 - February 2026 and five core acts); no regulations, decisions, municipal acts, treaties or case law; the gazette since March 2026 (on pisrs.si) is not ingested.
     - The unofficial consolidated texts of PISRS are not ingested (its terms forbid reproducing the database; its API needs a key).
     - Structure (article, paragraph, point, sub-point) is read from the printed numbering; unusual layouts leave text in the enclosing unit. Tables are reduced to text rows.
     - Whether the HTML page is the authentic publication was not established; it is recorded as non-authentic.

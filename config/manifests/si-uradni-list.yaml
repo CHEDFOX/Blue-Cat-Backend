@@ -1,9 +1,9 @@
 # Uradni list RS (www.uradni-list.si) - laws and consolidated texts of laws published in the gazette.
 # Built on 2026-10-15 from the gazette's own issue indexes (/glasilo-uradni-list-rs/celotno-kazalo/<year><issue>, one request per
-# issue; issues read - 2026: issues 1-17; 2025: issues 1-114; the archive ends with issue 17/2026 of 27 February 2026): every act whose title starts "Zakon"
-# or "Ustavni zakon" (210 acts, of which 5 "uradno prečiščeno besedilo"), plus the core laws listed under
+# issue; issues read - 2026: issues 1-17; 2025: issues 1-114; 2024: issues 1-114; 2023: issues 1-136; the archive ends with issue 17/2026 of 27 February 2026): every act whose title starts "Zakon"
+# or "Ustavni zakon" (424 acts in all, including the core laws; 5 are "uradno prečiščeno besedilo"), plus the core laws listed under
 # `core` in `section` (found through the gazette's own pages). Not listed: decrees, rules, decisions, municipal acts, treaties and the other kinds. Each act is fetched at
-# /glasilo-uradni-list-rs/vsebina/<id> (one request, 5 s apart: about 0.3 hours for the whole list).
+# /glasilo-uradni-list-rs/vsebina/<id> (one request, 5 s apart: about 0.6 hours for the whole list).
 # `title`, `issue` and `section` are the index's own values and are documentation only. To extend: read the issue indexes of earlier
 # years with the same rule and append the new rows.
 schema_version: 1
@@ -17,6 +17,220 @@ acts:
 - {id: 2007-01-4826, title: Obligacijski zakonik (uradno prečiščeno besedilo) (OZ-UPB1), issue: 97/2007, section: core}
 - {id: 2012-01-2065, title: Kazenski zakonik (KZ-1-UPB2) (uradno prečiščeno besedilo), issue: 50/2012, section: core}
 - {id: 2022-01-4187, title: Zakon o varstvu osebnih podatkov (ZVOP-2), issue: 163/2022, section: core}
+- {id: 2023-01-0098, title: Zakon o spremembah Družinskega zakonika (DZ-B), issue: 5/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0238, title: Zakon o dostopnosti do proizvodov in storitev za invalide (ZDPSI), issue: 14/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0239, title: Zakon o spremembah in dopolnitvah Zakona o finančni upravi (ZFU-B), issue: 14/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0297, title: Zakon o spremembi in dopolnitvah Zakona o pomoči gospodarstvu za omilitev posledic energetske krize (ZPGOPEK-A), issue: 15/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0299, title: Zakon o pomoči za zagotovitev večje letalske povezljivosti (ZPZVLP), issue: 16/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0301, title: Zakon o zaščiti prijaviteljev (ZZPri), issue: 16/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0302, title: Zakon o spremembah in dopolnitvah Kazenskega zakonika (KZ-1J), issue: 16/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0303, title: 'Zakon o dopolnitvi Zakona o strokovnih, znanstvenih in umetniških naslovih (ZSZUN-A)', issue: 16/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0304, title: 'Zakon o spremembah Zakona o izvajanju Uredbe (EU) Evropskega parlamenta in Sveta o sodelovanju med nacionalnimi organi, odgovornimi za izvrševanje zakonodaje o varstvu potrošnikov (ZIUIZVP-A)', issue: 16/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0305, title: Zakon o spremembah in dopolnitvah Zakona o državnem svetu (ZDSve-B), issue: 16/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0348, title: Zakon o spremembah in dopolnitvah Zakona o državni upravi (ZDU-1O), issue: 18/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0349, title: Zakon o spremembah in dopolnitvah Zakona o kmetijstvu (ZKme-1H), issue: 18/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0529, title: Zakon o izvajanju Uredbe (EU) o vseevropskem osebnem pokojninskem produktu (ZIUVOPP), issue: 28/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0530, title: Zakon o spremembah in dopolnitvah Zakona o javnem naročanju (ZJN-3D), issue: 28/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0616, title: Zakon o spremembah in dopolnitvah Zakona o tehničnih zahtevah za proizvode in o ugotavljanju skladnosti (ZTZPUS-1A), issue: 29/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0617, title: Zakon o spremembah in dopolnitvah Zakona o nadzoru izvoza blaga z dvojno rabo (ZNIBDR-B), issue: 29/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-0618, title: Zakon o spremembah in dopolnitvah Zakona o cestah (ZCes-2A), issue: 29/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1126, title: Zakon o čezmejnem izvajanju storitev (ZČmIS-1), issue: 40/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1127, title: Zakon o spremembah in dopolnitvah Zakona o davčnem potrjevanju računov (ZDavPR-B), issue: 40/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1128, title: Zakon o spremembah in dopolnitvah Zakona o spodbujanju digitalne vključenosti (ZSDV-A), issue: 40/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1129, title: Zakon o spremembah in dopolnitvah Zakona o znanstvenoraziskovalni in inovacijski dejavnosti (ZZrID-A), issue: 40/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1130, title: Zakon o spremembah in dopolnitvah Zakona o službi v Slovenski vojski (ZSSloV-B), issue: 40/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1142, title: 'Zakon o spremembah in dopolnitvah Zakona o zaposlovanju, samozaposlovanju in delu tujcev (ZZSDT-D)', issue: 42/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1143, title: Zakon o dopolnitvi Zakona o makrobonitetnem nadzoru finančnega sistema (ZMbNFS-A), issue: 42/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1450, title: Zakon o spremembah in dopolnitvah Zakona o tujcih (ZTuj-2G), issue: 48/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1451, title: Zakon o spremembah in dopolnitvah Zakona o zavarovalništvu (ZZavar-1C), issue: 48/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1516, title: Zakon o spremembah in dopolnitvah Zakona o upravnem sporu (ZUS-1C), issue: 49/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1517, title: Zakon o spremembah Zakona o nujnem posredovanju za obravnavo visokih cen energije (ZNPOVCE-A), issue: 49/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1518, title: Zakon o spremembah in dopolnitvah Zakona o ukrepih za obvladovanje kriznih razmer na področju oskrbe z energijo (ZUOKPOE-A), issue: 49/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1519, title: Zakon o spremembah in dopolnitvah Zakona o informacijski varnosti (ZInfV-B), issue: 49/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1573, title: Zakon o spremembah in dopolnitvah Zakona o nekaterih koncesijskih pogodbah (ZNKP-A), issue: 50/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1574, title: Zakon o spremembah in dopolnitvah Zakona o evidencah na področju dela in socialne varnosti (ZEPDSV-A), issue: 50/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1911, title: Zakon o infrastrukturi za alternativna goriva in spodbujanju prehoda na alternativna goriva v prometu (ZIAG), issue: 62/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-1916, title: Zakon o interventnih ukrepih za preprečitev škodljivih posledic pri podaljševanju rudarskih pravic in koncesij (ZIUPRPK), issue: 63/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2088, title: Zakon o spremembah in dopolnitvah Zakona o izvrševanju proračunov Republike Slovenije za leti 2023 in 2024 (ZIPRS2324-A), issue: 65/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2089, title: Zakon o spremembah in dopolnitvah Zakona o spodbujanju investicij (ZSInv-C), issue: 65/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2202, title: Zakon o spremembah in dopolnitvah Zakona o organizaciji in financiranju vzgoje in izobraževanja (ZOFVI-P), issue: 71/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2381, title: Zakon o spremembah in dopolnitvah Zakona o gospodarskih družbah (ZGD-1L), issue: 75/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2382, title: Zakon o spremembah in dopolnitvah Zakona o sodnem registru (ZSReg-H), issue: 75/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2386, title: Zakon o spremembah in dopolnitvah Zakona o javnih financah (ZJF-I), issue: 76/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2387, title: Zakon o spremembah in dopolnitvi Zakona o postopku priznavanja poklicnih kvalifikacij za opravljanje reguliranih poklicev (ZPPPK-C), issue: 76/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2388, title: Zakon o spremembah in dopolnitvah Zakona o odškodnini žrtvam kaznivih dejanj (ZOZKD-B), issue: 76/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2389, title: Zakon o dopolnitvi Zakona o sodniški službi (ZSS-N), issue: 76/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2390, title: Zakon o spremembah in dopolnitvah Zakona o nadzoru državne meje (ZNDM-2H), issue: 76/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2391, title: Zakon o spremembah in dopolnitvah Zakona o šolski prehrani (ZŠolPre-1B), issue: 76/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2392, title: Zakon o spremembi Zakona o osnovni šoli (ZOsn-J), issue: 76/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2393, title: Zakon o spremembah in dopolnitvah Zakona o industrijski lastnini (ZIL-1F), issue: 76/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2394, title: Zakon o spremembah in dopolnitvah Pomorskega zakonika (PZ-I), issue: 76/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2395, title: Zakon o spremembi Zakona o nujnih ukrepih za zagotovitev stabilnosti zdravstvenega sistema (ZNUZSZS-A), issue: 76/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2478, title: Zakon o uvajanju naprav za proizvodnjo električne energije iz obnovljivih virov energije (ZUNPEOVE), issue: 78/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2479, title: Zakon o ohranjanju in razvoju rokodelstva (ZORR), issue: 78/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2480, title: Zakon o spremembah in dopolnitvah Zakona o zdravstvenem varstvu in zdravstvenem zavarovanju (ZZVZZ-T), issue: 78/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2481, title: Zakon o spremembah in dopolnitvah Zakona o političnih strankah (ZPolS-G), issue: 78/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2482, title: Zakon o spremembah in dopolnitvah Zakona o kmetijstvu (ZKme-1I), issue: 78/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2527, title: Zakon o nujnih ukrepih za zagotavljanje nemotene nabave zdravil za leti 2023 in 2024 (ZNUZNNZ), issue: 82/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2528, title: Zakon o spremembah in dopolnitvah Zakona o socialnem varstvu (ZSV-J), issue: 82/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2570, title: Zakon o dolgotrajni oskrbi (ZDOsk-1), issue: 84/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2599, title: Zakon o spremembah in dopolnitvah Zakona o odpravi posledic naravnih nesreč (ZOPNN-F), issue: 88/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2670, title: Zakon o interventnih ukrepih za odpravo posledic poplav in zemeljskih plazov iz avgusta 2023 (ZIUOPZP), issue: 95/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2674, title: Zakon o spremembah in dopolnitvah Zakona o izvrševanju proračunov Republike Slovenije za leti 2023 in 2024 (ZIPRS2324-B), issue: 97/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2872, title: 'Zakon o spremembah in dopolnitvah Zakona o finančnem poslovanju, postopkih zaradi insolventnosti in prisilnem prenehanju (ZFPPIPP-H)', issue: 102/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2873, title: Zakon o spremembah in dopolnitvah Zakona o visokem šolstvu (ZViS-M), issue: 102/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2874, title: Zakon o spremembi Zakona o verski svobodi (ZVS-B), issue: 102/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2875, title: Zakon o dopolnitvah Zakona o višjem strokovnem izobraževanju (ZVSI-B), issue: 102/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-2876, title: Zakon o spremembi in dopolnitvi Zakona o posebnih pravicah italijanske in madžarske narodne skupnosti na področju vzgoje in izobraževanja (ZPIMVI-B), issue: 102/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3139, title: 'Zakon o ureditvi nekaterih vprašanj v zvezi z določenimi prekrški, storjenimi v času veljavnosti ukrepov zaradi preprečevanja širjenja nalezljive bolezni COVID-19 (ZUVPNB)', issue: 109/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3140, title: Zakon o dopolnitvi Zakona o Kmetijsko gozdarski zbornici Slovenije (ZKGZ-C), issue: 109/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3141, title: Zakon o spremembah in dopolnitvah Zakona o zaščiti živali (ZZZiv-F), issue: 109/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3142, title: Zakon o dopolnitvi Zakona o Bloudkovih priznanjih (ZBloP-B), issue: 109/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3143, title: Zakon o spremembi Zakona o urejanju trga dela (ZUTD-H), issue: 109/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3144, title: Zakon o spremembah in dopolnitvah Zakona o duševnem zdravju (ZDZdr-A), issue: 109/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3325, title: Zakon o spremembah in dopolnitvah Zakona o delovnih razmerjih (ZDR-1D), issue: 114/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3326, title: Zakon o spremembah in dopolnitvi Zakona o tujcih (ZTuj-2H), issue: 115/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3410, title: Zakon o spremembah in dopolnitvah Zakona o interventnih ukrepih za odpravo posledic poplav in zemeljskih plazov iz avgusta 2023 (ZIUOPZP-A), issue: 117/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3589, title: Zakon o spremembah in dopolnitvah Zakona o davku na dodano vrednost (ZDDV-1N), issue: 122/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3590, title: Zakon o spremembah in dopolnitvah Zakona o štipendiranju (ZŠtip-1C), issue: 122/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3591, title: Zakon o spremembah in dopolnitvah Zakona o javnem naročanju na področju obrambe in varnosti (ZJNPOV-B), issue: 122/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-3596, title: Zakon o izvrševanju proračunov Republike Slovenije za leti 2024 in 2025 (ZIPRS2425), issue: 123/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-4011, title: 'Zakon o obnovi, razvoju in zagotavljanju finančnih sredstev (ZORZFS)', issue: 131/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-4012, title: Zakon o minimalnem davku (ZMD), issue: 131/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-4013, title: Zakon o statusnem preoblikovanju Vzajemne zdravstvene zavarovalnice d.v.z. (ZSPVZZ), issue: 131/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-4095, title: Zakon o spremembah Gradbenega zakona (GZ-1A), issue: 133/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-4096, title: Zakon o spremembah in dopolnitvah Zakona o reševanju in prisilnem prenehanju bank (ZRPPB-1A), issue: 133/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-4097, title: Zakon o spremembah in dopolnitvah Zakona o kolektivnih tožbah (ZKolT-A), issue: 133/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-4098, title: Zakon o spremembah in dopolnitvah Zakona o pokojninskem in invalidskem zavarovanju (ZPIZ-2N), issue: 133/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-01-4287, title: 'Zakon o interventnih ukrepih na področju zdravstva, dela in sociale ter z zdravstvom povezanih vsebin (ZIUZDS)', issue: 136/2023, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2023-02-0001, title: Zakon o ratifikaciji Konvencije o Mednarodni organizaciji za pomorske navigacijske pripomočke (MKMOPNP), issue: 16/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0002, title: Zakon o ratifikaciji Konvencije Sveta Evrope o dostopu do uradnih dokumentov (MKSEDUD), issue: 16/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0006, title: Zakon o ratifikaciji Protokola o privilegijih in imunitetah Enotnega sodišča za patente (MPPIESP), issue: 49/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0008, title: Zakon o ratifikaciji Protokola o spremembi Konvencije o varstvu posameznikov glede na avtomatsko obdelavo osebnih podatkov (MKVP-1), issue: 60/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0010, title: 'Zakon o ratifikaciji Priloge G in sprememb Prilog A, B in C k Stockholmski konvenciji o obstojnih organskih onesnaževalih (MPSKOO)', issue: 76/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0011, title: Zakon o ratifikaciji Sporazuma med Vlado Republike Slovenije in Vlado Republike Kosovo o sodelovanju pri varstvu pred naravnimi in drugimi nesrečami (BXKSVN), issue: 76/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0012, title: Zakon o ratifikaciji Sporazuma med Republiko Slovenijo in Argentinsko republiko o programu delovnih počitnic (BARPDP), issue: 76/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0013, title: Zakon o ratifikaciji Sporazuma med Vlado Republike Slovenije in Vlado Republike Ciper o obrambnem sodelovanju (BCYOS), issue: 76/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0021, title: Zakon o ratifikaciji Sporazuma o sodelovanju med Vlado Republike Slovenije in Organizacijo Združenih narodov za industrijski razvoj v zvezi s posebnimi prispevki v Sklad za industrijski razvoj (MSZNIR-1), issue: 102/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0022, title: Zakon o spremembi Zakona o ratifikaciji Stockholmske konvencije o obstojnih organskih onesnaževalih (MSKOO-A), issue: 102/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0023, title: 'Zakon o ratifikaciji Protokola med Vlado Republike Slovenije in Švicarskim zveznim svetom o spremembah Konvencije med Vlado Republike Slovenije in Zveznim svetom Švicarske konfederacije o izogibanju dvojnega obdavčevanja v zvezi z davki na dohodek in premoženje, podpisane v Ljubljani 12. junija 1996 in spremenjene s protokolom, podpisanim v Ljubljani 7. septembra 2012 (BCHIDO-B)', issue: 102/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0025, title: Zakon o ratifikaciji Sporazuma o zračnem prevozu med Evropsko unijo in njenimi državami članicami na eni strani ter Državo Katar na drugi strani (MZPEUQA), issue: 122/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0026, title: Zakon o ratifikaciji Sporazuma med Vlado Republike Slovenije in Vlado Federativne republike Brazilije o sodelovanju na obrambnem področju (BBRSOP), issue: 122/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0030, title: Zakon o ratifikaciji Pogodbe med Republiko Slovenijo in Republiko Kosovo o izročitvi (BXKI), issue: 134/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0031, title: Zakon o ratifikaciji Pogodbe med Republiko Slovenijo in Republiko Kosovo o medsebojnem izvrševanju sodnih odločb v kazenskih zadevah (BXKIOKZ), issue: 134/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0032, title: Zakon o ratifikaciji Pogodbe med Republiko Slovenijo in Republiko Kosovo o medsebojni pravni pomoči v kazenskih zadevah (BXKPPKZ), issue: 134/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0033, title: Zakon o ratifikaciji Sporazuma med Vlado Republike Slovenije in Vlado Republike Hrvaške o solidarnostnih ukrepih za zagotovitev zanesljivosti oskrbe s plinom (BHRSUZP), issue: 134/2023, section: Državni zbor Republike Slovenije}
+- {id: 2023-02-0034, title: Zakon o ratifikaciji Sporazuma med Vlado Republike Slovenije in Vlado Republike Severne Makedonije o obrambnem sodelovanju (BMKOS), issue: 134/2023, section: Državni zbor Republike Slovenije}
+- {id: 2024-01-0289, title: Zakon o tržni inšpekciji (ZTI-1), issue: 12/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0290, title: Zakon o kupcih in serviserjih nedonosnih kreditov bank (ZKSNKB), issue: 12/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0291, title: Zakon o spremembah in dopolnitvah Zakona o preprečevanju omejevanja konkurence (ZPOmK-2A), issue: 12/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0292, title: Zakon o spremembah Zakona o Prešernovi nagradi (ZPreN-1A), issue: 12/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0293, title: Zakon o spremembah in dopolnitvah Zakona o volitvah v državni zbor (ZVDZ-E), issue: 12/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0294, title: Zakon o spremembah in dopolnitvah Zakona o davku od dohodkov pravnih oseb (ZDDPO-2T), issue: 12/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0295, title: Zakon o spremembi in dopolnitvah Zakona o izvrševanju proračunov Republike Slovenije za leti 2024 in 2025 (ZIPRS2425-A), issue: 12/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0440, title: Zakon o spremembah in dopolnitvah Zakona o osnovni šoli (ZOsn-K), issue: 16/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0691, title: Zakon o državnih blagovnih rezervah (ZBR-1), issue: 23/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0692, title: Zakon o spremembah in dopolnitvah Zakona o prevozih v cestnem prometu (ZPCP-2I), issue: 23/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0693, title: Zakon o spremembah in dopolnitvah Zakona o varstvu okolja (ZVO-2A), issue: 23/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0694, title: Zakon o spremembah in dopolnitvi Zakona o urejanju prostora (ZUreP-3A), issue: 23/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0826, title: Zakon o izvajanju Uredbe (EU) o enotnem trgu digitalnih storitev (ZIUETDS), issue: 30/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0827, title: Zakon o spremembah in dopolnitvi Zakona o spodbujanju digitalne vključenosti (ZSDV-B), issue: 30/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0828, title: Zakon o spremembah in dopolnitvah Zakona o referendumu in o ljudski iniciativi (ZRLI-F), issue: 30/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0899, title: Zakon o spremembah in dopolnitvah Zakona o omejevanju uporabe tobačnih in povezanih izdelkov (ZOUTPI-B), issue: 31/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0900, title: Zakon o spremembah in dopolnitvah Zakona o spodbujanju investicij (ZSInv-D), issue: 31/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0913, title: Zakon o izvajanju Uredbe (EU) o okviru za sanacijo in reševanje centralnih nasprotnih strank (ZIUSRCNS), issue: 32/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0914, title: 'Zakon o soodločanju delavcev pri čezmejnih združitvah, čezmejnih delitvah in čezmejnih preoblikovanjih kapitalskih družb (ZSDČPKD)', issue: 32/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0915, title: Zakon o spremembah in dopolnitvah Zakona o javni rabi slovenščine (ZJRS-B), issue: 32/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-0916, title: Zakon o spremembi Zakona o centralnem registru prebivalstva (ZCRP-B), issue: 32/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1066, title: Zakon o spremembi in dopolnitvah Zakona o zdravniški službi (ZZdrS-J), issue: 35/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1255, title: Zakon o spremembah in dopolnitvah Zakona o maturi (ZMat-B), issue: 37/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1289, title: Zakon o spremembah in dopolnitvah Zakona o prekrških (ZP-1K), issue: 38/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1290, title: Zakon o spremembi Zakona o spremembah in dopolnitvah Zakona o agrarnih skupnostih (ZAgrS-B), issue: 38/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1291, title: Zakon o spremembi in dopolnitvah Zakona o pomoči gospodarstvu za omilitev posledic energetske krize (ZPGOPEK-B), issue: 38/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1292, title: Zakon o spremembah in dopolnitvah Zakona o trošarinah (ZTro-1D), issue: 38/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1293, title: Zakon o spremembi Zakona o sistemu plač v javnem sektorju (ZSPJS-AB), issue: 38/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1494, title: Zakon o postopku sodnega varstva nekdanjih imetnikov kvalificiranih obveznosti bank (ZPSVIKOB-1), issue: 44/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1557, title: Zakon o uresničevanju kulturnih pravic pripadnikov narodnih skupnosti narodov nekdanje Socialistične federativne republike Jugoslavije v Republiki Sloveniji (ZUKPPNS), issue: 45/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1558, title: Zakon o spremembah in dopolnitvah Zakona o trgu finančnih instrumentov (ZTFI-1C), issue: 45/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1559, title: Zakon o spremembah Zakona o zagotavljanju finančnih sredstev za investicije v športno infrastrukturo v Republiki Sloveniji v letih od 2023 do 2027 (ZFSŠI27-A), issue: 45/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1560, title: Zakon o spremembah in dopolnitvah Zakona o mladinskih svetih (ZMS-B), issue: 45/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1561, title: Zakon o spremembah in dopolnitvah Zakona o obveznih zavarovanjih v prometu (ZOZP-E), issue: 45/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1817, title: Zakon o Kobilarni Lipica (ZKL-2), issue: 53/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1818, title: Zakon o spremembah in dopolnitvah Zakona o kazenskem postopku (ZKP-P), issue: 53/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1819, title: Zakon o spremembah in dopolnitvah Zakona o glasbenih šolah (ZGla-B), issue: 53/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1820, title: Zakon o spremembah in dopolnitvah Zakona o poklicnem in strokovnem izobraževanju (ZPSI-1C), issue: 53/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-1821, title: Zakon o spremembah in dopolnitvah Zakona o gimnazijah (ZGim-E), issue: 53/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2116, title: Zakon o pospešitvi postopkov za realizacijo vseevropskega prometnega omrežja (TEN-T) (ZPRVPO), issue: 61/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2117, title: Zakon o spremembi Zakona o spremembah in dopolnitvah Zakona o šolski prehrani (ZŠolPre-1C), issue: 61/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2118, title: Zakon o spremembah in dopolnitvah Stanovanjskega zakona (SZ-1F), issue: 61/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2124, title: Zakon o ukrepih za optimizacijo določenih postopkov na upravnih enotah (ZUOPUE), issue: 62/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2125, title: Zakon o začasnih ukrepih za izboljšanje kadrovskih in delovnih pogojev ter zmogljivosti pri izvajalcih socialnovarstvenih storitev in dolgotrajne oskrbe (ZZUKDPSS), issue: 62/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2126, title: Zakon o spremembah in dopolnitvah Zakona o interventnih ukrepih za odpravo posledic poplav in zemeljskih plazov iz avgusta 2023 (ZIUOPZP-B), issue: 62/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2127, title: Zakon o spremembah Zakona o ureditvi določenih vprašanj zaradi končne razsodbe arbitražnega sodišča na podlagi Arbitražnega sporazuma med Vlado Republike Slovenije in Vlado Republike Hrvaške (ZUVRAS-C), issue: 62/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2378, title: 'Zakon o spremembah in dopolnitvah Zakona o obnovi, razvoju in zagotavljanju finančnih sredstev (ZORZFS-A)', issue: 81/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2379, title: Zakon o spremembah in dopolnitvah Zakona o rudarstvu (ZRud-1E), issue: 81/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2440, title: Zakon o spremembah in dopolnitvah Zakona o izvrševanju kazenskih sankcij (ZIKS-1I), issue: 83/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2517, title: Zakon o letalstvu (ZLet-1), issue: 85/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2518, title: Zakon o spremembah in dopolnitvah Zakona o revidiranju (ZRev-2C), issue: 85/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2519, title: Zakon o spremembah in dopolnitvah Zakona o zagotavljanju navigacijskih služb zračnega prometa (ZZNSZP-C), issue: 85/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2520, title: Zakon o spremembah in dopolnitvah Zakona o arhitekturni in inženirski dejavnosti (ZAID-A), issue: 85/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2864, title: Zakon o skupnih temeljih sistema plač v javnem sektorju (ZSTSPJS), issue: 95/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2865, title: Zakon o detektivski dejavnosti (ZDD-2), issue: 95/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2866, title: Zakon o izvajanju Uredbe (EU) o trgih kriptosredstev (ZIUTK), issue: 95/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2867, title: Zakon o izvajanju Uredbe (EU) o obravnavanju razširjanja terorističnih spletnih vsebin (ZIUORTSV), issue: 95/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2868, title: Zakon o dopolnitvi Zakona o poslancih (ZPos-G), issue: 95/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2869, title: Zakon o dopolnitvah Zakona o izenačevanju možnosti invalidov (ZIMI-C), issue: 95/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2870, title: Zakon o spremembi Zakona o invalidskih organizacijah (ZInvO-A), issue: 95/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2871, title: Zakon o spremembi Zakona o praznikih in dela prostih dnevih v Republiki Sloveniji (ZPDPD-F), issue: 95/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2872, title: Zakon o spremembah in dopolnitvah Zakona o uvajanju naprav za proizvodnjo električne energije iz obnovljivih virov energije (ZUNPEOVE-A), issue: 95/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2873, title: 'Zakon o spremembah in dopolnitvah Zakona o izgradnji, upravljanju in gospodarjenju z drugim tirom železniške proge Divača–Koper (ZIUGDT-A)', issue: 95/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-2874, title: Zakon o spremembah in dopolnitvah Zakona o fitofarmacevtskih sredstvih (ZFfS-1A), issue: 95/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3101, title: Zakon o spremembah in dopolnitvah Zakona o množičnem vrednotenju nepremičnin (ZMVN-1C), issue: 100/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3102, title: Zakon o spremembah in dopolnitvah Zakona o davčnem postopku (ZDavP-2O), issue: 100/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3103, title: Zakon o spremembah in dopolnitvah Zakona o davku od dohodkov pravnih oseb (ZDDPO-2U), issue: 100/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3104, title: Zakon o spremembah in dopolnitvah Zakona o davčnem potrjevanju računov (ZDavPR-C), issue: 100/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3196, title: Zakon o zagotavljanju kakovosti v zdravstvu (ZZKZ), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3197, title: Zakon o pravici oseb po prebolelem raku in določenih drugih bolezni do enakega dostopa do zavarovalnih in kreditnih produktov (ZPEDZKP), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3198, title: Zakon o cestninjenju (ZCestn-1), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3199, title: Zakon o kritični infrastrukturi (ZKI-1), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3200, title: Zakon o izvajanju Uredbe (EU) o splošni varnosti proizvodov (ZIUSVP), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3201, title: Zakon o izvajanju Uredbe (EU) o evropskem upravljanju podatkov (ZIUEUP), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3202, title: Zakon o dopolnitvi Zakona o znanstvenoraziskovalni in inovacijski dejavnosti (ZZrID-B), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3203, title: Zakon o spremembah in dopolnitvah Zakona o reševanju in prisilnem prenehanju bank (ZRPPB-1B), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3204, title: Zakon o spremembah in dopolnitvah Zakona o gospodarskih družbah (ZGD-1M), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3205, title: Zakon o spremembah in dopolnitvah Zakona o dedovanju (ZD-D), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3206, title: 'Zakon o spremembah in dopolnitvah Zakona o sodnih izvedencih, sodnih cenilcih in sodnih tolmačih (ZSICT-A)', issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3207, title: Zakon o spremembah in dopolnitvah Zakona o lokalnih volitvah (ZLV-K), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3208, title: Zakon o spremembah in dopolnitvah Zakona o spodbujanju rabe obnovljivih virov energije (ZSROVE-B), issue: 102/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3308, title: Zakon o izvrševanju proračunov Republike Slovenije za leti 2025 in 2026 (ZIPRS2526), issue: 104/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3309, title: Zakon o spremembah in dopolnitvah Zakona o dohodnini (ZDoh-2AB), issue: 104/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3310, title: Zakon o spremembah in dopolnitvah Zakona o davku na dodano vrednost (ZDDV-1O), issue: 104/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3432, title: Zakon o spremembah in dopolnitvah Zakona o parlamentarni preiskavi (ZPPre-A), issue: 108/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3538, title: Zakon o prehodnem financiranju pospešenega in pravičnega izstopa iz premoga (ZPFPPIP), issue: 109/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3539, title: 'Zakon o spremembah Zakona o obnovi, razvoju in zagotavljanju finančnih sredstev (ZORZFS-B)', issue: 109/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3540, title: Zakon o spremembah in dopolnitvah Zakona o matični evidenci zavarovancev in uživalcev pravic iz obveznega pokojninskega in invalidskega zavarovanja (ZMEPIZ-1B), issue: 109/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3541, title: Zakon o spremembah in dopolnitvah Zakona o urejanju prostora (ZUreP-3B), issue: 109/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3718, title: Zakon o dodatnih interventnih ukrepih za zagotovitev dostopnosti v zdravstvu (ZDIUZDZ), issue: 112/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3719, title: Zakon o spremembah in dopolnitvah Zakona o lekarniški dejavnosti (ZLD-1D), issue: 112/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3720, title: Zakon o spremembah in dopolnitvah Zakona o dolgotrajni oskrbi (ZDOsk-1A), issue: 112/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3721, title: Zakon o spremembah in dopolnitvah Zakona o nadzoru državne meje (ZNDM-2I), issue: 112/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3797, title: 'Zakon o spremembah in dopolnitvah Zakona o plačilnih storitvah, storitvah izdajanja elektronskega denarja in plačilnih sistemih (ZPlaSSIED-B)', issue: 113/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3798, title: Zakon o spremembah in dopolnitvah Zakona o sistemu jamstva za vloge (ZSJV-B), issue: 113/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-01-3799, title: Zakon o spremembah in dopolnitvah Zakona o varstvu javnega reda in miru (ZJRM-1B), issue: 113/2024, section: 'Zakoni, obvezne razlage zakonov'}
+- {id: 2024-02-0002, title: Zakon o ratifikaciji Celovitega sporazuma o zračnem prevozu med državami članicami Združenja držav jugovzhodne Azije ter Evropsko unijo in njenimi državami članicami (MZPSAEU), issue: 13/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0009, title: Zakon o ratifikaciji Sporazuma o sodelovanju Republike Hrvaške v Evropskem gospodarskem prostoru s sklepno listino in treh z njim povezanih sporazumov (MHREGP), issue: 38/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0010, title: 'Zakon o ratifikaciji prilagoditve Sporazuma o spremembi Pogodbe o ustanovitvi Evropskega mehanizma za stabilnost med Kraljevino Belgijo, Zvezno republiko Nemčijo, Republiko Estonijo, Irsko, Helensko republiko, Kraljevino Španijo, Francosko republiko, Italijansko republiko, Republiko Ciper, Republiko Latvijo, Republiko Litvo, Velikim vojvodstvom Luksemburg, Malto, Kraljevino Nizozemsko, Republiko Avstrijo, Portugalsko republiko, Republiko Slovenijo, Slovaško republiko in Republiko Finsko kot neposredne posledice pristopa Republike Hrvaške (MPSPUEMS)', issue: 38/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0011, title: 'Zakon o ratifikaciji prilagoditve Pogodbe o ustanovitvi Evropskega mehanizma za stabilnost med Kraljevino Belgijo, Zvezno republiko Nemčijo, Republiko Estonijo, Irsko, Helensko republiko, Kraljevino Španijo, Francosko republiko, Italijansko republiko, Republiko Ciper, Republiko Latvijo, Republiko Litvo, Velikim vojvodstvom Luksemburg, Malto, Kraljevino Nizozemsko, Republiko Avstrijo, Portugalsko republiko, Republiko Slovenijo, Slovaško republiko in Republiko Finsko kot neposredne posledice pristopa Republike Hrvaške (MPPUEMSHR)', issue: 38/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0012, title: 'Zakon o ratifikaciji Spremembe 39. člena Rimskega statuta Mednarodnega kazenskega sodišča, sprejete v New Yorku 13. decembra 2023 (MRSMKS-C)', issue: 38/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0018, title: 'Zakon o ratifikaciji Sporazuma o partnerstvu med Evropsko unijo in njenimi državami članicami na eni strani ter članicami Organizacije afriških, karibskih in pacifiških držav na drugi strani (MPEUOAKPD)', issue: 53/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0020, title: Zakon o ratifikaciji Sporazuma o financiranju prenove ponovne postavitve skupne stalne razstave v bloku 17 državnega muzeja Auschwitz-Birkenau (MFPRB17), issue: 61/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0021, title: Zakon o ratifikaciji Sporazuma o ustanovitvi Centra za kibernetsko zmogljivost na Zahodnem Balkanu (WB3C) (MUCKZZB), issue: 61/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0022, title: Zakon o ratifikaciji Sporazuma med Vlado Republike Slovenije in Vlado Federativne republike Brazilije o izmenjavi in medsebojnem varovanju tajnih podatkov (BBRIMVTP), issue: 61/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0030, title: Zakon o ratifikaciji Sporazuma med Vlado Republike Slovenije in Evropsko vesoljsko agencijo v zvezi s pristopom Republike Slovenije h Konvenciji o ustanovitvi Evropske vesoljske agencije in povezanimi pogoji (MPKEVA), issue: 95/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0031, title: Zakon o ratifikaciji Sporazuma med državami pogodbenicami Konvencije o ustanovitvi Evropske vesoljske agencije in Evropsko vesoljsko agencijo o varovanju in izmenjavi tajnih podatkov (MEVAVITP), issue: 95/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0032, title: Zakon o ratifikaciji Konvencije o ustanovitvi Evropske vesoljske agencije (MKEVA), issue: 95/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0047, title: Zakon o ratifikaciji Sporazuma med Vlado Republike Slovenije in Švicarskim zveznim svetom o dvostranskem sodelovanju na področju vojaškega usposabljanja (BCHVU), issue: 113/2024, section: Državni zbor Republike Slovenije}
+- {id: 2024-02-0048, title: 'Zakon o ratifikaciji Konvencije med Republiko Slovenijo in Avstralijo o odpravi dvojnega obdavčevanja v zvezi z davki od dohodka ter o preprečevanju davčnih utaj in izogibanja davkom, s protokolom (BAUODO)', issue: 113/2024, section: Državni zbor Republike Slovenije}
 - {id: 2025-01-0308, title: Zakon o spremembah in dopolnitvah Zakona o nalogah in pooblastilih policije (ZNPPol-C), issue: 8/2025, section: 'Zakoni, obvezne razlage zakonov'}
 - {id: 2025-01-0309, title: Zakon o dopolnitvi Zakona o uresničevanju javnega interesa za kulturo (ZUJIK-H), issue: 8/2025, section: 'Zakoni, obvezne razlage zakonov'}
 - {id: 2025-01-0318, title: Zakon o nujnih ukrepih za omilitev posledic obračuna visoke omrežnine za gospodinjske odjemalce (ZNUOPOVO), issue: 9/2025, section: 'Zakoni, obvezne razlage zakonov'}

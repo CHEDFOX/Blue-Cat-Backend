@@ -26,7 +26,7 @@ languages: [sl]
 coverage: >-
   Laws and official consolidated texts ("uradno prečiščeno besedilo") published in Uradni list RS, each as published in the
   issue named on its page. The manifest lists the acts of the gazette's "Zakoni" section and the consolidated texts of
-  laws found in the issue indexes of January 2020 - February 2026; see the manifest for the exact list.
+  laws found in the issue indexes of January 2023 - February 2026; see the manifest for the exact list.
 access:
   method: permitted_web_retrieval
   endpoint: config/manifests/si-uradni-list.yaml
@@ -68,7 +68,7 @@ provenance: >-
 known_limitations:
   - Each act is the text as published in its issue; Uradni list does not consolidate, so amendments are separate acts and the text of an amended law is not updated. No end of validity is stated.
   - The page states no entry-into-force date (it is in the act's text, usually the last article); no validity period is recorded, every provision is "in force, start unknown", and point-in-time answers are not possible.
-  - Only the acts listed in the manifest (laws and consolidated texts from January 2020 to February 2026, plus core laws); no regulations, decisions, municipal acts or case law.
+  - Only the acts listed in the manifest (laws and consolidated texts from January 2023 to February 2026, plus five core acts); no regulations, decisions, municipal acts or case law.
   - Article, paragraph, point and sub-point structure is read from the printed numbering; a line that matches no numbering stays text of the unit above. Tables are reduced to one line per row.
   - The promulgation decree and title (preamble) and the signature lines (closing) are separate provisions; annexes are one provision each.
   - "Text search uses the simple configuration (PostgreSQL has no Slovenian stemmer): inflected forms match only when identical."
