@@ -1,0 +1,3746 @@
+# Lilex (www.gesetze.li) - consolidated national law of the Principality of Liechtenstein (Landesrecht, LR 1-9).
+# The list was read on 2026-10-14 from Lilex's own search (https://www.gesetze.li/konso/suche?search_loc=text&lrnr=N for N = 1..9;
+# "LR-Nr" prefix search, one request per digit) and holds every consolidated law Lilex listed: 1,227 laws. Treaties
+# (Staatsverträge, LR 0.x) are not listed. To refresh: repeat those nine searches and merge new "LGBl-Nr" values.
+# `default_versions: current` fetches the version in force now; `versions: all` (set for eight core laws: Verfassung, ABGB,
+# PGR, StGB, StPO, DSG, URG, GLG) fetches every version Lilex lists (its search by date is offered "ab 1. Januar 2010";
+# the Verfassung's list reaches back to 24.10.1921). Per law the connector makes 1 request for the
+# law page plus 1 per version fetched, 5 s apart: about 2,500 requests (3.5 hours) for the current versions, plus the
+# history of the eight core laws. Change `default_versions` to `all` to fetch every version of every law.
+schema_version: 1
+source_id: li-lilex
+base_url: https://www.gesetze.li
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+default_versions: current
+laws:
+- lgbl: '1921.015'
+  lr: '101'
+  title: Verfassung des Fürstentums Liechtenstein vom 5. Oktober 1921
+  versions: all
+- lgbl: '1929.005'
+  lr: '101.101'
+  title: Kundmachung vom 6. Juni 1929
+- lgbl: '1971.022'
+  lr: '101.102'
+  title: Verfassungsgesetz vom 17. Dezember 1970 betreffend die authentische Interpretation des Begriffs "Landesangehörige"
+- lgbl: '1939.013'
+  lr: '102.1'
+  title: Verfassungsgesetz vom 2. September 1939 betreffend Bevollmächtigung der Regierung zur Anordnung kriegswirtschaftlicher Massnahmen
+- lgbl: '1940.010'
+  lr: '102.2'
+  title: Verfassungsgesetz vom 20. Mai 1940
+- lgbl: '1999.096'
+  lr: '105.1'
+  title: Gesetz vom 10. März 1999 über die Gleichstellung von Frau und Mann (Gleichstellungsgesetz, GLG)
+  versions: all
+- lgbl: '2006.243'
+  lr: '105.2'
+  title: Gesetz vom 25. Oktober 2006 über die Gleichstellung von Menschen mit Behinderungen (Behindertengleichstellungsgesetz; BGlG)
+- lgbl: '2016.504'
+  lr: '105.3'
+  title: Gesetz vom 4. November 2016 über den Verein für Menschenrechte in Liechtenstein (VMRG)
+- lgbl: '2006.287'
+  lr: '105.21'
+  title: Verordnung vom 19. Dezember 2006 über die Gleichstellung von Menschen mit Behinderungen (Behindertengleichstellungsverordnung; BGlV)
+- lgbl: '1989.061'
+  lr: '110.011'
+  title: Höchstes Handschreiben vom 13. November 1989 betreffend die Übernahme der Regierung durch Seine Durchlaucht Fürst Hans-Adam II.
+- lgbl: '2004.171'
+  lr: '110.012'
+  title: Fürstliche Verordnung vom 15. August 2004 betreffend die Einrichtung einer Stellvertretung
+- lgbl: '1993.100'
+  lr: '111.0'
+  title: Hausgesetz des Fürstlichen Hauses Liechtenstein vom 26. Oktober 1993
+- lgbl: '1926.009'
+  lr: '111.111'
+  title: Höchstes Handschreiben vom 10. März 1926 betreffend die Titelführung durch die aus der Ehe Seiner Durchlaucht des Herrn Prinzen Ferdinand von und zu Liechtenstein mit Ihrer Durchlaucht Prinzessin
+    Shelagh von und zu Liechtenstein geb. Brunner, stammende Nachkommenschaft
+- lgbl: '1932.012'
+  lr: '111.112'
+  title: Höchstes Handschreiben vom 20. Februar 1932 betreffend die Titelführung durch die aus der Ehe Seiner Durchlaucht des Herrn Prinzen Johannes von und zu Liechtenstein mit Ihrer Durchlaucht Prinzessin
+    Aleene von und zu Liechtenstein, geb. Mac Farland stammende Nachkommenschaft
+- lgbl: '1950.026'
+  lr: '111.113'
+  title: Höchstes Handschreiben vom 21. September 1950 betreffend die Titelführung Seiner Durchlaucht des Herrn Prinzen Wilhelm von und zu Liechtenstein und der aus der Ehe mit Emma Baronesse von Gutmannsthal
+    stammenden Nachkommenschaft
+- lgbl: '1963.002'
+  lr: '112.0'
+  title: Gesetz vom 4. Dezember 1962 zum Schutze des Namens des Fürstenhauses
+- lgbl: '1919.010'
+  lr: '113.1'
+  title: Gesetz vom 1. September 1919 mit dem in Bezug auf die Agnaten des im Fürstentume Liechtenstein herrschenden Fürstenhauses einzelne Bestimmungen des Gemeindegesetzes vom 24. Mai 1864, LGBl. 1864
+    Nr. 4, authentisch erklärt und ergänzt werden
+- lgbl: '1937.012'
+  lr: '115.1'
+  title: Fürstliches Handschreiben vom 22. Juli 1937 betreffend die Stiftung des fürstlich liechtensteinischen Verdienstordens und des fürstlich liechtensteinischen Verdienstzeichens
+- lgbl: '1908.005'
+  lr: '116.1'
+  title: Handbillet vom 12. November 1908 betreffend die Stiftung einer Medaille zur Erinnerung an das Regierungsjubiläum
+- lgbl: '1956.008'
+  lr: '116.2'
+  title: Fürstliches Handschreiben vom 16. August 1956 betreffend die Stiftung einer Medaille zur Erinnerung an den 50. Geburtstag Seiner Durchlaucht des Landesfürsten
+- lgbl: '1976.049'
+  lr: '116.3'
+  title: Fürstliches Handschreiben vom 16. August 1976 betreffend die Stiftung einer Gedenkmedaille zum 70. Geburtstag Seiner Durchlaucht Fürst Franz Josef II. von und zu Liechtenstein
+- lgbl: '1982.058'
+  lr: '120'
+  title: Gesetz vom 30. Juni 1982 über Wappen, Farben, Siegel und Embleme des Fürstentums Liechtenstein (Wappengesetz)
+- lgbl: '1984.026'
+  lr: '120.11'
+  title: Verordnung vom 8. Mai 1984 über die Beflaggung
+- lgbl: '1985.018'
+  lr: '120.12'
+  title: Verordnung vom 14. Februar 1984 über Wappen, Farben, Siegel und Embleme des Fürstentums Liechtenstein (Wappenverordnung)
+- lgbl: '1949.008'
+  lr: '130'
+  title: Staatsschutzgesetz vom 14. März 1949
+- lgbl: '1996.076'
+  lr: '141.0'
+  title: Gemeindegesetz (GemG) vom 20. März 1996
+- lgbl: '1996.077'
+  lr: '141.1'
+  title: Gesetz vom 20. März 1996 über die Bürgergenossenschaften
+- lgbl: '2015.164'
+  lr: '141.4'
+  title: Gesetz vom 7. Mai 2015 über den Finanzhaushalt der Gemeinden (Gemeinde-Finanzhaushaltsgesetz; GFHG)
+- lgbl: '2017.157'
+  lr: '141.011'
+  title: Verordnung vom 20. Juni 2017 über die Aus- und Weiterbildung der Gemeindepolizisten (AWGV)
+- lgbl: '1942.004'
+  lr: '141.21'
+  title: Verordnung vom 12. Februar 1942 über Neuorganisation des Gemeindekassierwesens
+- lgbl: '2015.338'
+  lr: '141.41'
+  title: Verordnung vom 15. Dezember 2015 über den Finanzhaushalt der Gemeinden (Gemeinde-Finanzhaushaltsverordnung; GFHV)
+- lgbl: '1952.005'
+  lr: '141.211'
+  title: Verordnung der Fürstlichen Regierung vom 21. Februar 1952 betreffend die Gehalte der Gemeindekassiere
+- lgbl: '1952.010'
+  lr: '142.21'
+  title: Gesetz vom 3. April 1952 betreffend die Regulierung der Gemeindegrenze Vaduz-Schaan
+- lgbl: '1962.026'
+  lr: '142.22'
+  title: Gesetz vom 28. September 1962 über die Änderung der Gemeindegrenze Mauren/Schellenberg
+- lgbl: '1978.004'
+  lr: '142.23'
+  title: Gesetz vom 19. Dezember 1977 über die Änderung der Gemeindegrenze Vaduz/Schaan
+- lgbl: '2003.160'
+  lr: '142.24'
+  title: Gesetz vom 15. Mai 2003 über die Änderung der Gemeindegrenzen Triesen/Triesenberg
+- lgbl: '2020.168'
+  lr: '142.25'
+  title: Gesetz vom 5. März 2020 über die Änderung der Gemeindegrenzen Triesen/Triesenberg
+- lgbl: '1952.007'
+  lr: 142.101.1
+  title: Verordnung vom 14. Dezember 1951 über die Instandstellung und Erhaltung der Landesgrenze Schweiz-Liechtenstein
+- lgbl: '1986.054'
+  lr: 142.101.2
+  title: Verordnung vom 21. Oktober 1986 über den Grenzübertritt auf Wanderwegen ausserhalb des Grenzgebirges
+- lgbl: '1989.048'
+  lr: '143.0'
+  title: Gesetz vom 21. Juni 1989 über die Landespolizei (Polizeigesetz; PolG)
+- lgbl: '2000.195'
+  lr: '143.011'
+  title: Verordnung vom 22. August 2000 über den Dienstbetrieb und die Organisation der Landespolizei (PolDOV)
+- lgbl: '2011.232'
+  lr: '143.012'
+  title: Verordnung vom 14. Juni 2011 über die Nebenbezüge bei der Landespolizei (PolNV)
+- lgbl: '1996.025'
+  lr: '143.013'
+  title: Verordnung vom 6. Februar 1996 über die Einhebung von Verwaltungsgebühren durch die Landespolizei
+- lgbl: '2003.274'
+  lr: '143.014'
+  title: Verordnung vom 16. Dezember 2003 über die Bereitschaftspolizei (BPolV)
+- lgbl: '2009.316'
+  lr: '143.015'
+  title: Verordnung vom 9. Dezember 2009 über die Personensicherheitsprüfungen (PSPV)
+- lgbl: '2016.202'
+  lr: '143.016'
+  title: Verordnung vom 7. Juni 2016 über die Informationssysteme der Landespolizei (Pol-ISV)
+- lgbl: '2022.306'
+  lr: '143.017'
+  title: Verordnung vom 31. Oktober 2022 über den nationalen Teil des Schengener Informationssystems (N-SIS) und das SIRENE-Büro (N-SIS-Verordnung)
+- lgbl: '1990.034'
+  lr: '145.0'
+  title: Gesetz vom 27. Juni 1990 über den Staatsfeiertag
+- lgbl: '1960.023'
+  lr: '151.0'
+  title: Gesetz vom 4. Januar 1934 über den Erwerb und Verlust des Landesbürgerrechtes (Bürgerrechtsgesetz; BüG)
+- lgbl: '2008.308'
+  lr: '151.011'
+  title: Verordnung vom 2. Dezember 2008 über den Nachweis der Sprachkenntnisse und der Staatskundeprüfung für die Aufnahme ins Landesbürgerrecht (Bürgerrechts-Nachweis-Verordnung; BüNV)
+- lgbl: '2008.311'
+  lr: '152.20'
+  title: Gesetz vom 17. September 2008 über die Ausländer (Ausländergesetz; AuG)
+- lgbl: '2009.348'
+  lr: '152.21'
+  title: Gesetz vom 20. November 2009 über die Freizügigkeit für EWR- und Schweizer Staatsangehörige (Personenfreizügigkeitsgesetz; PFZG)
+- lgbl: '2012.029'
+  lr: '152.31'
+  title: Asylgesetz (AsylG) vom 14. Dezember 2011
+- lgbl: '2008.350'
+  lr: '152.201'
+  title: Verordnung vom 16. Dezember 2008 über die Zulassung und den Aufenthalt von Ausländern (ZAV)
+- lgbl: '2025.482'
+  lr: '152.202'
+  title: Verordnung vom 30. September 2025 über das Einreise- und Ausreisesystem (EESV)
+- lgbl: '2020.042'
+  lr: '152.204'
+  title: Verordnung vom 28. Januar 2020 über die Einreise und die Visumerteilung (VEV)
+- lgbl: '2008.316'
+  lr: '152.205'
+  title: Verordnung vom 9. Dezember 2008 über die Integration von Ausländern (Ausländer-Integrations-Verordnung; AIV)
+- lgbl: '2011.503'
+  lr: '152.206'
+  title: Verordnung vom 15. November 2011 über das zentrale Visa-Informationssystem und das nationale Visumsystem (Visa-Informationssystem-Verordnung; VISV)
+- lgbl: '2011.440'
+  lr: '152.209'
+  title: Verordnung vom 13. September 2011 über die Einhebung von Gebühren im Ausländerrecht (Ausländerrecht-Gebührenverordnung; Ausl-GebV)
+- lgbl: '2009.350'
+  lr: '152.211'
+  title: Verordnung vom 15. Dezember 2009 über die Freizügigkeit für EWR- und Schweizer Staatsangehörige (Personenfreizügigkeitsverordnung; PFZV)
+- lgbl: '2018.031'
+  lr: '152.281'
+  title: Verordnung vom 20. Februar 2018 über den Vollzug der Weg- und Ausweisung von ausländischen Personen (VVWA)
+- lgbl: '2012.153'
+  lr: '152.311'
+  title: Asylverordnung (AsylV) vom 29. Mai 2012
+- lgbl: '2022.054'
+  lr: '152.312'
+  title: Verordnung vom 15. März 2022 über die vorübergehende Schutzgewährung für bestimmte Personengruppen aus der Ukraine (Ukraine-SchutzV)
+- lgbl: '2026.191'
+  lr: '152.313'
+  title: Verordnung vom 9. Juni 2026 über das Eurodac (EurodacV)
+- lgbl: '1986.027'
+  lr: '153.0'
+  title: Heimatschriftengesetz (HSchG) vom 18. Dezember 1985
+- lgbl: '2011.453'
+  lr: '153.01'
+  title: Heimatschriftenverordnung (HSchV) vom 28. September 2011
+- lgbl: '2011.454'
+  lr: '153.011'
+  title: Verordnung vom 28. September 2011 über die Einhebung von Gebühren nach dem Heimatschriftengesetz (Heimatschriften-Gebührenverordnung; HSch-GebV)
+- lgbl: '1973.050'
+  lr: '161'
+  title: Gesetz vom 17. Juli 1973 über die Ausübung der politischen Volksrechte in Landesangelegenheiten (Volksrechtegesetz, VRG)
+- lgbl: '1984.031'
+  lr: '162'
+  title: Gesetz vom 28. Juni 1984 über die Ausrichtung von Beiträgen an die politischen Parteien
+- lgbl: '1966.024'
+  lr: '170.32'
+  title: Gesetz vom 22. September 1966 über die Amtshaftung
+- lgbl: '1985.041'
+  lr: '170.50'
+  title: Kundmachungsgesetz vom 17. April 1985
+- lgbl: '1995.099'
+  lr: '170.51'
+  title: Gesetz vom 22. März 1995 über die Umsetzung und Kundmachung der EWR-Rechtsvorschriften
+- lgbl: '1967.034'
+  lr: '170.52'
+  title: Gesetz vom 5. Oktober 1967 über die Bereinigung der vor dem 1. Januar 1863 erlassenen Rechtsvorschriften
+- lgbl: '1922.032'
+  lr: '170.61'
+  title: Gesetz vom 17. Oktober 1922 betreffend Straffreiheit von Mitteilungen und Berichterstattungen
+- lgbl: '2012.284'
+  lr: 170.501.1
+  title: Amtsblattverordnung (ABlV) vom 4. September 2012
+- lgbl: '2012.413'
+  lr: 170.501.2
+  title: Verordnung vom 18. Dezember 2012 über die Gebühren für den Bezug und die Verwertung von Rechtsvorschriften (Rechtsvorschriften-Gebührenverordnung; RV-GebV)
+- lgbl: '2020.465'
+  lr: '170.511'
+  title: Verordnung vom 15. Dezember 2020 über das EWR-Register (EWR-RegV)
+- lgbl: '1996.122'
+  lr: '170.550'
+  title: Gesetz vom 20. Juni 1996 über die Kundmachung der in Liechtenstein anwendbaren Schweizerischen Rechtsvorschriften
+- lgbl: '2026.313'
+  lr: 170.551.95
+  title: Kundmachung vom 15. September 2026 der aufgrund des Währungsvertrages im Fürstentum Liechtenstein anwendbaren schweizerischen Rechtsvorschriften (Anlage)
+- lgbl: '2012.407'
+  lr: 170.551.152
+  title: Kundmachung vom 11. Dezember 2012 über im Bereich der Visaerteilung und Rückübernahme von Personen mit unbefugtem Aufenthalt für Liechtenstein anwendbare völkerrechtliche Verträge
+- lgbl: '2026.314'
+  lr: 170.551.232
+  title: Kundmachung vom 15. September 2026 der aufgrund des Patentschutzvertrages im Fürstentum Liechtenstein anwendbaren schweizerischen Rechtsvorschriften (Anlagen I und II)
+- lgbl: '2026.312'
+  lr: 170.551.631
+  title: Kundmachung vom 15. September 2026 der aufgrund des Zollvertrages im Fürstentum Liechtenstein anwendbaren schweizerischen Rechtsvorschriften (Anlagen I und II)
+- lgbl: '2026.315'
+  lr: 170.551.641
+  title: Kundmachung vom 15. September 2026 der aufgrund der Vereinbarung über die Stempelabgaben im Fürstentum Liechtenstein anwendbaren schweizerischen Rechtsvorschriften (Anlage)
+- lgbl: '2026.316'
+  lr: 170.551.748
+  title: Kundmachung vom 15. September 2026 der aufgrund der Vereinbarung betreffend die Zusammenarbeit im Bereich der Zivilluftfahrt anwendbaren schweizerischen Rechtsvorschriften (Anlagen I und II)
+- lgbl: '1982.022'
+  lr: '171.20'
+  title: Gesetz vom 17. Dezember 1981 über die Bezüge der Mitglieder des Landtages und von Beiträgen an die im Landtag vertretenen Wählergruppen
+- lgbl: '2013.009'
+  lr: 171.101.1
+  title: Geschäftsordnung für den Landtag des Fürstentums Liechtenstein vom 19. Dezember 2012
+- lgbl: '2025.557'
+  lr: 171.101.2
+  title: Fürstliche Verordnung vom 4. Dezember 2025 über die Einberufung des Landtages
+- lgbl: '2012.348'
+  lr: '172.011'
+  title: Gesetz vom 19. September 2012 über die Regierungs- und Verwaltungsorganisation (RVOG)
+- lgbl: '2013.163'
+  lr: 172.011.1
+  title: Regierungs- und Verwaltungsorganisationsverordnung (RVOV) vom 28. März 2013
+- lgbl: '1975.056'
+  lr: 172.011.11
+  title: Verordnung vom 23. September 1975 über die Zuteilung von Geschäften an die Regierungskanzlei
+- lgbl: '2013.199'
+  lr: 172.011.12
+  title: Verordnung vom 21. Mai 2013 über den Rechtsdienst der Regierung
+- lgbl: '2018.264'
+  lr: 172.011.13
+  title: Verordnung vom 27. November 2018 über die Führung und Verwaltung der Akten in der Liechtensteinischen Landesverwaltung (LLV-Aktenverwaltungsverordnung; LLV-AVV)
+- lgbl: '1997.097'
+  lr: 172.011.14
+  title: Verordnung vom 15. April 1997 über die Delegation von Geschäften nach dem Gesetz über den Erwerb und Verlust des Landesbürgerrechts, dem Wappengesetz, dem Gesetz betreffend die Ausübung der politischen
+    Volksrechte in Landesangelegenheiten und dem Personen- und Gesellschaftsrecht
+- lgbl: '2026.067'
+  lr: 172.011.15
+  title: Verordnung vom 24. Februar 2026 über das Vernehmlassungsverfahren (Vernehmlassungsverordnung; VlV)
+- lgbl: '2003.108'
+  lr: '172.012'
+  title: Gesetz vom 12. März 2003 über den Geschäftsverkehr des Landtages mit der Regierung und die Kontrolle der Staatsverwaltung (Geschäftsverkehrs- und Verwaltungskontrollgesetz; GVVKG)
+- lgbl: '1996.113'
+  lr: '172.013'
+  title: Gesetz vom 23. Mai 1996 über die Durchführung der Wettbewerbsregeln im Europäischen Wirtschaftsraum
+- lgbl: '2006.187'
+  lr: 172.014.6
+  title: Gesetz vom 23. Juni 2006 über die Zusammenlegung des Amtes für Berufsbildung und der Berufsberatungsstelle zu einem Amt für Berufsbildung und Berufsberatung
+- lgbl: '2006.224'
+  lr: 172.014.7
+  title: Gesetz vom 21. September 2006 über Reorganisationsmassnahmen beim Amt für Volkswirtschaft und Amt für Gesundheitsdienste
+- lgbl: '2011.551'
+  lr: 172.014.8
+  title: Gesetz vom 21. Oktober 2011 über die Eingliederung des Amtes für Handel und Transport in das Amt für Volkswirtschaft
+- lgbl: '2007.140'
+  lr: 172.014.91
+  title: Gesetz vom 26. April 2007 über Reorganisationsmassnahmen beim Amt für Gesundheit und beim Amt für Lebensmittelkontrolle und Veterinärwesen
+- lgbl: '2012.031'
+  lr: 172.014.92
+  title: Gesetz vom 15. Dezember 2011 über die Aufteilung des Amtes für Personal und Organisation in ein Amt für Personal und Organisation und in ein Amt für Informatik
+- lgbl: '2012.269'
+  lr: 172.014.93
+  title: Gesetz vom 21. Juni 2012 über die Zusammenführung des Hochbauamtes, des Tiefbauamtes und des Amtes für Wohnungswesen zu einem Amt für Bau und Infrastruktur
+- lgbl: '2012.272'
+  lr: 172.014.94
+  title: Gesetz vom 21. Juni 2012 über die Zusammenführung des Amtes für Wald, Natur und Landschaft, des Amtes für Umweltschutz sowie des Landwirtschaftsamtes zu einem Amt für Umwelt
+- lgbl: '2012.361'
+  lr: 172.014.95
+  title: Gesetz vom 20. September 2012 über die Zusammenführung des Landesarchivs, der Stabsstelle für Kulturfragen sowie der Abteilung Denkmalpflege und Archäologie des Hochbauamtes zu einem Amt für Kultur
+- lgbl: '2013.006'
+  lr: 172.014.96
+  title: Gesetz vom 23. November 2012 über die Zusammenführung des Grundbuch- und Öffentlichkeitsregisteramtes und der Opferhilfestelle zu einem Amt für Justiz
+- lgbl: '2019.222'
+  lr: 172.014.97
+  title: Verordnung vom 3. September 2019 über die Anpassung von Gesetzen und Verordnungen infolge der Umbenennung der Motorfahrzeugkontrolle in Amt für Strassenverkehr
+- lgbl: '2012.321'
+  lr: 172.014.941
+  title: Verordnung vom 16. Oktober 2012 über die Anpassung von Verordnungen im Zusammenhang mit der Schaffung eines Amtes für Umwelt
+- lgbl: '2013.012'
+  lr: 172.014.961
+  title: Verordnung vom 15. Januar 2013 über die Anpassung von Verordnungen im Zusammenhang mit der Schaffung eines Amtes für Justiz
+- lgbl: '1999.159'
+  lr: '172.015'
+  title: Gesetz vom 19. Mai 1999 über die Information der Bevölkerung (Informationsgesetz)
+- lgbl: '1999.206'
+  lr: 172.015.1
+  title: Verordnung vom 19. Oktober 1999 zum Informationsgesetz (Informationsverordnung)
+- lgbl: '2009.315'
+  lr: 172.015.11
+  title: Verordnung vom 9. Dezember 2009 über den Schutz von Informationen des Landes (Informationsschutzverordnung; ISchV)
+- lgbl: '2024.041'
+  lr: '172.016'
+  title: Gesetz vom 6. Dezember 2023 über offene Daten und die Weiterverwendung von Informationen des öffentlichen Sektors (Informationsweiterverwendungsgesetz; IWG)
+- lgbl: '2009.356'
+  lr: '172.017'
+  title: Gesetz vom 19. November 2009 über die Steuerung und Überwachung öffentlicher Unternehmen (Öffentliche-Unternehmen-Steuerungs-Gesetz; ÖUSG)
+- lgbl: '2011.575'
+  lr: 172.018.1
+  title: Gesetz vom 21. September 2011 über den elektronischen Geschäftsverkehr mit Behörden (E-Government-Gesetz; E-GovG)
+- lgbl: '2022.219'
+  lr: 172.018.2
+  title: Gesetz vom 2. Juni 2022 über das Zentrale Personenregister (ZPRG)
+- lgbl: '2020.459'
+  lr: 172.018.11
+  title: Verordnung vom 15. Dezember 2020 über den elektronischen Geschäftsverkehr mit Behörden (E-Government-Verordnung; E-GovV)
+- lgbl: '2022.326'
+  lr: 172.018.21
+  title: Verordnung vom 15. November 2022 über das Zentrale Personenregister (ZPRV)
+- lgbl: '1922.024'
+  lr: '172.020'
+  title: Gesetz vom 21. April 1922 über die allgemeine Landesverwaltungspflege (die Verwaltungsbehörden und ihre Hilfsorgane, das Verfahren in Verwaltungssachen, das Verwaltungszwangs- und Verwaltungsstrafverfahren)
+- lgbl: '2000.015'
+  lr: '172.021'
+  title: Gesetz vom 26. November 1999 über die Zulassung von Dolmetschern und Übersetzern vor liechtensteinischen Gerichten und Verwaltungsbehörden
+- lgbl: '2000.028'
+  lr: 172.021.11
+  title: Verordnung vom 25. Januar 2000 über die Delegation von Geschäften nach dem Gesetz über die Zulassung von Dolmetschern und Übersetzern vor liechtensteinischen Gerichten und Verwaltungsbehörden
+- lgbl: '2000.248'
+  lr: '172.022'
+  title: Beschwerdekommissionsgesetz vom 25. Oktober 2000
+- lgbl: '2008.331'
+  lr: '172.023'
+  title: Gesetz vom 22. Oktober 2008 über die Zustellung behördlicher Dokumente (Zustellgesetz; ZustG)
+- lgbl: '2008.349'
+  lr: 172.023.1
+  title: Verordnung vom 16. Dezember 2008 über die Zustellung behördlicher Dokumente (Zustellverordnung; ZustV)
+- lgbl: '1937.016'
+  lr: 172.040.11
+  title: Verordnung vom 13. August 1937 betreffend die Ausgabe neuer Stempelmarken
+- lgbl: '1922.022'
+  lr: '172.041'
+  title: Gesetz vom 1. Juni 1922 betreffend vorläufige Einhebung von Gerichts- und Verwaltungskosten und Gebühren
+- lgbl: '1995.198'
+  lr: 172.041.11
+  title: Verordnung vom 12. September 1995 über die Einhebung von Verwaltungskosten und Gebühren durch die Regierung und Amtsstellen
+- lgbl: '1998.135'
+  lr: '172.051'
+  title: Gesetz vom 19. Juni 1998 über das Öffentliche Auftragswesen (ÖAWG)
+- lgbl: '1998.189'
+  lr: 172.051.1
+  title: Verordnung vom 3. November 1998 über das Öffentliche Auftragswesen (ÖAWV)
+- lgbl: '2026.105'
+  lr: 172.051.11
+  title: Kundmachung vom 17. März 2026 der Schwellenwerte bei der Vergabe öffentlicher Aufträge
+- lgbl: '2005.220'
+  lr: '172.052'
+  title: Gesetz vom 21. September 2005 über das Öffentliche Auftragswesen im Bereich der Sektoren (ÖAWSG)
+- lgbl: '2005.223'
+  lr: 172.052.1
+  title: Verordnung vom 8. November 2005 über das Öffentliche Auftragswesen im Bereich der Sektoren (ÖAWSV)
+- lgbl: '2026.106'
+  lr: 172.052.11
+  title: Kundmachung vom 17. März 2026 der Schwellenwerte bei der Vergabe öffentlicher Aufträge im Bereich der Sektoren
+- lgbl: '1994.014'
+  lr: 172.101.1
+  title: Verordnung vom 8. Februar 1994 über die Geschäftsordnung der Regierung
+- lgbl: '2004.030'
+  lr: '173.01'
+  title: Gesetz vom 26. November 2003 über die Bestellung der Richter (Richterbestellungsgesetz, RBG)
+- lgbl: '2007.347'
+  lr: '173.02'
+  title: Richterdienstgesetz (RDG) vom 24. Oktober 2007
+- lgbl: '2004.032'
+  lr: '173.10'
+  title: Gesetz vom 27. November 2003 über den Staatsgerichtshof (StGHG)
+- lgbl: '2015.201'
+  lr: 173.011.1
+  title: Geschäftsordnung des Richterauswahlgremiums vom 29. Juni 2015
+- lgbl: '2007.348'
+  lr: '173.30'
+  title: Gesetz vom 24. Oktober 2007 über die Organisation der ordentlichen Gerichte (Gerichtsorganisationsgesetz; GOG)
+- lgbl: '2017.169'
+  lr: '173.31'
+  title: Gesetz vom 4. Mai 2017 über die Gebühren der Gerichte und Beschwerdekommissionen (Gerichtsgebührengesetz; GGG)
+- lgbl: '1998.077'
+  lr: '173.32'
+  title: Rechtspflegergesetz (RpflG) vom 12. März 1998
+- lgbl: '2011.049'
+  lr: '173.33'
+  title: Staatsanwaltschaftsgesetz (StAG) vom 15. Dezember 2010
+- lgbl: '2019.043'
+  lr: 173.101.1
+  title: Geschäftsordnung des Staatsgerichtshofes des Fürstentums Liechtenstein vom 4. Februar 2019
+- lgbl: '1970.003'
+  lr: 173.301.1
+  title: Geschäftsordnung für das Fürstliche Landgericht in Vaduz vom 31. Dezember 1969
+- lgbl: '2013.415'
+  lr: '173.510'
+  title: Rechtsanwaltsgesetz (RAG) vom 8. November 2013
+- lgbl: '2013.435'
+  lr: 173.510.11
+  title: Rechtsanwaltsprüfungsverordnung (RAPV) vom 10. Dezember 2013
+- lgbl: '2006.149'
+  lr: 173.510.15
+  title: Verordnung vom 4. Juli 2006 über das Praktikum beim Landgericht und bei der Staatsanwaltschaft (GStPV)
+- lgbl: '2013.436'
+  lr: 173.510.16
+  title: Gebührenordnung der Liechtensteinischen Rechtsanwaltskammer vom 18. November 2013
+- lgbl: '1988.009'
+  lr: '173.511'
+  title: Gesetz vom 16. Dezember 1987 über den Tarif für Rechtsanwälte und Rechtsagenten
+- lgbl: '1992.069'
+  lr: 173.511.1
+  title: Verordnung vom 30. Juni 1992 über die Tarifansätze der Entlohnung für Rechtsanwälte und Rechtsagenten
+- lgbl: '2013.421'
+  lr: '173.520'
+  title: Treuhändergesetz (TrHG) vom 8. November 2013
+- lgbl: '2013.438'
+  lr: 173.520.11
+  title: Treuhänderprüfungsverordnung (TrHPV) vom 3. Dezember 2013
+- lgbl: '1993.043'
+  lr: '173.530'
+  title: Gesetz vom 9. Dezember 1992 über die Patentanwälte (Patentanwaltsgesetz; PAG)
+- lgbl: '2003.105'
+  lr: 173.530.12
+  title: Verordnung vom 22. April 2003 über die Patentanwaltsprüfung (Prüfungsreglement)
+- lgbl: '2007.164'
+  lr: 173.530.13
+  title: Verordnung vom 3. Juli 2007 über die Eignungsprüfung von Patentanwälten aus dem Europäischen Wirtschaftsraum
+- lgbl: '2019.017'
+  lr: '173.540'
+  title: Wirtschaftsprüfergesetz (WPG) vom 5. Dezember 2018
+- lgbl: '2020.474'
+  lr: 173.540.12
+  title: Wirtschaftsprüfer-Prüfungsverordnung (WPPV) vom 15. Dezember 2020
+- lgbl: '2013.284'
+  lr: 173.540.14
+  title: Verordnung vom 13. August 2013 über Qualitätssicherungsprüfungen bei Wirtschaftsprüfern und Wirtschaftsprüfungsgesellschaften (Qualitätssicherungsprüfungsverordnung; QSPV)
+- lgbl: '2013.426'
+  lr: '173.550'
+  title: Gesetz vom 8. November 2013 betreffend die Aufsicht über Personen nach Art. 180a des Personen- und Gesellschaftsrechts
+- lgbl: '2019.306'
+  lr: '173.560'
+  title: Notariatsgesetz (NotarG) vom 3. Oktober 2019
+- lgbl: '2020.467'
+  lr: 173.560.0
+  title: Kundmachung vom 15. Dezember 2020 über das Vorliegen der Voraussetzungen nach Art. 81 Abs. 5 NotarG zur Aufnahme der notariellen Tätigkeit
+- lgbl: '2019.315'
+  lr: 173.560.1
+  title: Notariatsprüfungsverordnung (NotarPV) vom 19. November 2019
+- lgbl: '2020.468'
+  lr: 173.560.2
+  title: Gebührenordnung der Liechtensteinischen Notariatskammer vom 8. Dezember 2020
+- lgbl: '2008.144'
+  lr: '174.11'
+  title: Gesetz vom 24. April 2008 über das Dienstverhältnis des Staatspersonals (Staatspersonalgesetz; StPG)
+- lgbl: '1991.006'
+  lr: '174.12'
+  title: Besoldungsgesetz (BesG) vom 22. November 1990
+- lgbl: '2007.333'
+  lr: '174.13'
+  title: Gesetz vom 24. Oktober 2007 über das Mobilitätsmanagement des Landes (Landes-Mobilitätsmanagement-Gesetz; LMMG)
+- lgbl: '2013.329'
+  lr: '174.40'
+  title: Gesetz vom 6. September 2013 über die betriebliche Personalvorsorge des Staates (SBPVG)
+- lgbl: '1982.021'
+  lr: '174.60'
+  title: Gesetz vom 17. Dezember 1981 über die Bezüge der Mitglieder der Regierung und der Kommissionen sowie der nebenamtlichen Richter und der Ad-hoc-Richter
+- lgbl: '2008.303'
+  lr: '174.111'
+  title: Verordnung vom 2. Dezember 2008 über das Dienstverhältnis des Staatspersonals (Staatspersonalverordnung; StPV)
+- lgbl: '2008.304'
+  lr: 174.111.1
+  title: Verordnung vom 25. November 2008 über die Vergütung von Spesen der Staatsangestellten (Spesenverordnung)
+- lgbl: '2004.198'
+  lr: '174.120'
+  title: Besoldungsverordnung (BesV) vom 7. September 2004
+- lgbl: '2007.334'
+  lr: '174.130'
+  title: Verordnung vom 27. November 2007 über das Mobilitätsmanagement des Landes (Landes-Mobilitätsmanagement-Verordnung; LMMV)
+- lgbl: '1987.063'
+  lr: '181.0'
+  title: Gesetz vom 20. Oktober 1987 über die Ausrichtung von Beiträgen an die römisch-katholische Landeskirche
+- lgbl: '1870.004'
+  lr: '182.1'
+  title: Gesetz vom 14. Juli 1870 über die Verwaltung des Kirchengutes in den Pfarrgemeinden
+- lgbl: '1945.009'
+  lr: '183.0'
+  title: Gesetz vom 3. März 1945 betreffend den Organistendienst
+- lgbl: '1967.028'
+  lr: '183.011'
+  title: Verordnung vom 7. August 1967 betreffend die Festsetzung der Entschädigung der Organisten
+- lgbl: '1952.020'
+  lr: '191'
+  title: Gesetz vom 7. August 1952 betreffend Errichtung und Unterhaltung von Vertretungen des Fürstentums im Ausland oder bei ausländischen Regierungen
+- lgbl: '1003.001'
+  lr: '210.0'
+  title: Allgemeines bürgerliches Gesetzbuch vom 1. Juni 1811
+  versions: all
+- lgbl: '1003.002'
+  lr: '210.001'
+  title: Fürstliche Verordnung vom 18. Februar 1812 betreffend die Einführung des Allgemeinen bürgerlichen Gesetzbuches und der allgemeinen Gerichtsordnung
+- lgbl: '1005.001'
+  lr: '210.002'
+  title: Fürstliche Verordnung vom 6. April 1846 betreffend die Einführung der §§ 531 bis 824 ABGB, Erbrechtspatent Nr. 3.877
+- lgbl: '1010.003'
+  lr: '210.103'
+  title: Hofdekret vom 30. Januar 1819 JGS. Nr. 1540, zu § 1487 ABGB
+- lgbl: '1010.006'
+  lr: '210.106'
+  title: Hofdekret vom 23. Juni 1821 JGS. Nr. 1771, zu § 199 ABGB
+- lgbl: '1010.009'
+  lr: '210.109'
+  title: Hofdekret vom 22. April 1825 JGS. Nr. 2090, zu § 1393 ABGB
+- lgbl: '1010.011'
+  lr: '210.111'
+  title: Hofdekret vom 3. Februar 1826 JGS. Nr. 2158, zu § 238 ABGB
+- lgbl: '1010.013'
+  lr: '210.113'
+  title: Hofkanzleidekret vom 13. Juni 1828 JGS. Nr. 2347, zu §§ 1333, 1336 ABGB
+- lgbl: '1010.014'
+  lr: '210.114'
+  title: Hofdekret vom 10. Mai 1833 JGS. Nr. 2610, zu § 763 ABGB
+- lgbl: '1010.015'
+  lr: '210.115'
+  title: Hofdekret vom 15. Juni 1835 JGS. Nr. 39, zu § 138 ABGB
+- lgbl: '1010.016'
+  lr: '210.116'
+  title: Hofdekret vom 1. Juli 1835 JGS. Nr. 48, zu § 262 ABGB
+- lgbl: '1010.018'
+  lr: '210.118'
+  title: Hofdekret vom 17. August 1835 JGS. Nr. 76, zu §§ 539 und 573 ABGB
+- lgbl: '1010.019'
+  lr: '210.119'
+  title: Hofdekret vom 12. Oktober 1835 JGS. Nr. 90, zu § 760 ABGB
+- lgbl: '1010.021'
+  lr: '210.121'
+  title: Hofdekret vom 22. August 1836 JGS. Nr. 151, zu § 1480 ABGB
+- lgbl: '1010.025'
+  lr: '210.125'
+  title: Hofdekret vom 19. September 1837 JGS. Nr. 229, zu § 1367 ABGB
+- lgbl: '1010.026'
+  lr: '210.126'
+  title: Hofkanzleidekret vom 6. Juni 1838 JGS. Nr. 277, zu § 879 ABGB
+- lgbl: '1010.027'
+  lr: '210.127'
+  title: Hofkanzleidekret vom 10. April 1839 JGS. Nr. 355, zu § 1480 ABGB
+- lgbl: '1010.028'
+  lr: '210.128'
+  title: Hofkanzleidekret vom 21. November 1839 JGS. Nr. 389, zu § 268 ABGB
+- lgbl: '1010.030'
+  lr: '210.130'
+  title: Hofdekret vom 18. Januar 1842 JGS. Nr. 592, zu § 1333 ABGB
+- lgbl: '1974.020'
+  lr: '212.10'
+  title: Ehegesetz (EheG) vom 13. Dezember 1973
+- lgbl: '1989.047'
+  lr: '212.21'
+  title: Unterhaltsvorschussgesetz vom 21. Juni 1989
+- lgbl: '1997.024'
+  lr: '212.22'
+  title: Gesetz vom 30. Oktober 1996 zur Durchführung des Europäischen Übereinkommens vom 20. Mai 1980 über die Anerkennung und Vollstreckung von Entscheidungen über das Sorgerecht für Kinder und die Wiederherstellung
+    des Sorgerechts
+- lgbl: '2011.350'
+  lr: '212.41'
+  title: Gesetz vom 16. März 2011 über die eingetragene Partnerschaft gleichgeschlechtlicher Paare (Partnerschaftsgesetz; PartG)
+- lgbl: '1974.028'
+  lr: 212.101.1
+  title: Verordnung vom 30. April 1974 zum Ehegesetz (Verkündung, Trauung und Führung des Eheregisters)
+- lgbl: '2013.395'
+  lr: 212.101.2
+  title: Verordnung vom 3. Dezember 2013 über die Einhebung von Gebühren durch das Zivilstandsamt (ZSA-GebV)
+- lgbl: '2010.123'
+  lr: '212.321'
+  title: Vereinssachwaltergesetz (VSG) vom 16. März 2010
+- lgbl: '2011.209'
+  lr: '212.331'
+  title: Patientenverfügungsgesetz (PatVG) vom 13. April 2011
+- lgbl: '2012.099'
+  lr: 212.331.11
+  title: Verordnung vom 3. April 2012 über das Zentrale Patientenverfügungsregister (ZPVRV)
+- lgbl: '2011.402'
+  lr: '212.411'
+  title: Verordnung vom 16. August 2011 über die eingetragene Partnerschaft gleichgeschlechtlicher Paare (Partnerschaftsverordnung; PartV)
+- lgbl: '1923.004'
+  lr: '214.0'
+  title: Sachenrecht (SR) vom 31. Dezember 1922
+- lgbl: '2016.418'
+  lr: '214.01'
+  title: Grundbuchverordnung (GBV) vom 29. November 2016
+- lgbl: '2003.067'
+  lr: '214.011'
+  title: Verordnung vom 11. Februar 2003 über die Grundbuch- und Handelsregistergebühren (Grundbuch- und Handelsregistergebührenverordnung; GbHr-GebV)
+- lgbl: '1993.049'
+  lr: '214.11'
+  title: Grundverkehrsgesetz (GVG) vom 9. Dezember 1992
+- lgbl: '1944.019'
+  lr: '214.12'
+  title: Gesetz vom 8. November 1944 womit Übergangs-Bestimmungen betreffend die in eine Güterzusammenlegung und Neuvermessung einbezogenen Grundstücke und über die Pfandrechte und Nutzniessungen an solchen
+    geschaffen werden
+- lgbl: '2016.353'
+  lr: '214.13'
+  title: Gesetz vom 31. August 2016 über die amtliche Schätzung von Grundstücken und Gebäuden (Schätzungsgesetz; SchätzG)
+- lgbl: '1991.061'
+  lr: '214.15'
+  title: Gesetz vom 3. Juli 1991 über die Baulandumlegung
+- lgbl: '2005.148'
+  lr: '214.31'
+  title: Gesetz vom 19. Mai 2005 über die amtliche Vermessung (Vermessungsgesetz; VermG)
+- lgbl: '2011.048'
+  lr: '214.32'
+  title: Geoinformationsgesetz (GeoIG) vom 15. Dezember 2010
+- lgbl: '2018.081'
+  lr: '214.33'
+  title: Gesetz vom 2. März 2018 über den Kataster der öffentlich-rechtlichen Eigentumsbeschränkungen (ÖREB-Katastergesetz; ÖREBKG)
+- lgbl: '2007.168'
+  lr: '214.111'
+  title: Grundverkehrsverordnung (GVV) vom 3. Juli 2007
+- lgbl: '2016.427'
+  lr: '214.131'
+  title: Verordnung vom 6. Dezember 2016 über die amtliche Schätzung von Grundstücken und Gebäuden (Schätzungsverordnung; SchätzV)
+- lgbl: '1971.005'
+  lr: 214.221.1
+  title: Verordnung vom 30. Dezember 1970 betreffend die Ausbeutung der Gesteinsmaterialien im Rhein
+- lgbl: '1971.038'
+  lr: 214.221.2
+  title: Verordnung vom 19. August 1971 betreffend die Ausbeutung von Gesteinsmaterialien in den Rüfen
+- lgbl: '2026.158'
+  lr: 214.311.1
+  title: Verordnung vom 12. Mai 2026 über die amtliche Vermessung (Vermessungsverordnung; VermV)
+- lgbl: '2011.433'
+  lr: '214.321'
+  title: Geoinformationsverordnung (GeoIV) vom 30. August 2011
+- lgbl: '2026.159'
+  lr: 214.321.1
+  title: Verordnung vom 12. Mai 2026 über die Gebühren für die Nutzung der Geodateninfrastruktur Liechtenstein (GDI-Gebührenverordnung; GDI-GebV)
+- lgbl: '2026.160'
+  lr: '214.322'
+  title: Verordnung vom 12. Mai 2026 über die geografischen Namen (GeoNV)
+- lgbl: '2026.161'
+  lr: '214.323'
+  title: Landesgeologieverordnung (LGeolV) vom 12. Mai 2026
+- lgbl: '2026.162'
+  lr: '214.324'
+  title: Landesvermessungsverordnung (LVermV) vom 12. Mai 2026
+- lgbl: '2018.129'
+  lr: '214.331'
+  title: Verordnung vom 12. Juni 2018 über den Kataster der öffentlich-rechtlichen Eigentumsbeschränkungen (ÖREB-Katasterverordnung; ÖREBKV)
+- lgbl: '1993.012'
+  lr: 215.112.2
+  title: Gesetz vom 12. November 1992 über die Produktehaftpflicht
+- lgbl: '1921.021'
+  lr: 215.211.1
+  title: Gesetz vom 12. Oktober 1921 betreffend die Gewährleistung wegen Sachmängeln beim Viehhandel
+- lgbl: '2021.359'
+  lr: 215.211.2
+  title: Zahlungskontengesetz (ZKG) vom 30. September 2021
+- lgbl: '2012.001'
+  lr: 215.211.4
+  title: Konsumkreditgesetz (KKG) vom 24. November 2011
+- lgbl: '2012.178'
+  lr: 215.211.5
+  title: Gesetz vom 25. April 2012 über den Konsumentenschutz bei Teilzeitnutzungs- und Nutzungsvergünstigungsverträgen (Teilzeitnutzungsgesetz; TNG)
+- lgbl: '2015.276'
+  lr: 215.211.6
+  title: Gesetz vom 3. September 2015 über Fernabsatz- und ausserhalb von Geschäftsräumen geschlossene Verträge (Fern- und Auswärtsgeschäfte-Gesetz; FAGG)
+- lgbl: '2003.133'
+  lr: 215.211.7
+  title: Gesetz vom 16. April 2003 über den elektronischen Geschäftsverkehr (E-Commerce-Gesetz; ECG)
+- lgbl: '2005.036'
+  lr: 215.211.8
+  title: Gesetz vom 15. Dezember 2004 über den Fernabsatz von Finanzdienstleistungen an Konsumenten (Fern-Finanzdienstleistungs-Gesetz; FernFinG)
+- lgbl: '2021.026'
+  lr: 215.211.9
+  title: Gesetz vom 3. Dezember 2020 über Hypothekar- und Immobilienkreditverträge für Konsumenten (Hypothekar- und Immobilienkreditgesetz; HIKG)
+- lgbl: '2021.397'
+  lr: 215.211.21
+  title: Zahlungskontenverordnung (ZKV) vom 7. Dezember 2021
+- lgbl: '2021.105'
+  lr: 215.211.91
+  title: Verordnung vom 16. März 2021 über Hypothekar- und Immobilienkreditverträge für Konsumenten (Hypothekar- und Immobilienkreditverordnung; HIKV)
+- lgbl: '2000.067'
+  lr: 215.211.411
+  title: Verordnung vom 15. Februar 2000 zum Gesetz über den Konsumkredit
+- lgbl: '2016.287'
+  lr: 215.213.111
+  title: Verordnung vom 30. August 2016 über die Miete und Pacht von Wohn- und Geschäftsräumen (VMWG)
+- lgbl: '2007.101'
+  lr: 215.215.0
+  title: Gesetz vom 14. März 2007 über die Allgemeinverbindlicherklärung von Gesamtarbeitsverträgen (AVEG)
+- lgbl: '2007.174'
+  lr: 215.215.011
+  title: Verordnung vom 17. Juli 2007 betreffend die Delegation von Geschäften nach dem Gesetz über die Allgemeinverbindlicherklärung von Gesamtarbeitsverträgen
+- lgbl: '2025.230'
+  lr: 215.215.012
+  title: Verordnung vom 11. März 2025 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Gipser-, Maler- und Gerüstbaugewerbe
+- lgbl: '2023.096'
+  lr: 215.215.014
+  title: Verordnung vom 7. März 2023 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Autogewerbe
+- lgbl: '2024.083'
+  lr: 215.215.015
+  title: Verordnung vom 27. Februar 2024 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Baumeister- und Pflästerergewerbe
+- lgbl: '2024.084'
+  lr: 215.215.016
+  title: Verordnung vom 27. Februar 2024 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Gärtner- und Floristengewerbe
+- lgbl: '2025.231'
+  lr: 215.215.017
+  title: Verordnung vom 11. März 2025 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Zimmermeister- und Dachdeckergewerbe
+- lgbl: '2024.086'
+  lr: 215.215.018
+  title: Verordnung vom 27. Februar 2024 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Schreinergewerbe
+- lgbl: '2024.087'
+  lr: 215.215.019
+  title: Verordnung vom 27. Februar 2024 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Haustechnik- und Spenglergewerbe
+- lgbl: '2024.088'
+  lr: 215.215.020
+  title: Verordnung vom 27. Februar 2024 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Ofenbauer- und Plattenlegergewerbe
+- lgbl: '2024.089'
+  lr: 215.215.021
+  title: Verordnung vom 27. Februar 2024 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Elektro-, Elektronik- und Medientechnikgewerbe
+- lgbl: '2026.231'
+  lr: 215.215.023
+  title: Verordnung vom 30. Juni 2026 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Informatikgewerbe
+- lgbl: '2026.232'
+  lr: 215.215.024
+  title: Verordnung vom 30. Juni 2026 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Metallgewerbe
+- lgbl: '2023.098'
+  lr: 215.215.025
+  title: Verordnung vom 7. März 2023 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Detailhandelsgewerbe
+- lgbl: '2025.229'
+  lr: 215.215.026
+  title: Verordnung vom 11. März 2025 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Gebäudereinigungs- und Hauswartdienstegewerbe
+- lgbl: '2026.238'
+  lr: 215.215.027
+  title: Verordnung vom 7. Juli 2026 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für den Personalverleih
+- lgbl: '2024.095'
+  lr: 215.215.029
+  title: Verordnung vom 27. Februar 2024 über die Allgemeinverbindlicherklärung des Gesamtarbeitsvertrages für das Raumausstatter- und Bodenlegergewerbe
+- lgbl: '1975.022'
+  lr: 215.215.111
+  title: Kundmachung vom 31. Dezember 1974
+- lgbl: '1998.002'
+  lr: 215.215.112
+  title: Kundmachung vom 17. November 1997 des Normalarbeitsvertrages für hauswirtschaftliche Arbeitnehmerinnen
+- lgbl: '1998.001'
+  lr: 215.215.113
+  title: Kundmachung vom 17. November 1997 des Normalarbeitsvertrages für landwirtschaftliche Arbeitnehmer
+- lgbl: '2001.128'
+  lr: 215.229.1
+  title: Gesetz vom 16. Mai 2001 über den Versicherungsvertrag (Versicherungsvertragsgesetz, VersVG)
+- lgbl: '1926.004'
+  lr: '216.0'
+  title: Personen- und Gesellschaftsrecht (PGR) vom 20. Januar 1926
+  versions: all
+- lgbl: '2000.281'
+  lr: '216.01'
+  title: Verordnung vom 19. Dezember 2000 zum Personen- und Gesellschaftsrecht
+- lgbl: '2001.174'
+  lr: '216.03'
+  title: Gesetz vom 13. September 2001 zur Ausführung der EWG-Verordnung über die Europäische wirtschaftliche Interessenvereinigung (EWIV-Ausführungsgesetz, EWIVG)
+- lgbl: '2003.066'
+  lr: '216.012'
+  title: Verordnung vom 11. Februar 2003 über das Handelsregister (Handelsregisterverordnung; HRV)
+- lgbl: '2009.114'
+  lr: '216.013'
+  title: Stiftungsrechtsverordnung (StRV) vom 24. März 2009
+- lgbl: '2006.026'
+  lr: 216.222.1
+  title: Gesetz vom 25. November 2005 über das Statut der Europäischen Gesellschaft (Societas Europaea, SE) (SE-Gesetz; SEG)
+- lgbl: '2006.027'
+  lr: 216.222.2
+  title: Gesetz vom 25. November 2005 über die Beteiligung der Arbeitnehmer in der Europäischen Gesellschaft (SE-Beteiligungsgesetz; SEBG)
+- lgbl: '2009.269'
+  lr: 216.222.3
+  title: Gesetz vom 16. September 2009 über die Mitbestimmung der Arbeitnehmer bei einer grenzüberschreitenden Fusion von Kapitalgesellschaften (Fusions-Mitbestimmungsgesetz; FMG)
+- lgbl: '2007.229'
+  lr: 216.226.1
+  title: Gesetz vom 22. Juni 2007 über das Statut der Europäischen Genossenschaft (Societas Cooperativa Europaea, SCE) (SCE-Gesetz; SCEG)
+- lgbl: '2007.230'
+  lr: 216.226.2
+  title: Gesetz vom 22. Juni 2007 über die Beteiligung der Arbeitnehmer in der Europäischen Genossenschaft (SCE-Beteiligungsgesetz; SCEBG)
+- lgbl: '1997.193'
+  lr: '217.0'
+  title: Kundmachung vom 21. Oktober 1997 des Allgemeinen deutschen Handelsgesetzbuches
+- lgbl: '2014.105'
+  lr: '217.011'
+  title: Verordnung vom 15. April 2014 über die gesetzlichen Verzugszinsen im Geschäftsverkehr (Geschäftsverkehrs-Verzugszinsenverordnung; GVZV)
+- lgbl: '1999.160'
+  lr: '231.1'
+  title: Gesetz vom 19. Mai 1999 über das Urheberrecht und verwandte Schutzrechte (Urheberrechtsgesetz, URG)
+  versions: all
+- lgbl: '1999.162'
+  lr: '231.2'
+  title: Gesetz vom 19. Mai 1999 über den Schutz von Topographien von Halbleitererzeugnissen (Topographiengesetz, ToG)
+- lgbl: '2018.111'
+  lr: '231.3'
+  title: Gesetz vom 29. März 2018 über die Wahrnehmung von Urheberrechten und verwandten Schutzrechten durch Verwertungsgesellschaften (Verwertungsgesellschaftengesetz; VGG)
+- lgbl: '2018.118'
+  lr: '231.11'
+  title: Verordnung vom 17. April 2018 über das Urheberrecht und verwandte Schutzrechte (Urheberrechtsverordnung; URV)
+- lgbl: '2001.039'
+  lr: '231.21'
+  title: Verordnung vom 30. Januar 2001 über den Schutz von Topographien von Halbleitererzeugnissen (Topographienverordnung, ToV)
+- lgbl: '2018.117'
+  lr: '231.31'
+  title: Verordnung vom 17. April 2018 über die Wahrnehmung von Urheberrechten und verwandten Schutzrechten durch Verwertungsgesellschaften (Verwertungsgesellschaftenverordnung; VGV)
+- lgbl: '1997.060'
+  lr: '232.11'
+  title: Gesetz vom 12. Dezember 1996 über den Schutz von Marken und Herkunftsangaben (Markenschutzgesetz; MSchG)
+- lgbl: '2002.134'
+  lr: '232.12'
+  title: Gesetz vom 11. September 2002 über den Schutz von Design (Designgesetz; DesG)
+- lgbl: '1980.033'
+  lr: '232.13'
+  title: Gesetz vom 26. September 1979 zum Vertrag zwischen dem Fürstentum Liechtenstein und der Schweizerischen Eidgenossenschaft über den Schutz der Erfindungspatente
+- lgbl: '1957.015'
+  lr: '232.21'
+  title: Gesetz vom 27. Mai 1957 betreffend den Schutz des Zeichens und des Namens des Roten Kreuzes
+- lgbl: '1964.011'
+  lr: '232.22'
+  title: Gesetz vom 9. Januar 1964 betreffend die Olympischen Zeichen
+- lgbl: '1997.077'
+  lr: '232.111'
+  title: Verordnung vom 1. April 1997 über den Schutz von Marken und Herkunftsangaben (Markenschutzverordnung; MSchV)
+- lgbl: '1997.078'
+  lr: 232.111.1
+  title: Verordnung vom 1. April 1997 über die Einhebung von Gebühren nach dem Markenschutzgesetz
+- lgbl: '2002.136'
+  lr: '232.121'
+  title: Verordnung vom 29. Oktober 2002 über den Schutz von Design (Designverordnung; DesV)
+- lgbl: '2002.137'
+  lr: 232.121.1
+  title: Verordnung vom 29. Oktober 2002 über die Einhebung von Gebühren nach dem Designgesetz
+- lgbl: '2018.272'
+  lr: '235.1'
+  title: Datenschutzgesetz (DSG) vom 4. Oktober 2018
+  versions: all
+- lgbl: '2018.415'
+  lr: '235.11'
+  title: Datenschutzverordnung (DSV) vom 11. Dezember 2018
+- lgbl: '2018.454'
+  lr: '235.111'
+  title: Verordnung vom 11. Dezember 2018 über die Offenlegung bestimmter personenbezogener Daten durch die Gemeinden
+- lgbl: '1992.121'
+  lr: '240'
+  title: Gesetz vom 22. Oktober 1992 gegen den unlauteren Wettbewerb (UWG)
+- lgbl: '1996.142'
+  lr: '240.12'
+  title: Verordnung vom 3. September 1996 über die Bekanntgabe von Preisen (Preisbekanntgabeverordnung)
+- lgbl: '2021.038'
+  lr: '271.1'
+  title: Gesetz vom 3. Dezember 2020 über die Hemmung des Fristenablaufes durch dem Sonntag gleichgestellte Tage (Fristenablaufhemmungsgesetz; FAHG)
+- lgbl: '1987.051'
+  lr: '271.011'
+  title: Verordnung vom 13. Oktober 1987 über die Gerichtsferien
+- lgbl: '1994.061'
+  lr: '271.012'
+  title: Verordnung vom 5. Juli 1994 über den schriftlichen Antrag auf Bewilligung der Verfahrenshilfe und über das Vermögensbekenntnis zur Erlangung der Verfahrenshilfe
+- lgbl: '2010.454'
+  lr: '274.0'
+  title: Gesetz vom 25. November 2010 über das gerichtliche Verfahren in Rechtsangelegenheiten ausser Streitsachen (Ausserstreitgesetz; AussStrG)
+- lgbl: '2014.208'
+  lr: '274.011'
+  title: Verordnung vom 17. Juni 2014 über die Erstattung der Kosten einer gerichtlich verfügten Mediation durch das Land
+- lgbl: '2005.031'
+  lr: '275.1'
+  title: Gesetz vom 15. Dezember 2004 über die Mediation in Zivilrechtssachen (Zivilrechts-Mediations-Gesetz; ZMG)
+- lgbl: '2005.071'
+  lr: '275.11'
+  title: Verordnung vom 12. April 2005 zum Gesetz über die Mediation in Zivilrechtssachen (Zivilrechts-Mediations-Verordnung; ZMV)
+- lgbl: '1928.004'
+  lr: '281.1'
+  title: Gesetz vom 23. April 1928 über die Entschädigung für Dienstleistungen Mündiger und die Anschlusszwangsvollstreckung
+- lgbl: '2008.169'
+  lr: '281.011'
+  title: Verordnung vom 1. Juli 2008 über die Festsetzung der pfändungsfreien Beträge bei Exekutionen auf Arbeits- und Diensteinkommen
+- lgbl: '1923.008'
+  lr: '283.0'
+  title: Rechtssicherungs-Ordnung vom 9. Februar 1923
+- lgbl: '1936.008'
+  lr: '284.0'
+  title: Gesetz vom 15. April 1936 betreffend den Nachlassvertrag
+- lgbl: '1996.194'
+  lr: '290'
+  title: Gesetz vom 19. September 1996 über das internationale Privatrecht (IPRG)
+- lgbl: '2015.233'
+  lr: '291'
+  title: Gesetz vom 12. Juni 2015 über das internationale Versicherungsvertragsrecht (IVersVG)
+- lgbl: '1988.037'
+  lr: '311.0'
+  title: Strafgesetzbuch (StGB) vom 24. Juni 1987
+  versions: all
+- lgbl: '1988.038'
+  lr: '311.1'
+  title: Strafrechtsanpassungsgesetz (StRAG) vom 20. Mai 1987
+- lgbl: '1969.034'
+  lr: '311.3'
+  title: Gesetz vom 23. Mai 1969 über den strafrechtlichen Schutz des persönlichen Geheimbereichs
+- lgbl: '1914.005'
+  lr: '311.011'
+  title: Verordnung vom 25. Mai 1914 betreffend die Einführung eines Strafregisterblattes für das Verfahren in einfachen Übertretungsfällen beim Fürstlich Liechtensteinischen Landgericht Vaduz
+- lgbl: '1988.062'
+  lr: '312.0'
+  title: Strafprozessordnung (StPO) vom 18. Oktober 1988
+  versions: all
+- lgbl: '2007.228'
+  lr: '312.2'
+  title: Gesetz vom 22. Juni 2007 über die Hilfe an Opfer von Straftaten (Opferhilfegesetz, OHG)
+- lgbl: '2025.375'
+  lr: '313.0'
+  title: Gesetz vom 13. Juni 2025 über das Verwaltungsstrafrecht und das Verwaltungsstrafverfahren (Verwaltungsstrafgesetz; VStG)
+- lgbl: '2025.562'
+  lr: '313.011'
+  title: Verordnung vom 9. Dezember 2025 über die Einhebung von Gebühren im erstinstanzlichen Verwaltungsstrafverfahren (VSt-GebV)
+- lgbl: '1959.008'
+  lr: '314.0'
+  title: Gesetz vom 23. Dezember 1958 über das Verfahren in Jugendstrafsachen
+- lgbl: '1988.039'
+  lr: '314.1'
+  title: Jugendgerichtsgesetz (JGG) vom 20. Mai 1987
+- lgbl: '1974.046'
+  lr: '330'
+  title: Gesetz vom 2. Juli 1974 über das Strafregister und die Tilgung gerichtlicher Verurteilungen
+- lgbl: '2007.295'
+  lr: '340'
+  title: Strafvollzugsgesetz (StVG) vom 20. September 2007
+- lgbl: '2000.210'
+  lr: '341'
+  title: Gesetz vom 13. September 2000 über die Bewährungshilfe (Bewährungshilfegesetz, BewHG)
+- lgbl: '2001.042'
+  lr: '341.1'
+  title: Verordnung vom 13. Februar 2001 zum Bewährungshilfegesetz (BewHV)
+- lgbl: '2000.215'
+  lr: '351'
+  title: Gesetz vom 15. September 2000 über die internationale Rechtshilfe in Strafsachen (Rechtshilfegesetz, RHG)
+- lgbl: '2004.268'
+  lr: '352'
+  title: Gesetz vom 20. Oktober 2004 über die Zusammenarbeit mit dem Internationalen Strafgerichtshof und anderen Internationalen Gerichten (ZIGG)
+- lgbl: '2017.332'
+  lr: '352.1'
+  title: Verordnung vom 28. November 2017 über die Zusammenarbeit mit dem Internationalen Strafgerichtshof und anderen Internationalen Gerichten (ZIGV)
+- lgbl: '2010.246'
+  lr: '353'
+  title: Gesetz vom 30. Juni 2010 über die internationale Amtshilfe in Steuersachen (Steueramtshilfegesetz; SteAHG)
+- lgbl: '2017.439'
+  lr: '353.1'
+  title: Verordnung vom 12. Dezember 2017 über die internationale Amtshilfe in Steuersachen (Steueramtshilfeverordnung; SteAHV)
+- lgbl: '2015.355'
+  lr: '354'
+  title: Gesetz vom 5. November 2015 über den internationalen automatischen Informationsaustausch in Steuersachen in Bezug auf Finanzkonten (AIA-Gesetz)
+- lgbl: '2015.358'
+  lr: '354.1'
+  title: Verordnung vom 15. Dezember 2015 über den internationalen automatischen Informationsaustausch in Steuersachen in Bezug auf Finanzkonten (AIA-Verordnung)
+- lgbl: '2016.502'
+  lr: '355'
+  title: Gesetz vom 4. November 2016 über den internationalen automatischen Austausch länderbezogener Berichte multinationaler Konzerne (CbC-Gesetz)
+- lgbl: '2016.510'
+  lr: '355.1'
+  title: Verordnung vom 20. Dezember 2016 über den internationalen automatischen Austausch länderbezogener Berichte multinationaler Konzerne (CbC-Verordnung)
+- lgbl: '2025.589'
+  lr: '356'
+  title: Gesetz vom 7. November 2025 über den internationalen automatischen Informationsaustausch in Steuersachen in Bezug auf Transaktionen mit Kryptowerten (CARF-Gesetz)
+- lgbl: '2025.599'
+  lr: '356.1'
+  title: Verordnung vom 18. Dezember 2025 über den internationalen automatischen Informationsaustausch in Steuersachen in Bezug auf Transaktionen mit Kryptowerten (CARF-Verordnung)
+- lgbl: '2010.248'
+  lr: 359.114.1
+  title: Gesetz vom 30. Juni 2010 über die Amtshilfe in Steuersachen mit dem Vereinigten Königreich von Grossbritannien und Nordirland (Steueramtshilfegesetz-UK; AHG-UK)
+- lgbl: '2009.303'
+  lr: 359.131.1
+  title: Gesetz vom 16. September 2009 über die Amtshilfe in Steuersachen mit den Vereinigten Staaten von Amerika (Steueramtshilfegesetz-USA; AHG-USA)
+- lgbl: '2015.007'
+  lr: 359.131.2
+  title: Gesetz vom 4. Dezember 2014 über die Umsetzung des FATCA-Abkommens zwischen dem Fürstentum Liechtenstein und den Vereinigten Staaten von Amerika (FATCA-Gesetz)
+- lgbl: '2011.436'
+  lr: '361'
+  title: Gesetz vom 19. Mai 2011 zur Interkantonalen Vereinbarung über die computergestützte Zusammenarbeit der Kantone bei der Aufklärung von Gewaltdelikten (ViCLAS-Konkordat)
+- lgbl: '2006.072'
+  lr: '369'
+  title: Gesetz vom 14. Dezember 2005 zum Vertrag zwischen dem Fürstentum Liechtenstein und der Schweizerischen Eidgenossenschaft über die Zusammenarbeit im Rahmen der schweizerischen Informationssysteme
+    für Fingerabdrücke und DNA-Profile
+- lgbl: '1972.007'
+  lr: '411.0'
+  title: Schulgesetz (SchulG) vom 15. Dezember 1971
+- lgbl: '2001.197'
+  lr: '411.011'
+  title: Verordnung vom 18. Dezember 2001 über die schulischen Fördermassnahmen (SchulFMV)
+- lgbl: '1996.007'
+  lr: '411.012'
+  title: Verordnung vom 19. Dezember 1995 über die Förderung der Kinder von Wanderarbeitnehmern in der Muttersprache und in heimatlicher Landeskunde
+- lgbl: '2000.090'
+  lr: '411.014'
+  title: Verordnung vom 25. April 2000 über die Subvention von Privatschulen
+- lgbl: '2012.210'
+  lr: '411.015'
+  title: Verordnung vom 19. Juni 2012 über den Privatunterricht
+- lgbl: '2004.004'
+  lr: '411.31'
+  title: Gesetz vom 26. November 2003 über das Dienstverhältnis des Lehr- und schulischen Assistenzpersonals (Lehrpersonalgesetz; LPersG)
+- lgbl: '2004.154'
+  lr: '411.201'
+  title: Verordnung vom 6. Juli 2004 über die Organisation der öffentlichen Schulen (Schulorganisationsverordnung, SchulOV)
+- lgbl: '1995.190'
+  lr: '411.261'
+  title: Verordnung vom 29. August 1995 über das Freiwillige 10. Schuljahr
+- lgbl: '2001.160'
+  lr: '411.271'
+  title: Verordnung vom 25. September 2001 über die Berufsmittelschule
+- lgbl: '2004.092'
+  lr: '411.311'
+  title: Verordnung vom 6. April 2004 zum Lehrerdienstgesetz (Lehrerdienstverordnung, LdV)
+- lgbl: '2001.139'
+  lr: '411.451'
+  title: Verordnung vom 14. August 2001 über den Lehrplan, die Promotion und die Matura auf der Oberstufe des Liechtensteinischen Gymnasiums (LPMGV)
+- lgbl: '2010.252'
+  lr: '411.481'
+  title: Verordnung vom 24. August 2010 über den Lehrplan, die Promotion und die Matura an Privatschulen mit Öffentlichkeitsrecht
+- lgbl: '1995.121'
+  lr: 411.521.4
+  title: Verordnung vom 25. April 1995 über die Beurteilung der Kinder und deren Beförderung an der Primarschule
+- lgbl: '2001.140'
+  lr: 411.531.1
+  title: Verordnung vom 14. August 2001 über die Aufnahme in die sowie die Promotion und den Übertritt auf der Sekundarstufe I (PromSV)
+- lgbl: '2008.103'
+  lr: '412.0'
+  title: Berufsbildungsgesetz (BBG) vom 13. März 2008
+- lgbl: '1954.013'
+  lr: '412.011'
+  title: Regierungsbeschluss vom 30. September 1954 über die Teilnahme liechtensteinischer Bürger an den schweizerischen höheren Fachprüfungen
+- lgbl: '2008.177'
+  lr: '412.012'
+  title: Berufsbildungsverordnung (BBV) vom 8. Juli 2008
+- lgbl: '2025.443'
+  lr: '412.013'
+  title: Verordnung vom 23. September 2025 über Mindestvorschriften für die Allgemeinbildung in der beruflichen Grundbildung
+- lgbl: '2017.356'
+  lr: 412.014.001
+  title: Verordnung vom 12. Dezember 2017 über die berufliche Grundbildung Automobil-Fachfrau/Automobil-Fachmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2017.357'
+  lr: 412.014.002
+  title: Verordnung vom 12. Dezember 2017 über die berufliche Grundbildung Automobil-Mechatronikerin/Automobil-Mechatroniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.201'
+  lr: 412.014.003
+  title: Verordnung vom 17. August 2010 über die berufliche Grundbildung Baumaschinenmechanikerin/Baumaschinenmechaniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2017.281'
+  lr: 412.014.004
+  title: Verordnung vom 17. Oktober 2017 über die berufliche Grundbildung Carrosserielackiererin/Carrosserielackierer mit Fähigkeitszeugnis (FZ)
+- lgbl: '2017.282'
+  lr: 412.014.005
+  title: Verordnung vom 17. Oktober 2017 über die berufliche Grundbildung Carrosseriespenglerin/Carrosseriespengler mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.131'
+  lr: 412.014.006
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Coiffeuse/Coiffeur mit Fähigkeitszeugnis (FZ)
+- lgbl: '2015.225'
+  lr: 412.014.007
+  title: Verordnung vom 18. August 2015 über die berufliche Grundbildung Elektroinstallateurin/Elektroinstallateur mit Fähigkeitszeugnis (FZ)
+- lgbl: '2015.224'
+  lr: 412.014.008
+  title: Verordnung vom 18. August 2015 über die berufliche Grundbildung Elektroplanerin/Elektroplaner mit Fähigkeitszeugnis (FZ)
+- lgbl: '2020.346'
+  lr: 412.014.009
+  title: Verordnung vom 17. November 2020 über die berufliche Grundbildung Fachfrau Betreuung/Fachmann Betreuung mit Fähigkeitszeugnis (FZ)
+- lgbl: '2023.243'
+  lr: 412.014.010
+  title: Verordnung vom 13. Juni 2023 über die berufliche Grundbildung Fachfrau Betriebsunterhalt/Fachmann Betriebsunterhalt mit Fähigkeitszeugnis (FZ)
+- lgbl: '2016.476'
+  lr: 412.014.012
+  title: Verordnung vom 13. Dezember 2016 über die berufliche Grundbildung Fleischfachfrau/Fleischfachmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.132'
+  lr: 412.014.013
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Floristin/Florist mit Fähigkeitszeugnis (FZ)
+- lgbl: '2019.321'
+  lr: 412.014.014
+  title: Verordnung vom 26. November 2019 über die berufliche Grundbildung Forstwartin/Forstwart mit Fähigkeitszeugnis (FZ)
+- lgbl: '2019.322'
+  lr: 412.014.015
+  title: Verordnung vom 26. November 2019 über die berufliche Grundbildung Heizungsinstallateurin/Heizungsinstallateur mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.133'
+  lr: 412.014.016
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Fachfrau Hotellerie-Hauswirtschaft/Fachmann Hotellerie-Hauswirtschaft mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.134'
+  lr: 412.014.017
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Praktikerin Hotellerie-Hauswirtschaft/Praktiker Hotellerie-Hauswirtschaft mit Berufsattest (BA)
+- lgbl: '2021.081'
+  lr: 412.014.018
+  title: Verordnung vom 23. Februar 2021 über die berufliche Grundbildung Informatikerin/Informatiker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.135'
+  lr: 412.014.019
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Kosmetikerin/Kosmetiker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.136'
+  lr: 412.014.020
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Küchenangestellte/Küchenangestellter mit Berufsattest (BA)
+- lgbl: '2023.251'
+  lr: 412.014.021
+  title: Verordnung vom 13. Juni 2023 über die berufliche Grundbildung Laborantin/Laborant mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.220'
+  lr: 412.014.022
+  title: Verordnung vom 17. August 2010 über die berufliche Grundbildung Landmaschinenmechanikerin/Landmaschinenmechaniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.159'
+  lr: 412.014.023
+  title: Verordnung vom 26. März 2024 über die berufliche Grundbildung der Berufe mit Fähigkeitszeugnis (FZ) im Berufsfeld "Logistik"
+- lgbl: '2018.178'
+  lr: 412.014.024
+  title: Verordnung vom 28. August 2018 über die berufliche Grundbildung Lüftungsanlagenbauerin/Lüftungsanlagenbauer mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.137'
+  lr: 412.014.025
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Metallbauerin/Metallbauer mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.224'
+  lr: 412.014.026
+  title: Verordnung vom 17. August 2010 über die berufliche Grundbildung Metallbaukonstrukteurin/Metallbaukonstrukteur mit Fähigkeitszeugnis (FZ)
+- lgbl: '2015.223'
+  lr: 412.014.027
+  title: Verordnung vom 18. August 2015 über die berufliche Grundbildung Montage-Elektrikerin/Montage-Elektriker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.226'
+  lr: 412.014.028
+  title: Verordnung vom 17. August 2010 über die berufliche Grundbildung Motorgerätemechanikerin/Motorgerätemechaniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2021.383'
+  lr: 412.014.029
+  title: Verordnung vom 30. November 2021 über die berufliche Grundbildung Fachfrau Apotheke/Fachmann Apotheke mit Fähigkeitszeugnis (FZ)
+- lgbl: '2021.384'
+  lr: 412.014.030
+  title: Verordnung vom 30. November 2021 über die berufliche Grundbildung Polygrafin/Polygraf mit Fähigkeitszeugnis (FZ)
+- lgbl: '2021.385'
+  lr: 412.014.031
+  title: Verordnung vom 30. November 2021 über die berufliche Grundbildung Bindetechnologin/Bindetechnologe mit Fähigkeitszeugnis (FZ)
+- lgbl: '2019.083'
+  lr: 412.014.032
+  title: Verordnung vom 26. März 2019 über die berufliche Grundbildung Restaurantangestellte/Restaurantangestellter mit Berufsattest (BA)
+- lgbl: '2019.084'
+  lr: 412.014.033
+  title: Verordnung vom 26. März 2019 über die berufliche Grundbildung Restaurantfachfrau/Restaurantfachmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2021.082'
+  lr: 412.014.034
+  title: Verordnung vom 23. Februar 2021 über die berufliche Grundbildung Gebäudeinformatikerin/Gebäudeinformatiker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2014.125'
+  lr: 412.014.035
+  title: Verordnung vom 29. April 2014 über die berufliche Grundbildung Berufsfeld "Verkehrswegbau" mit Fähigkeitszeugnis (FZ)
+- lgbl: '2017.066'
+  lr: 412.014.036
+  title: Verordnung vom 7. März 2017 über die berufliche Grundbildung Anlagenführerin/Anlagenführer mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.291'
+  lr: 412.014.037
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Automatikerin/Automatiker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2017.358'
+  lr: 412.014.038
+  title: Verordnung vom 12. Dezember 2017 über die berufliche Grundbildung Automobil-Assistentin/Automobil-Assistent mit Berufsattest (BA)
+- lgbl: '2010.293'
+  lr: 412.014.039
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Bauwerktrennerin/Bauwerktrenner mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.294'
+  lr: 412.014.040
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Betonwerkerin/Betonwerker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.295'
+  lr: 412.014.041
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Buchhändlerin/Buchhändler mit Fähigkeitszeugnis (FZ)
+- lgbl: '2019.320'
+  lr: 412.014.042
+  title: Verordnung vom 26. November 2019 über die berufliche Grundbildung Dentalassistentin/Dentalassistent mit Fähigkeitszeugnis (FZ)
+- lgbl: '2021.386'
+  lr: 412.014.043
+  title: Verordnung vom 30. November 2021 über die berufliche Grundbildung Detailhandelsassistentin/Detailhandelsassistent mit Berufsattest (BA)
+- lgbl: '2021.387'
+  lr: 412.014.044
+  title: Verordnung vom 30. November 2021 über die berufliche Grundbildung Detailhandelsfachfrau/Detailhandelsfachmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2019.005'
+  lr: 412.014.045
+  title: Verordnung vom 22. Januar 2019 über die berufliche Grundbildung Medientechnologin/Medientechnologe mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.300'
+  lr: 412.014.046
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Elektronikerin/Elektroniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2016.374'
+  lr: 412.014.047
+  title: Verordnung vom 8. November 2016 über die berufliche Grundbildung Fachfrau Gesundheit/Fachmann Gesundheit mit Fähigkeitszeugnis (FZ)
+- lgbl: '2021.388'
+  lr: 412.014.048
+  title: Verordnung vom 30. November 2021 über die berufliche Grundbildung Fachfrau Information und Dokumentation/Fachmann Information und Dokumentation mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.303'
+  lr: 412.014.049
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Fahrzeugschlosserin/Fahrzeugschlosser mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.304'
+  lr: 412.014.050
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Fotofachfrau/Fotofachmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2025.195'
+  lr: 412.014.051
+  title: Verordnung vom 25. Februar 2025 über die berufliche Grundbildung im Berufsfeld "Gebäudetechnikplanung" mit Fähigkeitszeugnis (FZ)
+- lgbl: '2025.196'
+  lr: 412.014.052
+  title: Verordnung vom 25. Februar 2025 über die berufliche Grundbildung Geomatikerin/Geomatiker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2023.246'
+  lr: 412.014.053
+  title: Verordnung vom 13. Juni 2023 über die berufliche Grundbildung Grafikerin/Grafiker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.138'
+  lr: 412.014.054
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Köchin/Koch mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.309'
+  lr: 412.014.055
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Konstrukteurin/Konstrukteur mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.310'
+  lr: 412.014.056
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Berufsfeld Landwirtschaft und deren Berufe
+- lgbl: '2024.160'
+  lr: 412.014.057
+  title: Verordnung vom 26. März 2024 über die berufliche Grundbildung Logistikerin/Logistiker mit Berufsattest (BA)
+- lgbl: '2018.179'
+  lr: 412.014.058
+  title: Verordnung vom 28. August 2018 über die berufliche Grundbildung Medizinische Praxisassistentin/Medizinischer Praxisassistent mit Fähigkeitszeugnis (FZ)
+- lgbl: '2020.068'
+  lr: 412.014.059
+  title: Verordnung vom 18. Februar 2020 über die berufliche Grundbildung Milchpraktikerin/Milchpraktiker mit Berufsattest (BA)
+- lgbl: '2024.139'
+  lr: 412.014.060
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Pferdefachfrau/Pferdefachmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.140'
+  lr: 412.014.061
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung der Berufe mit Fähigkeitszeugnis (FZ) im Berufsfeld Gebäudehülle
+- lgbl: '2025.197'
+  lr: 412.014.062
+  title: Verordnung vom 25. Februar 2025 über die berufliche Grundbildung Polydesignerin 3D/Polydesigner 3D mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.317'
+  lr: 412.014.063
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Polymechanikerin/Polymechaniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.318'
+  lr: 412.014.064
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Produktionsmechanikerin/Produktionsmechaniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2019.323'
+  lr: 412.014.065
+  title: Verordnung vom 26. November 2019 über die berufliche Grundbildung Sanitärinstallateurin/Sanitärinstallateur mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.320'
+  lr: 412.014.066
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Schreinerpraktikerin/Schreinerpraktikermit Berufsattest (BA)
+- lgbl: '2024.141'
+  lr: 412.014.067
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Spenglerin/Spengler mit Fähigkeitszeugnis (FZ)
+- lgbl: '2020.267'
+  lr: 412.014.068
+  title: Verordnung vom 1. September 2020 über die berufliche Grundbildung Steinmetzin/Steinmetz mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.161'
+  lr: 412.014.069
+  title: Verordnung vom 26. März 2024 über die berufliche Grundbildung Fachfrau Textilpflege/Fachmann Textilpflege mit Fähigkeitszeugnis (FZ)
+- lgbl: '2010.324'
+  lr: 412.014.070
+  title: Verordnung vom 26. Oktober 2010 über die berufliche Grundbildung Tierpflegerin/Tierpfleger mit Fähigkeitszeugnis (FZ)
+- lgbl: '2017.359'
+  lr: 412.014.071
+  title: Verordnung vom 12. Dezember 2017 über die berufliche Grundbildung Zahntechnikerin/Zahntechniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.142'
+  lr: 412.014.072
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Zeichnerin/Zeichner mit Fähigkeitszeugnis (FZ)
+- lgbl: '2011.097'
+  lr: 412.014.073
+  title: Verordnung vom 15. März 2011 über die berufliche Grundbildung Agrarpraktikerin/Agrarpraktiker mit Berufsattest (BA)
+- lgbl: '2021.389'
+  lr: 412.014.074
+  title: Verordnung vom 30. November 2021 über die berufliche Grundbildung Augenoptikerin/Augenoptiker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2011.099'
+  lr: 412.014.075
+  title: Verordnung vom 15. März 2011 über die berufliche Grundbildung Automatikmonteurin/Automatikmonteur mit Fähigkeitszeugnis (FZ)
+- lgbl: '2023.248'
+  lr: 412.014.076
+  title: Verordnung vom 13. Juni 2023 über die berufliche Grundbildung Kauffrau/Kaufmann mit Berufsattest (BA)
+- lgbl: '2011.101'
+  lr: 412.014.077
+  title: Verordnung vom 15. März 2011 über die berufliche Grundbildung Drogistin/Drogist mit Fähigkeitszeugnis (FZ)
+- lgbl: '2016.477'
+  lr: 412.014.078
+  title: Verordnung vom 13. Dezember 2016 über die berufliche Grundbildung Fleischfachassistentin/Fleischfachassistent mit Berufsattest (BA)
+- lgbl: '2024.143'
+  lr: 412.014.079
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Floristin/Florist mit Berufsattest (BA)
+- lgbl: '2023.245'
+  lr: 412.014.080
+  title: Verordnung vom 13. Juni 2023 über die berufliche Grundbildung im Berufsfeld "Gebäudetechnik" mit Berufsattest (BA)
+- lgbl: '2016.077'
+  lr: 412.014.082
+  title: Verordnung vom 16. Februar 2016 über die berufliche Grundbildung Industrielackiererin/Industrielackierer mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.465'
+  lr: 412.014.083
+  title: Verordnung vom 17. Dezember 2024 über die berufliche Grundbildung Keramikerin/Keramiker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2025.200'
+  lr: 412.014.084
+  title: Verordnung vom 25. Februar 2025 über die berufliche Grundbildung Lebensmittelpraktikerin/Lebensmittelpraktiker (BA)
+- lgbl: '2011.109'
+  lr: 412.014.085
+  title: Verordnung vom 15. März 2011 über die berufliche Grundbildung Mechanikpraktikerin/Mechanikpraktiker mit Berufsattest (BA)
+- lgbl: '2011.110'
+  lr: 412.014.086
+  title: Verordnung vom 15. März 2011 über die berufliche Grundbildung Metallbaupraktikerin/Metallbaupraktiker mit Berufsattest (BA)
+- lgbl: '2024.144'
+  lr: 412.014.087
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Pferdewartin/Pferdewart mit Berufsattest (BA)
+- lgbl: '2011.112'
+  lr: 412.014.088
+  title: Verordnung vom 15. März 2011 über die berufliche Grundbildung Plattenlegerin/Plattenleger mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.145'
+  lr: 412.014.089
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung der Berufe mit Berufsattest (BA) im Berufsfeld Gebäudehülle
+- lgbl: '2014.124'
+  lr: 412.014.090
+  title: Verordnung vom 29. April 2014 über die berufliche Grundbildung Berufsfeld "Verkehrswegbau" mit Berufsattest (BA)
+- lgbl: '2011.260'
+  lr: 412.014.091
+  title: Verordnung vom 21. Juni 2011 über die berufliche Grundbildung Assistentin Gesundheit und Soziales/Assistent Gesundheit und Soziales mit Berufsattest (BA)
+- lgbl: '2011.261'
+  lr: 412.014.092
+  title: Verordnung vom 21. Juni 2011 über die berufliche Grundbildung Bäckerin-Konditorin-Confiseurin/Bäcker-Konditor-Confiseur mit Fähigkeitszeugnis (FZ)
+- lgbl: '2011.262'
+  lr: 412.014.093
+  title: Verordnung vom 21. Juni 2011 über die berufliche Grundbildung Bäckerin-Konditorin-Confiseurin/Bäcker-Konditor-Confiseur mit Berufsattest (BA)
+- lgbl: '2025.329'
+  lr: 412.014.094
+  title: Verordnung vom 1. Juli 2025 über die berufliche Grundbildung Maurerin/Maurer mit Berufsattest (BA)
+- lgbl: '2011.264'
+  lr: 412.014.095
+  title: Verordnung vom 21. Juni 2011 über die berufliche Grundbildung Dekorationsnäherin/Dekorationsnäher mit Berufsattest (BA)
+- lgbl: '2025.202'
+  lr: 412.014.097
+  title: Verordnung vom 25. Februar 2025 über die berufliche Grundbildung Fachfrau Reinigungstechnik/Fachmann Reinigungstechnik mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.146'
+  lr: 412.014.098
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Praktikerin Reinigungstechnik/Praktiker Reinigungstechnik mit Berufsattest (BA)
+- lgbl: '2011.268'
+  lr: 412.014.099
+  title: Verordnung vom 21. Juni 2011 über die berufliche Grundbildung Holzbearbeiterin/Holzbearbeiter mit Berufsattest (BA)
+- lgbl: '2018.058'
+  lr: 412.014.100
+  title: Verordnung vom 20. März 2018 über die berufliche Grundbildung ICT-Fachfrau/ICT-Fachmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2011.270'
+  lr: 412.014.101
+  title: Verordnung vom 21. Juni 2011 über die berufliche Grundbildung Industriepolsterin/Industriepolsterer mit Fähigkeitszeugnis (FZ)
+- lgbl: '2023.250'
+  lr: 412.014.102
+  title: Verordnung vom 13. Juni 2023 über die berufliche Grundbildung Kaminfegerin/Kaminfeger mit Fähigkeitszeugnis (FZ)
+- lgbl: '2025.328'
+  lr: 412.014.103
+  title: Verordnung vom 1. Juli 2025 über die berufliche Grundbildung Maurerin/Maurer mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.147'
+  lr: 412.014.104
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Ofenbauerin/Ofenbauer mit Fähigkeitszeugnis (FZ)
+- lgbl: '2011.274'
+  lr: 412.014.105
+  title: Verordnung vom 21. Juni 2011 über die berufliche Grundbildung Orthopädieschuhmacherin/Orthopädieschuhmacher mit Fähigkeitszeugnis (FZ)
+- lgbl: '2011.275'
+  lr: 412.014.106
+  title: Verordnung vom 21. Juni 2011 über die berufliche Grundbildung Plattenlegerpraktikerin/Plattenlegerpraktiker mit Berufsattest (BA)
+- lgbl: '2021.083'
+  lr: 412.014.107
+  title: Verordnung vom 23. Februar 2021 über die berufliche Grundbildung Podologin/Podologe mit Fähigkeitszeugnis (FZ)
+- lgbl: '2018.236'
+  lr: 412.014.108
+  title: Verordnung vom 13. November 2018 über die berufliche Grundbildung Recyclistin/Recyclist mit Fähigkeitszeugnis (FZ)
+- lgbl: '2011.278'
+  lr: 412.014.109
+  title: Verordnung vom 21. Juni 2011 über die berufliche Grundbildung Schuhmacherin/Schuhmacher mit Fähigkeitszeugnis (FZ)
+- lgbl: '2011.280'
+  lr: 412.014.111
+  title: Verordnung vom 21. Juni 2011 über die berufliche Grundbildung Veranstaltungsfachfrau/Veranstaltungsfachmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2011.281'
+  lr: 412.014.112
+  title: Verordnung vom 21. Juni 2011 über die berufliche Grundbildung Wohntextilgestalterin/Wohntextilgestalter mit Fähigkeitszeugnis (FZ)
+- lgbl: '2023.249'
+  lr: 412.014.113
+  title: Verordnung vom 13. Juni 2023 über die berufliche Grundbildung Kauffrau/Kaufmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.148'
+  lr: 412.014.114
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Coiffeuse/Coiffeur mit Berufsattest (BA)
+- lgbl: '2012.137'
+  lr: 412.014.115
+  title: Verordnung vom 8. Mai 2012 über die berufliche Grundbildung Boden-Parkettlegerin/Boden-Parkettleger mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.162'
+  lr: 412.014.116
+  title: Verordnung vom 26. März 2024 über die berufliche Grundbildung Gärtnerin/Gärtner mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.163'
+  lr: 412.014.117
+  title: Verordnung vom 26. März 2024 über die berufliche Grundbildung Gärtnerin/Gärtner mit Berufsattest (BA)
+- lgbl: '2025.206'
+  lr: 412.014.118
+  title: Verordnung vom 25. Februar 2025 über die berufliche Grundbildung Fahrradmechanikerin/Fahrradmechaniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2025.208'
+  lr: 412.014.119
+  title: Verordnung vom 25. Februar 2025 über die berufliche Grundbildung Zweirad-Assistentin/Zweirad-Assistent mit Berufsattest (BA)
+- lgbl: '2020.069'
+  lr: 412.014.120
+  title: Verordnung vom 18. Februar 2020 über die berufliche Grundbildung Milchtechnologin/Milchtechnologe mit Fähigkeitszeugnis (FZ)
+- lgbl: '2025.209'
+  lr: 412.014.121
+  title: Verordnung vom 25. Februar 2025 über die berufliche Grundbildung Motorradmechanikerin/Motorradmechaniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2025.203'
+  lr: 412.014.122
+  title: Verordnung vom 25. Februar 2025 über die berufliche Grundbildung Printmedienpraktikerin/Printmedienpraktiker (BA)
+- lgbl: '2012.234'
+  lr: 412.014.123
+  title: Verordnung vom 10. Juli 2012 über die berufliche Grundbildung Reifenpraktikerin/Reifenpraktiker mit Berufsattest (BA)
+- lgbl: '2013.097'
+  lr: 412.014.124
+  title: Verordnung vom 19. Februar 2013 über die berufliche Grundbildung Anlagen- und Apparatebauerin/Anlagen- und Apparatebauer mit Fähigkeitszeugnis (FZ)
+- lgbl: '2013.098'
+  lr: 412.014.125
+  title: Verordnung vom 19. Februar 2013 über die berufliche Grundbildung Forstpraktikerin/Forstpraktiker mit Berufsattest (BA)
+- lgbl: '2013.099'
+  lr: 412.014.126
+  title: Verordnung vom 19. Februar 2013 über die berufliche Grundbildung Lackierassistentin/Lackierassistent mit Berufsattest (BA)
+- lgbl: '2025.204'
+  lr: 412.014.127
+  title: Verordnung vom 25. Februar 2025 über die berufliche Grundbildung im Berufsfeld Lebensmitteltechnologie mit Fähigkeitszeugnis (FZ)
+- lgbl: '2013.101'
+  lr: 412.014.128
+  title: Verordnung vom 19. Februar 2013 über die berufliche Grundbildung Strassentransportfachfrau/Strassentransportfachmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2025.275'
+  lr: 412.014.129
+  title: Verordnung vom 6. Mai 2025 über die berufliche Grundbildung Systemgastronomiefachfrau/Systemgastronomiefachmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2021.390'
+  lr: 412.014.130
+  title: Verordnung vom 30. November 2021 über die berufliche Grundbildung Gestalterin Werbetechnik/Gestalter Werbetechnik mit Fähigkeitszeugnis (FZ)
+- lgbl: '2013.301'
+  lr: 412.014.131
+  title: Verordnung vom 3. September 2013 über die berufliche Grundbildung Werkstofftechnikerin/Werkstofftechniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2014.027'
+  lr: 412.014.132
+  title: Verordnung vom 4. Februar 2014 über die berufliche Grundbildung Fachfrau Bewegungs- und Gesundheitsförderung/Fachmann Bewegungs- und Gesundheitsförderung mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.149'
+  lr: 412.014.133
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Netzelektrikerin/Netzelektriker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2014.029'
+  lr: 412.014.134
+  title: Verordnung vom 4. Februar 2014 über die berufliche Grundbildung Schreinerin/Schreiner mit Fähigkeitszeugnis (FZ)
+- lgbl: '2014.030'
+  lr: 412.014.135
+  title: Verordnung vom 4. Februar 2014 über die berufliche Grundbildung Zimmerin/Zimmermann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2014.122'
+  lr: 412.014.136
+  title: Verordnung vom 29. April 2014 über die berufliche Grundbildung Bekleidungsgestalterin/Bekleidungsgestalter mit Fähigkeitszeugnis (FZ)
+- lgbl: '2014.123'
+  lr: 412.014.137
+  title: Verordnung vom 29. April 2014 über die berufliche Grundbildung Bekleidungsnäherin/Bekleidungsnäher mit Berufsattest (BA)
+- lgbl: '2024.164'
+  lr: 412.014.138
+  title: Verordnung vom 26. März 2024 über die berufliche Grundbildung Multimediaelektronikerin/Multimediaelektroniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2014.255'
+  lr: 412.014.139
+  title: Verordnung vom 30. September 2014 über die berufliche Grundbildung Strassentransportpraktikerin/Strassentransportpraktiker mit Berufsattest (BA)
+- lgbl: '2014.256'
+  lr: 412.014.140
+  title: Verordnung vom 30. September 2014 über die berufliche Grundbildung Physiklaborantin/Physiklaborant mit Fähigkeitszeugnis (FZ)
+- lgbl: '2014.317'
+  lr: 412.014.141
+  title: Verordnung vom 2. Dezember 2014 über die berufliche Grundbildung Gipserpraktikerin/Gipserpraktiker mit Berufsattest (BA)
+- lgbl: '2014.318'
+  lr: 412.014.142
+  title: Verordnung vom 2. Dezember 2014 über die berufliche Grundbildung Gipserin-Trockenbauerin/Gipser-Trockenbauer mit Fähigkeitszeugnis (FZ)
+- lgbl: '2014.319'
+  lr: 412.014.143
+  title: Verordnung vom 2. Dezember 2014 über die berufliche Grundbildung Malerin/Maler mit Fähigkeitszeugnis (FZ)
+- lgbl: '2014.320'
+  lr: 412.014.144
+  title: Verordnung vom 2. Dezember 2014 über die berufliche Grundbildung Malerpraktikerin/Malerpraktiker mit Berufsattest (BA)
+- lgbl: '2023.252'
+  lr: 412.014.145
+  title: Verordnung vom 13. Juni 2023 über die berufliche Grundbildung Unterhaltspraktikerin/Unterhaltspraktiker mit Berufsattest (BA)
+- lgbl: '2019.085'
+  lr: 412.014.146
+  title: Verordnung vom 26. März 2019 über die berufliche Grundbildung Mediamatikerin/Mediamatiker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2017.156'
+  lr: 412.014.147
+  title: Verordnung vom 20. Juni 2017 über die berufliche Grundbildung Hotel-Kommunikationsfachfrau/Hotel-Kommunikationsfachmann mit Fähigkeitszeugnis (FZ)
+- lgbl: '2019.325'
+  lr: 412.014.148
+  title: Verordnung vom 26. November 2019 über die berufliche Grundbildung Seilbahnerin/Seilbahner mit Berufsattest (BA)
+- lgbl: '2019.326'
+  lr: 412.014.149
+  title: Verordnung vom 26. November 2019 über die berufliche Grundbildung Seilbahn-Mechatronikerin/Seilbahn-Mechatroniker mit Fähigkeitszeugnis (FZ)
+- lgbl: '2017.328'
+  lr: 412.014.150
+  title: Verordnung vom 21. November 2017 über die berufliche Grundbildung Sägerin Holzindustrie/Säger Holzindustrie mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.150'
+  lr: 412.014.151
+  title: Verordnung vom 27. Februar 2024 über die berufliche Grundbildung Interaktivmediendesignerin/Interaktivmediendesigner mit Fähigkeitszeugnis (FZ)
+- lgbl: '2019.327'
+  lr: 412.014.152
+  title: Verordnung vom 26. November 2019 über die berufliche Grundbildung Raumausstatterin/Raumausstatter mit Fähigkeitszeugnis (FZ)
+- lgbl: '2021.391'
+  lr: 412.014.153
+  title: Verordnung vom 30. November 2021 über die berufliche Grundbildung Druckausrüsterin/Druckausrüster mit Fähigkeitszeugnis (FZ)
+- lgbl: '2023.206'
+  lr: 412.014.154
+  title: Verordnung vom 30. Mai 2023 über die berufliche Grundbildung Medizinproduktetechnologin/Medizinproduktetechnologe mit Fähigkeitszeugnis (FZ)
+- lgbl: '2023.244'
+  lr: 412.014.155
+  title: Verordnung vom 13. Juni 2023 über die berufliche Grundbildung Entwicklerin digitales Business/Entwickler digitales Business mit Fähigkeitszeugnis (FZ)
+- lgbl: '2023.247'
+  lr: 412.014.156
+  title: Verordnung vom 13. Juni 2023 über die berufliche Grundbildung Kältesystem-Monteurin/Kältesystem-Monteur mit Fähigkeitszeugnis (FZ)
+- lgbl: '2024.466'
+  lr: 412.014.157
+  title: Verordnung vom 17. Dezember 2024 über die berufliche Grundbildung Tiermedizinische Praxisassistentin/Tiermedizinischer Praxisassistent mit Fähigkeitszeugnis (FZ)
+- lgbl: '2025.205'
+  lr: 412.014.158
+  title: Verordnung vom 25. Februar 2025 über die berufliche Grundbildung Carrosseriereparateurin/Carrosseriereparateur mit Fähigkeitszeugnis (FZ)
+- lgbl: '2025.276'
+  lr: 412.014.159
+  title: Verordnung vom 6. Mai 2025 über die berufliche Grundbildung Systemgastronomiepraktikerin/Systemgastronomiepraktiker mit Berufsattest (BA)
+- lgbl: '2017.396'
+  lr: '412.015'
+  title: Verordnung vom 12. Dezember 2017 über den Nationalen Qualifikationsrahmen des Fürstentums Liechtenstein für Abschlüsse der Berufsbildung (NQFL-BBV)
+- lgbl: '1979.045'
+  lr: '413.0'
+  title: Gesetz vom 5. Juli 1979 über die Förderung der Erwachsenenbildung
+- lgbl: '1999.049'
+  lr: '413.1'
+  title: Gesetz vom 18. Dezember 1998 über die Stiftung "Erwachsenenbildung Liechtenstein" (EbLG)
+- lgbl: '2005.002'
+  lr: '414.0'
+  title: Gesetz vom 25. November 2004 über das Hochschulwesen (Hochschulgesetz; HSG)
+- lgbl: '2011.337'
+  lr: '414.01'
+  title: Verordnung vom 16. August 2011 über das Hochschulwesen (Hochschulverordnung; HSV)
+- lgbl: '2023.038'
+  lr: '414.1'
+  title: Gesetz vom 1. Dezember 2022 über die Anerkennung von Berufsqualifikationen (Berufsqualifikationen-Anerkennungsgesetz; BQAG)
+- lgbl: '2005.003'
+  lr: '414.2'
+  title: Gesetz vom 25. November 2004 über die Universität Liechtenstein (LUG)
+- lgbl: '2007.142'
+  lr: '414.51'
+  title: Gesetz vom 26. April 2007 über die Agentur für Internationale Bildungsangelegenheiten (AIBAG)
+- lgbl: '2000.052'
+  lr: '415.01'
+  title: Sportgesetz vom 16. Dezember 1999
+- lgbl: '2018.478'
+  lr: 415.011.1
+  title: Sportförderungsverordnung (SFV) vom 18. Dezember 2018
+- lgbl: '2000.150'
+  lr: 415.011.3
+  title: Verordnung vom 11. Juli 2000 über die Dopingliste
+- lgbl: '1998.014'
+  lr: '415.41'
+  title: Gesetz vom 18. Dezember 1997 über die Ausrichtung eines Landesbeitrages für die Durchführung der Kleinstaatenspiele im Jahre 1999 in Liechtenstein
+- lgbl: '2004.262'
+  lr: '416.0'
+  title: Gesetz vom 20. Oktober 2004 über die staatlichen Ausbildungsbeihilfen (Stipendiengesetz; StipG)
+- lgbl: '2013.144'
+  lr: '416.01'
+  title: Verordnung vom 20. März 2013 über die staatlichen Ausbildungsbeihilfen (Stipendienverordnung; StipV)
+- lgbl: '2025.558'
+  lr: '416.011'
+  title: Verordnung vom 9. Dezember 2025 über die Anpassung von Höchstbeträgen nach dem Stipendiengesetz an die Teuerung
+- lgbl: '2012.343'
+  lr: '419.20'
+  title: Gesetz vom 19. September 2012 über die Kinder- und Jugendzahnpflege (KJZG)
+- lgbl: '1981.027'
+  lr: '419.101'
+  title: Verordnung vom 10. Februar 1981 über die Schulgesundheitspflege
+- lgbl: '2012.414'
+  lr: '419.201'
+  title: Verordnung vom 18. Dezember 2012 über die Kinder- und Jugendzahnpflege (KJZV)
+- lgbl: '1992.089'
+  lr: '419.301'
+  title: Verordnung vom 1. September 1992 über die Unfallversicherung für die Schüler an öffentlichen und privaten Schulen
+- lgbl: '2008.271'
+  lr: '431.0'
+  title: Statistikgesetz (StatG) vom 17. September 2008
+- lgbl: '2009.197'
+  lr: '431.01'
+  title: Statistikverordnung (StatV) vom 7. Juli 2009
+- lgbl: '2025.141'
+  lr: '432.1'
+  title: Archivgesetz (ArchivG) vom 5. Dezember 2024
+- lgbl: '2009.368'
+  lr: '432.2'
+  title: Gesetz vom 20. November 2009 über die Liechtensteinische Landesbibliothek (LLBiG)
+- lgbl: '2000.137'
+  lr: '432.3'
+  title: Gesetz vom 17. Mai 2000 über die Stiftung "Kunstmuseum Liechtenstein" (LKMG)
+- lgbl: '2009.369'
+  lr: '432.4'
+  title: Gesetz vom 20. November 2009 über das Liechtensteinische Landesmuseum (LLMG)
+- lgbl: '2009.371'
+  lr: '432.5'
+  title: Gesetz vom 20. November 2009 über die Liechtensteinische Musikschule (LMSG)
+- lgbl: '2025.368'
+  lr: '432.111'
+  title: Verordnung vom 19. August 2025 über die Archivierung und Benutzung von Archivgut des Landes (Archivverordnung; ArchivV)
+- lgbl: '2007.290'
+  lr: '440.0'
+  title: Kulturförderungsgesetz (KFG) vom 20. September 2007
+- lgbl: '2006.223'
+  lr: '440.1'
+  title: Medienförderungsgesetz (MFG) vom 21. September 2006
+- lgbl: '2025.180'
+  lr: '440.11'
+  title: Medienförderungsverordnung (MFV) vom 25. Februar 2025
+- lgbl: '2002.022'
+  lr: '442.1'
+  title: Gesetz vom 13. Dezember 2001 über die Stiftung "Kunstschule Liechtenstein" (LKSG)
+- lgbl: '2016.270'
+  lr: '445.0'
+  title: Gesetz vom 9. Juni 2016 über den Schutz, die Erhaltung und die Pflege von Kulturgütern (Kulturgütergesetz; KGG)
+- lgbl: '2016.468'
+  lr: '445.011'
+  title: Verordnung vom 13. Dezember 2016 über die Ausrichtung von finanziellen Beiträgen nach dem Kulturgütergesetz (Kulturgüter-Beitrags-Verordnung; KGBV)
+- lgbl: '2016.469'
+  lr: '445.012'
+  title: Verordnung vom 13. Dezember 2016 über die Einhebung von Gebühren nach dem Kulturgütergesetz (Kulturgüter-Gebühren-Verordnung; KGGebV)
+- lgbl: '2021.133'
+  lr: '445.013'
+  title: Kulturgüterschutzverordnung (KGSV) vom 13. April 2021
+- lgbl: '2007.291'
+  lr: '447.0'
+  title: Gesetz vom 20. September 2007 über die "Kulturstiftung Liechtenstein" (LKStG)
+- lgbl: '1981.044'
+  lr: '448.011'
+  title: Kundmachung vom 26. September 1981 des Finanzbeschlusses vom 12. August 1981 betreffend die Errichtung der "Fürst Franz Josef von Liechtenstein Stiftung"
+- lgbl: '1981.045'
+  lr: '448.012'
+  title: Kundmachung vom 12. August 1981 betreffend die Errichtung der "Fürst Franz Josef von Liechtenstein Stiftung"
+- lgbl: '2005.250'
+  lr: '449.1'
+  title: Mediengesetz (MedienG) vom 19. Oktober 2005
+- lgbl: '2025.240'
+  lr: '449.11'
+  title: Medienverordnung (MedienV) vom 25. März 2025
+- lgbl: '1996.117'
+  lr: '451.0'
+  title: Gesetz vom 23. Mai 1996 zum Schutz von Natur und Landschaft (Naturschutzgesetz; NSchG)
+- lgbl: '2010.198'
+  lr: '451.011'
+  title: Verordnung vom 17. August 2010 über die Naturwacht (NWV)
+- lgbl: '1992.065'
+  lr: '451.012'
+  title: Verordnung vom 14. Juli 1992 zum Schutze des Igels
+- lgbl: '2002.084'
+  lr: '451.013'
+  title: Verordnung vom 18. Juni 2002 zum Schutz der Pilze (Pilzschutzverordnung, PSV)
+- lgbl: '2017.444'
+  lr: '451.014'
+  title: Verordnung vom 19. Dezember 2017 über spezifisch geschützte Pflanzen- und Tierarten
+- lgbl: '1996.187'
+  lr: '451.015'
+  title: Verordnung vom 22. Oktober 1996 über die Ausrichtung von Bewirtschaftungsbeiträgen zur Erhaltung der Magerwiesen
+- lgbl: '2014.269'
+  lr: '451.016'
+  title: Verordnung vom 21. Oktober 2014 über die Winterruhezonen für Wildtiere (WRZV)
+- lgbl: '2017.443'
+  lr: '451.017'
+  title: Verordnung vom 19. Dezember 2017 über die Delegation von Geschäften nach dem Naturschutzgesetz
+- lgbl: '2018.182'
+  lr: '451.018'
+  title: Verordnung vom 11. September 2018 über die Verhütung und Vergütung von Schäden durch spezifisch geschützte Tierarten (VVSV)
+- lgbl: '1989.049'
+  lr: 451.101.1
+  title: Verordnung vom 17. Mai 1989 zum Schutz der Gebirgsflora
+- lgbl: '1966.016'
+  lr: 451.101.4
+  title: Verordnung vom 27. Juni 1966 betreffend das Naturschutzgebiet "Äulehäg" in Balzers
+- lgbl: '1969.019'
+  lr: 451.101.5
+  title: Verordnung vom 24. Februar 1969 betreffend das Naturschutzgebiet "Triesner Heilos"
+- lgbl: '1972.062'
+  lr: 451.101.6
+  title: Verordnung vom 7. November 1972 betreffend das Naturschutzgebiet "Wisanels" in Mauren
+- lgbl: '1974.075'
+  lr: 451.101.7
+  title: Verordnung vom 3. Dezember 1974 betreffend das Naturschutzgebiet "Birka" in Mauren
+- lgbl: '1978.032'
+  lr: 451.101.8
+  title: Verordnung vom 17. Oktober 1978 zum Schutze des "Ruggeller Rietes"
+- lgbl: '1978.033'
+  lr: 451.101.9
+  title: Verordnung vom 17. Oktober 1978 betreffend die Naturschutzgebiete "Schneckenäule" und eine Teilfläche in der "Au" in Ruggell
+- lgbl: '2011.521'
+  lr: 451.102.0
+  title: Verordnung vom 29. November 2011 über das Naturschutzgebiet "Matilaberg" in der Gemeinde Triesen
+- lgbl: '2013.001'
+  lr: 451.102.1
+  title: Verordnung vom 18. Dezember 2012 über das Naturschutzgebiet "Mareewiesen" in Vaduz
+- lgbl: '2013.311'
+  lr: 451.102.2
+  title: Verordnung vom 17. September 2013 über das Landschaftsschutzgebiet "Periol, Bofel, Neufeld, Undera Forst" in der Gemeinde Triesen
+- lgbl: '2014.246'
+  lr: 451.102.3
+  title: Verordnung vom 23. September 2014 über das Landschaftsschutzgebiet "Wesa-Fokswinkel" in der Gemeinde Triesen
+- lgbl: '2010.333'
+  lr: '455.0'
+  title: Tierschutzgesetz (TSchG) vom 23. September 2010
+- lgbl: '2010.425'
+  lr: '455.01'
+  title: Tierschutzverordnung (TSchV) vom 14. Dezember 2010
+- lgbl: '1992.056'
+  lr: '455.1'
+  title: Gesetz vom 15. April 1992 über das Halten von Hunden (Hundegesetz; HG)
+- lgbl: '2010.426'
+  lr: '455.011'
+  title: Verordnung vom 14. Dezember 2010 über Ausbildungen in der Tierhaltung und im Umgang mit Tieren (Tierhaltungs-Ausbildungs-Verordnung; TAV)
+- lgbl: '2006.284'
+  lr: '455.11'
+  title: Verordnung vom 19. Dezember 2006 über das Halten von Hunden (Hundeverordnung; HV)
+- lgbl: '2010.427'
+  lr: '455.012'
+  title: Verordnung vom 14. Dezember 2010 über die Haltung von Nutztieren und Haustieren (Nutz- und Haustier-Haltungs-Verordnung; NHHV)
+- lgbl: '2010.428'
+  lr: '455.013'
+  title: Verordnung vom 14. Dezember 2010 über den Tierschutz beim Schlachten (VTSchS)
+- lgbl: '2010.429'
+  lr: '455.014'
+  title: Verordnung vom 14. Dezember 2010 über die Haltung von Versuchstieren und die Erzeugung gentechnisch veränderter Tiere sowie über die Verfahren bei Tierversuchen (Tierversuchsverordnung; TVV)
+- lgbl: '2015.350'
+  lr: '455.015'
+  title: Verordnung vom 15. Dezember 2015 über die Haltung von Wildtieren (Wildtierverordnung; WtV)
+- lgbl: '2015.351'
+  lr: '455.016'
+  title: Verordnung vom 15. Dezember 2015 über den Tierschutz beim Züchten (Tierschutz-Zucht-Verordnung; TSchZV)
+- lgbl: '1999.166'
+  lr: '461'
+  title: Gesetz vom 19. Mai 1999 über die Rückgabe unrechtmässig verbrachter Kulturgüter (Kulturgüterrückgabegesetz; KGRG)
+- lgbl: '2008.009'
+  lr: '462'
+  title: Gesetz vom 23. November 2007 über die vorübergehende sachliche Immunität von Kulturgut (Kulturgut-Immunitäts-Gesetz; KGIG)
+- lgbl: '2008.275'
+  lr: '514.1'
+  title: Gesetz vom 17. September 2008 über Waffen, Waffenzubehör und Munition (Waffengesetz; WaffG)
+- lgbl: '2009.166'
+  lr: '514.11'
+  title: Verordnung vom 16. Juni 2009 über Waffen, Waffenzubehör und Munition (Waffenverordnung; WaffV)
+- lgbl: '2009.039'
+  lr: '514.51'
+  title: Gesetz vom 10. Dezember 2008 über die Vermittlung von und den Handel mit Kriegsmaterial (Kriegsmaterialgesetz; KMG)
+- lgbl: '2009.040'
+  lr: '514.52'
+  title: Gesetz vom 10. Dezember 2008 über die Vermittlung von und den Handel mit nuklearen Gütern, radioaktiven Abfällen, doppelt verwendbaren Gütern und besonderen militärischen Gütern (Kernenergie-Güterkontroll-Gesetz;
+    KEGKG)
+- lgbl: '2009.167'
+  lr: '514.111'
+  title: Verordnung vom 16. Juni 2009 über die Prüfung für die Waffenhandels- und Waffentragbewilligung (Prüfungsreglement)
+- lgbl: '2009.073'
+  lr: '514.511'
+  title: Verordnung vom 10. Februar 2009 über die Vermittlung von und den Handel mit Kriegsmaterial (Kriegsmaterialverordnung; KMV)
+- lgbl: '2009.072'
+  lr: '514.521'
+  title: Verordnung vom 10. Februar 2009 über die Vermittlung von und den Handel mit nuklearen Gütern und radioaktiven Abfällen (Kernenergieverordnung; KEV)
+- lgbl: '2007.139'
+  lr: '521'
+  title: Gesetz vom 26. April 2007 über den Schutz der Bevölkerung (Bevölkerungsschutzgesetz; BSchG)
+- lgbl: '2016.426'
+  lr: '521.1'
+  title: Bevölkerungsschutzverordnung (BSchV) vom 29. November 2016
+- lgbl: '2008.181'
+  lr: '521.14'
+  title: Verordnung vom 15. Juli 2008 über die Alarmierung der Bevölkerung und der Rettungs- und Hilfsdienste (Alarmierungsverordnung; AV)
+- lgbl: '2016.296'
+  lr: '522.1'
+  title: Verordnung vom 6. September 2016 über den Schutz vor Störfällen (Störfallverordnung; StFV)
+- lgbl: '1980.047'
+  lr: '531.1'
+  title: Gesetz vom 29. April 1980 über das Aussonderungsrecht an Pflichtlagern im Insolvenzverfahren und das Pfandrecht im Exekutionsverfahren
+- lgbl: '2010.373'
+  lr: '611.0'
+  title: Gesetz vom 20. Oktober 2010 über den Finanzhaushalt des Staates (Finanzhaushaltsgesetz; FHG)
+- lgbl: '2011.589'
+  lr: '611.01'
+  title: Finanzhaushaltsverordnung (FHV) vom 20. Dezember 2011
+- lgbl: '2025.556'
+  lr: '612.0'
+  title: Finanzgesetz vom 7. November 2025 für das Jahr 2026
+- lgbl: '2025.313'
+  lr: 612.025.11
+  title: Finanzbeschluss vom 8. Mai 2025 über die Bewilligung von Nachtragskrediten (I/2025)
+- lgbl: '2026.099'
+  lr: 612.026.11
+  title: Finanzbeschluss vom 5. März 2026 über die Bewilligung von Nachtragskrediten (I/2026)
+- lgbl: '2026.267'
+  lr: 612.026.12
+  title: Finanzbeschluss vom 11. Juni 2026 über die Bewilligung von Nachtragskrediten (II/2026)
+- lgbl: '2020.363'
+  lr: 612.101.011
+  title: Finanzbeschluss vom 30. September 2020 über die Genehmigung eines Verpflichtungskredits für die Staatenbeschwerde des Fürstentums Liechtenstein gegen die Tschechische Republik beim Europäischen
+    Gerichtshof für Menschenrechte (EGMR)
+- lgbl: '2023.139'
+  lr: 612.101.011.1
+  title: Finanzbeschluss vom 2. März 2023 über die Genehmigung eines Ergänzungskredits und eines Nachtragskredits für die Staatenbeschwerde des Fürstentums Liechtenstein gegen die Tschechische Republik
+    beim Europäischen Gerichtshof für Menschenrechte (EGMR)
+- lgbl: '2016.266'
+  lr: 612.101.13
+  title: Finanzbeschluss vom 8. Juni 2016 über die Genehmigung eines Verpflichtungskredites betreffend die Beteiligung des Fürstentums Liechtenstein am "EWR-Finanzierungsmechanismus 2014-2021"
+- lgbl: '2024.448'
+  lr: 612.101.14
+  title: Finanzbeschluss vom 2. Oktober 2024 über die Genehmigung eines Verpflichtungskredites betreffend die Beteiligung des Fürstentums Liechtenstein am "EWR-Finanzierungsmechanismus 2021-2028"
+- lgbl: '2023.441'
+  lr: 612.103.621
+  title: Finanzbeschluss vom 4. Oktober 2023 über die Genehmigung eines Verpflichtungskredits für die Beteiligung des Fürstentums Liechtenstein am Instrument für finanzielle Hilfe im Bereich Grenzverwaltung
+    und Visumpolitik (BMVI-Fonds) der Europäischen Union
+- lgbl: '2021.023'
+  lr: 612.104.41
+  title: Finanzbeschluss vom 2. Dezember 2020 über die Genehmigung eines Verpflichtungskredites und eines Nachtragskredites für die Beteiligung des Fürstentums Liechtenstein am EU-Programm "Kreatives Europa
+    (2021-2027)"
+- lgbl: '2014.295'
+  lr: 612.104.141
+  title: Finanzbeschluss vom 1. Oktober 2014 über die Genehmigung eines Verpflichtungskredites für die Beteiligung des Fürstentums Liechtenstein am EU-Programm "Erasmus+" (2014-2020)
+- lgbl: '2021.020'
+  lr: 612.104.142
+  title: Finanzbeschluss vom 2. Dezember 2020 über die Genehmigung eines Verpflichtungskredites und eines Nachtragskredites für die Beteiligung des Fürstentums Liechtenstein an der 5. Generation des europäischen
+    Programmes "Erasmus (2021-2027)"
+- lgbl: '2020.494'
+  lr: 612.104.143
+  title: Finanzbeschluss vom 2. Dezember 2020 über die Genehmigung eines Verpflichtungskredites und eines Nachtragskredites für die Beteiligung des Fürstentums Liechtenstein am "Europäischen Solidaritätskorps
+    (2021 - 2027)"
+- lgbl: '2021.021'
+  lr: 612.107.841
+  title: Finanzbeschluss vom 2. Dezember 2020 über die Genehmigung eines Verpflichtungskredites und eines Nachtragskredites für die Beteiligung des Fürstentums Liechtenstein am EU-Programm "Digitales Europa
+    (2021-2027)"
+- lgbl: '2023.267'
+  lr: 612.107.842
+  title: Finanzbeschluss vom 3. Mai 2023 über die Genehmigung eines Staatsbeitrages an den Liechtensteinischen European Digital Innovation Hub für die Jahre 2023 bis 2025
+- lgbl: '2021.022'
+  lr: 612.109.32
+  title: Finanzbeschluss vom 2. Dezember 2020 über die Genehmigung eines Verpflichtungskredites für die Beteiligung des Fürstentums Liechtenstein am "EU-Binnenmarktprogramm (2021-2027)"
+- lgbl: '1997.202'
+  lr: 612.109.71
+  title: Finanzbeschluss vom 18. September 1997 über die Beteiligung des Fürstentums Liechtenstein an der Kapitalerhöhung der Europäischen Bank für Wiederaufbau und Entwicklung
+- lgbl: '2011.043'
+  lr: 612.109.72
+  title: Finanzbeschluss vom 15. Dezember 2010 betreffend die Beteiligung des Fürstentums Liechtenstein an der zweiten Kapitalerhöhung der Europäischen Bank für Wiederaufbau und Entwicklung (EBWE)
+- lgbl: '2024.478'
+  lr: 612.109.73
+  title: Finanzbeschluss vom 7. November 2024 betreffend die Beteiligung des Fürstentums Liechtenstein an der dritten Kapitalerhöhung der Europäischen Bank für Wiederaufbau und Entwicklung (EBWE)
+- lgbl: '2025.583'
+  lr: 612.109.74
+  title: Finanzbeschluss vom 5. November 2025 betreffend die Beteiligung des Fürstentums Liechtenstein an der Anpassung der Quote beim Internationalen Währungsfonds im Rahmen der 16. Allgemeinen Quotenüberprüfung
+- lgbl: '2025.064'
+  lr: 612.152.32
+  title: Finanzbeschluss vom 5. Dezember 2024 über die Genehmigung eines Verpflichtungskredits und von Nachtragskrediten für die Realisierung von Wohnraum für die Unterbringung von Schutzbedürftigen im
+    Unterland
+- lgbl: '2019.212'
+  lr: 612.411.4
+  title: Finanzbeschluss vom 5. Juni 2019 über die Genehmigung eines Verpflichtungskredits für den Ersatzbau für den Trakt G und einer zusätzlichen Massnahme beim Schulzentrum Mühleholz in Vaduz
+- lgbl: '2019.211'
+  lr: 612.411.5
+  title: Finanzbeschluss vom 5. Juni 2019 über die Genehmigung eines Verpflichtungskredits für den Neubau eines Schulzentrums Unterland II in Ruggell
+- lgbl: '2021.336'
+  lr: 612.411.6
+  title: Finanzbeschluss vom 2. September 2021 über die Gewährung eines Staatsbeitrages an die "Förderstiftung MINT Initiative Liechtenstein" für die Jahre 2022 bis 2026
+- lgbl: '2023.036'
+  lr: 612.411.41
+  title: Finanzbeschluss vom 30. November 2022 über die Genehmigung eines Ergänzungskredits für den Ersatzbau für den Trakt G und einer zusätzlichen Massnahme beim Schulzentrum Mühleholz in Vaduz
+- lgbl: '2023.268'
+  lr: 612.411.51
+  title: Finanzbeschluss vom 3. Mai 2023 über die Genehmigung von Ergänzungskrediten für den Neubau eines Schulzentrums Unterland II in Ruggell
+- lgbl: '2026.268'
+  lr: 612.411.52
+  title: Finanzbeschluss vom 11. Juni 2026 über die Genehmigung eines Ergänzungskredits für den Neubau eines Schulzentrums Unterland II in Ruggell
+- lgbl: '2025.373'
+  lr: 612.414.1
+  title: Finanzbeschluss vom 11. Juni 2025 über die Genehmigung eines Verpflichtungskredits für die Ausrichtung von Fördermitteln für die wissenschaftsbasierte Innovation (Innosuisse) für die Förderperiode
+    2025 bis 2029
+- lgbl: '2025.374'
+  lr: 612.414.2
+  title: Finanzbeschluss vom 11. Juni 2025 über die Gewährung eines Staatsbeitrages an den Reinraum am Campus Buchs der Ostschweizer Fachhochschule für die Jahre 2025 bis 2034
+- lgbl: '2023.304'
+  lr: 612.414.3
+  title: Finanzbeschluss vom 31. Mai 2023 über die Gewährung eines Staatsbeitrages an das Liechtenstein-Institut
+- lgbl: '2023.140'
+  lr: 612.414.7
+  title: Finanzbeschluss vom 2. März 2023 über die Gewährung eines Staatsbeitrages an den Forschungsförderungsfonds der Universität Liechtenstein für die Jahre 2023 bis 2026
+- lgbl: '2021.258'
+  lr: 612.414.9
+  title: Finanzbeschluss vom 9. Juni 2021 über die Genehmigung eines Verpflichtungskredites für die Ausrichtung von Fördermitteln an nationale Forschungseinrichtungen
+- lgbl: '2024.001'
+  lr: 612.415.2
+  title: Finanzbeschluss vom 9. November 2023 über die Genehmigung eines Verpflichtungskredits für das Infrastrukturprojekt Steg des Vereins zur Förderung des nordischen Skisports
+- lgbl: '2024.369'
+  lr: 612.415.3
+  title: Finanzbeschluss vom 4. September 2024 über die Genehmigung eines Verpflichtungskredits für den Neubau "Kletterhalle Liechtenstein" des Liechtensteiner Alpenvereins (LAV) in Vaduz
+- lgbl: '2022.344'
+  lr: 612.415.5
+  title: Finanzbeschluss vom 29. September 2022 über die Gewährung von Staatsbeiträgen für die verbandsorganisierte Sportförderung für die Jahre 2023 bis 2026
+- lgbl: '2023.213'
+  lr: '612.422'
+  title: Finanzbeschluss vom 4. April 2023 über die Genehmigung eines Verpflichtungskredits für die Beteiligung an den Investitionen des Forschungs- und Innovationszentrums Rheintal
+- lgbl: '2019.157'
+  lr: 612.432.8
+  title: Finanzbeschluss vom 9. Mai 2019 über die Genehmigung eines Verpflichtungskredits für die Umnutzung des Post- und Verwaltungsgebäudes Vaduz für die Liechtensteinische Landesbibliothek und die Genehmigung
+    eines Ergänzungskredits für die Erweiterung der laufenden ersten Bauetappe des Dienstleistungszentrums der Liechtensteinischen Landesverwaltung in Vaduz
+- lgbl: '2023.442'
+  lr: 612.432.81
+  title: Finanzbeschluss vom 5. Oktober 2023 über die Genehmigung von Ergänzungskrediten für die Umnutzung des Post- und Verwaltungsgebäudes Vaduz für die Liechtensteinische Landesbibliothek
+- lgbl: '2022.191'
+  lr: 612.432.92
+  title: Finanzbeschluss vom 5. Mai 2022 über die Gewährung eines Staatsbeitrages an den Historischen Verein für das Fürstentum Liechtenstein für die Fortführung des Liechtensteinischen Urkundenbuchs in
+    den Jahren 2023 bis 2028 (LUB III)
+- lgbl: '2021.335'
+  lr: 612.440.1
+  title: Finanzbeschluss vom 2. September 2021 über die Gewährung eines Landesbeitrags an die Genossenschaft "Theater am Kirchplatz eG" für die Jahre 2022 bis 2025
+- lgbl: '2025.539'
+  lr: 612.440.2
+  title: Finanzbeschluss vom 2. Oktober 2025 über die Gewährung eines Landesbeitrags an die Genossenschaft "Theater am Kirchplatz eG" für die Jahre 2026 bis 2029
+- lgbl: '2025.062'
+  lr: 612.725.11
+  title: Finanzbeschluss vom 5. Dezember 2024 über die Genehmigung eines Verpflichtungskredits und von Nachtragskrediten für den Bau der Verbindungsstrasse Rheinbrücke Vaduz - Industriestrasse Triesen
+- lgbl: '2013.325'
+  lr: '612.731'
+  title: Finanzbeschluss vom 4. September 2013 über die Ausrichtung von Beiträgen an die Bürgergenossenschaft Balzers für die Reduktion von staatlichen Aufwendungen im Zusammenhang mit dem Betrieb eines
+    Holzheizwerkes
+- lgbl: '2022.195'
+  lr: 612.733.1
+  title: Finanzbeschluss vom 29. Juni 2022 über die Gewährung eines zinslosen Darlehens und eines Nachtragskredits für die Anstalt Liechtenstein Wärme zur Schaffung einer strategischen Gasreserve
+- lgbl: '2022.271'
+  lr: 612.733.11
+  title: Finanzbeschluss vom 28. September 2022 über die Gewährung eines Ergänzungskredits und Nachtragskredits für die Erhöhung des zinslosen Darlehens an die Anstalt Liechtenstein Wärme zur Schaffung
+    einer strategischen Gasreserve
+- lgbl: '2024.368'
+  lr: 612.733.12
+  title: Finanzbeschluss vom 4. September 2024 über die Verlängerung des zinslosen Darlehens an die Anstalt Liechtenstein Wärme zur Beibehaltung der strategischen Gasreserve
+- lgbl: '2024.293'
+  lr: 612.744.1
+  title: Finanzbeschluss vom 12. Juni 2024 über die Gewährung eines Staatsbeitrages an den Verkehrsbetrieb LIECHTENSTEINmobil für die Jahre 2025 bis 2027
+- lgbl: '2025.540'
+  lr: 612.744.2
+  title: Finanzbeschluss vom 2. Oktober 2025 über die Genehmigung eines Tausch- und Dienstbarkeitsvertrags betreffend die Grundstücke Nr. 212, 213 und 214 in Gamprin
+- lgbl: '2026.008'
+  lr: 612.744.3
+  title: Finanzbeschluss vom 4. Dezember 2025 über die Genehmigung eines Verpflichtungskredits für den Bau der Nordausfahrt Bushof Schaan und die Genehmigung der Umwidmung des Schaaner Grundstücks Nr. 4769
+    vom Finanzvermögen in das Verwaltungsvermögen
+- lgbl: '2024.294'
+  lr: 612.784.42
+  title: Finanzbeschluss vom 14. Juni 2024 über die Gewährung eines Landesbeitrages an den Liechtensteinischen Rundfunk für die Jahre 2025 bis 2028
+- lgbl: '2025.065'
+  lr: 612.811.91
+  title: Finanzbeschluss vom 6. Dezember 2024 über die Bewilligung von Nachtragskrediten zur Umsetzung des Konzepts betreffend den Massenanfall von Verletzten (MANV)
+- lgbl: '2016.026'
+  lr: 612.813.1
+  title: Finanzbeschluss vom 2. Dezember 2015 über die Gewährung eines Darlehens an die Stiftung Ostschweizer Kinderspital für den Neubau des Ostschweizer Kinderspitals
+- lgbl: '2019.346'
+  lr: 612.813.4
+  title: Finanzbeschluss vom 5. September 2019 über die Genehmigung eines Verpflichtungskredits für den Neubau eines Landesspitals und die Genehmigung der Umwidmung des Vaduzer Grundstücks Nr. 2506 vom
+    Finanzvermögen in das Verwaltungsvermögen
+- lgbl: '2024.246'
+  lr: 612.813.41
+  title: Finanzbeschluss vom 7. März 2024 über die Genehmigung eines Ergänzungskredits zur Umsetzung des Projekts "Inspira II" beim Neubau des Liechtensteinischen Landesspitals
+- lgbl: '2024.247'
+  lr: 612.813.42
+  title: Finanzbeschluss vom 7. März 2024 über die Genehmigung eines Ergänzungskredits für bautechnische Massnahmen in Zusammenhang mit einer Pandemie im Neubau des Liechtensteinischen Landesspitals
+- lgbl: '2024.248'
+  lr: 612.813.43
+  title: Finanzbeschluss vom 7. März 2024 über die Genehmigung eines Ergänzungskredits für die Erweiterung der Photovoltaikanlagen beim Neubau des Liechtensteinischen Landesspitals
+- lgbl: '2021.427'
+  lr: 612.814.1
+  title: Finanzbeschluss vom 3. November 2021 über die Gewährung eines Landesbeitrages an die Geschäftsstelle der Internationalen Alpenschutzkommission CIPRA für die Jahre 2022 bis 2025
+- lgbl: '2025.538'
+  lr: 612.814.2
+  title: Finanzbeschluss vom 2. Oktober 2025 über die Gewährung eines Landesbeitrages an die Geschäftsstelle der Internationalen Alpenschutzkommission CIPRA für die Jahre 2026 bis 2029
+- lgbl: '2022.164'
+  lr: '612.851'
+  title: Finanzbeschluss vom 7. April 2022 über die Genehmigung eines Verpflichtungskredits und eines Nachtragskredits für den Umbau und Ergänzungsbau "Therapiehaus Guler" des Vereins für Betreutes Wohnen
+    in Liechtenstein (VBW) in Mauren
+- lgbl: '2025.063'
+  lr: '612.852'
+  title: Finanzbeschluss vom 5. Dezember 2024 über die Genehmigung eines Verpflichtungskredits und eines Nachtragskredits für den Neubau des Pflegeheimes Haus St. Fridolin der Liechtensteinischen Alters-
+    und Krankenhilfe in Ruggell
+- lgbl: '2024.479'
+  lr: 612.935.24
+  title: Finanzbeschluss vom 8. November 2024 über die Gewährung von Investitionskostenbeiträgen an die Bergbahnen Malbun Aktiengesellschaft für die Jahre 2025 bis 2028 und eines Beitrags zur Errichtung
+    von Photovoltaik-Anlagen
+- lgbl: '2024.292'
+  lr: 612.950.2
+  title: Finanzbeschluss vom 12. Juni 2024 über die Genehmigung eines Staatsbeitrages an den Verein Liechtenstein Finance e.V. für die Jahre 2025 bis 2028
+- lgbl: '2024.477'
+  lr: 612.970.1
+  title: Finanzbeschluss vom 7. November 2024 über die Genehmigung eines Verpflichtungskredits für die Aktivitäten Liechtensteins für den Wiederaufbau in der Ukraine
+- lgbl: '2023.161'
+  lr: '614.0'
+  title: Finanzausgleichsgesetz (FinAG) vom 2. März 2023
+- lgbl: '2023.380'
+  lr: '614.01'
+  title: Finanzausgleichsverordnung (FinAV) vom 3. Oktober 2023
+- lgbl: '2009.324'
+  lr: '615.0'
+  title: Gesetz vom 22. Oktober 2009 über die Finanzkontrolle (Finanzkontrollgesetz; FinKG)
+- lgbl: '1991.071'
+  lr: '617.0'
+  title: Gesetz vom 3. Juli 1991 über die Ausrichtung von Landessubventionen (Subventionsgesetz)
+- lgbl: '1992.008'
+  lr: '617.01'
+  title: Verordnung vom 17. Dezember 1991 zum Gesetz über die Ausrichtung von Landessubventionen
+- lgbl: '2020.100'
+  lr: '617.1'
+  title: Gesetz vom 20. März 2020 über die befristete Gewährung einer Ausfallgarantie zur Vergabe von liquiditätssichernden Krediten an liechtensteinische Unternehmen durch die Liechtensteinische Landesbank
+    (Ausfallgarantiegesetz)
+- lgbl: '2002.079'
+  lr: '617.011'
+  title: Verordnung vom 18. Juni 2002 über die Gewährung von Subventionen für Elektrofahrräder, Elektroscooter und Elektro-Leichtmotorfahrzeuge
+- lgbl: '2020.193'
+  lr: '617.11'
+  title: Verordnung vom 9. Juni 2020 über die Verlängerung der Programmlaufzeit für die Gewährung liquiditätssichernder Kredite nach dem Ausfallgarantiegesetz
+- lgbl: '2019.239'
+  lr: '617.012'
+  title: Sportstättenförderungsverordnung (SSFV) vom 1. Oktober 2019
+- lgbl: '1931.007'
+  lr: '622.11'
+  title: Gesetz vom 11. Mai 1931 betreffend die Ausgabe von Goldmünzen der Frankenwährung
+- lgbl: '1947.027'
+  lr: '622.12'
+  title: Gesetz vom 5. Juni 1947
+- lgbl: '1953.003'
+  lr: '622.13'
+  title: Gesetz vom 22. Dezember 1952 über die Ausgabe eines 100 Franken Goldstückes
+- lgbl: '1956.006'
+  lr: '622.14'
+  title: Gesetz vom 5. April 1956 betreffend die Ausgabe von Goldmünzen (25 Franken und 50 Franken)
+- lgbl: '1961.026'
+  lr: '622.15'
+  title: Gesetz vom 5. Oktober 1961 betreffend die Ausgabe von Goldmünzen zu 25 Franken und 50 Franken
+- lgbl: '1988.024'
+  lr: '622.16'
+  title: Gesetz vom 25. Mai 1988 betreffend die Ausgabe einer Gold- und einer Silbermünze aus Anlass des 50jährigen Regierungsjubiläums von Fürst Franz Josef II. von Liechtenstein
+- lgbl: '1990.035'
+  lr: '622.17'
+  title: Gesetz vom 27. Juni 1990 über die Ausgabe einer Gold- und einer Silbermünze aus Anlass der Erbhuldigung 1990
+- lgbl: '2006.088'
+  lr: '622.18'
+  title: Gesetz vom 16. März 2006 über die Ausgabe einer Gold- und einer Silbermünze aus Anlass des Jubiläums "200 Jahre Souveränität des Fürstentums Liechtenstein"
+- lgbl: '2018.476'
+  lr: '622.19'
+  title: Gesetz vom 9. November 2018 über die Ausgabe von drei Gold- und zwei Silbermünzen aus Anlass des Jubiläums "300 Jahre Fürstentum Liechtenstein"
+- lgbl: '2024.223'
+  lr: '622.20'
+  title: Gesetz vom 12. April 2024 über die Ausgabe von zwei Gold- und vier Silbermünzen aus Anlass des Jubiläums "100 Jahre Schweizer Franken im Fürstentum Liechtenstein"
+- lgbl: '1986.045'
+  lr: '622.151'
+  title: Verordnung vom 1. Juli 1986 zum Gesetz betreffend die Ausgabe von Goldmünzen zu 25 Franken und 50 Franken
+- lgbl: '1986.094'
+  lr: 622.151.1
+  title: Verordnung vom 23. Dezember 1986 über eine zusätzliche Ausgabe von Goldmünzen zu 25 Franken und 50 Franken
+- lgbl: '1988.025'
+  lr: '622.161'
+  title: Verordnung vom 14. Juni 1988 zum Gesetz betreffend die Ausgabe einer Gold- und einer Silbermünze aus Anlass des 50jährigen Regierungsjubiläums von Fürst Franz Josef II. von Liechtenstein
+- lgbl: '1995.092'
+  lr: '631.010'
+  title: Gesetz vom 22. März 1995 über das Zollwesen
+- lgbl: '1995.112'
+  lr: 631.010.11
+  title: Verordnung vom 25. April 1995 über die Zuständigkeiten des Amtes für Volkswirtschaft im Bereich des Zollwesens
+- lgbl: '1995.113'
+  lr: 631.010.12
+  title: Verordnung vom 25. April 1995 über das Zollverfahren
+- lgbl: '1995.114'
+  lr: 631.010.13
+  title: Verordnung vom 25. April 1995 über das Ursprungswesen
+- lgbl: '1924.011'
+  lr: 631.112.1
+  title: Einführungs-Gesetz vom 13. Mai 1924 zum Zollvertrag mit der Schweiz vom 29. März 1923
+- lgbl: '2020.050'
+  lr: '632.61'
+  title: Gesetz vom 29. Januar 2020 für den Übergangszeitraum nach dem Austritt des Vereinigten Königreichs Grossbritannien und Nordirland aus der Europäischen Union und dem EWR-Abkommen und anderen Abkommen,
+    die zwischen dem Vereinigten Königreich und den EWR/EFTA-Staaten aufgrund der Mitgliedschaft des Vereinigten Königreichs in der Europäischen Union gelten (Brexit-Übergangsgesetz; Brexit-ÜG)
+- lgbl: '2010.340'
+  lr: '640.0'
+  title: Gesetz vom 23. September 2010 über die Landes- und Gemeindesteuern (Steuergesetz; SteG)
+- lgbl: '2010.437'
+  lr: '640.01'
+  title: Verordnung vom 21. Dezember 2010 über die Landes- und Gemeindesteuern (Steuerverordnung; SteV)
+- lgbl: '1982.026'
+  lr: '640.1'
+  title: Gesetz vom 17. Dezember 1981 über die Befreiung des Landesfürsten und des Erbprinzen von der Abgabenpflicht
+- lgbl: '2023.484'
+  lr: '640.2'
+  title: Gesetz vom 10. November 2023 über die Mindestbesteuerung grosser Unternehmensgruppen (GloBE-Gesetz)
+- lgbl: '2024.129'
+  lr: '640.21'
+  title: Verordnung vom 26. März 2024 über die Mindestbesteuerung grosser Unternehmensgruppen (GloBE-Verordnung)
+- lgbl: '2009.330'
+  lr: '641.20'
+  title: Gesetz vom 22. Oktober 2009 über die Mehrwertsteuer (Mehrwertsteuergesetz; MWSTG)
+- lgbl: '1994.078'
+  lr: '641.51'
+  title: Gesetz vom 14. September 1994 über die Motorfahrzeugsteuer
+- lgbl: '2000.273'
+  lr: '641.81'
+  title: Gesetz vom 25. Oktober 2000 über eine leistungsabhängige Schwerverkehrsabgabe (Schwerverkehrsabgabegesetz, SVAG)
+- lgbl: '2009.340'
+  lr: '641.201'
+  title: Verordnung vom 15. Dezember 2009 zum Gesetz über die Mehrwertsteuer (Mehrwertsteuerverordnung; MWSTV)
+- lgbl: '2024.452'
+  lr: '641.811'
+  title: Verordnung vom 3. Dezember 2024 über eine leistungsabhängige Schwerverkehrsabgabe (Schwerverkehrsabgabeverordnung; SVAV)
+- lgbl: '2015.360'
+  lr: '642.42'
+  title: Gesetz vom 6. November 2015 über die Aufhebung des Zinsbesteuerungsgesetzes
+- lgbl: '2013.434'
+  lr: 672.910.21
+  title: Gesetz vom 8. November 2013 zum Abkommen zwischen Liechtenstein und Österreich über die Zusammenarbeit im Bereich der Steuern (AStA-Gesetz)
+- lgbl: '2015.169'
+  lr: 672.910.211
+  title: Verordnung vom 23. Juni 2015 über den Prüfungsausschuss zur Durchführung von Kontrollen nach dem Abkommen zwischen Liechtenstein und Österreich über die Zusammenarbeit im Bereich der Steuern (Steuer-Prüfungsausschuss-Verordnung;
+    StePV)
+- lgbl: '1990.064'
+  lr: '690'
+  title: Gesetz vom 12. September 1990 über das Salzmonopol
+- lgbl: '1990.091'
+  lr: '690.1'
+  title: Verordnung vom 11. Dezember 1990 zum Gesetz über das Salzmonopol
+- lgbl: '1995.098'
+  lr: '691'
+  title: Gesetz vom 22. März 1995 über den Bezug von Salz in den Vertragsstaaten des Europäischen Wirtschaftsraumes
+- lgbl: '1995.135'
+  lr: '691.1'
+  title: Verordnung vom 2. Mai 1995 über den Verkehr mit Salz im Europäischen Wirtschaftsraum
+- lgbl: '2009.044'
+  lr: '701.0'
+  title: Baugesetz (BauG) vom 11. Dezember 2008
+- lgbl: '2009.240'
+  lr: '701.01'
+  title: Bauverordnung (BauV) vom 22. September 2009
+- lgbl: '2007.190'
+  lr: '701.1'
+  title: Gesetz vom 23. Mai 2007 betreffend den Ausweis über die Gesamtenergieeffizienz von Gebäuden (Energieausweisgesetz, EnAG)
+- lgbl: '2007.222'
+  lr: '701.013'
+  title: Energieverordnung (EnV) vom 21. August 2007
+- lgbl: '1992.041'
+  lr: '702.1'
+  title: Gesetz vom 25. März 1992 über die Erhaltung und Sicherung des landwirtschaftlich nutzbaren Bodens
+- lgbl: '1990.043'
+  lr: '705.1'
+  title: Feuerwehrgesetz (FWG) vom 16. Mai 1990
+- lgbl: '1975.018'
+  lr: '705.2'
+  title: Brandschutzgesetz vom 18. Dezember 1974
+- lgbl: '2005.020'
+  lr: '705.3'
+  title: Gesetz vom 26. November 2004 über den Versicherungsschutz der Gebäude gegen Feuer- und Elementarschäden (Gebäudeversicherungsgesetz; GVersG)
+- lgbl: '2015.016'
+  lr: '705.21'
+  title: Brandschutzverordnung (BSchV) vom 20. Januar 2015
+- lgbl: '2005.021'
+  lr: '705.31'
+  title: Verordnung vom 25. Januar 2005 zum Gesetz über den Versicherungsschutz der Gebäude gegen Feuer- und Elementarschäden (Gebäudeversicherungsverordnung; GVersV)
+- lgbl: '2012.169'
+  lr: '705.111'
+  title: Verordnung vom 19. Juni 2012 über die Feuerwehreinsatzpläne (FWEV)
+- lgbl: '2012.170'
+  lr: '705.112'
+  title: Verordnung vom 19. Juni 2012 über die Fahrzeuge, Geräte und Materialien der Gemeindefeuerwehren (Gemeindefeuerwehr-Ausrüstungs-Verordnung; GFAV)
+- lgbl: '1975.063'
+  lr: '705.211'
+  title: Verordnung vom 25. November 1975 über das Kaminfegerwesen
+- lgbl: '1887.004'
+  lr: '711.0'
+  title: Gesetz vom 23. August 1887 über das Verfahren in Expropriationsfällen
+- lgbl: '1976.069'
+  lr: '721.10'
+  title: Wasserrechtsgesetz vom 10. November 1976
+- lgbl: '1990.077'
+  lr: '721.21'
+  title: Rheingesetz vom 24. Oktober 1990
+- lgbl: '2009.355'
+  lr: '721.50'
+  title: Gesetz vom 19. November 2009 über die Liechtensteinischen Kraftwerke (LKWG)
+- lgbl: '1979.007'
+  lr: '721.101'
+  title: Verordnung vom 9. Januar 1979 zum Wasserrechtsgesetz
+- lgbl: '1991.084'
+  lr: '721.211'
+  title: Verordnung vom 29. Oktober 1991 zum Rheingesetz
+- lgbl: '1969.039'
+  lr: '725.11'
+  title: Gesetz vom 12. Juni 1969 über den Bau von Hochleistungsstrassen und Hauptverkehrsstrassen
+- lgbl: '1977.061'
+  lr: 725.111.1
+  title: Verordnung vom 23. August 1977 über das Landumlegungsverfahren für den Bau von Hauptverkehrsstrassen
+- lgbl: '1871.004'
+  lr: '726.1'
+  title: Gesetz vom 23. September 1871 für Rüfeschutzbauten
+- lgbl: '1899.006'
+  lr: '726.2'
+  title: Gesetz vom 22. September 1899 betreffend die Rüfeschutzbauten
+- lgbl: '2008.116'
+  lr: '730.2'
+  title: Gesetz vom 24. April 2008 über die Förderung der Energieeffizienz und der erneuerbaren Energien (Energieeffizienzgesetz; EEG)
+- lgbl: '2002.144'
+  lr: '730.3'
+  title: Gesetz vom 20. Juni 2002 über den Elektrizitätsmarkt (Elektrizitätsmarktgesetz; EMG)
+- lgbl: '2008.118'
+  lr: '730.21'
+  title: Verordnung vom 27. Mai 2008 über die Förderung der Energieeffizienz und der erneuerbaren Energien (Energieeffizienzverordnung; EEV)
+- lgbl: '2020.235'
+  lr: '730.22'
+  title: Verordnung vom 14. Juli 2020 über die Führung und Nutzung der Landes- und Gemeindeenergiekataster (Energiekatasterverordnung; EKV)
+- lgbl: '2009.021'
+  lr: '730.31'
+  title: Elektrizitätsmarktverordnung (EMV) vom 20. Januar 2009
+- lgbl: '2009.024'
+  lr: '730.311'
+  title: Verordnung vom 20. Januar 2009 über die Regulierungsbehörde und die Schlichtung nach dem Elektrizitätsmarkt- und Gasmarktgesetz
+- lgbl: '1977.007'
+  lr: '731.2'
+  title: Gesetz vom 25. November 1976 über die Versorgung des Landes mit elektrischer Energie im Falle der Knappheit
+- lgbl: '2017.026'
+  lr: '733.1'
+  title: Gesetz vom 1. Dezember 2016 über die Anstalt "Liechtenstein Wärme" (ALWG)
+- lgbl: '2003.218'
+  lr: '733.2'
+  title: Gesetz vom 18. September 2003 über den Erdgasmarkt (Gasmarktgesetz; GMG)
+- lgbl: '2009.022'
+  lr: '733.21'
+  title: Gasmarktverordnung (GMV) vom 20. Januar 2009
+- lgbl: '2022.196'
+  lr: '733.211'
+  title: Verordnung vom 29. Juni 2022 über die Sicherstellung der Erdgasversorgung bei einer schweren Mangellage (Erdgasversorgungs-Sicherstellungs-Verordnung; EVSV)
+- lgbl: '1983.016'
+  lr: '734.0'
+  title: Gesetz vom 15. Dezember 1982 über die elektrischen Schwach- und Starkstromanlagen (Elektrizitätsgesetz)
+- lgbl: '1985.024'
+  lr: '734.011'
+  title: Verordnung vom 7. August 1984 über das Starkstrominspektorat
+- lgbl: '1985.025'
+  lr: '734.012'
+  title: Schwachstromverordnung vom 7. August 1984
+- lgbl: '1985.026'
+  lr: '734.013'
+  title: Starkstromverordnung vom 7. August 1984
+- lgbl: '1985.030'
+  lr: '734.015'
+  title: Verordnung vom 7. August 1984 über die Parallelführungen und Kreuzungen elektrischer Leitungen unter sich und mit Eisenbahnen
+- lgbl: '1985.031'
+  lr: '734.016'
+  title: Verordnung vom 7. August 1984 über die Vorlagen für elektrische Starkstromanlagen
+- lgbl: '2007.220'
+  lr: '734.018'
+  title: Verordnung vom 21. August 2007 über elektrische Niederspannungsinstallationen (Niederspannungs-Installationsverordnung, NIV)
+- lgbl: '1978.018'
+  lr: '741.01'
+  title: Strassenverkehrsgesetz (SVG) vom 30. Juni 1978
+- lgbl: '1995.179'
+  lr: '741.03'
+  title: Gesetz vom 21. Juni 1995 über das vereinfachte Verfahren bei Übertretungen von Strassenverkehrsvorschriften (Ordnungsbussengesetz; OBG)
+- lgbl: '1978.019'
+  lr: '741.11'
+  title: Verkehrsregelnverordnung (VRV) vom 1. August 1978
+- lgbl: '2018.172'
+  lr: '741.014'
+  title: Verordnung vom 21. August 2018 über die technische Unterwegskontrolle der Verkehrs- und Betriebssicherheit von Nutzfahrzeugen (UKNV)
+- lgbl: '1980.065'
+  lr: '741.21'
+  title: Strassensignalisationsverordnung (SSV) vom 27. Dezember 1979
+- lgbl: '1996.154'
+  lr: '741.031'
+  title: Ordnungsbussenverordnung (OBV) vom 13. August 1996
+- lgbl: '1978.021'
+  lr: '741.31'
+  title: Verkehrsversicherungsverordnung (VVV) vom 1. August 1978
+- lgbl: '1978.026'
+  lr: '741.041'
+  title: Verordnung vom 8. August 1978 über den Erlass von Strafverfügungen durch die Landespolizei bei Übertretungen von Strassenverkehrsvorschriften
+- lgbl: '1996.143'
+  lr: '741.41'
+  title: Verordnung vom 16. Juli 1996 über die technischen Anforderungen an Strassenfahrzeuge (VTS)
+- lgbl: '2004.258'
+  lr: '741.051'
+  title: Verordnung vom 7. Dezember 2004 über die Einhebung von Gebühren durch das Amt für Strassenverkehr
+- lgbl: '1978.020'
+  lr: '741.51'
+  title: Verkehrszulassungsverordnung (VZV) vom 1. August 1978
+- lgbl: '1997.163'
+  lr: '741.53'
+  title: Verordnung vom 12. August 1997 über die Verwendung von Mietfahrzeugen im Güterkraftverkehr
+- lgbl: '2007.359'
+  lr: '741.54'
+  title: Verordnung vom 18. Dezember 2007 über die Zulassung von Fahrlehrern und ihre Berufsausübung (Fahrlehrerverordnung; FV)
+- lgbl: '2008.076'
+  lr: '741.55'
+  title: Verordnung vom 18. März 2008 über die Zulassung von Fahrzeugführern zum Personen- und Gütertransport auf der Strasse (Chauffeurzulassungsverordnung; CZV)
+- lgbl: '1975.034'
+  lr: '741.57'
+  title: Gesetz vom 5. Juni 1975 über die Verwendung von Raupenfahrzeugen
+- lgbl: '2006.185'
+  lr: '741.63'
+  title: Gesetz vom 22. Juni 2006 über die Zulassung als Strassentransportunternehmen und die grenzüberschreitenden Personen- und Gütertransporte auf der Strasse (Strassentransportgesetz; STG)
+- lgbl: '2026.284'
+  lr: '741.72'
+  title: Gesetz vom 12. Juni 2026 über europäische elektronische Mautsysteme (eMautSG)
+- lgbl: '1977.003'
+  lr: '741.81'
+  title: Gesetz vom 25. November 1976 über einen Beitrag für die Unfallverhütung im Strassenverkehr
+- lgbl: '2011.197'
+  lr: '741.173'
+  title: Verordnung vom 24. Mai 2011 über die Arbeits-, Lenk- und Ruhezeit der Führer von Motorfahrzeugen zum Güter- und Personentransport (ARV)
+- lgbl: '2009.220'
+  lr: 741.173.1
+  title: Verordnung vom 11. August 2009 über die Kontrolle der Lenk- und Ruhezeit der Führer von Motorfahrzeugen zum Güter- und Personentransport (LRKV)
+- lgbl: '1996.149'
+  lr: '741.412'
+  title: Verordnung vom 17. September 1996 über technische Anforderungen an Transportmotorwagen und deren Anhänger (TAFV 1)
+- lgbl: '2017.312'
+  lr: '741.413'
+  title: Verordnung vom 14. November 2017 über technische Anforderungen an Traktoren und deren Anhänger (TAFV 2)
+- lgbl: '2017.313'
+  lr: '741.414'
+  title: Verordnung vom 14. November 2017 über die Anerkennung von EU-Genehmigungen und über technische Anforderungen an Motorräder, Leicht-, Klein- und dreirädrige Motorfahrzeuge sowie Motorfahrräder (TAFV
+    3)
+- lgbl: '1987.041'
+  lr: 741.435.1
+  title: Verordnung vom 18. August 1987 über die Abgasemissionen leichter Motorwagen (FAV 1)
+- lgbl: '1987.043'
+  lr: 741.435.3
+  title: Verordnung vom 18. August 1987 über die Abgasemissionen von Motorrädern (FAV 3)
+- lgbl: '1987.044'
+  lr: 741.435.4
+  title: Verordnung vom 18. August 1987 über die Abgasemissionen von Motorfahrrädern (FAV 4)
+- lgbl: '2003.258'
+  lr: '741.436'
+  title: Verordnung vom 9. Dezember 2003 über die Wartung und Nachkontrolle von Motorwagen betreffend Abgas- und Rauchemissionen
+- lgbl: '1975.054'
+  lr: '741.571'
+  title: Verordnung vom 7. Oktober 1975 über die Erteilung von Bewilligungen zur Verwendung von Raupenfahrzeugen
+- lgbl: '1998.057'
+  lr: '741.621'
+  title: Verordnung vom 3. März 1998 über den Transport gefährlicher Güter auf der Strasse (VTGGS)
+- lgbl: '2011.149'
+  lr: '741.622'
+  title: Verordnung vom 19. April 2011 über die fachliche Eignung des Gefahrgutbeauftragten
+- lgbl: '2006.259'
+  lr: 741.631.1
+  title: Verordnung vom 12. Dezember 2006 über die Zulassung und die Ausübung der Tätigkeit als Strassentransportunternehmen im Personen- und Güterverkehr (STUV)
+- lgbl: '2002.168'
+  lr: 741.631.2
+  title: Verordnung vom 10. Dezember 2002 über die Vergabe von CEMT-Genehmigungen
+- lgbl: '1996.166'
+  lr: 741.631.3
+  title: Verordnung vom 24. September 1996 über die Prüfung der fachlichen Eignung zur Führung eines Güter- und Personenkraftverkehrsunternehmens
+- lgbl: '1977.008'
+  lr: '741.811'
+  title: Verordnung vom 11. Januar 1977 zum Gesetz über einen Beitrag für die Unfallverhütung im Strassenverkehr
+- lgbl: '2011.182'
+  lr: '742.0'
+  title: Eisenbahngesetz (EBG) vom 16. März 2011
+- lgbl: '1968.030'
+  lr: '742.01'
+  title: Verordnung vom 29. Juli 1968 über die Sicherung schienengleicher Eisenbahnübergänge
+- lgbl: '2012.149'
+  lr: '742.011'
+  title: Eisenbahninfrastruktur-Bauverordnung (EBI-BauV) vom 22. Mai 2012
+- lgbl: '2012.150'
+  lr: '742.012'
+  title: Verordnung vom 22. Mai 2012 über die Erhebung von Gebühren nach dem Eisenbahngesetz (Eisenbahngebührenverordnung; EB-GebV)
+- lgbl: '2012.363'
+  lr: '742.013'
+  title: Verordnung vom 13. November 2012 über Sicherheits- und Verkehrsbewilligungen für Eisenbahnunternehmen (SVEV)
+- lgbl: '2013.095'
+  lr: '742.014'
+  title: Verordnung vom 19. Februar 2013 über die Zuweisung von Fahrplantrassen sowie die Einhebung von Entgelten für die Nutzung der Eisenbahninfrastruktur (EB-FEV)
+- lgbl: '2013.096'
+  lr: '742.015'
+  title: Verordnung vom 19. Februar 2013 über die Regulierungsbehörde nach dem Eisenbahngesetz (EB-RBV)
+- lgbl: '2022.210'
+  lr: '742.016'
+  title: Verordnung vom 12. Juli 2022 über die Interoperabilität des Eisenbahnsystems
+- lgbl: '1999.037'
+  lr: '744.11'
+  title: Gesetz vom 17. Dezember 1998 über die Personenbeförderung (Personenbeförderungsgesetz; PBG)
+- lgbl: '2011.345'
+  lr: '744.12'
+  title: Gesetz vom 29. Juni 2011 über den "Verkehrsbetrieb LIECHTENSTEINmobil" (VLMG)
+- lgbl: '1999.232'
+  lr: '744.111'
+  title: Verordnung vom 7. Dezember 1999 zum Gesetz über die Personenbeförderung (Personenbeförderungsverordnung, PBV)
+- lgbl: '1985.060'
+  lr: '746.1'
+  title: Rohrleitungsgesetz vom 3. Juli 1985 (Gesetz über Rohrleitungsanlagen zur Beförderung flüssiger oder gasförmiger Brenn- oder Treibstoffe)
+- lgbl: '1985.068'
+  lr: '746.11'
+  title: Verordnung vom 15. Oktober 1985 zum Rohrleitungsgesetz
+- lgbl: '1986.051'
+  lr: '746.111'
+  title: Verordnung vom 15. Oktober 1985 über Sicherheitsvorschriften für Rohrleitungsanlagen
+- lgbl: '2024.224'
+  lr: '748.0'
+  title: Luftfahrtgesetz (LFG) vom 11. April 2024
+- lgbl: '2016.334'
+  lr: '748.011'
+  title: Verordnung vom 18. Oktober 2016 über das Abfliegen und Landen mit Luftfahrzeugen ausserhalb von Flugplätzen (Aussenlandeverordnung; AuLaV)
+- lgbl: '2024.228'
+  lr: '748.012'
+  title: Verordnung vom 14. Mai 2024 über die Erhebung von Gebühren und Verwaltungskosten nach dem Luftfahrtgesetz (LFG-Gebührenverordnung; LFG-GebV)
+- lgbl: '1999.036'
+  lr: '781.0'
+  title: Gesetz vom 18. Dezember 1998 über die Liechtensteinische Post (LPG)
+- lgbl: '2023.151'
+  lr: '783.0'
+  title: Gesetz vom 2. März 2023 über Postdienste und Paketzustelldienste (Postdienste- und Paketzustelldienstegesetz; PPG)
+- lgbl: '2023.165'
+  lr: '783.01'
+  title: Verordnung vom 18. April 2023 über Postdienste und Paketzustelldienste (Postdienste- und Paketzustelldiensteverordnung; PPV)
+- lgbl: '1969.033'
+  lr: '783.1'
+  title: Gesetz vom 23. Mai 1969 zum Schutze der Postwertzeichen
+- lgbl: '2023.166'
+  lr: '783.02'
+  title: Verordnung vom 18. April 2023 über die Aufgaben und Befugnisse der Regulierungsbehörde im Postsektor (RPV)
+- lgbl: '2023.167'
+  lr: '783.03'
+  title: Verordnung vom 18. April 2023 über die Erhebung von Verwaltungsgebühren und -kosten sowie Aufsichtsabgaben nach dem Postdienste- und Paketzustelldienstegesetz (PPG-Gebühren- und Abgabenverordnung;
+    PPG-GAV)
+- lgbl: '2023.216'
+  lr: '784.10'
+  title: Gesetz vom 5. April 2023 über die elektronische Kommunikation (Kommunikationsgesetz; KomG)
+- lgbl: '2019.114'
+  lr: '784.11'
+  title: Gesetz vom 27. Februar 2019 über elektronische Signaturen und Vertrauensdienste für elektronische Transaktionen (Signatur- und Vertrauensdienstegesetz; SigVG)
+- lgbl: '2011.003'
+  lr: '784.12'
+  title: Gesetz vom 25. November 2010 über die Telecom Liechtenstein AG (TLIG)
+- lgbl: '2025.111'
+  lr: '784.13'
+  title: Cyber-Sicherheitsgesetz (CSG) vom 5. Dezember 2024
+- lgbl: '2025.052'
+  lr: 784.101.3
+  title: Verordnung vom 14. Januar 2025 über elektronische Kommunikationsnetze und -dienste (VKND)
+- lgbl: '2025.053'
+  lr: 784.101.4
+  title: Verordnung vom 14. Januar 2025 über die Aufgaben und Befugnisse der Regulierungsbehörde im Bereich der elektronischen Kommunikation (RKV)
+- lgbl: '2025.054'
+  lr: 784.101.5
+  title: Verordnung vom 14. Januar 2025 über Nummerierungsressourcen im Bereich der elektronischen Kommunikation (Nummerierungsressourcenverordnung; NRV)
+- lgbl: '2025.055'
+  lr: 784.101.6
+  title: Verordnung vom 14. Januar 2025 über ".li"-Domainnamen im Bereich der elektronischen Kommunikation (".li"-Domainnamenverordnung; VLID)
+- lgbl: '2025.056'
+  lr: 784.101.7
+  title: Verordnung vom 14. Januar 2025 über Liechtensteinische Kommunikationsparameter im Bereich der elektronischen Kommunikation (Kommunikationsparameterverordnung; KomPV)
+- lgbl: '2025.057'
+  lr: 784.101.8
+  title: Verordnung vom 14. Januar 2025 über Funkfrequenzen im Bereich der elektronischen Kommunikation (Funkfrequenzverordnung; FFV)
+- lgbl: '2025.058'
+  lr: 784.102.0
+  title: Verordnung vom 14. Januar 2025 über die Erhebung von Gebühren und Verwaltungskosten nach dem Kommunikationsgesetz (KomG-Gebührenverordnung; KomG-GebV)
+- lgbl: '2025.560'
+  lr: 784.102.1
+  title: Verordnung vom 9. Dezember 2025 über den Liechtensteinischen Frequenzzuweisungsplan für das Jahr 2026
+- lgbl: '2019.180'
+  lr: '784.111'
+  title: Verordnung vom 9. Juli 2019 über elektronische Signaturen und Vertrauensdienste für elektronische Transaktionen (Signatur- und Vertrauensdiensteverordnung; SigVV)
+- lgbl: '2025.163'
+  lr: '784.131'
+  title: Cyber-Sicherheitsverordnung (CSV) vom 14. Januar 2025
+- lgbl: '2023.443'
+  lr: '791.0'
+  title: Gesetz vom 5. Oktober 2023 über die Genehmigung von Weltraumaktivitäten und die Registrierung von Weltraumgegenständen (Weltraumgesetz; WRG)
+- lgbl: '2023.456'
+  lr: '791.01'
+  title: Verordnung vom 4. Dezember 2023 über die Genehmigung von Weltraumaktivitäten und die Registrierung von Weltraumgegenständen (Weltraumverordnung; WRV)
+- lgbl: '2008.030'
+  lr: '811.01'
+  title: Gesundheitsgesetz (GesG) vom 13. Dezember 2007
+- lgbl: '2008.039'
+  lr: '811.011'
+  title: Gesundheitsverordnung (GesV) vom 29. Januar 2008
+- lgbl: '2010.090'
+  lr: 811.011.2
+  title: Verordnung vom 6. April 2010 über die Anforderungen beim Anbringen von Tätowierungen, Permanent-Make-up und Piercings
+- lgbl: '2008.040'
+  lr: 811.011.3
+  title: Verordnung vom 29. Januar 2008 über die Einhebung von Gebühren im Gesundheitswesen
+- lgbl: '2003.239'
+  lr: '811.12'
+  title: Gesetz vom 22. Oktober 2003 über die Ärzte (Ärztegesetz)
+- lgbl: '2026.049'
+  lr: 811.012.0
+  title: Verordnung vom 3. Februar 2026 über die Qualität von Wasser für den menschlichen Gebrauch (Trinkwasserverordnung; TWV)
+- lgbl: '2009.006'
+  lr: '811.13'
+  title: Gesetz vom 20. November 2008 über die Tierärzte und andere Tiergesundheitsberufe (Tiergesundheitsberufegesetz; TGBG)
+- lgbl: '1935.006'
+  lr: '811.51'
+  title: Gesetz vom 23. April 1935 betreffend die Übernahme der Hebammengebühren auf Landsrechnung
+- lgbl: '2008.366'
+  lr: 811.121.1
+  title: Ärzteverordnung vom 9. Dezember 2008
+- lgbl: '2009.018'
+  lr: 811.131.1
+  title: Tierärzteverordnung vom 20. Januar 2009
+- lgbl: '2015.023'
+  lr: '812.102'
+  title: Gesetz vom 4. Dezember 2014 über Arzneimittel und Medizinprodukte (Heilmittelgesetz; HMG)
+- lgbl: '2015.131'
+  lr: 812.102.1
+  title: Verordnung vom 28. April 2015 über Arzneimittel und Medizinprodukte (Heilmittelverordnung; HMV)
+- lgbl: '2015.134'
+  lr: 812.102.2
+  title: Verordnung vom 28. April 2015 über die Einhebung von Gebühren im Bereich des Heilmittel- und Betäubungsmittelrechts (Heil- und Betäubungsmittel-Gebührenverordnung; HBGebV)
+- lgbl: '1998.045'
+  lr: '812.103'
+  title: Gesetz vom 18. Dezember 1997 über den Verkehr mit Arzneimitteln sowie den Umgang mit menschlichen Geweben und Zellen im Europäischen Wirtschaftsraum (EWR-Arzneimittelgesetz; EWR-AMG)
+- lgbl: '2011.439'
+  lr: 812.103.1
+  title: Verordnung vom 6. September 2011 über den Verkehr mit Arzneimitteln sowie den Umgang mit menschlichen Geweben und Zellen im Europäischen Wirtschaftsraum (EWR-Arzneimittelverordnung; EWR-AMV)
+- lgbl: '2004.073'
+  lr: 812.103.3
+  title: Verordnung vom 2. März 2004 über klinische Prüfungen mit Humanarzneimitteln im Europäischen Wirtschaftsraum (EWR-VKlin)
+- lgbl: '1983.038'
+  lr: '812.120'
+  title: Gesetz vom 20. April 1983 über die Betäubungsmittel und die psychotropen Stoffe (Betäubungsmittelgesetz; BMG)
+- lgbl: '2015.132'
+  lr: 812.120.1
+  title: Verordnung vom 28. April 2015 über die Betäubungsmittel und die psychotropen Stoffe (Betäubungsmittelverordnung; BMV)
+- lgbl: '1992.084'
+  lr: 812.120.12
+  title: Verordnung vom 18. August 1992 über die Abgabe steriler Instrumente an Betäubungsmittelabhängige
+- lgbl: '2015.133'
+  lr: 812.120.13
+  title: Verordnung vom 28. April 2015 über den Verkehr mit Drogenausgangsstoffen im Europäischen Wirtschaftsraum (EWR-Drogenausgangsstoff-Verordnung; EWR-DAV)
+- lgbl: '1999.240'
+  lr: '813.1'
+  title: Gesetz vom 21. Oktober 1999 über das Liechtensteinische Landesspital (LLSG)
+- lgbl: '2010.243'
+  lr: '813.2'
+  title: Gesetz vom 30. Juni 2010 über die Liechtensteinische Alters- und Krankenhilfe (LAKG)
+- lgbl: '2008.199'
+  lr: '814.01'
+  title: Umweltschutzgesetz (USG) vom 29. Mai 2008
+- lgbl: '2012.344'
+  lr: '814.02'
+  title: Umweltinformationsgesetz (UIG) vom 19. September 2012
+- lgbl: '2014.019'
+  lr: '814.03'
+  title: Gesetz vom 5. Dezember 2013 über die Umweltverträglichkeitsprüfung (UVPG)
+- lgbl: '2007.106'
+  lr: '814.04'
+  title: Gesetz vom 15. März 2007 über die Strategische Umweltprüfung (SUPG)
+- lgbl: '2012.346'
+  lr: '814.05'
+  title: Emissionshandelsgesetz (EHG) vom 19. September 2012
+- lgbl: '2008.253'
+  lr: 814.011.1
+  title: Lärmschutzverordnung (LSV) vom 14. Oktober 2008
+- lgbl: '2008.369'
+  lr: 814.011.2
+  title: Verordnung vom 16. Dezember 2008 über die Sanierung von belasteten Standorten (Altlasten-Verordnung; AltlV)
+- lgbl: '2008.325'
+  lr: 814.011.3
+  title: Verordnung vom 9. Dezember 2008 über den Schutz vor nichtionisierender Strahlung (NISV)
+- lgbl: '2009.343'
+  lr: 814.011.4
+  title: Verordnung vom 15. Dezember 2009 über den Schutz des Publikums von Veranstaltungen vor gesundheitsgefährdenden Schalleinwirkungen und Laserstrahlen (Schall- und Laserverordnung; SLV)
+- lgbl: '2014.033'
+  lr: 814.011.5
+  title: Verordnung vom 4. Februar 2014 über Ordnungsbussen nach dem Umweltschutzgesetz (OBV-USG)
+- lgbl: '2018.151'
+  lr: 814.011.6
+  title: Verordnung vom 10. Juli 2018 über die Einhebung von Gebühren nach der Umweltschutzgesetzgebung (USG-GebV)
+- lgbl: '2003.159'
+  lr: '814.20'
+  title: Gewässerschutzgesetz (GSchG) vom 15. Mai 2003
+- lgbl: '2014.261'
+  lr: 814.031.1
+  title: Verordnung vom 14. Oktober 2014 betreffend die Einhebung von Gebühren nach dem Gesetz über die Umweltverträglichkeitsprüfung (UVPG-GebV)
+- lgbl: '2010.370'
+  lr: '814.50'
+  title: Strahlenschutzgesetz (StSG) vom 21. Oktober 2010
+- lgbl: '2012.379'
+  lr: '814.051'
+  title: Emissionshandelsverordnung (EHV) vom 20. November 2012
+- lgbl: '2010.015'
+  lr: '814.061'
+  title: Gesetz vom 16. Dezember 2009 über die Lenkungsabgabe auf flüchtigen organischen Verbindungen (VOCG)
+- lgbl: '2010.020'
+  lr: 814.061.1
+  title: Verordnung vom 26. Januar 2010 über die Lenkungsabgabe auf flüchtigen organischen Verbindungen (VOCV)
+- lgbl: '2010.016'
+  lr: '814.062'
+  title: Gesetz vom 16. Dezember 2009 über die Lenkungsabgabe auf "Heizöl Extraleicht" mit einem Schwefelgehalt von mehr als 0,1 % (HELG)
+- lgbl: '2010.021'
+  lr: 814.062.1
+  title: Verordnung vom 26. Januar 2010 über die Lenkungsabgabe auf "Heizöl Extraleicht" mit einem Schwefelgehalt von mehr als 0,1 % (HELV)
+- lgbl: '2010.017'
+  lr: '814.063'
+  title: Gesetz vom 16. Dezember 2009 über die Lenkungsabgabe auf Benzin und Dieselöl mit einem Schwefelgehalt von mehr als 0,001 % (BDSG)
+- lgbl: '2010.022'
+  lr: 814.063.1
+  title: Verordnung vom 26. Januar 2010 über die Lenkungsabgabe auf Benzin und Dieselöl mit einem Schwefelgehalt von mehr als 0,001 % (BDSV)
+- lgbl: '2010.018'
+  lr: '814.064'
+  title: Gesetz vom 16. Dezember 2009 über die Abgabe zur Sanierung von Altlasten (ASAG)
+- lgbl: '2010.023'
+  lr: 814.064.1
+  title: Verordnung vom 26. Januar 2010 über die Abgabe zur Sanierung von Altlasten (ASAV)
+- lgbl: '2013.358'
+  lr: '814.065'
+  title: Gesetz vom 6. September 2013 über die Reduktion der CO2-Emissionen (CO2-Gesetz)
+- lgbl: '2013.359'
+  lr: 814.065.1
+  title: Verordnung vom 29. Oktober 2013 über die Reduktion der CO2-Emissionen (CO2-Verordnung)
+- lgbl: '2017.012'
+  lr: '814.201'
+  title: Gewässerschutzverordnung (GSchV) vom 18. Januar 2017
+- lgbl: '1999.071'
+  lr: 814.201.1
+  title: Verordnung vom 16. März 1999 über den Schutz der Gewässer vor wassergefährdenden Flüssigkeiten (VWF)
+- lgbl: '2007.060'
+  lr: 814.201.8
+  title: Verordnung vom 13. März 2007 über die Lagerung von Hofdüngern in der Landwirtschaft (Hofdüngerverordnung; HDV)
+- lgbl: '1988.060'
+  lr: 814.202.0
+  title: Verordnung vom 20. September 1988 zum Schutze des Grundwassers
+- lgbl: '2018.150'
+  lr: 814.202.1
+  title: Verordnung vom 10. Juli 2018 über die Einhebung von Gebühren nach der Gewässerschutzgesetzgebung (Gewässerschutzgebührenverordnung; GSch-GebV)
+- lgbl: '1994.003'
+  lr: 814.202.2
+  title: Verordnung vom 12. Oktober 1993 zum Schutze der Quellfassungen der Gemeinde Vaduz im Gebiet "Schneeflucht", Malbun
+- lgbl: '1996.048'
+  lr: 814.202.3
+  title: Verordnung vom 19. Februar 1996 zum Schutze des Grundwasserpumpwerkes "Heilos" der Gemeinden Balzers und Triesen
+- lgbl: '1996.049'
+  lr: 814.202.4
+  title: Verordnung vom 19. Februar 1996 zum Schutze des Grundwasserpumpwerkes "Rheinau" der Gemeinde Balzers
+- lgbl: '2014.188'
+  lr: 814.202.5
+  title: Verordnung vom 1. Juli 2014 zum Schutze der Grundwasserpumpwerke "Oberau" und "Spetzau" der Wasserversorgung Liechtensteiner Unterland
+- lgbl: '1998.060'
+  lr: 814.202.6
+  title: Verordnung vom 17. Februar 1998 zum Schutz der Quellfassungen "Am Alpweg", "Wissa Stä", "Egg" und "Sattel" in der Gemeinde Planken
+- lgbl: '2000.201'
+  lr: 814.202.7
+  title: Verordnung vom 3. Oktober 2000 zum Schutze der Quellfassungen "Badtobel" in der Gemeinde Triesen
+- lgbl: '2000.227'
+  lr: 814.202.8
+  title: Verordnung vom 7. November 2000 zum Schutze des Grundwasserpumpwerkes "Unterau" in der Gemeinde Schaan
+- lgbl: '2000.228'
+  lr: 814.202.9
+  title: Verordnung vom 7. November 2000 zum Schutze des Grundwasserpumpwerkes "Wiesen" in der Gemeinde Schaan
+- lgbl: '2001.053'
+  lr: 814.203.0
+  title: Verordnung vom 6. März 2001 zum Schutze der Quellfassungen der Wasserversorgung Liechtensteiner Unterland am "Maurerberg" (oberhalb Schaanwald und Nendeln)
+- lgbl: '2008.081'
+  lr: 814.203.1
+  title: Verordnung vom 18. März 2008 über das Grundwasserschutzareal "Im Damm - Gartnetsch - Undera Hälos" in der Gemeinde Triesen
+- lgbl: '2008.291'
+  lr: 814.203.2
+  title: Verordnung vom 25. November 2008 zum Schutze der Quellfassungen "Köpf" in der Gemeinde Balzers
+- lgbl: '2011.026'
+  lr: 814.203.3
+  title: Verordnung vom 18. Januar 2011 zum Schutze der Quellfassungen "Bergwald" in der Gemeinde Triesenberg
+- lgbl: '2011.070'
+  lr: 814.203.4
+  title: Verordnung vom 22. Februar 2011 über das Grundwasserschutzareal "Neufeld" in der Gemeinde Vaduz
+- lgbl: '2011.071'
+  lr: 814.203.5
+  title: Verordnung vom 22. Februar 2011 zum Schutze des Grundwasserpumpwerkes "Neugut" in der Gemeinde Vaduz
+- lgbl: '2011.072'
+  lr: 814.203.6
+  title: Verordnung vom 22. Februar 2011 zum Schutze der Quellfassungen "I da Rieter" in der Gemeinde Triesenberg
+- lgbl: '2011.124'
+  lr: 814.203.7
+  title: Verordnung vom 29. März 2011 zum Schutze der Quellfassungen "Bleika" in der Gemeinde Triesenberg
+- lgbl: '2011.173'
+  lr: 814.203.8
+  title: Verordnung vom 10. Mai 2011 zum Schutze der Quellfassungen "Litzenen" in der Gemeinde Triesen
+- lgbl: '2011.231'
+  lr: 814.203.9
+  title: Verordnung vom 7. Juni 2011 zum Schutze der Quellfassungen "Wisseler", "Efiplanken", "Tännlegarta" und "Rudabach" in der Gemeinde Schaan
+- lgbl: '2012.120'
+  lr: 814.204.0
+  title: Verordnung vom 17. April 2012 zum Schutze der Quellfassungen "Wasserchopf" in der Gemeinde Triesenberg
+- lgbl: '2012.367'
+  lr: 814.204.1
+  title: Verordnung vom 13. November 2012 zum Schutze der Quellfassungen "Balischguad" und "Bim Brunna" in der Gemeinde Triesenberg
+- lgbl: '2016.186'
+  lr: 814.204.2
+  title: Verordnung vom 3. Mai 2016 über das Grundwasserschutzareal "Äule-Neugüeter" der Gemeinde Balzers
+- lgbl: '2008.245'
+  lr: 814.301.1
+  title: Luftreinhalteverordnung (LRV) vom 30. September 2008
+- lgbl: '2006.195'
+  lr: 814.301.4
+  title: Verordnung vom 19. September 2006 über die Emissionsbegrenzung auf Baustellen und baustellenähnlichen Betrieben (Baustellen-Emissionsbegrenzungs-Verordnung; BEV)
+- lgbl: '2016.247'
+  lr: 814.301.5
+  title: Industrieemissionsverordnung (IEV) vom 5. Juli 2016
+- lgbl: '2021.326'
+  lr: 814.601.3
+  title: Verordnung vom 26. Oktober 2021 über das Verbot des Inverkehrbringens sowie die Anforderungen an die Beschaffenheit und Kennzeichnung bestimmter Kunststoffprodukte (Kunststoffprodukteverordnung;
+    KPV)
+- lgbl: '1997.166'
+  lr: 814.601.4
+  title: Verordnung vom 26. August 1997 über Verpackungen und Verpackungsabfälle
+- lgbl: '2000.073'
+  lr: 814.601.5
+  title: Verordnung vom 22. Februar 2000 über Zwischenlager und Aufbereitungsplätze für Holzabfälle (Holzabfall-Verordnung)
+- lgbl: '2004.153'
+  lr: 814.601.6
+  title: Verordnung vom 6. Juli 2004 über die Abgabe, die Rücknahme und die Entsorgung von Altfahrzeugen (Altfahrzeugverordnung, AFV)
+- lgbl: '2016.092'
+  lr: 814.601.7
+  title: Abfallbewirtschaftungsverordnung (ABWV) vom 1. März 2016
+- lgbl: '2015.188'
+  lr: 814.801.2
+  title: Verordnung vom 7. Juli 2015 über den Vollzug der Chemikaliengesetzgebung
+- lgbl: '2015.184'
+  lr: 814.801.3
+  title: Verordnung vom 30. Juni 2015 über die Einhebung von Gebühren im Bereich der Chemikalien (Chemikaliengebührenverordnung; ChemGebV)
+- lgbl: '2021.213'
+  lr: '815.1'
+  title: Gesetz vom 7. Mai 2021 über das elektronische Gesundheitsdossier (EGDG)
+- lgbl: '2022.365'
+  lr: '815.11'
+  title: Verordnung vom 6. Dezember 2022 über das elektronische Gesundheitsdossier (EGDV)
+- lgbl: '2011.004'
+  lr: '816.1'
+  title: Gesetz vom 25. November 2010 über den Umgang mit genetisch veränderten, pathogenen oder gebietsfremden Organismen (Organismengesetz; OrgG)
+- lgbl: '1999.106'
+  lr: '816.111'
+  title: Verordnung vom 27. April 1999 über die Einhebung von Gebühren nach dem Gesetz über den Umgang mit gentechnisch veränderten oder pathogenen Organismen
+- lgbl: '2011.088'
+  lr: '816.112'
+  title: Verordnung vom 1. März 2011 über den Umgang mit genetisch veränderten Organismen (GVOV)
+- lgbl: '2011.089'
+  lr: '816.113'
+  title: Verordnung vom 1. März 2011 über Koexistenzmassnahmen beim Anbau genetisch veränderter Pflanzen sowie beim Umgang mit daraus gewonnenem Erntegut (Koexistenzverordnung; KoexV)
+- lgbl: '2011.090'
+  lr: '816.114'
+  title: Verordnung vom 1. März 2011 über den Umgang mit pathogenen oder gebietsfremden Organismen in der Umwelt (Freisetzungsverordnung; FrSV)
+- lgbl: '2011.091'
+  lr: '816.115'
+  title: Verordnung vom 1. März 2011 über den Umgang mit pathogenen Organismen in geschlossenen Systemen (Einschliessungsverordnung; ESV)
+- lgbl: '2008.027'
+  lr: '817.2'
+  title: Gesetz vom 13. Dezember 2007 über den Nichtraucherschutz und die Werbung für Tabakprodukte und elektronische Zigaretten (Tabakpräventionsgesetz; TPG)
+- lgbl: '2000.094'
+  lr: '817.011'
+  title: Verordnung vom 16. Mai 2000 über die Lebensmittelkontrolle (Lebensmittelkontrollverordnung, LMKV)
+- lgbl: '2008.156'
+  lr: '817.21'
+  title: Verordnung vom 24. Juni 2008 zum Tabakpräventionsgesetz (Tabakpräventionsverordnung; TPV)
+- lgbl: '2025.257'
+  lr: '817.31'
+  title: Verordnung vom 1. April 2025 über den Vollzug der Tabakproduktegesetzgebung
+- lgbl: '1941.013'
+  lr: 818.102.11
+  title: Verordnung vom 5. Mai 1941 betreffend die Bekämpfung der Tuberkulose
+- lgbl: '1995.100'
+  lr: '819.1'
+  title: Gesetz vom 22. März 1995 über die Sicherheit von technischen Einrichtungen und Geräten
+- lgbl: '1946.004'
+  lr: '821.41'
+  title: Gesetz vom 29. November 1945 betreffend die Arbeit in Industrie und Gewerbe (Arbeiterschutzgesetz)
+- lgbl: '1967.006'
+  lr: '822.10'
+  title: Gesetz vom 29. Dezember 1966 über die Arbeit in Industrie, Gewerbe und Handel (Arbeitsgesetz)
+- lgbl: '1997.211'
+  lr: '822.11'
+  title: Gesetz vom 23. Oktober 1997 über die Unterrichtung und Anhörung der Arbeitnehmerschaft in den Betrieben (Mitwirkungsgesetz; MWG)
+- lgbl: '2000.162'
+  lr: '822.12'
+  title: Gesetz vom 16. Juni 2000 über Europäische Betriebsräte
+- lgbl: '2002.158'
+  lr: '822.51'
+  title: Gesetz vom 23. Oktober 2002 über die Koordination der Sicherheits- und Gesundheitsschutzmassnahmen bei Bauarbeiten (Bauarbeitenkoordinationsgesetz, BauKG)
+- lgbl: '2005.067'
+  lr: 822.101.1
+  title: Verordnung I vom 22. März 2005 zum Arbeitsgesetz (ArGV I)
+- lgbl: '2002.188'
+  lr: 822.101.2
+  title: Verordnung II vom 17. Dezember 2002 zum Arbeitsgesetz (ArGV II) (Sonderbestimmungen für bestimmte Gruppen von Betrieben oder Arbeitnehmern)
+- lgbl: '1998.111'
+  lr: 822.101.3
+  title: Verordnung vom 16. Juni 1998 über die Sicherheit und den Gesundheitsschutz der Arbeitnehmer am Arbeitsplatz
+- lgbl: '2005.068'
+  lr: 822.101.4
+  title: Verordnung IV vom 22. März 2005 zum Arbeitsgesetz (ArGV IV) (Industrielle Betriebe, Plangenehmigung und Betriebsbewilligung)
+- lgbl: '2005.069'
+  lr: 822.101.5
+  title: Verordnung V vom 22. März 2005 zum Arbeitsgesetz (ArGV V) (Sonderbestimmungen über den Schutz der jugendlichen Arbeitnehmer)
+- lgbl: '1942.011'
+  lr: 822.311.1
+  title: Ausführungsverordnung vom 12. März 1942 zum Gesetz vom 12. Dezember 1940 über die Heimarbeit
+- lgbl: '2004.247'
+  lr: '822.511'
+  title: Verordnung vom 23. November 2004 zum Bauarbeitenkoordinationsgesetz (Bauarbeitenkoordinationsverordnung, BauKV)
+- lgbl: '2000.103'
+  lr: '823.10'
+  title: Gesetz vom 12. April 2000 über die Arbeitsvermittlung und den Personalverleih (Arbeitsvermittlungsgesetz, AVG)
+- lgbl: '2000.088'
+  lr: '823.21'
+  title: Gesetz vom 15. März 2000 über die Entsendung von Arbeitnehmern im Rahmen der grenzüberschreitenden Erbringung von Dienstleistungen (Entsendegesetz; EntsG)
+- lgbl: '2000.146'
+  lr: '823.101'
+  title: Verordnung vom 11. Juli 2000 zum Gesetz über die Arbeitsvermittlung und den Personalverleih (Arbeitsvermittlungsverordnung, AVV)
+- lgbl: '2019.371'
+  lr: 823.211.1
+  title: Verordnung vom 10. Dezember 2019 über die Entsendung von Arbeitnehmern im Rahmen der grenzüberschreitenden Erbringung von Dienstleistungen (Entsendeverordnung; EntsV)
+- lgbl: '1952.029'
+  lr: '831.10'
+  title: Gesetz vom 14. Dezember 1952 über die Alters- und Hinterlassenenversicherung (AHVG)
+- lgbl: '1960.005'
+  lr: '831.20'
+  title: Gesetz vom 23. Dezember 1959 über die Invalidenversicherung (IVG)
+- lgbl: '1965.046'
+  lr: '831.30'
+  title: Gesetz vom 10. Dezember 1965 über Ergänzungsleistungen zur Alters-, Hinterlassenen- und Invalidenversicherung (ELG)
+- lgbl: '1988.012'
+  lr: '831.40'
+  title: Gesetz vom 20. Oktober 1987 über die betriebliche Personalvorsorge (BPVG)
+- lgbl: '2018.464'
+  lr: '831.42'
+  title: Gesetz vom 9. November 2018 betreffend die Aufsicht über Einrichtungen der betrieblichen Altersversorgung (Pensionsfondsgesetz; PFG)
+- lgbl: '1982.035'
+  lr: '831.101'
+  title: Verordnung vom 7. Dezember 1981 zum Gesetz über die Alters- und Hinterlassenenversicherung (AHVV)
+- lgbl: '2024.400'
+  lr: '831.102'
+  title: Verordnung vom 12. November 2024 über die Anpassung der Leistungen der Alters-, Hinterlassenen- und Invalidenversicherung an die Lohn- und Preisentwicklung
+- lgbl: '1991.025'
+  lr: '831.103'
+  title: Verordnung vom 12. März 1991 über die Ausrichtung einer Teuerungszulage auf die Renten der Alters-, Hinterlassenen- und Invalidenversicherung für das Jahr 1991
+- lgbl: '2001.085'
+  lr: 831.135.1
+  title: Verordnung vom 24. April 2001 über die Abgabe von Hilfsmitteln durch die Alters- und Hinterlassenenversicherung
+- lgbl: '2021.406'
+  lr: 831.192.1
+  title: Verordnung vom 14. Dezember 2021 über die Anlage des Vermögens der Alters- und Hinterlassenenversicherung (AHV-Vermögensanlage-Verordnung)
+- lgbl: '1982.036'
+  lr: '831.201'
+  title: Verordnung vom 22. Dezember 1981 zum Gesetz über die Invalidenversicherung (Invalidenversicherungsverordnung; IVV)
+- lgbl: '1982.005'
+  lr: '831.301'
+  title: Verordnung vom 1. Dezember 1981 zum Gesetz über Ergänzungsleistungen zur Alters-, Hinterlassenen- und Invalidenversicherung (ELV)
+- lgbl: '2024.418'
+  lr: '831.302'
+  title: Verordnung vom 26. November 2024 über die Anpassung der Ergänzungsleistungen zur Alters-, Hinterlassenen- und Invalidenversicherung an die Lohn- und Preisentwicklung
+- lgbl: '2001.087'
+  lr: '831.303'
+  title: Verordnung vom 24. April 2001 über besondere medizinische Eingliederungsmassnahmen
+- lgbl: '2009.313'
+  lr: '831.304'
+  title: Verordnung vom 9. Dezember 2009 über das Betreuungs- und Pflegegeld für die häusliche Betreuung (Betreuungs- und Pflegegeldverordnung; BPGV)
+- lgbl: '2022.350'
+  lr: '831.305'
+  title: Gesetz vom 29. September 2022 über die Familienhilfe Liechtenstein (FHLG)
+- lgbl: '2005.288'
+  lr: '831.401'
+  title: Verordnung vom 20. Dezember 2005 zum Gesetz über die betriebliche Personalvorsorge (BPVV)
+- lgbl: '1976.031'
+  lr: 831.401.11
+  title: Verordnung vom 13. April 1976 betreffend die Pflichten der Personalfürsorgeeinrichtung
+- lgbl: '1997.138'
+  lr: 831.401.12
+  title: Verordnung vom 1. Juli 1997 über die obligatorische betriebliche Personalvorsorge von arbeitslosen Personen
+- lgbl: '2018.477'
+  lr: '831.421'
+  title: Verordnung vom 18. Dezember 2018 betreffend die Aufsicht über Einrichtungen der betrieblichen Altersversorgung (Pensionsfondsverordnung; PFV)
+- lgbl: '1971.050'
+  lr: '832.10'
+  title: Gesetz vom 24. November 1971 über die Krankenversicherung (KVG)
+- lgbl: '1990.046'
+  lr: '832.20'
+  title: Gesetz vom 28. November 1989 über die obligatorische Unfallversicherung (Unfallversicherungsgesetz; UVersG)
+- lgbl: '2000.074'
+  lr: '832.101'
+  title: Verordnung vom 14. März 2000 zum Gesetz über die Krankenversicherung (KVV)
+- lgbl: '2005.055'
+  lr: 832.101.4
+  title: Verordnung vom 15. März 2005 über die Krankenversicherungskarte (Krankenversicherungskartenverordnung; KVKV)
+- lgbl: '2007.123'
+  lr: 832.101.5
+  title: Verordnung vom 22. Mai 2007 über die Kostenziele und die Qualitätssicherung in der obligatorischen Krankenpflegeversicherung (KQV)
+- lgbl: '2016.209'
+  lr: 832.101.6
+  title: Verordnung vom 21. Juni 2016 über den pauschalen Zuschlag für die erweiterte obligatorische Krankenpflegeversicherung
+- lgbl: '2017.220'
+  lr: 832.101.7
+  title: Verordnung vom 22. August 2017 über die Prämienverbilligung in der Krankenversicherung (Prämienverbilligungsverordnung; PVV)
+- lgbl: '2025.535'
+  lr: 832.101.51
+  title: Verordnung vom 18. November 2025 über das Kostenziel in der obligatorischen Krankenpflegeversicherung für das Jahr 2026
+- lgbl: '1990.070'
+  lr: '832.201'
+  title: Verordnung vom 4. September 1990 über die obligatorische Unfallversicherung (Unfallversicherungsverordnung; UVersV)
+- lgbl: '2024.422'
+  lr: 832.205.27
+  title: Verordnung vom 26. November 2024 über die Teuerungszulagen an die Rentner der obligatorischen Unfallversicherung
+- lgbl: '2023.018'
+  lr: 832.311.14
+  title: Verordnung vom 17. Januar 2023 über die Sicherheit und den Gesundheitsschutz der Arbeitnehmer bei Bauarbeiten (Bauarbeitenverordnung; BauAV)
+- lgbl: '2012.364'
+  lr: 832.312.15
+  title: Verordnung vom 13. November 2012 über die sichere Verwendung von Kranen (Kranverordnung; KranV)
+- lgbl: '1971.014'
+  lr: 832.314.11
+  title: Verordnung vom 27. Januar 1971 über die Verhütung von Unfällen bei Sprengarbeiten
+- lgbl: '1961.018'
+  lr: 832.320.1
+  title: Verordnung vom 6. Juli 1961 betreffend die Verhütung von Berufskrankheiten
+- lgbl: '1982.008'
+  lr: '833.0'
+  title: Gesetz vom 25. November 1981 betreffend Ausrichtung einer Mutterschaftszulage
+- lgbl: '1982.041'
+  lr: '833.01'
+  title: Verordnung vom 4. Mai 1982 zum Gesetz betreffend Ausrichtung einer Mutterschaftszulage
+- lgbl: '1986.028'
+  lr: '836.0'
+  title: Gesetz vom 18. Dezember 1985 über die Familienzulagen und den Erwerbsersatz bei Mutterschaft, Vaterschaft und Elternzeit (Familienzulagen- und Erwerbsersatzgesetz; FZEG)
+- lgbl: '1986.029'
+  lr: '836.01'
+  title: Verordnung vom 1. April 1986 über die Familienzulagen und den Erwerbsersatz bei Mutterschaft, Vaterschaft und Elternzeit (Familienzulagen- und Erwerbsersatzverordnung; FZEV)
+- lgbl: '2010.452'
+  lr: '837.0'
+  title: Gesetz vom 24. November 2010 über die Arbeitslosenversicherung und die Insolvenzentschädigung (Arbeitslosenversicherungsgesetz; ALVG)
+- lgbl: '2010.465'
+  lr: '837.01'
+  title: Verordnung vom 14. Dezember 2010 über die Arbeitslosenversicherung und die Insolvenzentschädigung (Arbeitslosenversicherungsverordnung; ALVV)
+- lgbl: '2010.466'
+  lr: '837.011'
+  title: Verordnung vom 14. Dezember 2010 über die Anlage des Vermögens der Liechtensteinischen Arbeitslosenversicherungskasse
+- lgbl: '1977.046'
+  lr: '840'
+  title: Gesetz vom 30. Juni 1977 über die Förderung des Wohnungsbaues (Wohnbauförderungsgesetz; WBFG)
+- lgbl: '2004.285'
+  lr: '840.1'
+  title: Verordnung vom 14. Dezember 2004 zum Wohnbauförderungsgesetz (Wohnbauförderungsverordnung; WBFV)
+- lgbl: '2024.410'
+  lr: '840.11'
+  title: Verordnung vom 19. November 2024 über die Anpassung der Einkommensgrenzen und der Darlehensbeträge nach dem Wohnbauförderungsgesetz an die Teuerung
+- lgbl: '2000.202'
+  lr: '841'
+  title: Gesetz vom 13. September 2000 über Mietbeiträge für Familien (Mietbeitragsgesetz; MBG)
+- lgbl: '2001.065'
+  lr: '841.1'
+  title: Verordnung vom 20. März 2001 zum Gesetz über Mietbeiträge für Familien
+- lgbl: '2023.433'
+  lr: '841.11'
+  title: Verordnung vom 21. November 2023 über die Anpassung der Einkommensgrenze sowie der Höhe der Mietbeiträge nach dem Mietbeitragsgesetz an die Teuerung
+- lgbl: '1985.017'
+  lr: '851.0'
+  title: Sozialhilfegesetz (SHG) vom 15. November 1984
+- lgbl: '1987.018'
+  lr: '851.01'
+  title: Sozialhilfeverordnung (SHV) vom 7. April 1987
+- lgbl: '1905.001'
+  lr: '851.31'
+  title: Verordnung vom 19. Juli 1905 betreffend die Sammlung milder Gaben im Fürstentum Liechtenstein
+- lgbl: '2022.405'
+  lr: '851.41'
+  title: Gesetz vom 30. November 2022 über die Ausrichtung einer einmaligen Energiekostenpauschale für einkommensschwache Haushalte (Energiekostenpauschalegesetz; EKPG)
+- lgbl: '2009.029'
+  lr: '852.0'
+  title: Kinder- und Jugendgesetz (KJG) vom 10. Dezember 2008
+- lgbl: '2009.055'
+  lr: '852.011'
+  title: Verordnung vom 27. Januar 2009 über die Beiträge des Staates an die Kosten für die Betreuung und Pflege von Kindern und Jugendlichen (Kinderbetreuungs-Beitrags-Verordnung; KBBV)
+- lgbl: '2009.097'
+  lr: '852.012'
+  title: Verordnung vom 17. Februar 2009 über den Schutz von Kindern und Jugendlichen im Bereich der audio-visuellen Medien (Kinder- und Jugendschutz-Medien-Verordnung; KJMV)
+- lgbl: '2009.104'
+  lr: '852.013'
+  title: Verordnung vom 10. März 2009 über die ausserhäusliche Betreuung und Pflege von Kindern und Jugendlichen (Kinderbetreuungsverordnung; KBV)
+- lgbl: '2009.242'
+  lr: '852.014'
+  title: Verordnung vom 22. September 2009 über die Ausrichtung von Beiträgen an private Einrichtungen der Kinder- und Jugendhilfe (Kinder- und Jugendhilfe-Beitrags-Verordnung; KJHBV)
+- lgbl: '2009.243'
+  lr: '852.015'
+  title: Verordnung vom 22. September 2009 über die Ausrichtung von Beiträgen im Rahmen der Kinder- und Jugendförderung (Kinder- und Jugendförderungs-Beitrags-Verordnung; KJFBV)
+- lgbl: '2013.023'
+  lr: '852.016'
+  title: Verordnung vom 15. Januar 2013 über die Einhebung von Gebühren nach dem Kinder- und Jugendgesetz (KJG-GebV)
+- lgbl: '2019.169'
+  lr: '852.017'
+  title: Verordnung vom 1. Juli 2019 über die Ausrichtung von Beiträgen an private Einrichtungen der ausserhäuslichen Kinderbetreuung (Ausserhäusliche Kinderbetreuungs-Beitrags-Verordnung; AKBV)
+- lgbl: '1971.007'
+  lr: '854.0'
+  title: Gesetz vom 17. Dezember 1970 über die Gewährung von Blindenbeihilfen
+- lgbl: '2024.419'
+  lr: '854.011'
+  title: Verordnung vom 26. November 2024 über die Anpassung der Blindenbeihilfen an die Lohn- und Preisentwicklung
+- lgbl: '1998.033'
+  lr: '903.1'
+  title: Gesetz vom 18. Dezember 1997 über die Finanzierung von Massnahmen zur Wirtschaftsförderung
+- lgbl: '2009.042'
+  lr: '910.0'
+  title: Landwirtschaftsgesetz (LWG) vom 11. Dezember 2008
+- lgbl: '2009.198'
+  lr: '910.011'
+  title: Verordnung vom 7. Juli 2009 über die Förderung der Infrastrukturen von Alpen (Alpinfrastruktur-Förderungs-Verordnung; AIFV)
+- lgbl: '2009.199'
+  lr: '910.012'
+  title: Verordnung vom 7. Juli 2009 über die Milchmengenregelung (Milchmengenregelungsverordnung; MMRV)
+- lgbl: '2009.211'
+  lr: '910.014'
+  title: Verordnung vom 14. Juli 2009 über die Förderung der Infrastrukturen von Landwirtschaftsbetrieben (Landwirtschaftsbetriebsinfrastruktur-Förderungs-Verordnung; LIFV)
+- lgbl: '2009.212'
+  lr: '910.015'
+  title: Verordnung vom 14. Juli 2009 über soziale Begleitmassnahmen in der Landwirtschaft (Landwirtschafts-Begleitmassnahmen-Verordnung; LBMV)
+- lgbl: '2023.174'
+  lr: '910.016'
+  title: Verordnung vom 25. April 2023 über den Rebbau und die Weinqualität (Weinqualitätsverordnung; WQV)
+- lgbl: '2009.214'
+  lr: '910.017'
+  title: Verordnung vom 14. Juli 2009 über die Förderung von Dienstleistungen Dritter in der Landwirtschaft (Landwirtschaftsdienstleistungs-Förderungs-Verordnung; LDFV)
+- lgbl: '2021.260'
+  lr: '910.018'
+  title: Verordnung vom 17. August 2021 über die Förderung der Tierzucht (Tierzucht-Förderungs-Verordnung; TZV)
+- lgbl: '2009.254'
+  lr: '910.019'
+  title: Verordnung vom 29. September 2009 über Bodenverbesserungen in der Landwirtschaft (Bodenverbesserungsverordnung; BVV)
+- lgbl: '2009.264'
+  lr: '910.020'
+  title: Verordnung vom 20. Oktober 2009 über landwirtschaftliche Begriffe und die Anerkennung von Landwirtschaftsbetrieben (Landwirtschaftliche Begriffs- und Anerkennungsverordnung; LBAV)
+- lgbl: '2018.239'
+  lr: '910.021'
+  title: Verordnung vom 13. November 2018 über die Förderung von Programmen der tiergerechten Betriebsführung (Ethoprogramm-Förderungs-Verordnung; EPFV)
+- lgbl: '2010.053'
+  lr: '910.022'
+  title: Verordnung vom 2. März 2010 über die Förderung der Landschaftspflege von Berggebieten, Hanglagen und Grenzertragsstandorten (Landschaftspflege-Förderungs-Verordnung; LPFV)
+- lgbl: '2010.067'
+  lr: '910.023'
+  title: Verordnung vom 23. März 2010 über Einkommensbeiträge in der Landwirtschaft (Landwirtschafts-Einkommensbeitrags-Verordnung; LEV)
+- lgbl: '2022.378'
+  lr: '910.024'
+  title: Verordnung vom 13. Dezember 2022 über die Förderung von ökologischen Bewirtschaftungsarten in der Landwirtschaft (Landwirtschafts-Bewirtschaftungs-Förderungs-Verordnung; LBFV)
+- lgbl: '2010.168'
+  lr: '910.025'
+  title: Verordnung vom 15. Juni 2010 über die Förderung der Alpwirtschaft (Alpwirtschafts-Förderungs-Verordnung; AWFV)
+- lgbl: '2012.278'
+  lr: '910.026'
+  title: Verordnung vom 4. September 2012 über die Kürzung und Verweigerung von landwirtschaftlichen Förderungsleistungen (Landwirtschaftliche Förderungskürzungsverordnung; LFKV)
+- lgbl: '2012.399'
+  lr: '910.027'
+  title: Verordnung vom 11. Dezember 2012 über die Zulassung von landwirtschaftsnahen Tätigkeiten (ZLTV)
+- lgbl: '2022.379'
+  lr: '910.028'
+  title: Verordnung vom 13. Dezember 2022 über die Förderung von Biodiversitätsförderflächen (Biodiversitäts-Förderungs-Verordnung; BFV)
+- lgbl: '2024.331'
+  lr: '910.029'
+  title: Verordnung vom 10. September 2024 über die Förderung von Verarbeitung und Absatz inländischer Landwirtschaftsprodukte (Landwirtschaftsprodukte-Verarbeitungs- und Absatzförderungs-Verordnung; LVAV)
+- lgbl: '2008.247'
+  lr: '912.211'
+  title: Verordnung vom 7. Oktober 2008 über die Erhaltung und Entwicklung des Berggebietes
+- lgbl: '1966.027'
+  lr: '916.41'
+  title: Gesetz vom 20. Oktober 1966 über die Bekämpfung von Tierseuchen
+- lgbl: '1966.017'
+  lr: '916.42'
+  title: Gesetz vom 13. Juli 1966 über die Organisation der Tierseuchenpolizei (Tierseuchenpolizeigesetz; TSPG)
+- lgbl: '1873.008'
+  lr: '916.44'
+  title: Wasenordnung vom 21. November 1873
+- lgbl: '1995.225'
+  lr: '916.45'
+  title: Gesetz vom 30. Oktober 1995 über Heimtierfutter
+- lgbl: '1974.022'
+  lr: 916.221.1
+  title: Verordnung vom 20. März 1974 über die Bekämpfung von Gitterrost an Birnbäumen
+- lgbl: '2002.048'
+  lr: '916.231'
+  title: Verordnung vom 9. April 2002 zur Bekämpfung des Feuerbrandes (Feuerbrandverordnung, FBV)
+- lgbl: '2021.403'
+  lr: '916.241'
+  title: Verordnung vom 7. Dezember 2021 über Massnahmen zur Bekämpfung des Erdmandelgrases (Erdmandelgrasverordnung; EMGV)
+- lgbl: '1967.022'
+  lr: 916.411.1
+  title: Verordnung vom 3. Juli 1967 über besondere Massnahmen zur Bekämpfung der Tollwut
+- lgbl: '1968.028'
+  lr: 916.411.2
+  title: Verordnung vom 22. Juli 1968 über die Verhütung der Übertragung von Tollwut durch Wildbret
+- lgbl: '1969.024'
+  lr: 916.411.3
+  title: Verordnung vom 8. April 1969 über die Bekämpfung der Bienenseuchen
+- lgbl: '2002.185'
+  lr: 916.411.5
+  title: Verordnung vom 17. Dezember 2002 über die Einhebung von Gebühren nach der Lebensmittel- und Tierseuchengesetzgebung
+- lgbl: '2006.043'
+  lr: 916.411.6
+  title: Verordnung vom 24. Januar 2006 über die Ausrichtung von Beiträgen an die Kosten für die Entsorgung von tierischen Nebenprodukten
+- lgbl: '2002.186'
+  lr: 916.421.1
+  title: Verordnung vom 17. Dezember 2002 Verordnung über die Entschädigung der Tierärzte, des Bieneninspektors und des Hilfspersonals für amtliche Verrichtungen (Tierärzte- und Bieneninspektor-Entschädigungsverordnung;
+    TBEV)
+- lgbl: '2026.108'
+  lr: 916.421.6
+  title: Verordnung vom 31. März 2026 über die Sömmerung von landwirtschaftlichen Nutztieren im Jahr 2026 (Sömmerungsverordnung)
+- lgbl: '2025.059'
+  lr: 916.421.7
+  title: Verordnung vom 21. Januar 2025 über Massnahmen zur Verhinderung der Weiterverbreitung der Blauzungenkrankheit
+- lgbl: '1991.042'
+  lr: '921.0'
+  title: Waldgesetz (WaldG) vom 25. März 1991
+- lgbl: '1995.062'
+  lr: '921.012'
+  title: Waldverordnung (WaldV) vom 21. Februar 1995
+- lgbl: '2000.230'
+  lr: '921.013'
+  title: Verordnung vom 21. November 2000 über Waldreservate und Sonderwaldflächen
+- lgbl: '1962.004'
+  lr: '922.0'
+  title: Jagdgesetz vom 30. Januar 1962
+- lgbl: '2003.198'
+  lr: '922.011'
+  title: Verordnung vom 30. September 2003 über die Hege des Wildes, die Jagdberechtigung, die Jagd- und Schonzeiten sowie die Abschussplanung, -durchführung und -kontrolle (Hegeverordnung; HegeV)
+- lgbl: '1997.205'
+  lr: '922.012'
+  title: Verordnung vom 4. November 1997 über die Jagdeignungsprüfung und Jagdaufseherprüfung
+- lgbl: '2026.120'
+  lr: '922.013'
+  title: Verordnung vom 14. April 2026 über den Abschussplan für das Jagdjahr 2026/2027
+- lgbl: '2024.458'
+  lr: '922.014'
+  title: Verordnung vom 10. Dezember 2024 über die Ausscheidung und Betreuung von Intensivbejagungsgebieten (Intensivbejagungsgebieteverordnung; IBGV)
+- lgbl: '1990.044'
+  lr: '923.0'
+  title: Fischereigesetz vom 16. Mai 1990
+- lgbl: '2012.180'
+  lr: '923.01'
+  title: Fischereiverordnung (FischV) vom 19. Juni 2012
+- lgbl: '2020.415'
+  lr: '930.1'
+  title: Gewerbegesetz (GewG) vom 30. September 2020
+- lgbl: '2006.252'
+  lr: '930.2'
+  title: Gesetz vom 25. Oktober 2006 betreffend die Schaffung der Rechtsgrundlagen zur Überführung der Gewerbe- und Wirtschaftskammer in eine privatrechtliche Organisationsform
+- lgbl: '2007.194'
+  lr: '930.3'
+  title: Gesetz vom 23. Mai 2007 über die Abgeltung von Leistungen der privatrechtlichen Arbeitnehmer-, Berufs-, Gewerbe- und Wirtschaftsvereinigungen
+- lgbl: '2010.385'
+  lr: '930.4'
+  title: Gesetz vom 20. Oktober 2010 über die Erbringung von Dienstleistungen (Dienstleistungsgesetz; DLG)
+- lgbl: '2020.469'
+  lr: '930.11'
+  title: Gewerbeverordnung (GewV) vom 15. Dezember 2020
+- lgbl: '1992.025'
+  lr: '930.111'
+  title: Verordnung vom 10. März 1992 über die Sonn- und Feiertagsruhe und den Ladenschluss
+- lgbl: '2010.447'
+  lr: '930.411'
+  title: Verordnung vom 21. Dezember 2010 über die Mitteilung neuer Anforderungen nach dem Dienstleistungsgesetz (DLG-Mitteilungsverordnung)
+- lgbl: '2008.188'
+  lr: '933.1'
+  title: Gesetz vom 29. Mai 2008 über die Architekten und andere qualifizierte Berufe im Bereich des Bauwesens (Bauwesen-Berufe-Gesetz; BWBG)
+- lgbl: '2002.047'
+  lr: '933.11'
+  title: Verordnung vom 9. April 2002 über die Architekten und andere qualifizierte Berufe im Bereich des Bauwesens (Bauwesen-Berufe-Verordnung; BWBV)
+- lgbl: '2011.544'
+  lr: '935.20'
+  title: Gesetz vom 20. Oktober 2011 über die Förderung der wirtschaftlichen und touristischen Entwicklung des Standortes Liechtenstein (Standortförderungsgesetz; SFG)
+- lgbl: '2010.235'
+  lr: '935.51'
+  title: Geldspielgesetz (GSG) vom 30. Juni 2010
+- lgbl: '1950.011'
+  lr: 935.101.2
+  title: Verordnung vom 23. März 1950 über die Erteilung von Aufführungsbewilligungen
+- lgbl: '1964.047'
+  lr: 935.101.4
+  title: Verordnung vom 30. November 1964 über den Kleinhandel mit nicht gebrannten alkoholischen Getränken
+- lgbl: '2006.254'
+  lr: 935.101.5
+  title: Verordnung vom 12. Dezember 2006 über die fachliche Eignung im Gastgewerbe
+- lgbl: '2002.003'
+  lr: 935.101.8
+  title: Verordnung vom 11. Dezember 2001 über die Öffnungszeiten von gastgewerblichen Betrieben und die Dauer von Veranstaltungen zur Wahrung der Nachtruhe
+- lgbl: '2011.581'
+  lr: 935.201.1
+  title: Verordnung vom 20. Dezember 2011 über die Melde- und Taxpflicht bei Beherbergungen (BMTV)
+- lgbl: '2010.439'
+  lr: 935.511.1
+  title: Spielbankenverordnung (SPBV) vom 21. Dezember 2010
+- lgbl: '2010.440'
+  lr: 935.511.2
+  title: Verordnung vom 21. Dezember 2010 über die Lotterien und Wetten (Lotterie- und Wettverordnung; LWV)
+- lgbl: '2010.441'
+  lr: 935.511.3
+  title: Verordnung vom 21. Dezember 2010 über Geschicklichkeits-Geldspiele (GGV)
+- lgbl: '2011.221'
+  lr: 935.511.4
+  title: Verordnung vom 31. Mai 2011 über Online-Geldspiele (OGV)
+- lgbl: '2016.309'
+  lr: 935.511.5
+  title: Verordnung vom 29. September 2016 über die Erhebung von Aufsichtsabgaben und Gebühren nach dem Geldspielgesetz (GSG-AGV)
+- lgbl: '1977.052'
+  lr: '941.21'
+  title: Zeitgesetz vom 7. Juli 1977
+- lgbl: '1996.082'
+  lr: '941.22'
+  title: Gesetz vom 2. Mai 1996 über die Akkreditierung und Notifizierung
+- lgbl: '1924.008'
+  lr: '941.121'
+  title: Gesetz vom 26. Mai 1924 betreffend die Einführung der Frankenwährung
+- lgbl: '1934.007'
+  lr: 941.200.1
+  title: Bekanntmachung vom 27. Juni 1934 über die Einführung der schweizerischen Gesetzgebung über Mass und Gewicht im Fürstentum Liechtenstein
+- lgbl: '2011.123'
+  lr: 941.201.1
+  title: Verordnung vom 29. März 2011 über das Messwesen (Messverordnung; MessV)
+- lgbl: '1985.022'
+  lr: 941.211.1
+  title: Verordnung vom 12. März 1985 über die Einführung der Sommerzeit
+- lgbl: '1996.135'
+  lr: '941.221'
+  title: Verordnung vom 6. August 1996 über die Akkreditierung und Notifizierung
+- lgbl: '1996.197'
+  lr: 941.221.1
+  title: Verordnung vom 12. November 1996 über die Erhebung von Gebühren für die Akkreditierung und Notifizierung
+- lgbl: '1998.058'
+  lr: 941.221.2
+  title: Verordnung vom 10. März 1998 über die Akkreditierung und Notifizierung von Umweltgutachtern
+- lgbl: '2008.260'
+  lr: 941.411.1
+  title: Verordnung vom 28. Oktober 2008 über den Vollzug der Sprengstoffgesetzgebung
+- lgbl: '2004.011'
+  lr: '943.1'
+  title: Gesetz vom 26. November 2003 über den Handel mit Waren im Umherziehen
+- lgbl: '2004.012'
+  lr: '943.111'
+  title: Verordnung vom 13. Januar 2004 zum Gesetz über den Handel mit Waren im Umherziehen
+- lgbl: '2002.164'
+  lr: '944.0'
+  title: Gesetz vom 23. Oktober 2002 zum Schutz der Konsumenten (Konsumentenschutzgesetz, KSchG)
+- lgbl: '2016.516'
+  lr: '944.1'
+  title: Gesetz vom 4. November 2016 über alternative Streitbeilegung in Konsumentenangelegenheiten (Alternative-Streitbeilegung-Gesetz; AStG)
+- lgbl: '2020.018'
+  lr: '944.2'
+  title: Gesetz vom 4. Dezember 2019 über Pauschalreisen und verbundene Reiseleistungen (Pauschalreisegesetz; PRG)
+- lgbl: '2024.264'
+  lr: '944.3'
+  title: Gesetz vom 16. Mai 2024 zur Durchführung der Verordnung (EU) 2017/2394 über die Zusammenarbeit zwischen den für die Durchsetzung der Verbraucherschutzgesetze zuständigen nationalen Behörden (EWR-Verbraucherbehördenkooperations-Durchführungsgesetz;
+    EWR-VBKDG)
+- lgbl: '2026.020'
+  lr: '944.4'
+  title: Gesetz vom 4. Dezember 2025 über die Gewährleistung bei Konsumentenverträgen über Waren oder digitale Leistungen (Konsumentengewährleistungsgesetz; KonsGG)
+- lgbl: '2020.023'
+  lr: '944.21'
+  title: Verordnung vom 17. Dezember 2019 über Pauschalreisen und verbundene Reiseleistungen (Pauschalreiseverordnung; PRV)
+- lgbl: '2009.041'
+  lr: '946.21'
+  title: Gesetz vom 10. Dezember 2008 über die Durchsetzung internationaler Sanktionen (ISG)
+- lgbl: '2005.147'
+  lr: '946.51'
+  title: Gesetz vom 19. Mai 2005 über die Notifikation technischer Vorschriften im Europäischen Wirtschaftsraum (EWR-Notifikationsgesetz; EWR-NotifG)
+- lgbl: '2003.091'
+  lr: 946.221.1
+  title: Verordnung vom 11. März 2003 über Wirtschaftsmassnahmen gegenüber der Republik Irak
+- lgbl: '2009.136'
+  lr: 946.221.3
+  title: Verordnung vom 12. Mai 2009 über Massnahmen gegenüber Somalia
+- lgbl: '2011.081'
+  lr: 946.221.4
+  title: Verordnung vom 1. März 2011 über Massnahmen gegenüber Libyen
+- lgbl: '2018.218'
+  lr: 946.222.3
+  title: Verordnung vom 30. Oktober 2018 über Massnahmen gegenüber Myanmar
+- lgbl: '2002.039'
+  lr: 946.222.4
+  title: Verordnung vom 5. März 2002 über Massnahmen gegenüber Simbabwe
+- lgbl: '2005.116'
+  lr: 946.222.5
+  title: Verordnung vom 21. Juni 2005 über Massnahmen gegenüber der Demokratischen Republik Kongo
+- lgbl: '2005.101'
+  lr: 946.222.6
+  title: Verordnung vom 24. Mai 2005 über Massnahmen gegenüber dem Sudan
+- lgbl: '2005.269'
+  lr: 946.222.8
+  title: Verordnung vom 20. Dezember 2005 über Massnahmen gegenüber bestimmten Personen in Zusammenhang mit dem Attentat auf Rafik Hariri
+- lgbl: '2011.464'
+  lr: 946.222.21
+  title: Verordnung vom 4. Oktober 2011 über Massnahmen gegenüber Personen und Organisationen mit Verbindungen zu den Taliban
+- lgbl: '2011.465'
+  lr: 946.222.22
+  title: Verordnung vom 4. Oktober 2011 über Massnahmen gegenüber Personen und Organisationen mit Verbindungen zu den Gruppierungen "ISIL (Da'esh)" und "Al-Qaida"
+- lgbl: '2022.063'
+  lr: 946.223.0
+  title: Verordnung vom 18. März 2022 über Massnahmen gegenüber Belarus
+- lgbl: '2016.196'
+  lr: 946.223.1
+  title: Verordnung vom 24. Mai 2016 über Massnahmen gegenüber der Demokratischen Volksrepublik Korea
+- lgbl: '2006.211'
+  lr: 946.223.2
+  title: Verordnung vom 24. Oktober 2006 über Massnahmen betreffend Libanon
+- lgbl: '2025.574'
+  lr: 946.223.3
+  title: Verordnung vom 16. Dezember 2025 über Massnahmen gegenüber der Islamischen Republik Iran
+- lgbl: '2010.040'
+  lr: 946.223.4
+  title: Verordnung vom 23. Februar 2010 über Massnahmen gegenüber Guinea
+- lgbl: '2011.058'
+  lr: 946.223.6
+  title: Verordnung vom 3. Februar 2011 über Massnahmen gegenüber bestimmten Personen aus Tunesien
+- lgbl: '2012.159'
+  lr: 946.223.8
+  title: Verordnung vom 12. Juni 2012 über Massnahmen gegenüber Syrien
+- lgbl: '2012.135'
+  lr: 946.223.9
+  title: Verordnung vom 8. Mai 2012 über Massnahmen gegenüber bestimmten Personen und Organisationen aus Guinea-Bissau
+- lgbl: '2014.058'
+  lr: 946.224.0
+  title: Verordnung vom 28. Februar 2014 über Massnahmen gegenüber bestimmten Personen aus der Ukraine
+- lgbl: '2014.078'
+  lr: 946.224.1
+  title: Verordnung vom 18. März 2014 über Massnahmen gegenüber der Zentralafrikanischen Republik
+- lgbl: '2022.045'
+  lr: 946.224.2
+  title: Verordnung vom 10. März 2022 über Massnahmen im Zusammenhang mit der Situation in der Ukraine
+- lgbl: '2015.229'
+  lr: 946.224.3
+  title: Verordnung vom 25. August 2015 über Massnahmen gegenüber der Republik Südsudan
+- lgbl: '2014.293'
+  lr: 946.224.4
+  title: Verordnung vom 18. November 2014 über Massnahmen gegenüber Jemen
+- lgbl: '2015.284'
+  lr: 946.224.5
+  title: Verordnung vom 27. Oktober 2015 über Massnahmen gegenüber Burundi
+- lgbl: '2017.278'
+  lr: 946.224.6
+  title: Verordnung vom 10. Oktober 2017 über Massnahmen gegenüber Mali
+- lgbl: '2018.006'
+  lr: 946.224.7
+  title: Verordnung vom 30. Januar 2018 über Massnahmen gegenüber Venezuela
+- lgbl: '2019.264'
+  lr: 946.224.8
+  title: Verordnung vom 5. November 2019 über Massnahmen gegenüber Nicaragua
+- lgbl: '2020.200'
+  lr: 946.224.9
+  title: Verordnung vom 16. Juni 2020 über Massnahmen gegenüber bestimmten Personen und Organisationen zur Bekämpfung des Terrorismus
+- lgbl: '2020.473'
+  lr: 946.225.0
+  title: Verordnung vom 15. Dezember 2020 über Massnahmen gegenüber bestimmten Personen und Organisationen zur Bekämpfung der Verbreitung und des Einsatzes chemischer Waffen
+- lgbl: '2021.104'
+  lr: 946.225.1
+  title: Verordnung vom 16. März 2021 über Massnahmen gegenüber bestimmten Personen und Organisationen zur Bekämpfung schwerer Menschenrechtsverletzungen und -verstösse
+- lgbl: '2022.412'
+  lr: 946.225.2
+  title: Verordnung vom 21. Dezember 2022 über Massnahmen betreffend Haiti
+- lgbl: '2023.203'
+  lr: 946.225.3
+  title: Verordnung vom 23. Mai 2023 über Massnahmen gegenüber bestimmten Personen und Organisationen im Zusammenhang mit der Situation in der Republik Moldau
+- lgbl: '2023.420'
+  lr: 946.225.4
+  title: Verordnung vom 7. November 2023 über Massnahmen gegenüber bestimmten Personen und Organisationen im Zusammenhang mit der Situation in Niger
+- lgbl: '2024.034'
+  lr: 946.225.5
+  title: Verordnung vom 23. Januar 2024 über Massnahmen gegenüber bestimmten Personen und Organisationen im Zusammenhang mit den Gewalttaten der Hamas und des Palästinensischen Islamischen Dschihads
+- lgbl: '2024.057'
+  lr: 946.225.6
+  title: Verordnung vom 6. Februar 2024 über Massnahmen gegenüber bestimmten Personen und Organisationen im Zusammenhang mit der Situation in Guatemala
+- lgbl: '2024.239'
+  lr: 946.225.7
+  title: Verordnung vom 11. Juni 2024 über Massnahmen gegenüber bestimmten Personen und Organisationen im Zusammenhang mit der Situation in der Russischen Föderation
+- lgbl: '2005.182'
+  lr: '946.511'
+  title: Verordnung vom 6. September 2005 zum Gesetz über die Notifikation technischer Vorschriften im Europäischen Wirtschaftsraum (EWR-Notifikationsverordnung; EWR-NotifV)
+- lgbl: '1995.094'
+  lr: '947.1'
+  title: Gesetz vom 22. März 1995 über die Verkehrsfähigkeit von Waren
+- lgbl: '1996.054'
+  lr: 947.102.011
+  title: Verordnung vom 16. April 1996 über den Verkehr mit Motorfahrzeugen im Europäischen Wirtschaftsraum
+- lgbl: '1996.053'
+  lr: 947.102.021
+  title: Verordnung vom 16. April 1996 über den Verkehr mit land- und forstwirtschaftlichen Zugmaschinen im Europäischen Wirtschaftsraum
+- lgbl: '1995.161'
+  lr: 947.102.031
+  title: Verordnung vom 6. Juni 1995 über die Bescheinigung und Kennzeichnung von Drahtseilen, Ketten und Lasthaken im Europäischen Wirtschaftsraum
+- lgbl: '1995.137'
+  lr: 947.102.032
+  title: Verordnung vom 9. Mai 1995 über den Verkehr mit Hebezeugen und Fördergeräten im Europäischen Wirtschaftsraum
+- lgbl: '1995.163'
+  lr: 947.102.042
+  title: Verordnung vom 6. Juni 1995 über die Angabe des Verbrauchs an Energie und anderen Ressourcen durch Haushaltsgeräte im Europäischen Wirtschaftsraum
+- lgbl: '1995.162'
+  lr: 947.102.043
+  title: Verordnung vom 6. Juni 1995 betreffend Angaben über die Geräuschemission von Haushaltsgeräten im Europäischen Wirtschaftsraum
+- lgbl: '1995.164'
+  lr: 947.102.051
+  title: Verordnung vom 6. Juni 1995 über den Verkehr mit Warmwasserheizkesseln im Europäischen Wirtschaftsraum
+- lgbl: '1995.165'
+  lr: 947.102.052
+  title: Verordnung vom 6. Juni 1995 über den Verkehr mit Gasverbrauchseinrichtungen im Europäischen Wirtschaftsraum
+- lgbl: '2002.101'
+  lr: 947.102.061
+  title: Verordnung vom 9. Juli 2002 über den Verkehr von zur Verwendung im Freien vorgesehenen Geräten und Maschinen im Europäischen Wirtschaftsraum
+- lgbl: '1995.144'
+  lr: 947.102.081
+  title: Verordnung vom 9. Mai 1995 über den Verkehr mit Aerosolpackungen im Europäischen Wirtschaftsraum
+- lgbl: '1995.141'
+  lr: 947.102.082
+  title: Verordnung vom 9. Mai 1995 über den Verkehr mit Druckbehältern im Europäischen Wirtschaftsraum
+- lgbl: '1995.142'
+  lr: 947.102.083
+  title: Verordnung vom 9. Mai 1995 über den Verkehr mit einfachen Druckbehältern im Europäischen Wirtschaftsraum
+- lgbl: '1999.015'
+  lr: 947.102.084
+  title: Verordnung vom 12. Januar 1999 über den Verkehr mit Druckgeräten im Europäischen Wirtschaftsraum
+- lgbl: '1995.136'
+  lr: 947.102.091
+  title: Verordnung vom 9. Mai 1995 über den Verkehr mit Messgeräten im Europäischen Wirtschaftsraum
+- lgbl: '1995.143'
+  lr: 947.102.101
+  title: Verordnung vom 9. Mai 1995 über den Verkehr mit elektrischen Betriebsmitteln im Europäischen Wirtschaftsraum
+- lgbl: '1995.155'
+  lr: 947.102.103
+  title: Verordnung vom 9. Mai 1995 über die elektromagnetische Verträglichkeit von Geräten im Europäischen Wirtschaftsraum
+- lgbl: '2021.161'
+  lr: 947.102.104
+  title: Verordnung vom 27. April 2021 über den Verkehr mit Medizinprodukten im Europäischen Wirtschaftsraum (EWR-Medizinprodukteverordnung; EWR-MepV)
+- lgbl: '1996.169'
+  lr: 947.102.111
+  title: Verordnung vom 1. Oktober 1996 über den Verkehr mit Textilien im Europäischen Wirtschaftsraum
+- lgbl: '1995.128'
+  lr: 947.102.141
+  title: Verordnung vom 2. Mai 1995 über den Verkehr mit Düngemitteln im Europäischen Wirtschaftsraum
+- lgbl: '1995.132'
+  lr: 947.102.151
+  title: Verordnung vom 2. Mai 1995 über den Verkehr mit gefährlichen Stoffen im Europäischen Wirtschaftsraum
+- lgbl: '1995.129'
+  lr: 947.102.161
+  title: Verordnung vom 2. Mai 1995 über den Verkehr mit Kosmetika im Europäischen Wirtschaftsraum
+- lgbl: '2006.173'
+  lr: 947.102.171
+  title: Verordnung vom 16. August 2006 über den Verkehr mit Farben und Lacken im Europäischen Wirtschaftsraum
+- lgbl: '2017.254'
+  lr: 947.102.181
+  title: Verordnung vom 19. September 2017 über den Verkehr mit Funkanlagen im Europäischen Wirtschaftsraum
+- lgbl: '1996.055'
+  lr: 947.102.192
+  title: Verordnung vom 16. April 1996 über die Kennzeichnung von Materialien für die Hauptbestandteile von Schuherzeugnissen zum Verkauf an den Verbraucher im Europäischen Wirtschaftsraum
+- lgbl: '1998.126'
+  lr: 947.102.193
+  title: Verordnung vom 7. Juli 1998 über den Verkehr mit Kristallglas im Europäischen Wirtschaftsraum
+- lgbl: '1995.138'
+  lr: 947.102.211
+  title: Verordnung vom 9. Mai 1995 über den Verkehr mit Bauprodukten im Europäischen Wirtschaftsraum
+- lgbl: '1995.140'
+  lr: 947.102.221
+  title: Verordnung vom 9. Mai 1995 über den Verkehr mit persönlichen Schutzausrüstungen im Europäischen Wirtschaftsraum
+- lgbl: '2022.046'
+  lr: 947.102.231
+  title: Verordnung vom 8. März 2022 über den Verkehr mit Spielzeugen im Europäischen Wirtschaftsraum
+- lgbl: '1995.145'
+  lr: 947.102.241
+  title: Verordnung vom 9. Mai 1995 über den Verkehr mit Maschinen im Europäischen Wirtschaftsraum
+- lgbl: '2026.082'
+  lr: 947.102.251
+  title: Verordnung vom 10. März 2026 über den Verkehr mit Tabakerzeugnissen und verwandten Erzeugnissen im Europäischen Wirtschaftsraum (EWR-Tabakerzeugnisverordnung)
+- lgbl: '1996.074'
+  lr: 947.102.291
+  title: Verordnung vom 14. Mai 1996 über den Verkehr mit Explosivstoffen im Europäischen Wirtschaftsraum
+- lgbl: '2012.329'
+  lr: 947.102.292
+  title: Verordnung vom 30. November 2010 über den Verkehr mit pyrotechnischen Gegenständen im Europäischen Wirtschaftsraum
+- lgbl: '2024.301'
+  lr: 947.102.293
+  title: Verordnung vom 20. August 2024 über den Verkehr mit Ausgangsstoffen für Explosivstoffe im Europäischen Wirtschaftsraum
+- lgbl: '2022.143'
+  lr: 947.102.302
+  title: Verordnung vom 3. Mai 2022 über den Verkehr mit In-vitro-Diagnostika im Europäischen Wirtschaftsraum (EWR-In-vitro-Diagnostika-Verordnung; EWR-IvDV)
+- lgbl: '1996.033'
+  lr: 947.102.311
+  title: Verordnung vom 19. Februar 1996 über den Verkehr mit Sportbooten im Europäischen Wirtschaftsraum
+- lgbl: '2018.206'
+  lr: 947.102.312
+  title: Verordnung vom 23. Oktober 2018 über den Verkehr mit Schiffsausrüstung im Europäischen Wirtschaftsraum
+- lgbl: '2002.044'
+  lr: 947.104.021
+  title: Verordnung vom 2. April 2002 über die Energieeffizienzanforderungen an elektrische Geräte im Europäischen Wirtschaftsraum
+- lgbl: '1996.141'
+  lr: 947.107.081
+  title: Verordnung vom 27. August 1996 über den Verkehr mit Filmen im Europäischen Wirtschaftsraum
+- lgbl: '2019.213'
+  lr: '950.1'
+  title: Zahlungsdienstegesetz (ZDG) vom 6. Juni 2019
+- lgbl: '2002.159'
+  lr: '950.2'
+  title: Gesetz vom 23. Oktober 2002 über die Wirksamkeit von Abrechnungen in Zahlungs- sowie Wertpapierliefer- und -abrechnungssystemen (Finalitätsgesetz)
+- lgbl: '2011.151'
+  lr: '950.3'
+  title: E-Geldgesetz (EGG) vom 17. März 2011
+- lgbl: '2005.278'
+  lr: '950.4'
+  title: Gesetz vom 25. November 2005 über die Vermögensverwaltung (Vermögensverwaltungsgesetz; VVG)
+- lgbl: '2019.101'
+  lr: '950.5'
+  title: Gesetz vom 27. Februar 2019 zur Durchführung der Verordnung (EU) 2015/751 über Interbankenentgelte für kartengebundene Zahlungsvorgänge (EWR-Interbankenentgelteverordnung-Durchführungsgesetz; EWR-IBEV-DG)
+- lgbl: '2019.301'
+  lr: '950.6'
+  title: Gesetz vom 3. Oktober 2019 über Token und VT-Dienstleister (Token- und VT-Dienstleister-Gesetz; TVTG)
+- lgbl: '2025.112'
+  lr: '950.7'
+  title: Gesetz vom 5. Dezember 2024 zur Durchführung der Verordnung (EU) 2023/1114 über Märkte für Kryptowerte (EWR-MiCA-Durchführungsgesetz; EWR-MiCA-DG)
+- lgbl: '2025.325'
+  lr: '950.11'
+  title: Zahlungsdiensteverordnung (ZDV) vom 17. Juni 2025
+- lgbl: '2025.324'
+  lr: '950.31'
+  title: E-Geldverordnung (EGV) vom 17. Juni 2025
+- lgbl: '2005.289'
+  lr: '950.41'
+  title: Verordnung vom 20. Dezember 2005 zum Gesetz über die Vermögensverwaltung (Vermögensverwaltungsverordnung; VVO)
+- lgbl: '2019.349'
+  lr: '950.61'
+  title: Verordnung vom 10. Dezember 2019 über Token und VT-Dienstleister (Token- und VT-Dienstleister-Verordnung; TVTV)
+- lgbl: '2025.159'
+  lr: '950.71'
+  title: EWR-MiCA-Durchführungsverordnung (EWR-MiCA-DV) vom 14. Januar 2025
+- lgbl: '2025.121'
+  lr: '950.81'
+  title: Gesetz vom 5. Dezember 2024 zur Durchführung der Verordnung (EU) 2022/2554 über die digitale operationale Resilienz im Finanzsektor (EWR-DORA-Durchführungsgesetz; EWR-DORA-DG)
+- lgbl: '1992.109'
+  lr: '951.10'
+  title: Gesetz vom 21. Oktober 1992 über die Liechtensteinische Landesbank (LLBG)
+- lgbl: '2016.045'
+  lr: '951.30'
+  title: Investmentunternehmensgesetz (IUG) vom 2. Dezember 2015
+- lgbl: '2011.295'
+  lr: '951.31'
+  title: Gesetz vom 28. Juni 2011 über bestimmte Organismen für gemeinsame Anlagen in Wertpapieren (UCITSG)
+- lgbl: '2013.049'
+  lr: '951.32'
+  title: Gesetz vom 19. Dezember 2012 über die Verwalter alternativer Investmentfonds (AIFMG)
+- lgbl: '2017.426'
+  lr: '951.33'
+  title: Gesetz vom 10. November 2017 zur Durchführung der Verordnung (EU) Nr. 909/2014 zur Verbesserung der Wertpapierlieferungen und -abrechnungen in der Europäischen Union und über Zentralverwahrer (EWR-Zentralverwahrer-Durchführungsgesetz;
+    EWR-ZVDG)
+- lgbl: '2016.113'
+  lr: '951.301'
+  title: Investmentunternehmensverordnung (IUV) vom 22. März 2016
+- lgbl: '2011.312'
+  lr: '951.311'
+  title: Verordnung vom 5. Juli 2011 über bestimmte Organismen für gemeinsame Anlagen in Wertpapieren (UCITSV)
+- lgbl: '2026.092'
+  lr: '951.321'
+  title: Verordnung vom 10. März 2026 über die Verwalter alternativer Investmentfonds (AIFMV)
+- lgbl: '2025.085'
+  lr: '952.0'
+  title: Gesetz vom 5. Dezember 2024 über die Tätigkeit und Beaufsichtigung von Banken, Finanzholdinggesellschaften und gemischten Finanzholdinggesellschaften (Bankengesetz; BankG)
+- lgbl: '2025.153'
+  lr: '952.01'
+  title: Verordnung vom 14. Januar 2025 über die Tätigkeit und Beaufsichtigung von Banken, Finanzholdinggesellschaften und gemischten Finanzholdinggesellschaften (Bankenverordnung; BankV)
+- lgbl: '2009.047'
+  lr: '952.1'
+  title: Gesetz vom 11. Dezember 2008 über berufliche Sorgfaltspflichten zur Bekämpfung von Geldwäscherei, organisierter Kriminalität und Terrorismusfinanzierung (Sorgfaltspflichtgesetz; SPG)
+- lgbl: '2002.057'
+  lr: '952.2'
+  title: Gesetz vom 14. März 2002 über die Stabsstelle Financial Intelligence Unit (FIU-Gesetz; FIUG)
+- lgbl: '2004.175'
+  lr: '952.3'
+  title: Gesetz vom 18. Juni 2004 über die Finanzmarktaufsicht (Finanzmarktaufsichtsgesetz; FMAG)
+- lgbl: '2007.275'
+  lr: '952.4'
+  title: Gesetz vom 20. September 2007 über die zusätzliche Beaufsichtigung von Unternehmen eines Finanzkonglomerats (Finanzkonglomeratsgesetz; FKG)
+- lgbl: '2016.493'
+  lr: '952.5'
+  title: Gesetz vom 4. November 2016 über die Sanierung und Abwicklung von Banken und Wertpapierfirmen (Sanierungs- und Abwicklungsgesetz; SAG)
+- lgbl: '2016.494'
+  lr: '952.6'
+  title: Gesetz vom 4. November 2016 über die Anstalt zur Finanzierung finanzmarktstabilisierender Massnahmen (Finanzmarktstabilisierungs-Anstalts-Gesetz; FSAG)
+- lgbl: '2017.022'
+  lr: '952.7'
+  title: Gesetz vom 1. Dezember 2016 zur Durchführung der Verordnung (EG) Nr. 1060/2009 über Ratingagenturen (CRA-Durchführungsgesetz; CRA-DG)
+- lgbl: '2021.033'
+  lr: '952.8'
+  title: Gesetz vom 3. Dezember 2020 über das Verzeichnis der wirtschaftlich berechtigten Personen von Rechtsträgern (VwbPG)
+- lgbl: '2019.103'
+  lr: '952.9'
+  title: Gesetz vom 27. Februar 2019 über die Einlagensicherung und Anlegerentschädigung bei Banken und Wertpapierfirmen (Einlagensicherungs- und Anlegerentschädigungsgesetz; EAG)
+- lgbl: '2025.164'
+  lr: '952.011'
+  title: Verordnung vom 14. Januar 2025 über die Rechnungslegung und Berichterstattung von Banken (Banken-Rechnungslegungsverordnung; BankRlV)
+- lgbl: '2009.098'
+  lr: '952.11'
+  title: Verordnung vom 17. Februar 2009 über berufliche Sorgfaltspflichten zur Bekämpfung von Geldwäscherei, organisierter Kriminalität und Terrorismusfinanzierung (Sorgfaltspflichtverordnung; SPV)
+- lgbl: '2009.279'
+  lr: '952.012'
+  title: Verordnung vom 27. Oktober 2009 über die aussergerichtliche Schlichtungsstelle im Finanzdienstleistungsbereich (Finanzdienstleistungs-Schlichtungsstellen-Verordnung; FSV)
+- lgbl: '2021.234'
+  lr: '952.12'
+  title: Verordnung vom 6. Juli 2021 über das Zentrale Kontenregister (ZKRV)
+- lgbl: '2007.281'
+  lr: '952.41'
+  title: Verordnung vom 23. Oktober 2007 zum Gesetz über die zusätzliche Beaufsichtigung von Unternehmen eines Finanzkonglomerats (Finanzkonglomeratsverordnung; FKV)
+- lgbl: '2016.509'
+  lr: '952.51'
+  title: Verordnung vom 13. Dezember 2016 über die Sanierung und Abwicklung von Banken und Wertpapierfirmen (Sanierungs- und Abwicklungsverordnung; SAV)
+- lgbl: '2021.123'
+  lr: '952.81'
+  title: Verordnung vom 23. März 2021 über das Verzeichnis der wirtschaftlich berechtigten Personen von Rechtsträgern (VwbPV)
+- lgbl: '2019.144'
+  lr: '952.91'
+  title: Verordnung vom 21. Mai 2019 über die Einlagensicherung und Anlegerentschädigung bei Banken und Wertpapierfirmen (Einlagensicherungs- und Anlegerentschädigungsverordnung; EAV)
+- lgbl: '2013.390'
+  lr: '952.312'
+  title: FMA-Abgaben- und Gebührenverordnung (FMA-AGV) vom 3. Dezember 2013
+- lgbl: '2020.504'
+  lr: '953.11'
+  title: Gesetz vom 6. November 2020 zur Durchführung der Verordnung (EU) 2017/2402 zur Festlegung eines allgemeinen Rahmens für Verbriefungen und zur Schaffung eines spezifischen Rahmens für einfache,
+    transparente und standardisierte Verbriefung (EWR-Verbriefungs-Durchführungsgesetz; EWR-VDG)
+- lgbl: '2025.072'
+  lr: '953.12'
+  title: Gesetz vom 5. Dezember 2024 über die Tätigkeit und Beaufsichtigung von Wertpapierfirmen (Wertpapierfirmengesetz; WPFG)
+- lgbl: '2025.105'
+  lr: '953.13'
+  title: Gesetz vom 5. Dezember 2024 über die Erbringung von Wertpapierdienstleistungen und die Ausübung von Anlagetätigkeiten (Wertpapierdienstleistungsgesetz; WPDG)
+- lgbl: '2025.519'
+  lr: 953.111.1
+  title: Verordnung vom 21. Oktober 2025 über nicht kooperative Länder und Gebiete für Steuerzwecke
+- lgbl: '2025.149'
+  lr: '953.121'
+  title: Verordnung vom 14. Januar 2025 über die Tätigkeit und Beaufsichtigung von Wertpapierfirmen (Wertpapierfirmenverordnung; WPFV)
+- lgbl: '2025.158'
+  lr: '953.131'
+  title: Verordnung vom 14. Januar 2025 über die Erbringung von Wertpapierdienstleistungen und die Ausübung von Anlagetätigkeiten (Wertpapierdienstleistungsverordnung; WPDV)
+- lgbl: '2008.355'
+  lr: '954.1'
+  title: Gesetz vom 23. Oktober 2008 über die Offenlegung von Informationen betreffend Emittenten von Wertpapieren (Offenlegungsgesetz; OffG)
+- lgbl: '2019.159'
+  lr: '954.2'
+  title: Gesetz vom 10. Mai 2019 zur Durchführung der Verordnungen (EU) 2017/1129 und (EU) 2023/2631 im Bereich des Wertpapierprospektrechts (EWR-Wertpapierprospekt-Durchführungsgesetz; EWR-WPPDG)
+- lgbl: '2020.155'
+  lr: '954.3'
+  title: Gesetz vom 5. März 2020 zur Durchführung der Verordnung (EU) Nr. 596/2014 über Marktmissbrauch (EWR-Marktmissbrauchsverordnung-Durchführungsgesetz; EWR-MDG)
+- lgbl: '2007.233'
+  lr: '954.4'
+  title: Gesetz vom 22. Juni 2007 betreffend Übernahmeangebote (Übernahmegesetz; ÜbG)
+- lgbl: '2016.156'
+  lr: '954.5'
+  title: Gesetz vom 2. März 2016 zur Durchführung der Verordnung (EU) Nr. 648/2012 über OTC-Derivate, zentrale Gegenparteien und Transaktionsregister (EMIR-Durchführungsgesetz; EMIR-DG)
+- lgbl: '2016.513'
+  lr: '954.6'
+  title: Gesetz vom 4. November 2016 zur Durchführung der Verordnung (EU) Nr. 1286/2014 über Basisinformationsblätter für verpackte Anlageprodukte für Kleinanleger und Versicherungsanlageprodukte (PRIIP-Durchführungsgesetz;
+    PRIIP-DG)
+- lgbl: '2016.147'
+  lr: '954.7'
+  title: Gesetz vom 2. März 2016 zur Durchführung der Verordnung (EU) Nr. 236/2012 über Leerverkäufe und bestimmte Aspekte von Credit Default Swaps (EWR-Leerverkaufsverordnung-Durchführungsgesetz; EWR-LVDG)
+- lgbl: '2008.364'
+  lr: '954.11'
+  title: Verordnung vom 2. Dezember 2008 über die Offenlegung von Informationen betreffend Emittenten von Wertpapieren (Offenlegungsverordnung; OffV)
+- lgbl: '2011.224'
+  lr: '954.41'
+  title: Verordnung vom 7. Juni 2011 betreffend Übernahmeangebote (Übernahmeverordnung; ÜbV)
+- lgbl: '2018.181'
+  lr: '954.51'
+  title: Verordnung vom 11. September 2018 über die Prüfung der Einhaltung bestimmter Anforderungen der Verordnung (EU) Nr. 648/2012 durch nichtfinanzielle Gegenparteien (EMIR-Prüfverordnung; EMIR-PV)
+- lgbl: '2017.232'
+  lr: '954.61'
+  title: PRIIP-Durchführungsverordnung (PRIIP-DV) vom 4. September 2017
+- lgbl: '2019.255'
+  lr: '954.81'
+  title: Gesetz vom 6. September 2019 zur Durchführung der Verordnung (EU) 2016/1011 über Indizes, die bei Finanzinstrumenten und Finanzkontrakten als Referenzwert oder zur Messung der Wertentwicklung eines
+    Investmentfonds verwendet werden (EWR-Referenzwert-Durchführungsgesetz; EWR-RWDG)
+- lgbl: '2019.362'
+  lr: '954.82'
+  title: Gesetz vom 7. November 2019 zur Durchführung der Verordnung (EU) 2015/2365 über die Transparenz von Wertpapierfinanzierungsgeschäften und der Weiterverwendung (EWR-Wertpapierfinanzierungsgeschäfte-Durchführungsgesetz;
+    EWR-WPFGDG)
+- lgbl: '2022.120'
+  lr: '954.83'
+  title: Gesetz vom 11. März 2022 zur Durchführung der Verordnung (EU) 2019/2088 über nachhaltigkeitsbezogene Offenlegungspflichten im Finanzdienstleistungssektor und der Verordnung (EU) 2020/852 über die
+    Einrichtung eines Rahmens zur Erleichterung nachhaltiger Investitionen (EWR-Finanzdienstleistungs-Nachhaltigkeits-Durchführungsgesetz; EWR-FNDG)
+- lgbl: '2023.142'
+  lr: '954.84'
+  title: Gesetz vom 2. März 2023 über Europäische gedeckte Schuldverschreibungen (EuGSVG)
+- lgbl: '2025.071'
+  lr: '954.85'
+  title: Gesetz vom 5. Dezember 2024 über den Betrieb und die Beaufsichtigung von Handelsplätzen und Börsen (Handelsplatz- und Börsegesetz; HPBG)
+- lgbl: '2025.109'
+  lr: '954.86'
+  title: Pfandbriefgesetz (PfbG) vom 5. Dezember 2024
+- lgbl: '2023.414'
+  lr: '954.87'
+  title: Gesetz vom 7. September 2023 zur Durchführung der Verordnung (EU) 2020/1503 über Europäische Schwarmfinanzierungsdienstleister für Unternehmen (EWR-Schwarmfinanzierungs-Durchführungsgesetz; EWR-SFDG)
+- lgbl: '2023.170'
+  lr: '954.841'
+  title: Verordnung vom 25. April 2023 über Europäische gedeckte Schuldverschreibungen (EuGSVV)
+- lgbl: '2025.148'
+  lr: '954.851'
+  title: Verordnung vom 14. Januar 2025 über den Betrieb und die Beaufsichtigung von Handelsplätzen und Börsen (Handelsplatz- und Börseverordnung; HPBV)
+- lgbl: '2025.165'
+  lr: '954.861'
+  title: Pfandbriefverordnung (PfbV) vom 28. Januar 2025
+- lgbl: '2025.162'
+  lr: '954.871'
+  title: EWR-Schwarmfinanzierungs-Durchführungsverordnung (EWR-SFDV) vom 14. Januar 2025
+- lgbl: '2015.231'
+  lr: '961.01'
+  title: Gesetz vom 12. Juni 2015 betreffend die Aufsicht über Versicherungsunternehmen (Versicherungsaufsichtsgesetz; VersAG)
+- lgbl: '2018.009'
+  lr: '961.1'
+  title: Versicherungsvertriebsgesetz (VersVertG) vom 5. Dezember 2017
+- lgbl: '2015.239'
+  lr: '961.011'
+  title: Verordnung vom 25. August 2015 betreffend die Aufsicht über Versicherungsunternehmen (Versicherungsaufsichtsverordnung; VersAV)
+- lgbl: '2018.069'
+  lr: '961.11'
+  title: Versicherungsvertriebsverordnung (VersVertV) vom 10. April 2018
+- lgbl: '2007.149'
+  lr: '974.0'
+  title: Gesetz vom 26. April 2007 über die Internationale Humanitäre Zusammenarbeit und Entwicklung (IHZEG)

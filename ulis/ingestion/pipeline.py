@@ -44,6 +44,7 @@ from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.infoleg_ar import InfolegArConnector
 from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
+from ulis.sources.connectors.lilex import LilexConnector
 from ulis.sources.connectors.likumi_lv import LikumiLvConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
@@ -71,6 +72,7 @@ from ulis.sources.parsers import (
     irish_statute_book,
     justice_canada,
     legislation_gov_uk,
+    lilex,
     likumi_lv,
     moj_law,
     normattiva,
@@ -112,6 +114,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "riigi_teataja_xml": riigi_teataja.parse_riigi_teataja,
     "eli_sejm_bundle": eli_sejm.parse_eli_sejm,
     "infoleg_ar_html": infoleg_ar.parse_infoleg_ar,
+    "lilex_html": lilex.parse_lilex,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -138,6 +141,7 @@ PARSER_VERSIONS = {
     "riigi_teataja_xml": riigi_teataja.PARSER_VERSION,
     "eli_sejm_bundle": eli_sejm.PARSER_VERSION,
     "infoleg_ar_html": infoleg_ar.PARSER_VERSION,
+    "lilex_html": lilex.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -197,6 +201,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "eli_sejm": EliSejmConnector,
     "uscode_house": UscodeHouseConnector,
     "infoleg_ar": InfolegArConnector,
+    "lilex": LilexConnector,
 }
 
 
