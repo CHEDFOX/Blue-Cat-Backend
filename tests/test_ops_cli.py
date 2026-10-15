@@ -408,3 +408,30 @@ def test_jobs_one_keeps_the_order_of_the_plan(
     monkeypatch.setattr(loading, "ingest_one", fake)
     code, _ = run("load-all", "--jobs", "1", "--only", "nl-bwb", "ar-infoleg", capsys=capsys)
     assert code == 0 and len(seen) == 2
+
+
+@pytest.mark.db
+def test_jobs_respect_the_load_after_order(
+    db: str, capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The eCFR must start only after the CFR editions and the GPO samples have finished, even with --jobs."""
+    import threading
+
+    lock = threading.Lock()
+    events: list[tuple[str, str]] = []
+
+    def fake(factory: Any, catalog: Catalog, store: Any, source_id: str, cache_dir: Path, actor: str) -> Any:
+        with lock:
+            events.append(("start", source_id))
+        time.sleep(0.3 if source_id != "us-ecfr" else 0.05)
+        with lock:
+            events.append(("end", source_id))
+        return IngestionReport(run_id="x", source_id=source_id)
+
+    monkeypatch.setattr(loading, "ingest_one", fake)
+    only = ("us-ecfr", "us-govinfo-bulk-cfr-fr", "us-gpo-uslm-samples", "ar-infoleg")
+    code, out = run("load-all", "--jobs", "4", "--only", *only, capsys=capsys)
+    assert code == 0, out
+    first_ecfr = events.index(("start", "us-ecfr"))
+    for before in ("us-govinfo-bulk-cfr-fr", "us-gpo-uslm-samples"):
+        assert events.index(("end", before)) < first_ecfr

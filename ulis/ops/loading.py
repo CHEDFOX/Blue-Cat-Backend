@@ -419,6 +419,7 @@ def _run_parallel(
     pending = list(selection.selected)
     total = len(pending)
     busy: set[str] = set()
+    running: set[str] = set()
     cond = threading.Condition()
     stop = threading.Event()
     started = 0
@@ -429,11 +430,16 @@ def _run_parallel(
             out(line)
 
     def take() -> tuple[PlanItem, frozenset[str]] | None:  # cond must be held
+        waiting = {p.source.id for p in pending} | running
         for i, item in enumerate(pending):
             keys = _host_keys(item)
+            # a source that must load after others (LOAD_AFTER) waits until those have finished
+            if any(p in waiting for p in ops_sources.LOAD_AFTER.get(item.source.id, ())):
+                continue
             if busy.isdisjoint(keys):
                 pending.pop(i)
                 busy.update(keys)
+                running.add(item.source.id)
                 return item, keys
         return None
 
@@ -454,6 +460,7 @@ def _run_parallel(
             result = _announce_and_load(label, item, options, settings, catalog, factory, store, explicit, say)
             with cond:
                 busy.difference_update(keys)
+                running.discard(item.source.id)
                 results.append(result)
                 cond.notify_all()
 
