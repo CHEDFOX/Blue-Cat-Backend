@@ -123,7 +123,7 @@ per work, 1,115 s). The sample: 96 parsed after the two fixes above (4 failed be
 acts), 7+2+2 consolidated and 85 as adopted; **22.9 provision versions per work** (median 4, max 388), bundle 49 KB
 (median 28 KB, max 345 KB). Extrapolated: **~615,000 provision versions, ~2 GB of PostgreSQL, ~1.3 GB of raw bundles**.
 
-**Slice result.** 108 works (the 100-work random sample, the core acts and the Treaties) gave 124 documents, 108 instruments, 15,305 provision versions and 13,626 passages, 0 ingest errors; `verify-sources` 124/124, database 61 MB. Searches on it: GDPR art. 6(1)(a) in English and French, AI Act art. 9, Consumer Rights Directive art. 16b (consolidated), Rome I art. 3(1) and GDPR art. 17(1) in German.
+**Slice result.** 108 works (the 100-work random sample, the core acts and the Treaties) gave 124 documents, 108 instruments, 15,305 provision versions and 13,626 passages, 0 ingest errors; `verify-sources` 124/124, database 61 MB. Searches on it: GDPR art. 6(1)(a) in English and French, AI Act art. 9, Consumer Rights Directive art. 16b (consolidated), Rome I art. 3(1) and GDPR art. 17(1) in German. Full suite of the widening branch (Spain, Italy, EU, Argentina): 1,309 passed; ruff and mypy clean.
 
 ## What is ingested (the pilot instruments)
 
