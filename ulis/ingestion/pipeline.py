@@ -54,8 +54,10 @@ from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
 from ulis.sources.connectors.legilux import LegiluxConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.likumi_lv import LikumiLvConnector
+from ulis.sources.connectors.lilex import LilexConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
+from ulis.sources.connectors.narodne_novine import NarodneNovineConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
 from ulis.sources.connectors.rattspraxis_se import RattspraxisConnector
 from ulis.sources.connectors.rechtspraak import RechtspraakConnector
@@ -71,6 +73,7 @@ from ulis.sources.connectors.subnational_http import (
     TasmanianLegislationConnector,
 )
 from ulis.sources.connectors.uksc import UkscConnector
+from ulis.sources.connectors.uradni_list import UradniListConnector
 from ulis.sources.connectors.us_or_ors import OrOrsConnector
 from ulis.sources.connectors.us_tx_statutes import TxStatutesConnector
 from ulis.sources.connectors.us_ut_code import UtCodeConnector
@@ -104,8 +107,10 @@ from ulis.sources.parsers import (
     legilux,
     legislation_gov_uk,
     likumi_lv,
+    lilex,
     manitoba_laws,
     moj_law,
+    narodne_novine,
     normattiva,
     ontario_elaws,
     qld_legislation,
@@ -118,6 +123,7 @@ from ulis.sources.parsers import (
     slovlex_static,
     tas_legislation,
     uksc_html,
+    uradni_list,
     us_or_ors,
     us_tx_statutes,
     us_ut_code,
@@ -176,6 +182,9 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "tas_act_xml": tas_legislation.parse_tas_legislation,
     "ontario_elaws_html": ontario_elaws.parse_ontario_elaws,
     "manitoba_laws_html": manitoba_laws.parse_manitoba_laws,
+    "lilex_html": lilex.parse_lilex,
+    "narodne_novine_html": narodne_novine.parse_narodne_novine,
+    "uradni_list_html": uradni_list.parse_uradni_list,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -223,6 +232,9 @@ PARSER_VERSIONS = {
     "tas_act_xml": tas_legislation.PARSER_VERSION,
     "ontario_elaws_html": ontario_elaws.PARSER_VERSION,
     "manitoba_laws_html": manitoba_laws.PARSER_VERSION,
+    "lilex_html": lilex.PARSER_VERSION,
+    "narodne_novine_html": narodne_novine.PARSER_VERSION,
+    "uradni_list_html": uradni_list.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -302,6 +314,9 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "tas_legislation": TasmanianLegislationConnector,
     "ontario_e_laws": OntarioELawsConnector,
     "manitoba_laws": ManitobaLawsConnector,
+    "lilex": LilexConnector,
+    "narodne_novine": NarodneNovineConnector,
+    "uradni_list": UradniListConnector,
 }
 
 

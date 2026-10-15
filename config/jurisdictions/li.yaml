@@ -1,0 +1,98 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Liechtenstein (national law). Memberships (EEA, EFTA, Council of Europe) are not
+# recorded here.
+schema_version: 1
+id: LI
+profile_version: 0.1.0
+name: Liechtenstein
+names: {de: Fürstentum Liechtenstein, en: Principality of Liechtenstein}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [de]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: unknown
+  notes: >-
+    To verify - constitutional hereditary monarchy "auf demokratischer und parlamentarischer Grundlage" (Verfassung
+    Art. 2): the state power is anchored in the Prince and the people. The Landtag (parliament) and the Prince
+    legislate together (a law needs the Landtag's resolution and the Prince's sanction), the Regierung issues
+    ordinances (Verordnungen). Civil-law system, strongly influenced by Austrian law (ABGB of 1811, in force) and Swiss
+    law (Personen- und Gesellschaftsrecht of 1926). The eleven municipalities (Gemeinden) have their own powers; their
+    law is not ingested. How treaties obtain domestic effect, and the EEA law's rank, are not modelled here - to verify.
+legislative_institutions:
+  - id: LI-LANDTAG
+    name: Landtag (with the Prince's sanction) - Gesetze, Verfassungsgesetze
+    instrument_types: [constitutional_act, act]
+  - id: LI-FUERST
+    name: Landesfürst (Prince) - the Verfassung, Fürstliche Verordnungen, Höchste Handschreiben
+    instrument_types: [constitution, regulation, other]
+  - id: LI-REGIERUNG
+    name: Regierung (Government) - Verordnungen, Kundmachungen
+    instrument_types: [regulation]
+instrument_types: [constitution, constitutional_act, act, regulation, other]
+norm_hierarchy: [constitution, constitutional_act, act, regulation]
+courts:
+  - id: LI-STGH
+    name: Staatsgerichtshof (Constitutional Court)
+    rank: 1
+  - id: LI-OGH
+    name: Oberster Gerichtshof (Supreme Court; third instance in civil and criminal matters)
+    rank: 1
+  - id: LI-VGH
+    name: Verwaltungsgerichtshof (Administrative Court)
+    rank: 1
+  - id: LI-OG
+    name: Obergericht (Court of Appeal; second instance)
+    rank: 2
+    appeals_to: [LI-OGH]
+  - id: LI-LG
+    name: Landgericht (Regional Court; first instance)
+    rank: 3
+    appeals_to: [LI-OG]
+precedent:
+  doctrine: no_formal_precedent
+  vertical_binding: false
+  notes: >-
+    To verify - no formal rule of binding precedent for the ordinary courts; the case law of the Oberster Gerichtshof and
+    of the Staatsgerichtshof is followed in practice, and Liechtenstein courts regularly refer to Austrian and Swiss
+    case law. Decisions of the Staatsgerichtshof on constitutional questions bind the authorities. The court list is
+    simplified (the Verwaltungsgerichtshof and other tribunals are not placed in a hierarchy) and every entry is a
+    draft to verify. Case law is not ingested.
+citation:
+  module: li
+  notes: >-
+    The article, then paragraph (Abs.), letter (Bst.) and number (Ziff.), then the statute's abbreviation: "Art. 5
+    Abs. 1 Bst. a URG", "Art. 78 Abs. 2 DSG" - the form Lilex uses in its own footnotes. A statute without an
+    abbreviation in its title is cited with its short title: "Art. 1 Verfassung des Fürstentums Liechtenstein".
+    The abbreviation is read from the last parenthesis of the law's title; it is not a separate field on Lilex.
+    The Landesgesetzblatt reference (LGBl. 1999 Nr. 160) and the Rechtssammlung number (LR 231.1) are kept as
+    identifiers, not used in the pinpoint.
+  examples:
+    - "Art. 5 Abs. 1 Bst. a URG"
+    - "Art. 1 Abs. 1 Gleichstellungsgesetz, GLG"
+    - "Art. 117 Abs. 1 Verfassung des Fürstentums Liechtenstein"
+publication:
+  official_sources: [li-lilex]
+  commencement: >-
+    To verify - laws are published in the Landesgesetzblatt (LGBl., numbered per year: "LGBl. 1999 Nr. 160"); Lilex
+    shows the original publication (/chrono) and the consolidated law. Commencement dates are given in each law's
+    final provisions and in Lilex's footnotes ("Inkrafttreten: 1. Oktober 2015").
+  amendment: >-
+    Textual amendment by amending laws; Lilex consolidates each law ("konsolidiertes Recht"), lists its versions with
+    the dates they applied, and notes every changed place with the amending LGBl number.
+  repeal: >-
+    Express repeal; the consolidated text prints a repealed provision as "Aufgehoben" and keeps its number, with a
+    footnote naming the repealing act.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Consolidated texts for information only (Lilex's Rechtshinweis); the authentic text is the Landesgesetzblatt, which is not ingested, nor are the amending acts.
+    - The manifest lists the 1,227 national laws (LR 1-9) Lilex showed on 2026-10-14 - the version in force of each, and every version Lilex lists for eight core laws (Verfassung, ABGB, PGR, StGB, StPO, DSG, URG, GLG); earlier versions of the other laws are not ingested.
+    - No treaties (Staatsverträge, LR 0.x), no municipal law, no case law (Staatsgerichtshof, Oberster Gerichtshof ...), no EEA law.
+    - Versions are whole-law snapshots dated from Lilex's version list; the source states no per-provision dates, and no "up to date" date for the current version.
+    - The statute's abbreviation is read from its title; laws without one are cited by their short title. Tables in annexes are reduced to text rows.
+    - "Search uses PostgreSQL's german configuration: inflected forms match, long compounds are not split."

@@ -1,0 +1,90 @@
+# Narodne novine - the official gazette of the Republic of Croatia (Narodne novine d.d.). Terms read on 2026-10-14 from
+# the site itself (pages cached under var/sources/narodne-novine.nn.hr/):
+#   https://narodne-novine.nn.hr/data_access.aspx - "Data access": "Access to online data in the Narodne novine database is
+#        simple, fast and reliable using standard Internet protocols. Use is available to everyone, anonymously and free of
+#        charge." "Search engine indexing: Access is provided to any internet crawler who seeks to index and use the content
+#        of Narodne novine." Professional use: the indexes of a year's regulations are offered as XLSX or CSV
+#        (/get_index_file.aspx?year=<Y>&type=csv). Structured metadata (ELI, RDFa / RDF-XML / JSON-LD) is offered "for the
+#        purpose of indexing, automated and semi-automated processing of technical users and automated services"; "Please
+#        configure your scripts and bots to request a maximum of three queries per second."
+#   https://narodne-novine.nn.hr/robots.txt - "User-agent: *" with about 200 Disallow lines, almost all naming individual
+#        article pages (/clanci/sluzbeni/2017_06_57_1277.html and /full/ variants, removed from public view), the whole
+#        advertisements part (/clanci/oglasi/) and search queries for category 3; no Crawl-delay. The connector applies
+#        these rules to every ELI path, to the act's year/edition/number and to the address the server redirects to.
+#   The page footer "Opći uvjeti korištenja" (general terms): disclaims liability for accuracy ("ne odgovara u slučaju
+#        njihove netočnosti ili nepotpunosti") and says "Svi sadržaji objavljeni na ovim internetskim stranicama zaštićeni
+#        su autorskim pravom i mogu se koristiti samo pod uvjetima propisanim Zakonom" (all content is protected by
+#        copyright and may be used only under the conditions the law prescribes).
+#   https://narodne-novine.nn.hr/eli/sluzbeni/2021/111/1941 (Zakon o autorskom pravu i srodnim pravima, NN 111/2021)
+#        članak 18. stavak 3.: official texts of legislation, administration and the judiciary - "kao što su zakoni,
+#        uredbe, odluke, izvješća, zapisnici, sudske odluke" - and their collections "prestaju biti zaštićeni autorskim
+#        pravom" once published "radi službenog informiranja javnosti" (stop being protected by copyright when they are
+#        published for the official information of the public).
+schema_version: 1
+id: hr-narodne-novine
+name: Narodne novine - službeni dio
+publisher: Narodne novine d.d. (official gazette of the Republic of Croatia), narodne-novine.nn.hr
+kind: official_gazette
+authority: official_non_authentic
+jurisdictions: [HR]
+document_kinds: [constitution, constitutional_act, act]
+languages: [hr]
+coverage: >-
+  Laws published in the official part of Narodne novine since 1990 - 4,769 acts in the manifest: every law (including
+  laws that amend or repeal others and constitutional laws), the consolidated texts ("pročišćeni tekst") the gazette
+  publishes, and the Constitution - each as published in the edition named by its ELI address. Not included: regulations,
+  decisions, rulings and the other types of act, the international part and the advertisements.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/hr-narodne-novine.yaml
+update_frequency: continuous (a new edition appears several times a week); the manifest is refreshed from the yearly lists
+rate_limits: >-
+  Published: at most three queries per second for scripts and bots (data access page); robots.txt sets no Crawl-delay.
+  ULIS waits 5 s between requests, identifies itself, caches every download, fetches sequentially and stops on any refusal.
+licence:
+  id: HR-ZAPSP-18-3-official-texts
+  name: >-
+    Free anonymous access to everyone including crawlers (data access page); official texts published for the official
+    information of the public are not protected by copyright (Zakon o autorskom pravu i srodnim pravima, NN 111/2021,
+    članak 18. stavak 3.); the general terms say content is protected by copyright and may be used under the conditions
+    the law prescribes
+  url: https://narodne-novine.nn.hr/data_access.aspx
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the data access page (open, free, crawlers and automated services welcome at three requests per
+    second), the general terms (use under the conditions of the law) and članak 18. stavak 3. of the Copyright Act (a law
+    published for the official information of the public is not protected), read on narodne-novine.nn.hr itself.
+    The general terms' copyright sentence is general; whether Narodne novine d.d. claims rights in its compiled
+    database or presentation is not stated. Counsel review recommended before production use.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: false
+  attribution_text: >-
+    Izvor: Narodne novine (https://narodne-novine.nn.hr), službeni list Republike Hrvatske. Tekst je preuzet kako je
+    objavljen; kasniji propisi koji ga mijenjaju nisu primijenjeni.
+  conditions:
+    - Respect robots.txt (individual article pages and the advertisements part are disallowed) - enforced by the connector.
+    - At most three requests per second (ULIS uses one per 5 s), sequential, identified, cached; stop on any refusal.
+    - The text is the act as published; later amendments are separate acts and are not applied (stated on every result).
+    - Use only under the conditions the law prescribes (the general terms); no implied endorsement by Narodne novine d.d.
+  notes: >-
+    The statutory basis (članak 18. stavak 3.) and the explicit invitation to crawlers and automated services are the
+    grounds; the general terms' sentence on copyright is not a licence either way. Whether the HTML edition on the website
+    is the authentic publication (the printed and the electronic gazette) was not established, so the source is recorded
+    as non-authentic.
+provenance: >-
+  Official gazette of the Republic of Croatia. Each page is stored byte-for-byte (SHA-256) with its ELI address and
+  retrieval time; identity, adoption date and publication date are read from the page (print title and ELI metadata).
+known_limitations:
+  - Each act is the text as published in its edition; Narodne novine does not consolidate, so amendments are separate acts and the text of an amended law is not updated. No end of validity is stated by the source.
+  - The source's metadata give the date of adoption and of publication but not of entry into force (it is in the act's text, usually the last article); no validity period is recorded, every provision is "in force, start unknown", and point-in-time answers are not possible.
+  - Only laws, consolidated texts and the Constitution are listed; regulations, decisions, rulings and the international part are not.
+  - Article, paragraph, point and sub-point structure is read from the printed numbering (the markup varies by age); a line that matches no numbering stays text of the unit above. Soft hyphens are removed; tables are reduced to one line per row.
+  - Preamble (promulgation decree, title) and closing text (signature) are kept as separate provisions; annexes as one provision each.
+  - "Text search uses the simple configuration (PostgreSQL has no Croatian stemmer): inflected forms match only when identical."
+status: active
+connector: narodne_novine
+parser: narodne_novine_html

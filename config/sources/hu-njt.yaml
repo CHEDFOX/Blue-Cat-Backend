@@ -1,0 +1,42 @@
+# PLANNED, not active: findings of the evaluation of Nemzeti Jogszabálytár (njt.hu) (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: hu-njt
+name: Nemzeti Jogszabálytár (njt.hu)
+publisher: Igazságügyi Minisztérium (Ministry of Justice), Hungary
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- HU
+document_kinds:
+- act
+- regulation
+languages:
+- hu
+coverage: Consolidated Hungarian legislation with historical versions.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://njt.hu/
+update_frequency: not assessed
+licence:
+  id: UNKNOWN
+  name: Terms not read (host unreachable)
+  url: https://njt.hu/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - https://njt.hu/ and https://njt.hu/robots.txt (also www.njt.hu)
+    closed the HTTPS connection without any response (''Remote end closed connection without response'') on every attempt
+    from the ULIS client, 2026-10-14 and 2026-10-15; no robots.txt, terms or document could be read. Not worked around. magyarkozlony.hu
+    (Magyar Közlöny, official gazette) answers: robots.txt ''Disallow:'' (empty), but it publishes PDF documents only.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: Retry from the owner's network; read robots.txt and the terms of use before any retrieval. Hungarian has a PostgreSQL
+    stemmer (hungarian).
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- 'Unreachable from the build environment: no terms, robots.txt or document could be read.'
+status: planned
+connector: null
+parser: null

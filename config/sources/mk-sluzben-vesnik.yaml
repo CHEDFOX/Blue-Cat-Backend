@@ -1,0 +1,39 @@
+# PLANNED, not active: findings of the evaluation of Службен весник на Република Северна Македонија (slvesnik.com.mk) (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: mk-sluzben-vesnik
+name: Службен весник на Република Северна Македонија (slvesnik.com.mk)
+publisher: JP Службен весник
+kind: official_gazette
+authority: official_authentic
+jurisdictions:
+- MK
+document_kinds:
+- act
+languages:
+- mk
+coverage: Official gazette of North Macedonia.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.slvesnik.com.mk/
+update_frequency: not assessed
+licence:
+  id: UNKNOWN
+  name: Not read (TLS certificate not verifiable)
+  url: https://www.slvesnik.com.mk/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - https://www.slvesnik.com.mk/robots.txt failed TLS verification
+    (''certificate verify failed: unable to get local issuer certificate'', 2026-10-14). ULIS does not disable certificate
+    checks, so nothing was read.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: Retry once the server sends its intermediate certificate; no PostgreSQL stemmer for Macedonian.
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- 'TLS chain cannot be verified: nothing was read.'
+status: planned
+connector: null
+parser: null

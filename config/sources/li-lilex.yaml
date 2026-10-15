@@ -1,0 +1,82 @@
+# Lilex - Gesetzesdatenbank des Fürstentums Liechtenstein (www.gesetze.li), run by the Rechtsdienst der Regierung.
+# Terms read on 2026-10-14 from the site itself (pages cached under var/sources/www.gesetze.li/):
+#   https://www.gesetze.li/konso/suche - search page: "Hier finden Sie tagesaktuell das geltende Landes- und
+#        Staatsvertragsrecht in konsolidierter (bereinigter) Form." and "Rechtshinweis: Konsolidierte
+#        Rechtsvorschriften dienen ausschliesslich der Information und entfalten keine Rechtswirkung. Für die
+#        Richtigkeit, Vollständigkeit oder Qualität der bereitgestellten Daten wird keine Gewähr übernommen."
+#        The search page also offers earlier versions ("Fassung vom ... ab 1. Januar 2010") and says how to link
+#        to a law ("Verlinkung").
+#   https://www.gesetze.li/impressum - publisher: Rechtsdienst der Regierung (RDR), Peter-Kaiser-Platz 2, 9490
+#        Vaduz, info.rdr@llv.li; no terms of use, no copyright reservation, no reuse licence is stated.
+#   https://www.gesetze.li/datenschutz - privacy statement only (GDPR information); nothing on reuse.
+#   https://www.gesetze.li/robots.txt - 404 (no robots.txt): there are no crawling rules to apply. The connector
+#        reads it anyway and would apply any rule that appeared.
+#   https://www.gesetze.li/konso/html/1999160000 (Urheberrechtsgesetz, LGBl. 1999 Nr. 160) Art. 5: "1) Durch das
+#        Urheberrecht nicht geschützt sind: a) Gesetze, Verordnungen, völkerrechtliche Verträge und andere
+#        amtliche Erlasse; ... 2) Ebenfalls nicht geschützt sind amtliche oder gesetzlich geforderte Sammlungen und
+#        Übersetzungen der Werke nach Abs. 1."
+schema_version: 1
+id: li-lilex
+name: Lilex - Konsolidiertes Recht
+publisher: Rechtsdienst der Regierung des Fürstentums Liechtenstein (www.gesetze.li)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [LI]
+document_kinds: [constitution, constitutional_act, act, regulation, other]
+languages: [de]
+coverage: >-
+  Consolidated national law of Liechtenstein (Landesrecht, LR 1-9; 1,227 laws on 2026-10-14): the version in force
+  of every law, and every version Lilex lists - each dated by the period it applied - for eight core laws
+  (Verfassung, ABGB, PGR, StGB, StPO, DSG, URG, GLG). German only (the only official language).
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/li-lilex.yaml
+update_frequency: daily ("tagesaktuell"); a new version appears when an amendment takes effect
+rate_limits: >-
+  None published and no robots.txt. ULIS waits 5 s between requests, identifies itself, caches every download,
+  fetches sequentially and stops on any refusal.
+licence:
+  id: LI-URG-5-official-works
+  name: >-
+    Official works without copyright (Urheberrechtsgesetz Art. 5 Abs. 1 lit. a and Abs. 2: laws, ordinances and
+    official collections of them); the site states no terms of use and no robots.txt
+  url: https://www.gesetze.li/konso/suche
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the search page's Rechtshinweis (consolidations are for information only, without legal
+    effect), the Impressum and privacy statement (no reuse terms, no reservation of rights), the absence of a
+    robots.txt, and Art. 5 URG (laws and official collections of them are not protected by copyright), read on
+    www.gesetze.li itself. No explicit permission for automated reuse exists: counsel review is recommended and
+    the Rechtsdienst der Regierung (info.rdr@llv.li) should be told before the full manifest is run.
+  reviewed_on: 2026-10-14
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: >-
+    Quelle: Lilex - Gesetzesdatenbank des Fürstentums Liechtenstein (www.gesetze.li), Rechtsdienst der Regierung.
+    Konsolidierte Rechtsvorschriften dienen ausschliesslich der Information und entfalten keine Rechtswirkung;
+    massgebend ist das Landesgesetzblatt.
+  conditions:
+    - The text is informative and has no legal effect (stated on every result); the authentic text is the Landesgesetzblatt (LGBl.).
+    - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+    - The site states no terms; tell info.rdr@llv.li before running the full manifest (about 2,500 requests).
+  notes: >-
+    The basis is statutory (no copyright in laws and in official collections of them) together with the site's
+    silence on reuse, which is thinner than an explicit licence. No database-right claim is made on the site; counsel
+    should confirm that none applies to the compiled collection.
+provenance: >-
+  Official database of the government's legal service. Every page is stored byte-for-byte (inside a JSON bundle with
+  the version number and dates) with its URL and retrieval time. The authentic publication is the Landesgesetzblatt,
+  which Lilex also shows (/chrono) and which is not ingested.
+known_limitations:
+  - Consolidated text for information only; the Landesgesetzblatt is authentic.
+  - Treaties (Staatsverträge, LR 0.x) are not in the manifest; only the current version of 1,219 of the laws is ingested.
+  - Versions are whole laws as amended; Lilex states no per-provision dates, so each provision is dated by its version (revision snapshot).
+  - Footnotes (amendment history, entry-into-force notes) are kept as notes; the amending acts are not ingested.
+  - Case law (gerichtsentscheidungen.li) and the Landesgesetzblatt itself are not ingested.
+  - Tables inside annexes are reduced to one line per row (cells separated by " | ").
+status: active
+connector: lilex
+parser: lilex_html

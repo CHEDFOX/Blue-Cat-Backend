@@ -28,9 +28,11 @@ from ulis.jurisdictions.modules.fi import FiModule
 from ulis.jurisdictions.modules.fictional import AureliaModule, BorealisModule
 from ulis.jurisdictions.modules.fr import FrModule
 from ulis.jurisdictions.modules.gb import GbModule
+from ulis.jurisdictions.modules.hr import HrModule
 from ulis.jurisdictions.modules.ie import IeModule
 from ulis.jurisdictions.modules.it import ItModule
 from ulis.jurisdictions.modules.jp import JpModule
+from ulis.jurisdictions.modules.li import LiModule
 from ulis.jurisdictions.modules.lu import LuModule
 from ulis.jurisdictions.modules.lv import LvModule
 from ulis.jurisdictions.modules.mu import MuModule
@@ -38,6 +40,7 @@ from ulis.jurisdictions.modules.nl import NlModule
 from ulis.jurisdictions.modules.pl import PlModule
 from ulis.jurisdictions.modules.pt import PtModule
 from ulis.jurisdictions.modules.se import SeModule
+from ulis.jurisdictions.modules.si import SiModule
 from ulis.jurisdictions.modules.sk import SkModule
 from ulis.jurisdictions.modules.treaties import CoeModule, IntModule
 from ulis.jurisdictions.modules.tw import TwModule
@@ -90,6 +93,9 @@ MODULES: dict[str, JurisdictionModule] = {
         UyModule(),
         CaProvModule(),
         AuStateModule(),
+        LiModule(),
+        HrModule(),
+        SiModule(),
     )
 }
 

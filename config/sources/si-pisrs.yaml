@@ -1,0 +1,49 @@
+# PLANNED, not active: findings of the evaluation of PISRS - Pravno-informacijski sistem Republike Slovenije (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: si-pisrs
+name: PISRS - Pravno-informacijski sistem Republike Slovenije
+publisher: Služba Vlade Republike Slovenije za zakonodajo (pisrs.si)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- SI
+document_kinds:
+- act
+- regulation
+languages:
+- sl
+coverage: Slovenian legislation with the unofficial consolidated texts (neuradna prečiščena besedila) and, since 1 March 2026,
+  the official gazette Uradni list RS.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://pisrs.si/
+update_frequency: not assessed
+licence:
+  id: SI-PISRS-TERMS
+  name: PISRS Pogoji uporabe (terms of use)
+  url: https://pisrs.si/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - Terms read via the site''s own API (https://pisrs.si/api/navigation/gethtml/493,
+    ''Pogoji uporabe'', last changed 18. 9. 2026): use is free; the information is of an informative character (only the electronic
+    Uradni list is original); section 8: the user may not ''spreminjati, prepisovati ali drugače reproducirati, ponovno objavljati,
+    pošiljati po pošti ali kako drugače uporabljati in razširjati spletišča PISRS kot računalniškega programa, informacijske
+    rešitve oziroma podatkovne baze niti v komercialne niti v nekomercialne namene'' (no copying of the site as a database,
+    commercial or not). robots.txt: ''Allow: /'', ''Disallow: /iskanje''. An API exists (OpenAPI https://pisrs.si/swagger/PisrsAPI.json,
+    base https://pisrs.si/extapi, endpoints /predpis/..., /besedilo/{id}) but every call needs an X-API-Key obtained with
+    POST /api-access/request-access (a request by a named user); ULIS did not request a key.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: Needs the Service's permission and an API key (pisrs.svz@gov.si). Slovenia is ingested meanwhile from the Uradni
+    list RS archive (si-uradni-list), whose terms exempt the gazette's content from the restrictions.
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- 'Not fetched beyond robots.txt, the terms, the OpenAPI description and the sitemap index: the API key is a registration
+  by a person, and the terms forbid reproducing the database.'
+- Contains unofficial consolidated texts (the valuable part for ULIS) that Uradni list RS does not have.
+status: planned
+connector: null
+parser: null

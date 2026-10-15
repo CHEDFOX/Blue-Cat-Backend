@@ -1,0 +1,40 @@
+# PLANNED, not active: findings of the evaluation of Lagasafn (Alþingi) (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: is-althingi-lagasafn
+name: Lagasafn (Alþingi)
+publisher: Alþingi (Icelandic parliament)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- IS
+document_kinds:
+- act
+languages:
+- is
+coverage: The consolidated Icelandic law collection.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.althingi.is/lagasafn/
+update_frequency: not assessed
+licence:
+  id: UNKNOWN
+  name: Terms not read (bot challenge)
+  url: https://www.althingi.is/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - https://www.althingi.is/robots.txt answered the identified ULIS
+    client with HTTP 403 and a Cloudflare ''Just a moment...'' challenge page (2026-10-14 and again 2026-10-15): a bot check.
+    ULIS does not solve challenges or use other identities.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: Ask Alþingi (althingi@althingi.is) whether an identified research client may be allowed; no PostgreSQL stemmer for
+    Icelandic.
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- 'Blocked by a bot challenge: nothing could be read.'
+status: planned
+connector: null
+parser: null

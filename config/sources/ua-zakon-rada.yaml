@@ -1,0 +1,41 @@
+# PLANNED, not active: findings of the evaluation of Законодавство України (zakon.rada.gov.ua) and Verkhovna Rada open data (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: ua-zakon-rada
+name: Законодавство України (zakon.rada.gov.ua) and Verkhovna Rada open data
+publisher: Верховна Рада України
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- UA
+document_kinds:
+- act
+- regulation
+languages:
+- uk
+coverage: Ukrainian legislation with consolidated editions.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://zakon.rada.gov.ua/
+update_frequency: not assessed
+licence:
+  id: UNKNOWN
+  name: robots.txt disallows all robots
+  url: https://zakon.rada.gov.ua/robots.txt
+  review_status: rejected
+  reviewed_by: 'ULIS project, preliminary research notes - https://zakon.rada.gov.ua/robots.txt and https://data.rada.gov.ua/robots.txt
+    (read 2026-10-14) both contain ''User-Agent: * / Disallow: /'' with exceptions only for Googlebot, Facebook''s crawlers
+    and (partly) msnbot. ULIS respects that and fetched nothing else.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: not_allowed
+  commercial_use: unknown
+  notes: Ask the Verkhovna Rada's open data team (data.rada.gov.ua) for permission; no PostgreSQL stemmer for Ukrainian (russian
+    is not a substitute).
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- robots.txt disallows all robots on both hosts.
+status: planned
+connector: null
+parser: null
