@@ -9,9 +9,9 @@ keep their original numbers; the first table is the current state.
 | Check | Command | Result |
 |---|---|---|
 | Lint, format, types | `ruff check`, `ruff format --check`, `mypy ulis` | clean (mypy: no issues in 206 source files) |
-| Config | `python -m ulis.cli validate-config` | 70 jurisdictions, 147 sources (51 active, 96 planned or rejected), 4 concepts |
+| Config | `python -m ulis.cli validate-config` | 70 jurisdictions, 147 sources (50 active, 97 planned, suspended or rejected), 4 concepts |
 | Migrations | `alembic upgrade head` (0001-0006) | applied cleanly |
-| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q` | **1,202 tests** (1,201 passed in the last full run; the one failure, a court-ranking assertion that did not expect the new state courts, was fixed and its file passes) in about 5.5 min |
+| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q` | **1,210 tests, all passing** (last full run: 1,209 passed, one stale assertion about the suspended Slovak source fixed and re-run) in about 6 min |
 
 Real data in the main development database (`cli status`, taken after the first 30 sources; later sources were
 ingested by their workers into their own scratch databases and each passed `verify-sources` there): 2,463 instruments,
