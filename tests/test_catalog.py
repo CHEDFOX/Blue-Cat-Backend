@@ -199,7 +199,6 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "lu-legilux",
         "uy-impo",
         "cz-esbirka-opendata",
-        "sk-slovlex-static",
         "us-govinfo-usreports",
         "us-govinfo-uscourts",
         "fr-dila-legi",
@@ -222,7 +221,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
             continue
         with pytest.raises(LicenceNotApproved) as exc:
             licence_gate(source)
-        reasons = ("pending_review", "not_allowed", "status is 'planned'")
+        reasons = ("pending_review", "not_allowed", "status is 'planned'", "status is 'suspended'")
         assert any(r in str(exc.value) for r in reasons)
 
 
