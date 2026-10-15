@@ -57,8 +57,9 @@ def bundle_bytes(bundle: dict[str, Any]) -> bytes:
     return json.dumps(bundle, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
 
 
-def law_page_info(page: bytes, lgbl: str) -> tuple[str, list[tuple[int, str]]]:
-    """From a law page: the internal id (``1921015000``) and its versions as ``(number, printed dates)``, oldest first.
+def law_page_info(page: bytes, lgbl: str) -> tuple[str, list[tuple[int, str]], int]:
+    """From a law page: the internal id (``1921015000``), its versions as ``(number, printed dates)`` oldest first, and
+    the number of the version the page shows as selected (the one in force today).
 
     Raises ``HtmlParseError`` when the page is not the page of this law.
     """
@@ -73,11 +74,12 @@ def law_page_info(page: bytes, lgbl: str) -> tuple[str, list[tuple[int, str]]]:
     year, _, number = lgbl.partition(".")
     if chrono_id != f"{year}{int(number):03d}000":
         raise HtmlParseError(f"{lgbl}: the page belongs to {chrono_id}, not to this law")
-    versions = [(int(m["n"]), m["label"].strip()) for m in OPTION.finditer(text)]
+    found = list(OPTION.finditer(text))
+    versions = sorted((int(m["n"]), m["label"].strip()) for m in found)
     if not versions:
         raise HtmlParseError(f"{lgbl}: no version list on the law page")
-    versions.sort()
-    return chrono_id, versions
+    selected = next((int(m["n"]) for m in found if m["sel"]), versions[-1][0])
+    return chrono_id, versions, selected
 
 
 class LilexConnector:
@@ -129,8 +131,10 @@ class LilexConnector:
             lgbl = str(law["lgbl"])
             try:
                 page, page_meta = self.session.get(f"/konso/{lgbl}")
-                chrono_id, versions = law_page_info(page, lgbl)
-                wanted = versions if law.get("versions", default) == "all" else versions[-1:]
+                chrono_id, versions, selected = law_page_info(page, lgbl)
+                wanted = (
+                    versions if law.get("versions", default) == "all" else [v for v in versions if v[0] == selected]
+                )
                 for number, label in wanted:
                     path = f"/konso/html/{chrono_id}?version={number}"
                     data, meta = self.session.get(path)

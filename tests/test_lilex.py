@@ -312,8 +312,8 @@ def _manifest(tmp_path: Path, laws: list[dict[str, Any]], **extra: Any) -> Path:
 
 
 def test_law_page_lists_versions_oldest_first() -> None:
-    chrono, versions = law_page_info(_page_with_versions({4, 5, 6, 7}), "1999.096")
-    assert chrono == "1999096000"
+    chrono, versions, selected = law_page_info(_page_with_versions({4, 5, 6, 7}), "1999.096")
+    assert chrono == "1999096000" and selected == 7  # the page marks version 7 as the one in force
     assert versions == [
         (4, "08.06.2011 - 30.06.2015"),
         (5, "01.07.2015 - 31.12.2016"),
