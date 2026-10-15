@@ -27,6 +27,7 @@ Each file is the JSON envelope the connector stores (`ulis-pl-eli-bundle/1`):
 | `kpa_2023_775.json`, `kpa_2024_572.json` | Kodeks postępowania administracyjnego, 2023 poz. 775 / 2024 poz. 572 | 2023-04-13 / 2024-03-27 | 2a, 7, 164-179 |
 | `kpa_references.json` | Kodeks postępowania administracyjnego (1960 nr 30 poz. 168) | attached to 2024-03-27 | - |
 | `kro_2023_2809.json` | Kodeks rodzinny i opiekuńczy, tekst jednolity 2023 poz. 2809 | 2023-12-06 | 23, 99²ᵃ |
+| `forms_2024_1646.json` | Prawo bankowe (1997 nr 140 poz. 939), tekst jednolity 2024 poz. 1646 | 2024-09-26 | a composite of whole units, byte-for-byte as served, retrieved 2026-10-15 from four consolidated texts so that one file holds the markup of the wider corpus: art. 4 pkt 35 (letters with "- text" lists) and art. 13b (a stray "A. Banki państwowe") and, within the "A. Plany naprawy" division of chapter 12, art. 141m (a labelled division that holds articles) of Dz.U. 2024 poz. 1646; ust. 5 of art. 4 of Dz.U. 2024 poz. 1176 as art. 5 (a table, cut to its headings and two rows); pkt 3 of ust. 2 of art. 8 of Dz.U. 2024 poz. 754 (a formula); the division "Dział III" with its second heading line and art. 273 of Dz.U. 2023 poz. 1170. The unit shells (article numbers and ids) around the borrowed units are written for the test; the units are not altered |
 
 They are test inputs only. The consolidated texts are official announcements; the authentic text of the law is the act and its
 amending acts as published in the Dziennik Ustaw.

@@ -40,6 +40,7 @@ ROBOTS_URL = f"https://{HOST}/robots.txt"
 ACT_ID = re.compile(r"^DU/(?P<year>(?:19|20)\d\d)/(?P<pos>[1-9]\d{0,4})$")
 BUNDLE_SCHEMA = "ulis-pl-eli-bundle/1"
 MIN_DELAY = 5.0
+REFUSAL = re.compile(r"HTTP (401|403|407|429|451)\b")
 
 __all__ = ["BASE_URL", "BUNDLE_SCHEMA", "EliSejmConnector", "act_sort_key", "text_url", "record_url"]
 
@@ -81,6 +82,8 @@ class EliSejmConnector:
         self._sleep = sleep
         self.http: PoliteHttp | None = None
         self.robots: str | None = None
+        # Instruments skipped under ``on_instrument_error: skip`` (reported as run errors by the pipeline).
+        self.fetch_errors: list[str] = []
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -92,6 +95,8 @@ class EliSejmConnector:
             raise ManifestError("an identifying user_agent with contact details is required")
         if float(manifest.get("crawl_delay_seconds", MIN_DELAY)) < MIN_DELAY:
             raise ManifestError(f"crawl_delay_seconds must be at least {MIN_DELAY:g}")
+        if manifest.get("on_instrument_error", "stop") not in ("stop", "skip"):
+            raise ManifestError("on_instrument_error must be 'stop' or 'skip'")
         instruments = manifest.get("instruments") or []
         if not instruments:
             raise ManifestError("the manifest lists no instruments")
@@ -154,55 +159,71 @@ class EliSejmConnector:
         got = self.http.get(ROBOTS_URL, cache_key="robots.txt")
         self.robots = got[0].decode("utf-8", "replace") if got is not None else None
 
+        self.fetch_errors = []
+        skip = manifest.get("on_instrument_error", "stop") == "skip"
         for inst in manifest["instruments"]:
-            act_id = inst["act"]
-            act_record, act_meta = self._record(act_id)
-            # The stable facts about the act itself that a consolidated text needs (its name and dates).
-            act_summary = {
-                k: act_record.get(k) for k in ("title", "displayAddress", "announcementDate", "entryIntoForce", "type")
+            try:
+                documents = self._instrument(inst)
+            except FetchError as exc:
+                # One act that is gone, has no HTML text or does not match its record must not end a run of
+                # hundreds; a refusal (401/403/429/451) always does. Nothing of that instrument is yielded.
+                if not skip or REFUSAL.search(str(exc)):
+                    raise
+                self.fetch_errors.append(f"pl-eli:{inst['act']}: {exc}")
+                continue
+            yield from documents
+
+    def _instrument(self, inst: dict[str, Any]) -> list[RawDocument]:
+        """The documents of one instrument (its consolidated texts, then its change report), or a FetchError."""
+        out: list[RawDocument] = []
+        act_id = inst["act"]
+        act_record, act_meta = self._record(act_id)
+        # The stable facts about the act itself that a consolidated text needs (its name and dates).
+        act_summary = {
+            k: act_record.get(k) for k in ("title", "displayAddress", "announcementDate", "entryIntoForce", "type")
+        }
+        last_status: tuple[date, str] | None = None
+        for tj_id in inst["consolidated"]:
+            record, record_meta = self._record(tj_id)
+            refs = record.get("references") or {}
+            if act_id not in [r.get("id") for r in refs.get("Tekst jednolity dla aktu") or []]:
+                raise FetchError(f"{tj_id} is not recorded as a consolidated text of {act_id}")
+            if record.get("type") != "Obwieszczenie":
+                raise FetchError(f"{tj_id}: type {record.get('type')!r}, expected an Obwieszczenie")
+            if record.get("textHTML") is not True:
+                raise FetchError(f"{tj_id}: the API offers no HTML text (textHTML false); PDF is not parsed")
+            try:
+                status_date = date.fromisoformat(str(record.get("legalStatusDate")))
+            except ValueError as exc:
+                raise FetchError(f"{tj_id}: no legal-status date (legalStatusDate) in the record") from exc
+            if last_status is not None and status_date <= last_status[0]:
+                raise FetchError(
+                    f"{tj_id}: legal-status date {status_date} is not after {last_status[0]} of {last_status[1]}"
+                )
+            last_status = (status_date, tj_id)
+            text, text_meta = self._get(text_url(tj_id), f"eli/acts/{tj_id}.text.html", "text/html", "text/html")
+            try:
+                html = text.decode("utf-8")
+            except UnicodeDecodeError as exc:
+                raise FetchError(f"{text_url(tj_id)}: not UTF-8 ({exc})") from exc
+            if not html.lstrip().lower().startswith("<!doctype html") or 'class="unit ' not in html:
+                raise FetchError(f"{text_url(tj_id)}: not an ELI act text; not ingested")
+            bundle = {
+                "schema": BUNDLE_SCHEMA,
+                "kind": "consolidated_text",
+                "act_id": act_id,
+                "act": act_summary,
+                "tj_id": tj_id,
+                "tj_record": record,
+                "text_html": html,
+                "urls": {"record": record_url(tj_id), "text": text_url(tj_id)},
             }
-            last_status: tuple[date, str] | None = None
-            for tj_id in inst["consolidated"]:
-                record, record_meta = self._record(tj_id)
-                refs = record.get("references") or {}
-                if act_id not in [r.get("id") for r in refs.get("Tekst jednolity dla aktu") or []]:
-                    raise FetchError(f"{tj_id} is not recorded as a consolidated text of {act_id}")
-                if record.get("type") != "Obwieszczenie":
-                    raise FetchError(f"{tj_id}: type {record.get('type')!r}, expected an Obwieszczenie")
-                if record.get("textHTML") is not True:
-                    raise FetchError(f"{tj_id}: the API offers no HTML text (textHTML false); PDF is not parsed")
-                try:
-                    status_date = date.fromisoformat(str(record.get("legalStatusDate")))
-                except ValueError as exc:
-                    raise FetchError(f"{tj_id}: no legal-status date (legalStatusDate) in the record") from exc
-                if last_status is not None and status_date <= last_status[0]:
-                    raise FetchError(
-                        f"{tj_id}: legal-status date {status_date} is not after {last_status[0]} of {last_status[1]}"
-                    )
-                last_status = (status_date, tj_id)
-                text, text_meta = self._get(text_url(tj_id), f"eli/acts/{tj_id}.text.html", "text/html", "text/html")
-                try:
-                    html = text.decode("utf-8")
-                except UnicodeDecodeError as exc:
-                    raise FetchError(f"{text_url(tj_id)}: not UTF-8 ({exc})") from exc
-                if not html.lstrip().lower().startswith("<!doctype html") or 'class="unit ' not in html:
-                    raise FetchError(f"{text_url(tj_id)}: not an ELI act text; not ingested")
-                yield RawDocument(
+            out.append(
+                RawDocument(
                     external_id=f"pl-eli:{tj_id}",
                     uri=text_url(tj_id),
                     media_type="application/json",
-                    content=bundle_bytes(
-                        {
-                            "schema": BUNDLE_SCHEMA,
-                            "kind": "consolidated_text",
-                            "act_id": act_id,
-                            "act": act_summary,
-                            "tj_id": tj_id,
-                            "tj_record": record,
-                            "text_html": html,
-                            "urls": {"record": record_url(tj_id), "text": text_url(tj_id)},
-                        }
-                    ),
+                    content=bundle_bytes(bundle),
                     retrieved_at=datetime.fromisoformat(text_meta["retrieved_at"]),
                     metadata={
                         "instrument": inst["key"],
@@ -212,21 +233,22 @@ class EliSejmConnector:
                         "cached_fetch": {"record": record_meta, "text": text_meta},
                     },
                 )
-            assert last_status is not None
-            yield RawDocument(
+            )
+        assert last_status is not None
+        report = {
+            "schema": BUNDLE_SCHEMA,
+            "kind": "change_report",
+            "act_id": act_id,
+            "attach_to": {"tj_id": last_status[1], "legal_status_date": last_status[0].isoformat()},
+            "act_record": act_record,
+            "urls": {"record": record_url(act_id)},
+        }
+        out.append(
+            RawDocument(
                 external_id=f"pl-eli:{act_id}:references",
                 uri=record_url(act_id),
                 media_type="application/json",
-                content=bundle_bytes(
-                    {
-                        "schema": BUNDLE_SCHEMA,
-                        "kind": "change_report",
-                        "act_id": act_id,
-                        "attach_to": {"tj_id": last_status[1], "legal_status_date": last_status[0].isoformat()},
-                        "act_record": act_record,
-                        "urls": {"record": record_url(act_id)},
-                    }
-                ),
+                content=bundle_bytes(report),
                 retrieved_at=datetime.fromisoformat(act_meta["retrieved_at"]),
                 metadata={
                     "instrument": inst["key"],
@@ -235,3 +257,5 @@ class EliSejmConnector:
                     "cached_fetch": {"record": act_meta},
                 },
             )
+        )
+        return out

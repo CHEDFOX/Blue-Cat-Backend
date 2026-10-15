@@ -2,7 +2,7 @@
 # (added separately with the EU profile).
 schema_version: 1
 id: PL
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Poland
 names: {pl: Polska, en: Poland}
 kind: sovereign_state
@@ -79,8 +79,10 @@ citation:
     The pinpoint from the largest to the smallest unit, then the act's customary abbreviation or its name in the genitive:
     "art. 415 k.c.", "art. 148 § 1 k.k.", "art. 6 ust. 1 pkt 2 lit. a ustawy o ochronie danych osobowych". Articles inserted
     between others carry a superscript ("art. 22¹ k.c.", "art. 18³ᵃ k.p."); a paragraph is "§", a subsection "ust.", a
-    point "pkt", a letter "lit.". Abbreviations are set for the ingested acts only; the formal reference to the official
-    publication (Dz.U. year, position) is not generated but kept in each act's metadata.
+    point "pkt", a letter "lit.". Abbreviations are set for a table of well-known acts; any other act is cited by the long
+    form of its title, the first word in the genitive ("art. 141m ust. 3 ustawy z dnia 29 sierpnia 1997 r. - Prawo
+    bankowe"). The formal reference to the official publication (Dz.U. year, position) is not generated but kept in each
+    act's metadata.
   examples:
     - "art. 415 k.c."
     - "art. 148 § 1 k.k."
@@ -108,12 +110,12 @@ memberships:
   - organisation: EU
     from_date: 2004-05-01
 coverage:
-  corpus_status: pilot
+  corpus_status: partial
   known_gaps:
-    - Only consolidated texts (teksty jednolite) of six acts are ingested, in Polish - the Kodeks cywilny, Kodeks karny, ustawa o ochronie danych osobowych (2018), Kodeks pracy, Kodeks postępowania administracyjnego and Kodeks rodzinny i opiekuńczy - two successive texts of each, except the data protection act (one). No other acts, no regulations (rozporządzenia), Monitor Polski, treaties, local enactments or case law (Trybunał Konstytucyjny, Sąd Najwyższy, Naczelny Sąd Administracyjny).
-    - The Constitution of 1997 is NOT ingested - the API offers it as PDF only (textHTML false), and PDF is never parsed.
-    - The newest ingested text of each act is not the newest published. For announcements from 2025 on the API offers PDF only, so the ingested texts date from 2019 to 2024 (their legal-status dates are stated on every result); later consolidated texts and the later amending acts are listed as outstanding changes without text, so the corpus cannot say what these acts provide today.
+    - Only consolidated texts (teksty jednolite) of acts (ustawy) are ingested, in Polish - for each act in force with a consolidated text, the newest one for which the API offers HTML (789 acts; two successive texts for six codes - the Kodeks cywilny, Kodeks karny, ustawa o ochronie danych osobowych (2018), Kodeks pracy, Kodeks postępowania administracyjnego and Kodeks rodzinny i opiekuńczy). No acts without a consolidated text, no regulations (rozporządzenia), Monitor Polski, treaties, local enactments or case law (Trybunał Konstytucyjny, Sąd Najwyższy, Naczelny Sąd Administracyjny).
+    - The Constitution of 1997 is NOT ingested - the API offers it as PDF only (textHTML false), and PDF is never parsed; nor are 23 acts in force whose consolidated texts are all PDF only.
+    - For many acts the ingested text is not the newest published. For announcements from 2025 on the API offers PDF only; 380 of the 789 acts therefore show a text from 2019 to 2024 (its legal-status date is stated on every result), and later consolidated texts and later amending acts are listed as outstanding changes without text, so the corpus cannot say what these acts provide today.
     - Dates are those of the whole consolidated text (legal-status date, revision snapshot); the source dates no provision, so a provision's own commencement and repeal date are not known.
     - The consolidated text is an official announcement, not the authentic text of the law (the act and its amending acts as published in the Dziennik Ustaw), which is not ingested, nor are the Constitutional Tribunal judgments the footnotes mention; footnotes are kept as notes, footnotes on division headings are not.
-    - The announcement's own text (the list of amending acts), annexes and tables are not ingested (none of the six acts has an annex in the texts used); cross-references stay plain text, unlinked.
+    - The announcement's own text (the list of amending acts) is not ingested; tables are kept as lines of text (cells separated by " | "), formulas as the TeX the source gives; an act whose markup the parser does not know is not ingested and is reported as an error; cross-references stay plain text, unlinked.
     - No PostgreSQL text-search configuration exists for Polish, so the simple configuration is used (no stemming; inflected forms are matched only when identical).
