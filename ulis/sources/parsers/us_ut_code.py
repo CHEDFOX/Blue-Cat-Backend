@@ -72,7 +72,8 @@ def _xref(el: Element) -> ParsedRef | None:
     title, _chapter, section = m.groups()
     work = work_uri(title)
     # depth: 1 chapter, 2 part, 3 section, 4 subsection (a title is depth 0): only 3 and deeper name a section.
-    depth = int(el.get("depth") or (3 if section else 0))
+    raw_depth = (el.get("depth") or "").strip()
+    depth = int(raw_depth) if raw_depth.isdigit() else (3 if section else 0)  # the source has "null" and stray values
     href = f"{work}/~{section_eid('-'.join(m.group(i) for i in (1, 2, 3)))}" if section and depth >= 3 else work
     return ParsedRef(href=href, text=ws("".join(el.itertext())), relation="cites")
 
@@ -178,7 +179,7 @@ def parse_ut_code(content: bytes) -> list[ParsedDocument]:
                 walk(child, [*context, label])
             elif child.tag == "section":
                 number = child.get("number") or ""
-                if not number.startswith(f"{title}-"):
+                if not number.lower().startswith(f"{title.lower()}-"):  # the XML writes "26b-2-902" in title 26B
                     raise StateParseError(f"section {number!r} is not in title {title}")
                 refs: list[ParsedRef] = []
                 lines: list[str] = []

@@ -374,6 +374,20 @@ def test_utah_markup_on_a_minimal_title() -> None:
     assert "Contingent effectiveness" in (p.note or "") and "(type CE)" in (p.note or "")
 
 
+def test_utah_oddities_found_in_the_full_code() -> None:
+    """The XML writes section numbers of title 26B in lower case and has xref depths such as "null"."""
+    xml = (
+        '<title number="26B"><catchline>Health</catchline><chapter number="26B-2"><catchline>X</catchline>'
+        '<section number="26b-2-902"><catchline>Cross.</catchline>See <xref depth="null" refnumber="26B-2-901">Section '
+        '26B-2-901</xref> and <xref depth="41-1a-124" refnumber="41-1a-124">41-1a-124</xref>.</section>'
+        "</chapter></title>"
+    )
+    d = parse_ut_code(_bundle("UT", "26B", xml.encode(), "text/xml"))[0]
+    (p,) = d.provisions
+    assert p.num_path == ["26b-2-902"] and p.eid == "sec-26b-2-902" and d.work_uri == "/us-ut/code/26B"
+    assert [r.href for r in p.refs] == ["/us-ut/code/26B/~sec-26B-2-901", "/us-ut/code/41/~sec-41-1a-124"]
+
+
 def test_utah_parser_refuses_the_wrong_title() -> None:
     with pytest.raises(StateParseError, match="not the XML of Utah Code title 4"):
         parse_ut_code(_bundle("UT", "4", _gz("ut_title3.xml.gz"), "text/xml"))
