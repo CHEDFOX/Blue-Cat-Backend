@@ -1,0 +1,68 @@
+schema_version: 1
+id: ca-mb-manitoba-laws
+name: Manitoba Laws (C.C.S.M. Acts, HTML of the current consolidation)
+publisher: Office of the Legislative Counsel / King's Printer for Manitoba
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [CA-MB]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  The Acts of the Continuing Consolidation of the Statutes of Manitoba (C.C.S.M.) on Manitoba Laws
+  (https://web2.gov.mb.ca/laws). ULIS fetches the English page of the current consolidation of each Act
+  listed in the manifest (all 490 C.C.S.M. Acts of the publisher's list). The French column, municipal and
+  private Acts, original (non-C.C.S.M.) Acts, regulations and earlier consolidated versions are not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ca-mb-manitoba-laws.yaml
+update_frequency: continuous (the page states the date to which it is current); re-fetch to refresh
+rate_limits: >-
+  https://web2.gov.mb.ca/robots.txt (read 2026-10-14) does not exist (the host answers with an HTML "Resource not
+  found" page), so no restriction applies; the connector treats such an answer as no rules. ULIS uses a
+  5-second delay and a cache and requests only /laws/statutes/ccsm/<id>.php?lang=en.
+licence:
+  id: OpenMB
+  name: OpenMB Information and Data Use Licence
+  url: https://www.gov.mb.ca/asset_library/en/legal/OpenMB-Information-Data-Use-Licence.pdf
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ: https://www.gov.mb.ca/legal/copyright.html ("The OpenMB Information and Data
+    Use Licences allows the use of most government information for most purposes"; exceptions: official symbols,
+    third-party and personal information) and the licence itself,
+    https://www.gov.mb.ca/asset_library/en/legal/OpenMB-Information-Data-Use-Licence.pdf: a "worldwide,
+    royalty-free, perpetual, non-exclusive licence to use the Information, including for commercial purposes", free
+    to "copy, modify, publish, translate, adapt, distribute or otherwise use the Information in any medium, mode or
+    format for any lawful purpose", on condition of the attribution statement and a link; exemptions: personal
+    information, third-party rights, official symbols; non-endorsement; no warranty. The Manitoba Laws pages carry
+    no separate terms of use that were found; the page states "This is an unofficial version. If you need an
+    official copy, use the bilingual (PDF) version."
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Contains information from the Government of Manitoba, licensed under the OpenMB Information and Data Use
+    License (Manitoba.ca/OpenMB). Text extracted from the unofficial HTML version on Manitoba Laws and divided
+    into provisions; the official copy is the bilingual PDF.
+  conditions:
+    - Include the attribution statement and, where possible, a link to the licence (https://www.manitoba.ca/OpenMB).
+    - Do not use official symbols (logos, crests) and do not suggest official status or endorsement.
+    - Respect any robots.txt the host publishes (none today).
+  notes: >-
+    The copyright page applies the licence to "most government information" and names no exception for statutes;
+    that statutes are covered is ULIS's reading and should be confirmed with the King's Printer for Manitoba before
+    production use. The licence names the Information Provider as Her Majesty the Queen in right of Manitoba.
+provenance: >-
+  Official consolidation published by Manitoba's Legislative Counsel office. Each raw document is the HTML of one Act's
+  English page exactly as served (the French column is in the same file), stored unmodified with its SHA-256.
+known_limitations:
+  - "Only the current consolidation of each Act is fetched. The page states when it is current (\"current as of\") and when it has been in effect (\"in effect since\"); individual provisions are not dated, so earlier wordings are not indexed (the page lists earlier consolidated versions by date range; none is fetched) and dates before \"in effect since\" are reported as history not indexed."
+  - "The page is the unofficial version; the official copy is the bilingual PDF."
+  - "Only the English column is read; the French column is not ingested."
+  - "Amendments not yet in force are not reported (the page lists proclamation status only in a table that is not parsed). The amendment history lines under a section are kept as notes, not as text."
+  - "No municipal or private Acts, regulations or case law."
+status: active
+connector: manitoba_laws
+parser: manitoba_laws_html

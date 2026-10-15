@@ -1,0 +1,70 @@
+schema_version: 1
+id: au-tas-legislation
+name: Tasmanian Legislation Online (Acts in force, XML of the current version)
+publisher: Office of Parliamentary Counsel, Tasmania (Department of Premier and Cabinet)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [AU-TAS]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  Acts of Tasmania in force, from https://www.legislation.tas.gov.au. ULIS fetches the current version
+  of each Act listed in the manifest as XML. Statutory rules, bills, Acts as made and earlier versions are
+  not fetched.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/au-tas-legislation.yaml
+update_frequency: continuous (a new version is published when amendments commence); re-fetch to refresh
+rate_limits: >-
+  robots.txt of www.legislation.tas.gov.au (read 2026-10-14): "User-agent: * / Disallow: /admin/" only; no
+  Crawl-delay; it lists a sitemap and an Atom feed for crawlers. ULIS requests only
+  /view/xml/inforce/current/<id>, with a 5-second delay and a cache. The connector reads robots.txt and
+  refuses a disallowed path.
+licence:
+  id: CC-BY-4.0
+  name: Creative Commons Attribution 4.0 International
+  url: https://creativecommons.org/licenses/by/4.0/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ: https://www.legislation.tas.gov.au/copyrightanddisclaimer ("Copyright
+    in the material provided on this website is owned by the State of Tasmania ... Unless otherwise noted, all
+    material provided on this website is licensed under a Creative Commons Attribution 4.0 International
+    licence (CC BY 4.0)"; it allows sharing and adapting "for any purpose, even commercially"; excluded:
+    the coat of arms and logos, trade-mark and third-party material) and https://www.legislation.tas.gov.au/robots.txt.
+    Nothing on the pages read restricts automated retrieval beyond robots.txt.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Based on material from the Tasmanian Legislation website at [full date of download]. For the latest
+    information on Tasmanian Government legislation please go to www.legislation.tas.gov.au. Licensed under
+    CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); changes: text extracted from the XML and divided
+    into provisions.
+  conditions:
+    - >-
+      Attribution as the copyright notice requires: "Based on material from the Tasmanian Legislation website
+      at [full date of download]. For the latest information on Tasmanian Government legislation please go to
+      www.legislation.tas.gov.au." when the material has been changed (ULIS restructures the text into
+      provisions) or "Sourced from ..." when unchanged, a link to the licence, and the copyright notice kept.
+    - Do not use the Tasmanian Government coat of arms or logos, and do not suggest that the Office of Parliamentary Counsel endorses ULIS.
+    - Respect robots.txt; the connector refuses the paths it disallows.
+  notes: >-
+    The site offers an authorised PDF of each version ("/view/pdf/authorised/..."); ULIS parses the XML of the same
+    version, which it treats as a reproduction, not as an authorised copy. The disclaimer on the copyright page says
+    the State does not accept responsibility for the accuracy, completeness or relevance of the material. Counsel
+    review is still recommended before production use.
+provenance: >-
+  Official site of the Tasmanian Office of Parliamentary Counsel. Each raw document is the XML of one Act's current
+  version exactly as served (Tasmanian act.dtd, external DTD not loaded), stored unmodified with its SHA-256.
+known_limitations:
+  - "Only the current version of each Act is fetched. Its FIRST.VALID.DATE is the date from which that version applies (the open end 9999-11-02 is a sentinel, not an end date); individual provisions are not dated, so earlier wordings are not indexed and dates before it are reported as history not indexed."
+  - "The manifest is a curated list of principal Acts (the site offers no list a connector may use); other Acts are not ingested."
+  - "Omitted (repealed) provisions keep their number but no text; the \"how affected\" notes are kept as notes, not as text."
+  - "Appendices (forms, tables of the Criminal Code) are not indexed."
+  - "No statutory rules, bills or case law."
+status: active
+connector: tas_legislation
+parser: tas_act_xml

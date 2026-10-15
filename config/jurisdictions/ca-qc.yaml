@@ -1,0 +1,38 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Quebec, a province or territory of Canada.
+schema_version: 1
+id: CA-QC
+profile_version: 0.1.0
+name: Quebec
+names: {en: Quebec, fr: Québec}
+kind: constituent_unit
+parent: CA
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [fr, en]
+legal_system:
+  families: [civil_law, common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: To verify - the Quebec Civil Code governs private law (civil law); public law follows the common law tradition.
+legislative_institutions:
+  - id: CA-QC-LEG
+    name: National Assembly of Quebec (Assemblée nationale du Québec)
+    instrument_types: [act, regulation]
+instrument_types: [act, regulation]
+norm_hierarchy: [act, regulation]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: ca_prov
+publication:
+  official_sources: [ca-qc-legisquebec]
+coverage:
+  corpus_status: none
+  known_gaps:
+    - "No legislation of Quebec is ingested (the publisher's access terms or robots.txt block ULIS,
+      or its terms are unclear; see the source descriptors)."
+    - "No regulations (except where stated), no case law and no courts of this province are
+      modelled."

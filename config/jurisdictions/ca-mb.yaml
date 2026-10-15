@@ -1,0 +1,41 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Manitoba, a province or territory of Canada.
+schema_version: 1
+id: CA-MB
+profile_version: 0.1.0
+name: Manitoba
+names: {en: Manitoba, fr: Manitoba}
+kind: constituent_unit
+parent: CA
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en, fr]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: To verify - common law province; federal statutes also apply in it (parent chain).
+legislative_institutions:
+  - id: CA-MB-LEG
+    name: Legislative Assembly of Manitoba
+    instrument_types: [act, regulation]
+instrument_types: [act, regulation]
+norm_hierarchy: [act, regulation]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: ca_prov
+  examples:
+    - "The Human Rights Code, CCSM c H175, s 2"
+publication:
+  official_sources: [ca-mb-manitoba-laws]
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - "The Acts of the Continuing Consolidation of the Statutes of Manitoba (C.C.S.M.) only; no
+      municipal or private Acts, no original (non-C.C.S.M.) Acts, no regulations, no bills, no
+      French text."
+    - "Current consolidation only; earlier dates are reported as history not indexed."
+    - "No case law and no courts of this province are modelled."

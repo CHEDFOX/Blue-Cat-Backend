@@ -1,0 +1,36 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Northwest Territories, a province or territory of Canada.
+schema_version: 1
+id: CA-NT
+profile_version: 0.1.0
+name: Northwest Territories
+names: {en: Northwest Territories, fr: Territoires du Nord-Ouest}
+kind: constituent_unit
+parent: CA
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en, fr]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: To verify - common law province; federal statutes also apply in it (parent chain).
+legislative_institutions:
+  - id: CA-NT-LEG
+    name: Legislative Assembly of the Northwest Territories
+    instrument_types: [act, regulation]
+instrument_types: [act, regulation]
+norm_hierarchy: [act, regulation]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: ca_prov
+coverage:
+  corpus_status: none
+  known_gaps:
+    - "No legislation of Northwest Territories is ingested (the publisher has not been evaluated
+      yet)."
+    - "No regulations (except where stated), no case law and no courts of this province are
+      modelled."

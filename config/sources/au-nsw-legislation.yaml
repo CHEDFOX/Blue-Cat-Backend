@@ -1,0 +1,50 @@
+schema_version: 1
+id: au-nsw-legislation
+name: NSW legislation website (legislation.nsw.gov.au)
+publisher: NSW Parliamentary Counsel's Office
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [AU-NSW]
+document_kinds: [act, regulation]
+languages: [en]
+coverage: >-
+  In-force and historical (point-in-time) Acts and statutory instruments of New South Wales at
+  https://legislation.nsw.gov.au. ULIS ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://legislation.nsw.gov.au
+update_frequency: not applicable (nothing is fetched)
+rate_limits: >-
+  https://legislation.nsw.gov.au/robots.txt answered HTTP 403 to ULIS's identifying user agent
+  (read 2026-10-14), so the crawl rules cannot be read and the host refuses ULIS.
+  https://api.legislation.nsw.gov.au/robots.txt (the API host) could not be reached through the
+  sandbox proxy (tunnel 502). A refusal is respected: no other path or identity was tried.
+licence:
+  id: UNVERIFIED
+  name: Licence not verified (CC BY 4.0 was suggested to ULIS but could not be checked on the publisher's pages)
+  url: https://legislation.nsw.gov.au
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. NOTHING READ from the publisher: the only request, /robots.txt,
+    was refused (HTTP 403).
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - >-
+        Do not fetch from legislation.nsw.gov.au while it answers 403, and do not try other
+        identities or routes.
+    - >-
+        A person should read the publisher's copyright page and API terms (an API key may be
+        required) and ask the PCO whether an identified research client may be allowed.
+  notes: >-
+    STOPPED, nothing ingested.
+provenance: >-
+  Official publisher named above. Nothing was downloaded from it for the corpus; the findings in this descriptor come from the pages named under licence.reviewed_by.
+known_limitations:
+  - Nothing of New South Wales law is ingested; the AU-NSW profile has no corpus.
+status: planned

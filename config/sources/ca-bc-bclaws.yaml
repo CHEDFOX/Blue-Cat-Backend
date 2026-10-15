@@ -1,0 +1,51 @@
+schema_version: 1
+id: ca-bc-bclaws
+name: BC Laws (consolidated statutes and regulations of British Columbia)
+publisher: Queen's Printer / King's Printer, Province of British Columbia (Ministry of Attorney General)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [CA-BC]
+document_kinds: [act, regulation]
+languages: [en]
+coverage: >-
+  Consolidated Acts and regulations of British Columbia (https://www.bclaws.gov.bc.ca). ULIS
+  ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.bclaws.gov.bc.ca
+update_frequency: not applicable (nothing is fetched)
+rate_limits: >-
+  robots.txt of www.bclaws.gov.bc.ca (read 2026-10-14): "User-agent: Googlebot / Allow: /",
+  "User-agent: Bingbot / Allow: /", then "# Block everything else / User-agent: * / Disallow:
+  /". Every robot other than those two search engines is disallowed from the whole site.
+licence:
+  id: UNVERIFIED
+  name: Licence not verified - robots.txt forbids automated access, so the terms pages were not read
+  url: https://www.bclaws.gov.bc.ca
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ: https://www.bclaws.gov.bc.ca/robots.txt only. NOT READ (the
+    robots.txt disallows ULIS's identifying user agent for every path): the site's copyright and
+    licence pages and any XML/API documentation.
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - >-
+        Do not fetch from www.bclaws.gov.bc.ca while its robots.txt disallows every robot except
+        Googlebot and Bingbot, and do not try to work around it.
+    - >-
+        A person should ask the King's Printer for British Columbia whether an identified
+        research client may use the site's XML or an export, and should read the licence.
+  notes: >-
+    STOPPED, nothing ingested. The robots.txt is an explicit refusal of automated access for
+    ULIS.
+provenance: >-
+  Official publisher named above. Nothing was downloaded from it for the corpus; the findings in this descriptor come from the pages named under licence.reviewed_by.
+known_limitations:
+  - Nothing of British Columbia law is ingested; the CA-BC profile has no corpus.
+status: planned

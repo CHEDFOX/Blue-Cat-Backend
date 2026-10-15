@@ -1,0 +1,71 @@
+schema_version: 1
+id: ca-on-e-laws
+name: Ontario e-Laws (consolidated statutes, HTML of the current consolidation)
+publisher: King's Printer for Ontario (Publications Ontario), Government of Ontario
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [CA-ON]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  Consolidated public statutes of Ontario on e-Laws (https://www.ontario.ca/laws). ULIS fetches the
+  English page of the current consolidation of each statute listed in the manifest. Regulations, the French
+  text, earlier consolidation periods and bills are not fetched.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ca-on-e-laws.yaml
+update_frequency: continuous (e-Laws is updated as amendments come into force); re-fetch to refresh
+rate_limits: >-
+  robots.txt of www.ontario.ca (read 2026-10-14): "User-agent: * / Crawl-delay: 1"; /laws/ is not
+  disallowed (only /core/, /profiles/, /admin/, /user/, /node/, search pages and gazette PDFs are). ULIS
+  uses a 5-second delay and a cache and requests only /laws/statute/<id>. The pages sit behind a bot manager
+  (a script from validate.perfdrive.com); ULIS's identifying client was served the statute pages, and the
+  connector stops after three pages in a row that are not statutes, so that a challenge is never worked around.
+licence:
+  id: Ontario-legal-materials
+  name: King's Printer for Ontario - policy on copyright in legal materials (statutes and regulations)
+  url: https://www.ontario.ca/page/copyright-information
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ: https://www.ontario.ca/page/copyright-information-c-queens-printer-ontario
+    (now https://www.ontario.ca/page/copyright-information, updated 2022-09-29): "The King's Printer for Ontario
+    holds copyright in Ontario statutes, regulations and judicial decisions. The King's Printer permits any
+    person to reproduce the text and images contained in the statutes, regulations and judicial decisions without
+    seeking permission and without charge. The legal materials must be reproduced accurately, and Crown copyright
+    in the legal materials must be acknowledged in the following form: © King's Printer for Ontario, 20__ [the
+    year of first publication]. Reproductions of statutes and regulations that are not official copies under that
+    Act [the Legislation Act, 2006] must state that they are not official versions"; the commercial-use
+    restriction on other site materials does not apply to "Government of Ontario legal materials (statutes,
+    regulations and judicial decisions)". Also READ: https://www.ontario.ca/page/terms-use (no restriction on
+    automated retrieval; its warranty disclaimer "does not apply to e-Laws") and https://www.ontario.ca/robots.txt.
+    The footer of every statute page reads "© King's Printer for Ontario, 2012-23".
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    © King's Printer for Ontario, 2012-23. Reproduced from Ontario e-Laws (https://www.ontario.ca/laws) by ULIS;
+    this is not an official version of the statute (text extracted from the e-Laws page and divided into provisions).
+  conditions:
+    - Reproduce the text accurately and acknowledge Crown copyright as "© King's Printer for Ontario, 20__" (the year of first publication; the page footer shows 2012-23).
+    - State that the reproduction is not an official version (ULIS treats its text as a reproduction, never as an official copy).
+    - Respect robots.txt and stop on any bot challenge; never work around one.
+  notes: >-
+    The Legislation Act, 2006 decides which copies are official; ULIS did not establish that any e-Laws page is
+    one, and treats the text as unofficial. The year in the acknowledgement should be confirmed with the King's
+    Printer (Copyright@ontario.ca) before production use. Counsel review is recommended.
+provenance: >-
+  Official consolidation published by the King's Printer for Ontario on e-Laws. Each raw document is the HTML of one
+  statute's page exactly as served, stored unmodified with its SHA-256.
+known_limitations:
+  - "Only the current consolidation of each listed statute is fetched (\"Consolidation Period: From <date> to the e-Laws currency date\"). The consolidation start is the version date; a section's start is the latest in-force date in its \"Section Amendments with date in force\" list, and a section without a dated amendment has no start date (reported as such)."
+  - "The e-Laws currency date is not on the page, so the currency of a version is unknown (CURRENCY_UNKNOWN)."
+  - "Amendments listed as \"not in force\" are reported as outstanding changes but not applied."
+  - "The legislative history printed at the end of each section is kept as a note, not as text; it is recognised by its separator, which is a heuristic."
+  - "Schedules are one provision each (free text); tables are rendered row by row."
+  - "The manifest is a curated list (e-Laws offers no list a connector may use); regulations and French texts are not ingested."
+status: active
+connector: ontario_e_laws
+parser: ontario_elaws_html

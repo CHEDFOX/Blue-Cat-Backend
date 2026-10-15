@@ -1,0 +1,500 @@
+# Manitoba Laws: every Act of the Continuing Consolidation of the Statutes of Manitoba (C.C.S.M.) listed on
+# https://web2.gov.mb.ca/laws/statutes/index_ccsm.php (read 2026-10-14; 490 Acts). The identifier is the C.C.S.M. chapter
+# number in lower case (h175 = chapter H175). The English page https://web2.gov.mb.ca/laws/statutes/ccsm/<id>.php?lang=en is
+# fetched. Municipal and private Acts, original (non-C.C.S.M.) Acts and regulations are not listed.
+schema_version: 1
+source_id: ca-mb-manitoba-laws
+host: web2.gov.mb.ca
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+documents:
+  - {id: m260, title: "An Act Respecting Debts Owing by Municipalities to School Districts"}
+  - {id: n050, title: "An Act to Ratify a Certain Agreement Between the Government of the Dominion of Canada and the Government of the Province of Manitoba"}
+  - {id: f158, title: "An Act to Repeal The Statute of Frauds"}
+  - {id: a002, title: "The Adoption Act"}
+  - {id: a004, title: "The Adult Abuse Registry Act"}
+  - {id: a005, title: "The Adult Learning Centres Act"}
+  - {id: a006, title: "The Adult Literacy Act"}
+  - {id: a007, title: "The Age of Majority Act"}
+  - {id: a018, title: "The Agricultural Producers' Organization Funding Act"}
+  - {id: a030, title: "The Agricultural Societies Act"}
+  - {id: a050, title: "The Agrologists Act"}
+  - {id: a080, title: "The Anatomy Act"}
+  - {id: a084, title: "The Animal Care Act"}
+  - {id: a085, title: "The Animal Diseases Act"}
+  - {id: a095, title: "The Animal Liability Act"}
+  - {id: a098, title: "The Apology Act"}
+  - {id: a100, title: "The Apportionment Act"}
+  - {id: a110, title: "The Apprenticeship and Certification Act"}
+  - {id: a120, title: "The Arbitration Act"}
+  - {id: a130, title: "The Architects Act"}
+  - {id: a132, title: "The Archives and Recordkeeping Act"}
+  - {id: a140, title: "The Arts Council Act"}
+  - {id: a180, title: "The Auditor General Act"}
+  - {id: b015, title: "The Bee Act"}
+  - {id: b030, title: "The Beneficiary Designation Act (Retirement, Savings and Other Plans)"}
+  - {id: b037, title: "The Bilingual Service Centres Act"}
+  - {id: b040, title: "The Biofuels Act"}
+  - {id: b063, title: "The Blood Test Act"}
+  - {id: b065, title: "The Body Armour and Fortified Vehicle Control Act"}
+  - {id: b070, title: "The Boundary Lines and Line Fences Act"}
+  - {id: b090, title: "The Brandon University Act"}
+  - {id: b091, title: "The Builders' Liens Act"}
+  - {id: b093, title: "The Buildings Act"}
+  - {id: b110, title: "The Business Names Registration Act"}
+  - {id: b120, title: "The Business Practices Act"}
+  - {id: j021, title: "The Canada - United Kingdom Judgments Enforcement Act"}
+  - {id: c010, title: "The Canadian Mennonite University Act"}
+  - {id: c024, title: "The Caregiver Recognition Act"}
+  - {id: c025, title: "The Cattle Producers Association Act"}
+  - {id: c030, title: "The Cemeteries Act"}
+  - {id: c045, title: "The Centre culturel franco-manitobain Act"}
+  - {id: c044, title: "The CentrePort Canada Act"}
+  - {id: c050, title: "The Change of Name Act"}
+  - {id: c071, title: "The Chartered Professional Accountants Act"}
+  - {id: c075, title: "The Chartered Professionals in Human Resources Act"}
+  - {id: c080, title: "The Child and Family Services Act"}
+  - {id: c090, title: "The Child and Family Services Authorities Act"}
+  - {id: c360, title: "The Child Custody Enforcement Act"}
+  - {id: c094, title: "The Child Sexual Exploitation and Human Trafficking Act"}
+  - {id: c096, title: "The Child Support Service Act"}
+  - {id: c100, title: "The Chiropractic Act"}
+  - {id: c107, title: "The Civil Remedies Against Organized Crime Act"}
+  - {id: c119, title: "The Civil Service Special Supplementary Severance Benefit Act (1983)"}
+  - {id: c120, title: "The Civil Service Superannuation Act"}
+  - {id: c130, title: "The Class Proceedings Act"}
+  - {id: c134, title: "The Climate and Green Plan Act"}
+  - {id: c152, title: "The Commodity Futures Act"}
+  - {id: c155, title: "The Communities Economic Development Fund Act"}
+  - {id: c158, title: "The Community Child Care Standards Act"}
+  - {id: c160, title: "The Community Development Bonds Act"}
+  - {id: c163, title: "The Community Renewal Act"}
+  - {id: c166, title: "The Community Revitalization Tax Increment Financing Act"}
+  - {id: c168, title: "The Community Schools Act"}
+  - {id: c170, title: "The Condominium Act"}
+  - {id: c171, title: "The Conflict of Interest (Members and Ministers) Act"}
+  - {id: c173, title: "The Conservation Agreements Act"}
+  - {id: c177, title: "The Conservation Officers Act"}
+  - {id: c180, title: "The Constitutional Questions Act"}
+  - {id: c190, title: "The Construction Industry Wages Act"}
+  - {id: c200, title: "The Consumer Protection Act"}
+  - {id: c205, title: "The Contaminated Sites Remediation Act"}
+  - {id: c221, title: "The Cooperative Housing Strategy Act"}
+  - {id: c223, title: "The Cooperatives Act"}
+  - {id: c226, title: "The Corporation Capital Tax Act"}
+  - {id: c225, title: "The Corporations Act"}
+  - {id: c230, title: "The Correctional Services Act"}
+  - {id: c240, title: "The Court of Appeal Act"}
+  - {id: c280, title: "The Court of King's Bench Act"}
+  - {id: c285, title: "The Court of King's Bench Small Claims Practices Act"}
+  - {id: c290, title: "The Court of King's Bench Surrogate Practice Act"}
+  - {id: c295, title: "The Court Security Act"}
+  - {id: c297, title: "The Court Services Fees Act"}
+  - {id: c301, title: "The Credit Unions and Caisses Populaires Act"}
+  - {id: c306, title: "The Criminal Property Forfeiture Act"}
+  - {id: c308, title: "The Crocus Investment Fund Act"}
+  - {id: c320, title: "The Crop Payments Act"}
+  - {id: c325, title: "The Cross-Border Policing Act"}
+  - {id: c330, title: "The Crown Attorneys Act"}
+  - {id: c336, title: "The Crown Corporations Governance and Accountability Act"}
+  - {id: c340, title: "The Crown Lands Act"}
+  - {id: d010, title: "The Dairy Act"}
+  - {id: d012, title: "The Dangerous Goods Handling and Transportation Act"}
+  - {id: d020, title: "The Defamation Act"}
+  - {id: d022, title: "The Defibrillator Public Access Act"}
+  - {id: d025, title: "The Degree Granting Act"}
+  - {id: d030, title: "The Dental Association Act"}
+  - {id: d034, title: "The Dental Hygienists Act"}
+  - {id: d035, title: "The Denturists Act"}
+  - {id: a040, title: "The Department of Agriculture Act"}
+  - {id: j035, title: "The Department of Justice Act"}
+  - {id: d037, title: "The Dependants Relief Act"}
+  - {id: d076, title: "The Disability Support Act"}
+  - {id: d078, title: "The Disclosure to Protect Against Intimate Partner Violence Act"}
+  - {id: d090, title: "The Distress Act"}
+  - {id: h026, title: "The District Health and Social Services Act"}
+  - {id: d093, title: "The Domestic Violence and Stalking Act"}
+  - {id: d096, title: "The Domicile and Habitual Residence Act"}
+  - {id: d101, title: "The Drinking Water Safety Act"}
+  - {id: d104, title: "The Drivers and Vehicles Act"}
+  - {id: d110, title: "The Dyking Authority Act"}
+  - {id: e003, title: "The East Side Traditional Lands Planning and Special Protected Areas Act"}
+  - {id: e005, title: "The Ecological Reserves Act"}
+  - {id: e010, title: "The Education Administration Act"}
+  - {id: e015, title: "The Efficiency Manitoba Act"}
+  - {id: e020, title: "The Elderly and Infirm Persons' Housing Act"}
+  - {id: e027, title: "The Election Financing Act"}
+  - {id: e030, title: "The Elections Act"}
+  - {id: e040, title: "The Electoral Divisions Act"}
+  - {id: e050, title: "The Electricians' Licence Act"}
+  - {id: e055, title: "The Electronic Commerce and Information Act"}
+  - {id: e085, title: "The Emergency 911 Public Safety Answering Point Act"}
+  - {id: e080, title: "The Emergency Measures Act"}
+  - {id: e083, title: "The Emergency Medical Response and Stretcher Transportation Act"}
+  - {id: e090, title: "The Emissions Tax on Coal and Petroleum Coke Act"}
+  - {id: e110, title: "The Employment Standards Code"}
+  - {id: e111, title: "The Endangered Species and Ecosystems Act"}
+  - {id: e112, title: "The Energy Act"}
+  - {id: e116, title: "The Enforcement of Canadian Judgments Act"}
+  - {id: e117, title: "The Enforcement of Judgments Conventions Act"}
+  - {id: e120, title: "The Engineering and Geoscientific Professions Act"}
+  - {id: e125, title: "The Environment Act"}
+  - {id: e130, title: "The Equality of Status Act"}
+  - {id: e140, title: "The Escheats Act"}
+  - {id: e160, title: "The Executions Act"}
+  - {id: e170, title: "The Executive Government Organization Act"}
+  - {id: e190, title: "The Expropriation Act"}
+  - {id: f010, title: "The Factors Act"}
+  - {id: f012, title: "The Fair Registration Practices in Regulated Professions Act"}
+  - {id: f013, title: "The Fair Trade in Canada (Internal Trade Mutual Recognition) Act"}
+  - {id: f015, title: "The Family Farm Protection Act"}
+  - {id: f020, title: "The Family Law Act"}
+  - {id: f025, title: "The Family Property Act"}
+  - {id: f026, title: "The Family Support Enforcement Act"}
+  - {id: f028, title: "The Farm and Food Awareness Act"}
+  - {id: f030, title: "The Farm Income Assurance Plans Act"}
+  - {id: f035, title: "The Farm Lands Ownership Act"}
+  - {id: f040, title: "The Farm Machinery and Equipment Act"}
+  - {id: f045, title: "The Farm Practices Protection Act"}
+  - {id: f047, title: "The Farm Products Marketing Act"}
+  - {id: f050, title: "The Fatal Accidents Act"}
+  - {id: f052, title: "The Fatality Inquiries Act"}
+  - {id: c270, title: "The Federal Courts Jurisdiction Act"}
+  - {id: f053, title: "The Film and Video Classification and Distribution Act"}
+  - {id: f055, title: "The Financial Administration Act"}
+  - {id: f070, title: "The Fire Insurance Reserve Fund Act"}
+  - {id: f060, title: "The Firefighters and Paramedics Arbitration Act"}
+  - {id: f080, title: "The Fires Prevention and Emergency Response Act"}
+  - {id: f084, title: "The Fiscal Responsibility and Taxpayer Protection Act"}
+  - {id: f087, title: "The Fish and Wildlife Enhancement Fund Act"}
+  - {id: f090, title: "The Fisheries Act"}
+  - {id: f100, title: "The Fishers' Assistance and Polluter's Liability Act"}
+  - {id: f135, title: "The Food Donations Act"}
+  - {id: f140, title: "The Foreign Cultural Objects Immunity from Seizure Act"}
+  - {id: f150, title: "The Forest Act"}
+  - {id: f151, title: "The Forest Health Protection Act"}
+  - {id: f153, title: "The Fortified Buildings Act"}
+  - {id: f156, title: "The Franchises Act"}
+  - {id: f157, title: "The Francophone Community Enhancement and Support Act"}
+  - {id: f160, title: "The Fraudulent Conveyances Act"}
+  - {id: f175, title: "The Freedom of Information and Protection of Privacy Act"}
+  - {id: f180, title: "The Fruit and Vegetable Sales Act"}
+  - {id: f190, title: "The Frustrated Contracts Act"}
+  - {id: f192, title: "The Fuel Tax Act"}
+  - {id: f195, title: "The Funeral Directors and Embalmers Act"}
+  - {id: g010, title: "The Garage Keepers Act"}
+  - {id: g020, title: "The Garnishment Act"}
+  - {id: g052, title: "The Gas Allocation Act"}
+  - {id: g030, title: "The Gas and Oil Burner Act"}
+  - {id: g050, title: "The Gas Pipe Line Act"}
+  - {id: g060, title: "The Gold Clauses Act"}
+  - {id: g065, title: "The Good Samaritan Protection Act"}
+  - {id: g080, title: "The Government House Act"}
+  - {id: g090, title: "The Government Purchases Act"}
+  - {id: g110, title: "The Groundwater and Water Well Act"}
+  - {id: g120, title: "The Guarantors' Liability Act"}
+  - {id: g125, title: "The Gunshot and Stab Wounds Mandatory Reporting Act"}
+  - {id: h020, title: "The Health Administration Act"}
+  - {id: h024, title: "The Health and Post Secondary Education Tax Levy Act"}
+  - {id: h027, title: "The Health Care Directives Act"}
+  - {id: h029, title: "The Health Sector Bargaining Unit Review Act"}
+  - {id: h035, title: "The Health Services Insurance Act"}
+  - {id: h038, title: "The Hearing Aid Act"}
+  - {id: r010, title: "The High-Level Radioactive Waste Act"}
+  - {id: h060, title: "The Highway Traffic Act"}
+  - {id: h066, title: "The Historic Highway No. 1 Act"}
+  - {id: h080, title: "The Homesteads Act"}
+  - {id: h115, title: "The Hospitality Sector Customer Registry Act"}
+  - {id: h150, title: "The Hotel Keepers Act"}
+  - {id: h160, title: "The Housing and Renewal Corporation Act"}
+  - {id: h170, title: "The Hudson's Bay Company Land Register Act"}
+  - {id: h175, title: "The Human Rights Code"}
+  - {id: h180, title: "The Human Tissue Gift Act"}
+  - {id: h185, title: "The Hunting, Fishing and Trapping Heritage Act"}
+  - {id: i010, title: "The Income Tax Act"}
+  - {id: i035, title: "The Infants' Estates Act"}
+  - {id: i036, title: "The Infrastructure Contracts Disbursement Act"}
+  - {id: i037, title: "The Innovation Funding Act"}
+  - {id: c047, title: "The Institute of Certified Management Consultants of Manitoba Act"}
+  - {id: i040, title: "The Insurance Act"}
+  - {id: i050, title: "The Insurance Corporations Tax Act"}
+  - {id: i060, title: "The Inter-jurisdictional Support Orders Act"}
+  - {id: a003, title: "The Intercountry Adoption (Hague Convention) Act"}
+  - {id: i061, title: "The International Child Support and Family Maintenance (Hague Convention) Act"}
+  - {id: c151, title: "The International Commercial Arbitration Act"}
+  - {id: i075, title: "The International Education Act"}
+  - {id: i063, title: "The International Interests in Mobile Equipment Act (Aircraft Equipment)"}
+  - {id: i065, title: "The International Labour Cooperation Agreements Implementation Act"}
+  - {id: i070, title: "The International Peace Garden Act"}
+  - {id: s011, title: "The International Sale of Goods Act"}
+  - {id: t165, title: "The International Trusts Act"}
+  - {id: i080, title: "The Interpretation Act"}
+  - {id: s212, title: "The Interprovincial Subpoena Act"}
+  - {id: i085, title: "The Intestate Succession Act"}
+  - {id: i092, title: "The Intimate Partner Violence Death Review Committee Act"}
+  - {id: i105, title: "The Investment Trust Unitholders' Protection Act"}
+  - {id: j010, title: "The Judgments Act"}
+  - {id: j030, title: "The Jury Act"}
+  - {id: j039, title: "The Justice for Victims of Child Pornography Act"}
+  - {id: k010, title: "The King's Counsel Act"}
+  - {id: k015, title: "The King's Printer Act"}
+  - {id: l020, title: "The Labour Administration Act"}
+  - {id: l005, title: "The Labour Mobility Act"}
+  - {id: l010, title: "The Labour Relations Act"}
+  - {id: l012, title: "The Labour-Sponsored Venture Capital Corporations Act"}
+  - {id: l030, title: "The Lake of the Woods Control Board Act"}
+  - {id: l040, title: "The Land Acquisition Act"}
+  - {id: l050, title: "The Land Rehabilitation Act"}
+  - {id: l060, title: "The Land Surveyors Act"}
+  - {id: l070, title: "The Landlord and Tenant Act"}
+  - {id: l075, title: "The Law Enforcement Review Act"}
+  - {id: l090, title: "The Law of Property Act"}
+  - {id: l095, title: "The Law Reform Commission Act"}
+  - {id: l105, title: "The Legal Aid Manitoba Act"}
+  - {id: l107, title: "The Legal Profession Act"}
+  - {id: l110, title: "The Legislative Assembly Act"}
+  - {id: l114, title: "The Legislative Assembly Management Commission Act"}
+  - {id: l117, title: "The Legislative Building Centennial Restoration and Preservation Act"}
+  - {id: l120, title: "The Legislative Library Act"}
+  - {id: l122, title: "The Legislative Security Act"}
+  - {id: l125, title: "The Licensed Practical Nurses Act"}
+  - {id: l130, title: "The Life Leases Act"}
+  - {id: l150, title: "The Limitations Act"}
+  - {id: l153, title: "The Liquor, Gaming and Cannabis Control Act"}
+  - {id: l170, title: "The Livestock and Livestock Products Act"}
+  - {id: l175, title: "The Livestock Industry Diversification Act"}
+  - {id: l178, title: "The Lobbyists Registration Act"}
+  - {id: l190, title: "The Local Government Districts Act"}
+  - {id: l195, title: "The Local Vehicles for Hire Act"}
+  - {id: l214, title: "The Long-Bladed Weapon Control Act"}
+  - {id: l229, title: "The Louis Riel Act"}
+  - {id: l230, title: "The Louis Riel Institute Act"}
+  - {id: m025, title: "The Mandatory Training for Provincial Employees (Systemic Racism and Human Rights) Act"}
+  - {id: a025, title: "The Manitoba Agricultural Services Corporation Act"}
+  - {id: a150, title: "The Manitoba Assistance Act"}
+  - {id: c040, title: "The Manitoba Centennial Centre Corporation Act"}
+  - {id: d060, title: "The Manitoba Development Corporation Act"}
+  - {id: e072, title: "The Manitoba Emblems Act"}
+  - {id: e150, title: "The Manitoba Evidence Act"}
+  - {id: f054, title: "The Manitoba Film and Sound Recording Development Corporation Act"}
+  - {id: h015, title: "The Manitoba Hazardous Waste Management Corporation Act"}
+  - {id: h190, title: "The Manitoba Hydro Act"}
+  - {id: t130, title: "The Manitoba Institute of Trades and Technology Act"}
+  - {id: i100, title: "The Manitoba Investment Pool Authority Act"}
+  - {id: l155, title: "The Manitoba Liquor and Lotteries Corporation Act"}
+  - {id: m095, title: "The Manitoba Medical Association Dues Act"}
+  - {id: m223, title: "The Manitoba Multiculturalism Act"}
+  - {id: m270, title: "The Manitoba Museum Act"}
+  - {id: n030, title: "The Manitoba Natural Resources Transfer Act"}
+  - {id: n060, title: "The Manitoba Natural Resources Transfer Act Amendment Act"}
+  - {id: n070, title: "The Manitoba Natural Resources Transfer Act Amendment Act, 1963"}
+  - {id: p215, title: "The Manitoba Public Insurance Corporation Act"}
+  - {id: t030, title: "The Manitoba Teachers' Society Act"}
+  - {id: w090, title: "The Manitoba Water Services Board Act"}
+  - {id: m040, title: "The Marine Insurance Act"}
+  - {id: m050, title: "The Marriage Act"}
+  - {id: m070, title: "The Married Women's Property Act"}
+  - {id: m075, title: "The Matriarch Circle Act"}
+  - {id: m092, title: "The Medical Assistance in Dying (Protection for Health Professionals and Others) Act"}
+  - {id: m100, title: "The Medical Laboratory Technologists Act"}
+  - {id: m110, title: "The Mental Health Act"}
+  - {id: m120, title: "The Mercantile Law Amendment Act"}
+  - {id: m125, title: "The Midwifery Act"}
+  - {id: m130, title: "The Milk Prices Review Act"}
+  - {id: m162, title: "The Mines and Minerals Act"}
+  - {id: m190, title: "The Mining and Metallurgy Compensation Act"}
+  - {id: m165, title: "The Mining Claim Tax Act"}
+  - {id: m195, title: "The Mining Tax Act"}
+  - {id: m197, title: "The Minors Intoxicating Substances Control Act"}
+  - {id: m199, title: "The Missing Persons Act"}
+  - {id: m200, title: "The Mortgage Act"}
+  - {id: m210, title: "The Mortgage Brokers Act"}
+  - {id: m225, title: "The Municipal Act"}
+  - {id: m230, title: "The Municipal Affairs Administration Act"}
+  - {id: m235, title: "The Municipal Amalgamations Act"}
+  - {id: m226, title: "The Municipal Assessment Act"}
+  - {id: m240, title: "The Municipal Board Act"}
+  - {id: m245, title: "The Municipal By-law Enforcement Act"}
+  - {id: m255, title: "The Municipal Council Conflict of Interest Act"}
+  - {id: m257, title: "The Municipal Councils and School Boards Elections Act"}
+  - {id: m265, title: "The Municipal Taxation and Funding Act"}
+  - {id: n020, title: "The National Centre for Truth and Reconciliation Act"}
+  - {id: n040, title: "The Natural Resources Agreement Act, 1938"}
+  - {id: n080, title: "The Naturopathic Act"}
+  - {id: n090, title: "The Newspapers Act"}
+  - {id: n093, title: "The Non-Consensual Distribution of Intimate Images Act"}
+  - {id: n095, title: "The North American Environmental and Labour Cooperation Agreements Implementation Act"}
+  - {id: n100, title: "The Northern Affairs Act"}
+  - {id: n110, title: "The Noxious Weeds Act"}
+  - {id: n120, title: "The Nuisance Act"}
+  - {id: o005, title: "The Occupational Therapists Act"}
+  - {id: o008, title: "The Occupiers' Liability Act"}
+  - {id: o031, title: "The Off-Road Vehicles Act"}
+  - {id: o020, title: "The Official Securities Act"}
+  - {id: o030, title: "The Official Time Act"}
+  - {id: o034, title: "The Oil and Gas Act"}
+  - {id: o037, title: "The Oil and Gas Production Tax Act"}
+  - {id: o045, title: "The Ombudsman Act"}
+  - {id: o055, title: "The Opioid Damages and Health Care Costs Recovery Act"}
+  - {id: o060, title: "The Opticians Act"}
+  - {id: o070, title: "The Optometry Act"}
+  - {id: o075, title: "The Order of Manitoba Act"}
+  - {id: o077, title: "The Organic Agricultural Products Act"}
+  - {id: o080, title: "The Ozone Depleting Substances Act"}
+  - {id: p008, title: "The Parental Responsibility Act"}
+  - {id: p010, title: "The Parents' Maintenance Act"}
+  - {id: p012, title: "The Pari-Mutuel Levy Act"}
+  - {id: p030, title: "The Partnership Act"}
+  - {id: p013, title: "The Pay Equity Act"}
+  - {id: p031, title: "The Peatlands Stewardship Act"}
+  - {id: p032, title: "The Pension Benefits Act"}
+  - {id: p033, title: "The Perpetuities and Accumulations Act"}
+  - {id: p034, title: "The Personal Investigations Act"}
+  - {id: p035, title: "The Personal Property Security Act"}
+  - {id: p040, title: "The Pesticides and Fertilizers Control Act"}
+  - {id: p060, title: "The Pharmaceutical Act"}
+  - {id: p065, title: "The Physiotherapists Act"}
+  - {id: p070, title: "The Pimachiowin Aki World Heritage Fund Act"}
+  - {id: p080, title: "The Planning Act"}
+  - {id: p090, title: "The Plant Pests and Diseases Act"}
+  - {id: p093, title: "The Podiatrists Act"}
+  - {id: p094, title: "The Polar Bear Protection Act"}
+  - {id: p095, title: "The Power Engineers Act"}
+  - {id: p097, title: "The Powers of Attorney Act"}
+  - {id: f200, title: "The Prearranged Funeral Services Act"}
+  - {id: p115, title: "The Prescription Drugs Cost Assistance Act"}
+  - {id: p120, title: "The Presumption of Death and Declaration of Absence Act"}
+  - {id: p125, title: "The Privacy Act"}
+  - {id: p130, title: "The Private Hospitals Act"}
+  - {id: p132, title: "The Private Investigators and Security Guards Act"}
+  - {id: p137, title: "The Private Vocational Institutions Act"}
+  - {id: p140, title: "The Proceedings Against the Crown Act"}
+  - {id: h070, title: "The Professional Home Economists Act"}
+  - {id: i057, title: "The Professional Interior Designers Institute of Manitoba Act"}
+  - {id: p141, title: "The Profits of Criminal Notoriety Act"}
+  - {id: p143, title: "The Property Tax and Insulation Assistance Act"}
+  - {id: p144, title: "The Protection for Persons in Care Act"}
+  - {id: p145, title: "The Protective Detention and Care of Intoxicated Persons Act"}
+  - {id: c275, title: "The Provincial Court Act"}
+  - {id: p160, title: "The Provincial Offences Act"}
+  - {id: p020, title: "The Provincial Parks Act"}
+  - {id: r015, title: "The Provincial Railways Act"}
+  - {id: p190, title: "The Psychologists Registration Act"}
+  - {id: p205, title: "The Public Guardian and Trustee Act"}
+  - {id: p210, title: "The Public Health Act"}
+  - {id: p217, title: "The Public Interest Disclosure (Whistleblower Protection) Act"}
+  - {id: p218, title: "The Public Interest Expression Defence Act"}
+  - {id: p220, title: "The Public Libraries Act"}
+  - {id: p230, title: "The Public Officers Act"}
+  - {id: p250, title: "The Public Schools Act"}
+  - {id: p265, title: "The Public Sector Compensation Disclosure Act"}
+  - {id: p264, title: "The Public Sector Executive Compensation Act"}
+  - {id: p270, title: "The Public Servants Insurance Act"}
+  - {id: p271, title: "The Public Service Act"}
+  - {id: p280, title: "The Public Utilities Board Act"}
+  - {id: p300, title: "The Public Works Act"}
+  - {id: r021, title: "The Real Estate Services Act"}
+  - {id: r030, title: "The Real Property Act"}
+  - {id: j020, title: "The Reciprocal Enforcement of Judgments Act"}
+  - {id: r031, title: "The Red River College Polytechnic Act"}
+  - {id: r032, title: "The Red River Floodway Act"}
+  - {id: r038, title: "The Regional Waste Management Authorities Act"}
+  - {id: r039, title: "The Registered Dietitians Act"}
+  - {id: r043, title: "The Registered Professional Planners Act"}
+  - {id: r115, title: "The Registered Respiratory Therapists Act"}
+  - {id: r116, title: "The Registered Retirement Savings Protection Act"}
+  - {id: r048, title: "The Registration of Property Restraint Orders Act"}
+  - {id: r050, title: "The Registry Act"}
+  - {id: r117, title: "The Regulated Health Professions Act"}
+  - {id: r066, title: "The Regulatory Accountability Reporting Act"}
+  - {id: r070, title: "The Religious Societies' Lands Act"}
+  - {id: r080, title: "The Remembrance Day Act"}
+  - {id: r085, title: "The Renewable Energy Jobs Act"}
+  - {id: r090, title: "The Repair Shops Act"}
+  - {id: s234, title: "The Reporting of Supports for Child Survivors of Sexual Assault Act (Trained Health Professionals and Patient Assessments)"}
+  - {id: r118, title: "The Research Manitoba Act"}
+  - {id: r119, title: "The Residential Tenancies Act"}
+  - {id: r130, title: "The Retail Sales Tax Act"}
+  - {id: s004, title: "The Safe Access to Abortion Services Act"}
+  - {id: s005, title: "The Safer Communities and Neighbourhoods Act"}
+  - {id: s010, title: "The Sale of Goods Act"}
+  - {id: s015, title: "The Sand and Gravel Act"}
+  - {id: s040, title: "The Scrap Metal Act"}
+  - {id: s050, title: "The Securities Act"}
+  - {id: s060, title: "The Securities Transfer Act"}
+  - {id: s086, title: "The Seniors' Advocate Act"}
+  - {id: s090, title: "The Service Animals Protection Act"}
+  - {id: s100, title: "The Sheriffs Act"}
+  - {id: s120, title: "The Short Forms Act"}
+  - {id: s128, title: "The Sign Languages Recognition Act"}
+  - {id: s135, title: "The Sioux Valley Dakota Nation Governance Act"}
+  - {id: s150, title: "The Smoking and Vapour Products Control Act"}
+  - {id: s165, title: "The Social Services Administration Act"}
+  - {id: s167, title: "The Social Services Appeal Board Act"}
+  - {id: s169, title: "The Social Work Profession Act"}
+  - {id: s170, title: "The Soldiers' Estates Act"}
+  - {id: s180, title: "The Soldiers' Taxation Relief Act"}
+  - {id: s185, title: "The Special Operating Agencies Act"}
+  - {id: s190, title: "The Special Survey Act"}
+  - {id: s200, title: "The Stable Keepers Act"}
+  - {id: s205, title: "The Statistics Act"}
+  - {id: s207, title: "The Statutes and Regulations Act"}
+  - {id: s210, title: "The Steam and Pressure Plants Act"}
+  - {id: s211, title: "The Student Aid Act"}
+  - {id: s220, title: "The Suitors' Moneys Act"}
+  - {id: s233, title: "The Supply Chain Management Professionals Act"}
+  - {id: s235, title: "The Surface Rights Act"}
+  - {id: s240, title: "The Surveys Act"}
+  - {id: s250, title: "The Survivorship Act"}
+  - {id: t002, title: "The Tax Administration and Miscellaneous Taxes Act"}
+  - {id: t003, title: "The Tax Appeals Commission Act"}
+  - {id: t020, title: "The Teachers' Pensions Act"}
+  - {id: t035, title: "The Technical Safety Act"}
+  - {id: t055, title: "The Testing of Bodily Fluids and Disclosure Act"}
+  - {id: t060, title: "The Threshers' Liens Act"}
+  - {id: t070, title: "The Tobacco Damages and Health Care Costs Recovery Act"}
+  - {id: t080, title: "The Tobacco Tax Act"}
+  - {id: t090, title: "The Tortfeasors and Contributory Negligence Act"}
+  - {id: t140, title: "The Trans-Canada Highway Act"}
+  - {id: t145, title: "The Transboundary Pollution Reciprocal Access Act"}
+  - {id: t147, title: "The Transportation Infrastructure Act"}
+  - {id: t150, title: "The Travel Manitoba Act"}
+  - {id: t156, title: "The Trespass Act"}
+  - {id: t160, title: "The Trustee Act"}
+  - {id: u010, title: "The Unconditional Grants Act"}
+  - {id: u020, title: "The Unconscionable Transactions Relief Act"}
+  - {id: u030, title: "The Uniform Law Conference Commissioners Act"}
+  - {id: u038, title: "The Universal Newborn Hearing Screening Act"}
+  - {id: u055, title: "The University College of the North Act"}
+  - {id: u060, title: "The University of Manitoba Act"}
+  - {id: u070, title: "The University of Winnipeg Act"}
+  - {id: u050, title: "The Université de Saint-Boniface Act"}
+  - {id: u080, title: "The Upper Fort Garry Heritage Provincial Park Act"}
+  - {id: u090, title: "The Use of Animals to Shield Unlawful Activities Act"}
+  - {id: v010, title: "The Vacant Property Act"}
+  - {id: v030, title: "The Veterinary Medical Act"}
+  - {id: v050, title: "The Veterinary Services Act"}
+  - {id: v055, title: "The Victims' Bill of Rights"}
+  - {id: v060, title: "The Vital Statistics Act"}
+  - {id: w030, title: "The Warehouse Receipts Act"}
+  - {id: w020, title: "The Warehousemen's Liens Act"}
+  - {id: w040, title: "The Waste Reduction and Prevention Act"}
+  - {id: w060, title: "The Water Power Act"}
+  - {id: w065, title: "The Water Protection Act"}
+  - {id: w070, title: "The Water Resources Administration Act"}
+  - {id: w072, title: "The Water Resources Conservation Act"}
+  - {id: w080, title: "The Water Rights Act"}
+  - {id: w100, title: "The Water Supply Commissions Act"}
+  - {id: w095, title: "The Watershed Districts Act"}
+  - {id: w140, title: "The Wild Rice Act"}
+  - {id: w128, title: "The Wildfires Act"}
+  - {id: w130, title: "The Wildlife Act"}
+  - {id: w150, title: "The Wills Act"}
+  - {id: w167, title: "The Witness Security Act"}
+  - {id: w180, title: "The Women's Institutes Act"}
+  - {id: w190, title: "The Woodmen's Liens Act"}
+  - {id: w197, title: "The Worker Recruitment and Protection Act"}
+  - {id: w200, title: "The Workers Compensation Act"}
+  - {id: w210, title: "The Workplace Safety and Health Act"}
+  - {id: y025, title: "The Yellowquill University College Act"}
+  - {id: y050, title: "The Youth Drug Stabilization (Support for Parents) Act"}

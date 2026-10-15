@@ -1,0 +1,41 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Ontario, a province or territory of Canada.
+schema_version: 1
+id: CA-ON
+profile_version: 0.1.0
+name: Ontario
+names: {en: Ontario, fr: Ontario}
+kind: constituent_unit
+parent: CA
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: To verify - common law province; federal statutes also apply in it (parent chain).
+legislative_institutions:
+  - id: CA-ON-LEG
+    name: Legislative Assembly of Ontario
+    instrument_types: [act, regulation]
+instrument_types: [act, regulation]
+norm_hierarchy: [act, regulation]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: ca_prov
+  examples:
+    - "Courts of Justice Act, RSO 1990, c C.43, s 1(1)"
+publication:
+  official_sources: [ca-on-e-laws]
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - "Only a curated list of 37 Ontario statutes is ingested (see the source manifest), not the
+      whole statute book; no regulations, no French text, no bills."
+    - "Current consolidation only: the e-Laws page of an Act gives its consolidation period start,
+      not earlier wordings; earlier dates are reported as history not indexed."
+    - "No case law and no courts of this province are modelled."

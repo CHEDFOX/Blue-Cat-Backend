@@ -1,0 +1,38 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Nova Scotia, a province or territory of Canada.
+schema_version: 1
+id: CA-NS
+profile_version: 0.1.0
+name: Nova Scotia
+names: {en: Nova Scotia, fr: Nouvelle-Écosse}
+kind: constituent_unit
+parent: CA
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: To verify - common law province; federal statutes also apply in it (parent chain).
+legislative_institutions:
+  - id: CA-NS-LEG
+    name: Nova Scotia House of Assembly
+    instrument_types: [act, regulation]
+instrument_types: [act, regulation]
+norm_hierarchy: [act, regulation]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: ca_prov
+publication:
+  official_sources: [ca-ns-legislature]
+coverage:
+  corpus_status: none
+  known_gaps:
+    - "No legislation of Nova Scotia is ingested (the publisher's access terms or robots.txt block
+      ULIS, or its terms are unclear; see the source descriptors)."
+    - "No regulations (except where stated), no case law and no courts of this province are
+      modelled."
