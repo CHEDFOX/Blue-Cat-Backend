@@ -1,0 +1,23 @@
+# Decisions of the courts of Mauritius from the Judgment Search of the Supreme Court website
+# (https://supremecourt.govmu.org/judgment-search). For each year below the connector reads the listing pages
+#   https://supremecourt.govmu.org/judgment-search?from_year=<year>&to_year=<year>&page=<n>
+# (10 decisions per page, newest first, until a page has no rows) and downloads the PDF every row links to. One
+# request at a time, at least 5 s apart; robots.txt (the standard Drupal file, no crawl delay) is read first and
+# every URL is checked against it.
+#
+# Scope: the whole open corpus of that database. On 2026-10-14 it held about 12,150 decisions from 2020-01-07 to
+# 2026-10-14 (the last page of the unfiltered listing was page 1215, holding one row). The database's court
+# filters (field_court) listed district courts, the Intermediate Court, the Industrial Court, the Children's
+# Court, the Bail and Remand Court and Rodrigues; none of the first pages seen held a Supreme Court (SCJ)
+# decision. Page counts per year are measured by the connector; at 2 requests per decision (listing page, PDF) a
+# full run takes about 17 hours of network time. Run it in chunks by editing `years` (a year already fetched is
+# served from the download cache) or cap a trial with `max_documents`.
+#
+# Years before 2020: not offered by this database (the earliest row is dated 2020-01-07).
+schema_version: 1
+source_id: mu-supreme-court-judgments
+base_url: https://supremecourt.govmu.org
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+years: [2020, 2021, 2022, 2023, 2024, 2025, 2026]
+max_documents: null

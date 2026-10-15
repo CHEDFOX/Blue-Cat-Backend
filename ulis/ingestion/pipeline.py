@@ -47,6 +47,7 @@ from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.likumi_lv import LikumiLvConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
+from ulis.sources.connectors.mu_supreme_court import MuSupremeCourtConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
 from ulis.sources.connectors.rechtspraak import RechtspraakConnector
 from ulis.sources.connectors.retsinformation import RetsinformationConnector
@@ -73,6 +74,7 @@ from ulis.sources.parsers import (
     legislation_gov_uk,
     likumi_lv,
     moj_law,
+    mu_judgments,
     normattiva,
     rechtspraak,
     retsinformation,
@@ -112,6 +114,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "riigi_teataja_xml": riigi_teataja.parse_riigi_teataja,
     "eli_sejm_bundle": eli_sejm.parse_eli_sejm,
     "infoleg_ar_html": infoleg_ar.parse_infoleg_ar,
+    "mu_supreme_court_bundle": mu_judgments.parse_mu_judgment,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -138,6 +141,7 @@ PARSER_VERSIONS = {
     "riigi_teataja_xml": riigi_teataja.PARSER_VERSION,
     "eli_sejm_bundle": eli_sejm.PARSER_VERSION,
     "infoleg_ar_html": infoleg_ar.PARSER_VERSION,
+    "mu_supreme_court_bundle": mu_judgments.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -197,6 +201,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "eli_sejm": EliSejmConnector,
     "uscode_house": UscodeHouseConnector,
     "infoleg_ar": InfolegArConnector,
+    "mu_supreme_court": MuSupremeCourtConnector,
 }
 
 
