@@ -1,0 +1,47 @@
+# REJECTED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: bh-lloc-constitution
+name: Constitution of Bahrain - Legislation and Legal Opinion Commission (lloc.gov.bh)
+publisher: Legislation and Legal Opinion Commission (LLOC), Kingdom of Bahrain
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- BH
+document_kinds:
+- constitution
+languages:
+- en
+- ar
+coverage: The Constitution of the Kingdom of Bahrain (125 articles) in English on the LLOC site; parsed successfully in a dry run,
+  not stored.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.lloc.gov.bh/en/page/The%20Constitution%20of%20the%20Kingdom%20of%20Bahrain
+  authentication: none
+update_frequency: unknown
+licence:
+  id: NOT-GRANTED
+  name: 'Terms and Conditions (25 April 2025): content protected by copyright; ''use of the content for any other purpose is a
+    violation'''
+  url: https://www.lloc.gov.bh/en/page/Terms-and-Conditions
+  review_status: rejected
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: robots.txt of
+    www.lloc.gov.bh answers HTTP 404 (none). The Terms and Conditions page (https://www.lloc.gov.bh/en/page/Terms-and-Conditions,
+    last updated 25-April-2025) says: ''The contents of this website including information and software are protected by copyright
+    and trademarks.'' and ''Modification of any of the content or use of the content for any other purpose is a violation of the
+    Legislation and Legal Opinion Commission - Kingdom of Bahrain copyright and intellectual property rights.'' It grants no licence
+    to copy, store or republish the text: REJECTED.'
+  reviewed_on: '2026-10-15'
+  redistribution: not_allowed
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: not_allowed
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-asia-oceania.md.
+known_limitations:
+- Copyright reserved; 'use of the content for any other purpose is a violation'; no licence.
+status: rejected
+connector: null
+parser: null

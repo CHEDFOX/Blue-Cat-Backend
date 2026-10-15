@@ -1,0 +1,42 @@
+# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: iq-parliament-constitution
+name: Constitution of Iraq (2005) - Council of Representatives (iq.parliament.iq)
+publisher: Council of Representatives of Iraq, iq.parliament.iq
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- IQ
+document_kinds:
+- constitution
+languages:
+- en
+- ar
+coverage: The Constitution of the Republic of Iraq (PDF on the Council's site).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://iq.parliament.iq/en/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Not read - robots.txt refused the bot (HTTP 403)
+  url: https://iq.parliament.iq/
+  review_status: pending_review
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: robots.txt (https://iq.parliament.iq/robots.txt)
+    answered HTTP 403 to the ULIS bot: the host refuses automated clients; nothing further was requested and no workaround was
+    tried.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-asia-oceania.md.
+known_limitations:
+- 'HTTP 403 on robots.txt: terms not read.'
+status: planned
+connector: null
+parser: null

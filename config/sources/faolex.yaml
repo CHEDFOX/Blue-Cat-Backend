@@ -1,0 +1,44 @@
+# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: faolex
+name: FAOLEX - legislation database of the Food and Agriculture Organization
+publisher: Food and Agriculture Organization of the United Nations (FAO), faolex.fao.org
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- INT
+document_kinds:
+- constitution
+languages:
+- en
+coverage: Legislation on food, agriculture and natural resources of many countries, with some constitutions.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://faolex.fao.org/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms not established - the bot was refused (HTTP 403) on the open-data page
+  url: https://www.fao.org/faolex/opendata/en/
+  review_status: pending_review
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: robots.txt of
+    faolex.fao.org answers HTTP 404 (none). The page https://www.fao.org/faolex/opendata/en/ answered HTTP 403 to the ULIS bot:
+    the host refuses automated clients; nothing further was requested and no workaround was tried. The FAOLEX user agreement (https://faolex.fao.org/faolex/user.html,
+    a script-driven page that returned no text to the bot) is described by a search-engine excerpt as a licence to use, download
+    and print for non-commercial purposes, copying and redistribution being prohibited without written permission; that excerpt
+    was not verified on the page.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-asia-oceania.md.
+known_limitations:
+- HTTP 403 for the ULIS bot; non-commercial terms reported but not verified.
+status: planned
+connector: null
+parser: null
