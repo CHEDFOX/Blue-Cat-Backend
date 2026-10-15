@@ -346,6 +346,34 @@ def test_utah_future_version_has_the_dates_the_source_states() -> None:
     assert not any("Ambiguous pinpoint" in (p.note or "") for p in d.provisions)  # dated versions are versions
 
 
+def test_utah_markup_on_a_minimal_title() -> None:
+    """Modelled on the structure of the real files: labels that carry down, tables, encoded characters, references."""
+    xml = (
+        '<title number="9"><effdate>7/1/2026</effdate><catchline>Test Title</catchline>'
+        '<chapter number="9-1"><catchline>First</catchline>'
+        '<section number="9-1-101"><contingent type="CE"/><histories><history>Enacted by Chapter '
+        '<modchap sess="2026GS">7</modchap>, 2026 General Session</history></histories>'
+        "<catchline>Rules.</catchline><tab/>In this section:"
+        '<subsection number="9-1-101(1)"><subsection number="9-1-101(1)(a)">Text under <xref depth="3" '
+        'refnumber="9-2-5.1">9-2-5.1</xref> and <xref depth="2" refnumber="9-3-1">Part 1</xref>:<eol/>'
+        "<tbl><row><cell/><cell>Year</cell><cell>Rate</cell></row><row><cell/><cell>First</cell><cell>80%</cell></row></tbl>"
+        '</subsection><subsection number="9-1-101(1)(b)">See Utah Code Ann. <char set="4" char="6"/>'
+        "59-2-103.</subsection></subsection></section></chapter></title>"
+    )
+    d = parse_ut_code(_bundle("UT", "9", xml.encode(), "text/xml"))[0]
+    (p,) = d.provisions
+    assert p.text.split("\n") == [
+        "In this section:",
+        "(1)(a) Text under 9-2-5.1 and Part 1:",
+        "Year Rate",
+        "First 80%",
+        "(b) See Utah Code Ann. [char 4/6]59-2-103.",
+    ]
+    assert [r.href for r in p.refs] == ["/us-ut/code/9/~sec-9-2-5.1", "/us-ut/code/9"]  # a part is not a section
+    assert (p.note or "").startswith("Source history: Enacted by Chapter 7, 2026 General Session")
+    assert "Contingent effectiveness" in (p.note or "") and "(type CE)" in (p.note or "")
+
+
 def test_utah_parser_refuses_the_wrong_title() -> None:
     with pytest.raises(StateParseError, match="not the XML of Utah Code title 4"):
         parse_ut_code(_bundle("UT", "4", _gz("ut_title3.xml.gz"), "text/xml"))
