@@ -17,7 +17,8 @@ a code is one instrument, its sections (``Sec.``) or articles (``Art.``) are the
 * Zip members that are stale copies (``*-old.htm``, ``*_old.htm``, ``* - Copy.htm``) are not ingested.
 * The files carry no edition date and no start dates: the document is dated by its retrieval date and attested as
   of that date (``validity_basis = "attested_at_edition"``); the Council's site states what session the statutes
-  are current through. Cross references are links (``GetStatute.aspx?Code=GV&Value=30.00010``) and become citation links.
+  are current through. Cross references are links (``GetStatute.aspx?Code=GV&Value=30.00010``) and become
+  citation links.
 """
 
 from __future__ import annotations
@@ -25,6 +26,7 @@ from __future__ import annotations
 import io
 import re
 import zipfile
+from datetime import date
 from urllib.parse import parse_qs, urlsplit
 
 from ulis.sources.normalized import ParsedDocument, ParsedRef
@@ -90,6 +92,22 @@ CREDIT = re.compile(
 )
 RANK = {"TITLE": 0, "SUBTITLE": 1, "CHAPTER": 2, "ARTICLE": 3, "PART": 3, "DIVISION": 3, "SUBCHAPTER": 4}
 REPEAL = re.compile(r"^(Repealed by|Expired)\b")
+EFFECTIVE = re.compile(r"\beff\.?\s+([A-Z][a-z]+)\.?\s+(\d{1,2}),\s+(\d{4})")
+MONTHS = {m: i for i, m in enumerate(
+    ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], start=1)}  # fmt: skip
+
+
+def repeal_date(line: str) -> date | None:
+    """The date a repeal line says it takes effect ("... Sec. 3.01, eff. April 1, 2027."), if it gives one."""
+    m = EFFECTIVE.search(line)
+    if m is None or m.group(1)[:3].lower() not in MONTHS:
+        return None
+    try:
+        return date(int(m.group(3)), MONTHS[m.group(1)[:3].lower()], int(m.group(2)))
+    except ValueError:
+        return None
+
+
 STALE_MEMBER = re.compile(r"(?i)(^|[^a-z])(old|copy)([^a-z]|$)")
 
 
@@ -148,7 +166,7 @@ def _is_section_link(a: Node) -> bool:
     )
 
 
-def _parse_chapter(text: str, member: str, code: str) -> list[SectionDraft]:
+def _parse_chapter(text: str, member: str, code: str, today: date) -> list[SectionDraft]:
     root = parse_html(text)
     levels: dict[int, str] = {}
     current: SectionDraft | None = None
@@ -160,7 +178,19 @@ def _parse_chapter(text: str, member: str, code: str) -> list[SectionDraft]:
         nonlocal credit
         if current is not None and credit:
             current.notes.append("Source credit: " + " ".join(credit))
-            current.repealed = current.repealed or any(REPEAL.match(c) for c in credit)
+            for line in credit:
+                if not REPEAL.match(line):
+                    continue
+                effective = repeal_date(line)
+                if effective is not None and effective > today:
+                    # A repeal that takes effect later: the text is in force until then (stated by the source).
+                    current.valid_to = effective
+                    current.notes.append(
+                        f"Repeal takes effect on {effective.isoformat()} (stated by the source); "
+                        "the text applies until then."
+                    )
+                else:
+                    current.repealed = True
         credit = []
 
     def close() -> None:
@@ -170,6 +200,13 @@ def _parse_chapter(text: str, member: str, code: str) -> list[SectionDraft]:
         flush_credit()
         drafts.append(current)
         current = None
+
+    def add_refs(p: Node, skip: Node | None) -> None:
+        assert current is not None
+        for a in p.find_all(lambda n: n.tag == "a" and bool(n.attrs.get("href"))):
+            ref = _ref(code, a)
+            if a is not skip and ref is not None and all(ref.href != r.href for r in current.refs):
+                current.refs.append(ref)
 
     def context() -> str | None:
         return "; ".join(levels[k] for k in sorted(levels)) or None
@@ -212,10 +249,7 @@ def _parse_chapter(text: str, member: str, code: str) -> list[SectionDraft]:
                 context=context(),
             )
             pending = []
-            for a in p.find_all(lambda n: n.tag == "a" and bool(n.attrs.get("href")) and n is not link):
-                ref = _ref(code, a)
-                if ref is not None and all(ref.href != r.href for r in current.refs):
-                    current.refs.append(ref)
+            add_refs(p, link)
             continue
         if not line or current is None:
             if line:
@@ -228,10 +262,7 @@ def _parse_chapter(text: str, member: str, code: str) -> list[SectionDraft]:
             credit.append(line)
             continue
         current.lines.append(line)
-        for a in p.find_all(lambda n: n.tag == "a" and bool(n.attrs.get("href"))):
-            ref = _ref(code, a)
-            if ref is not None and all(ref.href != r.href for r in current.refs):
-                current.refs.append(ref)
+        add_refs(p, None)
     close()
     return drafts
 
@@ -253,7 +284,7 @@ def parse_tx_statutes(content: bytes) -> list[ParsedDocument]:
             raise StateParseError(f"{code}: no chapter files found in the archive")
         drafts: list[SectionDraft] = []
         for member in members:
-            drafts.extend(_parse_chapter(archive.read(member).decode("utf-8-sig"), member, code))
+            drafts.extend(_parse_chapter(archive.read(member).decode("utf-8-sig"), member, code, bundle.retrieved_on))
     name = CODES[code]
     return [
         state_document(

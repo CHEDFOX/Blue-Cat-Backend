@@ -116,9 +116,7 @@ def raw_text(node: Node | str, *, skip: Callable[[Node], bool] | None = None, br
         for child in el.children:
             if isinstance(child, str):
                 parts.append(child)
-            elif child.tag in ("script", "style"):
-                continue
-            elif skip is not None and skip(child):
+            elif child.tag in ("script", "style") or skip is not None and skip(child):
                 continue
             elif child.tag == "br":
                 parts.append(br)

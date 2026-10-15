@@ -3,12 +3,12 @@
 Input: the bundle (see :mod:`ulis.sources.us_state_bundle`) of ``Title<N>/C<N>_<version>.xml`` from
 https://le.utah.gov/xcode/. Format notes:
 
-* ``<title number="76"><effdate>7/1/2026</effdate><catchline>...</catchline><chapter number="76-5"><part number="76-5-2">
-  <section number="76-5-203">`` (a chapter may have sections directly). A section has ``<histories>`` (the
-  legislature's history lines: "Amended by Chapter 356, 2026 General Session"), ``<catchline>`` (its caption), its
-  own text and nested ``<subsection number="76-5-203(1)(a)">``; the printed label of a subsection (``(a)``) is the
-  last parenthesised group of its ``number`` attribute and is not in the element text, so the parser writes it in
-  front of the text, as Utah's own pages do. Cross references are ``<xref refnumber="76-18-506">`` and become
+* ``<title number="76"><effdate>7/1/2026</effdate><catchline>...</catchline><chapter number="76-5">`` then
+  ``<part number="76-5-2"><section number="76-5-203">`` (a chapter may have sections directly). A section has
+  ``<histories>`` (the legislature's history lines: "Amended by Chapter 356, 2026 General Session"),
+  ``<catchline>`` (its caption), its own text and nested ``<subsection number="76-5-203(1)(a)">``; the printed
+  label of a subsection (``(a)``) is the last parenthesised group of its ``number`` attribute and is not in the
+  element text, so the parser writes it in front of the text, as Utah's own pages do. Cross references are ``<xref refnumber="76-18-506">`` and become
   citation links.
 * **Dates.** A section that has a version taking effect later is printed twice: the current text with
   ``<enddate type="SC">1/1/2027</enddate>`` and the new text with ``<effdate>1/1/2027</effdate>``. These are
@@ -165,14 +165,16 @@ def parse_ut_code(content: bytes) -> list[ParsedDocument]:
         raise StateParseError(f"title {title}: not readable XML: {exc}") from exc
     if root.tag != "title" or root.get("number") != title:
         raise StateParseError(f"not the XML of Utah Code title {title}")
-    name = ws((root.findtext("catchline") or ""))
+    name = ws(root.findtext("catchline") or "")
     effective = root.findtext("effdate")
     drafts: list[SectionDraft] = []
 
     def walk(el: Element, context: list[str]) -> None:
         for child in el:
             if child.tag in ("chapter", "part"):
-                label = f"{child.tag.capitalize()} {child.get('number')}. {ws(child.findtext('catchline') or '')}".strip()
+                label = (
+                    f"{child.tag.capitalize()} {child.get('number')}. {ws(child.findtext('catchline') or '')}".strip()
+                )
                 walk(child, [*context, label])
             elif child.tag == "section":
                 number = child.get("number") or ""
