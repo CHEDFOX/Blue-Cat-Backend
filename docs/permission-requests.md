@@ -63,6 +63,17 @@ All of these are `planned` or `rejected` in `config/sources/` with the publisher
 | `cl-bcn-leychile` | Biblioteca del Congreso Nacional de Chile | API key required; terms: CC BY-NC-ND and no mass extraction without authorisation |
 | `hu-njt`, `ro-portal-legislativ`, `bg-dv-parliament`, `gr-et-fek`, `mt-legislation` | Hungarian, Romanian, Bulgarian, Greek and Maltese official gazettes | Connection closed or timed out; PDF only; no reuse terms |
 
+## From the bulk-dataset survey (2026-10-15)
+
+See [bulk-datasets-survey.md](bulk-datasets-survey.md) for the evidence. These are the requests that would unlock the most:
+
+| Who | What to ask | Why |
+|---|---|---|
+| Free Law Project (CourtListener) | Written OK for an identified bot (`ULIS-research-bot/0.1`) to download the bulk files from their public S3 bucket (`bulk-data/`), and confirmation that the "free of known copyright restrictions" statement allows storage and display in a research service | First US case law beyond the Supreme Court and federal appeals courts; the website refuses our bot (403), so nothing is downloaded until they answer |
+| The National Archives (UK) | The free licence for computational analysis of Find Case Law | UK judgments; automated processing is not allowed until the licence is held |
+| Judicial Yuan (Taiwan) | An open-data account for the judgments service, and its terms for a service that displays judgments | Access needs an account the operator registers and a 00:00-06:00 service window |
+| Superior Tribunal de Justiça (Brazil) and Corte costituzionale (Italy) | Confirmation that their CC BY / CC BY-SA 3.0 open data may be stored and displayed; for Italy, whether share-alike reaches the ULIS database | Two court-decision sources that passed the survey (share-alike needs counsel) |
+
 Also worth asking, where the answer is not yet in the register: Hong Kong (e-Legislation), Norway (Lovdata's public
 texts), Belgium (Belgisch Staatsblad / Justel), Lithuania (e-TAR), the Philippines (Official Gazette / Lawphil), Mexico
 (Diputados) and Poland (ISAP's API). Research each publisher's current terms first; the site may already offer an open
