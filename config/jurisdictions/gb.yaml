@@ -58,7 +58,7 @@ memberships:
 coverage:
   corpus_status: pilot
   known_gaps:
-    - Only a hand-picked selection of Acts and statutory instruments is ingested (see the source manifest).
+    - Every Act and Measure with a revised text on legislation.gov.uk that is not marked repealed in full is ingested in its current version (about 3,900 works, see the source manifest); the point-in-time history of nine works only. Statutory instruments (one from the sample only), Acts of the Northern Ireland Assembly and Acts the site holds only as enacted are not ingested.
     - Case law is 126 UK Supreme Court judgments of 2021-2026 from the Court's own website (gb-uksc-judgments; Open Government Licence); no earlier Supreme Court judgments (PDF only), no Privy Council, Court of Appeal or High Court judgments. Find Case Law requires a separate licence for computational analysis, and BAILII's robots.txt disallows robots.
     - Extent is recorded; "application" (where a provision has practical effect) can differ and is not modelled.
     - Outstanding (unapplied) amendments are reported but not applied.
