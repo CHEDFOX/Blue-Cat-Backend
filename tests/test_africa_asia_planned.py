@@ -74,7 +74,10 @@ def test_laws_africa_network_covers_the_platform_countries(catalog: Catalog) -> 
 
 def test_only_mauritius_has_a_profile_among_the_countries_evaluated(catalog: Catalog) -> None:
     covered = {j for sid in PLANNED + REJECTED for j in catalog.sources.get(sid).jurisdictions}
-    assert (covered & set(catalog.jurisdictions.profiles)) == {"MU"}
+    profiles = catalog.jurisdictions.profiles
+    # the minimal profiles of the constitutions sweep (only the constitution is loaded) are not full profiles
+    full = {j for j in covered & set(profiles) if profiles[j].instrument_types != ["constitution"]}
+    assert full == {"MU"}
 
 
 def test_mauritius_is_planned_blocked_by_robots_and_nothing_is_registered(catalog: Catalog) -> None:
