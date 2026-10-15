@@ -1,7 +1,8 @@
 # European Union (EU)
 
-Status: **pilot, draft_unverified profile**. Eight instruments of EU law in English, French and
-German. Not reviewed by counsel.
+Status: **partial, draft_unverified profile**. Every regulation, directive and decision in force that Cellar holds as
+Formex 4 in English (26,875 acts on 2026-10-15), plus the Treaties and the Charter; the Treaties, the Charter and five core
+acts also in French and German. Not reviewed by counsel.
 
 ## Source and access
 
@@ -87,7 +88,44 @@ Union (https://eur-lex.europa.eu). © European Union."
   produced by the publisher: `official_revised`, not authoritative (limitation `REVISED_TEXT`).
 - Consolidated versions of acts are **not** ingested; acts are the original OJ texts.
 
-## What is ingested
+## The whole collection of acts in force (widened 2026-10-15)
+
+**Listing.** `python -m scripts.build_eu_manifest` asks the SPARQL endpoint (the service the licence statement covers;
+`op.europa.eu/robots.txt` allows it), per year of the act, for (1) works with `cdm:resource_legal_in-force` true and a
+CELEX number `3YYYY[RLD]NNNN` (sector 3 regulations, directives, decisions; corrigenda such as `32016R0679R(02)` are not
+acts) that have a Formex 4 file in English, and (2) their consolidated versions. In force in Cellar: 35,085 acts (decisions
+17,515, regulations 16,265, directives 1,305; implementing and delegated acts included); **26,875 have an English Formex 4
+file** (14,344 regulations, 971 directives, 11,560 decisions); the other ~8,200 are not listed.
+
+**Consolidated versions.** Cellar does offer them as distributions: a consolidated text is a work of its own (CELEX
+`0YYYYTNNNN-YYYYMMDD`, type `CONS_TEXT`, `cdm:act_consolidated_based_on_resource_legal` the base act) with Formex 4
+(`CONS.ACT`) and XHTML manifestations in all languages. 5,751 acts in force have consolidated versions (37,267 versions in all);
+**2,864 have one with an English Formex 4 file that applies today** - for each, the latest is listed *instead of* the act
+as adopted (it is the text in force), the other 24,011 acts as adopted. `INFO.CONSLEG` gives `START.DATE`, `END.DATE`
+(99999999 = open) and the consolidation date. The parser (1.1.0) reads `CONS.ACT` with the same Formex reading as an act; the
+GDPR's consolidated text has the same 856 identifiers as the Official Journal text, 826 with identical wording and 30 with the
+corrections of the corrigenda (e.g. art. 37(1)(c) "or" for "and"). A consolidated version is a **whole-instrument snapshot of
+the base act's instrument** (`/eu/reg/2016/679`, expression `.../eng@2016-05-04`; `revision_snapshot`, `point_in_time`,
+`official_revised`, not authentic): every provision runs from `START.DATE` to `END.DATE`, `currency_date` is the consolidation
+date, the base act's entry-into-force and application dates are kept as events, and the base act's list of changes is not
+applied (the amendments are in the text). Earlier dated versions are not ingested (`--all-consolidated-versions` lists them:
+~6.5 times as many documents; the snapshot machinery of `ulis/ingestion/snapshots.py` would then chain them oldest first).
+
+**Connector.** `sparql_batch: 20` asks the three queries for 20 works at once (`VALUES`); each work's bundle holds only its
+rows, as a part that records `derived_from_sha256` of the full answer and the `selection`. A work may list its own `languages`
+(default `[en]`). A batch the endpoint answers with HTTP 5xx is split in halves; a missing language file, a 404 and a work
+without metadata go to `fetch_errors`; a refusal stops the run. The parser also reads enacting terms without a numbered article
+(one provision `terms`, cited by the instrument alone) and several acts under one CELEX (the others follow the first, their
+title as context); an act with no operative text raises `ParseSkipped`.
+
+**Scale.** 26,878 works, about **60,200 requests at 5 s = 84 h** (a uniform random sample of 100 works took 224 requests, 2.24
+per work, 1,115 s). The sample: 96 parsed after the two fixes above (4 failed before: 2 unnumbered enacting terms, 2 with two
+acts), 7+2+2 consolidated and 85 as adopted; **22.9 provision versions per work** (median 4, max 388), bundle 49 KB
+(median 28 KB, max 345 KB). Extrapolated: **~615,000 provision versions, ~2 GB of PostgreSQL, ~1.3 GB of raw bundles**.
+
+**Slice result.** 108 works (the 100-work random sample, the core acts and the Treaties) gave 124 documents, 108 instruments, 15,305 provision versions and 13,626 passages, 0 ingest errors; `verify-sources` 124/124, database 61 MB. Searches on it: GDPR art. 6(1)(a) in English and French, AI Act art. 9, Consumer Rights Directive art. 16b (consolidated), Rome I art. 3(1) and GDPR art. 17(1) in German.
+
+## What is ingested (the pilot instruments)
 
 | Instrument | CELEX | Type | Format | Provisions | Validity used |
 |---|---|---|---|---|---|
@@ -168,8 +206,10 @@ title in that language. Unit-tested against the titles printed in each language.
 
 ## Known gaps
 
-See `coverage.known_gaps` in the profile. In short: a pilot selection; 3 of 24 languages;
-original OJ texts only (amended wording not indexed; consolidated versions of acts not ingested);
+See `coverage.known_gaps` in the profile. In short: acts in force with an English Formex 4 file only (26,875 of 35,085);
+English only except the Treaties, the Charter and five core acts; acts without a consolidated version are
+original OJ texts only (amended wording not indexed), acts with one have only its latest version, with a snapshot date
+and no provision dates;
 consolidated Treaties attested only at 2016-06-07, without protocols and declarations;
 partial application dates not mapped to provisions; AI Act provisions changed before its general
 application have no version; no recitals; case law only as the separate selection in `eu-case-law.md`, no international agreements, delegated or
