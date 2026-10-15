@@ -2,7 +2,7 @@
 # profiled yet; their legislation is out of scope.
 schema_version: 1
 id: ES
-profile_version: 0.2.0
+profile_version: 0.3.0
 name: Spain
 names: {en: Spain, es: España}
 kind: sovereign_state
@@ -29,9 +29,44 @@ legislative_institutions:
     instrument_types: [organic_law, law]
   - id: ES-GOBIERNO
     name: Gobierno de España
-    instrument_types: [royal_legislative_decree, royal_decree_law, royal_decree]
-instrument_types: [constitution, organic_law, law, royal_legislative_decree, royal_decree_law, royal_decree]
-norm_hierarchy: [constitution, organic_law, law, royal_legislative_decree, royal_decree_law, royal_decree]
+    instrument_types: [royal_legislative_decree, royal_decree_law, royal_decree, decree_law, decree, regulation, agreement]
+  - id: ES-MINISTERIOS
+    name: Ministerios y organismos de la Administración General del Estado
+    instrument_types: [ministerial_order, resolution, instruction, circular]
+instrument_types:
+  - constitution
+  - international_agreement
+  - organic_law
+  - law
+  - royal_legislative_decree
+  - royal_decree_law
+  - decree_law
+  - royal_decree
+  - decree
+  - regulation
+  - ministerial_order
+  - resolution
+  - instruction
+  - circular
+  - agreement
+# To verify: the order below is the usual one (art. 9.3 CE; treaties once published, art. 96.1 CE); decree_law and decree
+# are the pre-1978 forms (Decreto-ley, Decreto) that the consolidated database still holds.
+norm_hierarchy:
+  - constitution
+  - international_agreement
+  - organic_law
+  - law
+  - royal_legislative_decree
+  - royal_decree_law
+  - decree_law
+  - royal_decree
+  - decree
+  - regulation
+  - ministerial_order
+  - resolution
+  - instruction
+  - circular
+  - agreement
 courts:
   - id: ES-TC
     name: Tribunal Constitucional
@@ -90,9 +125,10 @@ memberships:
   - organisation: EU
     from_date: 1986-01-01
 coverage:
-  corpus_status: pilot
+  corpus_status: partial
   known_gaps:
-    - Only a hand-picked selection of State norms is ingested (see the source manifest); no other laws, regulations or ministerial orders.
+    - "State norms only - every norm of the BOE consolidated-legislation list with ambito Estatal (laws, royal decrees, orders, resolutions, circulars, instructions, international agreements ...). The norms of the autonomous communities that the list also holds are not ingested."
+    - "A norm repealed or annulled in full ends on the date the BOE metadata give (fecha_derogacion / fecha_anulacion). A norm marked vigencia_agotada without such a date (a spent measure) is stored with that flag in ext only: no end date is invented. The hierarchy above is the usual order, not checked against each norm."
     - Consolidated texts are informative only; the authentic text is the BOE publication, which is not ingested.
     - Only express amendments and repeals are consolidated by the source; tacit repeals and effects of court rulings are only in editorial notes.
     - Legislation of the autonomous communities is out of scope.

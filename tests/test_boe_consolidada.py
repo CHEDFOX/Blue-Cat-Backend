@@ -7,6 +7,7 @@ tests/fixtures/boe_consolidada/README.md.
 from __future__ import annotations
 
 import gzip
+import re
 import shutil
 from collections.abc import Iterator
 from datetime import UTC, date, datetime
@@ -27,11 +28,12 @@ from ulis.retrieval.lookup import provision_at
 from ulis.retrieval.search import SearchRequest, search
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import RawDocument
-from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
+from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector, robots_rules_by_id
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
-from ulis.sources.normalized import ParsedDocument, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkipped
 from ulis.sources.parsers.boe_consolidada import (
+    RANGOS,
     BoeParseError,
     _Node,
     ordinal_number,
@@ -44,6 +46,9 @@ from ulis.verification.integrity import verify_source_document
 FIX = REPO_ROOT / "tests" / "fixtures" / "boe_consolidada" / "cache"
 FILES = FIX / "www.boe.es" / "legislacion-consolidada"
 CE, LOPDGDD, CP = "BOE-A-1978-31229", "BOE-A-2018-16673", "BOE-A-1995-25444"
+# Lower-ranking State norms added when the manifest was widened to the whole list: a Real Decreto repealed in full on
+# 2017-04-01, an Orden, an un-numbered Resolución and an Acuerdo Internacional.
+RD_REPEALED, ORDEN, RESOLUCION, ACUERDO = "BOE-A-2001-17164", "BOE-A-2007-8105", "BOE-A-2016-5431", "BOE-A-2020-4408"
 
 
 @cache
@@ -216,6 +221,70 @@ def test_ordinal_words() -> None:
     assert ordinal_number("única") is None
 
 
+def test_lower_ranking_rangos_are_read() -> None:
+    expected = {
+        ORDEN: ("ministerial_order", "/es/o/BOE-A-2007-8105", "CUL/1014/2007"),
+        RESOLUCION: ("resolution", "/es/res/BOE-A-2016-5431", None),
+        ACUERDO: ("international_agreement", "/es/ai/BOE-A-2020-4408", None),
+        RD_REPEALED: ("royal_decree", "/es/rd/BOE-A-2001-17164", "996/2001"),
+    }
+    for boe_id, (kind, uri, number) in expected.items():
+        first = _docs(boe_id)[0]
+        assert (first.instrument_type, first.work_uri, first.number) == (kind, uri, number)
+        assert first.jurisdiction_id == "ES" and first.language == "es" and first.authoritative is False
+        assert first.validity_basis == "source_periods" and first.provisions
+    # Every instrument type the parser can produce is declared by the Spanish profile, with an ELI code each.
+    profile = Catalog.load(REPO_ROOT / "config").jurisdictions.get("ES")
+    assert {kind for kind, _ in RANGOS.values()} <= set(profile.instrument_types)
+    assert len({code for _, code in RANGOS.values()}) == len(RANGOS)
+
+
+def test_citations_of_lower_ranking_norms() -> None:
+    assert _cite(ORDEN, "art-1") == "art. 1 de la Orden CUL/1014/2007"
+    assert _cite(ORDEN, "art-1-1") == "art. 1.1 de la Orden CUL/1014/2007"
+    assert _cite(RD_REPEALED, "rd-art-1") == "art. 1 del Real Decreto 996/2001"
+    # No official number: the identifying head of the title, without the clause that says what the norm does.
+    assert _cite(RESOLUCION, "bloque-primero") == (
+        "Resolución de 31 de mayo de 2016, de la Dirección General de Seguros y Fondos de Pensiones, Primero"
+    )
+    module = get_module("es")
+    assert module.validate_ext(_docs(RD_REPEALED)[0].ext)["fecha_derogacion"] == "2017-04-01"
+    cite = module.provision_citation(
+        ProvisionCitationInput(
+            "Acuerdo " + "muy largo " * 40,
+            "agreement",
+            "ES",
+            "article",
+            ["2"],
+            "es",
+            {"boe_id": "BOE-A-2020-1", "rango": "Acuerdo"},
+        )
+    )
+    assert cite.endswith(" [...], art. 2") and len(cite) < 200
+
+
+def test_a_norm_repealed_in_full_ends_on_the_date_the_source_gives() -> None:
+    first = _docs(RD_REPEALED)[0]
+    assert first.ext["fecha_derogacion"] == "2017-04-01" and first.ext["vigencia_agotada"] is True
+    repeal = [e for e in first.events if e.event_type == "repeal"]
+    assert [(e.date, e.locator) for e in repeal] == [(date(2017, 4, 1), "metadatos/fecha_derogacion")]
+    description = repeal[0].description or ""
+    assert "BOE-A-2017-3550" in description and "Real Decreto 316/2017" in description
+    # The consolidated text still shows the last wording, but no provision of the norm is open-ended.
+    versions = [p for d in _docs(RD_REPEALED) for p in d.provisions if p.status == "in_force"]
+    assert versions and all(p.valid_to == date(2017, 4, 1) for p in versions)
+    assert all("repealed in full on 2017-04-01" in (p.note or "") for p in versions)
+    # A norm in force is untouched.
+    assert all(p.valid_to is None for p in _docs(ORDEN)[-1].provisions if p.eid == "art-1")
+    assert "fecha_derogacion" not in _docs(ORDEN)[0].ext
+
+
+def test_a_text_without_provisions_is_skipped_not_an_error() -> None:
+    empty = re.sub(rb"<bloque\b.*?</bloque>", b"", _raw(ORDEN), flags=re.S)
+    with pytest.raises(ParseSkipped, match="holds no provision"):
+        parse_boe_consolidada(empty)
+
+
 def test_rejects_unexpected_documents() -> None:
     with pytest.raises(BoeParseError, match="API status"):
         parse_boe_consolidada(b"<response><status><code>404</code><text>no</text></status><data/></response>")
@@ -274,12 +343,57 @@ def test_connector_validates_the_manifest(tmp_path: Path) -> None:
     for overrides, message in [
         ({"user_agent": "python-urllib"}, "user_agent"),
         ({"api_base": "https://mirror.example.org/api"}, "api_base"),
-        ({"documents": [{"id": "../../etc/passwd"}]}, "invalid BOE identifier"),
+        ({"documents": [{"id": "../../etc/passwd"}]}, "invalid or repeated BOE identifier"),
+        ({"documents": [{"id": CE}, {"id": CE}]}, "invalid or repeated BOE identifier"),
+        ({"crawl_delay_seconds": 1}, "crawl_delay_seconds"),
         ({"source_id": "other"}, "source_id"),
     ]:
         conn = BoeConsolidadaConnector(_manifest(tmp_path, [CE], **overrides), "es-boe-consolidada", tmp_path)
         with pytest.raises(ManifestError, match=message):
             list(conn.fetch())
+
+
+def test_connector_skips_a_missing_norm_and_a_disallowed_one(tmp_path: Path) -> None:
+    cache_dir = _cache_copy(tmp_path / "cache")
+    robots = (
+        "User-agent: *\nDisallow: /datos/pdfs/\nDisallow: /*BOE-A-2007-8105$\n"
+        "Disallow: /buscar/act.php?id=BOE-A-1978-31229\n"
+    )
+    (cache_dir / "www.boe.es" / "robots.txt").write_text(robots)
+    gone = cache_dir / "www.boe.es" / "legislacion-consolidada" / "BOE-A-2000-323.xml"
+    gone.write_bytes(b"")
+    gone.with_name(gone.name + ".meta.json").write_text('{"url": "x", "status": 404}')
+    ids = ["BOE-A-2000-323", ORDEN, CE, RESOLUCION]
+    conn = BoeConsolidadaConnector(_manifest(tmp_path, ids), "es-boe-consolidada", cache_dir, offline=True)
+    docs = list(conn.fetch())
+    # Only the Constitution and the Resolución are returned; the run did not stop.
+    assert [d.external_id for d in docs] == [f"boe-consolidada:{CE}", f"boe-consolidada:{RESOLUCION}"]
+    assert len(conn.fetch_errors) == 2
+    assert "BOE-A-2000-323: not found (404)" in conn.fetch_errors[0]
+    assert "BOE-A-2007-8105" in conn.fetch_errors[1] and "disallowed by robots.txt" in conn.fetch_errors[1]
+
+
+def test_robots_rules_are_indexed_by_the_identifier_they_name() -> None:
+    by_id, generic = robots_rules_by_id(
+        "User-agent: *\nDisallow: /datos/pdfs/\nDisallow: /*BOE-A-2013-11511$\n"
+        "Disallow: /buscar/doc.php?id=BOE-A-2013-11511\n"
+    )
+    assert len(by_id["BOE-A-2013-11511"]) == 2 and len(generic) == 1
+    path = "/datosabiertos/api/legislacion-consolidada/id/BOE-A-2013-11511"
+    assert any(rule.match(path) for rule in by_id["BOE-A-2013-11511"])
+    assert not any(rule.match(path.replace("11511", "11512")) for rule in (*by_id["BOE-A-2013-11511"], *generic))
+
+
+def test_the_committed_manifest_covers_the_state_list_and_passes_validation(tmp_path: Path) -> None:
+    manifest_path = REPO_ROOT / "config" / "manifests" / "es-boe-consolidada.yaml"
+    conn = BoeConsolidadaConnector(manifest_path, "es-boe-consolidada", tmp_path)
+    manifest = conn._manifest()  # noqa: SLF001 - the connector's own validation (identifiers, no repeats, delay)
+    ids = [d["id"] for d in manifest["documents"]]
+    # The six pilot norms come first; the whole State list is far larger than the pilot.
+    assert ids[:6] == [CE, "BOE-A-1889-4763", CP, LOPDGDD, "BOE-A-2015-10565", "BOE-A-2015-11430"]
+    assert len(ids) > 8000 and all(i.startswith("BOE-A-") for i in ids)
+    assert all(d.get("title") for d in manifest["documents"])
+    assert manifest["crawl_delay_seconds"] >= 5
 
 
 # --------------------------------------------------------------------------- PostgreSQL
@@ -419,3 +533,43 @@ def test_penal_code_history_and_source_discrepancies(
     source = session.scalar(select(m.SourceDocument).where(m.SourceDocument.external_id == f"boe-consolidada:{CP}"))
     assert source is not None
     assert verify_source_document(session, catalog, store, source.id, checker="pytest")["result"] == "pass"
+
+
+@pytest.mark.db
+def test_repealed_and_ministerial_norms_search_and_resolve_by_date(
+    session: Session, catalog: Catalog, store: LocalObjectStore, ingested: IngestionReport
+) -> None:
+    report = Ingestor(session, catalog, store).ingest_source(
+        "es-boe-consolidada", actor="pytest", connector=_Fixtures([RD_REPEALED, ORDEN, RESOLUCION, ACUERDO])
+    )
+    assert report.errors == [] and report.conflicts == []
+    # An Orden is found and cited with its own designation.
+    hit = _search(
+        session, catalog, "Comisión Española sobre la digitalización y la accesibilidad en línea", date(2026, 10, 14)
+    )["results"][0]
+    assert hit["citation"].startswith("art. 1") and hit["citation"].endswith(" de la Orden CUL/1014/2007")
+    # A Real Decreto repealed in full on 2017-04-01 is found for a date before, not for today.
+    query = "procedimiento de examen previo aplicable artículos del Real Decreto 812/2000 alimentación"
+    before = _search(session, catalog, query, date(2010, 1, 1))["results"]
+    assert before and before[0]["citation"] == "art. 2 del Real Decreto 996/2001"
+    assert before[0]["version"]["valid_to"] == "2017-04-01"
+    assert not [
+        r for r in _search(session, catalog, query, date(2026, 10, 14))["results"] if "996/2001" in r["citation"]
+    ]
+    uri = "/es/rd/BOE-A-2001-17164/~rd-art-2"
+    assert provision_at(session, catalog, uri, date(2017, 3, 31))["status_on_date"] == "in_force"
+    after = provision_at(session, catalog, uri, date(2017, 4, 1))
+    assert after["status_on_date"] == "no_version"
+    events = session.scalars(
+        select(m.LifecycleEvent)
+        .join(m.Instrument, m.LifecycleEvent.instrument_id == m.Instrument.id)
+        .where(m.Instrument.uri == "/es/rd/BOE-A-2001-17164")
+    ).all()
+    assert ("repeal", date(2017, 4, 1)) in {(e.event_type, e.event_date) for e in events}
+    # Stored texts of the new ranks re-derive from their raw documents.
+    for boe_id in (RD_REPEALED, ORDEN, RESOLUCION, ACUERDO):
+        doc = session.scalar(
+            select(m.SourceDocument).where(m.SourceDocument.external_id == f"boe-consolidada:{boe_id}")
+        )
+        assert doc is not None
+        assert verify_source_document(session, catalog, store, doc.id, checker="pytest")["result"] == "pass"
