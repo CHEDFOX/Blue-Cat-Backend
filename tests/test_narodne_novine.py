@@ -408,9 +408,10 @@ def test_no_validity_period_means_no_point_in_time_answer(
 ) -> None:
     got = provision_at(session, catalog, "/hr/nn/2023/30/510/~art-1", date(2024, 1, 1))
     assert got["provision"]["citation"] == "članak 1. Zakona o službenoj iskaznici (NN 30/2023)"
-    assert got["status_on_date"] != "in_force" or got["version"]["valid_from"] is None
+    assert got["status_on_date"] == "in_force_date_unverified"  # the source gives no start and no end
+    assert got["version"]["valid_from"] is None and got["version"]["valid_to"] is None
     codes = {lim["code"] for lim in got["limitations"]}
-    assert "EFFECTIVE_DATE_UNKNOWN" in codes or "NO_VERSION" in codes or got["version"] is None
+    assert {"EFFECTIVE_DATE_UNKNOWN", "OUTSTANDING_CHANGES_INSTRUMENT", "CURRENCY_UNKNOWN"} <= codes
 
 
 @pytest.mark.db
