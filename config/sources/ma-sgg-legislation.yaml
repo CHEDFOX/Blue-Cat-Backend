@@ -1,0 +1,43 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: ma-sgg-legislation
+name: 'Secrétariat Général du Gouvernement (Morocco): Bulletin Officiel and legislation'
+publisher: Secrétariat Général du Gouvernement du Royaume du Maroc
+kind: official_gazette
+authority: official_non_authentic
+jurisdictions:
+- MA
+document_kinds:
+- act
+- regulation
+languages:
+- ar
+- fr
+coverage: Official Gazette (Bulletin Officiel) and legislative texts as PDF files (https://www.sgg.gov.ma).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.sgg.gov.ma/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Copyright notice only - no reuse terms found
+  url: https://www.sgg.gov.ma/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: https://www.sgg.gov.ma/robots.txt:
+    HTTP 404 (none). Arabic home page (https://www.sgg.gov.ma/arabe/Accueil.aspx) footer: ''Copyright (c) 2026 Secretariat
+    General du Gouvernement''; no terms or licence page found; texts are PDFs. Not fetched further.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- No reuse terms found (copyright notice only); PDF files; Arabic needs the 'arabic' search configuration (exists in PostgreSQL).
+status: planned
+connector: null
+parser: null

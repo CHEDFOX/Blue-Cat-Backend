@@ -1,0 +1,43 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: za-concourt
+name: Constitutional Court of South Africa website
+publisher: Constitutional Court of South Africa
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions:
+- ZA
+document_kinds:
+- judgment
+languages:
+- en
+coverage: Judgments of the Constitutional Court (https://www.concourt.org.za).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.concourt.org.za/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: All rights reserved - no reuse terms found
+  url: https://www.concourt.org.za/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt read first
+    (https://www.concourt.org.za/robots.txt): Joomla default, disallows /administrator/, /bin/, /cache/, /components/, /includes/,
+    /libraries/, /modules/, /plugins/, /tmp/ and similar; no crawl delay. Home page footer: ''Copyright (c) Constitutional
+    Court of South Africa All Rights Reserved''; no terms-of-use, licence or copyright page was found linked from the home
+    page, so no permission to reuse is stated. Judgments were not fetched.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- No reuse terms found (all rights reserved); judgments not examined.
+status: planned
+connector: null
+parser: null

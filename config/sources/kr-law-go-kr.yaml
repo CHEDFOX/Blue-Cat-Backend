@@ -1,0 +1,50 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: kr-law-go-kr
+name: Korean Law Information Center (law.go.kr) and National Law Information Open API
+publisher: Ministry of Government Legislation (Korea)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- KR
+document_kinds:
+- act
+- regulation
+- constitution
+languages:
+- ko
+coverage: Statutes, decrees and rules of Korea with effective-date versions (https://www.law.go.kr); machine access through
+  the Open API at https://open.law.go.kr.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://open.law.go.kr/LSO/openApi/guideList.do
+  authentication: OC key required for the Open API (registered by a person at open.law.go.kr).
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Open API terms not read - key registration required
+  url: https://open.law.go.kr/LSO/openApi/guideList.do
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt (https://www.law.go.kr/robots.txt):
+    ''User-agent:* Allow: /''. The Open API needs a registered authentication key (OC / ''API인증키'', see the guide page https://open.law.go.kr/LSO/openApi/guideList.do:
+    ''OPEN API 신청'', ''API인증키관리'') - out of bounds for ULIS, which does not register on a person''s behalf, and no keyless
+    bulk download was found. The human website answers ULIS with ''connection reset by peer'' for the home page and for
+    a law page (/LSW/lsInfoP.do?lsiSeq=284415...), while /robots.txt and the redirect page /법령/민법 (an iframe wrapper) were
+    served. English home page footer: ''Copyright (c) 1997-2021 Korea Ministry of Government Legislation. All rights reserved.''
+    Korean Copyright Act art. 7 (laws are not protected) was not read here. The Constitutional Court''s robots.txt (https://www.ccourt.go.kr/robots.txt)
+    disallows ''/'' except ''/site/'' - not evaluated further.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- API key required; website connections reset for ULIS; Korean needs a morphological analyser (PostgreSQL 'simple' plus
+  CJK bigrams would be used).
+status: planned
+connector: null
+parser: null

@@ -1,0 +1,46 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: qa-almeezan
+name: Al Meezan - Qatar Legal Portal
+publisher: Ministry of Justice of Qatar
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- QA
+document_kinds:
+- act
+- regulation
+- judgment
+languages:
+- ar
+- en
+coverage: Qatari legislation (https://almeezan.qa; the sitemap lists 9,685 /legislations/<GUID> pages).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://almeezan.qa/
+  authentication: Front-end API uses an identity-server token and reCAPTCHA; no public API documented.
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms not read - no documented machine access
+  url: https://almeezan.qa/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt (https://almeezan.qa/robots.txt):
+    ''Allow: /'' with a sitemap. The site is a React single-page application: the pages contain no text; its script (index-*.js)
+    shows that data comes from https://api.moj.gov.qa/api/v1 through an identity server (client id ''AlMeezanPublic'') with
+    reCAPTCHA. That is an application interface for the site''s own front end, not a documented public API or download;
+    ULIS does not call it. The terms-of-use link is filled from a CMS key and was not retrievable.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- No documented machine access; terms not read.
+status: planned
+connector: null
+parser: null

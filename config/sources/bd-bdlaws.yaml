@@ -1,0 +1,53 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: bd-bdlaws
+name: Laws of Bangladesh (bdlaws.minlaw.gov.bd)
+publisher: Legislative and Parliamentary Affairs Division, Ministry of Law, Justice and Parliamentary Affairs (Bangladesh)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- BD
+document_kinds:
+- act
+- ordinance
+- order
+languages:
+- en
+- bn
+coverage: About 1,630 Acts, Ordinances and Orders as HTML pages, one per instrument (https://bdlaws.minlaw.gov.bd/act-<id>.html),
+  with title, number, date, repeal notes and sections; Bangla and English views.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://bdlaws.minlaw.gov.bd/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Copyright notice only - no reuse terms found
+  url: https://bdlaws.minlaw.gov.bd/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt (https://bdlaws.minlaw.gov.bd/robots.txt):
+    ''User-agent: * Allow: /''. Pages fetched: home, contact-us, how-to-print, the alphabetical index (one 57 MB HTML page
+    listing every instrument, 5,145 links to 1,630 distinct act pages) and /act-693.html (structure: title, number, date,
+    ''[Repealed]'' notes in the index, text in sections). Footer on every page: ''Copyright (c) 2019, Legislative and Parliamentary
+    Affairs Division, Ministry of Law, Justice and Parliamentary Affairs''. No terms of use, licence, disclaimer or statement
+    of authenticity was found on the pages read, so no permission to reuse is stated and the status of the English texts
+    (the Bangla Laws are the original texts for later laws) is not stated. The Copyright Act 2023 is on the site in Bangla
+    only and was not interpreted. Technically ingestible (static HTML, polite crawling allowed); blocked only by the missing
+    licence.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  notes: 'Next step: written permission from the Legislative and Parliamentary Affairs Division, then a parser for the act
+    pages.'
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- No licence or terms stated (copyright notice only); ask the Division in writing.
+status: planned
+connector: null
+parser: null

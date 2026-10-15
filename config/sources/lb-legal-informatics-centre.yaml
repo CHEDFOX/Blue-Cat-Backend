@@ -1,0 +1,44 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: lb-legal-informatics-centre
+name: Legal Informatics Centre of the Lebanese University (legallaw.ul.edu.lb)
+publisher: Centre for Legal Informatics, Lebanese University
+kind: official_legislation_portal
+authority: unofficial
+jurisdictions:
+- LB
+document_kinds:
+- act
+- decree
+- judgment
+languages:
+- ar
+coverage: Lebanese legislation and Official Gazette search (https://legallaw.ul.edu.lb/Law.aspx?lawId=<id>).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://legallaw.ul.edu.lb/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Copyright notice and unread agreement page
+  url: https://legallaw.ul.edu.lb/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt (https://legallaw.ul.edu.lb/robots.txt):
+    HTTP 500 (an error, which a robot must read as ''do not crawl''). Server-rendered ASP.NET pages; footer ''(c) Lebanese
+    University''; a ''liability waiver agreement'' page (AgreementPage.aspx) returned no readable text. An academic compilation,
+    not the official publisher. Not fetched further.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- robots.txt error; copyright notice and an unreadable agreement page.
+status: planned
+connector: null
+parser: null

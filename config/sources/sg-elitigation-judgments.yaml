@@ -1,0 +1,47 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: sg-elitigation-judgments
+name: Singapore Courts judgments (eLitigation)
+publisher: Singapore Judiciary
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions:
+- SG
+document_kinds:
+- judgment
+languages:
+- en
+coverage: Judgments of the Singapore courts as HTML (https://www.elitigation.sg/gd/, 'SG Courts Judgments'), about 1,600
+  pages of 10 listed decisions.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.elitigation.sg/gd/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: 'Judiciary website terms: all rights reserved, no commercial reuse without written permission'
+  url: https://www.judiciary.gov.sg/terms-of-use
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: https://www.elitigation.sg/robots.txt:
+    HTTP 404 (none); the listing and a judgment page (/gd/s/2026_SGFC_135) were fetched once each and are server-rendered
+    HTML. TERMS: the site has no terms page of its own that could be found (/gd/Home/TermsOfUse is ''Page Not Found'');
+    the Judiciary''s website terms (https://www.judiciary.gov.sg/terms-of-use, robots.txt ''User-agent: *'' with no rules),
+    section 6: ''All rights reserved. (Government of Singapore (c) 2021). Apart from any fair dealings for the purposes
+    of private study, research, criticism or review, as permitted in law, no part of The Website may be reproduced or reused
+    for any commercial purposes whatsoever without our prior written permission.'' No licence for machine reuse is stated;
+    commercial reuse needs written permission.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: not_allowed
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Reuse for commercial purposes needs prior written permission; the judgments site states no terms of its own.
+status: planned
+connector: null
+parser: null

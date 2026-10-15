@@ -1,0 +1,86 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Mauritius: profile only - nothing is ingested. The one source evaluated (the
+# Supreme Court website's Judgment Search, mu-supreme-court-judgments) is planned because its robots.txt disallows all
+# robots. The island of Rodrigues (an autonomous region) and the outer islands are not modelled separately.
+schema_version: 1
+id: MU
+profile_version: 0.1.0
+name: Mauritius
+names: {en: Republic of Mauritius, fr: République de Maurice}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en, fr]
+legal_system:
+  families: [mixed]
+  structure: unitary
+  treaty_reception: dualist
+  notes: >-
+    To verify - a mixed system: public, commercial and procedural law largely English-derived, private and criminal
+    law largely French-derived (Code civil mauricien, Code pénal / Criminal Code). Constitution of 1968; republic since
+    1992. Described as dualist (a treaty needs legislation to take domestic effect) - to verify. English is the language
+    of the National Assembly and of legislation; French may be used in the Assembly and is widely used, and some court
+    decisions are in French. Rodrigues has a regional assembly (to verify its legislative powers); not modelled.
+legislative_institutions:
+  - id: MU-NA
+    name: National Assembly of Mauritius
+    instrument_types: [constitution, act]
+instrument_types: [constitution, act, regulation]
+norm_hierarchy: [constitution, act, regulation]
+courts:
+  - id: MU-SC
+    name: Supreme Court of Mauritius
+    rank: 1
+    binds_self: false
+  - id: MU-IC
+    name: Intermediate Court
+    rank: 2
+    appeals_to: [MU-SC]
+  - id: MU-IND
+    name: Industrial Court
+    rank: 2
+    appeals_to: [MU-SC]
+  - id: MU-DC
+    name: District Courts (including the Bail and Remand Court and the District Court of Rodrigues)
+    rank: 3
+    appeals_to: [MU-SC]
+  - id: MU-CC
+    name: Children's Court
+    rank: 3
+    appeals_to: [MU-SC]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+  notes: >-
+    To verify - courts in the English-law tradition follow precedent and Supreme Court decisions bind the subordinate
+    courts; in matters under the French-derived codes decisions have persuasive weight (jurisprudence) and doctrine is
+    cited. Final appeals from the Supreme Court go to the Judicial Committee of the Privy Council (Constitution s 81, to
+    verify), which is a court of the United Kingdom and is not in this profile. The appeal routes and ranks above are
+    simplified (the Court of Civil Appeal and Court of Criminal Appeal are divisions of the Supreme Court; the Commercial,
+    Family and other divisions, the Mediation Division and the Land Division are not listed). Subordinate-court decisions
+    ingested here are persuasive only.
+citation:
+  module: mu
+  notes: >-
+    Parties and a bracketed neutral reference of year, series and number, as the court prints them ("Police v Spice
+    Finance Ltd [2026 PL3 14]"), with "para" and the paragraph number as pinpoint. The series (INT, IND, PL3, FLQ, ...)
+    names a court division or sitting, not a court level. To verify: the bracket style and "para" for subordinate-court
+    decisions, and Mauritian practice for citing legislation (not needed until legislation is ingested).
+  examples:
+    - "Turquoise Properties Ltd v Zoobair and Osman Properties Ltd [2026 INT 287], para 5"
+    - "Mohammad Nowsad Noorbux v Police [2026 LPW 125], para 4"
+publication:
+  official_sources: [mu-supreme-court-judgments]
+coverage:
+  corpus_status: none
+  known_gaps:
+    - Nothing is ingested - the Judgment Search of the Supreme Court website is planned (robots.txt disallows all robots; the website terms allow reproduction of judgments). The connector and parser are written and tested on fixtures and wait for the court's written permission.
+    - No Mauritian legislation at all (Constitution, Acts, regulations, subsidiary legislation). The same website lists Acts as PDFs, but its terms grant reproduction of judgments only; MauritiusLII (Laws.Africa) forbids scraping and bulk download; the Attorney General's Office site was not evaluated further.
+    - Decisions of the Supreme Court (SCJ series, appeal courts) and the Privy Council appeals are not ingested - none were found in the Judgment Search database. The database holds subordinate-court decisions only, from 2020 (the database's earliest row is dated 2020-01-07).
+    - If permission is given, the manifest lists the whole database (about 12,150 decisions on 2026-10-14) for the owner's server to run.
+    - The text would be the PDFs' text layer, not authoritative (the court's own words - convenience of reference only; the official versions are the Mauritius Reports and the Supreme Court Judgments of Mauritius). Scanned PDFs are skipped; layout, tables and page numbers are not kept.
+    - Paragraph numbers are printed markers, not verified; unnumbered decisions are split at blank lines. Docket numbers, judges (beyond the "delivered by" text), headnotes, cross-references and later history are not extracted; there is no citator.
+    - The court of each decision is classified coarsely (Intermediate Court, Industrial Court, Children's Court, district courts together); language is a word-count guess.
+    - Decisions name parties and accused persons as published by the court.

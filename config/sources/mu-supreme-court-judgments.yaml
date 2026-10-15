@@ -1,0 +1,100 @@
+# PLANNED, not active: robots.txt of supremecourt.govmu.org disallows every robot ("User-agent: *" ... "Disallow: /"),
+# although the site's terms allow reproduction of its judgments. ULIS does not fetch against robots.txt, so nothing is
+# ingested until the court grants written permission (docs/jurisdictions/mu.md). Terms and access rules read on 2026-10-14
+# from the publisher's own pages:
+#   https://supremecourt.govmu.org/robots.txt - the standard Drupal file: "User-agent: *" with Allow lines only for
+#        /core/ and /profiles/ stylesheets, scripts and images, then Disallow lines for /core/, /profiles/, /admin/,
+#        /comment/reply/, /filter/tips, /node/add/, /search/, /user/... (also under /index.php/) and, as its LAST line,
+#        "Disallow: /". The last line closes the whole site to robots (longest-match: /judgment-search and /system/files/
+#        match only "Disallow: /"). No Crawl-delay, no rules for named robots.
+#   https://supremecourt.govmu.org/basic-page/4527 - "Terms and Conditions" (linked from every page footer):
+#        "1. Disclaimer ... the decisions of the Supreme Court of Mauritius on this site have been prepared for
+#        convenience of reference only. The official versions of decisions and reasons for decision by the Supreme
+#        Court of Mauritius are published in the Mauritius Reports (M.R.) or in the Supreme Court Judgments of
+#        Mauritius (S.C.J)." / "3. Intellectual property and copyright: All judgments featured on this website are
+#        the property of the Supreme Court of Mauritius and are subject to copyright protection unless otherwise
+#        indicated. The copyright protected material may be reproduced free of charge in any format or medium
+#        provided it is reproduced accurately and not used in a misleading context; and the source of the
+#        material must be identified and the copyright status acknowledged. The permission to reproduce protected
+#        material does not extend to any material which is identified as being the copyright of any third party
+#        and authorization to reproduce such material must be obtained from the appropriate copyright holders."
+#   https://supremecourt.govmu.org/judgment-search - the database (not fetched again once robots.txt had been read
+#        correctly): each row links a PDF at /system/files/judgment/<node id>/<file>.pdf. No API, bulk download or
+#        feed was found.
+# NOTE: about 25 pages of this site were fetched before the last line of robots.txt ("Disallow: /") was noticed. That
+# was a mistake. The pages, the fixtures, the connector and the parser built from them were deleted; nothing derived
+# from them is kept. The source stays planned until the court gives written permission for automated retrieval.
+schema_version: 1
+id: mu-supreme-court-judgments
+name: Judgment Search, Supreme Court of Mauritius website
+publisher: The Supreme Court of Mauritius
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [MU]
+document_kinds: [judgment]
+languages: [en, fr]
+coverage: >-
+  Decisions (judgments, rulings, bail rulings) of the subordinate courts of Mauritius published on the Supreme
+  Court website since 2020: district courts (including the Bail and Remand Court and the District Court of
+  Rodrigues), the Intermediate Court, the Industrial Court and the Children's Court, each as a PDF with a document
+  number such as "2026 INT 287", the date delivered and the officer who delivered it. About 12,150 decisions on
+  2026-10-14. ULIS ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://supremecourt.govmu.org/judgment-search
+  authentication: none
+update_frequency: >-
+  Daily (the newest decisions were dated the day they were read).
+rate_limits: >-
+  None published (robots.txt has no Crawl-delay). A connector would have to make sequential requests at least 5 s apart.
+licence:
+  id: MU-SupremeCourt-website-terms
+  name: >-
+    Supreme Court of Mauritius website terms, clause 3 (reproduction of the judgments free of charge in any format
+    or medium, if accurate, not misleading, with the source identified and the copyright status acknowledged) - but
+    robots.txt disallows all robots
+  url: https://supremecourt.govmu.org/basic-page/4527
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14, from the publisher's Terms and Conditions page (quoted above) and robots.txt. Not
+    reviewed by counsel. The terms permit reproduction of "All judgments featured on this website" in "any format or
+    medium"; they say nothing about automated retrieval, bulk download, commercial use, text-and-data mining or use
+    as input to an AI system. The robots.txt, however, closes the whole site to every robot. Both are the court's own
+    statements, so automated retrieval is not allowed until the court says otherwise. NOTE: before the last line of
+    robots.txt had been read correctly, about 25 pages of the site (the listing pages, a few PDFs and the terms pages)
+    were fetched by hand for this evaluation; nothing further will be fetched.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Source: The Supreme Court of Mauritius, Judgment Search (https://supremecourt.govmu.org/judgment-search).
+    Copyright in the judgments is held by the Supreme Court of Mauritius. Text as published on the court's website,
+    which states that it is for convenience of reference only; the official versions are the Mauritius Reports
+    (M.R.) and the Supreme Court Judgments of Mauritius (S.C.J). Paragraph division and metadata arranged by ULIS.
+  conditions:
+    - Obtain the court's written permission (or a changed robots.txt) before any automated retrieval; the website footer gives webmaster-jud@govmu.org for website queries.
+    - Once permitted - reproduce the text accurately and do not use it in a misleading context (clause 3); identify the source and acknowledge the copyright status in every presentation (the attribution text above).
+    - The permission does not extend to material identified as the copyright of a third party.
+    - The site offers the decisions for convenience of reference only; the official versions are in the Mauritius Reports and the S.C.J. (clause 1).
+  notes: >-
+    Draft request: ask whether the clause-3 permission covers automated retrieval and indexing of the decisions
+    listed by the Judgment Search by an identified bot (ULIS-research-bot/0.1) at no more than one request every 5
+    seconds, whether robots.txt can allow it, and whether use as input to AI systems is permitted. Decisions name
+    parties and accused persons as the court published them; the Children's Court's decisions appear with initials
+    (e.g. "MINOR J.R.V.T"). ULIS would not try to re-identify anyone.
+provenance: >-
+  The judiciary's own website. Each decision is a PDF; the connector would download it (kept byte-for-byte in the
+  download cache with its SHA-256) and store the text layer extracted with pdftotext, the listing row and the PDF's
+  URL, SHA-256 and size as one JSON bundle per decision.
+known_limitations:
+  - Blocked - robots.txt disallows all robots; no document is ingested.
+  - Not authoritative - the court's own words are "prepared for convenience of reference only", and the official versions are the Mauritius Reports and the Supreme Court Judgments of Mauritius.
+  - Decisions of subordinate courts only (no Supreme Court "SCJ" decisions were seen in the database) and only from 2020.
+  - The text would be the PDF's text layer as pdftotext extracts it; a scanned PDF without text is skipped; page numbers printed at the foot of a page are dropped; tables and layout are not kept.
+  - Paragraph numbers are the markers printed at the start of a line; the courts' own numbering has repeats and gaps and numbered list items can be read as paragraphs. Unnumbered decisions are split at blank lines.
+  - The court of a decision is told from the officer's title in the listing (or the header), at the level of Intermediate Court, Industrial Court, Children's Court and district courts together; docket (cause) numbers are not extracted.
+  - Language (English or French) is a word-count guess; no cross-references or citation links are extracted; later history is not tracked.
+status: planned

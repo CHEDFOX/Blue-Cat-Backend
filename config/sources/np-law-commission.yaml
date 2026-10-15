@@ -1,0 +1,45 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: np-law-commission
+name: Nepal Law Commission
+publisher: Nepal Law Commission
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- NP
+document_kinds:
+- act
+- regulation
+- constitution
+languages:
+- ne
+- en
+coverage: Nepal's Acts (Nepali, with English translations) as PDF files, indexed at https://www.lawcommission.gov.np/pages/alphabetical-index-of-acts/.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.lawcommission.gov.np/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: No terms found
+  url: https://www.lawcommission.gov.np/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt (https://www.lawcommission.gov.np/robots.txt):
+    ''User-agent: * Crawl-delay: 10'' (no disallow). Home page and the alphabetical index were fetched (one request each);
+    no copyright, terms or licence statement was found; documents are PDFs (some Nepali PDFs use legacy fonts); https://repository.lawcommission.gov.np
+    - connection reset. Nepali has a PostgreSQL ''nepali'' text-search configuration.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- No terms found; PDF documents; second host unreachable.
+status: planned
+connector: null
+parser: null

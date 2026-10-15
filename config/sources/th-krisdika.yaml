@@ -1,0 +1,45 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: th-krisdika
+name: Office of the Council of State of Thailand (Krisdika) law database
+publisher: Office of the Council of State (Thailand)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- TH
+document_kinds:
+- act
+- regulation
+- constitution
+languages:
+- th
+coverage: Thai laws (https://www.krisdika.go.th, https://web.krisdika.go.th, https://www.ocs.go.th) and the Royal Gazette
+  (https://ratchakitcha.soc.go.th).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.krisdika.go.th/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms not read - hosts unreachable
+  url: https://www.krisdika.go.th/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt: krisdika.go.th
+    and web.krisdika.go.th - connection reset by peer; www.ocs.go.th - TLS certificate chain could not be verified (ULIS
+    does not disable verification); ratchakitcha.soc.go.th - HTTP 403 (WAF page). Not reachable from the ULIS network; terms
+    not read.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Hosts unreachable or refusing; Thai has no PostgreSQL stemmer.
+status: planned
+connector: null
+parser: null

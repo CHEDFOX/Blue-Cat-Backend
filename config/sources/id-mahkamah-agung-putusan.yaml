@@ -1,0 +1,42 @@
+# REJECTED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: id-mahkamah-agung-putusan
+name: Direktori Putusan Mahkamah Agung (putusan3.mahkamahagung.go.id)
+publisher: Mahkamah Agung Republik Indonesia (Supreme Court)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions:
+- ID
+document_kinds:
+- judgment
+languages:
+- id
+coverage: Decisions of the Supreme Court and lower courts of Indonesia (https://putusan3.mahkamahagung.go.id).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://putusan3.mahkamahagung.go.id/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: NOT-GRANTED
+  name: robots.txt disallows ULIS's user agent
+  url: https://putusan3.mahkamahagung.go.id/robots.txt
+  review_status: rejected
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: robots.txt (https://putusan3.mahkamahagung.go.id/robots.txt):
+    named search engines are allowed (Crawl-delay 10, Disallow /search); ''AI crawlers - block all'' (GPTBot, ClaudeBot,
+    Claude-SearchBot, anthropic-ai, CCBot, ...: Disallow /); and ''Everything else - block by default: User-agent: * Disallow:
+    /''. ULIS''s bot is ''everything else'': disallowed.'
+  reviewed_on: '2026-10-14'
+  redistribution: not_allowed
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- robots.txt disallows every robot except named search engines.
+status: rejected
+connector: null
+parser: null

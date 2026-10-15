@@ -1,0 +1,44 @@
+# PLANNED - evaluated 2026-10-14, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: sg-statutes-online
+name: Singapore Statutes Online (SSO)
+publisher: Singapore Attorney-General's Chambers
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- SG
+document_kinds:
+- act
+- regulation
+- constitution
+languages:
+- en
+coverage: Singapore's consolidated legislation with point-in-time versions (https://sso.agc.gov.sg).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://sso.agc.gov.sg/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: Terms not read - access refused
+  url: https://sso.agc.gov.sg/Help/TermsOfUse
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14, from the publisher''s own pages and robots.txt. Findings: https://sso.agc.gov.sg/robots.txt
+    answered HTTP 403 (''ERROR: The request could not be satisfied. Request blocked.'', a CDN block page) to ULIS''s identifying
+    User-Agent, and so did https://sso.agc.gov.sg/Help/API (a second request, made by mistake after the block was known).
+    The owner''s brief records SSO''s terms as strict; they were not readable. ULIS stops here.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested (no document was stored). See the licence block and docs/jurisdictions/africa-asia-mideast-oceania.md.
+known_limitations:
+- Access refused to ULIS (HTTP 403 block page); terms not readable and recorded as strict by the project owner.
+status: planned
+connector: null
+parser: null
