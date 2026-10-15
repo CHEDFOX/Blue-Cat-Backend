@@ -1,0 +1,43 @@
+# Consolidated Laws of New York (NY Senate Open Legislation): recorded as planned on 2026-10-14; nothing fetched beyond robots.txt and the pages named below.
+schema_version: 1
+id: us-ny-laws
+name: Consolidated Laws of New York (NY Senate Open Legislation)
+publisher: New York State Senate (Open Legislation) / Legislative Bill Drafting Commission
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- US-NY
+document_kinds:
+- act
+languages:
+- en
+coverage: 'The state''s statutes (current text). NOT INGESTED: The only machine interface needs a key; the keyless website
+  is behind a bot challenge.'
+access:
+  method: api
+  endpoint: https://legislation.nysenate.gov/
+update_frequency: not assessed
+licence:
+  id: US-NY-NOT-REVIEWED
+  name: 'Not approved: The only machine interface needs a key; the keyless website is behind a bot challenge.'
+  url: https://legislation.nysenate.gov/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14. Findings: https://legislation.nysenate.gov/robots.txt (200) names ''User-agent:
+    *'' with no rule; the site is a single-page application over the Open Legislation API, which needs an API key (out of
+    bounds for ULIS without the owner''s registration). https://www.nysenate.gov/legislation/laws/PEN/125.25 (the website''s
+    own law page, the only keyless route found) answered HTTP 403 with a Cloudflare managed challenge on 2026-10-14: refused,
+    not retried, no workaround. https://www.nysenate.gov/robots.txt itself allows the path. No other keyless official source
+    was located (the Legislative Retrieval System is retired).'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: 'Next step: The owner registers an Open Legislation key and reads its terms; then a connector over /api/3/laws can
+    ingest the Consolidated Laws.'
+provenance: Nothing has been ingested from this source.
+known_limitations:
+- The only machine interface needs a key; the keyless website is behind a bot challenge.
+- 'Next step: The owner registers an Open Legislation key and reads its terms; then a connector over /api/3/laws can ingest
+  the Consolidated Laws.'
+status: planned

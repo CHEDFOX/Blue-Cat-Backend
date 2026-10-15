@@ -1,0 +1,36 @@
+# Ohio Revised Code: recorded as rejected on 2026-10-14; nothing fetched beyond robots.txt and the pages named below.
+schema_version: 1
+id: us-oh-orc
+name: Ohio Revised Code
+publisher: Ohio Legislative Service Commission (codes.ohio.gov)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- US-OH
+document_kinds:
+- act
+languages:
+- en
+coverage: 'The state''s statutes (current text). NOT INGESTED: robots.txt disallows all automated access.'
+access:
+  method: permitted_web_retrieval
+  endpoint: https://codes.ohio.gov/
+update_frequency: not assessed
+licence:
+  id: US-OH-ROBOTS-DISALLOW
+  name: 'Not approved: robots.txt disallows all automated access.'
+  url: https://codes.ohio.gov/
+  review_status: rejected
+  reviewed_by: 'ULIS project, 2026-10-14. Findings: https://codes.ohio.gov/robots.txt (200) reads ''User-agent: * Disallow:
+    /'': every path is disallowed for every robot.'
+  reviewed_on: '2026-10-14'
+  redistribution: not_allowed
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: not_allowed
+  notes: 'Next step: Ask the Legislative Service Commission for a data file; do not crawl.'
+provenance: Nothing has been ingested from this source.
+known_limitations:
+- robots.txt disallows all automated access.
+- 'Next step: Ask the Legislative Service Commission for a data file; do not crawl.'
+status: rejected

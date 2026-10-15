@@ -1,0 +1,43 @@
+# Colorado Revised Statutes: recorded as planned on 2026-10-14; nothing fetched beyond robots.txt and the pages named below.
+schema_version: 1
+id: us-co-crs
+name: Colorado Revised Statutes
+publisher: Colorado General Assembly (hosted by LexisNexis)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- US-CO
+document_kinds:
+- act
+languages:
+- en
+coverage: 'The state''s statutes (current text). NOT INGESTED: The statute text is only offered through a commercial publisher''s
+  site; no state-published text or licence.'
+access:
+  method: permitted_web_retrieval
+  endpoint: https://leg.colorado.gov/laws/colorado-revised-statutes
+update_frequency: not assessed
+licence:
+  id: US-CO-NOT-REVIEWED
+  name: 'Not approved: The statute text is only offered through a commercial publisher''s site; no state-published text or
+    licence.'
+  url: https://leg.colorado.gov/laws/colorado-revised-statutes
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14. Findings: https://leg.colorado.gov/robots.txt (200) allows the site except /admin/,
+    /rails/, the file-download paths (/bill_files/*/download, /laws/session-laws/*/download ...) and some calendar paths.
+    https://leg.colorado.gov/laws/colorado-revised-statutes says only that the C.R.S. ''are the codified general and permanent
+    statutes of the Colorado General Assembly. Click here to access the Colorado Revised Statutes hosted by LexisNexis'' (http://www.lexisnexis.com/hottopics/colorado):
+    the legislature hosts no statute text; the text is on a commercial publisher''s site under that publisher''s terms (www.lexisnexis.com/robots.txt
+    was read, 200, 4,852 bytes, and not applied further).'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: 'Next step: Ask the Office of Legislative Legal Services whether a bulk or open copy of the C.R.S. without annotations
+    exists.'
+provenance: Nothing has been ingested from this source.
+known_limitations:
+- The statute text is only offered through a commercial publisher's site; no state-published text or licence.
+- 'Next step: Ask the Office of Legislative Legal Services whether a bulk or open copy of the C.R.S. without annotations exists.'
+status: planned

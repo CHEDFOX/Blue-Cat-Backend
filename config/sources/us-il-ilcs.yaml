@@ -1,0 +1,38 @@
+# Illinois Compiled Statutes: recorded as planned on 2026-10-14; nothing fetched beyond robots.txt and the pages named below.
+schema_version: 1
+id: us-il-ilcs
+name: Illinois Compiled Statutes
+publisher: Illinois General Assembly (Legislative Reference Bureau)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- US-IL
+document_kinds:
+- act
+languages:
+- en
+coverage: 'The state''s statutes (current text). NOT INGESTED: robots.txt and terms could not be read (incomplete TLS chain).'
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.ilga.gov/
+update_frequency: not assessed
+licence:
+  id: US-IL-NOT-REVIEWED
+  name: 'Not approved: robots.txt and terms could not be read (incomplete TLS chain).'
+  url: https://www.ilga.gov/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14. Findings: https://www.ilga.gov/robots.txt could not be read: TLS verification failed
+    (''unable to get local issuer certificate'', the server''s certificate chain is incomplete). ULIS never disables certificate
+    checks, so the host was not contacted further and its terms were not read.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: 'Next step: Retry when the certificate chain is fixed, or supply the missing intermediate certificate to a verifying
+    context.'
+provenance: Nothing has been ingested from this source.
+known_limitations:
+- robots.txt and terms could not be read (incomplete TLS chain).
+- 'Next step: Retry when the certificate chain is fixed, or supply the missing intermediate certificate to a verifying context.'
+status: planned
