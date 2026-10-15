@@ -51,8 +51,11 @@ licence:
   url: https://legalinstruments.oecd.org/public/doc/187/187.en.pdf
   review_status: approved
   reviewed_by: >-
-    ULIS project, 2026-10-15. READ on legalinstruments.oecd.org: robots.txt, the notice in the PDF of OECD/LEGAL/0162 (quoted above), the
-    footer notice of the Compendium web application (quoted above), the Compendium's record and HTML text of the 16 instruments. NOT
+    ULIS project, 2026-10-15. READ on legalinstruments.oecd.org: robots.txt ("User-agent: *", "Disallow:"), the notice in the PDF of
+    OECD/LEGAL/0162 (quoted in the licence name), the footer notice of the Compendium web application ("The present Compendium of OECD
+    Legal Instruments is owned by the OECD. It represents significant time and resource investment and shall not be reproduced in whole
+    or significant part without express permission from the OECD. For use, reproduction and translation of individual Legal
+    Instruments, please consult the Terms and Conditions."), the Compendium's record and HTML text of the 16 instruments. NOT
     READ: the OECD Terms and Conditions (www.oecd.org/termsandconditions/, HTTP 403), which the Compendium names as the terms for "use,
     reproduction and translation of individual Legal Instruments". The notice is on the PDF of each instrument, whereas ULIS reads the
     HTML text and record that the Compendium serves for the same instrument (the PDF of one instrument was fetched only to read the

@@ -1,17 +1,24 @@
 """Write the manifest of the OECD instruments ULIS takes, from the Compendium's own index.
 
-python scripts/build_oecd_manifest.py                       # config/manifests/int-oecd-legal-instruments.yaml: the curated selection
+python scripts/build_oecd_manifest.py                       # config/manifests/int-oecd-legal-instruments.yaml: the
+curated selection
 python scripts/build_oecd_manifest.py --ids 187,668 --out /tmp/slice.yaml    # another selection, outside the repository
-python scripts/build_oecd_manifest.py --count               # scale only: how many instruments the Compendium lists, nothing written
+python scripts/build_oecd_manifest.py --count               # scale only: how many instruments the Compendium lists,
+nothing written
 
-The Compendium says it "shall not be reproduced in whole or significant part without express permission from the OECD" and
-that individual instruments may be reproduced unaltered (see config/sources/int-oecd-legal-instruments.yaml). So this script
-writes a SELECTION of at most ``MAX_INSTRUMENTS`` instruments and refuses to write more; it never lists the whole Compendium.
+The Compendium says it "shall not be reproduced in whole or significant part without express permission from the OECD"
+and
+that individual instruments may be reproduced unaltered (see config/sources/int-oecd-legal-instruments.yaml). So this
+script
+writes a SELECTION of at most ``MAX_INSTRUMENTS`` instruments and refuses to write more; it never lists the whole
+Compendium.
 The selection is made by hand (below): the instruments that matter most to a lawyer researching anti-bribery, tax
-co-operation, privacy and data, competition, consumer protection, regulatory and corporate-governance standards, plus one
+co-operation, privacy and data, competition, consumer protection, regulatory and corporate-governance standards, plus
+one
 abrogated instrument so that the history of an instrument is represented.
 
-One request for the robots.txt and one for the index (``/api/instruments/keys?lang=en``, the list the Compendium's own web
+One request for the robots.txt and one for the index (``/api/instruments/keys?lang=en``, the list the Compendium's own
+web
 application loads; robots.txt disallows nothing). Entries are written sorted by key.
 """
 
@@ -42,7 +49,7 @@ SELECTION = (
     317,  # 0382 Protocol amending that Convention
     205,  # 0293 Anti-Bribery Convention
     258,  # 0378 Recommendation for further combating bribery of foreign public officials
-    261,  # 0383 Declaration on Propriety, Integrity and Transparency in the Conduct of International Business and Finance
+    261,  # 0383 Declaration on Propriety, Integrity and Transparency in International Business and Finance
     233,  # 0307 Decision on the Guidelines for Multinational Enterprises on Responsible Business Conduct
     304,  # 0404 Declaration on Automatic Exchange of Information in Tax Matters
     322,  # 0413 Principles of Corporate Governance (Recommendation)
@@ -64,7 +71,10 @@ def main() -> int:
     args = parser.parse_args()
     wanted = [int(x) for x in args.ids.split(",")] if args.ids else list(SELECTION)
     if len(wanted) > MAX_INSTRUMENTS and not args.count:
-        sys.exit(f"{len(wanted)} instruments asked; at most {MAX_INSTRUMENTS} (the Compendium may not be reproduced in significant part)")
+        sys.exit(
+            f"{len(wanted)} instruments asked; at most {MAX_INSTRUMENTS} "
+            "(the Compendium may not be reproduced in significant part)"
+        )
     client = PoliteHttp(args.cache, USER_AGENT, allowed_hosts={HOST})
     robots = client.get(f"https://{HOST}/robots.txt")
     if robots is not None and RobotsPolicy(robots[0].decode("utf-8", "replace")).closes_site:
@@ -83,12 +93,13 @@ def main() -> int:
         sys.exit(f"ids not in the Compendium's index: {missing}")
     rows = sorted((by_id[i] for i in dict.fromkeys(wanted)), key=lambda e: e["key"])
     header = (
-        f"# OECD Compendium of Legal Instruments (legalinstruments.oecd.org): a SELECTION of {len(rows)} individual instruments\n"
-        f"# out of the {len(valid)} the Compendium lists. The Compendium \"shall not be reproduced in whole or significant part without\n"
-        "# express permission from the OECD\", individual instruments may be reproduced unaltered; the connector refuses more than 25.\n"
-        "# Built by scripts/build_oecd_manifest.py from the Compendium's own index (/api/instruments/keys?lang=en, one request);\n"
-        "# `title` is the index's English title and is documentation only. Each instrument is read at /api/instruments/<id> and its\n"
-        "# English and French HTML texts: three requests per instrument, 5 s apart.\n"
+        f"# OECD Compendium of Legal Instruments (legalinstruments.oecd.org): a SELECTION of {len(rows)}\n"
+        f'# individual instruments out of the {len(valid)} the Compendium lists. The Compendium "shall not be\n'
+        '# reproduced in whole or significant part without express permission from the OECD", individual\n'
+        "# instruments may be reproduced unaltered; the connector refuses more than 25.\n"
+        "# Built by scripts/build_oecd_manifest.py from the Compendium's own index (/api/instruments/keys?lang=en,\n"
+        "# one request); `title` is the index's English title and is documentation only. Each instrument is read at\n"
+        "# /api/instruments/<id> and its English and French HTML texts: three requests per instrument, 5 s apart.\n"
     )
     body = {
         "schema_version": 1,

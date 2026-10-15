@@ -1,17 +1,24 @@
 """Parser for the OECD Compendium of Legal Instruments (``oecd_legal_instruments`` connector bundles).
 
-A bundle holds the instrument's record (JSON: key ``OECD/LEGAL/nnnn``, titles, dates, change history) and its text in one language
+A bundle holds the instrument's record (JSON: key ``OECD/LEGAL/nnnn``, titles, dates, change history) and its text in
+one language
 (the HTML the OECD exports from Word), exactly as received. The parser produces one :class:`ParsedDocument` per bundle:
 
-* the dates come from the record: adopted, in force, last updated or amended (the date the current wording dates from) and, for
+* the dates come from the record: adopted, in force, last updated or amended (the date the current wording dates from)
+  and, for
   an abrogated instrument, abrogated. The current wording is valid from the latest of the entry into force and the last
-  update/amendment, and until the abrogation date if there is one (``validity_basis = "source_periods"``). Earlier wordings of an
+  update/amendment, and until the abrogation date if there is one (``validity_basis = "source_periods"``). Earlier
+  wordings of an
   amended instrument are not published and are not recorded;
-* the structure is the text's own: for a convention, its articles (``Article 3``); for a Council act, the recitals before the
-  first numbered paragraph (``preamble``), the Roman-numbered sections (``I. RECOMMENDS ...``) and the numbered paragraphs
-  (``1.`` or ``1)``) in sequence; text after a rule of underscores (the OECD's closing notes) and anything else is kept as text
+* the structure is the text's own: for a convention, its articles (``Article 3``); for a Council act, the recitals
+  before the
+  first numbered paragraph (``preamble``), the Roman-numbered sections (``I. RECOMMENDS ...``) and the numbered
+  paragraphs
+  (``1.`` or ``1)``) in sequence; text after a rule of underscores (the OECD's closing notes) and anything else is kept
+  as text
   blocks. Sub-points (``a)``, ``i)``) stay inside their paragraph;
-* the English and French texts are the official ones ("The only official versions are the English and French texts available on
+* the English and French texts are the official ones ("The only official versions are the English and French texts
+  available on
   the OECD website"), so both are ``authoritative``; no translation is made or stored.
 """
 
@@ -23,8 +30,8 @@ import json
 import re
 import unicodedata
 from dataclasses import dataclass, field
-from html.parser import HTMLParser
 from datetime import date
+from html.parser import HTMLParser
 from typing import Any
 
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
@@ -58,7 +65,12 @@ TYPE_RULES = (
     (re.compile(r"^(?:(?:second|third|fourth|fifth) )?(?:revised )?decision\b", re.I), "decision"),
     (re.compile(r"^(?:dac |revised |\w+ revised )*recommendation\b", re.I), "recommendation"),
     (re.compile(r"^(?:\w+ )?(?:ministerial )?declaration\b", re.I), "declaration"),
-    (re.compile(r"^(?:revised )?(?:\w+ )?(?:convention|agreement|protocol|multilateral|framework agreement)\b", re.I), "treaty"),
+    (
+        re.compile(
+            r"^(?:revised )?(?:\w+ )?(?:convention|agreement|protocol|multilateral|framework agreement)\b", re.I
+        ),
+        "treaty",
+    ),
     (re.compile(r"\b(?:arrangement|understanding)\b", re.I), "arrangement"),
 )
 
@@ -110,7 +122,8 @@ def iso(value: Any) -> date | None:
 
 
 class _BoldParagraphs(HTMLParser):
-    """Paragraphs of the Word export whose whole text is bold: the OECD's section headings (the export has no heading tags)."""
+    """Paragraphs of the Word export whose whole text is bold: the OECD's section headings (the export has no heading
+    tags)."""
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -165,29 +178,43 @@ class Part:
     kind: str  # preamble | annex | roman | lettered | paragraph | dotted | section | article | block
     label: str = ""
     parent: str = ""  # the Roman paragraph a numbered or lettered paragraph sits under
-    scope: str = ""  # the annex or appendix the unit is in ("" in the body of the act)
+    scope: str = ""  # the annex or appendix the unit is in ("" in the body of the act), as the text names it
+    scope_id: str = (
+        ""  # the same, as an identifier that does not depend on the language (``annex``, ``appendix-2``, ``part-2``)
+    )
     lines: list[str] = field(default_factory=list)
     heading: str | None = None
     context: str | None = None
 
 
 def slug(label: str) -> str:
-    """An identifier part from a label: accents folded (``Procédures`` -> ``procedures``), anything else but letters and digits a dash."""
+    """An identifier part from a label: accents folded (``Procédures`` -> ``procedures``), anything else but letters and
+    digits a dash."""
     plain = unicodedata.normalize("NFKD", label).encode("ascii", "ignore").decode("ascii").casefold()
     return re.sub(r"[^a-z0-9]+", "-", plain).strip("-") or "x"
 
 
 def join_headings(lines: list[str]) -> str | None:
-    """One heading from the bold lines before a unit: a title that runs over two lines is joined with a space, separate headings with a dash."""
+    """One heading from the bold lines before a unit: a title that runs over two lines is joined with a space, separate
+    headings with a dash."""
     out = ""
     for line in lines:
         if not out:
             out = line
-        elif out.endswith(",") or line[:1].islower() or line.split()[0].casefold() in ("and", "et", "of", "de", "du", "for"):
+        elif (
+            out.endswith(",")
+            or line[:1].islower()
+            or line.split()[0].casefold() in ("and", "et", "of", "de", "du", "for")
+        ):
             out = f"{out} {line}"
         else:
             out = f"{out} — {line}"
     return out or None
+
+
+def annex_id(match: re.Match[str]) -> str:
+    word = "appendix" if match.group("w") in ("APPENDIX", "APPENDICE") else "annex"
+    return f"{word}-{match.group('n').lower()}" if match.group("n") else word
 
 
 def annex_label(match: re.Match[str]) -> str:
@@ -203,10 +230,13 @@ def numbered_parts(lines: list[str], headings: frozenset[str] = frozenset()) -> 
     * ``I.A.`` ``I.B.`` ... (letters in sequence under Roman ``I``): the OECD's sub-principles;
     * ``1.1.`` ``1.2.`` ... (in sequence): numbered principles/recommendations;
     * ``Section 1: ...`` (in sequence): a section heading, which is also the context heading of what follows;
-    * ``ANNEX`` / ``APPENDIX`` (a line of its own, capitals): the units after it are numbered afresh and cited with the annex.
+    * ``ANNEX`` / ``APPENDIX`` (a line of its own, capitals): the units after it are numbered afresh and cited with the
+      annex.
 
-    Everything else (recitals before the first unit, sub-points ``a)`` / ``i.`` / dashes, definitions) is the text of the unit it
-    follows, except the bold headings (``headings``: lines of a bold-only paragraph) directly before a unit, which are that
+    Everything else (recitals before the first unit, sub-points ``a)`` / ``i.`` / dashes, definitions) is the text of
+    the unit it
+    follows, except the bold headings (``headings``: lines of a bold-only paragraph) directly before a unit, which are
+    that
     unit's heading.
     """
     parts: list[Part] = []
@@ -214,7 +244,7 @@ def numbered_parts(lines: list[str], headings: frozenset[str] = frozenset()) -> 
     roman = arabic = major = minor = sections = 0
     letter = 0  # letters used under the current Roman paragraph
     implicit = 0  # numbering sets that start without an ANNEX / APPENDIX line
-    parent = scope = ""
+    parent = scope = scope_id = ""
     context: str | None = None
     pending: list[str] = []  # bold headings seen since the last line of text
     for line in lines:
@@ -222,40 +252,58 @@ def numbered_parts(lines: list[str], headings: frozenset[str] = frozenset()) -> 
         annex = ANNEX.match(line)
         if annex:
             roman = arabic = major = minor = sections = letter = 0
-            parent, scope, context = "", annex_label(annex), None
+            parent, scope, scope_id, context = "", annex_label(annex), annex_id(annex), None
             parts.append(current)
-            current = Part("annex", scope, lines=[line], heading=join_headings(pending))
+            current = Part("annex", scope, scope_id=scope_id, lines=[line], heading=join_headings(pending))
             pending = []
             continue
-        rm, am, dm, sm, lm = ROMAN.match(line), ARABIC.match(line), DOTTED.match(line), SECTION.match(line), LETTERED.match(line)
+        rm, am, dm, sm, lm = (
+            ROMAN.match(line),
+            ARABIC.match(line),
+            DOTTED.match(line),
+            SECTION.match(line),
+            LETTERED.match(line),
+        )
         if rm and roman_value(rm.group("n")) == roman + 1:
             roman += 1
             arabic = letter = 0
             parent = rm.group("n")
-            part = Part("roman", parent, scope=scope, lines=[line], context=context)
+            part = Part("roman", parent, scope=scope, scope_id=scope_id, lines=[line], context=context)
         elif rm and roman_value(rm.group("n")) == 1 and roman >= 2:
-            # "I." again after II, III ...: a second set of paragraphs ("Procedures" attached to a Decision), named by its heading
+            # "I." again after II, III ...: a second set of paragraphs ("Procedures" attached to a Decision), named by
+            # its heading
             implicit += 1
             scope = pending[-1] if pending and len(pending[-1]) <= 40 else f"Part {implicit + 1}"
+            scope_id = f"part-{implicit + 1}"
             roman, arabic, letter, major, minor, sections = 1, 0, 0, 0, 0, 0
             parent, context = "I", None
-            part = Part("roman", parent, scope=scope, lines=[line])
+            part = Part("roman", parent, scope=scope, scope_id=scope_id, lines=[line])
         elif lm and lm.group("r") == parent and ord(lm.group("l")) - 64 == letter + 1:
             letter += 1
-            part = Part("lettered", f"{parent}.{lm.group('l')}", parent=parent, scope=scope, lines=[line], context=context)
+            part = Part(
+                "lettered",
+                f"{parent}.{lm.group('l')}",
+                parent=parent,
+                scope=scope,
+                scope_id=scope_id,
+                lines=[line],
+                context=context,
+            )
         elif sm and int(sm.group("n")) == sections + 1:
             sections += 1
             context = line
-            part = Part("section", sm.group("n"), scope=scope, lines=[line])
+            part = Part("section", sm.group("n"), scope=scope, scope_id=scope_id, lines=[line])
         elif dm and (
             (int(dm.group("a")) == major and int(dm.group("b")) == minor + 1)
             or (int(dm.group("a")) == major + 1 and int(dm.group("b")) == 1)
         ):
             major, minor = int(dm.group("a")), int(dm.group("b"))
-            part = Part("dotted", f"{major}.{minor}", scope=scope, lines=[line], context=context)
+            part = Part("dotted", f"{major}.{minor}", scope=scope, scope_id=scope_id, lines=[line], context=context)
         elif am and int(am.group("n")) == arabic + 1:
             arabic += 1
-            part = Part("paragraph", am.group("n"), parent=parent, scope=scope, lines=[line], context=context)
+            part = Part(
+                "paragraph", am.group("n"), parent=parent, scope=scope, scope_id=scope_id, lines=[line], context=context
+            )
         if part is None:
             if line in headings:
                 if current.kind == "section" and not pending and len(current.lines) < 3:
@@ -301,9 +349,10 @@ def parse_oecd_legal_instruments(content: bytes) -> list[ParsedDocument]:
         raise ParseSkipped(f"{key}: no text in {lang}")
     parts: list[Part] = []
     items, _ = split_items(Source(lines, wrapped=False), None, None, series=False)
-    if sum(1 for it in items if it.kind == "article" and any(it.lines)) >= 3 and sum(
-        1 for ln in lines if article_heading(ln, None)
-    ) >= 3:
+    if (
+        sum(1 for it in items if it.kind == "article" and any(it.lines)) >= 3
+        and sum(1 for ln in lines if article_heading(ln, None)) >= 3
+    ):
         numbering = "articles"
         first_article = next(i for i, ln in enumerate(lines) if article_heading(ln, None))
         if first_article:
@@ -363,14 +412,14 @@ def parse_oecd_legal_instruments(content: bytes) -> list[ParsedDocument]:
         if not text:
             continue
         prefix = [part.scope] if part.scope else []
-        stem = f"{slug(part.scope)}-" if part.scope else ""
+        stem = f"{part.scope_id}-" if part.scope_id else ""
         if part.kind == "preamble":
             add("preamble", "preamble", [], text)
         elif part.kind == "annex":
-            add(slug(part.label), "annex", [part.label], text, heading=part.heading)
+            add(part.scope_id, "annex", [part.label], text, heading=part.heading)
         elif part.kind == "roman":
             has_children = any(
-                p.kind in ("paragraph", "lettered") and p.parent == part.label and p.scope == part.scope
+                p.kind in ("paragraph", "lettered") and p.parent == part.label and p.scope_id == part.scope_id
                 for p in parts[index + 1 :]
             )
             add(
@@ -384,12 +433,29 @@ def parse_oecd_legal_instruments(content: bytes) -> list[ParsedDocument]:
                 context=part.context,
             )
         elif part.kind in ("paragraph", "lettered"):
-            label = part.label if part.kind == "lettered" else f"{part.parent}.{part.label}" if part.parent else part.label
+            label = (
+                part.label if part.kind == "lettered" else f"{part.parent}.{part.label}" if part.parent else part.label
+            )
             path = [*prefix, label]
             parent_eid = f"{stem}para-{slug(part.parent)}" if part.parent else None
-            add(f"{stem}para-{slug(label)}", "paragraph", path, text, parent_eid=parent_eid, heading=part.heading, context=part.context)
+            add(
+                f"{stem}para-{slug(label)}",
+                "paragraph",
+                path,
+                text,
+                parent_eid=parent_eid,
+                heading=part.heading,
+                context=part.context,
+            )
         elif part.kind == "dotted":
-            add(f"{stem}para-{slug(part.label)}", "paragraph", [*prefix, part.label], text, heading=part.heading, context=part.context)
+            add(
+                f"{stem}para-{slug(part.label)}",
+                "paragraph",
+                [*prefix, part.label],
+                text,
+                heading=part.heading,
+                context=part.context,
+            )
         elif part.kind == "section":
             add(f"{stem}sec-{part.label}", "section", [*prefix, part.label], text, heading=part.heading)
         elif part.kind == "article":
@@ -406,13 +472,21 @@ def parse_oecd_legal_instruments(content: bytes) -> list[ParsedDocument]:
     if adopted:
         events.append(ParsedEvent("enactment", adopted, None, f"{key} adopted", "record/statusSummary/adoptionDate"))
     if in_force and in_force != adopted:
-        events.append(ParsedEvent("entry_into_force", in_force, None, f"{key} in force", "record/statusSummary/inForceDate"))
+        events.append(
+            ParsedEvent("entry_into_force", in_force, None, f"{key} in force", "record/statusSummary/inForceDate")
+        )
     if amended:
-        events.append(ParsedEvent("amendment", amended, None, f"{key} last amended", "record/statusSummary/lastAmendmentDate"))
+        events.append(
+            ParsedEvent("amendment", amended, None, f"{key} last amended", "record/statusSummary/lastAmendmentDate")
+        )
     if abrogated:
         events.append(ParsedEvent("repeal", abrogated, None, f"{key} abrogated", "record/statusSummary/abrogationDate"))
     events.append(ParsedEvent("version_change", retrieved, None, "Retrieval date of the text", "bundle"))
-    ext: dict[str, Any] = {"key": key, "oecd_id": int(bundle["id"]), "record_url": bundle.get("record_url") or bundle["url"]}
+    ext: dict[str, Any] = {
+        "key": key,
+        "oecd_id": int(bundle["id"]),
+        "record_url": bundle.get("record_url") or bundle["url"],
+    }
     if abrogated:
         ext["abrogated_on"] = abrogated.isoformat()
     ext["numbering"] = numbering

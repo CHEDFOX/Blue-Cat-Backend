@@ -1,9 +1,10 @@
-# OECD Compendium of Legal Instruments (legalinstruments.oecd.org): a SELECTION of 16 individual instruments
-# out of the 504 the Compendium lists. The Compendium "shall not be reproduced in whole or significant part without
-# express permission from the OECD", individual instruments may be reproduced unaltered; the connector refuses more than 25.
-# Built by scripts/build_oecd_manifest.py from the Compendium's own index (/api/instruments/keys?lang=en, one request);
-# `title` is the index's English title and is documentation only. Each instrument is read at /api/instruments/<id> and its
-# English and French HTML texts: three requests per instrument, 5 s apart.
+# OECD Compendium of Legal Instruments (legalinstruments.oecd.org): a SELECTION of 16
+# individual instruments out of the 504 the Compendium lists. The Compendium "shall not be
+# reproduced in whole or significant part without express permission from the OECD", individual
+# instruments may be reproduced unaltered; the connector refuses more than 25.
+# Built by scripts/build_oecd_manifest.py from the Compendium's own index (/api/instruments/keys?lang=en,
+# one request); `title` is the index's English title and is documentation only. Each instrument is read at
+# /api/instruments/<id> and its English and French HTML texts: three requests per instrument, 5 s apart.
 schema_version: 1
 source_id: int-oecd-legal-instruments
 host: legalinstruments.oecd.org

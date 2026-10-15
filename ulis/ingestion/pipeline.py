@@ -38,7 +38,6 @@ from ulis.sources.connectors.dila_case_law import DilaCaseLawConnector
 from ulis.sources.connectors.dila_legi import DilaLegiConnector
 from ulis.sources.connectors.ecfr import EcfrConnector
 from ulis.sources.connectors.egov_laws import EgovLawsConnector
-from ulis.sources.connectors.oecd_legal_instruments import OecdLegalInstrumentsConnector
 from ulis.sources.connectors.eli_sejm import EliSejmConnector
 from ulis.sources.connectors.esbirka_opendata import EsbirkaOpenDataConnector
 from ulis.sources.connectors.eu_cellar import CellarConnector
@@ -61,6 +60,7 @@ from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.connectors.narodne_novine import NarodneNovineConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
+from ulis.sources.connectors.oecd_legal_instruments import OecdLegalInstrumentsConnector
 from ulis.sources.connectors.rattspraxis_se import RattspraxisConnector
 from ulis.sources.connectors.rechtspraak import RechtspraakConnector
 from ulis.sources.connectors.retsinformation import RetsinformationConnector

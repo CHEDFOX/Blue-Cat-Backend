@@ -221,7 +221,8 @@ class _HtmlText(HTMLParser):
 
     def handle_data(self, data: str) -> None:
         if not self._skip:
-            data = re.sub(r"\s+", " ", data)  # HTML collapses white space, line feeds included; only elements break lines
+            # HTML collapses white space, line feeds included; only elements break lines
+            data = re.sub(r"\s+", " ", data)
             self.parts.append(data.translate(SUPERSCRIPT) if self._sup else data)
 
 
@@ -454,8 +455,8 @@ def split_items(
 ) -> tuple[list[Item], list[str]]:
     """Walk the lines once: articles, notes, structural headings; returns (items, lines before the first heading).
 
-    ``series``: a numbering restart in a "transitional" / "final" section becomes a separate series (labels ``T1``...); a caller
-    whose documents number such articles continuously (a treaty's final provisions) passes ``series=False``.
+    ``series``: a numbering restart in a "transitional" / "final" section becomes a separate series (labels ``T1``...);
+    a caller whose documents number such articles continuously (a treaty's final provisions) passes ``series=False``.
     """
     items: list[Item] = []
     before: list[str] = []
