@@ -1,33 +1,31 @@
-"""Polite fetcher for individual instruments of the OECD Compendium of Legal Instruments
-(https://legalinstruments.oecd.org).
+"""Polite fetcher for individual instruments of the OECD Compendium of Legal Instruments (legalinstruments.oecd.org).
 
 What the OECD states, read on 2026-10-15 (see config/sources/int-oecd-legal-instruments.yaml):
 
 * the Compendium's robots.txt is "User-agent: * / Disallow:" (nothing is disallowed);
-* every instrument's PDF carries: "This document is provided free of charge. It may be reproduced and distributed free
-  of charge
-  without requiring any further permissions, as long as it is not altered in any way. It may not be sold.";
-* the Compendium's web page says: "The present Compendium of OECD Legal Instruments is owned by the OECD. It represents
-  significant time and resource investment and shall not be reproduced in whole or significant part without express
-  permission
-  from the OECD. For use, reproduction and translation of individual Legal Instruments, please consult the Terms and
-  Conditions." (those terms, www.oecd.org/termsandconditions/, answered HTTP 403 and could not be read).
+* every instrument's PDF carries: "This document is provided free of charge. It may be reproduced and distributed
+  free of charge without requiring any further permissions, as long as it is not altered in any way. It may not be
+  sold.";
+* the Compendium's web page says: "The present Compendium of OECD Legal Instruments is owned by the OECD. It
+  represents significant time and resource investment and shall not be reproduced in whole or significant part
+  without express permission from the OECD. For use, reproduction and translation of individual Legal Instruments,
+  please consult the Terms and Conditions." (those terms, www.oecd.org/termsandconditions/, answered HTTP 403 and
+  could not be read).
 
-So ULIS takes individual instruments only, a short curated selection, never the Compendium in whole or in significant
-part:
-``load_manifest`` refuses a manifest of more than ``MAX_INSTRUMENTS`` instruments (about 5% of the 504 the Compendium
-lists).
-The connector reads no PDF; for every instrument in the manifest it fetches
+So ULIS takes individual instruments only, a short curated selection, never the Compendium in whole or in
+significant part: ``load_manifest`` refuses a manifest of more than ``MAX_INSTRUMENTS`` instruments (about 5% of the
+504 the Compendium lists). The connector reads no PDF. For every instrument in the manifest it fetches
 
-* ``/api/instruments/<id>``: the instrument's record (JSON: key ``OECD/LEGAL/nnnn``, titles in English and French, dates
-  of
-  adoption, entry into force, last update and abrogation, the change history, and the address of the text), and
-* the text in each language the manifest asks for (``bodyText.ref`` of the record: an HTML file the OECD exports from
-  Word),
+* ``/api/instruments/<id>``: the instrument's record (JSON: key ``OECD/LEGAL/nnnn``, titles in English and French,
+  dates of adoption, entry into force, last update and abrogation, the change history, and the address of the text),
+  and
+* the text in each language the manifest asks for (``bodyText.ref`` of the record: an HTML file the OECD exports
+  from Word),
 
-and yields one bundle (JSON) per instrument and language, holding the record and the HTML exactly as received. The
-numeric ids
-come from the Compendium's own index (``/api/instruments/keys?lang=en``), see ``scripts/build_oecd_manifest.py``.
+and yields one bundle (JSON) per instrument and language, holding the record and the HTML exactly as received,
+except that the record's ``lastPublishedBy`` (the name and e-mail of the staff member who last published the
+instrument, personal data the law does not need) is dropped. The numeric ids come from the Compendium's own index
+(``/api/instruments/keys?lang=en``), see ``scripts/build_oecd_manifest.py``.
 
 Manifest (``config/manifests/int-oecd-legal-instruments.yaml``)::
 
@@ -63,9 +61,8 @@ from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
 HOST = "legalinstruments.oecd.org"
 BUNDLE_SCHEMA = "ulis-oecd-legal-instrument-bundle/1"
 MIN_DELAY = 5.0
-# The Compendium lists 504 instruments (2026-10-15) and says it "shall not be reproduced in whole or significant part
-# without
-# express permission": ULIS takes a short selection of individual instruments, never more than about 5% of it.
+# The Compendium lists 504 instruments (2026-10-15) and says it "shall not be reproduced in whole or significant
+# part without express permission": ULIS takes a short selection of individual instruments, at most about 5% of it.
 MAX_INSTRUMENTS = 25
 KEY = re.compile(r"OECD/LEGAL/\d{4}")
 TEXT_URI = re.compile(r"/public/doc/\d+/[A-Za-z0-9._-]+\.html?")

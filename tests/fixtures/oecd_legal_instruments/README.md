@@ -6,7 +6,7 @@ from `/api/instruments/<id>` and the HTML text from `bodyText.ref`, byte for byt
 name and e-mail) is removed by the connector and is not in the fixtures. The licence is the one in `config/sources/int-oecd-legal-instruments.yaml`:
 the notice on each instrument ("This document is provided free of charge. It may be reproduced and distributed free of charge
 without requiring any further permissions, as long as it is not altered in any way. It may not be sold."); the Compendium itself
-may not be reproduced "in whole or significant part", and these seven files are a small part of seven instruments.
+may not be reproduced "in whole or significant part", and these seven files are a small part of six instruments.
 
 | File | Instrument | What it exercises |
 |---|---|---|

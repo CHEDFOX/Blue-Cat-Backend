@@ -1,21 +1,18 @@
 """Module for the OECD Compendium of Legal Instruments (``oecd_legal_instruments`` source).
 
-An instrument is identified by its Compendium key (``OECD/LEGAL/0449``), which the OECD prints on every instrument, so
-that is the
-citation's first part; the pinpoint is the unit the text itself numbers:
+An instrument is identified by its Compendium key (``OECD/LEGAL/0449``), which the OECD prints on every instrument,
+so the key is the first part of the citation; the pinpoint is the unit the text itself numbers:
 
 * a convention's article: ``OECD/LEGAL/0293 art. 5``;
 * a Council act's Roman operative paragraph, or a numbered paragraph under it: ``OECD/LEGAL/0188 para. II``,
   ``OECD/LEGAL/0188 para. II.4`` (``II`` the Roman paragraph, ``4`` the numbered paragraph below it);
-* a lettered sub-principle under a Roman paragraph: ``OECD/LEGAL/0413 appendix para. I.A``;
 * a decimal-numbered principle or recommendation: ``OECD/LEGAL/0449 para. 1.2``;
 * a section heading: ``OECD/LEGAL/0449 section 1``;
-* the units of an annex or appendix carry its name: ``OECD/LEGAL/0413 appendix para. II.B`` (the numbering restarts
-  there);
+* the units of an annex or appendix carry its name and the numbering restarts there: ``OECD/LEGAL/0413 appendix
+  para. I.A`` (a lettered sub-principle under Roman paragraph ``I``), ``OECD/LEGAL/0413 appendix para. II.B``;
 * the recitals before the first operative unit: ``OECD/LEGAL/0449 preamble``;
-* text the parser could not divide (and the closing notes the OECD prints after a rule): ``OECD/LEGAL/0383 text block
-  1``
-  (ULIS's own division, in reading order).
+* text the parser could not divide, and the closing notes the OECD prints after a rule: ``OECD/LEGAL/0383 text block
+  1`` (ULIS's own division, in reading order).
 """
 
 from __future__ import annotations

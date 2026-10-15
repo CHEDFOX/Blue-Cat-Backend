@@ -1,25 +1,25 @@
 """Parser for the OECD Compendium of Legal Instruments (``oecd_legal_instruments`` connector bundles).
 
-A bundle holds the instrument's record (JSON: key ``OECD/LEGAL/nnnn``, titles, dates, change history) and its text in
-one language
-(the HTML the OECD exports from Word), exactly as received. The parser produces one :class:`ParsedDocument` per bundle:
+A bundle holds the instrument's record (JSON: key ``OECD/LEGAL/nnnn``, titles, dates, change history) and its text
+in one language (the HTML the OECD exports from Word), exactly as received. The parser produces one
+:class:`ParsedDocument` per bundle:
 
-* the dates come from the record: adopted, in force, last updated or amended (the date the current wording dates from)
-  and, for
-  an abrogated instrument, abrogated. The current wording is valid from the latest of the entry into force and the last
-  update/amendment, and until the abrogation date if there is one (``validity_basis = "source_periods"``). Earlier
-  wordings of an
+* the dates come from the record: adopted, in force, last updated, last amended and, for an abrogated instrument,
+  abrogated. The current wording is valid from the latest of the entry into force and the last update or amendment,
+  and until the abrogation date if there is one (``validity_basis = "source_periods"``); earlier wordings of an
   amended instrument are not published and are not recorded;
-* the structure is the text's own: for a convention, its articles (``Article 3``); for a Council act, the recitals
-  before the
-  first numbered paragraph (``preamble``), the Roman-numbered sections (``I. RECOMMENDS ...``) and the numbered
-  paragraphs
-  (``1.`` or ``1)``) in sequence; text after a rule of underscores (the OECD's closing notes) and anything else is kept
-  as text
-  blocks. Sub-points (``a)``, ``i)``) stay inside their paragraph;
+* the structure is the text's own. A convention is split into its preamble and articles (``Article 3``). A Council
+  act is split into the recitals before the first numbered unit (``preamble``), the Roman paragraphs (``I.
+  RECOMMENDS ...``) with the numbered paragraphs below them (``1.`` or ``1)``), decimal principles (``1.1.``),
+  lettered sub-principles (``I.A.``) and ``Section N:`` headings, each numbering taken only in sequence; an
+  ``ANNEX`` / ``APPENDIX`` line, or a second ``I.`` set, opens a scope whose units are cited with its name; a
+  bold-only paragraph (the OECD's heading) is the heading of the unit after it; text after a rule of underscores and
+  anything else is kept as text blocks. Sub-points (``a)``, ``i.``) stay inside their paragraph;
+* every line of the text is kept in reading order except a divider rule and a bare ``Article N`` line (its number is
+  the label); nothing is translated, corrected or normalised;
 * the English and French texts are the official ones ("The only official versions are the English and French texts
-  available on
-  the OECD website"), so both are ``authoritative``; no translation is made or stored.
+  available on the OECD website"), so both are ``authoritative``; identifiers do not depend on the language, so the
+  two versions of a unit are parallel.
 """
 
 from __future__ import annotations
@@ -270,8 +270,7 @@ def numbered_parts(lines: list[str], headings: frozenset[str] = frozenset()) -> 
             parent = rm.group("n")
             part = Part("roman", parent, scope=scope, scope_id=scope_id, lines=[line], context=context)
         elif rm and roman_value(rm.group("n")) == 1 and roman >= 2:
-            # "I." again after II, III ...: a second set of paragraphs ("Procedures" attached to a Decision), named by
-            # its heading
+            # "I." again after II, III ...: a second set of paragraphs ("Procedures" of a Decision), named by its title
             implicit += 1
             scope = pending[-1] if pending and len(pending[-1]) <= 40 else f"Part {implicit + 1}"
             scope_id = f"part-{implicit + 1}"
