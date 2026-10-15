@@ -253,6 +253,9 @@ def parse_manitoba_laws(content: bytes) -> list[ParsedDocument]:
                     row_node.heading = heading
                 defn = ind1 = None
                 row_node.set_text(b.text)
+            elif b.cls == "def1" and row_node is not None and b.bold[:1] not in ('"', "“", "«"):
+                # class def1 is also used for text that defines nothing (an oath): a plain line of the section
+                (defn or ind1 or row_node).items.append(b.text)
             elif b.cls == "def1" and row_node is not None:
                 term = b.bold.strip('"“” ')
                 defn = _Node("definition", f"def:{term}")
@@ -304,7 +307,7 @@ def parse_manitoba_laws(content: bytes) -> list[ParsedDocument]:
 
     def flatten(node: _Node, parent_eid: str | None, num_path: list[str], top_kind: str, ctx: str | None) -> None:
         if node.kind == "definition":
-            local = f"def-{_slug(node.label[4:]) or len(provisions)}"
+            local = f"def-{_slug(node.label[4:])[:60] or len(provisions)}"
         elif node.kind == "section":
             local = f"section-{_slug(node.label)}"
         elif node.kind == "preamble":

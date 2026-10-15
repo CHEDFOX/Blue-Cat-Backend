@@ -334,7 +334,7 @@ def parse_ontario_elaws(content: bytes) -> list[ParsedDocument]:
         node: _Node, parent_eid: str | None, num_path: list[str], top_kind: str, start: date | None, ctx: str | None
     ) -> str:
         if node.kind == "definition":
-            local = f"def-{_slug(node.label[4:]) or len(provisions)}"
+            local = f"def-{_slug(node.label[4:])[:60] or len(provisions)}"
         elif node.kind == "section":
             local = f"section-{_slug(node.label)}"
         elif node.kind == "schedule":
