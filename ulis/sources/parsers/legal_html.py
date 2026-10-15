@@ -314,3 +314,71 @@ def key_of(label: str) -> str:
     """``(1)`` -> ``1``, ``a)`` -> ``a``, ``12a.`` -> ``12a``, ``3.a`` -> ``3_a`` (a language-neutral key)."""
     s = label.strip().strip("()").rstrip(")").rstrip(".")
     return re.sub(r"[^0-9A-Za-z]+", "_", s).strip("_").lower()
+
+
+# --------------------------------------------------------------------------- numbered articles
+
+PARAGRAPH = re.compile(r"^\((\d+[a-z]?)\)\s*(.*)$", re.DOTALL)
+POINT = re.compile(r"^(\d+)[.)]\s+(\S.*)$", re.DOTALL)
+SUBPOINT = re.compile(r"^([a-zšćčđž]{1,2})\)\s+(\S.*)$", re.DOTALL)
+
+
+class NumberedArticle:
+    """The open article while its lines are read, for texts numbered "(1)", "1." and "a)".
+
+    A paragraph starts with ``(2)``, a point with ``1.`` or ``1)`` and a sub-point with ``a)`` - points and
+    sub-points only where a list is open (the line before ends with a colon, or a point/sub-point precedes), so a
+    sentence that happens to start with a number stays text. Lines that match no numbering are text of the deepest
+    open unit; nothing is dropped.
+    """
+
+    def __init__(self, unit: Unit):
+        self.unit = unit
+        self.para: Unit | None = None
+        self.point: Unit | None = None
+        self.sub: Unit | None = None
+
+    def deepest(self) -> Unit:
+        return self.sub or self.point or self.para or self.unit
+
+    def last_line(self) -> str:
+        holder = self.deepest()
+        for item in reversed(holder.content):
+            if isinstance(item, str):
+                return item
+            return ""  # the last content is a child unit
+        return ""
+
+    def add(self, text: str) -> None:
+        if m := PARAGRAPH.match(text):
+            para = Unit("paragraph", "par", m.group(1), label=f"({m.group(1)})")
+            if m.group(2):
+                para.content.append(m.group(2))
+            self.unit.content.append(para)
+            self.para, self.point, self.sub = para, None, None
+            return
+        listing = self.point is not None or self.last_line().rstrip().endswith(":")
+        if listing and (m := POINT.match(text)):
+            holder = self.para or self.unit
+            point = Unit("point", "pt", m.group(1), label=f"{m.group(1)}.")
+            point.content.append(m.group(2))
+            holder.content.append(point)
+            self.point, self.sub = point, None
+            return
+        if (self.point is not None or self.sub is not None or listing) and (m := SUBPOINT.match(text)):
+            holder = self.point or self.para or self.unit
+            sub = Unit("subpoint", "sub", m.group(1), label=f"{m.group(1)})")
+            sub.content.append(m.group(2))
+            holder.content.append(sub)
+            self.sub = sub
+            return
+        self.deepest().content.append(text)
+
+
+def mark_repealed(unit: Unit, pattern: re.Pattern[str]) -> None:
+    """A unit without children whose whole text is a repeal marker ("(Brisano)", "(črtan)") is repealed."""
+    for child in unit.children():
+        mark_repealed(child, pattern)
+    if not unit.children() and pattern.match(unit.own_text()):
+        unit.repealed = True
+        unit.content = []

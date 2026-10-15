@@ -28,10 +28,13 @@ from datetime import date
 
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
 from ulis.sources.parsers.legal_html import (
+    PARAGRAPH,
     HtmlParseError,
     Node,
+    NumberedArticle,
     Unit,
     build_provisions,
+    mark_repealed,
     parse_html,
     render,
     ws,
@@ -43,9 +46,6 @@ ELI_BASE = "https://narodne-novine.nn.hr/eli/"
 ELI_NS = "http://data.europa.eu/eli/ontology#"
 
 ARTICLE = re.compile(r"^Članak\s+(\d+)\s*\.?\s*([a-z]{0,2})\s*\.?$", re.IGNORECASE)
-PARAGRAPH = re.compile(r"^\((\d+[a-z]?)\)\s*(.*)$", re.DOTALL)
-POINT = re.compile(r"^(\d+)[.)]\s+(\S.*)$", re.DOTALL)
-SUBPOINT = re.compile(r"^([a-zšćčđž]{1,2})\)\s+(\S.*)$", re.DOTALL)
 REPEALED = re.compile(r"^\(?\s*brisan[oaie]?\s*\)?\.?$", re.IGNORECASE)
 CLOSING = re.compile(r"^(Klasa|KLASA|Urbroj|URBROJ|Broj|BROJ)\s*:|^(U\s+)?Zagreb(u)?,\s")
 ANNEX = re.compile(r"^(PRILOG|Prilog|DODATAK|Dodatak)\b")
@@ -154,60 +154,6 @@ def blocks_of(content: Node) -> list[Block]:
 # --------------------------------------------------------------------------- units
 
 
-class _Article:
-    """The open article while its lines are read."""
-
-    def __init__(self, unit: Unit):
-        self.unit = unit
-        self.para: Unit | None = None
-        self.point: Unit | None = None
-        self.sub: Unit | None = None
-
-    def deepest(self) -> Unit:
-        return self.sub or self.point or self.para or self.unit
-
-    def last_line(self) -> str:
-        holder = self.deepest()
-        for item in reversed(holder.content):
-            if isinstance(item, str):
-                return item
-            return ""  # the last content is a child unit
-        return ""
-
-    def add(self, text: str) -> None:
-        if m := PARAGRAPH.match(text):
-            para = Unit("paragraph", "par", m.group(1), label=f"({m.group(1)})")
-            if m.group(2):
-                para.content.append(m.group(2))
-            self.unit.content.append(para)
-            self.para, self.point, self.sub = para, None, None
-            return
-        listing = self.point is not None or self.last_line().rstrip().endswith(":")
-        if listing and (m := POINT.match(text)):
-            holder = self.para or self.unit
-            point = Unit("point", "pt", m.group(1), label=f"{m.group(1)}.")
-            point.content.append(m.group(2))
-            holder.content.append(point)
-            self.point, self.sub = point, None
-            return
-        if (self.point is not None or self.sub is not None or listing) and (m := SUBPOINT.match(text)):
-            holder = self.point or self.para or self.unit
-            sub = Unit("subpoint", "sub", m.group(1), label=f"{m.group(1)})")
-            sub.content.append(m.group(2))
-            holder.content.append(sub)
-            self.sub = sub
-            return
-        self.deepest().content.append(text)
-
-
-def _mark_repealed(unit: Unit) -> None:
-    for child in unit.children():
-        _mark_repealed(child)
-    if not unit.children() and REPEALED.match(unit.own_text()):
-        unit.repealed = True
-        unit.content = []
-
-
 def _article_key(m: re.Match[str]) -> str:
     return f"{m.group(1)}{m.group(2).lower()}"
 
@@ -272,7 +218,7 @@ def parse_narodne_novine(content: bytes) -> list[ParsedDocument]:
     tops: list[tuple[Unit, str | None]] = []
     headings: list[tuple[int, str]] = []
     pending: list[str] = []
-    article: _Article | None = None
+    article: NumberedArticle | None = None
     tail: Unit | None = None  # closing text or an annex, once reached
     annexes = 0
 
@@ -285,7 +231,7 @@ def parse_narodne_novine(content: bytes) -> list[ParsedDocument]:
             for line in pending:  # centred lines inside the article are its text
                 article.deepest().content.append(line)
             pending.clear()
-            _mark_repealed(article.unit)
+            mark_repealed(article.unit, REPEALED)
 
     def push_heading(rank: int, line: str) -> None:
         while headings and headings[-1][0] >= rank:
@@ -321,7 +267,7 @@ def parse_narodne_novine(content: bytes) -> list[ParsedDocument]:
             heading = take_pending(article is None)
             finish_article()
             unit = Unit("article", "art", _article_key(am), heading=heading)
-            article = _Article(unit)
+            article = NumberedArticle(unit)
             tops.append((unit, context()))
             continue
         centred_line = (
