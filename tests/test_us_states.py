@@ -617,7 +617,7 @@ def test_the_four_states_ingest_cleanly(states: tuple[Session, dict[str, Ingesti
     for source, report in reports.items():
         assert report.errors == [] and report.conflicts == [] and report.documents_new == 1, source
     assert reports["us-wa-rcw"].provision_versions_created == 8
-    assert reports["us-ut-code"].provision_versions_created == 44 + 1  # sec-76-2-306 has two versions
+    assert reports["us-ut-code"].provision_versions_created == 44  # 43 sections, sec-76-2-306 in two versions
     assert reports["us-tx-statutes"].citation_links_created > 0
 
 
@@ -633,7 +633,7 @@ def test_the_four_states_ingest_cleanly(states: tuple[Session, dict[str, Ingesti
         ),
         (
             "US-TX",
-            "murder intentionally or knowingly causes the death of an individual sudden passion",
+            "adequate cause sudden passion arising out of provocation murder affirmative defense",
             "/us-tx/statutes/PE",
             "Tex. Penal Code § 19.02",
         ),
@@ -712,4 +712,7 @@ def test_repealed_oregon_section_is_recorded_without_text(
     session, _ = states
     res = provision_at(session, catalog, "/us-or/ors/12/~sec-12.030", date(2026, 10, 14))
     assert res["provision"]["citation"] == "ORS 12.030"
-    assert res["version"]["status"] == "repealed" and res["version"]["text"] == ""
+    # An undated repealed section has no version "on a date" (the source states none): it is on the timeline only.
+    assert res["version"] is None and res["status_on_date"] == "no_version"
+    assert [(v["status"], v["text"]) for v in res["timeline"]] == [("repealed", "")]
+    assert res["timeline"][0]["note"] == "Source credit: [Repealed by 1973 c.731 §2]"

@@ -8,8 +8,8 @@ https://le.utah.gov/xcode/. Format notes:
   ``<histories>`` (the legislature's history lines: "Amended by Chapter 356, 2026 General Session"),
   ``<catchline>`` (its caption), its own text and nested ``<subsection number="76-5-203(1)(a)">``; the printed
   label of a subsection (``(a)``) is the last parenthesised group of its ``number`` attribute and is not in the
-  element text, so the parser writes it in front of the text, as Utah's own pages do. Cross references are ``<xref refnumber="76-18-506">`` and become
-  citation links.
+  element text, so the parser writes it in front of the text, as Utah's own pages do. Cross references are
+  ``<xref refnumber="76-18-506">`` and become citation links.
 * **Dates.** A section that has a version taking effect later is printed twice: the current text with
   ``<enddate type="SC">1/1/2027</enddate>`` and the new text with ``<effdate>1/1/2027</effdate>``. These are
   stated by the source: the current version gets ``valid_to``, the later one ``valid_from`` (a point-in-time
