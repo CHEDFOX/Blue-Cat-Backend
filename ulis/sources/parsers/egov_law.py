@@ -502,7 +502,7 @@ def _parse_law_data(root: Element) -> ParsedDocument:
             "amendments not yet in force are reported from the revision list"
         )
     if (rev.findtext("repeal_status") or "None").strip() != "None":
-        raise EgovParseError(f"revision {revision_id}: repealed or expired laws are not supported")
+        raise ParseSkipped(f"revision {revision_id}: repealed or expired (廃止・失効); such laws are not ingested")
     if (rev.findtext("amendment_scheduled_enforcement_date") or "").strip():
         # A placeholder date ("not necessarily the actual enforcement date"): never used as a date of law.
         raise EgovParseError(f"revision {revision_id}: enforcement date is a placeholder")

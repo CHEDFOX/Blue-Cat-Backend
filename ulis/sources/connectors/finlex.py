@@ -19,6 +19,12 @@ only to ``opendata.finlex.fi``, a pause between requests (the API publishes no r
 so 5 s), back-off on 429 (the API's rate-limit response) and 5xx, any refusal stops the run,
 and every response is cached so nothing is fetched twice. Responses arrive gzip-encoded; the
 connector yields the decoded XML exactly as served.
+
+The manifest may list every consolidated statute in force (``scripts/build_finlex_manifest.py`` pages the API's own
+list endpoint), so a statute the API does not hold in a listed language (404) or cannot serve (a server error that
+outlasts the back-off) is reported in ``fetch_errors`` and the run goes on. A work may name the languages the list
+endpoint showed for it (``languages: [fin]``), which overrides the manifest's. A refusal (401, 403, 429, 451)
+stops the run, and so do ``MAX_CONSECUTIVE_ERRORS`` works failing in a row.
 """
 
 from __future__ import annotations
@@ -40,6 +46,8 @@ from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
 API = "https://opendata.finlex.fi/finlex/avoindata/v1"
 HOST = "opendata.finlex.fi"
 LANGUAGES = ("fin", "swe")
+MAX_CONSECUTIVE_ERRORS = 20
+_REFUSAL = re.compile(r"HTTP (?:401|403|429|451)\b")
 _NUMBER = re.compile(r"^\d{1,5}(?:-\d{3})?$")
 _VERSION = re.compile(rb"<FRBRversionNumber value=\"(\d{8})\"")
 _AMENDED_BY = re.compile(rb"<finlex:amendedBy>(.*?)</finlex:amendedBy>", re.S)
@@ -101,6 +109,7 @@ class FinlexConnector:
         self.offline = offline
         self._sleep = sleep
         self.missing_versions: list[str] = []
+        self.fetch_errors: list[str] = []
         self.http: PoliteHttp | None = None
 
     def _manifest(self) -> dict[str, Any]:
@@ -114,9 +123,17 @@ class FinlexConnector:
         for lang in manifest.get("languages", LANGUAGES):
             if lang not in LANGUAGES:
                 raise ManifestError(f"unsupported language {lang!r}")
+        seen: set[tuple[int, str]] = set()
         for work in manifest["works"]:
             if not isinstance(work.get("year"), int) or not _NUMBER.match(str(work.get("number", ""))):
                 raise ManifestError(f"invalid work {work!r}")
+            for lang in work.get("languages", ()):
+                if lang not in LANGUAGES:
+                    raise ManifestError(f"unsupported language {lang!r} in {work!r}")
+            key = (work["year"], str(work["number"]))
+            if key in seen:
+                raise ManifestError(f"{work['number']}/{work['year']} is listed twice")
+            seen.add(key)
         return manifest
 
     def _get(self, path: str) -> tuple[bytes, dict[str, Any]] | None:
@@ -136,8 +153,35 @@ class FinlexConnector:
             metadata={"work": base, "language": lang, "temporal_version": version, "fetched_url": meta["url"]},
         )
 
+    def _versions(self, work: dict[str, Any], base: str, lang: str) -> list[RawDocument]:
+        """The documents of one work in one language, in the order in which they took effect; empty when the
+        API does not hold the work in that language (reported in ``fetch_errors``)."""
+        latest = self._get(f"akn/fi/act/{base}/{lang}@latest")
+        if latest is None:
+            self.fetch_errors.append(f"finlex:{base}/{lang}: not found (404); skipped")
+            return []
+        versions = [self._raw(base, lang, *latest)]
+        if work.get("history", False):
+            # ``history_versions`` restricts the versions fetched (used for small test fixtures).
+            wanted = work.get("history_versions")
+            for vid in history_version_ids(latest[0], work["year"], str(work["number"])):
+                if wanted is not None and vid not in {str(w) for w in wanted}:
+                    continue
+                got = self._get(f"akn/fi/act/{base}/{lang}@{vid}")
+                if got is None:
+                    self.missing_versions.append(f"{base}/{lang}@{vid}")
+                    continue
+                versions.append(self._raw(base, lang, *got))
+        # Point-in-time versions are recorded in the order in which they took effect (amending
+        # statutes do not always take effect in the order of their numbers); the version as
+        # enacted, and any without a recorded date, first.
+        dates = version_dates(latest[0])
+        versions.sort(key=lambda r: (dates.get(r.metadata["temporal_version"], ""), r.metadata["temporal_version"]))
+        return versions
+
     def fetch(self) -> Iterator[RawDocument]:
         manifest = self._manifest()
+        self.fetch_errors = []
         self.http = PoliteHttp(
             self.cache_dir,
             manifest["user_agent"],
@@ -146,29 +190,20 @@ class FinlexConnector:
             offline=self.offline,
             sleep=self._sleep,
         )
+        failed_in_a_row = 0
         for work in manifest["works"]:
             base = f"statute-consolidated/{work['year']}/{work['number']}"
-            for lang in manifest.get("languages", LANGUAGES):
-                latest = self._get(f"akn/fi/act/{base}/{lang}@latest")
-                if latest is None:
-                    raise FetchError(f"{base} ({lang}): not found")
-                versions = [self._raw(base, lang, *latest)]
-                if work.get("history", False):
-                    # ``history_versions`` restricts the versions fetched (used for small test fixtures).
-                    wanted = work.get("history_versions")
-                    for vid in history_version_ids(latest[0], work["year"], str(work["number"])):
-                        if wanted is not None and vid not in {str(w) for w in wanted}:
-                            continue
-                        got = self._get(f"akn/fi/act/{base}/{lang}@{vid}")
-                        if got is None:
-                            self.missing_versions.append(f"{base}/{lang}@{vid}")
-                            continue
-                        versions.append(self._raw(base, lang, *got))
-                # Point-in-time versions are recorded in the order in which they took effect (amending
-                # statutes do not always take effect in the order of their numbers); the version as
-                # enacted, and any without a recorded date, first.
-                dates = version_dates(latest[0])
-                versions.sort(
-                    key=lambda r: (dates.get(r.metadata["temporal_version"], ""), r.metadata["temporal_version"])
-                )
-                yield from versions
+            documents: list[RawDocument] = []
+            try:
+                for lang in work.get("languages") or manifest.get("languages", LANGUAGES):
+                    documents += self._versions(work, base, lang)
+            except FetchError as exc:
+                if _REFUSAL.search(str(exc)) or self.offline:
+                    raise  # a refusal stops the run; so does a missing cache entry when offline
+                self.fetch_errors.append(f"finlex:{base}: {exc}; skipped")
+                failed_in_a_row += 1
+                if failed_in_a_row >= MAX_CONSECUTIVE_ERRORS:
+                    raise FetchError(f"{failed_in_a_row} works failed in a row (last: {exc}); stopping") from exc
+                continue
+            failed_in_a_row = 0
+            yield from documents

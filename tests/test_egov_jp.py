@@ -312,6 +312,14 @@ def test_laws_listed_under_two_types_keep_one_identity() -> None:
         assert text.work_uri == report.work_uri and text.expression_uri == report.expression_uri
 
 
+def test_a_law_repealed_since_the_manifest_was_made_is_skipped() -> None:
+    page = _read(CABINET_ORDER).replace(
+        b"<repeal_status>None</repeal_status>", b"<repeal_status>Repeal</repeal_status>"
+    )
+    with pytest.raises(ParseSkipped, match="repealed or expired"):
+        parse_egov(page)
+
+
 def test_a_law_with_no_provisions_is_skipped_not_an_error() -> None:
     import re
 
