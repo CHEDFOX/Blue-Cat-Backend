@@ -32,7 +32,7 @@ def test_publisher_is_recorded_and_the_licence_gate_refuses_it(catalog: Catalog,
     assert source.licence.review_status in ("pending_review", "rejected")
     assert source.licence.reviewed_on == date(2026, 10, 15)
     assert "robots.txt" in (source.licence.reviewed_by or "")
-    assert source.document_kinds == ["constitution"]
+    assert "constitution" in source.document_kinds  # WIPO Lex also covers IP laws, treaties and judgments
     assert source.connector is None and source.parser is None
     assert source.licence.attribution_text is None
     with pytest.raises(LicenceNotApproved):
