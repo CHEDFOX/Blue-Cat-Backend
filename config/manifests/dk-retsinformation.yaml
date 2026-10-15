@@ -7,7 +7,7 @@
 # metadata marks as in force (type_document LBKH, in_force inForce), found by scripts/build_dk_manifest.py.
 # Scale: 34435 Lovtidende A documents are listed in the ELI sitemap (200007 documents in all, read on
 # 2026-10-15); the sitemap does not give the type, so each candidate costs one metadata request (10 s). This manifest
-# is the result of classifying 1113 of them (newest first, from lta/2026/892 down to lta/2025/1612); 83 lovbekendtgørelser in force were found. To
+# is the result of classifying 1501 of them (newest first, from lta/2026/892 down to lta/2025/1224); 107 lovbekendtgørelser in force were found. To
 # widen: python scripts/build_dk_manifest.py --from-year <oldest year wanted> [--max-requests N]; it goes on where
 # the last run stopped (documents already classified are listed in
 # config/manifests/dk-retsinformation.classified.tsv) and takes about 4.8 hours for each year of
@@ -30,6 +30,29 @@ works:
     consolidations: [lta/2021/1347]
   - name: Databeskyttelsesloven    # LBK 289/2024 (current; consolidates lov 502/2018, 1783/2023, 1784/2023)
     consolidations: [lta/2024/289]
+  - {name: "Skatteforvaltningsloven", consolidations: [lta/2025/1228]}
+  - {name: "lov om kommuners afståelse af vandselskaber", consolidations: [lta/2025/1242]}
+  - {name: "Betalingsloven", consolidations: [lta/2025/1243]}
+  - {name: "lov om klage- og erstatningsadgang inden for sundhedsvæsenet", consolidations: [lta/2025/1250]}
+  - {name: "lov om fremme af energibesparelser i bygninger", consolidations: [lta/2025/1253]}
+  - {name: "Friplejeboligloven", consolidations: [lta/2025/1254]}
+  - {name: "EUDP-loven", consolidations: [lta/2025/1269]}
+  - {name: "Gasforsyningsloven", consolidations: [lta/2025/1286]}
+  - {name: "lov om mægling i arbejdsstridigheder", consolidations: [lta/2025/1290]}
+  - {name: "Retsplejeloven", consolidations: [lta/2025/1298]}
+  - {name: "Etableringskontoloven", consolidations: [lta/2025/1307]}
+  - {name: "Offererstatningsloven", consolidations: [lta/2025/1400]}
+  - {name: "lov om kreditservicevirksomheder og kreditkøbere", consolidations: [lta/2025/1439]}
+  - {name: "lov om betalingskonti og basale erhvervskonti", consolidations: [lta/2025/1462]}
+  - {name: "Ligningsloven", consolidations: [lta/2025/1500]}
+  - {name: "lov om investeringsrådgivere og boligkreditformidlere", consolidations: [lta/2025/1537]}
+  - {name: "lov om Kreditforeningen af kommuner og regioner i Danmark", consolidations: [lta/2025/1538]}
+  - {name: "lov om ejendomskreditselskaber", consolidations: [lta/2025/1539]}
+  - {name: "lov om en terrorforsikringsordning på skadesforsikringsområdet", consolidations: [lta/2025/1540]}
+  - {name: "lov om realkreditlån og realkreditobligationer m.v.", consolidations: [lta/2025/1541]}
+  - {name: "lov om et skibsfinansieringsinstitut", consolidations: [lta/2025/1542]}
+  - {name: "lov om forsikringsformidling", consolidations: [lta/2025/1543]}
+  - {name: "lov om forbrugslånsvirksomheder", consolidations: [lta/2025/1545]}
   - {name: "lov om deling af fordele ved udnyttelse m.v. af genetiske ressourcer", consolidations: [lta/2025/1730]}
   - {name: "Beredskabsloven", consolidations: [lta/2025/1741]}
   - {name: "Kommunestyrelsesloven", consolidations: [lta/2026/13]}

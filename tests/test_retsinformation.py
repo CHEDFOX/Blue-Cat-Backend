@@ -26,7 +26,13 @@ from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
 from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision
-from ulis.sources.parsers.retsinformation import RetsinformationParseError, parse_retsinformation
+from ulis.sources.parsers.retsinformation import (
+    RetsinformationParseError,
+    _num_slug,
+    _paragraph_number,
+    parse_retsinformation,
+    parse_xml,
+)
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
 
@@ -175,6 +181,28 @@ def test_uppercase_paragraph_suffix_and_a_preamble() -> None:
     assert tax.ext == {"popular_title": "Aktieavancebeskatningsloven", "document_type": "LBK H"}
     school = _doc("lbk-2026-870")  # a <Praeambel> before the text: not a provision
     assert school.provisions[0].eid == "par-1" and _cite(school, "par-1") == "§ 1 i folkeskoleloven"
+
+
+def test_amending_paragraph_and_labels_of_repealed_ranges() -> None:
+    # LBK 466/2026 ends with an <AendringCentreretParagraf> ("§ 20. Loven gælder ikke for Færøerne og Grønland.")
+    igu = _doc("lbk-2026-466")
+    assert _p(igu, "par-20").text == "Loven gælder ikke for Færøerne og Grønland."
+    assert _cite(igu, "par-20") == "§ 20 i lov om integrationsgrunduddannelse (igu)"
+    # a repealed pair or range is printed "§§ 26 og 27." or "§§ 96 k-o." and must not fail the whole law
+    for printed, number, eid in [
+        ("§§ 26 og 27.", "26 og 27", "26og27"),
+        ("§§ 8 b og 8 c.", "8 b og 8 c", "8bog8c"),
+        ("§§ 96 k-o.", "96 k-o", "96k-o"),
+        ("§§ 9\u20139 b.", "9-9 b", "9-9b"),
+        ("§§ 28-30.", "28-30", "28-30"),
+        ("§ 343 ab.", "343 ab", "343ab"),
+        ("§ 4 A.", "4 A", "4a"),
+    ]:
+        par = parse_xml(f"<Paragraf><Explicatus>{printed}</Explicatus></Paragraf>".encode())
+        assert _paragraph_number(par) == number
+        assert _num_slug(number) == eid
+    pair = ProvisionCitationInput("lov om x", "act", "DK", "paragraph", ["p:26 og 27"], "da", ext={})
+    assert get_module("dk").pinpoint(pair) == "§§ 26 og 27"
 
 
 # --------------------------------------------------------------------------- connector

@@ -42,7 +42,7 @@ def law_name(title: str) -> str:
 
 class DkModule(JurisdictionModule):
     id: ClassVar[str] = "dk"
-    version: ClassVar[str] = "1.1.0"
+    version: ClassVar[str] = "1.2.0"
     ext_model: ClassVar[type[BaseModel]] = DkExt
 
     def pinpoint(self, c: ProvisionCitationInput) -> str:
@@ -50,7 +50,7 @@ class DkModule(JurisdictionModule):
         for part in c.num_path:
             kind, _, label = part.partition(":")
             if kind == "p":
-                out.append(f"§§ {label}" if "-" in label else f"§ {label}")
+                out.append(f"§§ {label}" if "-" in label or " og " in label else f"§ {label}")
             elif kind in ("stk", "nr", "litra"):
                 out.append(f"{kind}. {label}" if kind != "litra" else f"litra {label}")
         return ", ".join(out)
