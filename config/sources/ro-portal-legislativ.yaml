@@ -1,0 +1,42 @@
+# PLANNED, not active: findings of the evaluation of Portal Legislativ (legislatie.just.ro) (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: ro-portal-legislativ
+name: Portal Legislativ (legislatie.just.ro)
+publisher: Ministerul Justiției / Ministry of Justice of Romania
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- RO
+document_kinds:
+- act
+- regulation
+languages:
+- ro
+coverage: Romanian legislation as published in Monitorul Oficial with consolidated versions; a SOAP web service (apiws/FreeWebService.svc)
+  is offered to developers.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://legislatie.just.ro/
+update_frequency: not assessed
+licence:
+  id: UNKNOWN
+  name: Terms not read (host unreachable)
+  url: https://legislatie.just.ro/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - https://legislatie.just.ro/ , /robots.txt and /apiws/FreeWebService.svc?wsdl
+    closed the HTTPS connection without a response (curl: HTTP/2 PROTOCOL_ERROR / empty reply) on every attempt, 2026-10-14
+    and 2026-10-15; nothing could be read. Not worked around.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: Retry from the owner's network and read the web service's terms (the portal advertises the service as free for developers
+    - not verified). Romanian has a PostgreSQL stemmer (romanian).
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- 'Unreachable from the build environment: no terms, robots.txt, WSDL or document could be read.'
+status: planned
+connector: null
+parser: null

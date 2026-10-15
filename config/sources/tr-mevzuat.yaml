@@ -1,0 +1,41 @@
+# PLANNED, not active: findings of the evaluation of Mevzuat Bilgi Sistemi (mevzuat.gov.tr) (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: tr-mevzuat
+name: Mevzuat Bilgi Sistemi (mevzuat.gov.tr)
+publisher: Cumhurbaşkanlığı Mevzuat Geliştirme ve Yayın Genel Müdürlüğü
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- TR
+document_kinds:
+- act
+- regulation
+languages:
+- tr
+coverage: Turkish legislation in force (consolidated).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.mevzuat.gov.tr/
+update_frequency: not assessed
+licence:
+  id: UNKNOWN
+  name: Terms not read (host timed out)
+  url: https://www.mevzuat.gov.tr/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - https://www.mevzuat.gov.tr/ and /robots.txt timed out (read timeout)
+    on 2026-10-14 and were reset by the server (''Connection reset by peer'') on 2026-10-15. www.resmigazete.gov.tr (the Official
+    Gazette, as published) answers: its robots.txt has only ''Noindex'' lines for named search engines and no Disallow for
+    other agents, but it prints acts as published, without consolidation.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: Retry from the owner's network; Turkish has a PostgreSQL stemmer (turkish).
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- 'Unreachable from the build environment: nothing could be read.'
+status: planned
+connector: null
+parser: null

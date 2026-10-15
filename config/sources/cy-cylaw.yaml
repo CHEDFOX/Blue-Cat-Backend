@@ -1,0 +1,44 @@
+# PLANNED, not active: findings of the evaluation of CyLaw (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: cy-cylaw
+name: CyLaw
+publisher: Cyprus Bar Association - Cyprus Institute of Legal Information (ΚΙΝΟΠ)
+kind: official_legislation_portal
+authority: authoritative_secondary
+jurisdictions:
+- CY
+document_kinds:
+- act
+- regulation
+languages:
+- el
+- en
+coverage: Cypriot legislation and case law.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.cylaw.org/nomoi/
+update_frequency: not assessed
+licence:
+  id: CY-CYLAW-TERMS
+  name: CyLaw Όροι χρήσης (terms of use)
+  url: https://www.cylaw.org/terms.html
+  review_status: rejected
+  reviewed_by: 'ULIS project, preliminary research notes - https://www.cylaw.org/terms.html (read 2026-10-14) lists as prohibited
+    uses, ''εκτός κατόπιν εκ των προτέρων γραπτής συναίνεσης του ΚΙΝΟΠ'' (without the prior written consent of the Institute):
+    ''Δημιουργία εξωτερικού ευρετηρίου (external indexing) αρχείων ή εγγράφων ... από διαδικτυακά ρομπότ (web robots)'' and
+    ''Μαζικό ή συστηματικό κατέβασμα αρχείων ή εγγράφων με οποιοδήποτε τρόπο, περιλαμβανομένου δια μέσου αυτοματοποιημένης
+    επεξεργασίας''. robots.txt only disallows /apofaseis/, /apofaseised/, /clr/, /cgi-bin/ (case law).'
+  reviewed_on: '2026-10-15'
+  redistribution: not_allowed
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: unknown
+  notes: 'The terms forbid automated and systematic downloading: do not fetch without the Institute''s written consent (info@cylaw.org).
+    The terms tell publishers to obtain texts from the original source.'
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- Terms forbid robots and systematic download; no other open Cypriot source evaluated.
+status: planned
+connector: null
+parser: null

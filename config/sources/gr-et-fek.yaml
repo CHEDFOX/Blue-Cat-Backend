@@ -1,0 +1,40 @@
+# PLANNED, not active: findings of the evaluation of Εθνικό Τυπογραφείο - ΦΕΚ (et.gr) (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: gr-et-fek
+name: Εθνικό Τυπογραφείο - ΦΕΚ (et.gr)
+publisher: Εθνικό Τυπογραφείο (National Printing House)
+kind: official_gazette
+authority: official_authentic
+jurisdictions:
+- GR
+document_kinds:
+- act
+languages:
+- el
+coverage: Government Gazette (ΦΕΚ) issues as PDF files; codified legislation is offered by private sites.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.et.gr/
+update_frequency: not assessed
+licence:
+  id: UNKNOWN
+  name: Terms not read
+  url: https://www.et.gr/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - et.gr/robots.txt: ''User-agent: * Disallow:'' (empty) and a sitemap.
+    The gazette issues are PDF files (ULIS has no PDF text extraction dependency and a PDF is not an exact-text source). e-nomothesia.gr
+    is a private codification site (not an official publisher): its robots.txt sets ''Crawl-delay: 30'' and blocks several
+    named agents including Python-urllib.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: Needs a PDF text-extraction path and a terms review; Greek has a PostgreSQL stemmer (greek).
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- PDF only; no consolidated text from an official publisher found.
+status: planned
+connector: null
+parser: null

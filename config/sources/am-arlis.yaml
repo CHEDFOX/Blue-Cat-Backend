@@ -1,0 +1,43 @@
+# PLANNED, not active: findings of the evaluation of ARLIS - Armenian Legal Information System (arlis.am) (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: am-arlis
+name: ARLIS - Armenian Legal Information System (arlis.am)
+publisher: Ministry of Justice of the Republic of Armenia
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- AM
+document_kinds:
+- act
+- regulation
+languages:
+- hy
+- en
+- ru
+coverage: 214,491 legal acts with version history (as counted on the site on 2026-10-14).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.arlis.am/
+update_frequency: not assessed
+licence:
+  id: UNKNOWN
+  name: Copyright reserved; no reuse terms found
+  url: https://www.arlis.am/en/about
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - robots.txt answers 404 (no rules). https://www.arlis.am/en/about:
+    footer ''© 2025 Copyright reserved'' and technical-support contacts; no terms of use or reuse licence. Act pages are very
+    large HTML documents (1.4 MB for the home page, 2.8 MB for one act page with its change history) and the site is not an
+    API.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: Ask the Ministry of Justice (info@arlis.am) for terms or a data feed. PostgreSQL has an armenian configuration.
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- Rights reserved and no reuse terms; heavy pages.
+status: planned
+connector: null
+parser: null

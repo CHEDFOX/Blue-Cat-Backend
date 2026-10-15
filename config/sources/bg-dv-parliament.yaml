@@ -1,0 +1,42 @@
+# PLANNED, not active: findings of the evaluation of Държавен вестник (dv.parliament.bg) (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: bg-dv-parliament
+name: Държавен вестник (dv.parliament.bg)
+publisher: Народно събрание на Република България
+kind: official_gazette
+authority: official_authentic
+jurisdictions:
+- BG
+document_kinds:
+- act
+languages:
+- bg
+coverage: The Bulgarian State Gazette as published (issues and materials); no consolidation.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://dv.parliament.bg/DVWeb/index.faces
+update_frequency: not assessed
+licence:
+  id: UNKNOWN
+  name: No terms found
+  url: https://dv.parliament.bg/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - dv.parliament.bg/robots.txt answers 404 (no rules); www.parliament.bg/robots.txt
+    is ''User-agent: * Disallow:'' (empty). The site (a JSF application at /DVWeb/index.faces, materials at showMaterialDV.jsp?idMat=N)
+    states no terms of use or licence on the pages read, and a material page requested directly returned an empty body. lex.bg
+    (the commercial consolidated database) answers 403 ''Just a moment...'' (a bot challenge) and was not used.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: The gazette only prints acts as adopted and each amendment separately; a consolidated Bulgarian source with open
+    terms was not found. Copyright Act (ЗАПСП) art. 4 excludes normative acts, to be verified.
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- 'Acts only as published: no consolidated or point-in-time text.'
+- No PostgreSQL stemmer for Bulgarian (simple configuration).
+status: planned
+connector: null
+parser: null

@@ -1,0 +1,45 @@
+# PLANNED, not active: findings of the evaluation of Laws of Malta - Legislation Malta (legislation.mt) (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: mt-legislation
+name: Laws of Malta - Legislation Malta (legislation.mt)
+publisher: Office of the Attorney General, Malta
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- MT
+document_kinds:
+- act
+- regulation
+languages:
+- mt
+- en
+coverage: Consolidated Laws of Malta (563 chapters, 4,516 subsidiary instruments), acts and legal notices as published, with
+  ELI metadata and a sitemap.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://legislation.mt/eli/sitemap.xml
+update_frequency: not assessed
+licence:
+  id: UNKNOWN
+  name: No reuse terms found; copyright notice of the Attorney General's office
+  url: https://legislation.mt/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - robots.txt (2026-10-14): only ''User-agent: Sogou web spider /
+    Disallow: /'' - all other agents are allowed. The page footer reads ''© Dritt tal-awtur: L-Uffiċċju tal-Avukat tal-Istat''
+    (copyright: Office of the Attorney General); the FAQ and the pages linked from the home page state no reuse terms. ELI
+    pages (e.g. /eli/cap/16) hold metadata and offer the text in ''Format: PDF'' only (Maltese and English). The sitemap https://legislation.mt/eli/sitemap.xml
+    lists 21,662 ELI addresses; an Atom update feed exists.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: Needs a reuse statement from the Attorney General's office and a PDF text-extraction path (not a ULIS dependency).
+    English is the stronger language for search (english configuration).
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- Texts are PDFs only; copyright is reserved on the site; no explicit reuse terms.
+status: planned
+connector: null
+parser: null

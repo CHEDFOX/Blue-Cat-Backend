@@ -1,0 +1,41 @@
+# PLANNED, not active: findings of the evaluation of Pravno-informacioni sistem Republike Srbije (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: rs-pravno-informacioni-sistem
+name: Pravno-informacioni sistem Republike Srbije
+publisher: JP Službeni glasnik
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- RS
+document_kinds:
+- act
+- regulation
+languages:
+- sr
+coverage: Serbian legislation with ELI identifiers.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.pravno-informacioni-sistem.rs/
+update_frequency: not assessed
+licence:
+  id: UNKNOWN
+  name: No terms found
+  url: https://www.pravno-informacioni-sistem.rs/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - robots.txt (2026-10-14): ''User-agent: * / Allow: /eli/rep/* /
+    Allow: /SLGlasnikPortal/eli/rep/*'' (no Disallow line). The site is a JavaScript single-page application: its ELI addresses
+    answer with a 13 KB shell without any legal text, and no API or terms of use were found. The publisher sells subscriptions
+    to its gazette archives.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: Needs the publisher's description of a machine interface and its terms. PostgreSQL has a serbian configuration.
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- No machine-readable text reachable without running the application's JavaScript.
+status: planned
+connector: null
+parser: null

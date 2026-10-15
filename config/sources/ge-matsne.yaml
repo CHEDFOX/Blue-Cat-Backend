@@ -1,0 +1,44 @@
+# PLANNED, not active: findings of the evaluation of Matsne - Legislative Herald of Georgia (matsne.gov.ge) (see licence.reviewed_by). Preliminary research notes, to be confirmed by counsel.
+schema_version: 1
+id: ge-matsne
+name: Matsne - Legislative Herald of Georgia (matsne.gov.ge)
+publisher: LEPL Legislative Herald of Georgia (Ministry of Justice)
+kind: official_legislation_portal
+authority: official_authentic
+jurisdictions:
+- GE
+document_kinds:
+- act
+- regulation
+languages:
+- ka
+- en
+coverage: Georgian legislation with codified versions; some English translations.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://matsne.gov.ge/
+update_frequency: not assessed
+licence:
+  id: GE-MATSNE-TERMS
+  name: Matsne user categories and fees (Useful Information)
+  url: https://matsne.gov.ge/en/node/207
+  review_status: pending_review
+  reviewed_by: 'ULIS project, preliminary research notes - robots.txt (2026-10-14): ''Crawl-delay: 10'' and Drupal housekeeping
+    paths disallowed; documents are not disallowed. But https://matsne.gov.ge/en/node/207 (''Useful Information'') says codified
+    versions are for registered users and that an ''authorized user'' pays for the right to review codified versions of secondary
+    legislation (GEL 30 per month for 1-10 users ... GEL 2 per act downloaded); the footer reads ''All Rights Reserved''.
+    No licence for reuse is stated.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: not_allowed
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: 'Registration is needed for codified texts and part of the corpus is fee-based: do not automate without the Herald''s
+    written agreement. No PostgreSQL stemmer for Georgian.'
+provenance: Evaluated, not ingested (ULIS-research-bot/0.1 identified client, polite requests (5 s apart), 2026-10-14/15).
+  Nothing from this source is stored in ULIS.
+known_limitations:
+- Codified versions need registration; secondary legislation is fee-based; rights reserved.
+status: planned
+connector: null
+parser: null
