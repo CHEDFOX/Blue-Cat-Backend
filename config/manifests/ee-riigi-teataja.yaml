@@ -1,10 +1,43 @@
 # Estonian consolidated texts (terviktekstid) read from Riigi Teataja's open-data archive
-# (https://www.riigiteataja.ee/avaandmed/ERT/, "Riigi Teataja avaandmed"), single members only, with
-# HTTP range requests (the archive is 43 GB and is never downloaded). Each version is named by its
-# globaalID (the member is <globaalID>.xml); versions are listed OLDEST FIRST (whole-act snapshots).
-# IDs were found by reading the metadata (lyhend, terviktekstiGrupiID, kehtivuseAlgus/Lopp) of the
-# archive's members on 2026-10-14 (archive generated 2026-10-11, LOEMIND.txt); the last version of
-# each work is the one in force on 2026-10-14. Consolidated texts that start later are not listed.
+# (https://www.riigiteataja.ee/avaandmed/ERT/, "Riigi Teataja avaandmed"). Two parts:
+#
+# 1. `works`: six acts pinned by globaalID with their history (the first pilot), read with HTTP range requests, one
+#    member each. Each version is named by its globaalID (the member is <globaalID>.xml); versions are listed OLDEST FIRST
+#    (whole-act snapshots). IDs were found by reading the metadata (lyhend, terviktekstiGrupiID, kehtivuseAlgus/Lopp) of
+#    the archive's members on 2026-10-14 (archive generated 2026-10-11, LOEMIND.txt); the last version of each work is the
+#    one in force on 2026-10-14. Consolidated texts that start later are not listed.
+#
+# 2. `select`: the text in force of every act (seadus) and regulation (maarus) of the state and of the local governments,
+#    found by reading the archive itself: no list of the acts in force is published apart from the archive (the site's pages and API are a JavaScript
+#    application and are not used). The connector reads the archive's central directory (25 MB, once), then the whole
+#    archive in byte ranges of 64 MiB (one request each, 5 s apart; a member larger than 8 MiB compressed first by its
+#    first 20 KB only), and checks the metadata (`<metaandmed>`) of every member: tekstiliik = a consolidated text,
+#    dokumentLiik in document_types, and valjaandja not matching exclude_issuers when that is given. An act (terviktekstiGrupiID) has many
+#    consolidated texts and the end date of a superseded one is NOT reliable (Maksukorralduse seadus has older texts without
+#    kehtivuseLopp), so the text in force on the archive's date is the group's text with the latest kehtivuseAlgus up to
+#    that date. If that text is a repealed act's empty tombstone, an old HTML fragment, ended before the date, larger than
+#    max_member_bytes or disallowed by robots.txt (`*/akt/<id>/*`, 5 647 ids), the act is not ingested. The winning text of
+#    each group is kept in a scratch file under the cache while the archive is read, so the documents are delivered after
+#    the last range, in the order of their names; the archive itself is NOT kept (each range is dropped after use).
+#    `part: "i/n"` reads the i-th n-th of the ranges and chooses the winners among the texts that part holds: for trials,
+#    not for the corpus (the committed manifest reads all).
+#
+# SCALE. Whole archive: 810 ranges of 64 MiB (30.9 GB) and 582 probes of the first 20 KB of large members = about 1 400
+# requests = 2 hours at the 5 s delay plus the transfer of about 31 GB, and the body of every winning large member.
+# Memory: one range (64 MiB) and one act at a time; disk: the winners (compressed, a few GB). How many acts are in force
+# is known only after the scan; the estimate rests on two measurements of 2026-10-15. (a) A uniform random sample of
+# 527 of the 254 454 members: consolidated texts with content, of a wanted type, started and not marked as ended number
+# about 8 200 for the state and 12 100 for the local governments (wide intervals; the count includes superseded texts
+# without an end date, so it is an upper bound). (b) Slices of the stream mode with all issuers (parts 30/100, 80/100
+# and 95/100): the municipalities' members lie in the later part of the archive; each of the two parts there gave 341
+# and 372 local regulations in force, so about 13 000 local acts, 52 provision versions each on average (17 728 in the
+# 341 acts ingested; 99 KB of database and 390 KB of raw XML per act). The state's laws in force are about a thousand
+# with some 1 000 provisions each, its regulations 2 000-6 000 with some 70 (not measured: the first part, 30/100, chooses
+# winners among the texts it holds, so it overstates). Estimated: 16 000-21 000 documents, about 2 million provision
+# versions, a database of 4-6 GB (below the 15 GB limit, so nothing is left out by default) and 7-8 GB of raw XML in the
+# object store (stored uncompressed). To leave the municipalities out (volikogu and valitsus: about two thirds of the
+# documents, a quarter of the database) add to `select` the line
+#   exclude_issuers: "(Vallavolikogu|Vallavalitsus|Linnavolikogu|Linnavalitsus)$"
 schema_version: 1
 source_id: ee-riigi-teataja
 base_url: https://www.riigiteataja.ee
@@ -48,3 +81,7 @@ works:
     group_id: 153445
     versions:
       - "106072023031"   # 2024-01-01 - 2026-12-31 (in force on 2026-10-14)
+select:
+  document_types: [seadus, määrus]
+  as_of: archive
+  max_member_bytes: 50000000

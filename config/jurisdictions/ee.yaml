@@ -1,9 +1,9 @@
-# REAL JURISDICTION - DRAFT, UNVERIFIED. Estonia (national legislation). Local government acts
-# (RT IV) are not profiled. EU membership is deliberately not recorded here (added separately with
-# the EU profile).
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Estonia (national legislation; the regulations of local
+# governments are ingested with the state's, cited by issuer, but have no profile of their own).
+# EU membership is deliberately not recorded here (added separately with the EU profile).
 schema_version: 1
 id: EE
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Estonia
 names: {et: Eesti, en: Estonia}
 kind: sovereign_state
@@ -102,12 +102,12 @@ memberships:
   - organisation: EU
     from_date: 2004-05-01
 coverage:
-  corpus_status: pilot
+  corpus_status: partial
   known_gaps:
-    - Only six acts are ingested, as Riigi Teataja consolidated texts - the Constitution (PS), Penal Code (KarS), Law of Obligations Act (VÕS), Personal Data Protection Act (IKS), Employment Contracts Act (TLS) and Administrative Procedure Act (HMS); no other acts, no regulations (määrused), no local-government acts, no treaties, no explanatory notes and no case law.
+    - Ingested as Riigi Teataja consolidated texts - the text in force of every act (seadus) and regulation (määrus), of the state and of the local governments, that the publisher's open-data archive holds, and the history of six acts (the Constitution PS, Penal Code KarS, Law of Obligations Act VÕS, Personal Data Protection Act IKS, Employment Contracts Act TLS and Administrative Procedure Act HMS). Not ingested - decisions, orders and other document types, treaties, explanatory notes, case law, and acts whose consolidated text is an empty repealed shell or an old unstructured HTML fragment.
     - Estonian only. Riigi Teataja publishes unofficial English translations of many acts; they are not ingested.
     - Case law (Riigikohus and lower courts) is not ingested; Riigi Teataja's court-decision paths are disallowed by its robots.txt.
-    - The history of most acts is limited to the versions listed in the manifest; the Constitution (and IKS) have several consolidated texts, the others only the version in force on the retrieval date. Consolidated texts that take effect after that date are not ingested.
+    - The history of most acts is limited to the version in force on the archive's date; the Constitution (and IKS and TLS) have several consolidated texts, as listed in the manifest. Consolidated texts that take effect after that date are not ingested.
     - Versions are whole-act snapshots dated by the consolidated text's validity period; the source gives no validity dates for single provisions (it marks the amending act and entry into force of each changed provision, which ULIS keeps as a note).
     - Annexes (lisad), the introductory formula and footnotes outside the provisions are not ingested; tables inside provisions are flattened to text.
     - Cross-references between acts (links to other Riigi Teataja acts) are not stored as links.

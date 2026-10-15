@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import base64
 import gzip
 import json
+import random
+import re
 import struct
 import zipfile
 from collections.abc import Iterator
@@ -27,14 +30,17 @@ from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
 from ulis.sources.connectors.riigi_teataja import (
+    HEAD_COMPRESSED,
     RiigiTeatajaConnector,
     RobotsRules,
     ZipEntry,
+    iter_central_directory,
     locate_central_directory,
+    plan_chunks,
     read_central_directory,
     read_member,
 )
-from ulis.sources.normalized import ParsedDocument, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkipped
 from ulis.sources.parsers.riigi_teataja import RiigiTeatajaParseError, parse_riigi_teataja, resolve_uri
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
@@ -99,7 +105,6 @@ MINIMAL = (
         (b'<!DOCTYPE x [<!ENTITY e "x">]><oigusakt/>', "unsafe"),
         (b"<html><body>app</body></html>", "unsupported root"),
         (MINIMAL.format(kind="algtekst", body="").encode(), "only consolidated texts"),
-        (MINIMAL.format(kind="terviktekst", body="").encode(), "no provisions"),
         (MINIMAL.format(kind="terviktekst", body="<tabel/>").encode(), "unexpected <tabel>"),
     ],
 )
@@ -177,6 +182,32 @@ def test_repealed_provisions_and_superscript_numbers() -> None:
     )
 
 
+def test_corrections_of_errors_are_notes_and_drafts_are_skipped() -> None:
+    erratum = (
+        "<veaparandus><veaparandusKuupaev>2019-04-18</veaparandusKuupaev><veaparandusTekst>Veaparandus - "
+        "Kustutatud punkti 1 topelt tekst Riigi Teataja seaduse § 10 lg 3 alusel.</veaparandusTekst></veaparandus>"
+    )
+    body = (
+        '<paragrahv id="para1"><paragrahvNr>1</paragrahvNr><loige id="para1lg1"><loigeNr>1</loigeNr>'
+        "<sisuTekst><tavatekst>Tekst.</tavatekst></sisuTekst>"
+        '<alampunkt id="para1lg1p1"><alampunktNr>1</alampunktNr><sisuTekst><tavatekst>Punkt.</tavatekst></sisuTekst>'
+        f"{erratum}</alampunkt>{erratum}</loige>"
+        # as in the Penal Code: the erratum inside the sisuTekst, after the text
+        '<loige id="para1lg2"><loigeNr>2</loigeNr><sisuTekst><tavatekst>Teine.</tavatekst>'
+        f"{erratum}</sisuTekst></loige></paragrahv>"
+    )
+    (doc,) = parse_riigi_teataja(MINIMAL.format(kind="terviktekst", body=body).encode())
+    point, subsection, inside = _p(doc, "para-1-lg-1-p-1"), _p(doc, "para-1-lg-1"), _p(doc, "para-1-lg-2")
+    assert (point.text, subsection.text, inside.text) == ("Punkt.", "Tekst.", "Teine.")
+    assert point.note == subsection.note == inside.note
+    assert (point.note or "").startswith("Veaparandus - Kustutatud punkti 1")
+    draft = MINIMAL.format(kind="terviktekst", body=body).replace(
+        "<metaandmed>", "<metaandmed><seisund>EELNÕU</seisund>"
+    )
+    with pytest.raises(ParseSkipped, match="a draft"):
+        parse_riigi_teataja(draft.encode())
+
+
 def test_dates_with_time_zone_offsets_and_lifecycle_events() -> None:
     old = _doc("104012019011")  # kehtivuseAlgus 2019-01-15+02:00, kehtivuseLopp 2023-10-31+02:00
     assert old.version_date == date(2019, 1, 15) and {p.valid_to for p in old.provisions} == {date(2023, 11, 1)}
@@ -201,6 +232,45 @@ def test_citations() -> None:
     assert module.provision_citation(ProvisionCitationInput("Näide", "act", "EE", "section", [], "et")) == "Näide"
     assert resolve_uri("/ee/act/162500/~para-113-lg-1") == (KARS, "para-113-lg-1")
     assert resolve_uri("/nl/bwb/BWBR0001840") is None
+
+
+def _cite_by_title(doc: ParsedDocument, eid: str) -> str:
+    """The citation as the retrieval layer builds it for an instrument without an abbreviation (its title)."""
+    p = _p(doc, eid)
+    c = ProvisionCitationInput(doc.title, doc.instrument_type, "EE", p.top_kind, p.num_path, "et", ext=doc.ext)
+    return get_module("ee").provision_citation(c)
+
+
+def test_regulations_have_a_preamble_and_are_cited_by_title_and_issuer() -> None:
+    doc = _doc("418082026030")  # Viimsi Vallavalitsus, määrus (a local government)
+    assert doc.instrument_type == "regulation" and doc.work_uri == "/ee/regulation/1064248"
+    assert doc.ext["issuer"] == "Viimsi Vallavalitsus" and "abbreviation" not in doc.ext and doc.short_title is None
+    preamble = _p(doc, "preamble")
+    assert preamble.text.startswith("Määrus kehtestatakse põhikooli- ja gümnaasiumiseaduse § 71 lõike 8")
+    assert preamble.status == "in_force" and preamble.num_path == ["preamble:preambul"]
+    first = _p(doc, "para-1")
+    assert first.heading == "Reguleerimisala" and first.valid_from == date(2026, 8, 21) and first.valid_to is None
+    prefix = f"{doc.title} (Viimsi Vallavalitsus)"
+    assert _cite_by_title(doc, "para-2-lg-2") == f"{prefix} § 2 lg 2"
+    assert _cite_by_title(doc, "preamble") == f"{prefix} preambul"
+    state = _doc("000013060572")  # Kaitseminister, määrus
+    assert state.instrument_type == "regulation" and state.ext["issuer"] == "Kaitseminister"
+    assert _cite_by_title(state, "para-1") == "Passiivse kaitse vahendite loetelu (Kaitseminister) § 1"
+
+
+@pytest.mark.parametrize(
+    "name, message",
+    [
+        ("408122017018", "is empty \\(repealed\\)"),  # <sisu/> and a "Kehtetu" mark: a repealed act
+        ("000000745959", "unstructured HTML fragment"),
+        ("326032013013", "document type 'korraldus'"),
+    ],
+)
+def test_texts_with_nothing_to_ingest_are_skipped_not_errors(name: str, message: str) -> None:
+    with pytest.raises(ParseSkipped, match=message):
+        parse_riigi_teataja(_raw(name))
+    with pytest.raises(ParseSkipped, match="is empty"):
+        parse_riigi_teataja(MINIMAL.format(kind="terviktekst", body="").encode())
 
 
 # --------------------------------------------------------------------------- connector
@@ -400,10 +470,254 @@ def test_range_request_that_is_not_honoured_is_not_downloaded(tmp_path: Path, mo
         http.get(f"https://{HOST}/x.zip", headers={"Range": "bytes=0-9"})
 
 
+# --------------------------------------------------------------------------- the acts in force (select)
+
+
+def _retag(xml: bytes, **fields: str) -> bytes:
+    """A member with other metadata: validity (``start``, ``end``), ``group``, ``kind`` (tekstiliik)."""
+    text = xml.decode()
+    if "group" in fields:
+        text = re.sub(
+            r"<terviktekstiGrupiID>\d+</terviktekstiGrupiID>",
+            f"<terviktekstiGrupiID>{fields['group']}</terviktekstiGrupiID>",
+            text,
+        )
+    if "kind" in fields:
+        text = re.sub(r"<tekstiliik>[^<]*</tekstiliik>", f"<tekstiliik>{fields['kind']}</tekstiliik>", text)
+    if "start" in fields:
+        end = f"<kehtivuseLopp>{fields['end']}</kehtivuseLopp>" if "end" in fields else ""
+        text = re.sub(
+            r"<kehtivus>.*?</kehtivus>",
+            f"<kehtivus><kehtivuseAlgus>{fields['start']}</kehtivuseAlgus>{end}</kehtivus>",
+            text,
+            flags=re.S,
+        )
+    return text.encode()
+
+
+def _padded(xml: bytes, size: int) -> bytes:
+    """The same act with an incompressible comment, so that its member is large in the archive."""
+    noise = base64.b64encode(random.Random(5).randbytes(size)).decode()
+    return xml.replace(b"</oigusakt>", f"<!--{noise}--></oigusakt>".encode())
+
+
+def _select_members() -> dict[str, bytes]:
+    env, kait, viimsi = _raw("000013014802"), _raw("000013060572"), _raw("418082026030")
+    return {
+        # the text in force of two acts: the latest of its group up to the archive's date (2026-10-11)
+        "000013014802.xml": env,
+        "000013060572.xml": kait,
+        # an older text of the first group WITHOUT an end date (Maksukorralduse seadus has such texts): superseded
+        "000010000001.xml": _retag(env, start="2001-01-01"),
+        # a text that starts in the future and a second text with the same start and group: the later name wins
+        "000010000002.xml": _retag(kait, start="2030-01-01"),
+        "000010000004.xml": kait,
+        # in force but a local government's: left out by exclude_issuers
+        "418082026030.xml": viimsi,
+        # a repealed act: its newest text is empty, and its older real text (no end date) must not come back
+        "408122017018.xml": _raw("408122017018"),
+        "000010000005.xml": _retag(env, group="1035322", start="2010-01-01"),
+        # an act whose newest text ended before the date
+        "000010000006.xml": _retag(kait, group="999", start="2001-01-01", end="2002-01-01"),
+        # the original text, not a consolidated one
+        "000010000003.xml": _retag(kait, kind="algtekst", group="555"),
+        # an old HTML fragment, a decision that is not an act
+        "000000745959.xml": _raw("000000745959"),
+        "326032013013.xml": _raw("326032013013"),
+        # an act whose page robots.txt disallows (/akt/12345678)
+        "000012345678.xml": _retag(kait, group="777"),
+        # a large member (incompressible): its head is read first, the body only as it becomes a group's newest text
+        "000070000001.xml": _padded(_retag(env, group="888"), 9000),
+        # an act of the pinned works: not taken a second time
+        "130062026052.xml": _raw("130062026052"),
+    }
+
+
+SELECT = {
+    "document_types": ["seadus", "määrus"],
+    "as_of": "archive",
+    "exclude_issuers": "(Vallavolikogu|Vallavalitsus)$",
+}
+CHUNK = 20000
+
+
+def _stream_cache(
+    dest: Path, members: dict[str, bytes], robots: str = "User-agent: *\n", pinned: tuple[str, ...] = ("130062026052",)
+) -> bytes:
+    """What PoliteHttp would have cached for a small archive read by the stream mode (ranges of CHUNK bytes)."""
+    archive = _zip(members)
+    offset, size, _ = locate_central_directory(archive[-65536:])
+    directory = archive[offset : offset + size]
+    _put(dest, "robots.txt", robots.encode())
+    _put(dest, "avaandmed/ERT/LOEMIND.txt", b"Riigi Teataja avaandmed on genereeritud 2026-10-11 seisuga.\n")
+    _put(dest, "xml.2026.zip.tail", archive[-65536:], 206)
+    _put(dest, f"xml.2026.zip.central-directory@{offset}-{size}", directory, 206)
+    for name, entry in read_central_directory(directory, {f"{i}.xml" for i in pinned}).items():  # the pinned works
+        last = entry.offset + 30 + len(name) + 1024 + entry.compressed_size - 1
+        _put(dest, f"{name}@{entry.offset}", archive[entry.offset : last + 1], 206)
+    for kind, start, end, _members in plan_chunks(list(iter_central_directory(directory)), offset, CHUNK, CHUNK // 8):
+        if kind == "chunk":
+            _put(dest, f"xml.2026.zip.chunk@{start}-{end}", archive[start : end + 1], 206)
+        else:
+            head = min(end, start + HEAD_COMPRESSED + 4096)
+            _put(dest, f"xml.2026.zip.large@{start}-{end}", archive[start : head + 1], 206)
+            _put(dest, f"xml.2026.zip.member@{start}-{end}", archive[start : end + 1], 206)
+    return archive
+
+
+def _select_manifest(tmp_path: Path, **select: Any) -> Path:
+    works = [{"name": "IKS", "abbreviation": "IKS", "group_id": 1045568, "versions": ["130062026052"]}]
+    return _manifest(tmp_path, works, select={**SELECT, "chunk_bytes": CHUNK, **select})
+
+
+def test_plan_covers_every_member_once_in_whole_ranges() -> None:
+    archive = _zip(_select_members())
+    offset, size, _ = locate_central_directory(archive[-65536:])
+    entries = list(iter_central_directory(archive[offset : offset + size]))
+    plan = plan_chunks(entries, offset, CHUNK, CHUNK // 8)
+    assert sorted(e.name for _, _, _, ms in plan for e in ms) == sorted(e.name for e in entries)
+    assert {kind for kind, *_ in plan} == {"chunk", "large"}
+    previous_end = -1
+    for kind, start, end, ms in plan:
+        assert start == previous_end + 1 and start == ms[0].offset  # ranges follow each other without a gap
+        assert end - start + 1 <= CHUNK or kind == "large"
+        assert (kind == "large") == (ms[0].compressed_size > CHUNK // 8)
+        previous_end = end
+    assert previous_end == offset - 1  # the last range ends where the central directory starts
+
+
+def test_select_takes_the_acts_in_force_on_the_archive_date(tmp_path: Path) -> None:
+    _stream_cache(tmp_path / "cache", _select_members(), robots="User-agent: *\nDisallow: */akt/12345678/*\n")
+    cache = tmp_path / "cache"
+    connector = RiigiTeatajaConnector(_select_manifest(tmp_path), SOURCE, cache, offline=True)
+    docs = list(connector.fetch())
+    ids = [d.external_id for d in docs]
+    # the pinned work first (one range request of its own), then the winners of the archive in the order of their names
+    assert ids == ["ee-rt:130062026052", "ee-rt:000013014802", "ee-rt:000013060572", "ee-rt:000070000001"]
+    by_id = {d.external_id: d for d in docs}
+    assert by_id["ee-rt:000013014802"].content == _raw("000013014802")  # exact bytes after the CRC-32 check
+    stats = by_id["ee-rt:000013060572"].metadata
+    assert stats["selected"] == "latest consolidated text of its group up to 2026-10-11, in force on that date"
+    assert stats["abbreviation"] == ""
+    assert stats["group_id"] == "327634" and stats["act_page"] == f"https://{HOST}/akt/000013060572"
+    assert parse_riigi_teataja(by_id["ee-rt:000013060572"].content)[0].instrument_type == "regulation"
+    # every member was read; 8 groups had a consolidated text of a wanted type up to the date; 3 are delivered
+    assert connector.stream_stats["members"] == len(_select_members()) and connector.stream_stats["groups"] == 8
+    assert connector.stream_stats["selected"] == 3
+    assert not (cache / HOST / "spool").exists()  # the scratch files are gone
+    # the act whose page robots.txt disallows is counted, not ingested, and said so in one line
+    assert connector.robots_skipped == ["000012345678"]
+    assert len(connector.fetch_errors) == 1 and "1 acts in force were not ingested" in connector.fetch_errors[0]
+    # offline, the ranges stay in the cache; online, each is dropped once used (the archive is 43 GB)
+    kept = sorted(p.name for p in (cache / HOST).glob("xml.2026.zip.*") if not p.name.endswith(".meta.json"))
+    assert any(".chunk@" in n for n in kept) and any(".member@" in n for n in kept)
+    online = RiigiTeatajaConnector(_select_manifest(tmp_path), SOURCE, cache, offline=False)
+    assert len(list(online.fetch())) == 4  # every request is answered from the cache: no network
+    left = sorted(p.name for p in (cache / HOST).glob("xml.2026.zip.*") if not p.name.endswith(".meta.json"))
+    assert not any(".chunk@" in n or ".large@" in n for n in left)
+    # the whole body of a large member is dropped as well once it has been read (the others never were)
+    assert sum(".member@" in n for n in left) == sum(".member@" in n for n in kept) - 2
+    assert "xml.2026.zip.tail" in left and any("central-directory" in n for n in left)
+
+
+def test_select_without_the_local_governments_filter_and_with_a_size_limit(tmp_path: Path) -> None:
+    cache = tmp_path / "cache"
+    _stream_cache(cache, _select_members())
+    everything = _select_manifest(tmp_path, exclude_issuers=None)
+    ids = [d.external_id for d in RiigiTeatajaConnector(everything, SOURCE, cache, offline=True).fetch()]
+    assert "ee-rt:418082026030" in ids and "ee-rt:000012345678" in ids  # no robots rule in this cache
+    limited = RiigiTeatajaConnector(_select_manifest(tmp_path, max_member_bytes=7000), SOURCE, cache, offline=True)
+    ids = [d.external_id for d in limited.fetch()]
+    # the two acts of more than 7 000 bytes (the padded one too) are not delivered, and no older text takes their place
+    assert "ee-rt:000013014802" not in ids and "ee-rt:000070000001" not in ids and "ee-rt:000013060572" in ids
+    assert (
+        len(limited.fetch_errors) == 1
+        and "2 acts in force are larger than max_member_bytes (7000)" in limited.fetch_errors[0]
+    )
+
+
+def test_select_part_reads_a_share_of_the_ranges(tmp_path: Path) -> None:
+    cache = tmp_path / "cache"
+    archive = _stream_cache(cache, _select_members())
+    offset, size, _ = locate_central_directory(archive[-65536:])
+    ranges = len(plan_chunks(list(iter_central_directory(archive[offset : offset + size])), offset, CHUNK, CHUNK // 8))
+    taken: list[str] = []
+    for i in range(1, 4):
+        c = RiigiTeatajaConnector(_select_manifest(tmp_path, part=f"{i}/3"), SOURCE, cache, offline=True)
+        taken += [d.external_id for d in c.fetch() if d.external_id != "ee-rt:130062026052"]
+        assert 1 <= c.stream_stats["requests"] <= ranges
+    whole = [
+        d.external_id for d in RiigiTeatajaConnector(_select_manifest(tmp_path), SOURCE, cache, offline=True).fetch()
+    ]
+    # for trials: the winner of a group is chosen among the texts the part holds (here every group is whole in one part)
+    assert len(taken) == len(set(taken)) and set(taken) == {i for i in whole if i != "ee-rt:130062026052"}
+
+
+def test_range_answered_with_the_whole_file_is_repeated(tmp_path: Path) -> None:
+    connector = RiigiTeatajaConnector(_select_manifest(tmp_path), SOURCE, tmp_path, sleep=lambda s: None)
+    calls: list[str] = []
+
+    class Flaky:
+        def get(self, url: str, **kwargs: Any) -> tuple[bytes, dict[str, Any]]:
+            calls.append(kwargs["headers"]["Range"])
+            if len(calls) < 3:
+                raise FetchError(f"{url}: the range request was not honoured (HTTP 200)")
+            return b"data", {"retrieved_at": "2026-10-15T10:00:00+00:00"}
+
+    connector.http = Flaky()  # type: ignore[assignment]
+    assert connector._range(f"https://{HOST}/{ARCHIVE}", 10, 19, "k")[0] == b"data"
+    assert calls == ["bytes=10-19"] * 3
+
+    class Refusing:
+        def get(self, url: str, **kwargs: Any) -> tuple[bytes, dict[str, Any]]:
+            raise FetchError(f"{url}: HTTP 429 (not retried: a refusal is respected)")
+
+    connector.http = Refusing()  # type: ignore[assignment]
+    with pytest.raises(FetchError, match="HTTP 429"):
+        connector._range(f"https://{HOST}/{ARCHIVE}", 10, 19, "k")
+
+
+def test_select_manifest_is_validated(tmp_path: Path) -> None:
+    works = [{"name": "X", "abbreviation": "X", "group_id": 1, "versions": ["115052015002"]}]
+    for sel, message in (
+        ({}, "document_types"),
+        ({"document_types": "seadus"}, "list of dokumentLiik"),
+        ({"document_types": ["seadus"], "as_of": "yesterday"}, "as_of"),
+        ({"document_types": ["seadus"], "part": "0/3"}, "part must be"),
+        ({"document_types": ["seadus"], "part": "4/3"}, "part must be"),
+        ({"document_types": ["seadus"], "exclude_issuers": "("}, "regular expression"),
+        ({"document_types": ["seadus"], "max_member_bytes": 0}, "positive integer"),
+    ):
+        with pytest.raises(ManifestError, match=message):
+            list(RiigiTeatajaConnector(_manifest(tmp_path, works, select=sel), SOURCE, tmp_path).fetch())
+    path = tmp_path / "none.yaml"
+    path.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": 1,
+                "source_id": SOURCE,
+                "base_url": f"https://{HOST}",
+                "archive": ARCHIVE,
+                "user_agent": "ULIS-test (+https://example.org)",
+            }
+        )
+    )
+    with pytest.raises(ManifestError, match="selects none"):
+        list(RiigiTeatajaConnector(path, SOURCE, tmp_path).fetch())
+
+
 def test_source_uses_this_connector(catalog: Catalog) -> None:
     assert isinstance(build_connector(catalog.sources.get(SOURCE)), RiigiTeatajaConnector)
     manifest = yaml.safe_load((Path(__file__).parents[1] / "config/manifests/ee-riigi-teataja.yaml").read_text())
     assert [w["abbreviation"] for w in manifest["works"]] == ["PS", "KarS", "VÕS", "IKS", "TLS", "HMS"]
+    # the acts in force: the whole archive, the acts and regulations of the state and of the local governments
+    select = manifest["select"]
+    assert select["document_types"] == ["seadus", "määrus"] and select["as_of"] == "archive" and "part" not in select
+    assert "exclude_issuers" not in select
+    # the connector's own validation accepts the committed manifest
+    connector = build_connector(catalog.sources.get(SOURCE))
+    assert isinstance(connector, RiigiTeatajaConnector)
+    assert connector._manifest()["select"]["max_member_bytes"] == 50_000_000
 
 
 # --------------------------------------------------------------------------- PostgreSQL

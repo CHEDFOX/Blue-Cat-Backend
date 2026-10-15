@@ -32,6 +32,7 @@ decision paths (``*/kohtulahendid/*``, ``*/kohtuteave/*``) are never requested.
 from __future__ import annotations
 
 import re
+import shutil
 import struct
 import time
 import zlib
@@ -53,6 +54,11 @@ ARCHIVE_PATH = re.compile(r"^avaandmed/ERT/xml\.(\d{4})\.zip$")
 GLOBAL_ID = re.compile(r"^\d{12}$")
 GENERATED = re.compile(r"genereeritud\s+(\d{4}-\d{2}-\d{2})\s+seisuga")
 MIN_DELAY = 5.0
+REFUSAL = re.compile(r"HTTP (401|403|407|429|451)\b")
+TEXT_TYPES = ("terviktekst", "algtekst-terviktekst")  # tekstiliik of a consolidated text
+CHUNK_BYTES = 64 * 1024 * 1024  # one range request of the stream mode
+MAX_MEMBER_BYTES = 50_000_000  # an act whose XML is larger than this (uncompressed) is skipped and reported
+RANGE_RETRIES = 5
 TAIL_BYTES = 65536
 # Slack after the compressed data when reading a member: the local header's name and extra fields.
 LOCAL_SLACK = 1024
@@ -122,6 +128,18 @@ class ZipEntry:
     crc32: int
 
 
+@dataclass(frozen=True)
+class _Winner:
+    """The latest consolidated text of a group up to the as-of date, while the archive is being read."""
+
+    start: str  # kehtivuseAlgus, YYYY-MM-DD
+    name: str
+    entry: ZipEntry
+    abbreviation: str
+    why: str | None  # None: a text to ingest; otherwise "no text", "ended", "pinned" or "too large"
+    retrieved_at: str
+
+
 def locate_central_directory(tail: bytes) -> tuple[int, int, int]:
     """(offset, size, entries) of the central directory from the last bytes of a zip (zip64 aware)."""
     i = tail.rfind(b"PK\x05\x06")
@@ -136,16 +154,15 @@ def locate_central_directory(tail: bytes) -> tuple[int, int, int]:
     return offset, size, entries
 
 
-def read_central_directory(directory: bytes, wanted: set[str]) -> dict[str, ZipEntry]:
-    """The entries named in ``wanted`` from a central directory (zip64 sizes and offsets resolved)."""
-    found: dict[str, ZipEntry] = {}
+def iter_central_directory(directory: bytes, wanted: set[str] | None = None) -> Iterator[ZipEntry]:
+    """The entries of a central directory (all, or only those named in ``wanted``), zip64 sizes and offsets resolved."""
     pos = 0
     while pos + 46 <= len(directory) and directory[pos : pos + 4] == b"PK\x01\x02":
         (_, _, _, _, method, _, _, crc, csize, usize, nlen, elen, clen, _, _, _, offset) = struct.unpack(
             "<IHHHHHHIIIHHHHHII", directory[pos : pos + 46]
         )
         name = directory[pos + 46 : pos + 46 + nlen].decode("utf-8", "replace")
-        if name in wanted:
+        if wanted is None or name in wanted:
             extra = directory[pos + 46 + nlen : pos + 46 + nlen + elen]
             e = 0
             while e + 4 <= len(extra):
@@ -159,9 +176,97 @@ def read_central_directory(directory: bytes, wanted: set[str]) -> dict[str, ZipE
                     if offset == 0xFFFFFFFF:
                         offset, p = struct.unpack("<Q", values[p : p + 8])[0], p + 8
                 e += 4 + size
-            found[name] = ZipEntry(name, method, csize, usize, offset, crc)
+            yield ZipEntry(name, method, csize, usize, offset, crc)
         pos += 46 + nlen + elen + clen
-    return found
+
+
+def read_central_directory(directory: bytes, wanted: set[str]) -> dict[str, ZipEntry]:
+    """The entries named in ``wanted`` from a central directory (zip64 sizes and offsets resolved)."""
+    return {entry.name: entry for entry in iter_central_directory(directory, wanted)}
+
+
+# Metadata fields of an act (``<metaandmed>``) that the selection of acts in force reads.
+META_FIELDS = (
+    "dokumentLiik",
+    "tekstiliik",
+    "valjaandja",
+    "kehtivuseAlgus",
+    "kehtivuseLopp",
+    "terviktekstiGrupiID",
+    "globaalID",
+    "lyhend",
+)
+HEAD_COMPRESSED = 16384  # compressed bytes of a member inspected for its metadata
+HEAD_UNCOMPRESSED = 8000  # decompressed bytes searched for ``</metaandmed>``
+
+
+def member_head(data: bytes | memoryview, entry: ZipEntry) -> bytes:
+    """The first bytes of a member's XML (decompressed), from ``data`` starting at its local header.
+
+    Only a prefix is decompressed: the metadata of an act is its first element, about 2 KB in."""
+    if bytes(data[:4]) != b"PK\x03\x04":
+        raise FetchError(f"{entry.name}: no local file header at offset {entry.offset}")
+    nlen, elen = struct.unpack("<HH", bytes(data[26:30]))
+    start = 30 + nlen + elen
+    prefix = bytes(data[start : start + min(entry.compressed_size, HEAD_COMPRESSED)])
+    if entry.method == 0:
+        return prefix[:HEAD_UNCOMPRESSED]
+    if entry.method != 8:
+        raise FetchError(f"{entry.name}: unsupported zip compression method {entry.method}")
+    try:
+        return zlib.decompressobj(-15).decompress(prefix, HEAD_UNCOMPRESSED)
+    except zlib.error as exc:
+        raise FetchError(f"{entry.name}: cannot decompress: {exc}") from exc
+
+
+def read_meta(head: bytes) -> dict[str, str]:
+    """The fields of ``META_FIELDS`` in the ``<metaandmed>`` of an act's XML (dates cut to YYYY-MM-DD)."""
+    text = head.decode("utf-8", "replace")
+    end = text.find("</metaandmed>")
+    if end < 0:
+        return {}
+    block = text[:end]
+    out: dict[str, str] = {}
+    after = text[end:]
+    if re.search(r"<sisu\b[^>]*/>|<sisu\b[^>]*>\s*</sisu>", after):
+        out["_empty"] = "1"  # a repealed act: its consolidated text has no content
+    elif "<HTMLKonteiner" in after:
+        out["_html"] = "1"  # an old text kept as one HTML fragment
+    for name in META_FIELDS:
+        m = re.search(rf"<{name}>([^<]*)</{name}>", block)
+        if m:
+            out[name] = m.group(1).strip()[:10] if name.startswith("kehtivuse") else m.group(1).strip()
+    return out
+
+
+def plan_chunks(entries: list[ZipEntry], directory_offset: int, chunk_bytes: int, large_bytes: int) -> list[Any]:
+    """Split the archive into byte ranges of whole members: ``("chunk", start, end, [entries])`` for runs of ordinary
+    members of at most ``chunk_bytes`` and ``("large", start, end, [entry])`` for a member of more than ``large_bytes``
+    compressed, whose head is read first so that it is not downloaded unless it is wanted. ``end`` is inclusive."""
+    ordered = sorted(entries, key=lambda e: e.offset)
+    plan: list[Any] = []
+    run: list[ZipEntry] = []
+    run_start = 0
+
+    def flush(end: int) -> None:
+        nonlocal run
+        if run:
+            plan.append(("chunk", run_start, end, run))
+            run = []
+
+    for i, entry in enumerate(ordered):
+        end = (ordered[i + 1].offset if i + 1 < len(ordered) else directory_offset) - 1
+        if entry.compressed_size > large_bytes:
+            flush(entry.offset - 1)
+            plan.append(("large", entry.offset, end, [entry]))
+            continue
+        if run and end - run_start + 1 > chunk_bytes:
+            flush(entry.offset - 1)
+        if not run:
+            run_start = entry.offset
+        run.append(entry)
+    flush(directory_offset - 1)
+    return plan
 
 
 def read_member(data: bytes, entry: ZipEntry) -> bytes:
@@ -208,6 +313,10 @@ class RiigiTeatajaConnector:
         self.offline = offline
         self._sleep = sleep
         self.http: PoliteHttp | None = None
+        # Acts the stream mode skipped (reported as run errors by the pipeline) and what it read.
+        self.fetch_errors: list[str] = []
+        self.stream_stats: dict[str, int] = {}
+        self.robots_skipped: list[str] = []
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -222,8 +331,11 @@ class RiigiTeatajaConnector:
         if float(manifest.get("crawl_delay_seconds", MIN_DELAY)) < MIN_DELAY:
             raise ManifestError(f"crawl_delay_seconds must be at least {MIN_DELAY:g}")
         works = manifest.get("works") or []
-        if not works:
-            raise ManifestError("the manifest lists no works")
+        select = manifest.get("select")
+        if not works and not select:
+            raise ManifestError("the manifest lists no works and selects none")
+        if select is not None:
+            self._check_select(select)
         seen: set[str] = set()
         for work in works:
             if not str(work.get("group_id", "")).isdigit() or not work.get("abbreviation"):
@@ -239,6 +351,35 @@ class RiigiTeatajaConnector:
                     raise ManifestError(f"{global_id} is listed twice")
                 seen.add(global_id)
         return manifest
+
+    @staticmethod
+    def _check_select(select: Any) -> None:
+        if not isinstance(select, dict) or not select.get("document_types"):
+            raise ManifestError("select: document_types (a list of dokumentLiik values) is required")
+        types = select["document_types"]
+        if not isinstance(types, list) or not all(
+            isinstance(t, str) and re.fullmatch(r"[\w -]{2,40}", t) for t in types
+        ):
+            raise ManifestError("select: document_types must be a list of dokumentLiik words")
+        as_of = select.get("as_of", "archive")
+        if as_of != "archive":
+            try:
+                date.fromisoformat(str(as_of))
+            except ValueError as exc:
+                raise ManifestError("select: as_of must be 'archive' or a date (YYYY-MM-DD)") from exc
+        part = select.get("part")
+        if part is not None and not (
+            isinstance(part, str) and (m := re.fullmatch(r"(\d+)/(\d+)", part)) and 1 <= int(m[1]) <= int(m[2]) <= 1000
+        ):
+            raise ManifestError("select: part must be 'i/n' with 1 <= i <= n (a share of the archive)")
+        if select.get("exclude_issuers") is not None:
+            try:
+                re.compile(str(select["exclude_issuers"]))
+            except re.error as exc:
+                raise ManifestError(f"select: exclude_issuers is not a regular expression ({exc})") from exc
+        for key in ("max_member_bytes", "chunk_bytes"):
+            if key in select and not (isinstance(select[key], int) and select[key] > 0):
+                raise ManifestError(f"select: {key} must be a positive integer")
 
     def _get(self, url: str, **kwargs: Any) -> tuple[bytes, dict[str, Any]]:
         assert self.http is not None
@@ -258,12 +399,14 @@ class RiigiTeatajaConnector:
             sleep=self._sleep,
         )
         archive_url = f"{BASE}/{manifest['archive']}"
+        self.fetch_errors = []
 
         robots_bytes, _ = self._get(f"{BASE}/robots.txt")
         robots = RobotsRules(robots_bytes.decode("utf-8", "replace"))
         if not robots.allowed(f"/{manifest['archive']}"):
             raise FetchError(f"robots.txt disallows /{manifest['archive']}")
-        ids = [str(v) for w in manifest["works"] for v in w["versions"]]
+        works = manifest.get("works") or []
+        ids = [str(v) for w in works for v in w["versions"]]
         for global_id in ids:
             # The act's web page is what robots.txt names (``*/akt/<id>/*``); the entry is in a bulk
             # archive, but an act the publisher asks robots not to crawl is not ingested either.
@@ -285,8 +428,8 @@ class RiigiTeatajaConnector:
         )
         if len(directory) != size:
             raise FetchError(f"central directory: expected {size} bytes, received {len(directory)}")
-        members = read_central_directory(directory, {f"{i}.xml" for i in ids})
-        for work in manifest["works"]:
+        members = read_central_directory(directory, {f"{i}.xml" for i in ids}) if ids else {}
+        for work in works:
             for global_id in map(str, work["versions"]):
                 name = f"{global_id}.xml"
                 entry = members.get(name)
@@ -319,3 +462,192 @@ class RiigiTeatajaConnector:
                         "cached_fetch": meta,
                     },
                 )
+        if manifest.get("select"):
+            yield from self._stream(manifest, archive_url, robots, generated, directory, offset, set(ids))
+
+    # ------------------------------------------------------------------ the acts in force, from the whole archive
+
+    def _range(self, url: str, start: int, end: int, key: str) -> tuple[bytes, dict[str, Any]]:
+        """One byte range of the archive. The server now and then answers a small range with the whole file (HTTP 200
+        instead of 206); PoliteHttp stops before reading the body, and the request is repeated after a pause."""
+        assert self.http is not None
+        for attempt in range(RANGE_RETRIES):
+            try:
+                return self._get(url, cache_key=key, headers={"Range": f"bytes={start}-{end}"})
+            except FetchError as exc:
+                if "range request was not honoured" not in str(exc) or attempt == RANGE_RETRIES - 1:
+                    raise
+                self._sleep(10.0 * (attempt + 1))
+        raise AssertionError("unreachable")  # pragma: no cover
+
+    def _drop(self, url: str, key: str) -> None:
+        """A range of the archive is not kept once used (the cache would grow to the archive's size, 43 GB); an
+        offline run, which only reads a prepared cache, leaves it as it is."""
+        if self.offline or self.http is None:
+            return
+        path = self.http.cache_path(url, key)
+        path.unlink(missing_ok=True)
+        path.with_name(path.name + ".meta.json").unlink(missing_ok=True)
+
+    def _stream(
+        self,
+        manifest: dict[str, Any],
+        archive_url: str,
+        robots: RobotsRules,
+        generated: date | None,
+        directory: bytes,
+        directory_offset: int,
+        pinned: set[str],
+    ) -> Iterator[RawDocument]:
+        """The consolidated text in force on the as-of date of every act, found by reading the whole archive.
+
+        The archive is read in ranges of ``chunk_bytes`` (one request each, 5 s apart) and the metadata of every
+        member is checked. A group (``terviktekstiGrupiID``) is one act with all its consolidated texts; the text in
+        force on the date is the group's text with the latest ``kehtivuseAlgus`` up to that date. The end of a
+        superseded text (``kehtivuseLopp``) is not reliable (Maksukorralduse seadus has older texts without one), so
+        the winner is chosen among all the texts of the group, not by the end date. The winner is kept (compressed, in a
+        scratch file under the cache) while the archive is read and replaced when a later text of the group turns up;
+        when the archive has been read, the winners that are in force and have a text are delivered. A winner that is a
+        repealed act's empty text, an old HTML fragment, ended before the date, over ``max_member_bytes`` or disallowed
+        by robots.txt means the act is not ingested (and no older text of it is).
+
+        Selection (``select`` in the manifest): ``tekstiliik`` is a consolidated text, ``dokumentLiik`` one of
+        ``document_types``, the issuer does not match ``exclude_issuers``. ``part: "i/n"`` reads a share of the ranges
+        and chooses the winners among the texts it holds: for trials, not for the corpus."""
+        select = manifest["select"]
+        as_of_setting = select.get("as_of", "archive")
+        as_of = generated if as_of_setting == "archive" else date.fromisoformat(str(as_of_setting))
+        if as_of is None:
+            raise FetchError("select.as_of is 'archive' but LOEMIND.txt names no generation date")
+        as_of_iso = as_of.isoformat()
+        types = set(select["document_types"])
+        text_types = set(select.get("text_types") or TEXT_TYPES)
+        exclude = re.compile(str(select["exclude_issuers"])) if select.get("exclude_issuers") else None
+        max_bytes = int(select.get("max_member_bytes", MAX_MEMBER_BYTES))
+        chunk_bytes = int(select.get("chunk_bytes", CHUNK_BYTES))
+        archive_name = Path(manifest["archive"]).name
+        plan = plan_chunks(list(iter_central_directory(directory)), directory_offset, chunk_bytes, chunk_bytes // 8)
+        if select.get("part"):
+            i, n = (int(x) for x in str(select["part"]).split("/"))
+            plan = plan[(i - 1) * len(plan) // n : i * len(plan) // n]
+        self.stream_stats = {"requests": 0, "members": 0, "groups": 0, "selected": 0, "bytes": 0}
+        spool = self.cache_dir / HOST / "spool"
+        shutil.rmtree(spool, ignore_errors=True)  # left by an interrupted run
+        spool.mkdir(parents=True)
+
+        def spool_path(group: str) -> Path:
+            return spool / (re.sub(r"\W", "_", group) + ".member")
+
+        best: dict[str, _Winner] = {}
+
+        for kind, start, end, members in plan:
+            key = f"{archive_name}.{kind}@{start}-{end}"
+            try:
+                last_byte = end if kind == "chunk" else min(end, start + HEAD_COMPRESSED + 4096)
+                data, meta = self._range(archive_url, start, last_byte, key)
+                self.stream_stats["requests"] += 1
+                self.stream_stats["bytes"] += len(data)
+                view = memoryview(data)
+                for idx, entry in enumerate(members):
+                    self.stream_stats["members"] += 1
+                    local = entry.offset - start
+                    span = (members[idx + 1].offset if idx + 1 < len(members) else end + 1) - entry.offset
+                    head = read_meta(member_head(view[local : local + span], entry))
+                    if head.get("tekstiliik") not in text_types or head.get("dokumentLiik") not in types:
+                        continue
+                    if exclude is not None and exclude.search(head.get("valjaandja", "")):
+                        continue
+                    first = head.get("kehtivuseAlgus")
+                    if not first or first > as_of_iso:
+                        continue  # no start, or a text that starts after the date
+                    group = head.get("terviktekstiGrupiID") or entry.name
+                    current = best.get(group)
+                    if current is not None and (first, entry.name) <= (current.start, current.name):
+                        continue  # an earlier text of a group that already has a later one
+                    last = head.get("kehtivuseLopp")
+                    why: str | None = None
+                    if head.get("_empty") or head.get("_html"):
+                        why = "no text"  # a repealed act's empty text, or an old HTML fragment
+                    elif last and last < as_of_iso:
+                        why = "ended"
+                    elif entry.name.removesuffix(".xml") in pinned:
+                        why = "pinned"  # delivered with its work
+                    elif entry.size > max_bytes:
+                        why = "too large"
+                    spool_path(group).unlink(missing_ok=True)
+                    if why is None:
+                        if kind == "large":  # only the head was read: the whole member is fetched now
+                            member_key = f"{archive_name}.member@{entry.offset}-{end}"
+                            full, body_meta = self._range(archive_url, entry.offset, end, member_key)
+                            self._drop(archive_url, member_key)
+                            record, when = full, body_meta["retrieved_at"]
+                        else:
+                            record, when = bytes(view[local : local + span]), meta["retrieved_at"]
+                        spool_path(group).write_bytes(record)
+                    else:
+                        when = meta["retrieved_at"]
+                    best[group] = _Winner(first, entry.name, entry, head.get("lyhend", ""), why, when)
+            except FetchError as exc:
+                if REFUSAL.search(str(exc)):
+                    raise
+                self.fetch_errors.append(f"ee-rt: bytes {start}-{end} of {archive_name}: {exc}")
+            finally:
+                self._drop(archive_url, key)
+
+        self.stream_stats["groups"] = len(best)
+        robots_skipped: list[str] = []
+        too_large: list[str] = []
+        for group, winner in sorted(best.items(), key=lambda kv: kv[1].name):
+            file = spool_path(group)
+            entry = winner.entry
+            global_id = entry.name.removesuffix(".xml")  # the member's name (12 digits, zero-padded when old)
+            try:
+                if winner.why == "too large":
+                    too_large.append(global_id)
+                if winner.why is not None or global_id in pinned:
+                    continue
+                ids = {global_id, str(int(global_id))} if global_id.isdigit() else {global_id}
+                if not all(robots.allowed(f"/akt/{i}") and robots.allowed(f"/akt/{i}/") for i in ids):
+                    robots_skipped.append(global_id)
+                    continue
+                content = read_member(file.read_bytes(), entry)
+                if not re.match(rb"\A(\xef\xbb\xbf)?<\?xml[^>]*\?>\s*<oigusakt[\s>]", content):
+                    raise FetchError(f"{entry.name}: not a Riigi Teataja act XML (root element)")
+            except FetchError as exc:
+                self.fetch_errors.append(f"ee-rt:{global_id}: {exc}")
+                continue
+            finally:
+                file.unlink(missing_ok=True)
+            self.stream_stats["selected"] += 1
+            yield RawDocument(
+                external_id=f"ee-rt:{global_id}",
+                uri=f"{archive_url}#{entry.name}",
+                media_type="application/xml",
+                content=content,
+                retrieved_at=datetime.fromisoformat(winner.retrieved_at),
+                metadata={
+                    "global_id": global_id,
+                    "group_id": group,
+                    "abbreviation": winner.abbreviation,
+                    "act_page": f"{BASE}/akt/{global_id}",
+                    "archive": archive_url,
+                    "archive_generated": generated.isoformat() if generated else None,
+                    "selected": f"latest consolidated text of its group up to {as_of_iso}, in force on that date",
+                    "member": entry.name,
+                    "member_offset": entry.offset,
+                    "member_crc32": f"{entry.crc32:08x}",
+                    "member_size": entry.size,
+                },
+            )
+        shutil.rmtree(spool, ignore_errors=True)
+        self.robots_skipped = robots_skipped
+        if too_large:
+            self.fetch_errors.append(
+                f"ee-rt: {len(too_large)} acts in force are larger than max_member_bytes ({max_bytes}) and were not "
+                f"ingested: {', '.join(too_large[:20])}"
+            )
+        if robots_skipped:
+            self.fetch_errors.append(
+                f"ee-rt: {len(robots_skipped)} acts in force were not ingested because robots.txt disallows their page "
+                f"(*/akt/<id>/*); not errors, a deliberate exclusion"
+            )

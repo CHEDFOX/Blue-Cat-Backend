@@ -21,8 +21,9 @@ period; an act's consolidated texts form a snapshot series (``validity_basis = "
 * **text is exact source text**: ``sisuTekst`` children are concatenated in document order
   (``tavatekst`` and the display text of a reference ``viide``); superscripts are written with
   Unicode superscripts ("§ 5¹", "m²"); line breaks inside a text are kept; amendment marks go to
-  ``note``, never to ``text``. A provision that the source reproduces only as "Kehtetu - " plus
-  the repealing act is repealed (empty text, the marker in ``note``);
+  ``note``, never to ``text``, and so are the notes of corrections of errors (``veaparandus``). A
+  provision that the source reproduces only as "Kehtetu - " plus the repealing act is repealed
+  (empty text, the marker in ``note``);
 * annexes (lisa) and the introductory formula are not ingested. Cross-references are not stored.
 
 Text origin and authenticity: Riigi Teataja Act § 3(1) calls the consolidated texts it publishes
@@ -45,14 +46,14 @@ from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing use
 from defusedxml.ElementTree import fromstring
 
 from ulis.ingestion.snapshots import SNAPSHOT_BASIS
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "riigi_teataja_xml"
 PARSER_VERSION = "1.0.0"
 JURISDICTION = "EE"
 BASE = "https://www.riigiteataja.ee"
 TEXT_TYPES = ("terviktekst", "algtekst-terviktekst")
-DOCUMENT_TYPES = {"seadus": "act"}
+DOCUMENT_TYPES = {"seadus": "act", "määrus": "regulation"}
 CONTAINERS = ("osa", "peatykk", "jagu", "jaotis", "alljaotis")
 SUPERSCRIPT = str.maketrans("0123456789+-", "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻")
 REPEALED = re.compile(r"^\s*\[?\s*Kehtetu", re.IGNORECASE)  # Kehtetu, Kehtetud, Kehtetuks
@@ -120,7 +121,7 @@ def _inline(el: Element) -> str:
         elif n == "viide":
             shown = _child(c, "kuvatavTekst")
             parts.append("".join(shown.itertext()) if shown is not None else "")
-        elif n == "muutmismarge":
+        elif n in ("muutmismarge", "veaparandus"):
             pass
         else:
             parts.append(_inline(c))
@@ -207,6 +208,14 @@ def _marks(el: Element) -> list[Element]:
     return out
 
 
+def _errata(el: Element) -> list[str]:
+    """The notes of corrections of errors (``veaparandus``: "Veaparandus - ... seaduse § 10 lg 3 alusel"), which sit
+    beside the unit's ``sisuTekst`` or inside it, after its text (they are not part of the text)."""
+    sisu = _child(el, "sisuTekst")
+    found = _children(el, "veaparandus") + (_children(sisu, "veaparandus") if sisu is not None else [])
+    return [t for t in (_text(e, "veaparandusTekst") for e in found) if t]
+
+
 # --------------------------------------------------------------------------- units
 
 
@@ -215,7 +224,7 @@ class _Unit:
         self.kind, self.path_kind, self.label, self.eid, self.el = kind, path_kind, label, eid, el
         self.text = _content(el)
         marks = [_mark(m) for m in _marks(el)]
-        self.notes = [m for m in marks if m]
+        self.notes = [m for m in marks if m] + _errata(el)
         self.repealed = False
         self.children: list[_Unit] = []
 
@@ -262,6 +271,7 @@ def _unit(el: Element, kind: str, path_kind: str, label: str, eid: str, depth: i
             "paragrahvPealkiri",
             "sisuTekst",
             "muutmismarge",
+            "veaparandus",
         ):
             continue
         else:
@@ -285,12 +295,14 @@ def parse_act(root: Element) -> ParsedDocument:
     if meta is None:
         raise RiigiTeatajaParseError("no <metaandmed>")
     text_type = _text(meta, "tekstiliik")
+    if _text(meta, "seisund") == "EELNÕU":  # a draft (the archive holds the publisher's schema examples)
+        raise ParseSkipped("a draft (eelnõu), not a published act")
     if text_type not in TEXT_TYPES:
         raise RiigiTeatajaParseError(f"unsupported text type {text_type!r} (only consolidated texts are parsed)")
     document_type = _text(meta, "dokumentLiik")
     instrument_type = DOCUMENT_TYPES.get(document_type)
     if instrument_type is None:
-        raise RiigiTeatajaParseError(f"unsupported document type {document_type!r}")
+        raise ParseSkipped(f"document type {document_type!r}: only acts (seadus) and regulations (määrus) are ingested")
     if _text(meta, "marksona") == "põhiseadus":  # the Constitution is typed "seadus"; its keyword says what it is
         instrument_type = "constitution"
     global_id, group_id = _text(meta, "globaalID"), _text(meta, "terviktekstiGrupiID")
@@ -308,6 +320,14 @@ def parse_act(root: Element) -> ParsedDocument:
     sisu = _child(root, "sisu")
     if sisu is None:
         raise RiigiTeatajaParseError(f"{global_id}: no <sisu> (no structured content)")
+    if len(sisu) == 0:
+        # An act that has been repealed is published as an empty consolidated text with the repeal as its mark
+        # ("Kehtetu - RT I, ..., jõust. ..."): nothing to ingest, and the text is not in force.
+        raise ParseSkipped(f"{global_id}: the consolidated text of {title!r} is empty (repealed)")
+    if any(_name(c) == "sisuTekst" and any(_name(e) == "HTMLKonteiner" for e in c.iter()) for c in sisu):
+        # Texts migrated from the old register hold their whole text as one HTML fragment (CDATA), without
+        # paragraphs or subsections: not ingested (many of them are only the "Kehtetu - ..." mark of a repealed act).
+        raise ParseSkipped(f"{global_id}: the text of {title!r} is one unstructured HTML fragment; not ingested")
 
     provisions: list[ParsedProvision] = []
     used: dict[str, int] = {}
@@ -346,6 +366,23 @@ def parse_act(root: Element) -> ParsedDocument:
                 unit = _Unit("preamble", "preamble", "preambul", "preamble", el)
                 unit.notes = [t for t in (_mark(m) for m in _marks(el)) if t]
                 emit(unit, None, [], "Preambul", "Preambul")
+            elif n == "preambul" and el is sisu:
+                # The preamble of a regulation ("Määrus kehtestatakse ... alusel"): its enabling provision.
+                unit = _Unit("preamble", "preamble", "preambul", "preamble", c)
+                # tavatekst and the display text of a reference (viide) are siblings here: joined without the
+                # whitespace the XML puts between them
+                pieces: list[str] = []
+                for t in c:
+                    if _name(t) == "reavahetus":
+                        pieces.append("\n")
+                    elif _name(t) == "viide":
+                        display = _child(t, "kuvatavTekst")
+                        pieces.append("".join(display.itertext()) if display is not None else "")
+                    else:
+                        pieces.append(_inline(t))
+                unit.text = _clean("".join(pieces))
+                if unit.text:
+                    emit(unit, None, [], "Preambul", "Preambul")
             elif n in CONTAINERS:
                 shown = _text(c, "kuvatavNr")
                 heading = " ".join(p for p in (shown, _text(c, f"{n}Pealkiri")) if p)
@@ -359,7 +396,7 @@ def parse_act(root: Element) -> ParsedDocument:
                 unit = _unit(c, "section", "sec", label, eid)
                 title_text = _text(c, "paragrahvPealkiri") or None
                 emit(unit, None, [], title_text, title_text)
-            elif n in ("muutmismarge", "kuvatavNr") or n.endswith(("Nr", "Pealkiri")):
+            elif n in ("muutmismarge", "veaparandus", "kuvatavNr") or n.endswith(("Nr", "Pealkiri")):
                 continue
             else:
                 raise RiigiTeatajaParseError(f"{global_id}: unexpected <{n}> in <{_name(el)}>")

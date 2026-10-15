@@ -8,7 +8,8 @@ Riigi Teataja style used by Estonian courts and legislation:
 * an inserted provision keeps its superscript index: ``VÕS § 5¹ lg 2``, ``KarS § 113¹``
 * a nested item: ``HMS § 40 lg 1 p 2 alap a``
 
-An act without an abbreviation is cited by its title. The genitive form used in running text
+An act without an abbreviation is cited by its title; a regulation (määrus) without one, as most are, is cited by its
+title and issuer: ``Põhikooli ... kord (Vabariigi Valitsus) § 5 lg 2``. The genitive form used in running text
 ("karistusseadustiku § 113") and the full reference to the consolidated text ("RT I, 04.12.2019, 2")
 are not generated; each consolidated text is identified by its expression (``est@<globaalID>``).
 Formatting conventions only; to be confirmed by an Estonian reviewer before the EE profile is
@@ -57,5 +58,8 @@ class EeModule(JurisdictionModule):
 
     def provision_citation(self, c: ProvisionCitationInput) -> str:
         name = c.ext.get("abbreviation") or c.instrument_title
+        if not c.ext.get("abbreviation") and c.instrument_type == "regulation" and c.ext.get("issuer"):
+            # Titles of regulations are not unique ("Põhimäärus"): the issuer says whose it is.
+            name = f"{name} ({c.ext['issuer']})"
         pin = self.pinpoint(c)
         return f"{name} {pin}" if pin else name

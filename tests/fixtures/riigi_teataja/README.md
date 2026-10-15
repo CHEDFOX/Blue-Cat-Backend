@@ -20,6 +20,18 @@ Consolidated texts (terviktekstid) in Riigi Teataja's `oigusakt` XML, exactly as
 | `103072026034` | Töölepingu seadus (TLS), excerpt: chapters 1, 5, 6 | 2026-07-13 - 2026-09-30 |
 | `103072026035` | TLS, excerpt: chapters 1, 5, 6 | 2026-10-01 - 2026-12-31 |
 
+Six more members, whole and unchanged, read on 2026-10-15 for the selection of the acts in force (regulations, a tombstone of
+a repealed act, an old text kept as one HTML fragment, a decision that is not an act):
+
+| File (`<member name>.xml.gz`) | Document | Why it is here |
+|---|---|---|
+| `000013014802` | Keskkonnaminister, määrus "Keskkonnavastutuse seaduse tähenduses elupaiga ja liigina mõju..." (algtekst-terviktekst, from 2008-08-18) | a state regulation without an abbreviation |
+| `000013060572` | Kaitseminister, määrus "Passiivse kaitse vahendite loetelu" (from 2009-01-01) | a small state regulation |
+| `418082026030` | Viimsi Vallavalitsus, määrus (from 2026-08-21) | a local-government regulation with a preamble (`preambul`) |
+| `408122017018` | Saue Linnavolikogu, määrus "Saue Linnavolikogu Kantselei põhimäärus" | the empty text (`<sisu/>`) of a repealed act |
+| `000000745959` | Vabariigi Valitsus, määrus "Tolliformaalsuste teostamise kord sadamates" | an old text kept as one HTML fragment ("Kehtetu") |
+| `326032013013` | Vabariigi Valitsus, korraldus "Maa munitsipaalomandisse andmine" | a document type that is not ingested |
+
 Licence: legislation is not protected by copyright (Autoriõiguse seadus § 5(1) p 3); Riigi Teataja is free of charge
 (Riigi Teataja seadus § 7(1)) and offers these files as open data ("avaandmed"). See
 `config/sources/ee-riigi-teataja.yaml`.
