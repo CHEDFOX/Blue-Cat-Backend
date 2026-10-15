@@ -30,6 +30,7 @@ import json
 import logging
 import re
 import time
+import unicodedata
 import zipfile
 from collections.abc import Iterator
 from dataclasses import dataclass
@@ -180,6 +181,12 @@ def build_file_set(resources: list[Resource]) -> tuple[list[dict[str, str | None
 # --------------------------------------------------------------------------- the connector
 
 
+def _kind(value: Any) -> str | None:
+    """``acordao`` or ``decisao`` for the published ``tipoDocumento``; None when neither (the parser reports it)."""
+    text = unicodedata.normalize("NFKD", str(value or "")).encode("ascii", "ignore").decode().strip().upper()
+    return {"ACORDAO": "acordao", "DECISAO": "decisao"}.get(text)
+
+
 class StjConnector:
     def __init__(
         self,
@@ -199,6 +206,8 @@ class StjConnector:
         self.robots: str | None = None
         # one missing file among thousands does not abort the run; a refusal or network failure still does
         self.fetch_errors: list[str] = []
+        self.wanted_types: set[str] | None = None  # manifest `document_types`; None = both
+        self.scope_skipped = {"files_before_from_period": 0, "documents_of_other_types": 0}
         self.stats = {
             "files": 0,
             "records": 0,
@@ -223,6 +232,12 @@ class StjConnector:
         files = manifest.get("files") or []
         if not files:
             raise ManifestError("the manifest lists no files")
+        from_period = manifest.get("from_period")
+        if from_period is not None and not re.fullmatch(r"[0-9]{8}", str(from_period)):
+            raise ManifestError("from_period must be a date written YYYYMMDD")
+        types = manifest.get("document_types")
+        if types is not None and (not isinstance(types, list) or not types or not set(types) <= {"acordao", "decisao"}):
+            raise ManifestError("document_types must be a non-empty list of 'acordao' and/or 'decisao'")
         seen: set[str] = set()
         for entry in files:
             file_id = str(entry.get("id", ""))
@@ -271,9 +286,16 @@ class StjConnector:
         manifest = self._manifest()
         self._open(manifest)
         dataset_id = manifest["dataset_id"]
+        # Scope settings: the file list is the portal's whole set; these narrow what a run downloads and stores.
+        # (The whole set is about 2.5 million decisions and 90 GB of database: widen on purpose, not by accident.)
+        from_period = str(manifest["from_period"]) if manifest.get("from_period") else None
+        self.wanted_types = set(manifest["document_types"]) if manifest.get("document_types") else None
         for entry in manifest["files"]:
+            if from_period and str(entry["id"])[:8].ljust(8, "0") < from_period:
+                self.scope_skipped["files_before_from_period"] += 1
+                continue
             yield from self._file(dataset_id, entry)
-        log.info("STJ open data: %s", self.stats)
+        log.info("STJ open data: %s; left out by the manifest scope: %s", self.stats, self.scope_skipped)
 
     def _file(self, dataset_id: str, entry: dict[str, Any]) -> Iterator[RawDocument]:
         file_id = entry["id"]
@@ -344,6 +366,9 @@ class StjConnector:
                 text = archive.read(info).decode("utf-8")
             except (UnicodeDecodeError, zipfile.BadZipFile, RuntimeError) as exc:
                 self.fetch_errors.append(f"stj:{file_id}:{seq}: the text file cannot be read ({exc}); skipped")
+                continue
+            if self.wanted_types is not None and _kind(recs[0].get("tipoDocumento")) not in self.wanted_types:
+                self.scope_skipped["documents_of_other_types"] += 1
                 continue
             self.stats["documents"] += 1
             yield RawDocument(

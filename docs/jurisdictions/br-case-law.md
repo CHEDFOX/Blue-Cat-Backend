@@ -77,3 +77,14 @@ full suite 1,265 passed (340 s); ruff check, ruff format --check, mypy clean.
 - The 2026 text gap; only selected terminative decisions and acórdãos; no "espelhos de acórdãos" or súmulas.
 - No judgment date, case name, state or chamber; party names as published; not the authentic Diário da Justiça text. About 5
   units per decision (12 million passages for the whole set); ingestion cost is dominated by row writes.
+
+
+## Scope of a server run (set by the lead, 2026-10-15)
+
+The committed manifest lists the portal's whole file set, but the full set is about 2.5 million decisions (roughly 90 GB of
+database, a 6+ hour download and about 15 hours of ingestion): more than the planned 100 GB server can hold next to the
+other corpora. The manifest therefore carries `from_period: "20250101"` and `document_types: [acordao]`: only collegiate
+decisions (acórdãos, which make precedent) published from 2025 are stored. To widen the scope, edit those two keys (earlier
+`from_period`; remove `document_types` to add the single-judge decisões monocráticas, about 80% of the volume) after
+checking the free disk (about 16 GB of database per year for both types). The ZIPs are still downloaded in full for each
+file in scope (about 30 MB per daily file).

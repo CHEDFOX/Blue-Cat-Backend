@@ -850,3 +850,40 @@ def test_reingest_is_idempotent_and_sources_verify(
         assert row is not None and row.media_type == "application/json" and row.licence_id == "CC-BY"
         assert row.metadata_["file"] == "20231109" and row.uri is not None and row.uri.endswith(f"{FAZENDA}.txt")
         session.rollback()
+
+
+def test_manifest_scope_from_period_and_document_types(tmp_path: Path) -> None:
+    cache = tmp_path / "cache"
+    _write_cache(cache)
+    everything = list(StjConnector(_manifest(tmp_path), SOURCE, cache, offline=True).fetch())
+    # a later start leaves the 2023 file out: no request, no document
+    late = StjConnector(_manifest(tmp_path, from_period="20240101"), SOURCE, cache, offline=True)
+    docs = list(late.fetch())
+    assert late.stats["files"] == 1 and late.scope_skipped["files_before_from_period"] == 1
+    assert {d.metadata["file"] for d in docs} == {"20261007"} and 0 < len(docs) < len(everything)
+    # only collegiate decisions
+    only = StjConnector(_manifest(tmp_path, document_types=["acordao"]), SOURCE, cache, offline=True)
+    chosen = list(only.fetch())
+    assert 0 < len(chosen) < len(everything)
+    assert {parse_stj_integra(d.content)[0].ext.get("document_type", "acordao") for d in chosen} <= {"acordao"}
+    assert only.scope_skipped["documents_of_other_types"] == len(everything) - len(chosen)
+    assert [d.metadata["tipo"] for d in chosen] == ["ACÓRDÃO"]
+
+
+@pytest.mark.parametrize(
+    ("extra", "message"),
+    [
+        ({"from_period": "2025"}, "from_period"),
+        ({"document_types": []}, "document_types"),
+        ({"document_types": ["sentenca"]}, "document_types"),
+    ],
+)
+def test_manifest_scope_settings_are_validated(tmp_path: Path, extra: dict[str, Any], message: str) -> None:
+    with pytest.raises(ManifestError, match=message):
+        list(StjConnector(_manifest(tmp_path, **extra), SOURCE, tmp_path / "c", offline=True).fetch())
+
+
+def test_committed_manifest_is_scoped_to_recent_collegiate_decisions() -> None:
+    manifest = yaml.safe_load((REPO_ROOT / "config/manifests/br-stj-dados-abertos.yaml").read_text())
+    assert manifest["from_period"] == "20250101" and manifest["document_types"] == ["acordao"]
+    assert len(manifest["files"]) >= 1300  # the file list itself stays the portal's whole set

@@ -14,6 +14,13 @@ base_url: https://dadosabertos.web.stj.jus.br
 user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
 crawl_delay_seconds: 10
 dataset_id: a2cd85cc-1391-4ebc-aeed-a45dd75a7987
+# SCOPE of a run (the `files` list below is always the portal's whole set). The whole set is about 2.5 million
+# decisions (roughly 90 GB of database, a 6+ hour download and ~15 hours of ingestion), too much for the planned
+# 100 GB server. Default: collegiate decisions (acórdãos, the ones that make precedent) published from 2025. To widen,
+# set `from_period` earlier (YYYYMMDD) and/or remove `document_types` (single-judge decisões monocráticas are about 80%
+# of the volume); check the free disk first (about 16 GB of database per year for both types).
+from_period: "20250101"
+document_types: [acordao]
 dataset_page_read_on: "2026-10-15"
 without_texts: ["20240204", "20260611", "20260615"]
 files:
