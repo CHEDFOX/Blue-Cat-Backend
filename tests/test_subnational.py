@@ -493,7 +493,7 @@ def test_manifest_validation(tmp_path: Path) -> None:
     ("source_id", "expected", "minimum"),
     [
         ("au-qld-legislation", 534, 534),
-        ("au-tas-legislation", 44, 40),
+        ("au-tas-legislation", 43, 40),
         ("ca-on-e-laws", 37, 30),
         ("ca-mb-manitoba-laws", 490, 490),
     ],

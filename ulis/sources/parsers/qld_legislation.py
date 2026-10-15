@@ -166,7 +166,7 @@ def parse_qld_legislation(content: bytes) -> list[ParsedDocument]:
         base = safe_id(el.get("id") or "") or f"{parent_eid or 'x'}-{kind}{len(provisions)}"
         n = used.get(base, 0) + 1
         used[base] = n
-        return base if n == 1 else f"{base}-{n}"
+        return base if n == 1 else f"{base}--{n}"
 
     def refs_of(el: Element) -> list[ParsedRef]:
         out: list[ParsedRef] = []

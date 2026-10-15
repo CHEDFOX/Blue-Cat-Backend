@@ -37,7 +37,7 @@ publication:
 coverage:
   corpus_status: pilot
   known_gaps:
-    - "Only a curated list of 44 principal Tasmanian Acts is ingested (see the source manifest), not
+    - "Only a curated list of 43 principal Tasmanian Acts is ingested (see the source manifest), not
       the whole statute book; no statutory rules, no bills."
     - "Current version only: the version states the date from which it applies, not when each
       provision commenced, and earlier versions are not indexed."

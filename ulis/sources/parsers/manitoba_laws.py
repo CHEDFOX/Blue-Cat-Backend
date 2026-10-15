@@ -233,9 +233,10 @@ def parse_manitoba_laws(content: bytes) -> list[ParsedDocument]:
                 continue
             if b.secnum:
                 m = SECNUM.match(b.secnum.replace(" ", ""))
-                if m is None:
-                    raise ManitobaParseError(f"unrecognised section number {b.secnum!r}")
-                number, subs = m.group(1), SUBLABEL.findall(m.group(2))
+                if m is None:  # a range or list of numbers ("66 to 69", "47(2) and (3)"): kept whole, as printed
+                    number, subs = ws(b.secnum), []
+                else:
+                    number, subs = m.group(1), SUBLABEL.findall(m.group(2))
                 seen_section = True
                 if section is None or section.label != number:
                     section = _Node("section", number)
@@ -318,7 +319,7 @@ def parse_manitoba_laws(content: bytes) -> list[ParsedDocument]:
         eid = f"{parent_eid}-{local}" if parent_eid else local
         n = used.get(eid, 0) + 1
         used[eid] = n
-        eid = eid if n == 1 else f"{eid}-{n}"
+        eid = eid if n == 1 else f"{eid}--{n}"  # "--" cannot occur in a label slug
         path = [*num_path, node.label] if node.kind != "preamble" else []
         provisions.append(
             ParsedProvision(

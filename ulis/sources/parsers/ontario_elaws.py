@@ -344,7 +344,7 @@ def parse_ontario_elaws(content: bytes) -> list[ParsedDocument]:
         eid = f"{parent_eid}-{local}" if parent_eid else local
         n = used.get(eid, 0) + 1
         used[eid] = n
-        eid = eid if n == 1 else f"{eid}-{n}"
+        eid = eid if n == 1 else f"{eid}--{n}"  # "--" cannot occur in a label slug
         path = [*num_path, node.label]
         note = " ".join(x for x in [*node.note, node.history or ""] if x)
         provisions.append(
