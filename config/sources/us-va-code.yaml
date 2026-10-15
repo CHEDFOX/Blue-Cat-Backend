@@ -1,0 +1,39 @@
+# Code of Virginia: recorded as planned on 2026-10-14; nothing fetched beyond robots.txt and the pages named below.
+schema_version: 1
+id: us-va-code
+name: Code of Virginia
+publisher: Virginia Division of Legislative Automated Systems (LIS)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- US-VA
+document_kinds:
+- act
+languages:
+- en
+coverage: 'The state''s statutes (current text). NOT INGESTED: All-rights-reserved notice and no reuse terms; not evaluated
+  further.'
+access:
+  method: permitted_web_retrieval
+  endpoint: https://law.lis.virginia.gov/vacode/
+update_frequency: not assessed
+licence:
+  id: US-VA-NOT-REVIEWED
+  name: 'Not approved: All-rights-reserved notice and no reuse terms; not evaluated further.'
+  url: https://law.lis.virginia.gov/vacode/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14. Findings: https://law.lis.virginia.gov/robots.txt answered 404: no rules. https://law.lis.virginia.gov/vacode/
+    says ''The Code of Virginia online database excludes material copyrighted by the publisher, Michie, a division of Matthew
+    Bender. Copyrighted material includes annotations and revisors'' notes'' and shows ''(c) Copyright Commonwealth of Virginia.
+    All rights reserved.'' No licence for reuse of the statute text was located.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: 'Next step: Ask LIS whether the Code text may be reused and whether a data feed exists.'
+provenance: Nothing has been ingested from this source.
+known_limitations:
+- All-rights-reserved notice and no reuse terms; not evaluated further.
+- 'Next step: Ask LIS whether the Code text may be reused and whether a data feed exists.'
+status: planned

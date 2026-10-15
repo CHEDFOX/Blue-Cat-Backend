@@ -40,6 +40,10 @@ from ulis.jurisdictions.modules.sk import SkModule
 from ulis.jurisdictions.modules.treaties import CoeModule, IntModule
 from ulis.jurisdictions.modules.tw import TwModule
 from ulis.jurisdictions.modules.us import UsModule
+from ulis.jurisdictions.modules.us_or import UsOrModule
+from ulis.jurisdictions.modules.us_tx import UsTxModule
+from ulis.jurisdictions.modules.us_ut import UsUtModule
+from ulis.jurisdictions.modules.us_wa import UsWaModule
 from ulis.jurisdictions.modules.uy import UyModule
 
 MODULES: dict[str, JurisdictionModule] = {
@@ -72,6 +76,10 @@ MODULES: dict[str, JurisdictionModule] = {
         NlModule(),
         PlModule(),
         UsModule(),
+        UsOrModule(),
+        UsTxModule(),
+        UsUtModule(),
+        UsWaModule(),
         AuModule(),
         AtModule(),
         ArModule(),

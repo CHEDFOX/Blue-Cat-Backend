@@ -65,6 +65,10 @@ from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
 from ulis.sources.connectors.ris_ogd import RisOgdConnector
 from ulis.sources.connectors.slovlex_static import SlovLexStaticConnector
 from ulis.sources.connectors.uksc import UkscConnector
+from ulis.sources.connectors.us_or_ors import OrOrsConnector
+from ulis.sources.connectors.us_tx_statutes import TxStatutesConnector
+from ulis.sources.connectors.us_ut_code import UtCodeConnector
+from ulis.sources.connectors.us_wa_rcw import WaRcwConnector
 from ulis.sources.connectors.uscode_house import UscodeHouseConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef, ParseSkipped
 from ulis.sources.parsers import (
@@ -104,6 +108,10 @@ from ulis.sources.parsers import (
     ris,
     slovlex_static,
     uksc_html,
+    us_or_ors,
+    us_tx_statutes,
+    us_ut_code,
+    us_wa_rcw,
     uslm,
 )
 from ulis.sources.registry import SourceDescriptor, licence_gate
@@ -150,6 +158,10 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "slovlex_static_html": slovlex_static.parse_slovlex_static,
     "govinfo_usreports": govinfo_usreports.parse_govinfo_usreports,
     "govinfo_uscourts": govinfo_uscourts.parse_govinfo_uscourts,
+    "us_wa_rcw_html": us_wa_rcw.parse_wa_rcw,
+    "us_tx_statutes_zip": us_tx_statutes.parse_tx_statutes,
+    "us_or_ors_html": us_or_ors.parse_or_ors,
+    "us_ut_code_xml": us_ut_code.parse_ut_code,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -189,6 +201,10 @@ PARSER_VERSIONS = {
     "slovlex_static_html": slovlex_static.PARSER_VERSION,
     "govinfo_usreports": govinfo_usreports.PARSER_VERSION,
     "govinfo_uscourts": govinfo_uscourts.PARSER_VERSION,
+    "us_wa_rcw_html": us_wa_rcw.PARSER_VERSION,
+    "us_tx_statutes_zip": us_tx_statutes.PARSER_VERSION,
+    "us_or_ors_html": us_or_ors.PARSER_VERSION,
+    "us_ut_code_xml": us_ut_code.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -260,6 +276,10 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "slovlex_static": SlovLexStaticConnector,
     "govinfo_usreports": UsReportsGovInfoConnector,
     "govinfo_uscourts": UsCourtsGovInfoConnector,
+    "us_wa_rcw": WaRcwConnector,
+    "us_tx_statutes": TxStatutesConnector,
+    "us_or_ors": OrOrsConnector,
+    "us_ut_code": UtCodeConnector,
 }
 
 

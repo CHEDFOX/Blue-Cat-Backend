@@ -1,0 +1,40 @@
+# Pennsylvania Consolidated and Unconsolidated Statutes: recorded as planned on 2026-10-14; nothing fetched beyond robots.txt and the pages named below.
+schema_version: 1
+id: us-pa-consolidated
+name: Pennsylvania Consolidated and Unconsolidated Statutes
+publisher: Pennsylvania General Assembly (Legislative Data Processing Center)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- US-PA
+document_kinds:
+- act
+languages:
+- en
+coverage: 'The state''s statutes (current text). NOT INGESTED: Not evaluated further: only four states were ingested in this
+  pass (Washington, Texas, Oregon, Utah).'
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.palegis.us/statutes/consolidated
+update_frequency: not assessed
+licence:
+  id: US-PA-NOT-REVIEWED
+  name: 'Not approved: Not evaluated further: only four states were ingested in this pass (Washington, Texas, Oregon, Utah).'
+  url: https://www.palegis.us/statutes/consolidated
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14. Findings: https://www.palegis.us/robots.txt (200) has one group, for the ''UserWay
+    Scanner'' agent (Disallow /cfdocs/ and /legislation/bills/*); no group applies to ULIS. https://www.palegis.us/legal (Legal
+    Notices): the information ''is made available as an information service only ... presented AS IS without warranty'' plus
+    a copyright-infringement notice procedure; no reuse terms. https://www.palegis.us/statutes/consolidated offers every title
+    as HTML, PDF and Word (whole-title HTML files), with a History link per title: a strong candidate for the next state.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: 'Next step: Read the HTML title files'' structure, then add a connector for the title files at 5 s.'
+provenance: Nothing has been ingested from this source.
+known_limitations:
+- 'Not evaluated further: only four states were ingested in this pass (Washington, Texas, Oregon, Utah).'
+- 'Next step: Read the HTML title files'' structure, then add a connector for the title files at 5 s.'
+status: planned

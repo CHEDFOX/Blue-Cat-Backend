@@ -1,0 +1,37 @@
+# Michigan Compiled Laws: recorded as planned on 2026-10-14; nothing fetched beyond robots.txt and the pages named below.
+schema_version: 1
+id: us-mi-mcl
+name: Michigan Compiled Laws
+publisher: Michigan Legislature (Legislative Service Bureau)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- US-MI
+document_kinds:
+- act
+languages:
+- en
+coverage: 'The state''s statutes (current text). NOT INGESTED: robots.txt request refused (403).'
+access:
+  method: permitted_web_retrieval
+  endpoint: https://legislature.mi.gov/
+update_frequency: not assessed
+licence:
+  id: US-MI-NOT-REVIEWED
+  name: 'Not approved: robots.txt request refused (403).'
+  url: https://legislature.mi.gov/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14. Findings: https://legislature.mi.gov/robots.txt answered HTTP 403 with an empty
+    body on 2026-10-14: the host refuses the request, so nothing else was fetched and the terms were not read.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: 'Next step: A person reads the site''s terms in a browser; ask the Legislative Service Bureau for the MCL data it
+    offers.'
+provenance: Nothing has been ingested from this source.
+known_limitations:
+- robots.txt request refused (403).
+- 'Next step: A person reads the site''s terms in a browser; ask the Legislative Service Bureau for the MCL data it offers.'
+status: planned

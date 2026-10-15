@@ -1,0 +1,46 @@
+# California codes (Legislative Counsel, leginfo / PUBINFO bulk data): recorded as planned on 2026-10-14; nothing fetched beyond robots.txt and the pages named below.
+schema_version: 1
+id: us-ca-leginfo
+name: California codes (Legislative Counsel, leginfo / PUBINFO bulk data)
+publisher: California Legislature (Legislative Counsel Bureau)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- US-CA
+document_kinds:
+- act
+languages:
+- en
+coverage: 'The state''s statutes (current text). NOT INGESTED: Terms unreadable behind a bot challenge and a state copyright
+  reservation; no licence on the bulk host.'
+access:
+  method: bulk_download
+  endpoint: https://downloads.leginfo.legislature.ca.gov/
+update_frequency: not assessed
+licence:
+  id: US-CA-NOT-REVIEWED
+  name: 'Not approved: Terms unreadable behind a bot challenge and a state copyright reservation; no licence on the bulk host.'
+  url: https://downloads.leginfo.legislature.ca.gov/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14. Findings: https://leginfo.legislature.ca.gov/robots.txt answered HTTP 403 with a
+    Cloudflare managed challenge (''Just a moment...'') on 2026-10-14: the host refuses automated clients, so nothing else
+    was fetched from it, its Conditions of Use could not be read, and no workaround was tried. https://downloads.leginfo.legislature.ca.gov/
+    (a separate host, no robots.txt: 404) lists the PUBINFO bulk files (pubinfo_2025.zip, 1.2 GB, with the code tables LAW_SECTION_TBL
+    / LAW_TOC_TBL beside all bill data; daily and weekly increments). Its pubinfo_Readme.pdf says ''The leginfo data is made
+    available to the public via http from https://downloads.leginfo.legislature.ca.gov/'' and states no licence. California
+    Government Code 10248 (read in a third-party copy, not on the official site) says the Legislative Counsel''s electronic
+    access ''does not alter or relinquish any copyright or other proprietary interest or entitlement of the State of California'';
+    no official terms could be read to settle it. https://www.legislature.ca.gov/ reset the connection (not retried).'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: 'Next step: A person reads the Conditions of Use in a browser and, if reuse is allowed, ingests pubinfo_YYYY.zip
+    (LAW_SECTION_TBL.dat with its .lob files): one 1.2 GB download, no per-section crawling.'
+provenance: Nothing has been ingested from this source.
+known_limitations:
+- Terms unreadable behind a bot challenge and a state copyright reservation; no licence on the bulk host.
+- 'Next step: A person reads the Conditions of Use in a browser and, if reuse is allowed, ingests pubinfo_YYYY.zip (LAW_SECTION_TBL.dat
+  with its .lob files): one 1.2 GB download, no per-section crawling.'
+status: planned

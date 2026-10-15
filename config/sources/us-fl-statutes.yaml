@@ -1,0 +1,42 @@
+# Florida Statutes: recorded as planned on 2026-10-14; nothing fetched beyond robots.txt and the pages named below.
+schema_version: 1
+id: us-fl-statutes
+name: Florida Statutes
+publisher: The Florida Legislature (Online Sunshine)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- US-FL
+document_kinds:
+- act
+languages:
+- en
+coverage: 'The state''s statutes (current text). NOT INGESTED: Robots allow it, but no terms of reuse were located and no
+  bulk data file exists; a per-chapter crawl is possible.'
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.leg.state.fl.us/statutes/
+update_frequency: not assessed
+licence:
+  id: US-FL-NOT-REVIEWED
+  name: 'Not approved: Robots allow it, but no terms of reuse were located and no bulk data file exists; a per-chapter crawl
+    is possible.'
+  url: https://www.leg.state.fl.us/statutes/
+  review_status: pending_review
+  reviewed_by: 'ULIS project, 2026-10-14. Findings: https://www.leg.state.fl.us/robots.txt (200): ''User-agent: * / Disallow:
+    /employees/'' (and full disallows for the Drifter and SemrushBot robots): the statutes paths are allowed. The Statutes
+    pages show ''Copyright (c) 1995-2026 The Florida Legislature'' and a privacy statement; no reuse terms were located. The
+    Statutes Download page offers an installable ''Advanced Legislative Search & Browse'' application, not a data file.'
+  reviewed_on: '2026-10-14'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  notes: 'Next step: Locate the Legislature''s reuse terms (or ask), then crawl chapter pages (https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute...)
+    at 5 s.'
+provenance: Nothing has been ingested from this source.
+known_limitations:
+- Robots allow it, but no terms of reuse were located and no bulk data file exists; a per-chapter crawl is possible.
+- 'Next step: Locate the Legislature''s reuse terms (or ask), then crawl chapter pages (https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute...)
+  at 5 s.'
+status: planned

@@ -1,0 +1,74 @@
+# Revised Code of Washington (RCW), chapter pages of the Washington State Legislature's website.
+# Facts below were read on 2026-10-14 from the publisher's own pages:
+#   https://app.leg.wa.gov/robots.txt, https://lawfilesext.leg.wa.gov/robots.txt, https://leg.wa.gov/robots.txt
+#        - HTTP 404 on all three: no robots.txt, so no rule restricts any robot; the connector asks for it anyway
+#   https://leg.wa.gov/disclaimer/ - "Neither the State of Washington nor any agency, officer, or employee of the State of
+#        Washington warrants the accuracy, reliability, or timeliness of any information in the Public Access System ...
+#        Any user intending to obtain the Revised Code of Washington or the Washington Administrative Code for the purpose
+#        of selling the same is advised to contact the Washington State Statute Law Committee, which claims copyright for
+#        both codes, at (360) 786-6777."
+#   https://app.leg.wa.gov/rcw/ - "The RCW is the compilation of all permanent laws now in force ... The Statute Law
+#        Committee declares that the certified PDF publication documents in the RCW Archive area on the Office of the Code
+#        Reviser's website constitute the official publication of the Revised Code of Washington. The online version of the
+#        RCW is updated twice a year, once in the early fall following the legislative session, and again at the end of the
+#        year if a ballot measure that changes the law passed at the general election."
+#   https://lawfilesext.leg.wa.gov/law/RCWArchive/2026/ - directory listing naming every RCW chapter of the 2026 archive
+#        (the manifest's chapter list); the archive's chapter files are tables of contents, the section texts being PDFs, so
+#        the text is taken from the chapter pages of app.leg.wa.gov (default.aspx?cite=<chapter>&full=true)
+schema_version: 1
+id: us-wa-rcw
+name: Revised Code of Washington (RCW), online chapter pages
+publisher: Washington State Legislature (Statute Law Committee, Office of the Code Reviser)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [US-WA]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  Every chapter of the RCW named by the Code Reviser's 2026 RCW Archive (2,785 chapters of about 90 titles), one
+  page per chapter with all its sections and their session-law credit lines; current text only. The Washington
+  Constitution, the Washington Administrative Code, session laws and the RCW dispositions tables are not included.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/us-wa-rcw.yaml
+update_frequency: twice a year (early fall after the session; year end after a ballot measure)
+rate_limits: >-
+  None published. ULIS waits 5 s between requests (about 4 hours for all chapters), identifies itself, caches every
+  page and checks robots.txt (none exists) before the first request.
+licence:
+  id: WA-SLC-COPYRIGHT-CLAIM
+  name: No reuse licence stated; the Statute Law Committee claims copyright in the codes and asks anyone who intends to sell them to contact it
+  url: https://leg.wa.gov/disclaimer/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - read the Legislature's disclaimer (above). It restricts nothing but the sale of the RCW and
+    claims copyright in the compilation; it does not forbid reading, copying or automated retrieval of the public
+    pages, and no robots.txt exists. The text is the State's enacted law with the Code Reviser's source credits (no
+    annotations). Approved for research use (search, quotation with citation) on that reading only.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: unknown
+  attribution_required: false
+  attribution_text: >-
+    Revised Code of Washington, Washington State Legislature (app.leg.wa.gov/rcw). Online version, not the certified
+    publication.
+  conditions:
+    - Do not sell or resell the RCW text itself; the Statute Law Committee must be contacted first ((360) 786-6777).
+    - Counsel review is recommended before a commercial deployment.
+  notes: >-
+    The Statute Law Committee "claims copyright for both codes"; the statutes are enacted law, and after Georgia v.
+    Public.Resource.Org (2020) the government-edicts doctrine bars copyright in the enacted text, but the claim covers
+    the compilation, so a production service that charges for access should ask the Committee in writing.
+provenance: >-
+  The chapter page exactly as received (HTTP body, URL, retrieval time) inside the shared envelope of
+  ulis.sources.us_state_bundle (SHA-256 recorded). The official publication is the certified PDF in the RCW Archive.
+known_limitations:
+  - Online version, not the certified PDF that the Statute Law Committee declares to be the official publication of the RCW.
+  - Dated by retrieval date only (attested_at_edition); the page states neither an edition date nor section start dates, so no point-in-time history. The RCW Archive holds earlier years only as PDFs and is not ingested.
+  - Sections are not split into subsections; a subsection is cited by pinpoint within the section text. Editorial NOTES blocks and session-law credit lines are kept as notes; chapter-level notes are not ingested.
+  - Repealed, expired or decodified sections are listed in the RCW dispositions tables, which are not ingested; they are absent from the chapter pages.
+status: active
+connector: us_wa_rcw
+parser: us_wa_rcw_html

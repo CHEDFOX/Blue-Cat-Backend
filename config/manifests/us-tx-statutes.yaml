@@ -1,0 +1,68 @@
+# Texas statutes: the HTML zip of every code offered on the Download Statutes page of statutes.capitol.texas.gov
+# (list read from https://statutes.capitol.texas.gov/assets/StatuteCodeDownloads.json on 2026-10-14).
+# The Texas Constitution (CN) is not a statute and is not listed.
+schema_version: 1
+source_id: us-tx-statutes
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+codes:
+  - code: AG
+    name: "Agriculture Code"
+  - code: AL
+    name: "Alcoholic Beverage Code"
+  - code: WL
+    name: "Auxiliary Water Laws"
+  - code: BC
+    name: "Business & Commerce Code"
+  - code: BO
+    name: "Business Organizations Code"
+  - code: CP
+    name: "Civil Practice and Remedies Code"
+  - code: CR
+    name: "Code of Criminal Procedure"
+  - code: ED
+    name: "Education Code"
+  - code: EL
+    name: "Election Code"
+  - code: ES
+    name: "Estates Code"
+  - code: FA
+    name: "Family Code"
+  - code: FI
+    name: "Finance Code"
+  - code: GV
+    name: "Government Code"
+  - code: HS
+    name: "Health and Safety Code"
+  - code: HR
+    name: "Human Resources Code"
+  - code: IN
+    name: "Insurance Code"
+  - code: I1
+    name: "Insurance Code - Not Codified"
+  - code: LA
+    name: "Labor Code"
+  - code: LG
+    name: "Local Government Code"
+  - code: NR
+    name: "Natural Resources Code"
+  - code: OC
+    name: "Occupations Code"
+  - code: PW
+    name: "Parks and Wildlife Code"
+  - code: PE
+    name: "Penal Code"
+  - code: PR
+    name: "Property Code"
+  - code: SD
+    name: "Special District Local Laws Code"
+  - code: TX
+    name: "Tax Code"
+  - code: TN
+    name: "Transportation Code"
+  - code: UT
+    name: "Utilities Code"
+  - code: WA
+    name: "Water Code"
+  - code: CV
+    name: "Vernon's Civil Statutes"
