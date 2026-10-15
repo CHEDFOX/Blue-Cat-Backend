@@ -236,7 +236,7 @@ def test_parser_rejects_foreign_input() -> None:
         parse_lilex(json.dumps(bad).encode())
     bad = json.loads(_bundle("glg6"))
     bad["html"] = "<html><body><div class='htit1'>Gesetz</div></body></html>"
-    with pytest.raises(HtmlParseError, match="no article"):
+    with pytest.raises(HtmlParseError, match="no text found"):
         parse_lilex(json.dumps(bad).encode())
     bad = json.loads(_bundle("glg6"))
     bad["dates"] = "irgendwann"
