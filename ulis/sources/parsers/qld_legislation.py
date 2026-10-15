@@ -135,6 +135,8 @@ def _text_of(el: Element) -> str:
             lines.append(str(value))
         elif kind == "u":
             assert isinstance(value, Element)
+            if value.get("status") in ("repealed", "expired") or value.find("repealed") is not None:
+                continue  # a repealed unit is its own provision (no text); the parent shows only what is in force
             label = _label(value) if value.tag != "definition" else ""
             body = _text_of(value)
             lines.append(f"{label} {body}".strip() if label else body)

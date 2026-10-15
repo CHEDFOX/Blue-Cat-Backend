@@ -324,7 +324,7 @@ def parse_ontario_elaws(content: bytes) -> list[ParsedDocument]:
         for item in node.items:
             if isinstance(item, str):
                 lines.append(item)
-            else:
+            elif not item.repealed:  # a repealed unit is its own provision (no text); the parent shows what is in force
                 label = item.label if not item.label.startswith("def:") else ""
                 body = text_of(item)
                 lines.append(f"{label} {body}".strip() if label else body)

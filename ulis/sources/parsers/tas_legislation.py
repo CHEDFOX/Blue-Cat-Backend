@@ -144,6 +144,8 @@ def _text_of(el: Element) -> str:
             lines.append(str(value))
         elif kind == "u":
             assert isinstance(value, Element)
+            if value.get("OMITTED") == "YESOMIT":
+                continue  # an omitted unit is its own provision (no text); the parent shows only what is in force
             label = _label(value)
             body = _text_of(value)
             lines.append(f"{label} {body}".strip() if label else body)
