@@ -1,18 +1,807 @@
-# Commonwealth Acts fetched from the Federal Register of Legislation API (EPUB compilations).
-# Licence: CC BY 4.0 (www.legislation.gov.au/terms-of-use). Automated downloading is allowed
-# if robots.txt's Crawl-delay (10 s) is respected (help page "Data share and reuse").
-# history: true fetches every registered compilation of the title; otherwise only the latest.
+# Commonwealth Acts fetched from the Federal Register of Legislation API (EPUB compilations): every
+# principal Act in force, latest registered compilation, plus the full compilation history of four titles
+# (`history: true`).
+# Generated 2026-10-15 by scripts/build_frl_manifest.py from https://api.prod.legislation.gov.au/v1/Titles (isInForce, isPrincipal):
+# 4773 Acts in force, 1261 principal Acts (7 of them in the original sample);
+# 785 titles listed. 477 principal Acts have only their "as made" version (never amended:
+# no compilation) and 0 have no registered version; neither is listed.
+# Licence: CC BY 4.0 (www.legislation.gov.au/terms-of-use). Automated downloading is allowed if robots.txt's
+# Crawl-delay (10 s) is respected (help page "Data share and reuse"). The help page prefers incremental crawls outside
+# 08:00-20:00 Australian time (UTC+10): `avoid_hours` makes the connector wait for the end of that window.
+# `batch_listings` asks the Register for the versions and documents of 40 titles per request.
+# Scale: about one request per title at 10 s = 2.6 hours of crawl
+# delay (documents, batched listings, the four history titles).
+# Legislative instruments (about 24,000 in force) are not included (docs/jurisdictions/au.md).
 schema_version: 1
 source_id: au-federal-register
 api_base: https://api.prod.legislation.gov.au/v1
 user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
 crawl_delay_seconds: 10
+batch_listings: true
+avoid_hours: {utc_offset: 10, start: 8, end: 20}
 works:
-  - {title_id: C2004Q00685, history: true}    # Commonwealth of Australia Constitution Act
-  - {title_id: C1901A00002, history: true}    # Acts Interpretation Act 1901
-  - {title_id: C2004A00553, history: true}    # Electronic Transactions Act 1999
-  - {title_id: C2004A02944, history: true}    # Insurance Contracts Act 1984
-  - {title_id: C1914A00012, history: false}   # Crimes Act 1914
-  - {title_id: C2004A03712, history: false}   # Privacy Act 1988
-  - {title_id: C2004A00275, history: false}   # Family Law Act 1975
-  - {title_id: C2004A04868, history: false}   # Criminal Code Act 1995
+  - {title_id: C2004Q00685, history: true, title: "Commonwealth of Australia Constitution Act"}
+  - {title_id: C1901A00002, history: true, title: "Acts Interpretation Act 1901"}
+  - {title_id: C2004A00553, history: true, title: "Electronic Transactions Act 1999"}
+  - {title_id: C2004A02944, history: true, title: "Insurance Contracts Act 1984"}
+  - {title_id: C1914A00012, history: false, title: "Crimes Act 1914"}
+  - {title_id: C2004A03712, history: false, title: "Privacy Act 1988"}
+  - {title_id: C2004A00275, history: false, title: "Family Law Act 1975"}
+  - {title_id: C2004A04868, history: false, title: "Criminal Code Act 1995"}
+  - {title_id: C1901A00006, history: false, title: "Customs Act 1901"}
+  - {title_id: C1901A00009, history: false, title: "Excise Act 1901"}
+  - {title_id: C1902A00012, history: false, title: "Royal Commissions Act 1902"}
+  - {title_id: C1903A00006, history: false, title: "Judiciary Act 1903"}
+  - {title_id: C1903A00020, history: false, title: "Defence Act 1903"}
+  - {title_id: C1905A00015, history: false, title: "Census and Statistics Act 1905"}
+  - {title_id: C1905A00016, history: false, title: "Commerce (Trade Descriptions) Act 1905"}
+  - {title_id: C1908A00016, history: false, title: "Parliamentary Papers Act 1908"}
+  - {title_id: C1910A00025, history: false, title: "Seat of Government (Administration) Act 1910"}
+  - {title_id: C1911A00020, history: false, title: "Commonwealth Inscribed Stock Act 1911"}
+  - {title_id: C1915A00019, history: false, title: "Jervis Bay Territory Acceptance Act 1915"}
+  - {title_id: C1918A00027, history: false, title: "Commonwealth Electoral Act 1918"}
+  - {title_id: C1918A00028, history: false, title: "Control of Naval Waters Act 1918"}
+  - {title_id: C1918A00043, history: false, title: "Defence Service Homes Act 1918"}
+  - {title_id: C1920A00050, history: false, title: "Air Navigation Act 1920"}
+  - {title_id: C1921A00018, history: false, title: "Loans Redemption and Conversion Act 1921"}
+  - {title_id: C1921A00026, history: false, title: "Excise Tariff Act 1921"}
+  - {title_id: C1922A00033, history: false, title: "Superannuation Act 1922"}
+  - {title_id: C1924A00031, history: false, title: "Scout Association Act 1924"}
+  - {title_id: C1933A00074, history: false, title: "Trade Representatives Act 1933"}
+  - {title_id: C1936A00027, history: false, title: "Income Tax Assessment Act 1936"}
+  - {title_id: C1938A00015, history: false, title: "Foreign Passports (Law Enforcement and Security) Act 2005"}
+  - {title_id: C1942A00056, history: false, title: "Statute of Westminster Adoption Act 1942"}
+  - {title_id: C1944A00042, history: false, title: "United Nations Food and Agriculture Organization Act 1944"}
+  - {title_id: C1945A00016, history: false, title: "War Gratuity Act 1945"}
+  - {title_id: C1945A00032, history: false, title: "Charter of the United Nations Act 1945"}
+  - {title_id: C1945A00048, history: false, title: "War Crimes Act 1945"}
+  - {title_id: C1946A00020, history: false, title: "Parliamentary Proceedings Broadcasting Act 1946"}
+  - {title_id: C1946A00045, history: false, title: "Immigration (Guardianship of Children) Act 1946"}
+  - {title_id: C1947A00005, history: false, title: "International Monetary Agreements Act 1947"}
+  - {title_id: C1947A00093, history: false, title: "World Health Organization Act 1947"}
+  - {title_id: C1948A00031, history: false, title: "Defence Forces Retirement Benefits Act 1948"}
+  - {title_id: C1948A00089, history: false, title: "Parliamentary Contributory Superannuation Act 1948"}
+  - {title_id: C1949A00013, history: false, title: "Science and Industry Research Act 1949"}
+  - {title_id: C1951A00060, history: false, title: "Public Accounts and Audit Committee Act 1951"}
+  - {title_id: C1952A00001, history: false, title: "Ministers of State Act 1952"}
+  - {title_id: C1952A00019, history: false, title: "Defence (Special Undertakings) Act 1952"}
+  - {title_id: C1953A00001, history: false, title: "Taxation Administration Act 1953"}
+  - {title_id: C1953A00031, history: false, title: "Atomic Energy Act 1953"}
+  - {title_id: C1953A00074, history: false, title: "Royal Powers Act 1953"}
+  - {title_id: C1953A00082, history: false, title: "International Tax Agreements Act 1953"}
+  - {title_id: C1953A00095, history: false, title: "National Health Act 1953"}
+  - {title_id: C1955A00005, history: false, title: "Consular Fees Act 1955"}
+  - {title_id: C1955A00016, history: false, title: "Defence Force Discipline Appeals Act 1955"}
+  - {title_id: C1955A00034, history: false, title: "Cocos (Keeling) Islands Act 1955"}
+  - {title_id: C1955A00066, history: false, title: "International Finance Corporation Act 1955"}
+  - {title_id: C1957A00103, history: false, title: "Geneva Conventions Act 1957"}
+  - {title_id: C1958A00041, history: false, title: "Christmas Island Act 1958"}
+  - {title_id: C1958A00062, history: false, title: "Migration Act 1958"}
+  - {title_id: C1959A00002, history: false, title: "Civil Aviation (Carriers' Liability) Act 1959"}
+  - {title_id: C1959A00004, history: false, title: "Reserve Bank Act 1959"}
+  - {title_id: C1959A00005, history: false, title: "Commonwealth Banks Act 1959"}
+  - {title_id: C1959A00006, history: false, title: "Banking Act 1959"}
+  - {title_id: C1959A00052, history: false, title: "Statutory Declarations Act 1959"}
+  - {title_id: C1959A00094, history: false, title: "Commonwealth Motor Vehicles (Liability) Act 1959"}
+  - {title_id: C1960A00014, history: false, title: "International Monetary Agreements Act 1960"}
+  - {title_id: C1960A00021, history: false, title: "International Development Association Act 1960"}
+  - {title_id: C1960A00048, history: false, title: "Antarctic Treaty Act 1960"}
+  - {title_id: C1960A00064, history: false, title: "National Measurement Act 1960"}
+  - {title_id: C1960A00069, history: false, title: "National Library Act 1960"}
+  - {title_id: C1961A00012, history: false, title: "Marriage Act 1961"}
+  - {title_id: C1961A00038, history: false, title: "Commonwealth Serum Laboratories Act 1961"}
+  - {title_id: C1961A00065, history: false, title: "Explosives Act 1961"}
+  - {title_id: C1961A00086, history: false, title: "Superannuation (Pension Increases) Act 1961"}
+  - {title_id: C1963A00050, history: false, title: "International Organisations (Privileges and Immunities) Act 1963"}
+  - {title_id: C1963A00061, history: false, title: "Submarine Cables and Pipelines Protection Act 1963"}
+  - {title_id: C1963A00074, history: false, title: "Air Accidents (Commonwealth Government Liability) Act 1963"}
+  - {title_id: C1963A00081, history: false, title: "Defence (Visiting Forces) Act 1963"}
+  - {title_id: C1964A00091, history: false, title: "Law Officers Act 1964"}
+  - {title_id: C1965A00005, history: false, title: "Parliamentary Presiding Officers Act 1965"}
+  - {title_id: C1965A00095, history: false, title: "Currency Act 1965"}
+  - {title_id: C1966A00025, history: false, title: "Asian Development Bank Act 1966"}
+  - {title_id: C1966A00033, history: false, title: "Bankruptcy Act 1966"}
+  - {title_id: C1966A00059, history: false, title: "Maintenance Orders (Commonwealth Officers) Act 1966"}
+  - {title_id: C1967A00016, history: false, title: "Diplomatic Privileges and Immunities Act 1967"}
+  - {title_id: C1967A00053, history: false, title: "Narcotic Drugs Act 1967"}
+  - {title_id: C1968A00063, history: false, title: "Copyright Act 1968"}
+  - {title_id: C1968A00151, history: false, title: "Judges' Pensions Act 1968"}
+  - {title_id: C1969A00058, history: false, title: "Coral Sea Islands Act 1969"}
+  - {title_id: C1969A00060, history: false, title: "Defence (Parliamentary Candidates) Act 1969"}
+  - {title_id: C1969A00092, history: false, title: "Public Works Committee Act 1969"}
+  - {title_id: C1970A00008, history: false, title: "Parliamentary Counsel Act 1970"}
+  - {title_id: C1970A00121, history: false, title: "Commonwealth Places (Application of Laws) Act 1970"}
+  - {title_id: C1971A00003, history: false, title: "Immigration (Education) Act 1971"}
+  - {title_id: C1971A00015, history: false, title: "Criminology Research Act 1971"}
+  - {title_id: C1971A00026, history: false, title: "Public Order (Protection of Persons and Property) Act 1971"}
+  - {title_id: C1971A00073, history: false, title: "Superannuation (Pension Increases) Act 1971"}
+  - {title_id: C1971A00074, history: false, title: "Defence Forces Retirement Benefits (Pension Increases) Act 1971"}
+  - {title_id: C1972A00055, history: false, title: "Australian Institute of Marine Science Act 1972"}
+  - {title_id: C1972A00062, history: false, title: "Consular Privileges and Immunities Act 1972"}
+  - {title_id: C1972A00121, history: false, title: "Child Care Act 1972"}
+  - {title_id: C1973A00054, history: false, title: "Commonwealth Grants Commission Act 1973"}
+  - {title_id: C1973A00076, history: false, title: "Insurance Act 1973"}
+  - {title_id: C1988A00156, history: false, title: "Safety, Rehabilitation and Compensation (Defence-related Claims) Act 1988"}
+  - {title_id: C2004A00006, history: false, title: "Defence Force Retirement and Death Benefits Act 1973"}
+  - {title_id: C2004A00024, history: false, title: "Maternity Leave (Commonwealth Employees) Act 1973"}
+  - {title_id: C2004A00033, history: false, title: "Papua New Guinea (Staffing Assistance) Act 1973"}
+  - {title_id: C2004A00043, history: false, title: "Remuneration Tribunal Act 1973"}
+  - {title_id: C2004A00046, history: false, title: "Seas and Submerged Lands Act 1973"}
+  - {title_id: C2004A00058, history: false, title: "Student Assistance Act 1973"}
+  - {title_id: C2004A00075, history: false, title: "Governor-General Act 1974"}
+  - {title_id: C2004A00093, history: false, title: "Canberra Water Supply (Googong Dam) Act 1974"}
+  - {title_id: C2004A00100, history: false, title: "Human Services (Medicare) Act 1973"}
+  - {title_id: C2004A00101, history: false, title: "Health Insurance Act 1973"}
+  - {title_id: C2004A00109, history: false, title: "Competition and Consumer Act 2010"}
+  - {title_id: C2004A00191, history: false, title: "Urban and Regional Development (Financial Assistance) Act 1974"}
+  - {title_id: C2004A00192, history: false, title: "International Arbitration Act 1974"}
+  - {title_id: C2004A00274, history: false, title: "Racial Discrimination Act 1975"}
+  - {title_id: C2004A00282, history: false, title: "Australian Bureau of Statistics Act 1975"}
+  - {title_id: C2004A00283, history: false, title: "National Gallery Act 1975"}
+  - {title_id: C2004A00298, history: false, title: "Customs Tariff (Anti-Dumping) Act 1975"}
+  - {title_id: C2004A00310, history: false, title: "Australian Prudential Regulation Authority Act 1998"}
+  - {title_id: C2004A00311, history: false, title: "Authorised Deposit-taking Institutions Supervisory Levy Imposition Act 1998"}
+  - {title_id: C2004A00312, history: false, title: "Authorised Non-operating Holding Companies Supervisory Levy Imposition Act 1998"}
+  - {title_id: C2004A00313, history: false, title: "Financial Institutions Supervisory Levies Collection Act 1998"}
+  - {title_id: C2004A00315, history: false, title: "Financial Sector (Shareholdings) Act 1998"}
+  - {title_id: C2004A00316, history: false, title: "General Insurance Supervisory Levy Imposition Act 1998"}
+  - {title_id: C2004A00317, history: false, title: "Life Insurance Supervisory Levy Imposition Act 1998"}
+  - {title_id: C2004A00318, history: false, title: "Payment Systems (Regulation) Act 1998"}
+  - {title_id: C2004A00319, history: false, title: "Retirement Savings Account Providers Supervisory Levy Imposition Act 1998"}
+  - {title_id: C2004A00320, history: false, title: "Superannuation Supervisory Levy Imposition Act 1998"}
+  - {title_id: C2004A00338, history: false, title: "Payment Systems and Netting Act 1998"}
+  - {title_id: C2004A00349, history: false, title: "Comprehensive Nuclear-Test-Ban Treaty Act 1998"}
+  - {title_id: C2004A00383, history: false, title: "Australian Radiation Protection and Nuclear Safety Act 1998"}
+  - {title_id: C2004A00384, history: false, title: "Australian Radiation Protection and Nuclear Safety (Licence Charges) Act 1998"}
+  - {title_id: C2004A00389, history: false, title: "Anti-Personnel Mines Convention Act 1998"}
+  - {title_id: C2004A00391, history: false, title: "Space (Launches and Returns) Act 2018"}
+  - {title_id: C2004A00392, history: false, title: "National Environment Protection Measures (Implementation) Act 1998"}
+  - {title_id: C2004A00393, history: false, title: "National Transmission Network Sale Act 1998"}
+  - {title_id: C2004A00400, history: false, title: "General Interest Charge (Imposition) Act 1999"}
+  - {title_id: C2004A00412, history: false, title: "A New Tax System (Medicare Levy Surcharge—Fringe Benefits) Act 1999"}
+  - {title_id: C2004A00436, history: false, title: "Financial Sector (Transfer and Restructure) Act 1999"}
+  - {title_id: C2004A00441, history: false, title: "Telecommunications (Consumer Protection and Service Standards) Act 1999"}
+  - {title_id: C2004A00446, history: false, title: "A New Tax System (Goods and Services Tax) Act 1999"}
+  - {title_id: C2004A00448, history: false, title: "A New Tax System (Goods and Services Tax Transition) Act 1999"}
+  - {title_id: C2004A00452, history: false, title: "A New Tax System (Wine Equalisation Tax) Act 1999"}
+  - {title_id: C2004A00463, history: false, title: "A New Tax System (Luxury Car Tax) Act 1999"}
+  - {title_id: C2004A00464, history: false, title: "A New Tax System (Luxury Car Tax Imposition—Customs) Act 1999"}
+  - {title_id: C2004A00465, history: false, title: "A New Tax System (Luxury Car Tax Imposition—Excise) Act 1999"}
+  - {title_id: C2004A00466, history: false, title: "A New Tax System (Luxury Car Tax Imposition—General) Act 1999"}
+  - {title_id: C2004A00467, history: false, title: "A New Tax System (Australian Business Number) Act 1999"}
+  - {title_id: C2004A00485, history: false, title: "Environment Protection and Biodiversity Conservation Act 1999"}
+  - {title_id: C2004A00490, history: false, title: "A New Tax System (Family Assistance) Act 1999"}
+  - {title_id: C2004A00491, history: false, title: "A New Tax System (Family Assistance) (Administration) Act 1999"}
+  - {title_id: C2004A00498, history: false, title: "Damage by Aircraft Act 1999"}
+  - {title_id: C2004A00518, history: false, title: "Superannuation (Unclaimed Money and Lost Members) Act 1999"}
+  - {title_id: C2004A00536, history: false, title: "Parliamentary Service Act 1999"}
+  - {title_id: C2004A00538, history: false, title: "Public Service Act 1999"}
+  - {title_id: C2004A00557, history: false, title: "New Business Tax System (Former Subsidiary Tax Imposition) Act 1999"}
+  - {title_id: C2004A00564, history: false, title: "Social Security (International Agreements) Act 1999"}
+  - {title_id: C2004A00571, history: false, title: "Textile, Clothing and Footwear Investment and Innovation Programs Act 1999"}
+  - {title_id: C2004A00574, history: false, title: "Tradex Scheme Act 1999"}
+  - {title_id: C2004A00575, history: false, title: "Tradex Duty Imposition (Customs) Act 1999"}
+  - {title_id: C2004A00576, history: false, title: "Tradex Duty Imposition (Excise) Act 1999"}
+  - {title_id: C2004A00577, history: false, title: "Tradex Duty Imposition (General) Act 1999"}
+  - {title_id: C2004A00580, history: false, title: "Social Security (Administration) Act 1999"}
+  - {title_id: C2004A00605, history: false, title: "Crimes at Sea Act 2000"}
+  - {title_id: C2004A00621, history: false, title: "Adelaide Airport Curfew Act 2000"}
+  - {title_id: C2004A00637, history: false, title: "A New Tax System (Family Assistance and Related Measures) Act 2000"}
+  - {title_id: C2004A00653, history: false, title: "Product Grants and Benefits Administration Act 2000"}
+  - {title_id: C2004A00694, history: false, title: "Product Stewardship (Oil) Act 2000"}
+  - {title_id: C2004A00722, history: false, title: "Renewable Energy (Electricity) (Large-scale Generation Shortfall Charge) Act 2000"}
+  - {title_id: C2004A00727, history: false, title: "Health Insurance (Approved Pathology Specimen Collection Centres) Tax Act 2000"}
+  - {title_id: C2004A00738, history: false, title: "Wool Services Privatisation Act 2000"}
+  - {title_id: C2004A00744, history: false, title: "Fuel Quality Standards Act 2000"}
+  - {title_id: C2004A00756, history: false, title: "Horticulture Marketing and Research and Development Services (Repeals and Consequential Provisions) Act 2000"}
+  - {title_id: C2004A00757, history: false, title: "Education Services for Overseas Students Act 2000"}
+  - {title_id: C2004A00762, history: false, title: "Gene Technology Act 2000"}
+  - {title_id: C2004A00767, history: false, title: "Renewable Energy (Electricity) Act 2000"}
+  - {title_id: C2004A00773, history: false, title: "Australian Research Council Act 2001"}
+  - {title_id: C2004A00775, history: false, title: "Defence Legislation Amendment (Enhancement of the Reserves and Modernisation) Act 2001"}
+  - {title_id: C2004A00776, history: false, title: "Defence Reserve Service (Protection) Act 2001"}
+  - {title_id: C2004A00779, history: false, title: "Sydney Harbour Federation Trust Act 2001"}
+  - {title_id: C2004A00798, history: false, title: "Pig Industry Act 2001"}
+  - {title_id: C2004A00818, history: false, title: "Corporations Act 2001"}
+  - {title_id: C2004A00819, history: false, title: "Australian Securities and Investments Commission Act 2001"}
+  - {title_id: C2004A00820, history: false, title: "Corporations (Fees) Act 2001"}
+  - {title_id: C2004A00822, history: false, title: "Corporations (National Guarantee Fund Levies) Act 2001"}
+  - {title_id: C2004A00823, history: false, title: "Corporations (Repeals, Consequentials and Transitionals) Act 2001"}
+  - {title_id: C2004A00851, history: false, title: "Interactive Gambling Act 2001"}
+  - {title_id: C2004A00857, history: false, title: "Import Processing Charges Act 2001"}
+  - {title_id: C2004A00871, history: false, title: "Financial Sector (Collection of Data) Act 2001"}
+  - {title_id: C2004A00873, history: false, title: "Corporations (Compensation Arrangements Levies) Act 2001"}
+  - {title_id: C2004A00928, history: false, title: "Intelligence Services Act 2001"}
+  - {title_id: C2004A00965, history: false, title: "Regional Forest Agreements Act 2002"}
+  - {title_id: C2004A00992, history: false, title: "International Criminal Court Act 2002"}
+  - {title_id: C2004A01022, history: false, title: "Proceeds of Crime Act 2002"}
+  - {title_id: C2004A01023, history: false, title: "Proceeds of Crime (Consequential Amendments and Transitional Provisions) Act 2002"}
+  - {title_id: C2004A01047, history: false, title: "Parliamentary Retirement Travel Act 2002"}
+  - {title_id: C2004A01062, history: false, title: "Australian Crime Commission Establishment Act 2002"}
+  - {title_id: C2004A01069, history: false, title: "Medical Indemnity Act 2002"}
+  - {title_id: C2004A01074, history: false, title: "Venture Capital Act 2002"}
+  - {title_id: C2004A01081, history: false, title: "Prohibition of Human Cloning for Reproduction Act 2002"}
+  - {title_id: C2004A01082, history: false, title: "Research Involving Human Embryos Act 2002"}
+  - {title_id: C2004A01087, history: false, title: "Commonwealth Volunteers Protection Act 2003"}
+  - {title_id: C2004A01094, history: false, title: "Petroleum (Timor Sea Treaty) Act 2003"}
+  - {title_id: C2004A01102, history: false, title: "Transport Safety Investigation Act 2003"}
+  - {title_id: C2004A01106, history: false, title: "Inspector-General of Taxation Act 2003"}
+  - {title_id: C2004A01108, history: false, title: "Corporations (Review Fees) Act 2003"}
+  - {title_id: C2004A01114, history: false, title: "National Blood Authority Act 2003"}
+  - {title_id: C2004A01117, history: false, title: "Dairy Industry Service Reform Act 2003"}
+  - {title_id: C2004A01121, history: false, title: "Medical Indemnity (Prudential Supervision and Product Standards) Act 2003"}
+  - {title_id: C2004A01123, history: false, title: "New Business Tax System (Venture Capital Deficit Tax) Act 2003"}
+  - {title_id: C2004A01128, history: false, title: "Terrorism and Cyclone Insurance Act 2003"}
+  - {title_id: C2004A01156, history: false, title: "Private Health Insurance (Collapsed Insurer Levy) Act 2003"}
+  - {title_id: C2004A01158, history: false, title: "Private Health Insurance (Risk Equalisation Levy) Act 2003"}
+  - {title_id: C2004A01166, history: false, title: "National Transport Commission Act 2003"}
+  - {title_id: C2004A01169, history: false, title: "Australian Heritage Council Act 2003"}
+  - {title_id: C2004A01195, history: false, title: "Superannuation (Government Co-contribution for Low Income Earners) Act 2003"}
+  - {title_id: C2004A01202, history: false, title: "Offshore Petroleum and Greenhouse Gas Storage (Regulatory Levies) Act 2003"}
+  - {title_id: C2004A01214, history: false, title: "Spam Act 2003"}
+  - {title_id: C2004A01216, history: false, title: "Maritime Transport and Offshore Facilities Security Act 2003"}
+  - {title_id: C2004A01224, history: false, title: "Legislation Act 2003"}
+  - {title_id: C2004A01232, history: false, title: "Designs Act 2003"}
+  - {title_id: C2004A01234, history: false, title: "Higher Education Support Act 2003"}
+  - {title_id: C2004A01242, history: false, title: "Aviation Transport Security Act 2004"}
+  - {title_id: C2004A01243, history: false, title: "Aviation Transport Security (Consequential Amendments and Transitional Provisions) Act 2004"}
+  - {title_id: C2004A01260, history: false, title: "Customs Legislation Amendment (Application of International Trade Modernisation and Other Measures) Act 2004"}
+  - {title_id: C2004A01285, history: false, title: "Military Rehabilitation and Compensation Act 2004"}
+  - {title_id: C2004A01286, history: false, title: "Military Rehabilitation and Compensation (Consequential and Transitional Provisions) Act 2004"}
+  - {title_id: C2004A01295, history: false, title: "Family Assistance Legislation Amendment (More Help for Families—One-off Payments) Act 2004"}
+  - {title_id: C2004A01302, history: false, title: "Age Discrimination Act 2004"}
+  - {title_id: C2004A01307, history: false, title: "Tourism Australia Act 2004"}
+  - {title_id: C2004A01308, history: false, title: "Tourism Australia (Repeal and Transitional Provisions) Act 2004"}
+  - {title_id: C2004A01309, history: false, title: "Medical Indemnity (Run-off Cover Support Payment) Act 2004"}
+  - {title_id: C2004A01315, history: false, title: "Parliamentary Superannuation Act 2004"}
+  - {title_id: C2004A01335, history: false, title: "Australian Energy Market Act 2004"}
+  - {title_id: C2004A01336, history: false, title: "Veterans' Entitlements (Clarke Review) Act 2004"}
+  - {title_id: C2004A01370, history: false, title: "Schools Assistance (Learning Together—Achievement Through Choice and Opportunity) Act 2004"}
+  - {title_id: C2004A01379, history: false, title: "James Hardie (Investigations and Proceedings) Act 2004"}
+  - {title_id: C2004A01385, history: false, title: "National Security Information (Criminal and Civil Proceedings) Act 2004"}
+  - {title_id: C2004A01387, history: false, title: "Surveillance Devices Act 2004"}
+  - {title_id: C2004A01395, history: false, title: "Great Barrier Reef Marine Park Act 1975"}
+  - {title_id: C2004A01402, history: false, title: "Foreign Acquisitions and Takeovers Act 1975"}
+  - {title_id: C2004A01462, history: false, title: "Superannuation Act 1976"}
+  - {title_id: C2004A01465, history: false, title: "Defence Force Retirement and Death Benefits (Pension Increases) Act 1976"}
+  - {title_id: C2004A01586, history: false, title: "Federal Court of Australia Act 1976"}
+  - {title_id: C2004A01611, history: false, title: "Ombudsman Act 1976"}
+  - {title_id: C2004A01620, history: false, title: "Aboriginal Land Rights (Northern Territory) Act 1976"}
+  - {title_id: C2004A01621, history: false, title: "Long Service Leave (Commonwealth Employees) Act 1976"}
+  - {title_id: C2004A01646, history: false, title: "Crimes (Internationally Protected Persons) Act 1976"}
+  - {title_id: C2004A01649, history: false, title: "Crimes (Biological Weapons) Act 1976"}
+  - {title_id: C2004A01697, history: false, title: "Administrative Decisions (Judicial Review) Act 1977"}
+  - {title_id: C2004A01703, history: false, title: "National Workplace Relations Consultative Council Act 2002"}
+  - {title_id: C2004A01763, history: false, title: "Port Statistics Act 1977"}
+  - {title_id: C2004A01827, history: false, title: "Environment Protection (Alligator Rivers Region) Act 1978"}
+  - {title_id: C2004A01857, history: false, title: "Northern Territory (Self-Government) Act 1978"}
+  - {title_id: C2004A01897, history: false, title: "Diplomatic and Consular Missions Act 1978"}
+  - {title_id: C2004A01917, history: false, title: "Passenger Movement Charge Act 1978"}
+  - {title_id: C2004A01918, history: false, title: "Passenger Movement Charge Collection Act 1978"}
+  - {title_id: C2004A02035, history: false, title: "Norfolk Island Act 1979"}
+  - {title_id: C2004A02068, history: false, title: "Australian Federal Police Act 1979"}
+  - {title_id: C2004A02100, history: false, title: "Judges (Long Leave Payments) Act 1979"}
+  - {title_id: C2004A02123, history: false, title: "Australian Security Intelligence Organisation Act 1979"}
+  - {title_id: C2004A02124, history: false, title: "Telecommunications (Interception and Access) Act 1979"}
+  - {title_id: C2004A02147, history: false, title: "High Court of Australia Act 1979"}
+  - {title_id: C2004A02304, history: false, title: "Antarctic Treaty (Environment Protection) Act 1980"}
+  - {title_id: C2004A02305, history: false, title: "Australian War Memorial Act 1980"}
+  - {title_id: C2004A02316, history: false, title: "National Museum of Australia Act 1980"}
+  - {title_id: C2004A02352, history: false, title: "International Monetary Agreements (Quota Increase) Act 1980"}
+  - {title_id: C2004A02357, history: false, title: "Crimes (Taxation Offences) Act 1980"}
+  - {title_id: C2004A02362, history: false, title: "Wine Australia Act 2013"}
+  - {title_id: C2004A02386, history: false, title: "Shipping Registration Act 1981"}
+  - {title_id: C2004A02401, history: false, title: "Federal Proceedings (Costs) Act 1981"}
+  - {title_id: C2004A02408, history: false, title: "Antarctic Marine Living Resources Conservation Act 1981"}
+  - {title_id: C2004A02409, history: false, title: "Protection of the Sea (Civil Liability) Act 1981"}
+  - {title_id: C2004A02411, history: false, title: "Protection of the Sea (Powers of Intervention) Act 1981"}
+  - {title_id: C2004A02413, history: false, title: "Protection of the Sea (Shipping Levy Collection) Act 1981"}
+  - {title_id: C2004A02424, history: false, title: "Customs Securities (Penalties) Act 1981"}
+  - {title_id: C2004A02425, history: false, title: "Customs Undertakings (Penalties) Act 1981"}
+  - {title_id: C2004A02459, history: false, title: "Offshore Minerals (Royalty) Act 1981"}
+  - {title_id: C2004A02460, history: false, title: "Offshore Minerals (Exploration Licence Fees) Act 1981"}
+  - {title_id: C2004A02461, history: false, title: "Offshore Minerals (Mining Licence Fees) Act 1981"}
+  - {title_id: C2004A02478, history: false, title: "Environment Protection (Sea Dumping) Act 1981"}
+  - {title_id: C2004A02482, history: false, title: "Lands Acquisition (Northern Territory Pastoral Leases) Act 1981"}
+  - {title_id: C2004A02499, history: false, title: "Crimes (Currency) Act 1981"}
+  - {title_id: C2004A02525, history: false, title: "Epidemiological Studies (Confidentiality) Act 1981"}
+  - {title_id: C2004A02560, history: false, title: "Domicile Act 1982"}
+  - {title_id: C2004A02562, history: false, title: "Freedom of Information Act 1982"}
+  - {title_id: C2004A02568, history: false, title: "Australian Centre for International Agricultural Research Act 1982"}
+  - {title_id: C2004A02711, history: false, title: "Defence Force Discipline Act 1982"}
+  - {title_id: C2004A02723, history: false, title: "Australian Broadcasting Corporation Act 1983"}
+  - {title_id: C2004A02729, history: false, title: "Taxation (Interest on Overpayments and Early Payments) Act 1983"}
+  - {title_id: C2004A02758, history: false, title: "Protection of the Sea (Prevention of Pollution from Ships) Act 1983"}
+  - {title_id: C2004A02796, history: false, title: "Archives Act 1983"}
+  - {title_id: C2004A02812, history: false, title: "Transfer of Prisoners Act 1983"}
+  - {title_id: C2004A02830, history: false, title: "Director of Public Prosecutions Act 1983"}
+  - {title_id: C2004A02849, history: false, title: "Radiocommunications (Receiver Licence Tax) Act 1983"}
+  - {title_id: C2004A02850, history: false, title: "Radiocommunications Taxes Collection Act 1983"}
+  - {title_id: C2004A02854, history: false, title: "Radiocommunications (Transmitter Licence Tax) Act 1983"}
+  - {title_id: C2004A02867, history: false, title: "Foreign Proceedings (Excess of Jurisdiction) Act 1984"}
+  - {title_id: C2004A02868, history: false, title: "Sex Discrimination Act 1984"}
+  - {title_id: C2004A02869, history: false, title: "Liquid Fuel Emergency Act 1984"}
+  - {title_id: C2004A02887, history: false, title: "Torres Strait Fisheries Act 1984"}
+  - {title_id: C2004A02905, history: false, title: "Australian Crime Commission Act 2002"}
+  - {title_id: C2004A02908, history: false, title: "Referendum (Machinery Provisions) Act 1984"}
+  - {title_id: C2004A02928, history: false, title: "Members of Parliament (Staff) Act 1984"}
+  - {title_id: C2004A02943, history: false, title: "Aboriginal and Torres Strait Islander Heritage Protection Act 1984"}
+  - {title_id: C2004A02968, history: false, title: "Judicial and Statutory Officers (Remuneration and Allowances) Act 1984"}
+  - {title_id: C2004A03003, history: false, title: "Biological Control Act 1984"}
+  - {title_id: C2004A03015, history: false, title: "Fisheries Levy Act 1984"}
+  - {title_id: C2004A03033, history: false, title: "Registration of Deaths Abroad Act 1984"}
+  - {title_id: C2004A03048, history: false, title: "Trust Recoupment Tax Assessment Act 1985"}
+  - {title_id: C2004A03131, history: false, title: "Building Industry Act 1985"}
+  - {title_id: C2004A03223, history: false, title: "Home and Community Care Act 1985"}
+  - {title_id: C2004A03225, history: false, title: "Australian Trade and Investment Commission Act 1985"}
+  - {title_id: C2004A03235, history: false, title: "Foreign States Immunities Act 1985"}
+  - {title_id: C2004A03252, history: false, title: "Protection of Movable Cultural Heritage Act 1986"}
+  - {title_id: C2004A03268, history: false, title: "Veterans' Entitlements Act 1986"}
+  - {title_id: C2004A03269, history: false, title: "Veterans' Entitlements (Transitional Provisions and Consequential Amendments) Act 1986"}
+  - {title_id: C2004A03280, history: false, title: "Fringe Benefits Tax Assessment Act 1986"}
+  - {title_id: C2004A03281, history: false, title: "Fringe Benefits Tax Act 1986"}
+  - {title_id: C2004A03330, history: false, title: "Industry Research and Development Act 1986"}
+  - {title_id: C2004A03332, history: false, title: "Workplace Gender Equality Act 2012"}
+  - {title_id: C2004A03333, history: false, title: "Parliamentary Commission of Inquiry (Repeal) Act 1986"}
+  - {title_id: C2004A03342, history: false, title: "Inspector-General of Intelligence and Security Act 1986"}
+  - {title_id: C2004A03348, history: false, title: "Income Tax Rates Act 1986"}
+  - {title_id: C2004A03349, history: false, title: "Income Tax Act 1986"}
+  - {title_id: C2004A03351, history: false, title: "Medicare Levy Act 1986"}
+  - {title_id: C2004A03366, history: false, title: "Australian Human Rights Commission Act 1986"}
+  - {title_id: C2004A03381, history: false, title: "South Pacific Nuclear Free Zone Treaty Act 1986"}
+  - {title_id: C2004A03386, history: false, title: "Cheques Act 1986"}
+  - {title_id: C2004A03405, history: false, title: "Aboriginal Land and Waters (Jervis Bay Territory) Act 1986"}
+  - {title_id: C2004A03412, history: false, title: "Australian Nuclear Science and Technology Organisation Act 1987"}
+  - {title_id: C2004A03417, history: false, title: "Nuclear Non-Proliferation (Safeguards) Act 1987"}
+  - {title_id: C2004A03429, history: false, title: "Equal Employment Opportunity (Commonwealth Authorities) Act 1987"}
+  - {title_id: C2004A03430, history: false, title: "Parliamentary Privileges Act 1987"}
+  - {title_id: C2004A03433, history: false, title: "Jurisdiction of Courts (Cross-vesting) Act 1987"}
+  - {title_id: C2004A03436, history: false, title: "Olympic Insignia Protection Act 1987"}
+  - {title_id: C2004A03443, history: false, title: "Aboriginal Land (Lake Condah and Framlingham Forest) Act 1987"}
+  - {title_id: C2004A03450, history: false, title: "Australian Institute of Health and Welfare Act 1987"}
+  - {title_id: C2004A03494, history: false, title: "Mutual Assistance in Criminal Matters Act 1987"}
+  - {title_id: C2004A03496, history: false, title: "Proceeds of Crime Act 1987"}
+  - {title_id: C2004A03506, history: false, title: "Superannuation (Self Managed Superannuation Funds) Taxation Act 1987"}
+  - {title_id: C2004A03510, history: false, title: "Defence Housing Australia Act 1987"}
+  - {title_id: C2004A03511, history: false, title: "Sea Installations Act 1987"}
+  - {title_id: C2004A03551, history: false, title: "Petroleum Resource Rent Tax Assessment Act 1987"}
+  - {title_id: C2004A03558, history: false, title: "Petroleum Excise (Prices) Act 1987"}
+  - {title_id: C2004A03596, history: false, title: "Child Support (Registration and Collection) Act 1988"}
+  - {title_id: C2004A03597, history: false, title: "Extradition Act 1988"}
+  - {title_id: C2004A03605, history: false, title: "Income Tax (Offshore Banking Units) (Withholding Tax Recoupment) Act 1988"}
+  - {title_id: C2004A03616, history: false, title: "International Bank for Reconstruction and Development (Share Increase) Act 1988"}
+  - {title_id: C2004A03627, history: false, title: "Admiralty Act 1988"}
+  - {title_id: C2004A03656, history: false, title: "Civil Aviation Act 1988"}
+  - {title_id: C2004A03663, history: false, title: "Superannuation (Productivity Benefit) Act 1988"}
+  - {title_id: C2004A03668, history: false, title: "Safety, Rehabilitation and Compensation Act 1988"}
+  - {title_id: C2004A03679, history: false, title: "Fair Work (Registered Organisations) Act 2009"}
+  - {title_id: C2004A03699, history: false, title: "Australian Capital Territory (Self-Government) Act 1988"}
+  - {title_id: C2004A03701, history: false, title: "Australian Capital Territory (Planning and Land Management) Act 1988"}
+  - {title_id: C2004A03750, history: false, title: "Higher Education Funding Act 1988"}
+  - {title_id: C2004A03755, history: false, title: "Ozone Protection and Synthetic Greenhouse Gas Management Act 1989"}
+  - {title_id: C2004A03760, history: false, title: "Australian Sports Commission Act 1989"}
+  - {title_id: C2004A03763, history: false, title: "Lands Acquisition Act 1989"}
+  - {title_id: C2004A03774, history: false, title: "Crimes (Hostages) Act 1989"}
+  - {title_id: C2004A03812, history: false, title: "Australian Postal Corporation Act 1989"}
+  - {title_id: C2004A03872, history: false, title: "Child Support (Assessment) Act 1989"}
+  - {title_id: C2004A03893, history: false, title: "Crimes (Superannuation Benefits) Act 1989"}
+  - {title_id: C2004A03897, history: false, title: "Australian Institute of Aboriginal and Torres Strait Islander Studies Act 1989"}
+  - {title_id: C2004A03898, history: false, title: "Aboriginal and Torres Strait Islander Act 2005"}
+  - {title_id: C2004A03909, history: false, title: "Marine Navigation Levy Act 1989"}
+  - {title_id: C2004A03910, history: false, title: "Marine Navigation Levy Collection Act 1989"}
+  - {title_id: C2004A03931, history: false, title: "Foreign Corporations (Application of Laws) Act 1989"}
+  - {title_id: C2004A03937, history: false, title: "Hazardous Waste (Regulation of Exports and Imports) Act 1989"}
+  - {title_id: C2004A03948, history: false, title: "Primary Industries Research and Development Act 1989"}
+  - {title_id: C2004A03952, history: false, title: "Therapeutic Goods Act 1989"}
+  - {title_id: C2004A03953, history: false, title: "Therapeutic Goods (Charges) Act 1989"}
+  - {title_id: C2004A03969, history: false, title: "Superannuation Act 1990"}
+  - {title_id: C2004A04002, history: false, title: "Remuneration and Allowances Act 1990"}
+  - {title_id: C2004A04014, history: false, title: "Patents Act 1990"}
+  - {title_id: C2004A04021, history: false, title: "Australian National Maritime Museum Act 1990"}
+  - {title_id: C2004A04028, history: false, title: "Crimes (Traffic in Narcotic Drugs and Psychotropic Substances) Act 1990"}
+  - {title_id: C2004A04049, history: false, title: "Commonwealth Banks Restructuring Act 1990"}
+  - {title_id: C2004A04060, history: false, title: "European Bank for Reconstruction and Development Act 1990"}
+  - {title_id: C2004A04089, history: false, title: "Defence Force (Home Loans Assistance) Act 1990"}
+  - {title_id: C2004A04095, history: false, title: "Data-matching Program (Assistance and Tax) Act 1990"}
+  - {title_id: C2004A04115, history: false, title: "Marine Navigation (Regulatory Functions) Levy Act 1991"}
+  - {title_id: C2004A04116, history: false, title: "Marine Navigation (Regulatory Functions) Levy Collection Act 1991"}
+  - {title_id: C2004A04121, history: false, title: "Social Security Act 1991"}
+  - {title_id: C2004A04125, history: false, title: "Trusts (Hague Convention) Act 1991"}
+  - {title_id: C2004A04154, history: false, title: "Telstra Corporation Act 1991"}
+  - {title_id: C2004A04174, history: false, title: "Telecommunications (Transitional Provisions and Consequential Amendments) Act 1991"}
+  - {title_id: C2004A04187, history: false, title: "Foreign Judgments Act 1991"}
+  - {title_id: C2004A04193, history: false, title: "Food Standards Australia New Zealand Act 1991"}
+  - {title_id: C2004A04206, history: false, title: "Australian National University Act 1991"}
+  - {title_id: C2004A04210, history: false, title: "Military Superannuation and Benefits Act 1991"}
+  - {title_id: C2004A04214, history: false, title: "Crimes (Aviation) Act 1991"}
+  - {title_id: C2004A04223, history: false, title: "Export Finance and Insurance Corporation Act 1991"}
+  - {title_id: C2004A04235, history: false, title: "Carriage of Goods by Sea Act 1991"}
+  - {title_id: C2004A04236, history: false, title: "Fisheries Administration Act 1991"}
+  - {title_id: C2004A04237, history: false, title: "Fisheries Management Act 1991"}
+  - {title_id: C2004A04244, history: false, title: "Australian Hearing Services Act 1991"}
+  - {title_id: C2004A04255, history: false, title: "Special Broadcasting Service Act 1991"}
+  - {title_id: C2004A04285, history: false, title: "Bank Integration Act 1991"}
+  - {title_id: C2004A04290, history: false, title: "Income Tax (Deferred Interest Securities) (Tax File Number Withholding Tax) Act 1991"}
+  - {title_id: C2004A04297, history: false, title: "Insurance Acquisitions and Takeovers Act 1991"}
+  - {title_id: C2004A04316, history: false, title: "Mutual Assistance in Business Regulation Act 1992"}
+  - {title_id: C2004A04351, history: false, title: "Coal Mining Industry (Long Service Leave) Administration Act 1992"}
+  - {title_id: C2004A04352, history: false, title: "Coal Mining Industry (Long Service Leave) Payroll Levy Collection Act 1992"}
+  - {title_id: C2004A04384, history: false, title: "Superannuation Guarantee Charge Act 1992"}
+  - {title_id: C2004A04391, history: false, title: "Pooled Development Funds Act 1992"}
+  - {title_id: C2004A04394, history: false, title: "International Air Services Commission Act 1992"}
+  - {title_id: C2004A04396, history: false, title: "Broadcasting Services (Transitional Provisions and Consequential Amendments) Act 1992"}
+  - {title_id: C2004A04401, history: false, title: "Broadcasting Services Act 1992"}
+  - {title_id: C2004A04402, history: false, title: "Superannuation Guarantee (Administration) Act 1992"}
+  - {title_id: C2004A04426, history: false, title: "Disability Discrimination Act 1992"}
+  - {title_id: C2004A04463, history: false, title: "Service and Execution of Process Act 1992"}
+  - {title_id: C2004A04464, history: false, title: "Crimes (Ships and Fixed Platforms) Act 1992"}
+  - {title_id: C2004A04465, history: false, title: "Radiocommunications Act 1992"}
+  - {title_id: C2004A04487, history: false, title: "Qantas Sale Act 1992"}
+  - {title_id: C2004A04489, history: false, title: "Mutual Recognition Act 1992"}
+  - {title_id: C2004A04511, history: false, title: "International Labour Organisation (Compliance with Conventions) Act 1992"}
+  - {title_id: C2004A04512, history: false, title: "Imported Food Control Act 1992"}
+  - {title_id: C2004A04516, history: false, title: "National Health and Medical Research Council Act 1992"}
+  - {title_id: C2004A04525, history: false, title: "Seafarers Rehabilitation and Compensation Act 1992"}
+  - {title_id: C2004A04533, history: false, title: "Natural Resources Management (Financial Assistance) Act 1992"}
+  - {title_id: C2004A04553, history: false, title: "Agricultural and Veterinary Chemicals (Administration) Act 1992"}
+  - {title_id: C2004A04596, history: false, title: "Protection of the Sea (Oil Pollution Compensation Funds) Act 1993"}
+  - {title_id: C2004A04609, history: false, title: "Snowy Mountains Engineering Corporation Limited Sale Act 1993"}
+  - {title_id: C2004A04633, history: false, title: "Superannuation Industry (Supervision) Act 1993"}
+  - {title_id: C2004A04643, history: false, title: "CSL Sale Act 1993"}
+  - {title_id: C2004A04652, history: false, title: "Financial Corporations (Transfer of Assets and Liabilities) Act 1993"}
+  - {title_id: C2004A04665, history: false, title: "Native Title Act 1993"}
+  - {title_id: C2004A04686, history: false, title: "Occupational Health and Safety (Maritime Industry) Act 1993"}
+  - {title_id: C2004A04702, history: false, title: "Chemical Weapons (Prohibition) Act 1994"}
+  - {title_id: C2004A04704, history: false, title: "Offshore Minerals Act 1994"}
+  - {title_id: C2004A04712, history: false, title: "Agricultural and Veterinary Chemicals Act 1994"}
+  - {title_id: C2004A04717, history: false, title: "Agricultural and Veterinary Chemical Products (Collection of Levy) Act 1994"}
+  - {title_id: C2004A04723, history: false, title: "Agricultural and Veterinary Chemicals Code Act 1994"}
+  - {title_id: C2004A04735, history: false, title: "Foreign Evidence Act 1994"}
+  - {title_id: C2004A04746, history: false, title: "Moomba-Sydney Pipeline System Sale Act 1994"}
+  - {title_id: C2004A04765, history: false, title: "Australian Capital Territory Government Service (Consequential Provisions) Act 1994"}
+  - {title_id: C2004A04779, history: false, title: "Financial Agreement Act 1994"}
+  - {title_id: C2004A04783, history: false, title: "Plant Breeder's Rights Act 1994"}
+  - {title_id: C2004A04797, history: false, title: "Witness Protection Act 1994"}
+  - {title_id: C2004A04799, history: false, title: "National Environment Protection Council Act 1994"}
+  - {title_id: C2004A04817, history: false, title: "AeroSpace Technologies of Australia Limited Sale Act 1994"}
+  - {title_id: C2004A04835, history: false, title: "Supported Accommodation Assistance Act 1994"}
+  - {title_id: C2004A04844, history: false, title: "Income Tax (Former Complying Superannuation Funds) Act 1994"}
+  - {title_id: C2004A04845, history: false, title: "Income Tax (Former Non-resident Superannuation Funds) Act 1994"}
+  - {title_id: C2004A04852, history: false, title: "Human Rights (Sexual Conduct) Act 1994"}
+  - {title_id: C2004A04858, history: false, title: "Evidence Act 1995"}
+  - {title_id: C2004A04860, history: false, title: "Life Insurance Act 1995"}
+  - {title_id: C2004A04863, history: false, title: "Classification (Publications, Films and Computer Games) Act 1995"}
+  - {title_id: C2004A04874, history: false, title: "International War Crimes Tribunals Act 1995"}
+  - {title_id: C2004A04891, history: false, title: "Weapons of Mass Destruction (Prevention of Proliferation) Act 1995"}
+  - {title_id: C2004A04905, history: false, title: "Small Superannuation Accounts Act 1995"}
+  - {title_id: C2004A04931, history: false, title: "Air Services Act 1995"}
+  - {title_id: C2004A04936, history: false, title: "Local Government (Financial Assistance) Act 1995"}
+  - {title_id: C2004A04946, history: false, title: "Commonwealth Authorities (Australian Capital Territory Pay-roll Tax) Act 1995"}
+  - {title_id: C2004A04947, history: false, title: "Aircraft Noise Levy Act 1995"}
+  - {title_id: C2004A04948, history: false, title: "Aircraft Noise Levy Collection Act 1995"}
+  - {title_id: C2004A04969, history: false, title: "Trade Marks Act 1995"}
+  - {title_id: C2004A04975, history: false, title: "Ozone Protection and Synthetic Greenhouse Gas (Manufacture Levy) Act 1995"}
+  - {title_id: C2004A04976, history: false, title: "Ozone Protection and Synthetic Greenhouse Gas (Import Levy) Act 1995"}
+  - {title_id: C2004A04980, history: false, title: "Health and Other Services (Compensation) Act 1995"}
+  - {title_id: C2004A04981, history: false, title: "Health and Other Services (Compensation) Care Charges Act 1995"}
+  - {title_id: C2004A04984, history: false, title: "Sydney Airport Curfew Act 1995"}
+  - {title_id: C2004A04997, history: false, title: "Customs Tariff Act 1995"}
+  - {title_id: C2004A05008, history: false, title: "Commonwealth Bank Sale Act 1995"}
+  - {title_id: C2004A05061, history: false, title: "Airports Act 1996"}
+  - {title_id: C2004A05062, history: false, title: "Airports (Transitional) Act 1996"}
+  - {title_id: C2004A05102, history: false, title: "CFM Sale Act 1996"}
+  - {title_id: C2004A05105, history: false, title: "Customs Licensing Charges Act 1997"}
+  - {title_id: C2004A05113, history: false, title: "Bankruptcy (Estate Charges) Act 1997"}
+  - {title_id: C2004A05119, history: false, title: "Education Services for Overseas Students (Registration Charges) Act 1997"}
+  - {title_id: C2004A05125, history: false, title: "Migration (Visa Application) Charge Act 1997"}
+  - {title_id: C2004A05128, history: false, title: "Income Tax (Transitional Provisions) Act 1997"}
+  - {title_id: C2004A05130, history: false, title: "Human Services (Centrelink) Act 1997"}
+  - {title_id: C2004A05138, history: false, title: "Income Tax Assessment Act 1997"}
+  - {title_id: C2004A05142, history: false, title: "Export Market Development Grants (Repeal and Consequential Provisions) Act 1997"}
+  - {title_id: C2004A05145, history: false, title: "Telecommunications Act 1997"}
+  - {title_id: C2004A05147, history: false, title: "Telecommunications (Carrier Licence Charges) Act 1997"}
+  - {title_id: C2004A05149, history: false, title: "Telecommunications (Numbering Charges) Act 1997"}
+  - {title_id: C2004A05155, history: false, title: "Export Market Development Grants Act 1997"}
+  - {title_id: C2004A05157, history: false, title: "Telecommunications (Transitional Provisions and Consequential Amendments) Act 1997"}
+  - {title_id: C2004A05159, history: false, title: "Retirement Savings Accounts Act 1997"}
+  - {title_id: C2004A05166, history: false, title: "Superannuation Contributions Tax (Application to the Commonwealth) Act 1997"}
+  - {title_id: C2004A05167, history: false, title: "Superannuation Contributions Tax (Application to the Commonwealth—Reduction of Benefits) Act 1997"}
+  - {title_id: C2004A05168, history: false, title: "Superannuation Contributions Tax (Assessment and Collection) Act 1997"}
+  - {title_id: C2004A05172, history: false, title: "International Transfer of Prisoners Act 1997"}
+  - {title_id: C2004A05173, history: false, title: "Natural Heritage Trust of Australia Act 1997"}
+  - {title_id: C2004A05178, history: false, title: "Hearing Services Administration Act 1997"}
+  - {title_id: C2004A05179, history: false, title: "Hearing Services and AGHS Reform Act 1997"}
+  - {title_id: C2004A05189, history: false, title: "Australian National Railways Commission Sale Act 1997"}
+  - {title_id: C2004A05201, history: false, title: "Commonwealth Vehicles (Registration and Exemption from Taxation) Act 1997"}
+  - {title_id: C2004A05219, history: false, title: "Multilateral Investment Guarantee Agency Act 1997"}
+  - {title_id: C2004A05225, history: false, title: "Franchise Fees Windfall Tax (Collection) Act 1997"}
+  - {title_id: C2004A05237, history: false, title: "Radiocommunications (Spectrum Licence Tax) Act 1997"}
+  - {title_id: C2004A05241, history: false, title: "Family Court of Western Australia (Orders of Registrars) Act 1997"}
+  - {title_id: C2004A05248, history: false, title: "Auditor-General Act 1997"}
+  - {title_id: C2004A05251, history: false, title: "Financial Framework (Supplementary Powers) Act 1997"}
+  - {title_id: C2004A05252, history: false, title: "Health Insurance Commission (Reform and Separation of Functions) Act 1997"}
+  - {title_id: C2004A05267, history: false, title: "Sydney Airport Demand Management Act 1997"}
+  - {title_id: C2004A05270, history: false, title: "Snowy Hydro Corporatisation Act 1997"}
+  - {title_id: C2004A05278, history: false, title: "Superannuation Contributions Tax (Members of Constitutionally Protected Superannuation Funds) Imposition Act 1997"}
+  - {title_id: C2004A05279, history: false, title: "Superannuation Contributions Tax (Members of Constitutionally Protected Superannuation Funds) Assessment and Collection Act 1997"}
+  - {title_id: C2004A05284, history: false, title: "Trans-Tasman Mutual Recognition Act 1997"}
+  - {title_id: C2004A05292, history: false, title: "Migration Agents Registration Application Charge Act 1997"}
+  - {title_id: C2004A05323, history: false, title: "Family Trust Distribution Tax (Primary Liability) Act 1998"}
+  - {title_id: C2004A05324, history: false, title: "Family Trust Distribution Tax (Secondary Liability) Act 1998"}
+  - {title_id: C2004A05326, history: false, title: "Productivity Commission Act 1998"}
+  - {title_id: C2004A05333, history: false, title: "Charter of Budget Honesty Act 1998"}
+  - {title_id: C2004A05335, history: false, title: "Commonwealth Places (Mirror Taxes) Act 1998"}
+  - {title_id: C2005A00004, history: false, title: "Water Efficiency Labelling and Standards Act 2005"}
+  - {title_id: C2005A00005, history: false, title: "Australian Passports Act 2005"}
+  - {title_id: C2005A00044, history: false, title: "Australian Communications and Media Authority Act 2005"}
+  - {title_id: C2005A00055, history: false, title: "Social Security Legislation Amendment (One-off Payments for Carers) Act 2005"}
+  - {title_id: C2005A00080, history: false, title: "Superannuation Act 2005"}
+  - {title_id: C2005A00093, history: false, title: "National Land Transport Act 2014"}
+  - {title_id: C2005A00122, history: false, title: "Asbestos-related Claims (Management of Commonwealth Liabilities) Act 2005"}
+  - {title_id: C2006A00004, history: false, title: "Defence (Road Transport Legislation Exemption) Act 2006"}
+  - {title_id: C2006A00006, history: false, title: "Sport Integrity Australia Act 2020"}
+  - {title_id: C2006A00012, history: false, title: "Future Fund Act 2006"}
+  - {title_id: C2006A00014, history: false, title: "Offshore Petroleum and Greenhouse Gas Storage Act 2006"}
+  - {title_id: C2006A00018, history: false, title: "Offshore Petroleum (Royalty) Act 2006"}
+  - {title_id: C2006A00026, history: false, title: "Aged Care (Accommodation Payment Security) Act 2006"}
+  - {title_id: C2006A00027, history: false, title: "Aged Care (Accommodation Payment Security) Levy Act 2006"}
+  - {title_id: C2006A00035, history: false, title: "Cancer Australia Act 2006"}
+  - {title_id: C2006A00053, history: false, title: "Child Support Legislation Amendment (Reform of the Child Support Scheme—Initial Measures) Act 2006"}
+  - {title_id: C2006A00056, history: false, title: "Australian Trade Commission Legislation Amendment Act 2006"}
+  - {title_id: C2006A00065, history: false, title: "Electoral and Referendum Amendment (Electoral Integrity and Other Measures) Act 2006"}
+  - {title_id: C2006A00072, history: false, title: "Fuel Tax Act 2006"}
+  - {title_id: C2006A00073, history: false, title: "Fuel Tax (Consequential and Transitional Provisions) Act 2006"}
+  - {title_id: C2006A00088, history: false, title: "Do Not Call Register Act 2006"}
+  - {title_id: C2006A00107, history: false, title: "Protection of the Sea (Harmful Anti-fouling Systems) Act 2006"}
+  - {title_id: C2006A00124, history: false, title: "Corporations (Aboriginal and Torres Strait Islander) Act 2006"}
+  - {title_id: C2006A00125, history: false, title: "Corporations (Aboriginal and Torres Strait Islander) Consequential, Transitional and Other Measures Act 2006"}
+  - {title_id: C2006A00135, history: false, title: "Australian Participants in British Nuclear Tests and British Commonwealth Occupation Force (Treatment) Act 2006"}
+  - {title_id: C2006A00149, history: false, title: "Inspector of Transport Security Act 2006"}
+  - {title_id: C2006A00160, history: false, title: "Medibank Private Sale Act 2006"}
+  - {title_id: C2006A00162, history: false, title: "Independent Contractors Act 2006"}
+  - {title_id: C2006A00169, history: false, title: "Anti-Money Laundering and Counter-Terrorism Financing Act 2006"}
+  - {title_id: C2006A00170, history: false, title: "Anti-Money Laundering and Counter-Terrorism Financing (Transitional Provisions and Consequential Amendments) Act 2006"}
+  - {title_id: C2007A00011, history: false, title: "Superannuation (Excess Non-concessional Contributions Tax) Act 2007"}
+  - {title_id: C2007A00012, history: false, title: "Superannuation (Excess Untaxed Roll-over Amounts Tax) Act 2007"}
+  - {title_id: C2007A00013, history: false, title: "Superannuation (Departing Australia Superannuation Payments Tax) Act 2007"}
+  - {title_id: C2007A00020, history: false, title: "Australian Citizenship Act 2007"}
+  - {title_id: C2007A00021, history: false, title: "Australian Citizenship (Transitionals and Consequentials) Act 2007"}
+  - {title_id: C2007A00031, history: false, title: "Private Health Insurance Act 2007"}
+  - {title_id: C2007A00032, history: false, title: "Private Health Insurance (Transitional Provisions and Consequential Amendments) Act 2007"}
+  - {title_id: C2007A00033, history: false, title: "Private Health Insurance (Medical Devices and Human Tissue Products Levy) Act 2007"}
+  - {title_id: C2007A00038, history: false, title: "Airspace Act 2007"}
+  - {title_id: C2007A00053, history: false, title: "AusCheck Act 2007"}
+  - {title_id: C2007A00137, history: false, title: "Water Act 2007"}
+  - {title_id: C2007A00144, history: false, title: "Taxation (Trustee Beneficiary Non-disclosure Tax) Act (No. 1) 2007"}
+  - {title_id: C2007A00145, history: false, title: "Taxation (Trustee Beneficiary Non-disclosure Tax) Act (No. 2) 2007"}
+  - {title_id: C2007A00150, history: false, title: "Maritime Legislation Amendment Act 2007"}
+  - {title_id: C2007A00174, history: false, title: "National Health Security Act 2007"}
+  - {title_id: C2007A00175, history: false, title: "National Greenhouse and Energy Reporting Act 2007"}
+  - {title_id: C2008A00012, history: false, title: "Screen Australia Act 2008"}
+  - {title_id: C2008A00013, history: false, title: "Screen Australia and the National Film and Sound Archive of Australia (Consequential and Transitional Provisions) Act 2008"}
+  - {title_id: C2008A00014, history: false, title: "National Film and Sound Archive of Australia Act 2008"}
+  - {title_id: C2008A00017, history: false, title: "Infrastructure Australia Act 2008"}
+  - {title_id: C2008A00024, history: false, title: "Cross-Border Insolvency Act 2008"}
+  - {title_id: C2008A00027, history: false, title: "Defence Home Ownership Assistance Scheme Act 2008"}
+  - {title_id: C2008A00031, history: false, title: "Income Tax (Managed Investment Trust Withholding Tax) Act 2008"}
+  - {title_id: C2008A00041, history: false, title: "Dental Benefits Act 2008"}
+  - {title_id: C2008A00076, history: false, title: "Protection of the Sea (Civil Liability for Bunker Oil Pollution Damage) Act 2008"}
+  - {title_id: C2008A00121, history: false, title: "National Rental Affordability Scheme Act 2008"}
+  - {title_id: C2008A00122, history: false, title: "Australian Organ and Tissue Donation and Transplantation Authority Act 2008"}
+  - {title_id: C2008A00134, history: false, title: "Same-Sex Relationships (Equal Treatment in Commonwealth Laws—Superannuation) Act 2008"}
+  - {title_id: C2008A00136, history: false, title: "Australian Curriculum, Assessment and Reporting Authority Act 2008"}
+  - {title_id: C2008A00153, history: false, title: "Schools Assistance Act 2008"}
+  - {title_id: C2008A00156, history: false, title: "Federation Reform Fund Act 2008"}
+  - {title_id: C2009A00011, history: false, title: "Federal Financial Relations Act 2009"}
+  - {title_id: C2009A00013, history: false, title: "Tax Agent Services Act 2009"}
+  - {title_id: C2009A00028, history: false, title: "Fair Work Act 2009"}
+  - {title_id: C2009A00051, history: false, title: "Private Health Insurance (National Joint Replacement Register Levy) Act 2009"}
+  - {title_id: C2009A00055, history: false, title: "Fair Work (Transitional Provisions and Consequential Amendments) Act 2009"}
+  - {title_id: C2009A00084, history: false, title: "Safe Work Australia Act 2008"}
+  - {title_id: C2009A00093, history: false, title: "Automotive Transformation Scheme Act 2009"}
+  - {title_id: C2009A00095, history: false, title: "Uranium Royalty (Northern Territory) Act 2009"}
+  - {title_id: C2009A00112, history: false, title: "National Consumer Credit Protection (Fees) Act 2009"}
+  - {title_id: C2009A00125, history: false, title: "Resale Royalty Right for Visual Artists Act 2009"}
+  - {title_id: C2009A00130, history: false, title: "Personal Property Securities Act 2009"}
+  - {title_id: C2009A00132, history: false, title: "Income Tax (TFN Withholding Tax (ESS)) Act 2009"}
+  - {title_id: C2009A00134, history: false, title: "National Consumer Credit Protection Act 2009"}
+  - {title_id: C2009A00135, history: false, title: "National Consumer Credit Protection (Transitional and Consequential Provisions) Act 2009"}
+  - {title_id: C2010A00011, history: false, title: "Astronomical Functions Act 2010"}
+  - {title_id: C2010A00030, history: false, title: "Midwife Professional Indemnity (Commonwealth Contribution) Scheme Act 2010"}
+  - {title_id: C2010A00031, history: false, title: "Midwife Professional Indemnity (Run-off Cover Support Payment) Act 2010"}
+  - {title_id: C2010A00032, history: false, title: "Independent National Security Legislation Monitor Act 2010"}
+  - {title_id: C2010A00035, history: false, title: "Trans-Tasman Proceedings Act 2010"}
+  - {title_id: C2010A00036, history: false, title: "Trans-Tasman Proceedings (Transitional and Consequential Provisions) Act 2010"}
+  - {title_id: C2010A00051, history: false, title: "Freedom of Information Amendment (Reform) Act 2010"}
+  - {title_id: C2010A00052, history: false, title: "Australian Information Commissioner Act 2010"}
+  - {title_id: C2010A00067, history: false, title: "Building Energy Efficiency Disclosure Act 2010"}
+  - {title_id: C2010A00071, history: false, title: "Renewable Energy (Electricity) (Small-scale Technology Shortfall Charge) Act 2010"}
+  - {title_id: C2010A00072, history: false, title: "Healthcare Identifiers Act 2010"}
+  - {title_id: C2010A00104, history: false, title: "Paid Parental Leave Act 2010"}
+  - {title_id: C2010A00105, history: false, title: "Paid Parental Leave (Consequential Amendments) Act 2010"}
+  - {title_id: C2010A00128, history: false, title: "Parliamentary Joint Committee on Law Enforcement Act 2010"}
+  - {title_id: C2010A00139, history: false, title: "Territories Law Reform Act 2010"}
+  - {title_id: C2010A00147, history: false, title: "Family Law Amendment (Validation of Certain Parenting Orders and Other Measures) Act 2010"}
+  - {title_id: C2011A00009, history: false, title: "National Health Reform Act 2011"}
+  - {title_id: C2011A00012, history: false, title: "National Vocational Education and Training Regulator Act 2011"}
+  - {title_id: C2011A00013, history: false, title: "National Vocational Education and Training Regulator (Transitional Provisions) Act 2011"}
+  - {title_id: C2011A00017, history: false, title: "Civil Dispute Resolution Act 2011"}
+  - {title_id: C2011A00018, history: false, title: "Australian Civilian Corps Act 2011"}
+  - {title_id: C2011A00022, history: false, title: "National Broadband Network Companies Act 2011"}
+  - {title_id: C2011A00038, history: false, title: "Autonomous Sanctions Act 2011"}
+  - {title_id: C2011A00054, history: false, title: "Australian Transaction Reports and Analysis Centre Industry Contribution Act 2011"}
+  - {title_id: C2011A00055, history: false, title: "Australian Transaction Reports and Analysis Centre Industry Contribution (Collection) Act 2011"}
+  - {title_id: C2011A00056, history: false, title: "Australian Transaction Reports and Analysis Centre Supervisory Cost Recovery Levy (Consequential Amendments) Act 2011"}
+  - {title_id: C2011A00058, history: false, title: "Superannuation Legislation (Consequential Amendments and Transitional Provisions) Act 2011"}
+  - {title_id: C2011A00059, history: false, title: "Governance of Australian Government Superannuation Schemes Act 2011"}
+  - {title_id: C2011A00073, history: false, title: "Tertiary Education Quality and Standards Agency Act 2011"}
+  - {title_id: C2011A00099, history: false, title: "Australian National Registry of Emissions Units Act 2011"}
+  - {title_id: C2011A00101, history: false, title: "Carbon Credits (Carbon Farming Initiative) Act 2011"}
+  - {title_id: C2011A00126, history: false, title: "Business Names Registration Act 2011"}
+  - {title_id: C2011A00127, history: false, title: "Business Names Registration (Transitional and Consequential Provisions) Act 2011"}
+  - {title_id: C2011A00128, history: false, title: "Business Names Registration (Fees) Act 2011"}
+  - {title_id: C2011A00137, history: false, title: "Work Health and Safety Act 2011"}
+  - {title_id: C2011A00143, history: false, title: "Climate Change Authority Act 2011"}
+  - {title_id: C2011A00151, history: false, title: "Australian Renewable Energy Agency Act 2011"}
+  - {title_id: C2011A00163, history: false, title: "Clean Energy Regulator Act 2011"}
+  - {title_id: C2011A00186, history: false, title: "Human Rights (Parliamentary Scrutiny) Act 2011"}
+  - {title_id: C2012A00009, history: false, title: "Education Services for Overseas Students Legislation Amendment (Tuition Protection Service and Other Measures) Act 2012"}
+  - {title_id: C2012A00011, history: false, title: "Education Services for Overseas Students (TPS Levies) Act 2012"}
+  - {title_id: C2012A00014, history: false, title: "Minerals Resource Rent Tax (Consequential Amendments and Transitional Provisions) Act 2012"}
+  - {title_id: C2012A00029, history: false, title: "National Radioactive Waste Management Act 2012"}
+  - {title_id: C2012A00032, history: false, title: "Family Law Amendment (Validation of Certain Orders and Other Measures) Act 2012"}
+  - {title_id: C2012A00045, history: false, title: "Telecommunications (Industry Levy) Act 2012"}
+  - {title_id: C2012A00050, history: false, title: "Family Assistance and Other Legislation Amendment (Schoolkids Bonus Budget Measures) Act 2012"}
+  - {title_id: C2012A00053, history: false, title: "Shipping Reform (Tax Incentives) Act 2012"}
+  - {title_id: C2012A00055, history: false, title: "Coastal Trading (Revitalising Australian Shipping) Act 2012"}
+  - {title_id: C2012A00059, history: false, title: "Income Tax (Labour Mobility Program Withholding Tax) Act 2012"}
+  - {title_id: C2012A00063, history: false, title: "My Health Records Act 2012"}
+  - {title_id: C2012A00101, history: false, title: "Stronger Futures in the Northern Territory (Consequential and Transitional Provisions) Act 2012"}
+  - {title_id: C2012A00104, history: false, title: "Clean Energy Finance Corporation Act 2012"}
+  - {title_id: C2012A00105, history: false, title: "National Vocational Education and Training Regulator (Charges) Act 2012"}
+  - {title_id: C2012A00121, history: false, title: "Marine Safety (Domestic Commercial Vessel) National Law Act 2012"}
+  - {title_id: C2012A00128, history: false, title: "Navigation Act 2012"}
+  - {title_id: C2012A00132, history: false, title: "Greenhouse and Energy Minimum Standards Act 2012"}
+  - {title_id: C2012A00148, history: false, title: "National Portrait Gallery of Australia Act 2012"}
+  - {title_id: C2012A00153, history: false, title: "Defence Trade Controls Act 2012"}
+  - {title_id: C2012A00159, history: false, title: "Fair Entitlements Guarantee Act 2012"}
+  - {title_id: C2012A00161, history: false, title: "Superannuation Auditor Registration Imposition Act 2012"}
+  - {title_id: C2012A00165, history: false, title: "Federal Circuit Court of Australia Legislation Amendment Act 2012"}
+  - {title_id: C2012A00166, history: false, title: "Illegal Logging Prohibition Act 2012"}
+  - {title_id: C2012A00168, history: false, title: "Australian Charities and Not-for-profits Commission Act 2012"}
+  - {title_id: C2012A00188, history: false, title: "Judicial Misbehaviour and Incapacity (Parliamentary Commissions) Act 2012"}
+  - {title_id: C2012A00193, history: false, title: "Gambling Measures Act 2012"}
+  - {title_id: C2013A00001, history: false, title: "Low Aromatic Fuel Act 2013"}
+  - {title_id: C2013A00011, history: false, title: "Offshore Petroleum and Greenhouse Gas Storage Amendment (Compliance Measures) Act 2013"}
+  - {title_id: C2013A00012, history: false, title: "Protection of Cultural Objects on Loan Act 2013"}
+  - {title_id: C2013A00015, history: false, title: "Maritime Powers Act 2013"}
+  - {title_id: C2013A00020, history: false, title: "National Disability Insurance Scheme Act 2013"}
+  - {title_id: C2013A00037, history: false, title: "DisabilityCare Australia Fund Act 2013"}
+  - {title_id: C2013A00058, history: false, title: "Asbestos and Silica Safety and Eradication Agency Act 2013"}
+  - {title_id: C2013A00067, history: false, title: "Australian Education Act 2013"}
+  - {title_id: C2013A00068, history: false, title: "Australian Education (Consequential and Transitional Provisions) Act 2013"}
+  - {title_id: C2013A00069, history: false, title: "Australian Jobs Act 2013"}
+  - {title_id: C2013A00076, history: false, title: "Aged Care (Living Longer Living Better) Act 2013"}
+  - {title_id: C2013A00096, history: false, title: "Charities (Consequential Amendments and Transitional Provisions) Act 2013"}
+  - {title_id: C2013A00123, history: false, title: "Public Governance, Performance and Accountability Act 2013"}
+  - {title_id: C2013A00128, history: false, title: "Court Security Act 2013"}
+  - {title_id: C2013A00133, history: false, title: "Public Interest Disclosure Act 2013"}
+  - {title_id: C2013A00136, history: false, title: "Grape and Wine Legislation Amendment (Australian Grape and Wine Authority) Act 2013"}
+  - {title_id: C2014A00012, history: false, title: "Farm Household Support Act 2014"}
+  - {title_id: C2014A00013, history: false, title: "Farm Household Support (Consequential and Transitional Provisions) Act 2014"}
+  - {title_id: C2014A00016, history: false, title: "Biosecurity Charges Imposition (Customs) Act 2015"}
+  - {title_id: C2014A00017, history: false, title: "Biosecurity Charges Imposition (Excise) Act 2015"}
+  - {title_id: C2014A00018, history: false, title: "Biosecurity Charges Imposition (General) Act 2015"}
+  - {title_id: C2014A00029, history: false, title: "Major Sporting Events (Indicia and Images) Protection Act 2014"}
+  - {title_id: C2014A00036, history: false, title: "Student Identifiers Act 2014"}
+  - {title_id: C2014A00062, history: false, title: "Public Governance, Performance and Accountability (Consequential and Transitional Provisions) Act 2014"}
+  - {title_id: C2014A00081, history: false, title: "Australian Apprenticeship Support Loans Act 2014"}
+  - {title_id: C2014A00083, history: false, title: "Clean Energy Legislation (Carbon Tax Repeal) Act 2014"}
+  - {title_id: C2014A00084, history: false, title: "True-up Shortfall Levy (General) (Carbon Tax Repeal) Act 2014"}
+  - {title_id: C2014A00085, history: false, title: "True-up Shortfall Levy (Excise) (Carbon Tax Repeal) Act 2014"}
+  - {title_id: C2014A00090, history: false, title: "Ozone Protection and Synthetic Greenhouse Gas (Import Levy) (Transitional Provisions) Act 2014"}
+  - {title_id: C2014A00093, history: false, title: "Regulatory Powers (Standard Provisions) Act 2014"}
+  - {title_id: C2014A00096, history: false, title: "Minerals Resource Rent Tax Repeal and Other Measures Act 2014"}
+  - {title_id: C2014A00117, history: false, title: "Albury-Wodonga Development Corporation (Abolition) Act 2014"}
+  - {title_id: C2015A00027, history: false, title: "Australian River Co. Limited Act 2015"}
+  - {title_id: C2015A00040, history: false, title: "Australian Border Force Act 2015"}
+  - {title_id: C2015A00061, history: false, title: "Biosecurity Act 2015"}
+  - {title_id: C2015A00062, history: false, title: "Biosecurity (Consequential Amendments and Transitional Provisions) Act 2015"}
+  - {title_id: C2015A00085, history: false, title: "Private Health Insurance (Prudential Supervision) Act 2015"}
+  - {title_id: C2015A00093, history: false, title: "Export Charges (Imposition—Customs) Act 2015"}
+  - {title_id: C2015A00094, history: false, title: "Export Charges (Imposition—Excise) Act 2015"}
+  - {title_id: C2015A00095, history: false, title: "Export Charges (Imposition—General) Act 2015"}
+  - {title_id: C2015A00096, history: false, title: "Imported Food Charges (Collection) Act 2015"}
+  - {title_id: C2015A00097, history: false, title: "Imported Food Charges (Imposition—Customs) Act 2015"}
+  - {title_id: C2015A00098, history: false, title: "Imported Food Charges (Imposition—Excise) Act 2015"}
+  - {title_id: C2015A00099, history: false, title: "Imported Food Charges (Imposition—General) Act 2015"}
+  - {title_id: C2015A00103, history: false, title: "Fuel Indexation (Road Funding) Special Account Act 2015"}
+  - {title_id: C2015A00111, history: false, title: "Business Services Wage Assessment Tool Payment Scheme Act 2015"}
+  - {title_id: C2015A00116, history: false, title: "Medical Research Future Fund Act 2015"}
+  - {title_id: C2015A00118, history: false, title: "Australian Defence Force Cover Act 2015"}
+  - {title_id: C2015A00119, history: false, title: "Australian Defence Force Superannuation Act 2015"}
+  - {title_id: C2015A00123, history: false, title: "Australian Small Business and Family Enterprise Ombudsman Act 2015"}
+  - {title_id: C2015A00134, history: false, title: "Asian Infrastructure Investment Bank Act 2015"}
+  - {title_id: C2015A00138, history: false, title: "Australian Immunisation Register Act 2015"}
+  - {title_id: C2015A00152, history: false, title: "Foreign Acquisitions and Takeovers Fees Imposition Act 2015"}
+  - {title_id: C2015A00155, history: false, title: "Student Loans (Overseas Debtors Repayment Levy) Act 2015"}
+  - {title_id: C2016A00041, history: false, title: "Northern Australia Infrastructure Facility Act 2016"}
+  - {title_id: C2016A00055, history: false, title: "Budget Savings (Omnibus) Act 2016"}
+  - {title_id: C2016A00065, history: false, title: "National Cancer Screening Register Act 2016"}
+  - {title_id: C2016A00075, history: false, title: "Narcotic Drugs (Licence Charges) Act 2016"}
+  - {title_id: C2016A00087, history: false, title: "Federal Safety Commissioner Act 2022"}
+  - {title_id: C2016A00098, history: false, title: "VET Student Loans Act 2016"}
+  - {title_id: C2017A00002, history: false, title: "Independent Parliamentary Expenses Authority Act 2017"}
+  - {title_id: C2017A00037, history: false, title: "Parliamentary Business Resources Act 2017"}
+  - {title_id: C2017A00043, history: false, title: "ASIC Supervisory Cost Recovery Levy Act 2017"}
+  - {title_id: C2017A00044, history: false, title: "ASIC Supervisory Cost Recovery Levy (Collection) Act 2017"}
+  - {title_id: C2017A00090, history: false, title: "Petroleum and Other Fuels Reporting Act 2017"}
+  - {title_id: C2017A00104, history: false, title: "Product Emissions Standards Act 2017"}
+  - {title_id: C2018A00006, history: false, title: "Regional Investment Corporation Act 2018"}
+  - {title_id: C2018A00029, history: false, title: "Security of Critical Infrastructure Act 2018"}
+  - {title_id: C2018A00045, history: false, title: "National Redress Scheme for Institutional Child Sexual Abuse Act 2018"}
+  - {title_id: C2018A00063, history: false, title: "Foreign Influence Transparency Scheme Act 2018"}
+  - {title_id: C2018A00065, history: false, title: "Housing Australia Act 2018"}
+  - {title_id: C2018A00085, history: false, title: "Underwater Cultural Heritage Act 2018"}
+  - {title_id: C2018A00129, history: false, title: "Government Procurement (Judicial Review) Act 2018"}
+  - {title_id: C2018A00145, history: false, title: "Aboriginal and Torres Strait Islander Land and Sea Future Fund Act 2018"}
+  - {title_id: C2018A00153, history: false, title: "Modern Slavery Act 2018"}
+  - {title_id: C2018A00155, history: false, title: "Office of National Intelligence Act 2018"}
+  - {title_id: C2018A00163, history: false, title: "Road Vehicle Standards Act 2018"}
+  - {title_id: C2018A00164, history: false, title: "Road Vehicle Standards (Consequential and Transitional Provisions) Act 2018"}
+  - {title_id: C2019A00012, history: false, title: "Industrial Chemicals Act 2019"}
+  - {title_id: C2019A00041, history: false, title: "Treatment Benefits (Special Access) Act 2019"}
+  - {title_id: C2019A00053, history: false, title: "Counter-Terrorism (Temporary Exclusion Orders) Act 2019"}
+  - {title_id: C2019A00055, history: false, title: "Future Drought Fund Act 2019"}
+  - {title_id: C2019A00068, history: false, title: "National Sports Tribunal Act 2019"}
+  - {title_id: C2019A00081, history: false, title: "Inspector-General of Animal Welfare and Live Animal Exports Act 2019"}
+  - {title_id: C2019A00090, history: false, title: "Disaster Ready Fund Act 2019"}
+  - {title_id: C2019A00096, history: false, title: "Australian Veterans’ Recognition (Putting Veterans and Their Families First) Act 2019"}
+  - {title_id: C2020A00004, history: false, title: "Higher Education Support (HELP Tuition Protection Levy) Act 2020"}
+  - {title_id: C2020A00012, history: false, title: "Export Control Act 2020"}
+  - {title_id: C2020A00023, history: false, title: "Boosting Cash Flow for Employers (Coronavirus Economic Response Package) Act 2020"}
+  - {title_id: C2020A00029, history: false, title: "Guarantee of Lending to Small and Medium Enterprises (Coronavirus Economic Response Package) Act 2020"}
+  - {title_id: C2020A00037, history: false, title: "Coronavirus Economic Response Package (Payments and Benefits) Act 2020"}
+  - {title_id: C2020A00052, history: false, title: "Official Development Assistance Multilateral Replenishment Obligations (Special Appropriation) Act 2020"}
+  - {title_id: C2020A00065, history: false, title: "Commonwealth Registers Act 2020"}
+  - {title_id: C2020A00091, history: false, title: "Payment Times Reporting Act 2020"}
+  - {title_id: C2020A00119, history: false, title: "Recycling and Waste Reduction Act 2020"}
+  - {title_id: C2020A00120, history: false, title: "Recycling and Waste Reduction (Consequential and Transitional Provisions) Act 2020"}
+  - {title_id: C2020A00128, history: false, title: "National Emergency Declaration Act 2020"}
+  - {title_id: C2021A00012, history: false, title: "Federal Circuit and Family Court of Australia Act 2021"}
+  - {title_id: C2021A00027, history: false, title: "Industrial Chemicals Environmental Management (Register) Act 2021"}
+  - {title_id: C2021A00063, history: false, title: "Financial Regulator Assessment Authority Act 2021"}
+  - {title_id: C2021A00065, history: false, title: "Fuel Security Act 2021"}
+  - {title_id: C2021A00076, history: false, title: "Online Safety Act 2021"}
+  - {title_id: C2021A00081, history: false, title: "Tertiary Education Quality and Standards Agency (Charges) Act 2021"}
+  - {title_id: C2021A00120, history: false, title: "Offshore Electricity Infrastructure Act 2021"}
+  - {title_id: C2022A00011, history: false, title: "Data Availability and Transparency Act 2022"}
+  - {title_id: C2022A00037, history: false, title: "Climate Change Act 2022"}
+  - {title_id: C2022A00051, history: false, title: "Jobs and Skills Australia Act 2022"}
+  - {title_id: C2022A00088, history: false, title: "National Anti-Corruption Commission Act 2022"}
+  - {title_id: C2022A00089, history: false, title: "National Anti-Corruption Commission (Consequential and Transitional Provisions) Act 2022"}
+  - {title_id: C2023A00012, history: false, title: "National Reconstruction Fund Corporation Act 2023"}
+  - {title_id: C2023A00024, history: false, title: "Creative Australia Act 2023"}
+  - {title_id: C2023A00044, history: false, title: "Financial Services Compensation Scheme of Last Resort Levy Act 2023"}
+  - {title_id: C2023A00045, history: false, title: "Financial Services Compensation Scheme of Last Resort Levy (Collection) Act 2023"}
+  - {title_id: C2023A00055, history: false, title: "Inspector-General of Aged Care Act 2023"}
+  - {title_id: C2023A00067, history: false, title: "Financial Accountability Regime Act 2023"}
+  - {title_id: C2023A00070, history: false, title: "Parliamentary Workplace Support Service (Consequential Amendments and Transitional Provisions) Act 2023"}
+  - {title_id: C2023A00072, history: false, title: "Parliamentary Workplace Support Service Act 2023"}
+  - {title_id: C2023A00079, history: false, title: "Housing Australia Future Fund Act 2023"}
+  - {title_id: C2023A00095, history: false, title: "National Occupational Respiratory Disease Registry Act 2023"}
+  - {title_id: C2023A00107, history: false, title: "Disability Services and Inclusion Act 2023"}
+  - {title_id: C2023A00115, history: false, title: "Identity Verification Services Act 2023"}
+  - {title_id: C2023A00118, history: false, title: "Public Health (Tobacco and Other Products) Act 2023"}
+  - {title_id: C2023A00121, history: false, title: "Nature Repair Act 2023"}
+  - {title_id: C2024A00025, history: false, title: "Digital ID Act 2024"}
+  - {title_id: C2024A00034, history: false, title: "New Vehicle Efficiency Standard Act 2024"}
+  - {title_id: C2024A00040, history: false, title: "Administrative Review Tribunal Act 2024"}
+  - {title_id: C2024A00058, history: false, title: "Primary Industries Levies and Charges Collection Act 2024"}
+  - {title_id: C2024A00059, history: false, title: "Primary Industries Levies and Charges Disbursement Act 2024"}
+  - {title_id: C2024A00091, history: false, title: "Australian Naval Nuclear Power Safety Act 2024"}
+  - {title_id: C2024A00104, history: false, title: "Aged Care Act 2024"}
+  - {title_id: C2024A00109, history: false, title: "Aged Care (Consequential and Transitional Provisions) Act 2024"}
+  - {title_id: C2024A00124, history: false, title: "Help to Buy Act 2024"}
+  - {title_id: C2024A00140, history: false, title: "Wage Justice for Early Childhood Education and Care Workers (Special Account) Act 2024"}
+  - {title_id: C2026A00027, history: false, title: "Defence and Veterans’ Service Commissioner Act 2026"}

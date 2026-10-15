@@ -23,7 +23,7 @@ from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing use
 
 from defusedxml.ElementTree import fromstring
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef, ParseSkipped
 
 AKN = "http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
 UK = "https://www.legislation.gov.uk/namespaces/UK-AKN"
@@ -31,7 +31,7 @@ UKM = "http://www.legislation.gov.uk/namespaces/metadata"
 DC = "http://purl.org/dc/elements/1.1/"
 DCT = "http://purl.org/dc/terms/"
 PARSER_ID = "legislation_gov_uk_akn"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 
 # legislation.gov.uk type -> (ULIS jurisdiction of the enacting body, instrument type)
 TYPES = {
@@ -51,6 +51,10 @@ PROVISION_TAGS = {"section", "subsection", "paragraph", "subparagraph", "level",
 NAMED_PROVISIONS = {"regulation", "article", "rule"}  # hcontainer/@name used by statutory instruments
 SKIP = {"num", "heading", "subheading", "authorialNote", "noteRef", "del"}
 DOTS = re.compile(r"^[.\s…]*$")
+# ``/ukpga/1998/42`` and, for Acts before 1963, the regnal-year form ``/ukpga/Eliz2/10-11/58`` (the site's canonical
+# identifier). Calendar year + chapter alone is ambiguous for a few of them (Burial Act 1859 and Clerk of the Council
+# Act 1859 are both "1859 c. 1"), so the regnal form is the work identity for those Acts.
+SESSION = r"(?:\d{4}|[A-Za-z0-9]+/\d+(?:-\d+)*)"
 
 
 class UkParseError(ValueError):
@@ -128,7 +132,7 @@ def resolve_uri(uri: str) -> tuple[str, str | None] | None:
 
     ``http://www.legislation.gov.uk/id/ukpga/1998/42/section/4/5`` -> (``/gb/ukpga/1998/42``, ``section-4-5``)
     """
-    m = re.match(r"^https?://www\.legislation\.gov\.uk/(?:id/)?([a-z]+)/(\d{4})/(\d+)(?:/([^?#]*))?$", uri)
+    m = re.match(rf"^https?://www\.legislation\.gov\.uk/(?:id/)?([a-z]+)/({SESSION})/(\d+)(?:/([^?#]*))?$", uri)
     if not m or m.group(1) not in TYPES:
         return None
     kind, year, number, rest = m.groups()
@@ -154,10 +158,10 @@ def parse_legislation_gov_uk(content: bytes) -> list[ParsedDocument]:
     if prop is None:
         raise UkParseError("missing legislation.gov.uk proprietary metadata")
     identifier = (prop.findtext(f"{{{DC}}}identifier") or "").strip()
-    m = re.match(r"^https?://www\.legislation\.gov\.uk/([a-z]+)/(\d{4})/(\d+)", identifier)
+    m = re.match(rf"^https?://www\.legislation\.gov\.uk/([a-z]+)/({SESSION})/(\d+)(?:/|$)", identifier)
     if not m or m.group(1) not in TYPES:
         raise UkParseError(f"unsupported legislation.gov.uk identifier {identifier!r}")
-    leg_type, year, number = m.groups()
+    leg_type, year, number = m.groups()  # ``year`` is "1998" or, before 1963, "Eliz2/10-11"
     jurisdiction, instrument_type = TYPES[leg_type]
     work_uri = f"/gb/{leg_type}/{year}/{number}"
 
@@ -182,6 +186,14 @@ def parse_legislation_gov_uk(content: bytes) -> list[ParsedDocument]:
         date.fromisoformat(enacted_el.get("Date", "")) if enacted_el is not None and enacted_el.get("Date") else None
     )
     revised = status_el is not None and status_el.get("Value") == "revised"
+    calendar_year = year if year.isdigit() else None
+    year_el = primary.find(f"{{{UKM}}}Year") if primary is not None else None
+    if year_el is not None and (year_el.get("Value") or "").isdigit():
+        calendar_year = year_el.get("Value")
+    if calendar_year is None and work_date is not None:
+        calendar_year = str(work_date.year)
+    if calendar_year is None:
+        raise UkParseError("missing year")
     frbr_name = meta.find(f"{_a('identification')}/{_a('FRBRWork')}/{_a('FRBRname')}")
 
     # --- events and periods
@@ -382,7 +394,8 @@ def parse_legislation_gov_uk(content: bytes) -> list[ParsedDocument]:
 
     walk(body, None, [], None, default_period, default_extent, None)
     if not provisions:
-        raise UkParseError("no provisions found")
+        # Well formed, but nothing to store (for example an Act repealed in full whose text has been removed).
+        raise ParseSkipped(f"{identifier}: no provisions in the {version_date.isoformat()} version")
     # A container's text includes its children, so its wording is current only from the latest
     # start, and until the earliest end, found anywhere in its subtree.
     by_eid = {p.eid: p for p in provisions}
@@ -437,7 +450,7 @@ def parse_legislation_gov_uk(content: bytes) -> list[ParsedDocument]:
             ext_module="gb",
             ext={
                 "leg_type": leg_type,
-                "year": int(year),
+                "year": int(calendar_year),
                 "number": number,
                 "chapter": frbr_name.get("value") if frbr_name is not None else None,
             },

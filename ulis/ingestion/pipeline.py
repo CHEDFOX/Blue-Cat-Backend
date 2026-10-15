@@ -14,6 +14,7 @@ Properties the pipeline guarantees:
 from __future__ import annotations
 
 import hashlib
+import time
 import uuid
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
@@ -21,7 +22,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, text
 from sqlalchemy.orm import Session
 
 from ulis.catalog import Catalog
@@ -381,6 +382,11 @@ def _sha(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+# Tables whose planner statistics are refreshed during a run (see ``Ingestor._refresh_statistics``).
+STATISTICS_TABLES = ("provisions", "provision_versions", "provision_version_sources")
+ANALYZE_INTERVAL_SECONDS = 30.0  # at most this long between two refreshes during a run
+
+
 class Ingestor:
     def __init__(
         self,
@@ -395,6 +401,20 @@ class Ingestor:
         self.store = store
         self.base_dir = base_dir
         self.cache_dir = cache_dir
+        self._statistics_at = 0.0
+
+    def _refresh_statistics(self) -> None:
+        """ANALYZE the tables a run fills, inside the run's transaction.
+
+        A run is one transaction, so autovacuum cannot see the rows it has inserted. When autovacuum vacuums these
+        tables meanwhile (an empty table, the leftovers of a rolled-back run) it records "no rows", the planner then
+        plans the per-instrument lookups as nested loops over sequential scans, and each Act takes minutes
+        (measured: 2 minutes per document once 25,000 provision versions were in the transaction). ANALYZE counts
+        the rows of its own transaction.
+        """
+        for table in STATISTICS_TABLES:
+            self.session.execute(text(f"ANALYZE {table}"))
+        self._statistics_at = time.monotonic()
 
     # ------------------------------------------------------------------ entry point
     def ingest_source(self, source_id: str, actor: str, connector: Connector | None = None) -> IngestionReport:
@@ -406,6 +426,7 @@ class Ingestor:
         run = m.IngestionRun(source_id=source_id, actor=actor, status="running")
         self.session.add(run)
         self.session.flush()
+        self._refresh_statistics()
         report = IngestionReport(run_id=str(run.id), source_id=source_id)
         touched_instruments: set[Any] = set()
         touched_judgments: set[Any] = set()
@@ -442,6 +463,8 @@ class Ingestor:
                     )
                     self.session.flush()
                 report.documents_new += 1
+                if time.monotonic() - self._statistics_at >= ANALYZE_INTERVAL_SECONDS:
+                    self._refresh_statistics()
             except ParseSkipped as exc:
                 report.documents_skipped += 1
                 report.skipped.append(f"{raw.external_id}: {exc}")
@@ -460,6 +483,7 @@ class Ingestor:
 
         self.session.flush()
         report.errors.extend(getattr(connector, "fetch_errors", []))  # documents a connector skipped on purpose
+        self._refresh_statistics()
         for instrument_id in touched_instruments:
             self._recompute_validity(instrument_id)
         report.citation_links_resolved = self.resolve_citations()
