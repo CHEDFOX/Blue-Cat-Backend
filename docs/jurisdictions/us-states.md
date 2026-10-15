@@ -11,9 +11,8 @@ inside the State only, federal law reaches it through the parent chain (`US-WA` 
 | OR | `us-or-ors` (689 candidate chapters) | `us_or_ors` / `us_or_ors_html` | `us_or`: `ORS 163.115` |
 | UT | `us-ut-code` (96 titles) | `us_ut_code` / `us_ut_code_xml` | `us_ut`: `Utah Code § 76-5-203(2)` |
 
-Shared: `ulis/sources/connectors/us_state_http.py` (manifest, robots.txt of every host, 5 s / robots delay, 404 -> `fetch_errors`,
-refusal stops the run), `ulis/sources/us_state_bundle.py` (the envelope below), `ulis/sources/parsers/us_state_common.py`.
-Tests: `tests/test_us_states.py`, fixtures `tests/fixtures/us_states/` (real files, see its README).
+Shared code: `connectors/us_state_http.py` (manifest, robots.txt of every host, delay, 404 -> `fetch_errors`, a refusal stops the run),
+`sources/us_state_bundle.py` (the envelope below), `parsers/us_state_common.py`. Tests: `tests/test_us_states.py`, fixtures `tests/fixtures/us_states/`.
 
 ## Sources and licences (read 2026-10-14; details and URLs in each `config/sources/us-*.yaml`)
 
@@ -24,8 +23,7 @@ Tests: `tests/test_us_states.py`, fixtures `tests/fixtures/us_states/` (real fil
 | OR | one Microsoft robot, empty Disallow | [Disclaimer](https://www.oregonlegislature.gov/Pages/disclaimer.aspx): public service, not the official record; no copyright claim | approved for research; commercial `unknown` |
 | UT | Crawl-delay 10 (honoured) | [Terms](https://le.utah.gov/documents/disclaimer.htm): copy/distribute for personal use; commercial use needs attribution | approved; attribution always carried |
 
-Counsel review is recommended before any commercial deployment of WA, TX or OR. After *Georgia v. Public.Resource.Org* (2020)
-the enacted text is not the issue; compilation claims and annotations are, and no annotation is ingested.
+Counsel review is recommended before any commercial deployment of WA, TX or OR. Since *Georgia v. Public.Resource.Org* (2020) the issue is compilation claims and annotations, not the enacted text; no annotation is ingested.
 
 ## What is ingested and how
 
@@ -44,7 +42,25 @@ the enacted text is not the issue; compilation claims and annotations are, and n
 
 ## Real run (dev database `ulis_usstates`, 2026-10-15)
 
-@@NUMBERS@@
+Fetched through the connectors (robots.txt checked; 5 s delay, Utah 10 s: 92 requests, 0 errors) into a polite cache, then ingested into a fresh
+database after `migrate` and `sync-catalog` (38 profiles, 45 sources). The committed manifests are the full lists; the sandbox slices are below.
+
+| State | Ingested here | Provisions (versions) | Links created / resolved | Time |
+|---|---|---|---|---|
+| WA | slice: 18 of 2,785 chapters (9A.04-9A.72, 10.95, 19.86, 46.61, 59.18); the full list is about 4 h of requests | 557 | 1,099 / 537 | 2.5 s (cached) |
+| TX | **all 30 codes** (123 MB unpacked) | 122,866 (29 repealed; 12 container articles without text) | 99,051 / 99,051 | 250 s |
+| OR | slice: 14 candidate chapters (1, 3, 10, 12, 90, 105, 137, 161, 163-167, 285A) | 2,381 (824 repealed placeholders; 1,557 indexed) | 0 | 4.5 s |
+| UT | **all 96 titles** (56 MB) | 27,752 sections, 27,897 versions (250 with a stated start date: versions printed for the future) | 58,645 / 58,410 | 89 s |
+
+Total 152,834 indexed passages; 0 ingestion errors, 0 conflicts. `verify-sources`: **158 documents, 158 pass, 0 fail**. The first Utah run found
+three real oddities (lower-case section numbers in title 26B, `depth="null"` and a stray depth); handled and tested. Tests: 52 in
+`tests/test_us_states.py`; full suite 789 passed; `ruff check`, `ruff format --check`, `mypy ulis` clean.
+
+Real searches (as of 2026-10-14): US-WA "driving while under the influence ... 0.08 within two hours" -> `RCW 46.61.502`; US-TX "capital murder of a
+peace officer or fireman" -> `Tex. Penal Code § 19.03` (second); US-OR "murder in the second degree affirmative defense extreme emotional
+disturbance" -> `ORS 163.135`, `ORS 163.115`; US-UT "voluntary intoxication is not a defense" -> `Utah Code § 76-2-306` (`provision_at` 2026-10-14:
+`in_force_date_unverified`; 2027-02-01: `in_force`, `valid_from` 2027-01-01, the 2027 wording); the Texas query under `US` finds nothing; in the
+PostgreSQL test 17 U.S.C. § 107 is found from US-WA, US-TX, US-OR and US-UT.
 
 ## Planned or rejected (no data ingested; each has a source YAML with the findings and a gate-refusal test)
 
@@ -55,11 +71,11 @@ Minnesota (allowed; terms not located), Virginia (all rights reserved; no licenc
 
 ## Known gaps
 
-* No annotations, case law, regulations, constitutions or local law; no past versions except what Utah prints for the future; subsections are not separate provisions.
+* No annotations, case law, regulations, constitutions or local law; no past versions (Utah prints future ones); subsections are not provisions.
 * WA: the certified PDF is the official RCW; repealed/decodified sections are only in the dispositions tables. TX: sections the Council prints with
   "Text of section prior to repeal" (still applicable to some events) are `repealed` without text; stale `*-old` / `* - Copy` zip members are skipped;
   versions with different effective dates stay side by side in the text, undated. OR: candidate chapters (the publisher lists ranges, not files); the
   2025 Edition excludes the 2025 special and 2026 regular sessions (notices recorded as outstanding changes); the database text is not the official ORS.
-  UT: the Historical Code is not ingested; tables are flattened; one encoded character is written `[char set/char]`.
-* An undated future-ended Utah version loses its `valid_to` when the pipeline recomputes validity; the end date stays in the version note.
+  UT: the Historical Code is not ingested; tables are flattened; one encoded character is written `[char set/char]`; a version with a stated end
+  date but no start date loses its `valid_to` when validity is recomputed (the end date stays in the note).
 * Profiles are unreviewed: courts (apex courts only), commencement rules and citation forms are research notes marked "To verify".
