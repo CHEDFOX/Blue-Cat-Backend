@@ -19,13 +19,19 @@
 #   https://www.overheid.nl/help/wet-en-regelgeving/inhoud-actualiteit-volledigheid-en-betrouwbaarheid - Acts and AMvBs
 #        from 1 May 2002; at least 95% of decisions processed within two working days of publication; errors occur
 #        ("A-fouten"); "De informatie in Wet- en regelgeving vormt geen bekendmaking in de zin van de Grondwet."
+#   https://repository.officiele-overheidspublicaties.nl/uitleg_service_officielepublicaties.html ("/bwb/" redirects
+#        to it) - the repository service: levels area / work / expression / manifestation / item, with ?output=xml|html|zip;
+#        it offers no list of the works. The base set of the whole collection (about 160 GB, 14 GB zipped) is given out
+#        on request through KOOP's contact form once a month (data.overheid.nl dataset page): not obtainable by ULIS.
 #   robots.txt (read first): repository.officiele-overheidspublicaties.nl/robots.txt -> 404 (none published);
 #        zoekservice.overheid.nl/robots.txt -> "User-agent: * / Disallow: /" (the SRU service is therefore NOT used);
-#        wetten.overheid.nl/robots.txt -> catch-all allows most paths but disallows /*/informatie/xml, /service/ and
-#        search results, and disallows named AI/LLM crawlers (GPTBot, ClaudeBot, anthropic-ai, CCBot, "rag-kennisbank",
-#        ...) entirely; "AstralLaw" and "45weg-legal-research" (legal research) are allowed with Crawl-delay 30. The
-#        website is NOT crawled by ULIS. www.overheid.nl and data.overheid.nl (Crawl-delay 10) allow the help and
-#        dataset pages read here for the catch-all user agent; both also disallow ClaudeBot and other AI crawlers.
+#        wetten.overheid.nl/robots.txt -> "Sitemap: https://wetten.overheid.nl/sitemap.xml"; the catch-all (User-agent: *)
+#        allows everything except search results, /*/informatie/xml, /*/download/1$, /*afdrukken$ and /service/; named AI/LLM
+#        crawlers (GPTBot, ClaudeBot, anthropic-ai, CCBot, "rag-kennisbank", ...) are disallowed entirely; "AstralLaw" and
+#        "45weg-legal-research" (legal research) are allowed with Crawl-delay 30. ULIS reads that one sitemap file (about
+#        47,000 addresses of regulations, 7 MB) with its own identifying User-Agent and a 30 s delay, to learn the BWB
+#        identifiers; it fetches no page of the website. www.overheid.nl and data.overheid.nl (Crawl-delay 10) allow the help
+#        and dataset pages read here for the catch-all user agent; both also disallow ClaudeBot and other AI crawlers.
 #   Auteurswet art. 11 (BWBR0001886, toestand 2026-01-01_0, fetched from the repository): "Er bestaat geen
 #        auteursrecht op wetten, besluiten en verordeningen, door de openbare macht uitgevaardigd, noch op rechterlijke
 #        uitspraken en administratieve beslissingen."
@@ -45,8 +51,11 @@ coverage: >-
   Consolidated texts of Dutch national regulations (Acts and AMvBs from 1 May 2002, ministerial
   regulations from 1 May 2003, and other categories), each as a series of toestanden
   (consolidated versions with validity periods), plus per-regulation manifest and wetstechnische
-  informatie (WTI) files. ULIS ingests six national Acts (see the manifest): the full series of
-  toestanden of the Grondwet and the Uitvoeringswet AVG, the current toestand of the others.
+  informatie (WTI) files. The manifest lists the 43,430 regulations (BWBR identifiers) of the
+  publisher's sitemap: the current toestand of each, and the full series of toestanden for two (the
+  Grondwet and the Uitvoeringswet AVG). ULIS keeps wetten, AMvB's and ministeriele regelingen in
+  force; lapsed regulations, other kinds (beleidsregel, zbo, KB, the BES variants) and the 3,704
+  treaties (BWBV) are not ingested.
 access:
   method: bulk_download
   endpoint: config/manifests/nl-bwb.yaml
@@ -54,7 +63,10 @@ update_frequency: daily ("Dagelijks wordt het basiswettenbestand bijgewerkt"); r
 rate_limits: >-
   No published rate limit and no robots.txt on the repository host. ULIS waits 5 s between
   requests, identifies itself and caches every download. The SRU service (zoekservice.overheid.nl)
-  is not used because its robots.txt disallows all robots.
+  is not used because its robots.txt disallows all robots. The whole manifest is 43,430 regulations: one request
+  for each manifest and one for the current toestand of the 41% that are in force (a lapsed regulation costs one
+  request): about 61,000 requests, 85 hours at 5 s (random sample of 319: 58% lapsed, 31% a wet, AMvB or ministeriele
+  regeling in force, 9% another kind, 1% not yet in force).
 licence:
   id: CC0-1.0
   name: >-
@@ -80,14 +92,17 @@ licence:
   conditions:
     - Do not present the consolidated text as official; the Staatsblad / Staatscourant publication is authentic (stated on every result).
     - Polite retrieval from the repository only (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
-    - Do not use the SRU service (zoekservice.overheid.nl disallows all robots) and do not crawl wetten.overheid.nl.
+    - Do not use the SRU service (zoekservice.overheid.nl disallows all robots) and do not crawl the pages of wetten.overheid.nl; the one file read from that host is the sitemap that its robots.txt declares.
   notes: >-
     CC0 requires no attribution; ULIS attributes anyway. The KOOP website wetten.overheid.nl and
     the portals overheid.nl / data.overheid.nl disallow named AI/LLM crawlers (including ClaudeBot,
     anthropic-ai and a "rag-kennisbank") in robots.txt. ULIS's own identified research bot is not
-    among them and did not crawl wetten.overheid.nl, but the publisher's stated preference should
-    be reviewed before ULIS is used for model training or retrieval-augmented generation at scale.
-    Counsel review still recommended before production use.
+    among them; it takes the files from the CC0 open-data repository (the route the dataset page itself
+    describes) and one sitemap from the website. The publisher's stated preference against AI
+    crawling of its website stays an open question for model training or retrieval-augmented
+    generation at scale (docs/licence-review.md); widening from six regulations to the whole collection
+    makes it weigh more, and the project cannot obtain KOOP's view. An operator who counts that preference as
+    binding should not run this source. Counsel review still recommended before production use.
 provenance: >-
   KOOP's open-data repository of the Basiswettenbestand: per regulation a manifest.xml (listing
   every toestand with validity and visibility periods and a SHA-512 hash) and one XML file per
@@ -97,12 +112,15 @@ provenance: >-
   SHA-512 is recorded.
 known_limitations:
   - Not the official text ("geen officiële teksten in de zin van de Grondwet"); the Staatsblad and Staatscourant are authentic and are not ingested.
-  - History in the BWB starts on 1 May 2002 for Acts; earlier wordings are not available as toestanden.
+  - History in the BWB starts on 1 May 2002 for Acts; earlier wordings are not available as toestanden. Only the Grondwet and the Uitvoeringswet AVG are ingested with their full series of toestanden; every other regulation has its current toestand only (from the date it took effect, earlier wordings are not indexed).
   - Dates are per article (element @inwerking); members and list items share their article's date. Retroactive effect is only noted, the version starts on its entry into force.
   - Toestanden corrected later for retroactive effect are replaced by their corrected variant; the superseded variants (other knowledge time) are not ingested.
   - Scheduled toestanden (starting after the manifest was generated) are reported as outstanding changes, not ingested.
   - For older toestanden the manifest's SHA-512 does not match the file served (KOOP regenerated the files with richer metadata); recorded per document, not fatal.
   - Consolidation can lag publication by a few working days, and the publisher reports occasional errors.
+  - The list of regulations is the website's sitemap (the repository has no list), so a regulation added after the manifest was made is missing until it is regenerated.
+  - Scope is wetten, AMvB's and ministeriele regelingen. Policy rules (beleidsregel), regulations of independent administrative bodies (zbo), royal decrees (KB), the Caribbean Netherlands variants (-BES) and treaties are not ingested; a lapsed regulation is skipped after its manifest has been read.
+  - A regulation whose structure the parser does not know is an ingest error and is skipped, together with the change report of its manifest (two errors for one regulation).
 status: active
 connector: bwb
 parser: bwb_xml

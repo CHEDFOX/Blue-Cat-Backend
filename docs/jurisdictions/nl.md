@@ -1,18 +1,50 @@
 # Netherlands (NL): national legislation from the Basiswettenbestand
 
-Status: **pilot sample, draft unverified profile.** Six national Acts, Dutch only; full version
-history (all toestanden since the BWB starts) for two of them, the current consolidation for the
-others. Research aid, not legal advice. Not reviewed by a Dutch lawyer.
+Status: **the wetten, AMvB's and ministeriele regelingen of the Basiswettenbestand that are in force, draft unverified
+profile.** About 13,600 regulations (of the 43,430 `BWBR` identifiers in the publisher's sitemap), Dutch only; the full version
+history (all toestanden since the BWB starts) for two of them (Grondwet, UAVG), the current consolidation for all others. Research
+aid, not legal advice. Not reviewed by a Dutch lawyer.
 
 | | |
 |---|---|
-| Profile | `config/jurisdictions/nl.yaml` (`NL`, parent `INT`, `draft_unverified`, version 0.1.0) |
+| Profile | `config/jurisdictions/nl.yaml` (`NL`, parent `INT`, `draft_unverified`, version 0.3.0) |
 | Source | `config/sources/nl-bwb.yaml` (`nl-bwb`, active, CC0 1.0) |
-| Manifest | `config/manifests/nl-bwb.yaml` (6 regulations) |
+| Manifest | `config/manifests/nl-bwb.yaml` (43,430 regulations; script `scripts/build_bwb_manifest.py`) |
 | Connector | `ulis/sources/connectors/bwb.py` (`bwb`, on `PoliteHttp`) |
-| Parser | `ulis/sources/parsers/bwb.py` (`bwb_xml` 1.0.0) |
+| Parser | `ulis/sources/parsers/bwb.py` (`bwb_xml` 1.2.0) |
 | Citations | `ulis/jurisdictions/modules/nl.py` (`nl`) |
 | Tests | `tests/test_bwb.py`, fixtures in `tests/fixtures/bwb/` |
+
+## Widening to the whole collection (2026-10-15)
+
+- **Where the list comes from.** The repository has no list of the regulations (`/bwb/` redirects to a description of the service),
+  the SRU service disallows all robots, and the base set of the whole collection (about 160 GB, 14 GB zipped) is given out on request
+  through KOOP's contact form once a month - not obtainable by this project. The one public list is the sitemap that
+  `wetten.overheid.nl/robots.txt` declares (`Sitemap: https://wetten.overheid.nl/sitemap.xml`; the catch-all `User-agent: *` allows
+  it; 7 MB, 47,145 addresses). `scripts/build_bwb_manifest.py` asks for that one file (identifying User-Agent, 30 s delay, the delay
+  KOOP sets for the legal-research bots it allows) and takes the BWB identifier from each address: **43,430 `BWBR`** regulations
+  (3,704 treaties `BWBV` are left out). No page of the website is fetched.
+- **Conduct note.** KOOP's robots.txt disallows named AI/LLM crawlers (ClaudeBot, anthropic-ai, GPTBot, "rag-kennisbank", ...) on the
+  website. ULIS's own identified research bot is not among them, it reads one declared sitemap from the website and the CC0 files
+  from the repository (the route the dataset page describes). KOOP's stated preference about AI use stays the open question of
+  `docs/licence-review.md` (it weighs more now), and the project cannot get KOOP's view: an operator who counts it as binding should
+  leave this source off.
+- **What is stored.** Only wetten (and rijkswetten), AMvB's and ministeriele regelingen (also the archiefselectielijsten) in force.
+  The connector reads each regulation's `manifest.xml`; if the last toestand has ended the regulation has lapsed and is skipped
+  (`connector.lapsed`); if `wetgeving/@soort` is another kind (beleidsregel, zbo, KB, pbo, circulaire, the `-BES` variants) the toestand
+  is dropped (`connector.unsupported`); a 404 or an unreadable manifest (a regulation with no toestand in force yet) is a
+  `fetch_errors` entry and the run goes on. Parser 1.2.0 also reads `<regeling>` bodies (most ministerial regulations), the
+  unnumbered `<enig-artikel>` and skips `<officiele-inhoudsopgave>`.
+- **Scale** (random sample of 319 regulations): 58% lapsed, 31% in force and stored, 9% another kind, 1% not yet in force. So about
+  61,000 requests (43,430 manifests + 17,700 toestanden), **85 hours at 5 s**, about 13,600 regulations, 96 provision versions each
+  (median 11; the largest has 1,946), about **1.3 million provision versions** and **about 3 GB of database** (raw XML on top). Below the
+  15 GB threshold, so the default manifest is the whole list. Ingest in batches: `python scripts/ingest_in_batches.py nl-bwb --batch 200`.
+- **Sample run** (fresh database, 319 random regulations plus the six pilot regulations): **100 stored** (9,616 provision versions, 7,873
+  passages), 3 skipped as "no toestand in force when the manifest was generated", **0 parse errors**. Before the parser read these
+  structures the first draws had 20 parse errors (18 `<regeling>` bodies, 1 `<enig-artikel>`, 1 table of contents). The 186 lapsed
+  and 30 other-kind regulations cost a manifest request (the second group also its toestand) and are not stored.
+- Searches: "standaardpremie 2014 vastgesteld" -> the Regeling vaststelling standaardpremie 2014, art. 1 (a `<regeling>`); the pilot
+  searches below return the same first hits as before.
 
 ## Source and licence
 
@@ -38,14 +70,14 @@ regulation, one XML file per *toestand* = consolidated version, and a WTI file w
 |---|---|---|
 | `repository.officiele-overheidspublicaties.nl` | none (404) | all downloads |
 | `zoekservice.overheid.nl` (SRU) | `User-agent: *` / `Disallow: /` | **not used** - the toestand list comes from each regulation's `manifest.xml` instead |
-| `wetten.overheid.nl` (website) | catch-all allows most paths but disallows `/*/informatie/xml`, `/service/`, search results; **named AI/LLM crawlers are disallowed entirely** (GPTBot, ClaudeBot, Claude-Web, anthropic-ai, CCBot, PerplexityBot, "rag-kennisbank", ...); legal-research bots "AstralLaw" and "45weg-legal-research" allowed with Crawl-delay 30 | **not crawled** (only robots.txt read) |
+| `wetten.overheid.nl` (website) | catch-all allows most paths but disallows `/*/informatie/xml`, `/service/`, search results; **named AI/LLM crawlers are disallowed entirely** (GPTBot, ClaudeBot, Claude-Web, anthropic-ai, CCBot, PerplexityBot, "rag-kennisbank", ...); legal-research bots "AstralLaw" and "45weg-legal-research" allowed with Crawl-delay 30 | **no page crawled**; robots.txt and, since the widening, the declared `sitemap.xml` (one request) are read |
 | `www.overheid.nl`, `data.overheid.nl` | catch-all allows the help and dataset pages; data.overheid.nl Crawl-delay 10; both disallow ClaudeBot and other AI crawlers | 8 documentation pages, 10 s apart on data.overheid.nl |
 
 Conclusion: licence review **approved** (CC0 1.0 for the BWB open data; Acts are without
 copyright). ULIS attributes the source anyway and says on every result that the text is not
 official. **Flag for the project lead:** KOOP's website and portals block named AI/LLM crawlers,
 including a "rag-kennisbank". ULIS fetched only CC0 open data from the repository host (which has
-no robots.txt) with its own identified User-Agent, and did not crawl wetten.overheid.nl; but the
+no robots.txt) with its own identified User-Agent, and did not crawl wetten.overheid.nl (apart from its sitemap, see above); but the
 publisher's stated preference should be weighed before ULIS uses this corpus for model training
 or retrieval-augmented generation at scale.
 
@@ -200,11 +232,10 @@ are one line each; `tests/test_catalog.py` lists `NL` and `nl-bwb`.
 
 ## Known gaps
 
-- Six Acts only; no other Acts, AMvBs, ministerial regulations, treaties or policy rules; no
-  decentral regulations (CVDR), no BES legislation (Caribbean Netherlands: Bonaire, Sint Eustatius,
-  Saba), Aruba/Curaçao/Sint Maarten out of scope; case law only as a 30-decision sample (see
-  [nl-case-law.md](nl-case-law.md)); no EU law in this profile.
-- History only for the Grondwet and the UAVG; the BWB itself starts in 2002.
+- Wetten, AMvB's and ministeriele regelingen in force only (about 13,600 of 43,430 identifiers); no treaties, policy rules
+  (beleidsregels), zbo regulations, KB's, BES variants or lapsed regulations; no decentral regulations (CVDR), Aruba/Curaçao/Sint
+  Maarten out of scope; case law only as a 30-decision sample (see [nl-case-law.md](nl-case-law.md)); no EU law in this profile.
+- History only for the Grondwet and the UAVG; the BWB itself starts in 2002. The list of regulations is the website's sitemap, so one added later is missing until the manifest is regenerated; a regulation that fails to parse costs two errors (its toestand and the change report of its manifest).
 - Not the authentic text: the Staatsblad and Staatscourant are not ingested.
 - Members and list items carry their article's date; `@inwerking` can be a technical re-placement
   date; retroactive effect is a note, not a validity period; superseded variants of corrected

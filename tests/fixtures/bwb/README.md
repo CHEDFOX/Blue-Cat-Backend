@@ -12,6 +12,8 @@ writes, uncompressed). The tests decompress them into a temporary cache.
 | Grondwet | BWBR0001840 | `manifest.xml`, toestanden 2022-11-01_0 and 2023-02-22_0 (current) |
 | Burgerlijk Wetboek Boek 6 | BWBR0005289 | `manifest.xml`, toestand 2026-07-16_0 (current) |
 | Algemene wet bestuursrecht | BWBR0005537 | `manifest.xml`, toestand 2026-08-15_0 (current) |
+| Besluit (Regeling vaststelling standaardpremie 2014) | BWBR0034337 | `manifest.xml`, toestand 2014-01-01_0 (a `<regeling>`; retrieved 2026-10-15) |
+| Besluit of the Staatssecretaris (subsidieplafond) | BWBR0040488 | toestand 2018-02-15_0 only (a `<regeling>` with `regeling-tekst`; retrieved 2026-10-15) |
 
 Licence: CC0 1.0, as stated for the "Basis Wetten Bestand" dataset and its downloads on
 https://data.overheid.nl/dataset/basis-wetten-bestand (data owner KOOP); Acts are not protected by

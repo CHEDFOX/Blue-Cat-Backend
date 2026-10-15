@@ -3,7 +3,7 @@
 # other countries of the Kingdom) are out of scope. EU membership is deliberately not recorded here.
 schema_version: 1
 id: NL
-profile_version: 0.2.0
+profile_version: 0.3.0
 name: Netherlands
 names: {nl: Nederland, en: Netherlands}
 kind: sovereign_state
@@ -129,8 +129,8 @@ memberships:
 coverage:
   corpus_status: pilot
   known_gaps:
-    - Only six national Acts are ingested (Grondwet, Uitvoeringswet AVG, Burgerlijk Wetboek Boeken 1 and 6, Wetboek van Strafrecht, Algemene wet bestuursrecht); no other Acts, no AMvBs, ministerial regulations, treaties or policy rules.
-    - Version history (all toestanden since 2002 / 2018) only for the Grondwet and the Uitvoeringswet AVG; the other four Acts have their current toestand only, so earlier wordings are a history gap.
+    - The wetten, AMvB's and ministeriele regelingen of the Basiswettenbestand that are in force (the 43,430 regulations of the publisher's sitemap, minus those that have lapsed or are another kind) are ingested, as consolidated, non-authentic texts. No treaties, policy rules (beleidsregels), regulations of independent administrative bodies (zbo), royal decrees (KB) or Caribbean Netherlands (BES) variants.
+    - Version history (all toestanden since 2002 / 2018) only for the Grondwet and the Uitvoeringswet AVG; every other regulation has its current toestand only, so earlier wordings are a history gap.
     - The BWB starts in 2002 (Acts); wordings before the first toestand are not available.
     - Not the authentic text; the Staatsblad and Staatscourant (officielebekendmakingen.nl) are not ingested.
     - Members (leden) and list items carry their article's date; retroactive effect is noted, not modelled as a separate validity period.

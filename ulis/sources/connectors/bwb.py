@@ -13,6 +13,14 @@ Toestanden that start later (scheduled consolidations) are never fetched. Each t
 yielded exactly as received; the manifest itself is yielded last, as a change report for the
 current toestand (``ulis.sources.parsers.bwb``).
 
+The committed manifest lists every ``BWBR`` regulation of the publisher's sitemap (about 43,000;
+``scripts/build_bwb_manifest.py``), the six pilot regulations first. A regulation that has lapsed (the
+current toestand of ``history: false`` has an end date before the manifest was generated) is skipped
+after its manifest has been read and counted in ``lapsed``; one of another kind than a wet, an AMvB or a ministeriele
+regeling (``wetgeving/@soort``: beleidsregel, reglement, ...) is skipped after its toestand has been read and listed in
+``unsupported``; one whose manifest or toestand is missing
+(404) or unusable is reported in ``fetch_errors`` and the run goes on; any other refusal stops it.
+
 Access rules (see ``config/sources/nl-bwb.yaml``): the repository publishes no robots.txt (404);
 the SRU search service on ``zoekservice.overheid.nl`` is **not** used, because that host's
 robots.txt disallows all robots, and ``wetten.overheid.nl`` (the website) is not crawled.
@@ -38,11 +46,16 @@ import yaml
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
-from ulis.sources.parsers.bwb import BWB_ID, REPOSITORY, BwbParseError, read_manifest
+from ulis.sources.parsers.bwb import BWB_ID, INSTRUMENT_TYPES, REPOSITORY, BwbParseError, read_manifest
 
 HOST = "repository.officiele-overheidspublicaties.nl"
+_SOORT = re.compile(rb"<wetgeving\b[^>]*?\bsoort=\"([^\"]*)\"")
 
 __all__ = ["BwbConnector", "FetchError"]
+
+
+class _Skipped(FetchError):
+    """One regulation cannot be used (missing or unreadable file); the run goes on with the next."""
 
 
 class BwbConnector:
@@ -61,6 +74,9 @@ class BwbConnector:
         self.offline = offline
         self._sleep = sleep
         self.http: PoliteHttp | None = None
+        self.fetch_errors: list[str] = []
+        self.lapsed: list[str] = []
+        self.unsupported: list[str] = []
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -83,6 +99,9 @@ class BwbConnector:
 
     def fetch(self) -> Iterator[RawDocument]:
         manifest = self._manifest()
+        self.fetch_errors = []
+        self.lapsed = []
+        self.unsupported = []
         self.http = PoliteHttp(
             self.cache_dir,
             manifest["user_agent"],
@@ -92,13 +111,16 @@ class BwbConnector:
             sleep=self._sleep,
         )
         for regulation in manifest["regulations"]:
-            yield from self._regulation(regulation)
+            try:
+                yield from self._regulation(regulation)
+            except _Skipped as exc:
+                self.fetch_errors.append(f"bwb:{regulation['bwb_id']}: {exc}; skipped")
 
     def _get(self, url: str) -> tuple[bytes, dict[str, Any]]:
         assert self.http is not None
         got = self.http.get(url)
         if got is None:
-            raise FetchError(f"{url}: not found (404)")
+            raise _Skipped(f"{url}: not found (404)")
         return got
 
     def _regulation(self, regulation: dict[str, Any]) -> Iterator[RawDocument]:
@@ -108,18 +130,28 @@ class BwbConnector:
         try:
             listing = read_manifest(listing_bytes)
         except BwbParseError as exc:
-            raise FetchError(f"{listing_url}: {exc}") from exc
+            raise _Skipped(f"{listing_url}: {exc}") from exc
         if listing.bwb_id != bwb_id:
-            raise FetchError(f"{listing_url}: manifest is for {listing.bwb_id}")
+            raise _Skipped(f"{listing_url}: manifest is for {listing.bwb_id}")
+        if not regulation.get("history", False):
+            last = listing.current
+            if last.end is not None and last.end < listing.generated:
+                self.lapsed.append(bwb_id)  # no toestand in force any more: not part of the current law
+                return
         wanted = listing.past if regulation.get("history", False) else [listing.current]
         for toestand in wanted:
             url = toestand.url(bwb_id)
             content, meta = self._get(url)
             if not re.match(rb"\A(\xef\xbb\xbf)?<\?xml[^>]*\?>\s*<toestand[\s>]", content):
-                raise FetchError(
+                raise _Skipped(
                     f"{url}: response is not a BWB toestand ({meta.get('content_type')}); not ingested. "
                     f"Remove {self.http.cache_path(url) if self.http else url} after checking the repository."
                 )
+            kind = _SOORT.search(content)
+            if kind is not None and kind.group(1).decode("utf-8", "replace") not in INSTRUMENT_TYPES:
+                # A beleidsregel, reglement ...: not an Act, AMvB or ministerial regulation. Nothing of it is stored.
+                self.unsupported.append(f"{bwb_id}: {kind.group(1).decode('utf-8', 'replace')}")
+                return
             sha512 = hashlib.sha512(content).hexdigest()
             yield RawDocument(
                 external_id=f"bwb:{bwb_id}@{toestand.label}",

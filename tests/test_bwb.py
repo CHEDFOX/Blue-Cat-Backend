@@ -40,6 +40,7 @@ HOST = "repository.officiele-overheidspublicaties.nl"
 FIX = REPO_ROOT / "tests" / "fixtures" / "bwb" / "cache"
 BWB = FIX / HOST / "bwb"
 GW, UAVG, BW6, AWB = "BWBR0001840", "BWBR0040940", "BWBR0005289", "BWBR0005537"
+SP14 = "BWBR0034337"  # Regeling vaststelling standaardpremie 2014
 UAVG_TOESTANDEN = ["2018-05-25_0", "2019-01-01_0", "2019-02-19_0", "2020-01-01_0", "2021-07-01_0", "2026-09-01_0"]
 # What the in-memory connector feeds the pipeline, oldest toestand first, each regulation's manifest last.
 INGESTED = {
@@ -47,6 +48,7 @@ INGESTED = {
     GW: ["2022-11-01_0", "2023-02-22_0"],
     BW6: ["2026-07-16_0"],
     AWB: ["2026-08-15_0"],
+    SP14: ["2014-01-01_0"],  # a ministerial regulation (<regeling>), one of the thousands of the whole collection
 }
 
 
@@ -117,12 +119,15 @@ def test_doctypes_and_entities_are_rejected(content: bytes) -> None:
 def test_unexpected_input_is_rejected() -> None:
     with pytest.raises(BwbParseError, match="unsupported root"):
         parse_bwb(b"<akomaNtoso/>")
-    with pytest.raises(BwbParseError, match="unsupported regulation type"):
-        parse_bwb(
-            _toestand(
-                '<artikel status="goed" inwerking="2020-01-01"><kop><nr>1</nr></kop><al>x</al></artikel>', "rijkswet"
-            )
-        )
+    article = '<artikel status="goed" inwerking="2020-01-01"><kop><nr>1</nr></kop><al>x</al></artikel>'
+    for soort in ("beleidsregel", "zbo", "KB", "wet-BES"):
+        with pytest.raises(BwbParseError, match="unsupported regulation type"):
+            parse_bwb(_toestand(article, soort))
+    # an Act of the Kingdom is an Act; the archive selection list a ministerial regulation
+    assert parse_bwb(_toestand(article, "rijkswet"))[0].instrument_type == "act"
+    assert parse_bwb(_toestand(article, "ministeriele-regeling-archiefselectielijst"))[0].instrument_type == (
+        "ministerial_regulation"
+    )
     with pytest.raises(BwbParseError, match="unknown status"):
         parse_bwb(_toestand('<artikel status="raar"><kop><nr>1</nr></kop><al>x</al></artikel>'))
     with pytest.raises(BwbParseError, match="unexpected element <tabel>"):
@@ -338,6 +343,36 @@ def test_citation_module(catalog: Catalog) -> None:
         )
 
 
+def test_enig_artikel_and_a_table_of_contents() -> None:
+    # <enig-artikel>: the only article of a regulation, unnumbered (BWBR0015805); a table of contents is not a provision
+    only = (
+        '<enig-artikel status="goed" inwerking="2020-01-01">'
+        "<al>Deze regeling treedt in werking op 1 januari 2020.</al></enig-artikel>"
+    )
+    doc = parse_bwb(_toestand(only))[0]
+    assert [(p.eid, p.kind, p.num_path, p.text) for p in doc.provisions] == [
+        (
+            "art-enig-artikel",
+            "general_provision",
+            ["Enig artikel"],
+            "Deze regeling treedt in werking op 1 januari 2020.",
+        )
+    ]
+    toc = _toestand(only).replace(
+        b"<wet-besluit>", b"<wet-besluit><officiele-inhoudsopgave><al>Inhoud</al></officiele-inhoudsopgave>"
+    )
+    assert [p.eid for p in parse_bwb(toc)[0].provisions] == ["art-enig-artikel"]
+
+
+def test_a_regeling_body_is_read_like_a_wet_besluit() -> None:
+    # BWBR0040488, a ministerial regulation of two articles: <regeling><regeling-tekst>...
+    doc = _doc("BWBR0040488", "2018-02-15_0")
+    assert doc.instrument_type == "ministerial_regulation" and doc.language == "nl"
+    assert [p.eid for p in doc.provisions] == ["art-1", "art-2"]
+    assert _p(doc, "art-1").text.startswith("Het subsidieplafond, bedoeld in artikel 5")
+    assert _p(doc, "art-2").text.startswith("Dit besluit treedt in werking met ingang van 15 februari 2018")
+
+
 # --------------------------------------------------------------------------- connector
 
 
@@ -395,12 +430,65 @@ def test_connector_refuses_bad_manifests_and_non_toestand_responses(tmp_path: Pa
     ):
         with pytest.raises(ManifestError, match=message):
             list(BwbConnector(_manifest(tmp_path, regulations, **extra), SOURCE, tmp_path).fetch())
-    # A cached HTML page (e.g. an error page) is never passed on as a toestand.
+    # A cached HTML page (e.g. an error page) is never passed on as a toestand: reported, and the run goes on.
     cache = _cache_copy(tmp_path / "cache")
     page = cache / HOST / "bwb" / BW6 / "2026-07-16_0" / "xml" / f"{BW6}_2026-07-16_0.xml"
     page.write_bytes(b"<html>Fout</html>")
-    with pytest.raises(FetchError, match="not a BWB toestand"):
-        list(BwbConnector(_manifest(tmp_path, [{"bwb_id": BW6}]), SOURCE, cache, offline=True).fetch())
+    connector = BwbConnector(
+        _manifest(tmp_path, [{"bwb_id": BW6}, {"bwb_id": GW, "history": False}]), SOURCE, cache, offline=True
+    )
+    docs = list(connector.fetch())
+    assert [d.external_id for d in docs] == [f"bwb:{GW}@2023-02-22_0", f"bwb:{GW}:manifest"]
+    assert len(connector.fetch_errors) == 1 and "not a BWB toestand" in connector.fetch_errors[0]
+    assert connector.fetch_errors[0].startswith(f"bwb:{BW6}:")
+
+
+def test_other_kinds_than_wet_amvb_and_ministerial_regulation_are_not_stored(tmp_path: Path) -> None:
+    cache = _cache_copy(tmp_path / "cache")
+    page = cache / HOST / "bwb" / BW6 / "2026-07-16_0" / "xml" / f"{BW6}_2026-07-16_0.xml"
+    assert b'soort="wet"' in page.read_bytes()
+    page.write_bytes(page.read_bytes().replace(b'soort="wet"', b'soort="beleidsregel"', 1))
+    connector = BwbConnector(
+        _manifest(tmp_path, [{"bwb_id": BW6}, {"bwb_id": GW, "history": False}]), SOURCE, cache, offline=True
+    )
+    docs = list(connector.fetch())
+    # neither the toestand nor the manifest of the policy rule is passed on; no error either: it is a scope decision
+    assert [d.external_id for d in docs] == [f"bwb:{GW}@2023-02-22_0", f"bwb:{GW}:manifest"]
+    assert connector.unsupported == [f"{BW6}: beleidsregel"] and connector.fetch_errors == []
+
+
+def test_lapsed_and_missing_regulations_are_skipped_not_fatal(tmp_path: Path) -> None:
+    cache = _cache_copy(tmp_path / "cache")
+    path = cache / HOST / "bwb" / BW6 / "manifest.xml"
+    text = path.read_text(encoding="utf-8")
+    head, _, tail = text.rpartition("<einddatum>9999-12-31</einddatum>")
+    path.write_text(head + "<einddatum>2026-09-30</einddatum>" + tail, encoding="utf-8")  # the last toestand has ended
+    manifest = _manifest(
+        tmp_path, [{"bwb_id": BW6, "history": False}, {"bwb_id": "BWBR0000001"}, {"bwb_id": GW, "history": False}]
+    )
+    # BWBR0000001 is not in the cache and the connector is offline: that is a refusal-like failure and stops the run
+    with pytest.raises(FetchError, match="offline and not cached"):
+        list(BwbConnector(manifest, SOURCE, cache, offline=True).fetch())
+    connector = BwbConnector(
+        _manifest(tmp_path, [{"bwb_id": BW6, "history": False}, {"bwb_id": GW, "history": False}]),
+        SOURCE,
+        cache,
+        offline=True,
+    )
+    docs = list(connector.fetch())
+    assert [d.external_id for d in docs] == [f"bwb:{GW}@2023-02-22_0", f"bwb:{GW}:manifest"]
+    assert connector.lapsed == [BW6] and connector.fetch_errors == []
+
+
+def test_committed_manifest_lists_the_publishers_whole_regulation_list(catalog: Catalog) -> None:
+    path = REPO_ROOT / catalog.sources.get(SOURCE).access.endpoint  # type: ignore[operator]
+    manifest = BwbConnector(path, SOURCE, Path("/nonexistent"))._manifest()
+    regulations = manifest["regulations"]
+    ids = [r["bwb_id"] for r in regulations]
+    assert ids[:6] == [GW, UAVG, "BWBR0002656", BW6, "BWBR0001854", AWB]  # the pilot regulations keep their place
+    assert [r["history"] for r in regulations[:6]] == [True, True, False, False, False, False]
+    assert all(r["history"] is False for r in regulations[6:])
+    assert len(ids) > 40000 and all(i.startswith("BWBR") for i in ids)  # regelingen only; treaties (BWBV) are left out
 
 
 def test_source_uses_this_connector(catalog: Catalog) -> None:
@@ -445,7 +533,7 @@ def test_search_finds_exact_text_with_citation_and_limitations(
     session: Session, catalog: Catalog, nl_ingested: IngestionReport
 ) -> None:
     assert nl_ingested.errors == [] and nl_ingested.conflicts == []
-    assert nl_ingested.instruments_created == 4 and nl_ingested.instrument_versions_created == 10
+    assert nl_ingested.instruments_created == 5 and nl_ingested.instrument_versions_created == 11
     res = _search(session, catalog, q="onrechtmatige daad toegerekend schade vergoeden", as_of=date(2026, 1, 1))
     hit = res["results"][0]
     assert hit["citation"] == "art. 6:162 lid 1 BW"
@@ -460,6 +548,9 @@ def test_search_finds_exact_text_with_citation_and_limitations(
     # Book 6 is ingested current-only (toestand of 2026-07-16): the article's own date (1992) covers 2026-01-01,
     # but other text in force on that date may be missing, which the search reports.
     assert "HISTORY_INCOMPLETE" in {lim["code"] for lim in res["limitations"]}
+    premie = _search(session, catalog, q="standaardpremie 2014 vastgesteld", as_of=date(2016, 1, 1))
+    assert premie["results"][0]["text"] == "De standaardpremie wordt voor het jaar 2014 vastgesteld op € 1329,–."
+    assert premie["results"][0]["authority"]["category"] == "binding_legislation"
     awb = _search(session, catalog, q="nadelige gevolgen besluit onevenredig doelen", as_of=date(2026, 10, 1))
     assert awb["results"][0]["citation"] == "art. 3:4 lid 2 Awb"
     # Art. 46 UAVG had two members until 2026-09-01 and one undivided text since: the article, a container in

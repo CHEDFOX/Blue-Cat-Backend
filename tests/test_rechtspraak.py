@@ -351,7 +351,7 @@ def test_judgment_citations(catalog: Catalog) -> None:
 def test_profile_has_the_courts_of_the_decisions_and_no_formal_precedent(catalog: Catalog) -> None:
     reg = catalog.jurisdictions
     profile = reg.get("NL")
-    assert profile.profile_version == "0.2.0" and profile.precedent.doctrine == "no_formal_precedent"
+    assert profile.profile_version == "0.3.0" and profile.precedent.doctrine == "no_formal_precedent"
     courts = reg.courts()
     for court_id in ("NL-HR", "NL-ABRVS", "NL-CRVB", "NL-CBB", "NL-GHDHA", "NL-RBDHA"):
         assert reg.court_jurisdiction(court_id) == "NL"

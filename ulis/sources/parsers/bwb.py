@@ -66,7 +66,7 @@ from ulis.ingestion.snapshots import CHANGE_REPORT, SNAPSHOT_BASIS
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef
 
 PARSER_ID = "bwb_xml"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.2.0"
 JURISDICTION = "NL"
 REPOSITORY = "https://repository.officiele-overheidspublicaties.nl/bwb"
 XML_LANG = "{http://www.w3.org/XML/1998/namespace}lang"
@@ -77,8 +77,16 @@ NOTE_LIMIT = 1200
 
 STRUCTURE = {"boek", "deel", "titeldeel", "hoofdstuk", "afdeling", "paragraaf", "sub-paragraaf", "divisie"}
 NOT_PROVISIONS = {"kop", "meta-data", "structuurtekst"}
-# wetgeving/@soort -> ULIS instrument type (the Grondwet is a "wet" in the BWB).
-INSTRUMENT_TYPES = {"wet": "act", "AMvB": "order_in_council", "ministeriele-regeling": "ministerial_regulation"}
+# wetgeving/@soort -> ULIS instrument type (the Grondwet is a "wet" in the BWB). A rijkswet is an Act of the Kingdom;
+# the archiefselectielijst is a ministerial regulation. Policy rules (beleidsregel), regulations of independent
+# administrative bodies (zbo), royal decrees (KB) and the Caribbean Netherlands variants (-BES) are not ingested.
+INSTRUMENT_TYPES = {
+    "wet": "act",
+    "rijkswet": "act",
+    "AMvB": "order_in_council",
+    "ministeriele-regeling": "ministerial_regulation",
+    "ministeriele-regeling-archiefselectielijst": "ministerial_regulation",
+}
 STATUS = {"goed": "in_force", "vervallen": "repealed", "nogniet": "prospective"}
 REPEALED_NOTE = re.compile(r"^vervallen\.?$", re.IGNORECASE)
 NOT_YET_NOTE = re.compile(r"\bnog niet\s*in\s*werking\b", re.IGNORECASE)
@@ -419,10 +427,11 @@ def _article(art: Element, toestand_start: date) -> tuple[_Unit, date | None]:
     if nr:
         kind, eid, label = "article", f"art-{_slug(nr)}", nr
     else:
+        name = heading or ("Enig artikel" if art.tag == "enig-artikel" else "")
         kind, eid, label = (
             "general_provision",
-            f"art-{_slug(heading or art.get('bwb-ng-variabel-deel') or 'x')}",
-            heading,
+            f"art-{_slug(name or art.get('bwb-ng-variabel-deel') or 'x')}",
+            name,
         )
     source = _source_notes(art)
     start = _date(art.get("inwerking"))
@@ -633,7 +642,7 @@ def parse_toestand(root: Element) -> ParsedDocument:
         for child in el:
             if child.tag in STRUCTURE:
                 walk(child, [*outline, _kop(child)])
-            elif child.tag == "artikel":
+            elif child.tag in ("artikel", "enig-artikel"):  # an enig artikel is the only article of a regulation
                 unit, valid_from = _article(child, start)
                 heading_el = child.find("kop/titel")
                 heading = _clean(heading_el) if heading_el is not None and unit.kind == "article" else None
@@ -644,17 +653,21 @@ def parse_toestand(root: Element) -> ParsedDocument:
             else:
                 raise BwbParseError(f"{bwb_id}: unexpected element <{child.tag}> in <{el.tag}>")
 
+    # Acts and AMvB's are a <wet-besluit> (text in <wettekst>); many ministerial regulations and other regelingen are a
+    # <regeling> with the same articles in <regeling-tekst>.
     besluit = wetgeving.find("wet-besluit")
     if besluit is None:
-        raise BwbParseError(f"{bwb_id}: no <wet-besluit>")
+        besluit = wetgeving.find("regeling")
+    if besluit is None:
+        raise BwbParseError(f"{bwb_id}: no <wet-besluit> or <regeling> ({', '.join(c.tag for c in wetgeving)})")
     for part in besluit:
-        if part.tag == "wettekst":
+        if part.tag in ("wettekst", "regeling-tekst"):
             walk(part, [])
         elif part.tag == "bijlage":
             unit, valid_from, heading = _annex(part)
             emit(unit, None, [], "annex", heading, valid_from, [], None)
-        elif part.tag in ("aanhef", "wetsluiting", "meta-data"):
-            continue  # preamble and closing formula are not provisions
+        elif part.tag in ("aanhef", "wetsluiting", "regeling-sluiting", "officiele-inhoudsopgave", "meta-data"):
+            continue  # preamble, closing formula and table of contents are not provisions
         else:
             raise BwbParseError(f"{bwb_id}: unexpected element <{part.tag}> in <wet-besluit>")
     if not provisions:
