@@ -1,0 +1,96 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Brazil (federal level). Only decisions of the Superior Tribunal de Justiça (STJ) from
+# its open data portal are ingested (docs/jurisdictions/br-case-law.md); no Brazilian legislation is loaded: the Planalto site
+# (www.planalto.gov.br) did not answer when it was tried (docs/jurisdictions/latin-america.md). States (estados), municipalities
+# and the Distrito Federal are not profiled. The court hierarchy below is written from general knowledge of arts. 92-126 of
+# the Constituição Federal (not read from the source here) and from the STJ's own description on the portal; to be verified.
+schema_version: 1
+id: BR
+profile_version: 0.1.0
+name: Brazil
+names: {en: Brazil, pt: Brasil}
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [pt]
+legal_system:
+  families: [civil_law]
+  structure: federal
+  treaty_reception: unknown
+  notes: >-
+    To verify - federal republic of the Union, 26 states, the Distrito Federal and the municipalities (Constituição Federal,
+    arts. 1 and 18). Codified civil-law system in which the Union legislates on civil, criminal, procedural and many other
+    matters (art. 22 CF). The judiciary is organised in a federal justice (Tribunais Regionais Federais and juízes federais),
+    state justice (Tribunais de Justiça and juízes de direito) and specialised justice (labour, electoral and military), with
+    the Supremo Tribunal Federal and the Superior Tribunal de Justiça above them (arts. 92-126 CF). Whether treaties
+    are received monistically or dualistically is disputed (treaties are approved by decreto legislativo and promulgated by decree;
+    human-rights treaties approved with a qualified majority have the rank of constitutional amendments, art. 5 par. 3 CF) and is
+    left as unknown here. The language of the Republic is Portuguese (art. 13 CF).
+legislative_institutions: []
+instrument_types: []
+norm_hierarchy: []
+courts:
+  - id: BR-STF
+    name: Supremo Tribunal Federal
+    rank: 1
+  - id: BR-STJ
+    name: Superior Tribunal de Justiça
+    rank: 1
+  - id: BR-TRF
+    name: Tribunais Regionais Federais
+    rank: 2
+    appeals_to: [BR-STJ, BR-STF]
+  - id: BR-TJ
+    name: Tribunais de Justiça dos estados e do Distrito Federal
+    rank: 2
+    appeals_to: [BR-STJ, BR-STF]
+  - id: BR-JF
+    name: Juízes federais (federal first instance)
+    rank: 3
+    appeals_to: [BR-TRF]
+  - id: BR-JE
+    name: Juízes de direito (state first instance)
+    rank: 3
+    appeals_to: [BR-TJ]
+precedent:
+  doctrine: jurisprudence_constante
+  vertical_binding: false
+  notes: >-
+    To verify - the portal describes the STJ as "a corte responsável por uniformizar a interpretação da lei federal em todo o
+    Brasil. É de sua responsabilidade a solução definitiva dos casos civis e criminais que não envolvam matéria constitucional
+    nem a justiça especializada" (organisation page of dadosabertos.web.stj.jus.br); the STF decides constitutional matters. Brazil
+    is a civil-law system in which judicial decisions in general bind only the parties, but the Código de Processo Civil of 2015
+    (art. 927, not read here) tells judges and courts to observe certain decisions and statements (binding súmulas of the STF,
+    decisions in repetitive-appeal and competence-assumption procedures, súmulas of the STJ on infra-constitutional matters), so
+    the STJ's decisions in those procedures are close to binding in practice. This profile does not model that nuance: the
+    doctrine is recorded as jurisprudence constante with no formal vertical binding. The specialised courts (Tribunal Superior do
+    Trabalho, Tribunal Superior Eleitoral, Superior Tribunal Militar) are not profiled.
+citation:
+  module: br
+  notes: >-
+    STJ decisions are cited as the open data identifies them: court, procedural class and number as published ("REsp 2093032"),
+    the reporting minister (acórdão) or the deciding minister (decisão monocrática) as printed in the data, and the date of
+    publication in the Diário da Justiça eletrônico ("DJe de 9/11/2023"). The data has no judgment date and no state
+    suffix ("/SP"), which Brazilian practice usually adds; they are not invented. To verify with a Brazilian reviewer.
+  examples:
+    - "STJ, REsp 2093032, Rel. Min. REGINA HELENA COSTA, DJe de 9/11/2023"
+    - "STJ, HC 637258, decisão monocrática, Min. HUMBERTO MARTINS, DJe de 4/1/2021"
+publication:
+  official_sources: [br-stj-dados-abertos]
+coverage:
+  corpus_status: partial
+  known_gaps:
+    - >-
+      No Brazilian legislation is loaded (Constituição Federal, codes, laws): www.planalto.gov.br closed the connection without a reply, LexML reset it and the Senate's legislation site answered 403 when tried (docs/jurisdictions/latin-america.md); the decisions are therefore not linked to the statutes they apply.
+    - >-
+      Case law is only the STJ's open data set of terminative monocratic decisions and acórdãos published in the Diário da Justiça since 4 January 2021 (the portal's files from early 2026 hold only a small share of the texts); nothing earlier, no Supremo Tribunal Federal (its host refused robots.txt, HTTP 403), no Tribunais Regionais Federais, state courts or specialised courts, and no summaries (súmulas), repetitive-appeal themes or "espelhos de acórdãos".
+    - >-
+      The data has no judgment date (the stored date is the publication date in the DJe), no case name, no state of origin, and no chamber (Turma or Seção) except where the text of an acórdão names it.
+    - >-
+      Decisions are the portal's derived texts, not the authentic Diário da Justiça publication; party names appear as the Court published them.
+    - >-
+      No subsequent-history tracking (appeals, later overruling) and no citation links between decisions.
+    - >-
+      Treaty reception, the effect of súmulas and repetitive-appeal decisions, and the court hierarchy are not verified.

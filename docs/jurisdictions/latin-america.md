@@ -3,7 +3,8 @@
 Checked on **2026-10-14** with ULIS's identifying agent (one request per page, no retry, no other identity, no proxy or
 mirror). Only Uruguay could be ingested ([uy.md](uy.md)); Argentina was already there ([ar.md](ar.md)). The others are
 recorded as `planned` sources (`config/sources/*.yaml` carry the quotes and URLs), the licence gate refuses them
-(`tests/test_latam_planned.py`) and no profile or connector exists for them.
+(`tests/test_latam_planned.py`) and no profile or connector exists for them. (Brazil has since received a profile and its
+STJ court decisions from an open data portal, which is a different source: [br-case-law.md](br-case-law.md); its legislation is still not loaded.)
 
 | Country | Source | Result | Source YAML |
 |---|---|---|---|

@@ -1,20 +1,38 @@
-# PLANNED - NOT INGESTED. Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15). Checked on that date:
-#   https://dadosabertos.web.stj.jus.br/robots.txt - "User-agent: *" / "Disallow: /dataset/rate/" / "Disallow: /revision/" /
-#        "Disallow: /dataset/*/history" / "Disallow: /api/" / "Crawl-Delay: 10". So the CKAN API (/api/) is NOT used; the HTML dataset pages
-#        and the resource download links (/dataset/<id>/resource/<id>/download/<file>) are not disallowed. Only HTML pages and one HEAD
-#        request to a download link were requested, 10 s apart.
-#   https://dadosabertos.web.stj.jus.br/dataset/integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica ("Portal de Dados Abertos
-#        do STJ", organisation "Superior Tribunal de Justiça"): "Licença Creative Commons Atribuição" (the page names no version);
-#        "Este conjunto de dados contém as íntegras e metadados das decisões terminativas e acórdãos publicados no Diário da Justiça."
-#        "O conjunto é composto de um arquivo ZIP com os textos das decisões ou acórdãos, um arquivo JSON com seus metadados e um CSV com o
-#        dicionário dos dados."; "As atualizações são realizadas diariamente pela adição de arquivos referentes à publicação do dia
-#        anterior"; "Não estão disponíveis dados de processos em segredo de justiça." Daily files from 2021-01-04 (texts: textos<date>.zip /
-#        <date>.zip, metadata: metadados<date>.json); 616 ZIP links in the first 2 MB of the page (up to 2023-11, page not read further);
-#        one daily ZIP (20231109.zip) is 7,311,046 bytes. Selected for the set: monocratic decisions marked terminative by the ministers'
-#        offices in the main case or in listed petitions (agravos, embargos de declaração, recursos ...), plus acórdãos.
-#   Same portal, ten "Espelhos de acórdãos" datasets (Corte Especial, three Seções, six Turmas; "Licença Creative Commons Atribuição"): the
-#        Court's structured "espelho do acórdão" (editorial documentation of selected acórdãos); JSON, monthly additions. These are the
-#        Court's own editorial summaries, not the decision text; not proposed for ingestion without a decision.
+# Superior Tribunal de Justica (Brazil): full text of terminative decisions and acordaos from the Court's open data portal.
+# First found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15); terms re-read for onboarding on
+# 2026-10-15 from the portal itself (cached under var/sources/dadosabertos.web.stj.jus.br/); details in docs/jurisdictions/br-case-law.md:
+#   https://dadosabertos.web.stj.jus.br/robots.txt (read first, HTTP 200): "User-agent: *" / "Disallow: /dataset/rate/" /
+#        "Disallow: /revision/" / "Disallow: /dataset/*/history" / "Disallow: /api/" / "Crawl-Delay: 10". The CKAN API (/api/) is
+#        NOT used (the portal's home page invites use of "a CKAN API", but robots.txt disallows the path); the dataset HTML page and
+#        the resource download links (/dataset/<id>/resource/<id>/download/<name>) match no rule. Every URL is checked against
+#        these rules by the connector and requests are 10 s apart.
+#   https://dadosabertos.web.stj.jus.br/dataset/integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica ("Portal de
+#        Dados Abertos do STJ", organisation "Superior Tribunal de Justica"): licence box "Licença: Creative Commons Atribuição"
+#        linking to http://www.opendefinition.org/licenses/cc-by, with the Open Definition badge "Este conjunto de dados satisfaz a
+#        Definição de Aberto - Open Definition."; the page names no licence version. Description: "Este conjunto de dados contém as
+#        íntegras e metadados das decisões terminativas e acórdãos publicados no Diário da Justiça."; "Foram selecionadas para
+#        compor este conjunto as decisões monocráticas indicadas pelos gabinetes de ministros como terminativas e que tenham sido
+#        proferidas diretamente no processo principal ou em uma das seguintes petições: Agravo de Instrumento, Agravo Interno, Agravo
+#        Regimental, Embargos de Declaração, Embargos de Divergência, Petição, Recurso Extraordinário, Recurso Ordinário, Pedido de
+#        Extensão, Pedido de Reconsideração, Incidente de Uniformização da Jurisprudência, Incidente de Assunção de Competência,
+#        Pedido de Distinção"; "O conjunto é composto de um arquivo ZIP com os textos das decisões ou acórdãos, um arquivo JSON com seus
+#        metadados e um CSV com o dicionário dos dados."; "As atualizações são realizadas diariamente pela adição de arquivos
+#        referentes à publicação do dia anterior"; "As datas dentro dos arquivos estão no formato de milissegundos desde a época
+#        padrão de 1/1/1970"; "Não estão disponíveis dados de processos em segredo de justiça." The page lists 2,643 resources
+#        (1,308 days from 2021-01-04 to 2026-10-08, four monthly files for Feb-Apr and Jul 2022, the data dictionary).
+#   https://dadosabertos.web.stj.jus.br/ (home page): "Para o Superior Tribunal de Justiça (STJ), a transparência é mais que um
+#        mandamento da administração pública. [...] é possível consultar dados de interesse público do Tribunal em formato aberto.
+#        Além disso, é possível o acesso automatizado aos dados em formato legível por máquina, por meio da CKAN API."
+#   https://dadosabertos.web.stj.jus.br/organization/about/superior-tribunal-de-justica: the STJ described as "Órgão do Poder
+#        Judiciário Brasileiro, [...] a corte responsável por uniformizar a interpretação da lei federal em todo o Brasil."
+#   The data dictionary (dicionariointegrasdecisoes.csv, ISO-8859-1) defines SeqDocumento, dataPublicacao, tipoDocumento,
+#        numeroRegistro, processo, dataRecebimento, dataDistribuição, ministro, recurso, teor, descricaoMonocratica, assuntos.
+#   Not read: the "Plano de Dados Abertos do STJ" (a PDF on bdjur.stj.jus.br linked from the home page) and any terms page on
+#        stj.jus.br; Lei 9.610/1998 art. 8 (no copyright in judicial decisions) and the LGPD were not read from the source.
+#   Disclosure: while the portal was first examined, the home page and the organisation page were requested 2 s apart (the
+#        crawl delay is 10 s) because two separate fetch processes were started in a row; every other request was 10 s or more
+#        apart (start to start). Files fetched for onboarding: the dataset page, robots.txt, the data dictionary and about 40 daily
+#        ZIP/JSON files (about 150 MB), all cached; only download links were used.
 schema_version: 1
 id: br-stj-dados-abertos
 name: Superior Tribunal de Justiça (Brazil) - Portal de Dados Abertos, full text of decisions and acórdãos
@@ -25,21 +43,33 @@ jurisdictions: [BR]
 document_kinds: [judgment]
 languages: [pt]
 coverage: >-
-  Full text and metadata of the terminative monocratic decisions and the acórdãos of the Superior Tribunal de Justiça published in the
-  Diário da Justiça, as daily ZIP and JSON files from 4 January 2021 (a dataset of the Court's own open data portal). First Brazilian
-  court decisions in ULIS. Nothing is ingested; the full date range and document count were not measured.
+  Full text and metadata of the terminative monocratic decisions and the acórdãos of the Superior Tribunal de Justiça published
+  in the Diário da Justiça, as daily ZIP and JSON files of the Court's own open data portal from 4 January 2021 (1,305 daily
+  files with texts to 8 October 2026 and four monthly files for February-April and July 2022; tens of thousands of decisions a
+  month). First Brazilian court decisions in ULIS. The manifest lists the whole file set; the portal's files from early 2026
+  contain only a small share of the texts.
 access:
   method: bulk_download
-  endpoint: https://dadosabertos.web.stj.jus.br/dataset/integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica
+  endpoint: config/manifests/br-stj-dados-abertos.yaml
   authentication: none
-update_frequency: daily (files for the previous day's publication)
-rate_limits: robots.txt Crawl-Delay 10 seconds; the API path /api/ is disallowed and must not be used.
+update_frequency: >-
+  Daily (files for the previous day's publication); add the new days with scripts/build_stj_manifest.py and run the ingestion
+  again - files already ingested cost no download (cache) and no storage (SHA-256).
+rate_limits: >-
+  robots.txt Crawl-Delay 10 seconds; ULIS makes sequential requests at least 10 s apart (the larger of the manifest's and
+  robots.txt's delay), identifies itself, caches every file and never uses the disallowed /api/ path. The whole set is about
+  1,313 ZIP files plus roughly 900 metadata JSON files (the ZIPs of 2022-2023 contain their metadata), an estimated 13 GB,
+  i.e. more than 6 hours of crawl delay plus transfer time.
 licence:
   id: CC-BY
   name: Licença Creative Commons Atribuição (as shown on the dataset page; the version is not stated)
   url: https://dadosabertos.web.stj.jus.br/dataset/integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica
-  review_status: pending_review
-  reviewed_by: ULIS bulk-datasets survey (dataset pages and robots.txt read on 2026-10-15). Not reviewed by counsel.
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - the dataset page's licence box (Creative Commons Atribuição, Open Definition badge), the dataset description
+    (full texts and metadata of the decisions "publicados no Diário da Justiça", a ZIP, a JSON and a CSV dictionary per period,
+    daily updates), the home page (machine-readable open data) and robots.txt (download links not disallowed, Crawl-Delay 10),
+    all read on 2026-10-15. Not reviewed by counsel.
   reviewed_on: 2026-10-15
   redistribution: allowed_with_conditions
   bulk_download: allowed
@@ -47,19 +77,35 @@ licence:
   commercial_use: allowed_with_conditions
   attribution_required: true
   attribution_text: >-
-    Superior Tribunal de Justiça, Portal de Dados Abertos (https://dadosabertos.web.stj.jus.br/), Licença Creative Commons Atribuição. (Wording is ULIS's.)
+    Superior Tribunal de Justiça, Portal de Dados Abertos (https://dadosabertos.web.stj.jus.br/), Licença Creative Commons
+    Atribuição. Dados tratados pelo ULIS; o STJ não endossa esta elaboração.
   conditions:
     - Credit the STJ as the source and give the licence (Creative Commons Atribuição); the page names no version, so confirm it with the Court before commercial use.
-    - Respect the Crawl-Delay and do not use the disallowed /api/ path; download the daily files from the resource links on the HTML page.
-    - Personal data in decisions is the Court's; secret-of-justice cases are excluded by the publisher; do not re-identify persons.
+    - Respect the Crawl-Delay (10 s) and do not use the disallowed /api/ path; download the files from the resource links of the dataset page only.
+    - Personal data in the decisions is whatever the Court published in the Diário da Justiça; cases under secrecy of justice are excluded by the publisher; ULIS stores the text as published and does not try to re-identify or enrich persons.
+    - The stored decision date is the publication date in the Diário da Justiça eletrônico, not the date of judgment (the data has none).
   notes: >-
-    The dataset page states the licence for the dataset, not for each decision; Brazilian law treats judicial decisions as free of
-    copyright (Lei 9.610/98 art. 8, IV) - to be confirmed by counsel (not read here).
-provenance: Published by the STJ on its own open data portal from the texts published in the Diário da Justiça; not retrieved.
+    The dataset page states the licence for the dataset as a whole, not for each decision; Brazilian law treats judicial decisions
+    as outside copyright protection (Lei 9.610/98 art. 8, IV - not read here). The portal says nothing about the LGPD
+    (Lei 13.709/2018) or about the names of parties inside the texts; counsel review is recommended before a public deployment,
+    in particular for criminal and family matters. The commercial_use value is an inference from CC BY, which permits it.
+provenance: >-
+  Published by the STJ on its own open data portal from the texts published in the Diário da Justiça. ULIS stores, per decision,
+  a JSON envelope holding the verbatim metadata record(s) and the verbatim text file (SHA-256 of the envelope), with the URLs and
+  SHA-256 of the ZIP and of the metadata JSON it came from; the downloaded files themselves are cached under var/sources/.
 known_limitations:
-  - Not ingested - survey result only; no data file was downloaded (one HEAD request).
-  - Covers only decisions the Court selected for the dataset (terminative monocratic decisions and acórdãos), from 2021.
-  - Earlier STJ jurisprudence and the Supremo Tribunal Federal (host refused robots.txt, HTTP 403) are not covered.
-status: planned
-connector: null
-parser: null
+  - >-
+    Only the decisions the Court selected for the dataset (terminative monocratic decisions and acórdãos) from 4 January 2021; earlier STJ jurisprudence and the Supremo Tribunal Federal (host refused robots.txt, HTTP 403) are not covered.
+  - >-
+    The portal's files from early 2026 hold only a handful of texts for thousands of metadata records (for example 11 texts for 2,721 records on 2026-10-07, 119 on 2026-01-05, 3,598 texts on 2025-12-01); records without a text are not ingested.
+  - >-
+    The data has no judgment date (the DJe publication date is stored and flagged), no case name, no state of origin ("/SP") and no chamber; party names are as published by the Court (the portal does not pseudonymise the texts; the monocratic summary field masks the party with a template).
+  - >-
+    Four days (2021-02-05, -08, -09, -10) were uploaded twice (both copies are listed; identical documents are stored once) and 11 days list their metadata JSON twice (the first is used; the pair compared, 2025-09-12, was identical); three days have metadata but no ZIP (20240204, 20260611, 20260615, not fetched); records repeated inside a metadata file are merged.
+  - >-
+    Not the authentic publication: a dataset derived from the Diário da Justiça; the text files are HTML-like (lines separated by <br> or carriage returns), their lines are joined into units of at most 2,500 characters within a section, and section headings (ACÓRDÃO, EMENTA, RELATÓRIO, VOTO, DECISÃO) are recognised only when they stand alone on a line; nothing else is structured.
+  - >-
+    No links to legislation or between decisions (no Brazilian legislation is loaded); the "espelhos de acórdãos" datasets (the Court's editorial summaries) are not ingested.
+status: active
+connector: stj_dados_abertos
+parser: stj_integras

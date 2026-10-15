@@ -66,6 +66,7 @@ from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
 from ulis.sources.connectors.ris_ogd import RisOgdConnector
 from ulis.sources.connectors.slovlex_static import SlovLexStaticConnector
+from ulis.sources.connectors.stj_dados_abertos import StjConnector
 from ulis.sources.connectors.subnational_http import (
     ManitobaLawsConnector,
     OntarioELawsConnector,
@@ -121,6 +122,7 @@ from ulis.sources.parsers import (
     riksdagen_sfs,
     ris,
     slovlex_static,
+    stj_integras,
     tas_legislation,
     uksc_html,
     uradni_list,
@@ -157,6 +159,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "dila_legi_xml": dila_legi.parse_dila_legi,
     "dila_juri_xml": dila_juri.parse_dila_juri,
     "rechtspraak_xml": rechtspraak.parse_rechtspraak,
+    "stj_integras": stj_integras.parse_stj_integra,
     "rattspraxis_se_json": rattspraxis_se.parse_rattspraxis,
     "uksc_html": uksc_html.parse_uksc,
     "moj_law_html": moj_law.parse_moj_law,
@@ -207,6 +210,7 @@ PARSER_VERSIONS = {
     "dila_legi_xml": dila_legi.PARSER_VERSION,
     "dila_juri_xml": dila_juri.PARSER_VERSION,
     "rechtspraak_xml": rechtspraak.PARSER_VERSION,
+    "stj_integras": stj_integras.PARSER_VERSION,
     "rattspraxis_se_json": rattspraxis_se.PARSER_VERSION,
     "uksc_html": uksc_html.PARSER_VERSION,
     "moj_law_html": moj_law.PARSER_VERSION,
@@ -287,6 +291,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "dila_legi": DilaLegiConnector,
     "dila_case_law": DilaCaseLawConnector,
     "rechtspraak": RechtspraakConnector,
+    "stj_dados_abertos": StjConnector,
     "rattspraxis_se": RattspraxisConnector,
     "uksc": UkscConnector,
     "moj_laws": MojLawsConnector,

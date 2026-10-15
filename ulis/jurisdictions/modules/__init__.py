@@ -15,6 +15,7 @@ from ulis.jurisdictions.modules.base import (
     JurisdictionModule,
     ProvisionCitationInput,
 )
+from ulis.jurisdictions.modules.br import BrModule
 from ulis.jurisdictions.modules.ca import CaModule
 from ulis.jurisdictions.modules.ca_prov import CaProvModule
 from ulis.jurisdictions.modules.ch import ChModule
@@ -96,6 +97,7 @@ MODULES: dict[str, JurisdictionModule] = {
         LiModule(),
         HrModule(),
         SiModule(),
+        BrModule(),
     )
 }
 
