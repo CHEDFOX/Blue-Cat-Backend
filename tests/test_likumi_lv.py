@@ -24,10 +24,10 @@ from ulis.retrieval.lookup import provision_at
 from ulis.retrieval.search import SearchRequest, search
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import RawDocument
-from ulis.sources.connectors.likumi_lv import LikumiLvConnector, robots_disallowed
+from ulis.sources.connectors.likumi_lv import LikumiLvConnector, disallowed_ids, robots_disallowed
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
-from ulis.sources.normalized import ParsedDocument, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkipped
 from ulis.sources.parsers.likumi_lv import LikumiParseError, parse_likumi_lv, resolve_uri
 from ulis.sources.registry import LicenceNotApproved, licence_gate
 from ulis.storage.object_store import LocalObjectStore
@@ -36,7 +36,15 @@ from ulis.verification.integrity import verify_source_document
 FIX = REPO_ROOT / "tests" / "fixtures" / "likumi_lv"
 META = json.loads((FIX / "meta.json").read_text(encoding="utf-8"))
 SOURCE = "lv-likumi"
-NAMES = ("satversme", "kriminallikums", "darba-likums", "civillikums-1", "administrativa-procesa-likums")
+NAMES = (
+    "satversme",
+    "kriminallikums",
+    "darba-likums",
+    "civillikums-1",
+    "administrativa-procesa-likums",
+    "mk-noteikumi-377",
+    "mk-noteikumi-166",
+)
 IDS = {
     "satversme": 57980,
     "kriminallikums": 88966,
@@ -233,14 +241,125 @@ def test_parser_rejects_unexpected_pages() -> None:
         parse_likumi_lv(b"<html><body><p>hello</p></body></html>")
     with pytest.raises(LikumiParseError, match="not UTF-8"):
         parse_likumi_lv(b"\xff\xfe")
-    with pytest.raises(LikumiParseError, match="unsupported block class TV218"):
-        parse_likumi_lv(page.replace("<div class='TV216'", "<div class='TV218'").encode())
+    with pytest.raises(LikumiParseError, match="unsupported block class TV999"):
+        parse_likumi_lv(page.replace("<div class='TV216'", "<div class='TV999'").encode())
     with pytest.raises(LikumiParseError, match="not in the edition list"):
         parse_likumi_lv(page.replace('"selected":{"value":"01.01.2019"', '"selected":{"value":"02.02.2020"').encode())
-    with pytest.raises(LikumiParseError, match="not 'Spēkā esošs'"):
-        parse_likumi_lv(re.sub("(?i)spēkā esošs", "zaudējis spēku", page).encode())
     with pytest.raises(LikumiParseError, match="lists no editions"):
         parse_likumi_lv(page.replace('id="ver_date"', 'id="other"').encode())
+
+
+def _reg(name: str) -> ParsedDocument:
+    docs = parse_likumi_lv(_html(name))
+    assert len(docs) == 1
+    return docs[0]
+
+
+def _reg_cite(name: str, eid: str) -> str:
+    doc = _reg(name)
+    p = _prov(doc, eid)
+    return get_module("lv").provision_citation(
+        ProvisionCitationInput(
+            doc.title, doc.instrument_type, "LV", p.top_kind, p.num_path, "lv", ext=doc.ext, eid=p.eid
+        )
+    )
+
+
+def test_cabinet_regulation_with_one_edition_dotted_points_and_legal_basis() -> None:
+    doc = _reg("mk-noteikumi-377")
+    assert doc.instrument_type == "regulation" and doc.number == "377" and doc.work_uri == "/lv/likumi/230390"
+    assert (
+        doc.title
+        == 'Ministru kabineta 2011. gada 17. maija noteikumi Nr. 377 "Speciālo aviācijas darbu licencēšanas kārtība"'
+    )
+    assert doc.short_title == "Speciālo aviācijas darbu licencēšanas kārtība" and doc.work_date == date(2011, 5, 17)
+    assert doc.ext["kind"] == "regulation" and doc.ext["issuer"] == "Ministru kabinets"
+    assert doc.ext["genitive"] == "Ministru kabineta 2011. gada 17. maija noteikumu Nr. 377"
+    assert "omitted" not in doc.ext and doc.authoritative is False and doc.validity_basis == "revision_snapshot"
+    # a page with no edition list names the one edition it shows: it starts 21.05.2011 and has no end
+    assert doc.version_date == date(2011, 5, 21) and doc.outstanding_changes == []
+    assert all(p.valid_from == date(2011, 5, 21) and p.valid_to is None for p in doc.provisions)
+    basis = _prov(doc, "legal-basis")
+    assert basis.text.startswith("Izdoti saskaņā ar likuma") and basis.kind == "legal_basis"
+    assert any("57659" in r.href for r in basis.refs)  # the enabling act is a link to be resolved
+    point = _prov(doc, "art-2")
+    assert point.text.startswith("Satiksmes ministrija licenci izsniedz")  # the printed number is not text
+    assert "\n2.1. īpašuma tiesības uz komersanta īpašumu" in point.text and point.is_leaf is False
+    sub = _prov(doc, "art-2-p2-1")
+    assert sub.text.startswith("īpašuma tiesības uz komersanta īpašumu") and sub.parent_eid == "art-2"
+    assert sub.num_path == ["art:2", "p:2-1"] and sub.top_kind == "article"
+
+
+def test_cabinet_regulation_citations() -> None:
+    head = "Ministru kabineta 2011. gada 17. maija noteikumu Nr. 377"
+    assert _reg_cite("mk-noteikumi-377", "art-2") == f"{head} 2. punkts"
+    assert _reg_cite("mk-noteikumi-377", "art-2-p2-1") == f"{head} 2.1. apakšpunkts"
+    assert _reg_cite("mk-noteikumi-377", "legal-basis") == f"{head} izdošanas pamats"
+    module = get_module("lv")
+
+    def cite(num_path: list[str]) -> str:
+        return module.provision_citation(
+            ProvisionCitationInput(
+                "x", "regulation", "LV", "article", num_path, "lv", {"genitive": head, "kind": "regulation"}
+            )
+        )
+
+    assert cite(["art:12", "p:12-1", "p:12-1-3"]) == f"{head} 12.1.3. apakšpunkts"
+    assert cite(["art:12", "p:12-1", "ap:a"]) == f"{head} 12.1. apakšpunkta a) apakšpunkts"
+    assert cite(["art:12", "ap:b"]) == f"{head} 12. punkta b) apakšpunkts"
+    assert cite(["art:38_1"]) == f"{head} 38.¹ punkts"
+    assert module.validate_ext({"likumi_id": 1, "short_name": "X", "kind": "regulation", "omitted": ["pielikumi"]})
+
+
+def test_cabinet_regulation_annex_and_tables_are_left_out_and_disclosed() -> None:
+    doc = _reg("mk-noteikumi-166")
+    assert doc.number == "166" and doc.ext["omitted"] == ["pielikumi"]
+    # the numbered points of the text are kept in order, with their chapter headings as context ...
+    articles = [p.eid for p in doc.provisions if p.kind == "article"]
+    assert articles == ["art-1", "art-2", "art-5"]  # the fixture keeps points 1, 2 and 5
+    assert _prov(doc, "art-5").context_heading is not None
+    # ... and nothing of the annex (its heading, its table, its signature) is text of any provision
+    text = " ".join(p.text for p in doc.provisions)
+    assert "Pielikums" not in text and "Nr.p.k." not in text
+    # this page lists several editions: the one shown is the latest, the earlier ones are not text
+    assert doc.version_date == date(2013, 11, 1) and doc.outstanding_changes == []
+    # a table between the points is left out as well and disclosed
+    page = _html("mk-noteikumi-166").decode()
+    with_table = page.replace(
+        "<div class='TV213' izd-pam='5p'",
+        "<div class='TV444'><TABLE><TR><TD>x</TD></TR></TABLE></div>\n<div class='TV213' izd-pam='5p'",
+        1,
+    )
+    assert parse_likumi_lv(with_table.encode())[0].ext["omitted"] == ["tabulas", "pielikumi"]
+
+
+def test_pages_that_are_not_laws_or_regulations_in_force_are_skipped_not_errors() -> None:
+    page = _html("mk-noteikumi-377").decode()
+    with pytest.raises(ParseSkipped, match="not 'Spēkā esošs'"):
+        parse_likumi_lv(re.sub("(?i)spēkā esošs", "zaudējis spēku", page).encode())
+    # a Cabinet order, minutes, a regulation of another body: well-formed pages with nothing to ingest
+    for veids, issuer in (
+        ("rīkojums", "Ministru kabinets"),
+        ("noteikumi", "Latvijas Banka"),
+        ("saistošie noteikumi", "Rīgas dome"),
+    ):
+        changed = page.replace(">noteikumi</a>", f">{veids}</a>", 1).replace(
+            "Ministru kabinets</span>", f"{issuer}</span>", 1
+        )
+        with pytest.raises(ParseSkipped, match="neither a law nor a Cabinet regulation"):
+            parse_likumi_lv(changed.encode())
+    # a Cabinet regulation without a number cannot be cited
+    with pytest.raises(LikumiParseError, match="without a number"):
+        parse_likumi_lv(re.sub(r"Numurs: </font>377", "Numurs: </font>", page).encode())
+
+
+def test_genitive_of_codes_and_acts() -> None:
+    page = _html("administrativa-procesa-likums").decode()
+    renamed = page.replace("Administratīvā procesa likums", "Latvijas Administratīvo pārkāpumu kodekss")
+    renamed = renamed.replace(
+        '<div id="doc_id">55567</div>', '<div id="doc_id">12345</div>'
+    )  # not a document with a table entry
+    assert parse_likumi_lv(renamed.encode())[0].ext["genitive"] == "Latvijas Administratīvo pārkāpumu kodeksa"
 
 
 # --------------------------------------------------------------------------- citations
@@ -379,6 +498,53 @@ def test_connector_refuses_robots_disallowed_ids_and_other_pages(tmp_path: Path)
         list(LikumiLvConnector(_manifest(tmp_path, [{"id": 88966}]), SOURCE, cache, offline=True).fetch())
 
 
+def test_robots_ids_are_documents_the_publisher_asks_robots_not_to_fetch() -> None:
+    assert disallowed_ids(ROBOTS) == {27582}
+    assert disallowed_ids(
+        "User-agent: Other\nDisallow: /*id=1$\nUser-agent: *\nDisallow: /*id=2&\nDisallow: /css/\n"
+    ) == {2}
+
+
+def test_connector_in_skip_mode_reports_and_goes_on(tmp_path: Path) -> None:
+    cache = _cache(tmp_path)
+    page = cache / "likumi.lv" / "ta" / "id" / "88966"
+    page.write_text("<html>captcha</html>")
+    # 27582 is named by robots.txt (``Disallow: /*id=27582$``): refused even though its page address is /ta/id/27582
+    laws = [{"id": 57980}, {"id": 26019}, {"id": 27582}, {"id": 88966}, {"id": 90223}]
+    strict = LikumiLvConnector(_manifest(tmp_path, laws), SOURCE, cache, offline=True)
+    with pytest.raises(FetchError, match="disallowed by robots.txt"):
+        list(strict.fetch())
+    connector = LikumiLvConnector(_manifest(tmp_path, laws, on_document_error="skip"), SOURCE, cache, offline=True)
+    assert [d.external_id for d in connector.fetch()] == ["likumi-lv:57980", "likumi-lv:90223"]
+    assert len(connector.fetch_errors) == 3
+    assert any("26019" in e and "disallowed" in e for e in connector.fetch_errors)
+    assert any("27582" in e and "disallowed" in e for e in connector.fetch_errors)
+    assert any("88966" in e and "not a Likumi.lv document page" in e for e in connector.fetch_errors)
+    with pytest.raises(ManifestError, match="on_document_error"):
+        list(LikumiLvConnector(_manifest(tmp_path, laws, on_document_error="ignore"), SOURCE, cache).fetch())
+    with pytest.raises(ManifestError, match="listed twice"):
+        list(LikumiLvConnector(_manifest(tmp_path, [{"id": 5}, {"id": 5}]), SOURCE, cache).fetch())
+
+
+def test_connector_refusal_stops_a_skip_mode_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    cache = _cache(tmp_path)
+    connector = LikumiLvConnector(
+        _manifest(tmp_path, [{"id": 57980}, {"id": 4242}], on_document_error="skip"), SOURCE, cache, offline=False
+    )
+
+    def refuse(self: Any, url: str, *args: Any, **kwargs: Any) -> Any:
+        if url.endswith("/4242"):
+            raise FetchError(f"{url}: HTTP 429 (not retried: a refusal is respected)")
+        return orig(self, url, *args, **kwargs)
+
+    from ulis.sources.connectors.polite_http import PoliteHttp
+
+    orig = PoliteHttp.get
+    monkeypatch.setattr(PoliteHttp, "get", refuse)
+    with pytest.raises(FetchError, match="HTTP 429"):
+        list(connector.fetch())
+
+
 def test_connector_refuses_bad_manifests(tmp_path: Path) -> None:
     good = [{"id": 57980}]
     for laws, extra, message in (
@@ -400,8 +566,14 @@ def test_real_manifest_and_registration() -> None:
     assert isinstance(build_connector(source), LikumiLvConnector)
     manifest = yaml.safe_load((REPO_ROOT / source.access.endpoint).read_text(encoding="utf-8"))
     ids = [law["id"] for law in manifest["laws"]]
-    assert len(ids) == 10 and len(set(ids)) == 10
-    assert {57980, 88966, 26019, 300099, 55567} <= set(ids) and {90220, 90221, 90222, 90223, 90224} <= set(ids)
+    # the ten pilot documents come first, then the candidates from the sitemap (each id once, sorted)
+    assert ids[:10] == [57980, 88966, 90224, 90223, 90222, 90221, 90220, 300099, 26019, 55567]
+    assert len(ids) > 15000 and len(set(ids)) == len(ids) and manifest["on_document_error"] == "skip"
+    rest = ids[10:]
+    assert rest[7:] == sorted(rest[7:]) and min(rest) > 0
+    # the connector's own validation accepts the whole committed manifest (ids, duplicates, base_url, user agent)
+    connector = build_connector(source)
+    assert isinstance(connector, LikumiLvConnector) and len(connector._manifest()["laws"]) == len(ids)
     assert manifest["crawl_delay_seconds"] >= 5 and "ULIS-research-bot" in manifest["user_agent"]
     licence_gate(source)
     assert source.licence.review_status == "approved" and source.authority == "official_non_authentic"
@@ -418,10 +590,12 @@ def test_other_sources_remain_gated() -> None:
 
 def test_fixtures_readme_names_the_source_and_licence() -> None:
     text = (FIX / "README.md").read_text(encoding="utf-8")
-    assert "likumi.lv" in text and "Autortiesību likums" in text and "2026-10-14" in text
+    assert "likumi.lv" in text and "Autortiesību likums" in text and "2026-10-14" in text and "2026-10-15" in text
     for name, info in META.items():
-        assert info["url"].startswith("https://likumi.lv/ta/id/") and info["retrieved_at"].startswith("2026-10-14")
+        assert info["url"].startswith("https://likumi.lv/ta/id/")
+        assert info["retrieved_at"].startswith(("2026-10-14", "2026-10-15"))
         assert hashlib.sha256(_html(name)).hexdigest()  # present and readable
+        assert name in text  # every fixture is described in the README
 
 
 # --------------------------------------------------------------------------- database
@@ -528,3 +702,24 @@ def test_reingest_is_idempotent_and_sources_verify(
         assert len(results) == len(NAMES) and all(r["result"] == "pass" for r in results)
         assert sum(r["checked_units"] for r in results) == lv_ingested.provision_versions_created
         session.rollback()
+
+
+@pytest.mark.db
+def test_cabinet_regulations_are_found_cited_and_dated(
+    session: Session, catalog: Catalog, lv_ingested: IngestionReport
+) -> None:
+    res = _search(session, catalog, q="komersanta pamatdarbība ir speciālie aviācijas darbi atsevišķi")
+    hit = res["results"][0]
+    assert hit["citation"] == "Ministru kabineta 2011. gada 17. maija noteikumu Nr. 377 2.2. apakšpunkts"
+    assert hit["text"].startswith("komersanta pamatdarbība ir speciālie aviācijas darbi atsevišķi vai kopā ar gaisa")
+    codes = {lim["code"] for lim in hit["limitations"]}
+    assert {"REVISED_TEXT", "SOURCE_NOT_AUTHENTIC", "CURRENCY_UNKNOWN"} <= codes
+    # the enabling provision ("Izdoti saskaņā ar ...") is a unit of its own
+    legal = _search(session, catalog, q="Izdoti saskaņā ar Bāriņtiesu likuma")
+    assert legal["results"][0]["citation"] == "Ministru kabineta 2007. gada 6. marta noteikumu Nr. 166 izdošanas pamats"
+    assert legal["results"][0]["text"] == "Izdoti saskaņā ar Bāriņtiesu likuma 61.panta trešo daļu"
+    uri = "/lv/likumi/230390/~art-2-p2-2"
+    assert provision_at(session, catalog, uri, date(2012, 1, 1))["status_on_date"] == "in_force"
+    # before the one edition the page shows: not yet in force before the adoption, a history gap after it
+    assert provision_at(session, catalog, uri, date(2010, 1, 1))["status_on_date"] == "not_yet_in_force"
+    assert provision_at(session, catalog, uri, date(2011, 5, 18))["status_on_date"] == "history_not_indexed"

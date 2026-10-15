@@ -48,7 +48,7 @@ from dataclasses import dataclass, field
 from datetime import date, timedelta
 from html.parser import HTMLParser
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef, ParseSkipped
 
 PARSER_ID = "likumi_lv_html"
 PARSER_VERSION = "1.0.0"
@@ -263,6 +263,8 @@ def ref_href(href: str, doc_id: int) -> str | None:
 
 DALA = re.compile(rf"^\(([0-9]+[{SUP}]*)\)\s*")
 POINT = re.compile(rf"^([0-9]+(?:\.?[{SUP}]+)?)\)\s*")
+# A sub-point of a Cabinet regulation: "2.1.", "12.1.3." (a number with at least one more part, then a point).
+DOTTED = re.compile(rf"^([0-9]+[{SUP}]*(?:\.[0-9]+[{SUP}]*)+)\.\s*")
 SUBPOINT = re.compile(rf"^([a-zāčēģīķļņšūž]{{1,2}}[{SUP}]*)\)\s*")
 NUMBER_LABEL = re.compile(rf"^([0-9]+(?:\.?[{SUP}]+)?)\.?\s*")
 ARTICLE_HEAD = re.compile(rf"^([0-9]+(?:\.?[{SUP}]+)?)\.?\s*pants\.?\s*(.*)$", re.DOTALL)
@@ -273,6 +275,11 @@ def key_of(label: str) -> str:
     """``(1)`` -> ``1``, ``7.¹)`` -> ``7_1``, ``a)`` -> ``a``, ``38.¹`` -> ``38_1``."""
     s = label.strip().strip("()").rstrip(")").rstrip(".")
     return re.sub(rf"\.?([{SUP}]+)", lambda m: "_" + m.group(1).translate(DESUPERSCRIPT), s)
+
+
+def dotted_key(label: str) -> str:
+    """``2.1`` -> ``2-1``; ``12.1.3`` -> ``12-1-3``; ``2.1¹`` -> ``2-1_1`` (a superscript stays an inserted number)."""
+    return "-".join(key_of(part) for part in label.split("."))
 
 
 @dataclass
@@ -312,8 +319,11 @@ def block_number(div: Node) -> str:
     return m.group(1) if m else ""
 
 
-def build_article(div: Node, kind: str) -> Unit:
-    """One TV213/TV208 block as a unit tree: the article with its parts, points and sub-points."""
+def build_article(div: Node, kind: str, regulation: bool = False) -> Unit:
+    """One TV213/TV208 block as a unit tree: the article with its parts, points and sub-points.
+
+    In a Cabinet regulation (``regulation``) the block is a numbered point ("12. Licences turētājam ..."), its
+    sub-points are numbered by the point ("12.1.", "12.1.2.") and its lists by letters ("a)")."""
     num = block_number(div)
     unit = Unit(kind, "", num or kind)
     paragraphs: list[Node] = []
@@ -350,7 +360,7 @@ def build_article(div: Node, kind: str) -> Unit:
                 else:
                     unit.heading = bold
         rendered = render(p, skip)
-        if i == 0 and skip is None and num and kind == "transitional":
+        if i == 0 and skip is None and num and (kind == "transitional" or (regulation and kind == "article")):
             # "1. Šā likuma ..." / "25.³ (Izslēgts ...)": the printed number precedes the text
             m = NUMBER_LABEL.match(rendered.text)
             if m and key_of(m.group(1)) == num:
@@ -360,6 +370,7 @@ def build_article(div: Node, kind: str) -> Unit:
     daļa: Unit | None = None
     point: Unit | None = None
     sub: Unit | None = None
+    dotted: dict[str, Unit] = {}
 
     def deepest() -> Unit:
         return sub or point or daļa or unit
@@ -371,6 +382,21 @@ def build_article(div: Node, kind: str) -> Unit:
             target = Unit("paragraph", f"({m.group(1)})", key_of(m.group(1)))
             unit.content.append(target)
             daļa, point, sub = target, None, None
+        elif regulation and level >= 2 and (m := DOTTED.match(text)):
+            # "2.1. ..." / "2.1.3. ...": a sub-point of point 2 (or of 2.1); the parent is the unit whose number
+            # is this one without its last part, else the point itself.
+            label = m.group(1)
+            key = dotted_key(label)
+            parts = label.split(".")
+            parent: Unit = unit
+            for n in range(len(parts) - 1, 0, -1):
+                if dotted_key(".".join(parts[:n])) in dotted:
+                    parent = dotted[dotted_key(".".join(parts[:n]))]
+                    break
+            target = Unit("point", f"{label}.", key)
+            parent.content.append(target)
+            dotted[key] = target
+            point, sub = target, None
         elif level == 2 and (m := POINT.match(text)):
             target = Unit("point", f"{m.group(1)})", key_of(m.group(1)))
             (daļa or unit).content.append(target)
@@ -420,6 +446,27 @@ def heading_rank(text: str) -> int:
 # --------------------------------------------------------------------------- document metadata
 
 
+MONTHS_GENITIVE = (
+    "janvāra",
+    "februāra",
+    "marta",
+    "aprīļa",
+    "maija",
+    "jūnija",
+    "jūlija",
+    "augusta",
+    "septembra",
+    "oktobra",
+    "novembra",
+    "decembra",
+)
+
+
+def date_genitive(d: date) -> str:
+    """``2013-12-10`` -> ``2013. gada 10. decembra`` (the form that dates a Cabinet regulation in a citation)."""
+    return f"{d.year}. gada {d.day}. {MONTHS_GENITIVE[d.month - 1]}"
+
+
 def _date(value: str | None) -> date | None:
     m = re.search(r"(\d{2})\.(\d{2})\.(\d{4})", value or "")
     if not m:
@@ -456,6 +503,14 @@ def editions(root: Node) -> tuple[date, list[Edition]]:
     if holder is None:
         raise LikumiParseError("the page lists no editions (id=ver_date)")
     raw = "".join(c for c in holder.children if isinstance(c, str))
+    if not raw.strip():
+        # An act with a single edition has an empty edition list; the page still names the edition it shows
+        # (``<div id="version_date" data-version_date="30.08.2019">``), which has no end.
+        shown = root.find(lambda n: n.attrs.get("id") == "version_date")
+        start = _date(shown.attrs.get("data-version_date")) if shown is not None else None
+        if start is None:
+            raise LikumiParseError("the page lists no editions and names no edition date (id=version_date)")
+        return start, [Edition(start, None, "Spēkā esošā")]
     try:
         data = json.loads(raw)
         selected = _date(data["selected"]["value"])
@@ -492,8 +547,14 @@ def parse_likumi_lv(content: bytes) -> list[ParsedDocument]:
     title = ws(render(title_node).text)
     meta = passport(root)
     status = meta.get("Statuss", "")
+    veids, issuer = meta.get("Veids", ""), meta.get("Izdevējs", "")
+    # The manifest lists candidates (the sitemap says nothing about what a page is): only a law (Veids "likums") or a
+    # Cabinet regulation (Veids "noteikumi" of the Ministru kabinets) that is in force is ingested.
+    regulation = veids == "noteikumi" and issuer == "Ministru kabinets"
+    if veids != "likums" and not regulation:
+        raise ParseSkipped(f"{title}: a document of type {veids!r} ({issuer}), neither a law nor a Cabinet regulation")
     if "spēkā esošs" not in status.lower():
-        raise LikumiParseError(f"{title}: status is {status!r}, not 'Spēkā esošs'; only acts in force are supported")
+        raise ParseSkipped(f"{title}: status is {status!r}, not 'Spēkā esošs'; only acts in force are ingested")
     selected, all_editions = editions(root)
     shown = next(e for e in all_editions if e.start == selected)
     valid_to = shown.end + timedelta(days=1) if shown.end else None
@@ -507,6 +568,8 @@ def parse_likumi_lv(content: bytes) -> list[ParsedDocument]:
     transitional = False
     eu_heading: tuple[str, list[str]] | None = None
     seen_article = False
+    omitted: list[str] = []  # parts of the page that are not ingested (annexes, tables): disclosed in ext
+    in_annex = False
     for block in body.elements():
         tokens = [t for t in block.classes if re.fullmatch(r"TV\d+", t)]
         if block.tag != "div" or block.classes & {"notify-msg"}:
@@ -515,6 +578,12 @@ def parse_likumi_lv(content: bytes) -> list[ParsedDocument]:
             raise LikumiParseError(f"{title}: unexpected block <{block.tag} class={block.attrs.get('class')!r}>")
         cls = tokens[0]
         context = " › ".join(h for _, h in headings) or None
+        if in_annex:
+            continue  # the annexes (pielikumi) follow the text and the signatures; they are not ingested
+        if cls == "TV218":
+            in_annex = True
+            omitted.append("pielikumi")
+            continue
         if cls in ("TV206", "TV207", "TV215", "TV216", "TV217"):
             continue
         if cls == "TV212":
@@ -533,7 +602,7 @@ def parse_likumi_lv(content: bytes) -> list[ParsedDocument]:
                 raise LikumiParseError(f"{title}: article without number/data-pfx: {block.attrs}")
             if (pfx == "pn") != transitional:
                 raise LikumiParseError(f"{title}: article {block_number(block)} out of place ({pfx})")
-            units.append((build_article(block, "transitional" if pfx == "pn" else "article"), context))
+            units.append((build_article(block, "transitional" if pfx == "pn" else "article", regulation), context))
             seen_article = True
         elif cls == "TV403":
             r = render(block)
@@ -551,8 +620,19 @@ def parse_likumi_lv(content: bytes) -> list[ParsedDocument]:
                 units.append((unit, None))
             else:
                 raise LikumiParseError(f"{title}: unexpected TV208 block after the articles")
+        elif cls == "TV900":
+            # "Izdoti saskaņā ar <likums> <panta> ...": the enabling provision of a Cabinet regulation.
+            r = render(block)
+            basis = Unit("legal_basis", "", "legal-basis")
+            basis.content.append(r.text)
+            basis.notes.extend(r.notes)
+            basis.refs.extend(r.refs)
+            units.append((basis, None))
+        elif cls == "TV444":
+            if "tabulas" not in omitted:
+                omitted.append("tabulas")  # a table between the articles: not ingested
         else:
-            raise LikumiParseError(f"{title}: unsupported block class {cls} (annexes and tables are not supported)")
+            raise LikumiParseError(f"{title}: unsupported block class {cls}")
     if eu_heading is not None:
         raise LikumiParseError(f"{title}: the EU reference heading has no body")
     if not units:
@@ -625,8 +705,21 @@ def parse_likumi_lv(content: bytes) -> list[ParsedDocument]:
     short_name, genitive = SHORT_NAMES.get(doc_id, (title, None))
     if genitive is None and title.endswith("likums"):
         genitive = title[: -len("likums")] + "likuma"
+    if genitive is None and title.endswith("kodekss"):
+        genitive = title[: -len("kodekss")] + "kodeksa"
     part = title.split(". ", 1)[1] if title.startswith("Civillikums. ") else None
     instrument_type = "constitution" if doc_id in CONSTITUTION_IDS else "act"
+    number = None
+    if regulation:
+        # "Ministru kabineta 2013. gada 10. decembra noteikumi Nr. 1449 "Noteikumi par ..."": the way a Cabinet
+        # regulation is cited (date of adoption and number); the citation of a unit follows the genitive.
+        instrument_type = "regulation"
+        number = meta.get("Numurs") or None
+        if number is None:
+            raise LikumiParseError(f"{title}: a Cabinet regulation without a number (Numurs)")
+        genitive = f"Ministru kabineta {date_genitive(adopted)} noteikumu Nr. {number}"
+        short_name = title
+        title = f'Ministru kabineta {date_genitive(adopted)} noteikumi Nr. {number} "{title}"'
     outstanding = [
         {
             "affects_eid": None,
@@ -660,7 +753,7 @@ def parse_likumi_lv(content: bytes) -> list[ParsedDocument]:
             work_title=title,
             title=title,
             short_title=short_name,
-            number=None,
+            number=number,
             work_date=adopted,
             language="lv",
             # Systematised texts are informative; the official publication in Latvijas Vēstnesis prevails.
@@ -676,6 +769,8 @@ def parse_likumi_lv(content: bytes) -> list[ParsedDocument]:
                 "short_name": short_name,
                 **({"genitive": genitive} if genitive else {}),
                 **({"part": part} if part else {}),
+                **({"kind": "regulation"} if regulation else {}),
+                **({"omitted": omitted} if omitted else {}),
                 **({"issuer": meta["Izdevējs"]} if meta.get("Izdevējs") else {}),
                 **({"published_in": meta["Publicēts"]} if meta.get("Publicēts") else {}),
             },

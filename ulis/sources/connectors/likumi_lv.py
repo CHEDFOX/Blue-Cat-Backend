@@ -29,6 +29,7 @@ from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
 
 HOST = "likumi.lv"
 BASE_URL = f"https://{HOST}"
+REFUSAL = re.compile(r"HTTP (401|403|407|429|451)\b")
 
 
 def robots_disallowed(robots: str) -> list[re.Pattern[str]]:
@@ -38,6 +39,15 @@ def robots_disallowed(robots: str) -> list[re.Pattern[str]]:
     ``urllib.robotparser`` implements neither). Rules are prefix matches of path plus query.
     """
     rules: list[re.Pattern[str]] = []
+    for value in _star_disallows(robots):
+        pattern = re.escape(value).replace(r"\*", ".*")
+        rules.append(re.compile("^" + (pattern[:-2] + "$" if pattern.endswith(r"\$") else pattern)))
+    return rules
+
+
+def _star_disallows(robots: str) -> list[str]:
+    """The values of the ``Disallow`` lines of the ``User-agent: *`` group, as written."""
+    values: list[str] = []
     agents: list[str] = []
     in_rules = False
     for raw in robots.splitlines():
@@ -53,11 +63,23 @@ def robots_disallowed(robots: str) -> list[re.Pattern[str]]:
         elif field == "disallow":
             in_rules = True
             if "*" in agents and value:
-                pattern = re.escape(value).replace(r"\*", ".*")
-                rules.append(re.compile("^" + (pattern[:-2] + "$" if pattern.endswith(r"\$") else pattern)))
+                values.append(value)
         elif field in ("allow", "crawl-delay"):
             in_rules = True
-    return rules
+    return values
+
+
+def disallowed_ids(robots: str) -> set[int]:
+    """Document ids that robots.txt names in ``Disallow: /*id=<id>$`` and ``/*id=<id>&`` rules.
+
+    These rules match the portal's query addresses (``/doc.php?id=<id>``), not ``/ta/id/<id>``, but they name documents
+    the publisher asks robots not to fetch, so ULIS treats the document's page address as disallowed too.
+    """
+    ids: set[int] = set()
+    for value in _star_disallows(robots):
+        if m := re.fullmatch(r"/\*id=(\d+)[$&]", value):
+            ids.add(int(m.group(1)))
+    return ids
 
 
 class LikumiLvConnector:
@@ -76,6 +98,8 @@ class LikumiLvConnector:
         self.offline = offline
         self._sleep = sleep
         self.http: PoliteHttp | None = None
+        # Documents skipped under ``on_document_error: skip`` (the pipeline reports them as run errors).
+        self.fetch_errors: list[str] = []
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -88,9 +112,15 @@ class LikumiLvConnector:
         laws = manifest.get("laws") or []
         if not laws:
             raise ManifestError("the manifest lists no documents")
+        if manifest.get("on_document_error", "stop") not in ("stop", "skip"):
+            raise ManifestError("on_document_error must be 'stop' or 'skip'")
+        seen: set[str] = set()
         for law in laws:
             if not re.fullmatch(r"[1-9][0-9]{0,8}", str(law.get("id", ""))):
                 raise ManifestError(f"invalid document id {law.get('id')!r}")
+            if str(law["id"]) in seen:
+                raise ManifestError(f"document {law['id']} is listed twice")
+            seen.add(str(law["id"]))
         return manifest
 
     def fetch(self) -> Iterator[RawDocument]:
@@ -106,28 +136,43 @@ class LikumiLvConnector:
         got = self.http.get(f"{BASE_URL}/robots.txt")
         if got is None:
             raise FetchError(f"{BASE_URL}/robots.txt: not found; refusing to fetch without reading it")
-        disallowed = robots_disallowed(got[0].decode("utf-8", "replace"))
+        robots = got[0].decode("utf-8", "replace")
+        disallowed = robots_disallowed(robots)
+        blocked_ids = disallowed_ids(robots)
+        self.fetch_errors = []
+        skip = manifest.get("on_document_error", "stop") == "skip"
         for law in manifest["laws"]:
-            doc_id = str(law["id"])
-            path = f"/ta/id/{doc_id}"
-            if any(rule.match(path) for rule in disallowed):
-                raise FetchError(f"{BASE_URL}{path} is disallowed by robots.txt; not fetched")
-            url = f"{BASE_URL}{path}"
-            got = self.http.get(url)
-            if got is None:
-                raise FetchError(f"{url}: not found (404)")
-            data, meta = got
-            marker = f'<div id="doc_id">{doc_id}</div>'.encode()
-            if b'class="doc-body"' not in data or marker not in data:
-                raise FetchError(
-                    f"{url}: not a Likumi.lv document page for id {doc_id} ({meta.get('content_type')}); "
-                    f"not ingested. Remove {self.http.cache_path(url)} after checking the site."
-                )
-            yield RawDocument(
-                external_id=f"likumi-lv:{doc_id}",
-                uri=meta.get("final_url") or url,
-                media_type="text/html",
-                content=data,
-                retrieved_at=datetime.fromisoformat(meta["retrieved_at"]),
-                metadata={"likumi_id": doc_id, "title": law.get("title"), "cached_fetch": meta},
+            try:
+                yield self._document(law, disallowed, blocked_ids)
+            except FetchError as exc:
+                # One page that is gone, is not a document page or has become disallowed must not end a run of
+                # thousands; a refusal (401/403/429/451) always does.
+                if not skip or REFUSAL.search(str(exc)):
+                    raise
+                self.fetch_errors.append(f"likumi-lv:{law['id']}: {exc}")
+
+    def _document(self, law: dict[str, Any], disallowed: list[re.Pattern[str]], blocked_ids: set[int]) -> RawDocument:
+        assert self.http is not None
+        doc_id = str(law["id"])
+        path = f"/ta/id/{doc_id}"
+        if any(rule.match(path) for rule in disallowed) or int(doc_id) in blocked_ids:
+            raise FetchError(f"{BASE_URL}{path} is disallowed by robots.txt; not fetched")
+        url = f"{BASE_URL}{path}"
+        got = self.http.get(url)
+        if got is None:
+            raise FetchError(f"{url}: not found (404)")
+        data, meta = got
+        marker = f'<div id="doc_id">{doc_id}</div>'.encode()
+        if b'class="doc-body"' not in data or marker not in data:
+            raise FetchError(
+                f"{url}: not a Likumi.lv document page for id {doc_id} ({meta.get('content_type')}); "
+                f"not ingested. Remove {self.http.cache_path(url)} after checking the site."
             )
+        return RawDocument(
+            external_id=f"likumi-lv:{doc_id}",
+            uri=meta.get("final_url") or url,
+            media_type="text/html",
+            content=data,
+            retrieved_at=datetime.fromisoformat(meta["retrieved_at"]),
+            metadata={"likumi_id": doc_id, "title": law.get("title"), "cached_fetch": meta},
+        )
