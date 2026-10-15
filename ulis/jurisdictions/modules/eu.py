@@ -77,6 +77,8 @@ class EuExt(BaseModel):
     number: str | None = None
     domain: Literal["EU", "EC", "EEC", "Euratom"] | None = None
     treaty: Literal["TEU", "TFEU", "CHARTER"] | None = None
+    # A consolidated version of an act: the CELEX number of the base act (``celex`` is the version's own).
+    base_celex: str | None = None
     ecli: str | None = None
     # Judgments: the case designation in each language version as Cellar gives it ("Case C-362/14",
     # "Affaire C-362/14"), the label by which the Court itself cites the case, and the language of

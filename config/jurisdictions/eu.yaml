@@ -3,7 +3,7 @@
 # Member State memberships) is NOT modelled here.
 schema_version: 1
 id: EU
-profile_version: 0.2.0
+profile_version: 0.3.0
 name: European Union
 names:
   en: European Union
@@ -93,14 +93,14 @@ publication:
     Publications Office publishes consolidated versions as documentation without legal effect.
   repeal: Express or implicit repeal by later acts, recorded in the Publications Office metadata.
 coverage:
-  corpus_status: pilot
+  corpus_status: partial
   known_gaps:
-    - Only a hand-picked selection is ingested (see the source manifest) - TEU, TFEU, the Charter, four regulations and one directive - in English, French and German only; the other 21 official languages are not ingested.
-    - Original Official Journal texts only. Amendments and corrigenda listed in the Publications Office metadata are reported as outstanding changes but not applied; provisions the metadata shows as replaced, deleted or added to end on the amendment's start of validity and their later wording is not indexed. Consolidated versions of acts are not ingested.
+    - Regulations, directives and decisions in force (including implementing and delegated acts) that Cellar holds as Formex 4 in English are ingested (26,875 of 35,085 on 2026-10-15), plus TEU, TFEU and the Charter. The other acts in force, held only as scans, are not; nor are acts no longer in force, or acts before 1952.
+    - English only, except TEU, TFEU, the Charter and five core acts (GDPR, Rome I, Brussels I recast, Consumer Rights Directive, Artificial Intelligence Act) in French and German too; the other languages are not ingested.
+    - An act that has consolidated versions is held as its latest consolidated version applying on the listing date, a whole-instrument snapshot with the consolidation date, not dated provision by provision and without legal effect. Earlier consolidated versions are not ingested. An act with no consolidated version is held as adopted, and its later amendments are reported as outstanding changes but not applied (provisions the metadata shows as replaced, deleted or added to end on the amendment's start of validity and their later wording is not indexed).
     - The TEU and TFEU are the 2016 consolidated versions (documentation); they are attested only at their publication date (7 June 2016). Protocols, annexes, declarations and tables of equivalences are not ingested; earlier Treaty versions are not indexed.
-    - Validity runs from each act's general date of application (else its entry into force) as recorded in the metadata. Partial application dates (e.g. Artificial Intelligence Act, art 113) are only noted; which provisions they concern is not modelled.
-    - Artificial Intelligence Act - provisions whose original wording was replaced by Regulation (EU) 2026/1744 with effect from 27 July 2026, before the Act's general date of application, have no indexed version.
-    - Recitals, citations, final formulas and signatures are not indexed.
+    - Validity of an act held as adopted runs from its general date of application (else its entry into force) as recorded in the metadata. Partial application dates (e.g. Artificial Intelligence Act, art 113) are only noted; which provisions they concern is not modelled.
+    - Recitals, citations, final formulas and signatures are not indexed. Enacting terms without numbered articles are one provision cited by the instrument alone.
     - Case law is a hand-picked selection of about 30 landmark judgments of the Court of Justice and the General Court in English and French (see the case-law source manifest); no Opinions of Advocates General, orders, summaries or other judgments, and no record of later treatment. Citations between judgments are linked only where the text marks them; references to the ingested legislation only in a few exact patterns.
-    - No international agreements of the Union, no delegated or implementing acts, no national transposing measures.
+    - No international agreements of the Union, no national transposing measures.
     - How EU law applies within Member States (primacy, direct effect, membership dates) is not modelled.

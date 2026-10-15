@@ -1,5 +1,6 @@
 # Argentina (AR) - national legislation
-Status: **pilot, draft_unverified**. Six instruments, one language (`es`), source `ar-infoleg`. Provincial law: out of scope.
+Status: **partial, draft_unverified**. Six pilot instruments plus **every national law (tipo Ley) that InfoLEG publishes in
+text: 8,113 laws** (widened 2026-10-15), one language (`es`), source `ar-infoleg`. Provincial law: out of scope.
 
 ## Source and licence
 
@@ -15,11 +16,39 @@ Status: **pilot, draft_unverified**. Six instruments, one language (`es`), sourc
   [Aviso legal](https://www.argentina.gob.ar/normativa/aviso-legal)); InfoLEG's editors record only express modifications
   and "no se hace responsable por la exactitud de los textos actualizados". Texts are `authoritative: false`
   (`official_revised`; the Constitution `official_conversion`), and every result says so.
-- Not used: the legacy host `servicios.infoleg.gob.ar` (robots.txt 404) and the open-data record on
-  <https://datos.gob.ar/dataset/justicia-base-infoleg-normativa-nacional> (CC BY 4.0, CSV/ZIP): it holds norm metadata
-  and links, not texts.
+- Not used: the legacy host `servicios.infoleg.gob.ar` (robots.txt 404) and the CKAN API of datos.gob.ar (`/api/` is
+  disallowed). Used since 2026-10-15, for the list of laws only: the open-data record
+  <https://datos.gob.ar/dataset/justicia-base-infoleg-normativa-nacional> ("Licencia Creative Commons Attribution 4.0"),
+  one zip of one CSV on datos.jus.gob.ar (50 MB, one request; both hosts' robots.txt: `Crawl-Delay: 10`, Disallow `/api/`,
+  `/revision/`, `/dataset/rate/`, `/dataset/*/history`). It holds metadata and links, not texts.
 
-## Ingested (real run, 2026-10-14)
+## The whole collection (2026-10-15)
+
+`python -m scripts.build_infoleg_manifest` streams the CSV (429,648 norms, last norm 2026-08-27, Ley 27.825): **27,620 are
+`Ley`**, but only 8,115 link a text (`texto_original` 7,390, both 610, only `texto_actualizado` 115); the other 19,505 have a
+summary only. The manifest lists 8,113 laws (two without a number, "S/N", left out) - 725 with the texto actualizado,
+the rest the original - and keeps the six pilot entries unchanged. Each new entry carries the CSV row (`dataset_row`:
+organ, sanction and Boletín dates, summary titles, `observaciones`, counts `modificada_por` / `modifica_a`), so the
+connector fetches **one page per law** (`/normativa/nacional/norma-<id>/(actualizacion|texto)`) and stores a bundle of
+format 2 (text page + row + the dataset's sha256). **8,119 requests at 10 s = 22.6 h.** A law is `/ar/ley/<number>`; 13
+numbers were issued twice before 1863 and get the year (`/ar/ley/5-1854`). Title: `Ley 24.240 - DEFENSA DEL CONSUMIDOR`
+(the editors' summary title, as given); citations `art. 3, Ley 24.240`. 19th-century headings `Art. 1° Abrese ...` are read.
+
+What the CSV says that the pages do not is kept as warnings, not as law: 3,549 listed laws have `modificada_por` > 0 but only
+the original text ("InfoLEG lists N norm(s) that modify this law but publishes no updated text"), and 404 carry an
+`observaciones` that mentions abrogation ("ABROGADA POR ART. 30 DE LA LEY N° 21.795 ... RESTITUIDA SU VIGENCIA POR ...",
+quoted whole). InfoLEG gives no repeal flag, so a law without either can still be repealed. Pages with an image, a
+superscript/subscript or no `Art.` line are skipped (`ParseSkipped`), not errors.
+
+**Scale.** A uniform random sample of 70 listed laws (fetched and parsed 2026-10-15): 68 read, 2 skipped; 10.6 provision
+versions per law (median 3, max 163), raw bundle 49 KB. Extrapolated: ~86,000 provision versions, **~0.3 GB** of PostgreSQL
+and ~0.4 GB of raw bundles; about 3% of laws skipped. Slice run on `ulis_ar` (89 laws = the sample + the pilot + 13 chosen
+for their features): `ingest` 86 new, 3 skipped, 0 errors, 5,045 provision versions; `verify-sources` **86 of 86 pass**.
+Searches: "defensa del consumidor relación de consumo proveedor" -> `art. 3, Ley 26.361`, `art. 3, Ley 24.240`; "al que matare
+a otro" -> `art. 79 CP`; "Abrese un crédito suplementario" -> `art. 1, Ley 274` (a 1861 law, warning "1 norm(s) listed as
+modifying"); all with `ATTESTED_ONLY_AT`.
+
+## Ingested (the six pilot instruments, real run 2026-10-14)
 
 | Instrument | InfoLEG id | Text | Provisions | Repealed |
 |---|---|---|---|---|
@@ -58,7 +87,8 @@ sub-numbers, which the current sources do not give. Abbreviations to be confirme
 
 ## Known gaps
 
-- Six instruments only; no decrees, resolutions, treaties, other laws, case law or Boletín Oficial. The profile
+- National laws with a text only (8,113 of 27,620); no decrees, decree-laws, resolutions, treaties, case law or Boletín
+  Oficial. Annexes (and so the text of treaties approved by law) are not read. The profile
   (courts, precedent, treaty rules) is a simplified draft marked "To verify".
 - Informative texts; only express modifications; no history or per-provision dates. An out-of-order "Artículo N" line is
   taken as text (the real run had none).

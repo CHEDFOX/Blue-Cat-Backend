@@ -5,16 +5,20 @@ publisher: Istituto Poligrafico e Zecca dello Stato S.p.A. (IPZS) for the Presid
 kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions: [IT]
-document_kinds: [constitution, code, act, legislative_decree]
+document_kinds: [constitution, code, act, legislative_decree, presidential_decree, royal_decree]
 languages: [it]
 coverage: >-
-  Normattiva publishes the numbered State acts printed in the Gazzetta Ufficiale (GU) and in the
-  Raccolta ufficiale delle leggi e dei decreti, in their original text and in a "multivigente" (amended)
-  text, and exports any act, as it applies on a chosen date, in HTML, XML, PDF, EPUB and Akoma Ntoso
-  ("esporta in Akoma ntoso", /do/atto/caricaAKN). ULIS ingests six instruments through that export: the
-  Constitution (the original text and the series of versions that amendments produced), the Codice civile,
-  the Codice penale, the d.lgs. 196/2003 (privacy code), the L. 300/1970 (Statuto dei lavoratori) and the
-  L. 241/1990 (administrative procedure), the last five as they apply on 2026-10-14.
+  Normattiva publishes the numbered State acts printed in the Gazzetta Ufficiale (GU) and in the Raccolta ufficiale
+  delle leggi e dei decreti, in their original text and in a "multivigente" (amended) text, and exports any act, as
+  it applies on a chosen date, in HTML, XML, PDF, EPUB and Akoma Ntoso ("esporta in Akoma ntoso",
+  /do/atto/caricaAKN). ULIS ingests 41 works through that export: the Constitution (the
+  original text and the series of versions that amendments produced) and 40 acts as they apply on 2026-10-14/15 - the
+  Codice civile, the Codice penale, the d.lgs. 196/2003 (privacy code), the L. 300/1970 (Statuto dei lavoratori), the
+  L. 241/1990 (administrative procedure) and every code and implementing regulation that Normattiva's page
+  "Costituzione e Codici" (https://www.normattiva.it/staticPage/codici) links to (c.p.c., c.p.p., codice della strada,
+  del consumo, dell'ambiente, dei contratti pubblici, della navigazione, ...). Laws, decreti legislativi and
+  decreti-legge outside that page are NOT ingested: Normattiva lists them only under /ricerca/ (disallowed to robots)
+  and on dati.normattiva.it (blocked, see rate_limits), so a polite client cannot enumerate them.
 access:
   method: permitted_web_retrieval
   endpoint: config/manifests/it-normattiva.yaml
@@ -22,14 +26,17 @@ update_frequency: >-
   Normattiva updates the multivigente texts after each amendment, not in real time (its FAQ "Regole di
   aggiornamento"); change the date in the manifest and re-ingest to refresh.
 rate_limits: >-
-  No published rate limit and no Crawl-delay. www.normattiva.it/robots.txt (read 2026-10-14) allows
-  everything for all user agents except /ricerca/ and /mfr/ricerca/ (and lists a sitemap). ULIS never
-  requests those paths, uses an identifying User-Agent, waits 6 s between requests and an ingest makes 40
-  requests (29 for the Constitution's versions, 2 per other act, one of which is the act's page
-  that starts the session the export needs). The open-data host dati.normattiva.it is not used: its
-  robots.txt request was answered with HTTP 409 and the message "La pagina richiesta è stata bloccata dai
-  sistemi di protezione del Poligrafico e Zecca dello Stato Italiano" (2026-10-14), so ULIS stopped there and
-  did not read its terms or try again in another way.
+  No published rate limit and no Crawl-delay. www.normattiva.it/robots.txt (read 2026-10-14 and 2026-10-15) allows
+  everything for all user agents except /ricerca/ and /mfr/ricerca/ (and lists a sitemap, which holds static pages
+  only: its one list of acts, /ricerca/elencoPerData, is the disallowed path). ULIS never requests those paths, uses
+  an identifying User-Agent, waits 6 s between requests and an ingest makes 2 requests per act (the act's page,
+  which starts the session the export needs, and the export) and one per version of the Constitution: about 110
+  requests for the 41 works (cached ones are not repeated). The open-data host dati.normattiva.it is not used: its
+  robots.txt request was answered with HTTP 409 and the message "La pagina richiesta è stata bloccata dai sistemi di
+  protezione del Poligrafico e Zecca dello Stato Italiano" on 2026-10-14 and again, for the same single request, on
+  2026-10-15, so ULIS stopped there, did not read its terms and did not try api.normattiva.it, the same service's
+  API host. The page of a partial URN (urn:nir:stato:decreto.legislativo:2003) is an error page, and acts are never
+  guessed from number ranges.
 licence:
   id: IT-NORMATTIVA-NOTE-LEGALI
   name: >-
@@ -75,7 +82,7 @@ licence:
     - Name the source (Normattiva), the non-authentic character and the free-of-charge character of the text wherever it is reproduced (shown as attribution on every result).
     - Do not present the text as the official one; only the Gazzetta Ufficiale is authentic and prevails if the texts differ (ULIS states this in the source authority, the profile and the limitations).
     - The texts are offered for information only; ULIS keeps them exact and returns notes and limitations as separate fields.
-    - Only a small, selected set of acts is retrieved, politely (robots.txt respected, 6 s between requests, identifying User-Agent); no mass harvesting of the database.
+    - Only the acts of the page "Costituzione e Codici" are retrieved (41 works), politely (robots.txt respected, 6 s between requests, identifying User-Agent); no mass harvesting of the database and no enumeration of acts by guessing.
     - Do not use /ricerca/ or /mfr/ricerca/ (robots.txt); do not work around a refusal or protection page.
   notes: >-
     Legal status of the text: Normattiva states its texts "non hanno carattere di ufficialità"; the Gazzetta
@@ -93,11 +100,13 @@ provenance: >-
   it contains in its ELI (eli/id/<GU date>/<code>/CONSOLIDATED/<YYYYMMDD> or ORIGINAL).
 known_limitations:
   - The text is not official or authentic; only the Gazzetta Ufficiale is. Normattiva updates its texts after the amendments, not in real time.
-  - The export carries no date for individual provisions, only for the version of the whole act; a provision therefore starts, in ULIS, on the date of the first ingested version that contains its wording. Acts other than the Constitution have one version (the text applicable on 2026-10-14).
+  - The export carries no date for individual provisions, only for the version of the whole act; a provision therefore starts, in ULIS, on the date of the first ingested version that contains its wording. Acts other than the Constitution have one version (the text applicable on 2026-10-14/15).
   - The export does not give the date a provision was repealed (the marker names the repealing act, not the day its effect began); a repealed provision therefore starts, in ULIS, on the date of the first ingested version that shows it repealed, and the earlier wording ends there only where an earlier version was ingested.
   - The structural divisions (books, parts, titles, chapters) are not in the export in a usable form, nor is the book structure of the codes.
   - Normattiva writes accented vowels as vowel plus apostrophe in older texts (e' for è, puo' for può); the text is kept exactly so.
-  - Only six acts are ingested; the annexes of the d.lgs. 196/2003 and the decrees that approve the codes are not read.
+  - 41 works only (the Constitution, the codes of the page "Costituzione e Codici" with their implementing regulations, and the five acts of the pilot). Ordinary laws, decreti legislativi and decreti-legge are out of reach of a polite client (no permitted list, open-data host blocked); two ministerial decrees on the codes page (regolamenti di esecuzione of the c.p.p. and of the codice della proprietà industriale) are not read by the parser.
+  - Where an act is exported as the decree that approves a code with one attachment per article (c.p.c., disp. att., codice della navigazione, codici penali militari, codice postale, norme di attuazione of the c.p.p., ...), the articles of the approving decree itself are not read, and the annexes that are not articles of the code (tables, allegati) are not read. Of two attachments the source gives the same name (art. 33 of the codice penale militare di guerra) the one that prints another article's number is not read.
+  - The annexes of the d.lgs. 196/2003 and of the new codes (allegati) are not read. A superseded code that Normattiva still serves (d.lgs. 163/2006, d.lgs. 50/2016) is ingested as Normattiva exports it for the date asked, mostly repealed provisions.
 status: active
 connector: normattiva
 parser: normattiva_akn

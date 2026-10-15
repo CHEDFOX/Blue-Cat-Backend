@@ -219,20 +219,20 @@ def test_a_failing_source_does_not_stop_the_others_and_sets_the_exit_code(
     real = loading.ingest_one
 
     def flaky(factory: Any, catalog: Catalog, store: Any, source_id: str, cache_dir: Path, actor: str) -> Any:
-        if source_id == "ar-infoleg":
+        if source_id == "nl-bwb":
             raise RuntimeError("publisher refused the request (HTTP 403)")
         return real(factory, catalog, store, source_id, cache_dir, actor)
 
     monkeypatch.setattr(loading, "ingest_one", flaky)
-    code, out = run("load-all", "--only", "ar-infoleg", SAMPLE, capsys=capsys)
+    code, out = run("load-all", "--only", "nl-bwb", SAMPLE, capsys=capsys)
     assert code == 1
     order = [line for line in out.splitlines() if line.startswith("[")]
-    assert order[0].startswith("[1/2] ar-infoleg: starting") and "[2/2] " + SAMPLE in " ".join(order)
-    assert "ar-infoleg" in out and "failed" in out and "RuntimeError: publisher refused the request" in out
+    assert order[0].startswith("[1/2] nl-bwb: starting") and "[2/2] " + SAMPLE in " ".join(order)
+    assert "nl-bwb" in out and "failed" in out and "RuntimeError: publisher refused the request" in out
     assert next(line for line in out.splitlines() if line.startswith(SAMPLE) and " ok " in line)
     with session_factory() as s:
         failed = s.scalars(select(m.IngestionRun).where(m.IngestionRun.status == "failed")).all()
-    assert any(r.source_id == "ar-infoleg" and "HTTP 403" in r.errors[0] for r in failed)
+    assert any(r.source_id == "nl-bwb" and "HTTP 403" in r.errors[0] for r in failed)
 
 
 @pytest.mark.db

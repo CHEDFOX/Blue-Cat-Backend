@@ -694,3 +694,128 @@ def test_repealed_provisions_are_not_indexed_and_references_are_stored(
         session.scalars(select(m.CitationLink.to_uri).where(m.CitationLink.from_work_uri == "/it/legge/1990/241"))
     )
     assert "/it/legge/1988/400/~art_17" in links
+
+
+# --------------------------------------------------------------------------- the codes page and the other codes
+# (the manifest was widened to the acts of Normattiva's "Costituzione e Codici" page; see docs/jurisdictions/it.md)
+
+DISP_ATT = ("19411224", "041U1368", "VIGENZA_20241126")  # disp. att. c.p.c. (5 of 307 attachments kept)
+MILITARY = ("19410506", "041U0303", "VIGENZA_20221230")  # the two military penal codes (5 of 738 kept)
+GIUSTIZIA_CONTABILE = ("20160907", "16G00187", "VIGENZA_20230101")  # three sets of attachments (12 of 251 kept)
+AMBIENTE = ("20060414", "006G0171", "VIGENZA_20261007")  # two different art. 298-bis (3 articles kept)
+
+
+def _fixture(parts: tuple[str, str, str]) -> bytes:
+    return (FIX / f"{parts[0]}_{parts[1]}_{parts[2]}.xml").read_bytes()
+
+
+def test_a_code_exported_as_attachments_is_read_article_by_article() -> None:
+    doc = _doc(_fixture(DISP_ATT))
+    assert (doc.instrument_type, doc.work_uri) == ("royal_decree", "/it/regio.decreto/1941/1368")
+    assert doc.ext["citation_label"] == "disp. att. c.p.c." and doc.ext["approved_by"].endswith("n. 1368")
+    assert [p.eid for p in doc.provisions] == ["art_1", "art_2", "art_3", "art_118", "art_230"]
+    assert _cite(doc, "art_118") == "art. 118 disp. att. c.p.c."
+    assert _by_eid(doc)["art_1"].text.startswith("In ogni stato e grado del processo il pubblico ministero")
+    assert skipped_attachments(_fixture(DISP_ATT)) == []
+
+
+def test_two_codes_in_one_decree_are_cited_each_by_its_own_abbreviation() -> None:
+    content = _fixture(MILITARY)
+    doc = _doc(content)
+    assert doc.instrument_type == "code" and doc.work_uri == "/it/regio.decreto/1941/303"
+    assert [p.eid for p in doc.provisions] == ["c-p-m-p_art_1", "c-p-m-p_art_2", "c-p-m-g_art_1", "c-p-m-g_art_33"]
+    assert _cite(doc, "c-p-m-p_art_1") == "art. 1 c.p.m.p." and _cite(doc, "c-p-m-g_art_1") == "art. 1 c.p.m.g."
+    # The source has two attachments named "art. 33": one is art. 22 under the wrong name and is not read.
+    assert _by_eid(doc)["c-p-m-g_art_33"].text.startswith("Per i condannati a una pena detentiva")
+    assert skipped_attachments(content) == ["Codice penale militare di guerra - art. 33"]
+
+
+def test_attachment_sets_that_number_their_articles_alike_are_told_apart() -> None:
+    doc = _doc(_fixture(GIUSTIZIA_CONTABILE))
+    by_eid = _by_eid(doc)
+    # The most frequent set is "art. N"; the others are cited by their name.
+    assert {"art_1", "art_10", "art_100", "art_101"} <= set(by_eid)
+    allegato_2 = [e for e in by_eid if e.startswith("allegato-2-norme-di-attuazione")]
+    assert len(allegato_2) == 4 and all(len(e) < 100 for e in by_eid)
+    assert _cite(doc, "art_1") == "art. 1 d.lgs. 174/2016"
+    assert _cite(doc, allegato_2[0]) == "art. 1 Allegato 2 Norme di attuazione del Codice della Giustizia contabile"
+    assert by_eid["art_1"].text != by_eid[allegato_2[0]].text
+
+
+def test_an_act_with_annexed_codes_but_its_own_articles_is_not_a_flat_act() -> None:
+    privacy = _doc(_other("privacy"))
+    assert privacy.ext["act_type"] == "decreto.legislativo" and "approved_by" not in privacy.ext
+    assert "art_167" in _by_eid(privacy)
+
+
+def test_two_different_articles_with_the_same_number_are_both_kept() -> None:
+    doc = _doc(_fixture(AMBIENTE))
+    by_eid = _by_eid(doc)
+    assert {"art_298", "art_298-bis", "art_298-bis--2"} <= set(by_eid)
+    assert by_eid["art_298-bis"].text.startswith("1. Sono vietati, con riferimento alle sostanze relative")
+    assert "disciplina della parte sesta" in by_eid["art_298-bis--2"].text
+    assert _cite(doc, "art_298-bis--2") == "art. 298-bis d.lgs. 152/2006"
+
+
+def test_redactional_codes_of_both_formats_are_accepted(tmp_path: Path) -> None:
+    for code in ("047U0001", "003G0218", "18G00011", "25G00192"):
+        assert connector_module._CODE.match(code)  # noqa: SLF001
+    assert not connector_module._CODE.match("18G0001")  # noqa: SLF001
+    assert version_label(b"<x>eli/id/2018/01/22/18G00011/CONSOLIDATED/20260812</x>") == "20260812"
+    assert parser_module._ELI.match("eli/id/2018/01/22/18G00011/ORIGINAL")  # noqa: SLF001
+
+
+def test_the_committed_manifest_lists_the_codes_page_and_passes_validation(tmp_path: Path) -> None:
+    path = Path(__file__).parents[1] / "config" / "manifests" / "it-normattiva.yaml"
+    manifest = NormattivaConnector(path, "it-normattiva", tmp_path)._manifest()  # noqa: SLF001
+    works = manifest["works"]
+    codes = [w["code"] for w in works]
+    assert len(codes) == len(set(codes)) and len(works) >= 40
+    # The Constitution, the pilot acts and the codes of the page, in both redactional-code formats.
+    assert {"047U0001", "042U0262", "030U1398", "040U1443", "088G0492", "18G00011", "25G00192"} <= set(codes)
+    assert works[0]["code"] == "047U0001" and len(works[0]["vigenza"]) > 20
+    assert all(w["urn"].startswith("urn:nir:stato:") for w in works)  # ministerial decrees are not on the list
+
+
+def test_the_listing_of_the_codes_page_is_read_from_its_links() -> None:
+    from scripts.build_normattiva_manifest import describe, listing
+
+    page = (
+        '<a href="/uri-res/N2Ls?urn:nir:stato:regio.decreto:1942-03-16;262" class="x">\n  Codice civile </a>'
+        '<a href="https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-06-30;196">'
+        "<span>Codice in materia di protezione dei dati personali</span></a>"
+        '<a href="/uri-res/N2Ls?urn:nir:stato:regio.decreto:1942-03-16;262">again</a>'
+    )
+    acts = listing(page)
+    assert [u for u, _ in acts] == [
+        "urn:nir:stato:regio.decreto:1942-03-16;262",
+        "urn:nir:stato:decreto.legislativo:2003-06-30;196",
+    ]
+    assert describe(*acts[0]) == "Codice civile (R.D. 16 marzo 1942, n. 262)"
+    assert describe(*acts[1]).endswith("(d.lgs. 30 giugno 2003, n. 196)")
+
+
+@pytest.mark.db
+def test_flat_codes_ingest_search_and_cite(
+    session: Session, catalog: Catalog, store: LocalObjectStore, it_ingested: IngestionReport
+) -> None:
+    # Ingested in the test's own session, which is rolled back afterwards.
+    docs = [
+        _raw(code, version, _fixture(parts), f"urn:nir:stato:regio.decreto:{code}")
+        for parts in (DISP_ATT, MILITARY, GIUSTIZIA_CONTABILE, AMBIENTE)
+        for _, code, version in [parts]
+    ]
+    report = Ingestor(session, catalog, store).ingest_source("it-normattiva", actor="pytest", connector=_Docs(docs))
+    assert report.errors == [] and report.conflicts == [] and report.instruments_created == 4
+    hit = _search(session, catalog, q="Il giudice regolarmente adito secondo le leggi anteriori")["results"][0]
+    assert hit["citation"] == "art. 230 disp. att. c.p.c."
+    hit = _search(session, catalog, q="Per i condannati a una pena detentiva il tempo trascorso in speciali reparti")[
+        "results"
+    ][0]
+    assert hit["citation"] == "art. 33 c.p.m.g."
+    hit = _search(session, catalog, q="Terminata l'udienza di discussione la decisione e' deliberata")["results"][0]
+    assert hit["citation"].endswith("d.lgs. 174/2016")
+    ambiente = session.scalars(
+        select(m.Provision.uri).where(m.Provision.uri.like("/it/decreto.legislativo/2006/152/~art_298-bis%"))
+    ).all()
+    assert any(u.endswith("~art_298-bis--2") for u in ambiente)

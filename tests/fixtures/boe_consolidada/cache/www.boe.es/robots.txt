@@ -1,0 +1,44 @@
+User-agent: *
+# Paginas con contenido exclusivamente en castellano invocadas desde lengua cooficial
+Disallow: /diario_boe/txt.php?*lang=ca
+Disallow: /diario_boe/txt.php?*lang=va
+Disallow: /diario_boe/txt.php?*lang=gl
+Disallow: /diario_boe/txt.php?*lang=eu
+Disallow: /diario_boe/txt.php?*lang=en
+Disallow: /diario_boe/txt.php?*lang=fr
+Disallow: /buscar/doc.php?*lang=ca
+Disallow: /buscar/doc.php?*lang=va
+Disallow: /buscar/doc.php?*lang=gl
+Disallow: /buscar/doc.php?*lang=eu
+Disallow: /buscar/doc.php?*lang=en
+Disallow: /buscar/doc.php?*lang=fr
+Disallow: /buscar/act.php?*lang=ca
+Disallow: /buscar/act.php?*lang=va
+Disallow: /buscar/act.php?*lang=gl
+Disallow: /buscar/act.php?*lang=eu
+Disallow: /buscar/act.php?*lang=en
+Disallow: /buscar/act.php?*lang=fr
+# Descartar verificaciones
+Disallow: /diario_boe/verifica.php?
+Disallow: /diario_borme/verifica.php?
+# Descartar xml
+Disallow: /diario_boe/xml.php?
+Disallow: /diario_borme/xml.php?
+# No duplicar los pdfs
+Disallow: /datos/pdfs/
+# Descartar sumarios parciales por departamento o por seccion
+# Introducido valor noindex en metadato robots
+# Disallow: /boe/dias/*e=
+# Disallow: /boe/dias/*s=
+Disallow: /borme/dias/*s=
+# Descartar anuncios de notificacion
+Disallow: /boe_n/
+Disallow: /notificaciones/
+# Descartar edictos judiciales
+Disallow: /boe_j/
+Disallow: /edictos_judiciales/
+# ELI
+Disallow: /buscar/doc.php?id=BOE-A-2026-4920
+Disallow: /buscar/act.php?id=BOE-A-2026-4920
+Disallow: /diario_boe/txt.php?id=BOE-A-2026-4920
+Disallow: /*BOE-A-2026-4920$

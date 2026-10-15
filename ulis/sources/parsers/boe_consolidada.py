@@ -43,10 +43,10 @@ from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing use
 
 from defusedxml.ElementTree import fromstring
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "boe_consolidada_xml"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 SITE = "https://www.boe.es"
 
 # BOE rango -> (ULIS instrument type, ELI type code used in the work URI)
@@ -57,6 +57,17 @@ RANGOS = {
     "real decreto legislativo": ("royal_legislative_decree", "rdlg"),
     "real decreto-ley": ("royal_decree_law", "rdl"),
     "real decreto": ("royal_decree", "rd"),
+    # Lower-ranking State norms that the AEBOE also consolidates (1.1.0). The ELI type codes are the ones the BOE's
+    # own ELI URIs use (https://www.boe.es/eli/es/<code>/...).
+    "decreto-ley": ("decree_law", "dl"),
+    "decreto": ("decree", "d"),
+    "reglamento": ("regulation", "reg"),
+    "orden": ("ministerial_order", "o"),
+    "resolucion": ("resolution", "res"),
+    "circular": ("circular", "cir"),
+    "instruccion": ("instruction", "ins"),
+    "acuerdo": ("agreement", "a"),
+    "acuerdo internacional": ("international_agreement", "ai"),
 }
 BOE_ID = re.compile(r"^BOE-[A-Z]-\d{4}-\d{1,6}$")
 SKIPPED_BLOCKS = {"firma", "nota_inicial", "encabezado", "cabecera"}
@@ -176,6 +187,19 @@ def _date(value: str | None) -> date | None:
 
 def _text(el: Element) -> str:
     return _ws("".join(el.itertext()))
+
+
+def _flag(meta: Element, tag: str) -> bool:
+    return (meta.findtext(tag) or "").strip().upper() == "S"
+
+
+def _repealing_norm(root: Element) -> str | None:
+    """The first norm the BOE analysis lists as repealing this one ("SE DEROGA"), as printed there."""
+    for posterior in root.iterfind("data/analisis/referencias/posteriores/posterior"):
+        if (posterior.findtext("relacion") or "").strip().upper() == "SE DEROGA":
+            ident, texto = (posterior.findtext("id_norma") or "").strip(), (posterior.findtext("texto") or "").strip()
+            return _ws(ident + ("" if texto.startswith(",") else " ") + texto) or None
+    return None
 
 
 def table_text(el: Element) -> str:
@@ -598,6 +622,18 @@ def parse_boe_consolidada(content: bytes) -> list[ParsedDocument]:
         "eli": (meta.findtext("url_eli") or "").strip() or None,
         "departamento": _ws(meta.findtext("departamento") or "") or None,
     }
+    # Whole-norm repeal / annulment: the text of such a norm keeps showing its last wording, so without this every
+    # provision of a repealed norm would still read as in force. The dates are the source's (metadatos).
+    repealed_on = _date(meta.findtext("fecha_derogacion")) if _flag(meta, "estatus_derogacion") else None
+    annulled_on = _date(meta.findtext("fecha_anulacion")) if _flag(meta, "estatus_anulacion") else None
+    if repealed_on:
+        ext["fecha_derogacion"] = repealed_on.isoformat()
+    if annulled_on:
+        ext["fecha_anulacion"] = annulled_on.isoformat()
+    if _flag(meta, "vigencia_agotada"):
+        ext["vigencia_agotada"] = True
+    norm_end = min((d for d in (repealed_on, annulled_on) if d), default=None)
+    repealer = _repealing_norm(root) if repealed_on else None
 
     # ---- pass 1: blocks and their versions
     bloques = texto.findall("bloque")
@@ -641,7 +677,9 @@ def parse_boe_consolidada(content: bytes) -> list[ParsedDocument]:
             continue
         blocks.append(block)
     if not blocks:
-        raise BoeParseError(f"{boe_id}: no provisions found")
+        raise ParseSkipped(
+            f"{boe_id}: the consolidated text holds no provision (no article, disposition or block with words)"
+        )
 
     # ---- pass 2: per-block version chains
     chains: dict[str, tuple[list[_Version], list[tuple[_Version, int]], _Version | None]] = {}
@@ -701,6 +739,19 @@ def parse_boe_consolidada(content: bytes) -> list[ParsedDocument]:
         if c.unit.eid != c.block.eid and c.unit.eid in blocks_by_eid:
             raise BoeParseError(f"{boe_id}: identifier {c.unit.eid} used by two provisions")
 
+    if norm_end is not None:
+        how, field_name = (
+            ("repealed in full", "fecha_derogacion") if norm_end == repealed_on else ("annulled", "fecha_anulacion")
+        )
+        remark = (
+            f"[ULIS: the BOE metadata state that the whole norm was {how} on {norm_end.isoformat()} "
+            f"({field_name}); the consolidated text keeps showing its last wording.]"
+        )
+        for c in cands:
+            if c.status == "in_force" and c.valid_to is None and c.valid_from is not None and c.valid_from < norm_end:
+                c.valid_to = norm_end
+                c.note = _note([c.note or "", remark])
+
     # Index units: a provision is indexed if any of its versions is a leaf or has its own words.
     indexable: dict[str, bool] = defaultdict(bool)
     for c in cands:
@@ -759,6 +810,18 @@ def parse_boe_consolidada(content: bytes) -> list[ParsedDocument]:
             for norma in sorted({c.norma for c in group if c.norma and c.norma != boe_id})
         ]
         if (pub, listing) == first:
+            if norm_end is not None:
+                what = "repealed in full" if norm_end == repealed_on else "annulled"
+                events.append(
+                    ParsedEvent(
+                        "repeal",
+                        norm_end,
+                        None,
+                        f"Norm {what} (BOE metadata)"
+                        + (f"; repealing norm per the BOE analysis: {repealer}" if repealer else ""),
+                        "metadatos/fecha_derogacion" if norm_end == repealed_on else "metadatos/fecha_anulacion",
+                    )
+                )
             if published:
                 events.append(ParsedEvent("publication", published, None, None, "metadatos/fecha_publicacion"))
             if in_force:

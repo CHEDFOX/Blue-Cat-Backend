@@ -1,0 +1,17 @@
+schema_version: 1
+source_id: eu-eur-lex
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+sparql_batch: 20
+languages:
+- en
+works:
+- celex: 02016R0679-20160504
+  base: 32016R0679
+  format: fmx4
+  languages:
+  - en
+  - fr
+  - de
+- celex: 32008R0593
+  format: fmx4

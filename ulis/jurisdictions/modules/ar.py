@@ -41,6 +41,13 @@ class ArExt(BaseModel):
     fecha_boletin: str | None = Field(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$")
     boletin_numero: str | None = None
     boletin_pagina: str | None = None
+    # From the open-data CSV (whole-collection manifest): the editors' summary titles, their observation on the law
+    # (may say it was abrogated) and how many norms modify it / it modifies.
+    titulo_resumido: str | None = None
+    titulo_sumario: str | None = None
+    observaciones: str | None = None
+    modificada_por: int | None = Field(default=None, ge=0)
+    modifica_a: int | None = Field(default=None, ge=0)
 
 
 def dotted(number: str) -> str:

@@ -41,9 +41,9 @@ from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
 
 HOST = "www.normattiva.it"
 BASE = f"https://{HOST}"
-_CODE = re.compile(r"^\d{3}[A-Z]\d{4}$")
+_CODE = re.compile(r"^(?:\d{3}[A-Z]\d{4}|\d{2}[A-Z]\d{5})$")
 _URN = re.compile(r"^urn:nir:stato:[a-z.]+(?::\d{4}-\d{2}-\d{2}(?:;\d+)?)?$")
-_LABEL = re.compile(rb"eli/id/\d{4}/\d{2}/\d{2}/\d{3}[A-Z]\d{4}/(ORIGINAL|CONSOLIDATED/(\d{8}))")
+_LABEL = re.compile(rb"eli/id/\d{4}/\d{2}/\d{2}/(?:\d{3}[A-Z]\d{4}|\d{2}[A-Z]\d{5})/(ORIGINAL|CONSOLIDATED/(\d{8}))")
 
 __all__ = ["FetchError", "NormattivaConnector", "akn_url", "page_url", "version_label"]
 

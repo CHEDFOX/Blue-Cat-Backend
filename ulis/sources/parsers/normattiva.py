@@ -47,6 +47,7 @@ How the file is read:
 from __future__ import annotations
 
 import re
+from collections import Counter
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import date
@@ -59,7 +60,7 @@ from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
 
 AKN = "http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
 PARSER_ID = "normattiva_akn"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 NOTE_LIMIT = 3000
 
 
@@ -101,6 +102,53 @@ SPECIAL: dict[str, _Special] = {
     "030U1398": _Special(
         "Codice penale", "Codice penale", "c.p.", "code", "codice.penale", flat={"codice penale": "main"}
     ),
+    # The other codes that Normattiva exports as the royal decree that approves them, with one attachment per
+    # article (1.1.0). They keep the work URI of the decree (``/it/regio.decreto/<year>/<number>``) so that references
+    # to the decree resolve to them.
+    "040U1443": _Special(
+        "Codice di procedura civile",
+        "Codice di procedura civile",
+        "c.p.c.",
+        "code",
+        "regio.decreto",
+        flat={"codice di procedura civile": "main"},
+    ),  # fmt: skip
+    "041U1368": _Special(
+        "Disposizioni per l'attuazione del Codice di procedura civile e disposizioni transitorie",
+        "Disposizioni di attuazione del c.p.c.",
+        "disp. att. c.p.c.",
+        "royal_decree",
+        "regio.decreto",
+        flat={"disposizioni di attuazione del codice di procedura civile": "main"},
+    ),  # fmt: skip
+    "042U0318": _Special(
+        "Disposizioni per l'attuazione del Codice civile e disposizioni transitorie",
+        "Disposizioni di attuazione del c.c.",
+        "disp. att. c.c.",
+        "royal_decree",
+        "regio.decreto",
+        flat={"disposizioni per l'attuazione del codice civile e disposizioni transitorie": "main"},
+    ),  # fmt: skip
+    "042U0327": _Special(
+        "Codice della navigazione",
+        "Codice della navigazione",
+        "cod. nav.",
+        "code",
+        "regio.decreto",
+        flat={"codice della navigazione": "main"},
+    ),  # fmt: skip
+    # Two codes in one decree: their article numbers overlap, so each article is cited with its own abbreviation.
+    "041U0303": _Special(
+        "Codici penali militari di pace e di guerra",
+        "Codici penali militari",
+        "c.p.m.",
+        "code",
+        "regio.decreto",
+        flat={
+            "codice penale militare di pace": "cite:c.p.m.p.",
+            "codice penale militare di guerra": "cite:c.p.m.g.",
+        },
+    ),  # fmt: skip
 }
 
 # urn:nir type -> (instrument type, abbreviation used in citations)
@@ -116,7 +164,9 @@ CONSTITUTION_DATE = date(1947, 12, 27)
 
 _SUFFIX = r"(?:bis|ter|quater|quinquies|sexies|septies|octies|novies|decies)"
 _DASHES = re.compile(r"(?m)^[ \t]*-{5,}[ \t]*$")
-_ELI = re.compile(r"^eli/id/(\d{4})/(\d{2})/(\d{2})/(\d{3}[A-Z]\d{4})/(ORIGINAL|CONSOLIDATED/(\d{8}))$")
+_ELI = re.compile(
+    r"^eli/id/(\d{4})/(\d{2})/(\d{2})/((?:\d{3}[A-Z]\d{4}|\d{2}[A-Z]\d{5}))/(ORIGINAL|CONSOLIDATED/(\d{8}))$"
+)
 _URN = re.compile(r"^urn:nir:stato:([a-z.]+)(?::(\d{4})-(\d{2})-(\d{2});(\d+))?$")
 _LABEL = re.compile(r"^[0-9a-z][0-9a-z./\-]*$")  # "/" only in articles such as art. 314/2 c.c.
 _INLINE_LABEL = re.compile(r"^(?:\(\(\s*)?(\d+(?:-[a-z]+)*(?:\.\d+)?)\.\s")
@@ -130,6 +180,11 @@ _AKN_REF = re.compile(r"^/akn/it/act/([^/]+)/([^/]+)/(\d{4})(?:-\d{2}-\d{2})?/([
 _URN_LINK = re.compile(
     r"^(?:https?://www\.normattiva\.it/uri-res/N2Ls\?)?urn:nir:stato:([a-z.]+):(\d{4})(?:-\d{2}-\d{2})?;(\d+)(?:~art(.+))?$"
 )
+
+
+# "Codice civile-Art. 2043", "Codice penale militare di pace - art. 1", "Regolamento ...- art. 12 bis", "Norme-art. 3".
+_ATTACHED_ARTICLE = re.compile(r"^(?P<prefix>.*?)\s*-\s*art\.\s*(?P<number>\S.*)$", re.I)
+FLAT_MINIMUM = 10  # an act with at least this many such attachments is one whose articles are all attachments
 
 
 def _a(tag: str) -> str:
@@ -351,7 +406,11 @@ class _Reader:
             label = _label(art.get("eId", "")[4:])
         if label is None:
             raise NormattivaParseError(f"article without a number: {raw!r}")
-        node = _Node(f"art_{label}", "article", [label], _heading(art.find(_a("heading"))))
+        eid, again = f"art_{label}", 2
+        while eid in self.eids:  # the act numbers two different articles alike (d.lgs. 152/2006 has two art. 298-bis)
+            self.warnings.append(f"article {label} appears more than once")
+            eid, again = f"art_{label}--{again}", again + 1
+        node = _Node(eid, "article", [label], _heading(art.find(_a("heading"))))
         state = _State()
         last, seen = node, set()
         for para in art.findall(_a("paragraph")):
@@ -418,8 +477,10 @@ class _Reader:
         (node.tail if node.children else node.lines).extend(lines)
 
     # -- attachments: one article of a code, or one transitional provision of the Constitution
-    def code_article(self, name: str, main_body: Element, group: str) -> None:
-        number = name.partition("-art. ")[2].strip()
+    def code_article(self, name: str, main_body: Element, group: str, duplicate: bool = False) -> bool:
+        """Read one attachment as an article; False when it is not read (see below)."""
+        named = _ATTACHED_ARTICLE.match(name)
+        number = named.group("number").strip() if named else ""
         label = _label(number)
         if label is None:
             raise NormattivaParseError(f"attachment {name!r}: no article number")
@@ -432,6 +493,11 @@ class _Reader:
             m = _ART_LINE.match(lines[first])
             assert m is not None
             printed = _label(m.group(1))
+            if printed != label and duplicate:
+                # Two attachments carry this name and this one prints another article's number (the codici penali
+                # militari have one for art. 33 that is art. 22): the source mislabelled it, so it is not read.
+                self.warnings.append(f"{name}: mislabelled duplicate (article line says {m.group(1)!r}); not read")
+                return False
             if printed != label:
                 self.warnings.append(f"{name}: article line says {m.group(1)!r}")
                 # Where both carry a suffix (Latin multiplier) only the spelling differs and the printed
@@ -445,20 +511,23 @@ class _Reader:
         if heading:
             lines = lines[1:]
         prel = group == "prel"
+        cite = group.removeprefix("cite:") if group.startswith("cite:") else None
         text.refs = [
             r for r in text.refs if not r.href.endswith(f"/~art_{label.replace('/', '_')}")
         ]  # "CODICE ... Art. N"
+        stem = "prel_" if prel else (re.sub(r"[^a-z0-9]+", "-", cite.lower())[:60].strip("-") + "_" if cite else "")
         self.add(
             _Node(
-                f"{'prel_' if prel else ''}art_{label.replace('/', '_')}",
+                f"{stem}art_{label.replace('/', '_')}",
                 "article",
-                [f"prel:{label}" if prel else label],
+                [f"prel:{label}" if prel else (f"cite:{cite}:{label}" if cite else label)],
                 heading,
                 lines=lines,
                 note=text.note,
                 refs=text.refs,
             )  # fmt: skip
         )
+        return True
 
     def transitional(self, name: str, main_body: Element) -> None:
         numeral = name.partition("-")[2]
@@ -493,22 +562,55 @@ def _walk(el: Element, reader: _Reader) -> None:
             _walk(child, reader)
 
 
+def _flat_attachments(act: Element) -> int:
+    """How many attachments are named like one article of a code (``<code>-art. N``)."""
+    return sum(
+        1
+        for doc in act.iter(_a("doc"))
+        if _ATTACHED_ARTICLE.match(doc.get("name", "")) and doc.find(_a("mainBody")) is not None
+    )
+
+
+def _is_flat(act: Element) -> bool:
+    """An act whose articles are its attachments (a code approved by a decree of two or three articles).
+
+    An act with many articles of its own that merely has annexed codes of conduct (d.lgs. 196/2003) is not."""
+    attached = _flat_attachments(act)
+    body = act.find(_a("body"))
+    own = sum(1 for _ in body.iter(_a("article"))) if body is not None else 0
+    return attached >= FLAT_MINIMUM and attached > own
+
+
 def _attachments(act: Element, special: _Special | None, reader: _Reader) -> list[str]:
     """Read the attachments an instrument needs; return the names of those that are not read."""
     skipped: list[str] = []
+    generic_flat = not (special and special.flat) and _is_flat(act)
+    names = [doc.get("name", "") for doc in act.iter(_a("doc"))]
+    # A generic flat act with several sets of attachments (an Allegato 1 and an Allegato 2, each numbering its
+    # articles from 1) keeps the most frequent prefix as the plain "art. N" and cites the others by their name.
+    parts = [n for n in (_ATTACHED_ARTICLE.match(x) for x in names) if n]
+    by_number: dict[str | None, set[str]] = {}
+    for n in parts:
+        by_number.setdefault(_label(n.group("number")), set()).add(n.group("prefix").strip().lower())
+    collide = any(len(v) > 1 for v in by_number.values())
+    prefix_counts = Counter(n.group("prefix").strip().lower() for n in parts)
+    main_prefix = prefix_counts.most_common(1)[0][0] if prefix_counts else ""
     for doc in act.iter(_a("doc")):
         name = doc.get("name", "")
         main_body = doc.find(_a("mainBody"))
-        group = next(
-            (
-                g
-                for prefix, g in (special.flat if special else {}).items()
-                if name.lower().startswith(prefix + "-art. ")
-            ),
-            None,
-        )
+        named = _ATTACHED_ARTICLE.match(name)
+        if special and special.flat:
+            group = next(
+                (g for prefix, g in special.flat.items() if named and named.group("prefix").lower() == prefix), None
+            )
+        elif named and generic_flat:
+            prefix = named.group("prefix").strip()
+            group = "main" if not collide or prefix.lower() == main_prefix else f"cite:{prefix}"
+        else:
+            group = None
         if main_body is not None and group:
-            reader.code_article(name, main_body, group)
+            if not reader.code_article(name, main_body, group, duplicate=names.count(name) > 1):
+                skipped.append(name)
         elif main_body is not None and special and special.transitional and name.startswith("Allegato-"):
             reader.transitional(name, main_body)
         else:
@@ -616,7 +718,7 @@ def _provisions(reader: _Reader, version_date: date) -> list[ParsedProvision]:
 
 def _clean_title(text: str) -> str:
     text = _ws(text.replace("((", " ").replace("))", " "))
-    return re.sub(r"\s+([,.;])", r"\1", re.sub(r"\s*\(\d{3}[A-Z]\d{4}\)\s*$", "", text)).strip()
+    return re.sub(r"\s+([,.;])", r"\1", re.sub(r"\s*\((?:\d{3}[A-Z]\d{4}|\d{2}[A-Z]\d{5})\)\s*$", "", text)).strip()
 
 
 def skipped_attachments(content: bytes) -> list[str]:
@@ -709,7 +811,8 @@ def parse_normattiva(content: bytes) -> list[ParsedDocument]:
     body = act.find(_a("body"))
     if body is None:
         raise NormattivaParseError("missing body")
-    if special is None or not special.flat:
+    flat_act = bool(special and special.flat) or (special is None and _is_flat(act))
+    if not flat_act:
         _walk(body, reader)  # the articles of a code's approving decree are not the code
     _attachments(act, special, reader)
     if not reader.nodes:
@@ -731,7 +834,7 @@ def parse_normattiva(content: bytes) -> list[ParsedDocument]:
         ext["year"] = year
     if in_force:
         ext["entry_into_force"] = in_force.isoformat()
-    if special and special.flat:
+    if flat_act:
         ext["approved_by"] = _ws(f"{doc_type.capitalize()} {doc_date_text}, n. {doc_number}")
 
     events = [ParsedEvent("version_change", version_date, None, None, "FRBRExpression/FRBRdate")]

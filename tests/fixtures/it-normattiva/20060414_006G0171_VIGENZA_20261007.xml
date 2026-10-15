@@ -1,0 +1,1800 @@
+<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:eli="http://data.europa.eu/eli/ontology#" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:gu="http://www.gazzettaufficiale.it/eli/" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:na="http://www.normattiva.it/eli/" xmlns:nakn="http://normattiva.it/akn/vocabulary" xmlns:nrdfa="http://www.normattiva.it/rdfa/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfa="http://www.w3.org/1999/xhtml#">
+    <act name="monovigente">
+        <meta>
+            <identification source="">
+                <FRBRWork>
+                    <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2006-04-03/152/!main"/>
+                    <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2006-04-03/152"/>
+                    <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2006-04-03;152"/>
+                    <FRBRalias name="eli" value="eli/id/2006/04/14/006G0171/CONSOLIDATED/20261007"/>
+                    <FRBRdate date="2006-04-03" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/2006/04/14/006G0171/CONSOLIDATED/20261007" aknrelname="eli/id/2006/04/14/006G0171/CONSOLIDATED/20261007">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalResource"/>
+                            <nrdfa:span content="Norme in materia ambientale. " lang="it" property="eli:title" xml:lang="it"/>
+                            <nrdfa:span content="http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}" property="eli:uri_schema"/>
+                            <nrdfa:span content="006G0171" property="eli:id_local"/>
+                            <nrdfa:span property="eli:type_document" resource="gu:tables/resource-type#DECRETO LEGISLATIVO"/>
+                            <nrdfa:span content="2006-04-03" datatype="xsd:date" property="eli:date_document"/>
+                            <nrdfa:span property="eli:version" resource="gu:tables/versions#ORIGINAL"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRcountry value="it"/>
+                </FRBRWork>
+                <FRBRExpression>
+                    <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2006-04-03/152/ita@2026-10-07/!main"/>
+                    <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2006-04-03/152/ita@2026-10-07"/>
+                    <FRBRdate date="2026-10-07" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/2006/04/14/006G0171/CONSOLIDATED/20261007/ita">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalExpression"/>
+                            <nrdfa:span property="eli:realizes" resource="na:id/2006/04/14/006G0171/CONSOLIDATED/20261007"/>
+                            <nrdfa:span property="eli:is_embodied_by" resource="na:id/2006/04/14/006G0171/CONSOLIDATED/20261007/ita/akn"/>
+                            <nrdfa:span property="eli:language" resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                            <nrdfa:span property="eli:publisher_agent" resource="http://www.ipzs.it"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRlanguage language="ita"/>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2006-04-03/152/ita@2026-10-07/!main.xml"/>
+                    <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2006-04-03/152/ita@2026-10-07.xml"/>
+                    <FRBRdate date="2006-04-03" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/2006/04/14/006G0171/CONSOLIDATED/20261007/ita/akn">
+                            <nrdfa:span property="rdf:type" resource="eli:Format"/>
+                            <nrdfa:span property="eli:format" resource="http://www.iana.org/assignments/media-types/xml"/>
+                        </nrdfa:eli>
+                    </preservation>
+                </FRBRManifestation>
+            </identification>
+            <publication date="2006-04-14" name="" number="88" showAs=""/>
+            <lifecycle source="">
+                <eventRef date="2006-04-14" eId="eventRef_0" source="ro1"/>
+                <eventRef date="2006-05-13" eId="eventRef_1" source="rp1"/>
+                <eventRef date="2006-10-03" eId="eventRef_2" source="rp2"/>
+                <eventRef date="2006-11-24" eId="eventRef_3" source="rp3"/>
+                <eventRef date="2006-12-27" eId="eventRef_4" source="rp4"/>
+                <eventRef date="2006-12-28" eId="eventRef_5" source="rp5"/>
+                <eventRef date="2007-05-11" eId="eventRef_6" source="rp6"/>
+                <eventRef date="2007-07-10" eId="eventRef_7" source="rp7"/>
+                <eventRef date="2007-10-31" eId="eventRef_8" source="rp8"/>
+                <eventRef date="2007-11-09" eId="eventRef_9" source="rp9"/>
+                <eventRef date="2007-12-31" eId="eventRef_10" source="rp10"/>
+                <eventRef date="2008-01-29" eId="eventRef_11" source="rp11"/>
+                <eventRef date="2008-04-09" eId="eventRef_12" source="rp12"/>
+                <eventRef date="2008-05-23" eId="eventRef_13" source="rp13"/>
+                <eventRef date="2008-07-07" eId="eventRef_14" source="rp14"/>
+                <eventRef date="2008-08-11" eId="eventRef_15" source="rp15"/>
+                <eventRef date="2008-10-15" eId="eventRef_16" source="rp16"/>
+                <eventRef date="2008-11-04" eId="eventRef_17" source="rp17"/>
+                <eventRef date="2008-11-06" eId="eventRef_18" source="rp18"/>
+                <eventRef date="2008-11-29" eId="eventRef_19" source="rp19"/>
+                <eventRef date="2008-12-03" eId="eventRef_20" source="rp20"/>
+                <eventRef date="2008-12-31" eId="eventRef_21" source="rp21"/>
+                <eventRef date="2009-04-04" eId="eventRef_22" source="rp22"/>
+                <eventRef date="2009-04-28" eId="eventRef_23" source="rp23"/>
+                <eventRef date="2009-05-30" eId="eventRef_24" source="rp24"/>
+                <eventRef date="2009-07-01" eId="eventRef_25" source="rp25"/>
+                <eventRef date="2009-07-29" eId="eventRef_26" source="rp26"/>
+                <eventRef date="2009-07-29" eId="eventRef_27" source="rp27"/>
+                <eventRef date="2009-07-29" eId="eventRef_28" source="rp28"/>
+                <eventRef date="2009-07-29" eId="eventRef_29" source="rp29"/>
+                <eventRef date="2009-07-29" eId="eventRef_30" source="rp30"/>
+                <eventRef date="2009-07-31" eId="eventRef_31" source="rp31"/>
+                <eventRef date="2009-09-25" eId="eventRef_32" source="rp32"/>
+                <eventRef date="2009-10-01" eId="eventRef_33" source="rp33"/>
+                <eventRef date="2009-12-30" eId="eventRef_34" source="rp34"/>
+                <eventRef date="2010-01-26" eId="eventRef_35" source="rp35"/>
+                <eventRef date="2010-02-03" eId="eventRef_36" source="rp36"/>
+                <eventRef date="2010-03-12" eId="eventRef_37" source="rp37"/>
+                <eventRef date="2010-05-31" eId="eventRef_38" source="rp38"/>
+                <eventRef date="2010-07-07" eId="eventRef_39" source="rp39"/>
+                <eventRef date="2010-07-09" eId="eventRef_40" source="rp40"/>
+                <eventRef date="2010-08-11" eId="eventRef_41" source="rp41"/>
+                <eventRef date="2010-10-12" eId="eventRef_42" source="rp42"/>
+                <eventRef date="2010-11-26" eId="eventRef_43" source="rp43"/>
+                <eventRef date="2010-12-10" eId="eventRef_44" source="rp44"/>
+                <eventRef date="2010-12-20" eId="eventRef_45" source="rp45"/>
+                <eventRef date="2010-12-29" eId="eventRef_46" source="rp46"/>
+                <eventRef date="2011-02-07" eId="eventRef_47" source="rp47"/>
+                <eventRef date="2011-03-28" eId="eventRef_48" source="rp48"/>
+                <eventRef date="2011-04-28" eId="eventRef_49" source="rp49"/>
+                <eventRef date="2011-05-13" eId="eventRef_50" source="rp50"/>
+                <eventRef date="2011-07-20" eId="eventRef_51" source="rp51"/>
+                <eventRef date="2011-08-01" eId="eventRef_52" source="rp52"/>
+                <eventRef date="2011-09-21" eId="eventRef_53" source="rp53"/>
+                <eventRef date="2011-10-04" eId="eventRef_54" source="rp54"/>
+                <eventRef date="2011-12-06" eId="eventRef_55" source="rp55"/>
+                <eventRef date="2011-12-29" eId="eventRef_56" source="rp56"/>
+                <eventRef date="2012-01-24" eId="eventRef_57" source="rp57"/>
+                <eventRef date="2012-01-25" eId="eventRef_58" source="rp58"/>
+                <eventRef date="2012-02-09" eId="eventRef_59" source="rp59"/>
+                <eventRef date="2012-03-02" eId="eventRef_60" source="rp60"/>
+                <eventRef date="2012-06-26" eId="eventRef_61" source="rp61"/>
+                <eventRef date="2012-08-06" eId="eventRef_62" source="rp62"/>
+                <eventRef date="2012-10-19" eId="eventRef_63" source="rp63"/>
+                <eventRef date="2013-04-02" eId="eventRef_64" source="rp64"/>
+                <eventRef date="2013-05-29" eId="eventRef_65" source="rp65"/>
+                <eventRef date="2013-06-04" eId="eventRef_66" source="rp66"/>
+                <eventRef date="2013-06-21" eId="eventRef_67" source="rp67"/>
+                <eventRef date="2013-08-19" eId="eventRef_68" source="rp68"/>
+                <eventRef date="2013-08-20" eId="eventRef_69" source="rp69"/>
+                <eventRef date="2013-08-31" eId="eventRef_70" source="rp70"/>
+                <eventRef date="2013-12-10" eId="eventRef_71" source="rp71"/>
+                <eventRef date="2013-12-23" eId="eventRef_72" source="rp72"/>
+                <eventRef date="2013-12-30" eId="eventRef_73" source="rp73"/>
+                <eventRef date="2014-01-14" eId="eventRef_74" source="rp74"/>
+                <eventRef date="2014-02-10" eId="eventRef_75" source="rp75"/>
+                <eventRef date="2014-03-27" eId="eventRef_76" source="rp76"/>
+                <eventRef date="2014-03-28" eId="eventRef_77" source="rp77"/>
+                <eventRef date="2014-06-14" eId="eventRef_78" source="rp78"/>
+                <eventRef date="2014-06-24" eId="eventRef_79" source="rp79"/>
+                <eventRef date="2014-08-12" eId="eventRef_80" source="rp80"/>
+                <eventRef date="2014-09-12" eId="eventRef_81" source="rp81"/>
+                <eventRef date="2014-11-10" eId="eventRef_82" source="rp82"/>
+                <eventRef date="2014-12-29" eId="eventRef_83" source="rp83"/>
+                <eventRef date="2014-12-31" eId="eventRef_84" source="rp84"/>
+                <eventRef date="2015-01-05" eId="eventRef_85" source="rp85"/>
+                <eventRef date="2015-05-28" eId="eventRef_86" source="rp86"/>
+                <eventRef date="2015-06-19" eId="eventRef_87" source="rp87"/>
+                <eventRef date="2015-07-04" eId="eventRef_88" source="rp88"/>
+                <eventRef date="2015-08-03" eId="eventRef_89" source="rp89"/>
+                <eventRef date="2015-09-16" eId="eventRef_90" source="rp90"/>
+                <eventRef date="2015-10-27" eId="eventRef_91" source="rp91"/>
+                <eventRef date="2015-12-30" eId="eventRef_92" source="rp92"/>
+                <eventRef date="2015-12-30" eId="eventRef_93" source="rp93"/>
+                <eventRef date="2016-01-18" eId="eventRef_94" source="rp94"/>
+                <eventRef date="2016-03-16" eId="eventRef_95" source="rp95"/>
+                <eventRef date="2016-06-11" eId="eventRef_96" source="rp96"/>
+                <eventRef date="2016-06-30" eId="eventRef_97" source="rp97"/>
+                <eventRef date="2016-07-01" eId="eventRef_98" source="rp98"/>
+                <eventRef date="2016-07-08" eId="eventRef_99" source="rp99"/>
+                <eventRef date="2016-07-13" eId="eventRef_100" source="rp100"/>
+                <eventRef date="2016-07-16" eId="eventRef_101" source="rp101"/>
+                <eventRef date="2016-07-20" eId="eventRef_102" source="rp102"/>
+                <eventRef date="2016-07-21" eId="eventRef_103" source="rp103"/>
+                <eventRef date="2016-08-10" eId="eventRef_104" source="rp104"/>
+                <eventRef date="2016-12-30" eId="eventRef_105" source="rp105"/>
+                <eventRef date="2017-01-13" eId="eventRef_106" source="rp106"/>
+                <eventRef date="2017-02-09" eId="eventRef_107" source="rp107"/>
+                <eventRef date="2017-04-12" eId="eventRef_108" source="rp108"/>
+                <eventRef date="2017-04-19" eId="eventRef_109" source="rp109"/>
+                <eventRef date="2017-04-24" eId="eventRef_110" source="rp110"/>
+                <eventRef date="2017-06-20" eId="eventRef_111" source="rp111"/>
+                <eventRef date="2017-06-24" eId="eventRef_112" source="rp112"/>
+                <eventRef date="2017-07-06" eId="eventRef_113" source="rp113"/>
+                <eventRef date="2017-08-07" eId="eventRef_114" source="rp114"/>
+                <eventRef date="2017-08-14" eId="eventRef_115" source="rp115"/>
+                <eventRef date="2017-11-27" eId="eventRef_116" source="rp116"/>
+                <eventRef date="2017-12-16" eId="eventRef_117" source="rp117"/>
+                <eventRef date="2017-12-29" eId="eventRef_118" source="rp118"/>
+                <eventRef date="2018-01-05" eId="eventRef_119" source="rp119"/>
+                <eventRef date="2018-01-22" eId="eventRef_120" source="rp120"/>
+                <eventRef date="2018-03-22" eId="eventRef_121" source="rp121"/>
+                <eventRef date="2018-12-14" eId="eventRef_122" source="rp122"/>
+                <eventRef date="2018-12-31" eId="eventRef_123" source="rp123"/>
+                <eventRef date="2019-03-29" eId="eventRef_124" source="rp124"/>
+                <eventRef date="2019-04-18" eId="eventRef_125" source="rp125"/>
+                <eventRef date="2019-05-11" eId="eventRef_126" source="rp126"/>
+                <eventRef date="2019-08-06" eId="eventRef_127" source="rp127"/>
+                <eventRef date="2019-09-04" eId="eventRef_128" source="rp128"/>
+                <eventRef date="2019-10-24" eId="eventRef_129" source="rp129"/>
+                <eventRef date="2019-11-02" eId="eventRef_130" source="rp130"/>
+                <eventRef date="2019-12-30" eId="eventRef_131" source="rp131"/>
+                <eventRef date="2020-03-17" eId="eventRef_132" source="rp132"/>
+                <eventRef date="2020-04-29" eId="eventRef_133" source="rp133"/>
+                <eventRef date="2020-05-19" eId="eventRef_134" source="rp134"/>
+                <eventRef date="2020-07-16" eId="eventRef_135" source="rp135"/>
+                <eventRef date="2020-07-18" eId="eventRef_136" source="rp136"/>
+                <eventRef date="2020-08-13" eId="eventRef_137" source="rp137"/>
+                <eventRef date="2020-09-11" eId="eventRef_138" source="rp138"/>
+                <eventRef date="2020-09-14" eId="eventRef_139" source="rp139"/>
+                <eventRef date="2020-12-31" eId="eventRef_140" source="rp140"/>
+                <eventRef date="2021-03-01" eId="eventRef_141" source="rp141"/>
+                <eventRef date="2021-03-22" eId="eventRef_142" source="rp142"/>
+                <eventRef date="2021-04-29" eId="eventRef_143" source="rp143"/>
+                <eventRef date="2021-05-21" eId="eventRef_144" source="rp144"/>
+                <eventRef date="2021-05-31" eId="eventRef_145" source="rp145"/>
+                <eventRef date="2021-06-09" eId="eventRef_146" source="rp146"/>
+                <eventRef date="2021-06-23" eId="eventRef_147" source="rp147"/>
+                <eventRef date="2021-07-30" eId="eventRef_148" source="rp148"/>
+                <eventRef date="2021-08-07" eId="eventRef_149" source="rp149"/>
+                <eventRef date="2021-09-09" eId="eventRef_150" source="rp150"/>
+                <eventRef date="2021-09-10" eId="eventRef_151" source="rp151"/>
+                <eventRef date="2021-11-06" eId="eventRef_152" source="rp152"/>
+                <eventRef date="2021-11-08" eId="eventRef_153" source="rp153"/>
+                <eventRef date="2021-11-09" eId="eventRef_154" source="rp154"/>
+                <eventRef date="2021-11-30" eId="eventRef_155" source="rp155"/>
+                <eventRef date="2021-11-30" eId="eventRef_156" source="rp156"/>
+                <eventRef date="2021-12-30" eId="eventRef_157" source="rp157"/>
+                <eventRef date="2021-12-31" eId="eventRef_158" source="rp158"/>
+                <eventRef date="2021-12-31" eId="eventRef_159" source="rp159"/>
+                <eventRef date="2022-01-27" eId="eventRef_160" source="rp160"/>
+                <eventRef date="2022-02-28" eId="eventRef_161" source="rp161"/>
+                <eventRef date="2022-03-01" eId="eventRef_162" source="rp162"/>
+                <eventRef date="2022-03-28" eId="eventRef_163" source="rp163"/>
+                <eventRef date="2022-04-28" eId="eventRef_164" source="rp164"/>
+                <eventRef date="2022-04-30" eId="eventRef_165" source="rp165"/>
+                <eventRef date="2022-05-17" eId="eventRef_166" source="rp166"/>
+                <eventRef date="2022-06-10" eId="eventRef_167" source="rp167"/>
+                <eventRef date="2022-06-16" eId="eventRef_168" source="rp168"/>
+                <eventRef date="2022-06-29" eId="eventRef_169" source="rp169"/>
+                <eventRef date="2022-07-15" eId="eventRef_170" source="rp170"/>
+                <eventRef date="2022-08-05" eId="eventRef_171" source="rp171"/>
+                <eventRef date="2022-08-09" eId="eventRef_172" source="rp172"/>
+                <eventRef date="2022-08-12" eId="eventRef_173" source="rp173"/>
+                <eventRef date="2022-09-21" eId="eventRef_174" source="rp174"/>
+                <eventRef date="2022-09-23" eId="eventRef_175" source="rp175"/>
+                <eventRef date="2022-11-11" eId="eventRef_176" source="rp176"/>
+                <eventRef date="2022-11-18" eId="eventRef_177" source="rp177"/>
+                <eventRef date="2022-12-29" eId="eventRef_178" source="rp178"/>
+                <eventRef date="2023-01-03" eId="eventRef_179" source="rp179"/>
+                <eventRef date="2023-01-04" eId="eventRef_180" source="rp180"/>
+                <eventRef date="2023-01-17" eId="eventRef_181" source="rp181"/>
+                <eventRef date="2023-02-24" eId="eventRef_182" source="rp182"/>
+                <eventRef date="2023-02-27" eId="eventRef_183" source="rp183"/>
+                <eventRef date="2023-04-14" eId="eventRef_184" source="rp184"/>
+                <eventRef date="2023-04-21" eId="eventRef_185" source="rp185"/>
+                <eventRef date="2023-05-29" eId="eventRef_186" source="rp186"/>
+                <eventRef date="2023-06-01" eId="eventRef_187" source="rp187"/>
+                <eventRef date="2023-06-13" eId="eventRef_188" source="rp188"/>
+                <eventRef date="2023-06-22" eId="eventRef_189" source="rp189"/>
+                <eventRef date="2023-07-17" eId="eventRef_190" source="rp190"/>
+                <eventRef date="2023-07-20" eId="eventRef_191" source="rp191"/>
+                <eventRef date="2023-08-10" eId="eventRef_192" source="rp192"/>
+                <eventRef date="2023-08-16" eId="eventRef_193" source="rp193"/>
+                <eventRef date="2023-10-09" eId="eventRef_194" source="rp194"/>
+                <eventRef date="2023-10-18" eId="eventRef_195" source="rp195"/>
+                <eventRef date="2023-12-09" eId="eventRef_196" source="rp196"/>
+                <eventRef date="2023-12-16" eId="eventRef_197" source="rp197"/>
+                <eventRef date="2023-12-30" eId="eventRef_198" source="rp198"/>
+                <eventRef date="2023-12-30" eId="eventRef_199" source="rp199"/>
+                <eventRef date="2024-02-07" eId="eventRef_200" source="rp200"/>
+                <eventRef date="2024-02-28" eId="eventRef_201" source="rp201"/>
+                <eventRef date="2024-03-02" eId="eventRef_202" source="rp202"/>
+                <eventRef date="2024-04-30" eId="eventRef_203" source="rp203"/>
+                <eventRef date="2024-05-07" eId="eventRef_204" source="rp204"/>
+                <eventRef date="2024-06-07" eId="eventRef_205" source="rp205"/>
+                <eventRef date="2024-06-25" eId="eventRef_206" source="rp206"/>
+                <eventRef date="2024-07-06" eId="eventRef_207" source="rp207"/>
+                <eventRef date="2024-08-13" eId="eventRef_208" source="rp208"/>
+                <eventRef date="2024-09-16" eId="eventRef_209" source="rp209"/>
+                <eventRef date="2024-10-17" eId="eventRef_210" source="rp210"/>
+                <eventRef date="2024-11-14" eId="eventRef_211" source="rp211"/>
+                <eventRef date="2024-12-12" eId="eventRef_212" source="rp212"/>
+                <eventRef date="2024-12-16" eId="eventRef_213" source="rp213"/>
+                <eventRef date="2024-12-17" eId="eventRef_214" source="rp214"/>
+                <eventRef date="2024-12-27" eId="eventRef_215" source="rp215"/>
+                <eventRef date="2024-12-31" eId="eventRef_216" source="rp216"/>
+                <eventRef date="2025-02-24" eId="eventRef_217" source="rp217"/>
+                <eventRef date="2025-02-28" eId="eventRef_218" source="rp218"/>
+                <eventRef date="2025-03-14" eId="eventRef_219" source="rp219"/>
+                <eventRef date="2025-04-01" eId="eventRef_220" source="rp220"/>
+                <eventRef date="2025-04-29" eId="eventRef_221" source="rp221"/>
+                <eventRef date="2025-05-13" eId="eventRef_222" source="rp222"/>
+                <eventRef date="2025-05-21" eId="eventRef_223" source="rp223"/>
+                <eventRef date="2025-07-19" eId="eventRef_224" source="rp224"/>
+                <eventRef date="2025-08-08" eId="eventRef_225" source="rp225"/>
+                <eventRef date="2025-10-07" eId="eventRef_226" source="rp226"/>
+                <eventRef date="2025-11-21" eId="eventRef_227" source="rp227"/>
+                <eventRef date="2025-11-26" eId="eventRef_228" source="rp228"/>
+                <eventRef date="2025-12-03" eId="eventRef_229" source="rp229"/>
+                <eventRef date="2025-12-30" eId="eventRef_230" source="rp230"/>
+                <eventRef date="2025-12-31" eId="eventRef_231" source="rp231"/>
+                <eventRef date="2026-01-20" eId="eventRef_232" source="rp232"/>
+                <eventRef date="2026-01-27" eId="eventRef_233" source="rp233"/>
+                <eventRef date="2026-02-05" eId="eventRef_234" source="rp234"/>
+                <eventRef date="2026-02-19" eId="eventRef_235" source="rp235"/>
+                <eventRef date="2026-02-20" eId="eventRef_236" source="rp236"/>
+                <eventRef date="2026-02-28" eId="eventRef_237" source="rp237"/>
+                <eventRef date="2026-03-06" eId="eventRef_238" source="rp238"/>
+                <eventRef date="2026-03-27" eId="eventRef_239" source="rp239"/>
+                <eventRef date="2026-04-18" eId="eventRef_240" source="rp240"/>
+                <eventRef date="2026-04-20" eId="eventRef_241" source="rp241"/>
+                <eventRef date="2026-05-18" eId="eventRef_242" source="rp242"/>
+                <eventRef date="2026-05-22" eId="eventRef_243" source="rp243"/>
+                <eventRef date="2026-07-27" eId="eventRef_244" source="rp244"/>
+                <eventRef date="2026-08-07" eId="eventRef_245" source="rp245"/>
+                <eventRef date="2026-08-11" eId="eventRef_246" source="rp246"/>
+                <eventRef date="2026-08-28" eId="eventRef_247" source="rp247"/>
+                <eventRef date="2026-09-25" eId="eventRef_248" source="rp248"/>
+                <eventRef date="2026-10-06" eId="eventRef_249" source="rp249"/>
+            </lifecycle>
+            
+            <references source="">
+                <original eId="ro1" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2006-04-03/152/!main" showAs=""/>
+                <passiveRef eId="rp1" href="/akn/it/act/DECRETO-LEGGE/stato/2006-05-12/173/!main" showAs=""/>
+                <passiveRef eId="rp2" href="/akn/it/act/DECRETO-LEGGE/stato/2006-10-03/262/!main" showAs=""/>
+                <passiveRef eId="rp3" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2006-11-08/284/!main" showAs=""/>
+                <passiveRef eId="rp4" href="/akn/it/act/LEGGE/stato/2006-12-27/296/!main" showAs=""/>
+                <passiveRef eId="rp5" href="/akn/it/act/DECRETO-LEGGE/stato/2006-12-28/300/!main" showAs=""/>
+                <passiveRef eId="rp6" href="/akn/it/act/DECRETO-LEGGE/stato/2007-05-11/61/!main" showAs=""/>
+                <passiveRef eId="rp7" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/2007-05-14/90/!main" showAs=""/>
+                <passiveRef eId="rp8" href="/akn/it/act/DECRETO-LEGGE/stato/2007-10-30/180/!main" showAs=""/>
+                <passiveRef eId="rp9" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2007-11-09/205/!main" showAs=""/>
+                <passiveRef eId="rp10" href="/akn/it/act/DECRETO-LEGGE/stato/2007-12-31/248/!main" showAs=""/>
+                <passiveRef eId="rp11" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2008-01-16/4/!main" showAs=""/>
+                <passiveRef eId="rp12" href="/akn/it/act/DECRETO-LEGGE/stato/2008-04-08/59/!main" showAs=""/>
+                <passiveRef eId="rp13" href="/akn/it/act/DECRETO-LEGGE/stato/2008-05-23/90/!main" showAs=""/>
+                <passiveRef eId="rp14" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2008-05-30/117/!main" showAs=""/>
+                <passiveRef eId="rp15" href="/akn/it/act/DECRETO/MINISTERO_DELL'AMBIENTE_E_DELLA_TUTELA_DEL_TERRITORIO_E_DEL_MARE/2008-06-16/131/!main" showAs=""/>
+                <passiveRef eId="rp16" href="" showAs=""/>
+                <passiveRef eId="rp17" href="/akn/it/act/DECRETO-LEGGE/stato/2008-11-03/171/!main" showAs=""/>
+                <passiveRef eId="rp18" href="/akn/it/act/DECRETO-LEGGE/stato/2008-11-06/172/!main" showAs=""/>
+                <passiveRef eId="rp19" href="/akn/it/act/DECRETO-LEGGE/stato/2008-11-29/185/!main" showAs=""/>
+                <passiveRef eId="rp20" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2008-11-20/188/!main" showAs=""/>
+                <passiveRef eId="rp21" href="/akn/it/act/DECRETO-LEGGE/stato/2008-12-30/208/!main" showAs=""/>
+                <passiveRef eId="rp22" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2009-03-16/30/!main" showAs=""/>
+                <passiveRef eId="rp23" href="/akn/it/act/DECRETO-LEGGE/stato/2009-04-28/39/!main" showAs=""/>
+                <passiveRef eId="rp24" href="/akn/it/act/DECRETO/MINISTERO_DELL'AMBIENTE_E_DELLA_TUTELA_DEL_TERRITORIO_E_DEL_MARE/2009-04-14/56/!main" showAs=""/>
+                <passiveRef eId="rp25" href="/akn/it/act/DECRETO-LEGGE/stato/2009-07-01/78/!main" showAs=""/>
+                <passiveRef eId="rp26" href="" showAs=""/>
+                <passiveRef eId="rp27" href="" showAs=""/>
+                <passiveRef eId="rp28" href="" showAs=""/>
+                <passiveRef eId="rp29" href="" showAs=""/>
+                <passiveRef eId="rp30" href="" showAs=""/>
+                <passiveRef eId="rp31" href="/akn/it/act/LEGGE/stato/2009-07-23/99/!main" showAs=""/>
+                <passiveRef eId="rp32" href="/akn/it/act/DECRETO-LEGGE/stato/2009-09-25/135/!main" showAs=""/>
+                <passiveRef eId="rp33" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/2009-08-03/140/!main" showAs=""/>
+                <passiveRef eId="rp34" href="/akn/it/act/DECRETO-LEGGE/stato/2009-12-30/194/!main" showAs=""/>
+                <passiveRef eId="rp35" href="/akn/it/act/DECRETO-LEGGE/stato/2010-01-25/2/!main" showAs=""/>
+                <passiveRef eId="rp36" href="" showAs=""/>
+                <passiveRef eId="rp37" href="/akn/it/act/LEGGE/stato/2010-02-25/36/!main" showAs=""/>
+                <passiveRef eId="rp38" href="/akn/it/act/DECRETO-LEGGE/stato/2010-05-31/78/!main" showAs=""/>
+                <passiveRef eId="rp39" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-07-02/104/!main" showAs=""/>
+                <passiveRef eId="rp40" href="/akn/it/act/DECRETO-LEGGE/stato/2010-07-08/105/!main" showAs=""/>
+                <passiveRef eId="rp41" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-06-29/128/!main" showAs=""/>
+                <passiveRef eId="rp42" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/2010-09-07/168/!main" showAs=""/>
+                <passiveRef eId="rp43" href="/akn/it/act/DECRETO-LEGGE/stato/2010-11-26/196/!main" showAs=""/>
+                <passiveRef eId="rp44" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-12-03/205/!main" showAs=""/>
+                <passiveRef eId="rp45" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-12-10/219/!main" showAs=""/>
+                <passiveRef eId="rp46" href="/akn/it/act/DECRETO-LEGGE/stato/2010-12-29/225/!main" showAs=""/>
+                <passiveRef eId="rp47" href="/akn/it/act/DECRETO/MINISTERO_DELL'AMBIENTE_E_DELLA_TUTELA_DEL_TERRITORIO_E_DEL_MARE/2010-11-08/260/!main" showAs=""/>
+                <passiveRef eId="rp48" href="" showAs=""/>
+                <passiveRef eId="rp49" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2011-03-31/55/!main" showAs=""/>
+                <passiveRef eId="rp50" href="/akn/it/act/DECRETO-LEGGE/stato/2011-05-13/70/!main" showAs=""/>
+                <passiveRef eId="rp51" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/2011-07-18/116/!main" showAs=""/>
+                <passiveRef eId="rp52" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2011-07-07/121/!main" showAs=""/>
+                <passiveRef eId="rp53" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2011-09-01/150/!main" showAs=""/>
+                <passiveRef eId="rp54" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2011-09-14/162/!main" showAs=""/>
+                <passiveRef eId="rp55" href="/akn/it/act/DECRETO-LEGGE/stato/2011-12-06/201/!main" showAs=""/>
+                <passiveRef eId="rp56" href="/akn/it/act/DECRETO-LEGGE/stato/2011-12-29/216/!main" showAs=""/>
+                <passiveRef eId="rp57" href="/akn/it/act/DECRETO-LEGGE/stato/2012-01-24/1/!main" showAs=""/>
+                <passiveRef eId="rp58" href="/akn/it/act/DECRETO-LEGGE/stato/2012-01-25/2/!main" showAs=""/>
+                <passiveRef eId="rp59" href="/akn/it/act/DECRETO-LEGGE/stato/2012-02-09/5/!main" showAs=""/>
+                <passiveRef eId="rp60" href="/akn/it/act/DECRETO-LEGGE/stato/2012-03-02/16/!main" showAs=""/>
+                <passiveRef eId="rp61" href="/akn/it/act/DECRETO-LEGGE/stato/2012-06-22/83/!main" showAs=""/>
+                <passiveRef eId="rp62" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2012-07-30/125/!main" showAs=""/>
+                <passiveRef eId="rp63" href="/akn/it/act/DECRETO-LEGGE/stato/2012-10-18/179/!main" showAs=""/>
+                <passiveRef eId="rp64" href="" showAs=""/>
+                <passiveRef eId="rp65" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/2013-03-13/59/!main" showAs=""/>
+                <passiveRef eId="rp66" href="/akn/it/act/DECRETO-LEGGE/stato/2013-06-04/61/!main" showAs=""/>
+                <passiveRef eId="rp67" href="/akn/it/act/DECRETO-LEGGE/stato/2013-06-21/69/!main" showAs=""/>
+                <passiveRef eId="rp68" href="" showAs=""/>
+                <passiveRef eId="rp69" href="/akn/it/act/LEGGE/stato/2013-08-06/97/!main" showAs=""/>
+                <passiveRef eId="rp70" href="/akn/it/act/DECRETO-LEGGE/stato/2013-08-31/101/!main" showAs=""/>
+                <passiveRef eId="rp71" href="/akn/it/act/DECRETO-LEGGE/stato/2013-12-10/136/!main" showAs=""/>
+                <passiveRef eId="rp72" href="/akn/it/act/DECRETO-LEGGE/stato/2013-12-23/145/!main" showAs=""/>
+                <passiveRef eId="rp73" href="/akn/it/act/DECRETO-LEGGE/stato/2013-12-30/150/!main" showAs=""/>
+                <passiveRef eId="rp74" href="/akn/it/act/DECRETO/MINISTERO_DELL'AMBIENTE_E_DELLA_TUTELA_DEL_TERRITORIO_E_DEL_MARE/2013-11-27/156/!main" showAs=""/>
+                <passiveRef eId="rp75" href="" showAs=""/>
+                <passiveRef eId="rp76" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2014-03-04/46/!main" showAs=""/>
+                <passiveRef eId="rp77" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2014-03-14/49/!main" showAs=""/>
+                <passiveRef eId="rp78" href="" showAs=""/>
+                <passiveRef eId="rp79" href="/akn/it/act/DECRETO-LEGGE/stato/2014-06-24/91/!main" showAs=""/>
+                <passiveRef eId="rp80" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2014-07-16/112/!main" showAs=""/>
+                <passiveRef eId="rp81" href="/akn/it/act/DECRETO-LEGGE/stato/2014-09-12/133/!main" showAs=""/>
+                <passiveRef eId="rp82" href="/akn/it/act/LEGGE/stato/2014-10-30/161/!main" showAs=""/>
+                <passiveRef eId="rp83" href="/akn/it/act/LEGGE/stato/2014-12-23/190/!main" showAs=""/>
+                <passiveRef eId="rp84" href="/akn/it/act/DECRETO-LEGGE/stato/2014-12-31/192/!main" showAs=""/>
+                <passiveRef eId="rp85" href="/akn/it/act/DECRETO-LEGGE/stato/2015-01-05/1/!main" showAs=""/>
+                <passiveRef eId="rp86" href="/akn/it/act/LEGGE/stato/2015-05-22/68/!main" showAs=""/>
+                <passiveRef eId="rp87" href="/akn/it/act/DECRETO-LEGGE/stato/2015-06-19/78/!main" showAs=""/>
+                <passiveRef eId="rp88" href="/akn/it/act/DECRETO-LEGGE/stato/2015-07-04/92/!main" showAs=""/>
+                <passiveRef eId="rp89" href="/akn/it/act/LEGGE/stato/2015-07-29/115/!main" showAs=""/>
+                <passiveRef eId="rp90" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2015-08-18/145/!main" showAs=""/>
+                <passiveRef eId="rp91" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2015-10-13/172/!main" showAs=""/>
+                <passiveRef eId="rp92" href="/akn/it/act/LEGGE/stato/2015-12-28/208/!main" showAs=""/>
+                <passiveRef eId="rp93" href="/akn/it/act/DECRETO-LEGGE/stato/2015-12-30/210/!main" showAs=""/>
+                <passiveRef eId="rp94" href="/akn/it/act/LEGGE/stato/2015-12-28/221/!main" showAs=""/>
+                <passiveRef eId="rp95" href="" showAs=""/>
+                <passiveRef eId="rp96" href="/akn/it/act/DECRETO/MINISTERO_DELL'AMBIENTE_E_DELLA_TUTELA_DEL_TERRITORIO_E_DEL_MARE/2016-04-08/99/!main" showAs=""/>
+                <passiveRef eId="rp97" href="/akn/it/act/DECRETO/MINISTERO_DELL'AMBIENTE_E_DELLA_TUTELA_DEL_TERRITORIO_E_DEL_MARE/2016-05-19/118/!main" showAs=""/>
+                <passiveRef eId="rp98" href="" showAs=""/>
+                <passiveRef eId="rp99" href="/akn/it/act/DECRETO/MINISTERO_DELL'AMBIENTE_E_DELLA_TUTELA_DEL_TERRITORIO_E_DEL_MARE/2016-05-19/123/!main" showAs=""/>
+                <passiveRef eId="rp100" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2016-06-30/127/!main" showAs=""/>
+                <passiveRef eId="rp101" href="" showAs=""/>
+                <passiveRef eId="rp102" href="/akn/it/act/DECRETO/MINISTERO_DELL'AMBIENTE_E_DELLA_TUTELA_DEL_TERRITORIO_E_DEL_MARE/2016-05-19/134/!main" showAs=""/>
+                <passiveRef eId="rp103" href="" showAs=""/>
+                <passiveRef eId="rp104" href="/akn/it/act/LEGGE/stato/2016-07-28/154/!main" showAs=""/>
+                <passiveRef eId="rp105" href="/akn/it/act/DECRETO-LEGGE/stato/2016-12-30/244/!main" showAs=""/>
+                <passiveRef eId="rp106" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2016-12-16/257/!main" showAs=""/>
+                <passiveRef eId="rp107" href="/akn/it/act/DECRETO-LEGGE/stato/2017-02-09/8/!main" showAs=""/>
+                <passiveRef eId="rp108" href="" showAs=""/>
+                <passiveRef eId="rp109" href="" showAs=""/>
+                <passiveRef eId="rp110" href="/akn/it/act/DECRETO-LEGGE/stato/2017-04-24/50/!main" showAs=""/>
+                <passiveRef eId="rp111" href="/akn/it/act/DECRETO-LEGGE/stato/2017-06-20/91/!main" showAs=""/>
+                <passiveRef eId="rp112" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2017-05-29/98/!main" showAs=""/>
+                <passiveRef eId="rp113" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2017-06-16/104/!main" showAs=""/>
+                <passiveRef eId="rp114" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/2017-06-13/120/!main" showAs=""/>
+                <passiveRef eId="rp115" href="/akn/it/act/LEGGE/stato/2017-08-04/124/!main" showAs=""/>
+                <passiveRef eId="rp116" href="/akn/it/act/LEGGE/stato/2017-11-20/167/!main" showAs=""/>
+                <passiveRef eId="rp117" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2017-11-15/183/!main" showAs=""/>
+                <passiveRef eId="rp118" href="/akn/it/act/LEGGE/stato/2017-12-27/205/!main" showAs=""/>
+                <passiveRef eId="rp119" href="" showAs=""/>
+                <passiveRef eId="rp120" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2018-01-02/1/!main" showAs=""/>
+                <passiveRef eId="rp121" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2018-03-01/21/!main" showAs=""/>
+                <passiveRef eId="rp122" href="/akn/it/act/DECRETO-LEGGE/stato/2018-12-14/135/!main" showAs=""/>
+                <passiveRef eId="rp123" href="/akn/it/act/LEGGE/stato/2018-12-30/145/!main" showAs=""/>
+                <passiveRef eId="rp124" href="/akn/it/act/DECRETO-LEGGE/stato/2019-03-29/27/!main" showAs=""/>
+                <passiveRef eId="rp125" href="/akn/it/act/DECRETO-LEGGE/stato/2019-04-18/32/!main" showAs=""/>
+                <passiveRef eId="rp126" href="/akn/it/act/LEGGE/stato/2019-05-03/37/!main" showAs=""/>
+                <passiveRef eId="rp127" href="/akn/it/act/DECRETO/MINISTERO_DELL'AMBIENTE_E_DELLA_TUTELA_DEL_TERRITORIO_E_DEL_MARE/2019-05-29/74/!main" showAs=""/>
+                <passiveRef eId="rp128" href="/akn/it/act/DECRETO-LEGGE/stato/2019-09-03/101/!main" showAs=""/>
+                <passiveRef eId="rp129" href="/akn/it/act/DECRETO-LEGGE/stato/2019-10-24/123/!main" showAs=""/>
+                <passiveRef eId="rp130" href="/akn/it/act/LEGGE/stato/2019-11-02/128/!main" showAs=""/>
+                <passiveRef eId="rp131" href="/akn/it/act/LEGGE/stato/2019-12-27/160/!main" showAs=""/>
+                <passiveRef eId="rp132" href="/akn/it/act/DECRETO-LEGGE/stato/2020-03-17/18/!main" showAs=""/>
+                <passiveRef eId="rp133" href="/akn/it/act/LEGGE/stato/2020-04-24/27/!main" showAs=""/>
+                <passiveRef eId="rp134" href="/akn/it/act/DECRETO-LEGGE/stato/2020-05-19/34/!main" showAs=""/>
+                <passiveRef eId="rp135" href="/akn/it/act/DECRETO-LEGGE/stato/2020-07-16/76/!main" showAs=""/>
+                <passiveRef eId="rp136" href="/akn/it/act/LEGGE/stato/2020-07-17/77/!main" showAs=""/>
+                <passiveRef eId="rp137" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2020-07-30/102/!main" showAs=""/>
+                <passiveRef eId="rp138" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2020-09-03/116/!main" showAs=""/>
+                <passiveRef eId="rp139" href="/akn/it/act/LEGGE/stato/2020-09-11/120/!main" showAs=""/>
+                <passiveRef eId="rp140" href="/akn/it/act/DECRETO-LEGGE/stato/2020-12-31/183/!main" showAs=""/>
+                <passiveRef eId="rp141" href="/akn/it/act/DECRETO-LEGGE/stato/2021-03-01/22/!main" showAs=""/>
+                <passiveRef eId="rp142" href="/akn/it/act/DECRETO-LEGGE/stato/2021-03-22/41/!main" showAs=""/>
+                <passiveRef eId="rp143" href="/akn/it/act/LEGGE/stato/2021-04-22/55/!main" showAs=""/>
+                <passiveRef eId="rp144" href="/akn/it/act/LEGGE/stato/2021-05-21/69/!main" showAs=""/>
+                <passiveRef eId="rp145" href="/akn/it/act/DECRETO-LEGGE/stato/2021-05-31/77/!main" showAs=""/>
+                <passiveRef eId="rp146" href="/akn/it/act/DECRETO-LEGGE/stato/2021-06-09/80/!main" showAs=""/>
+                <passiveRef eId="rp147" href="/akn/it/act/DECRETO-LEGGE/stato/2021-06-23/92/!main" showAs=""/>
+                <passiveRef eId="rp148" href="/akn/it/act/LEGGE/stato/2021-07-29/108/!main" showAs=""/>
+                <passiveRef eId="rp149" href="/akn/it/act/LEGGE/stato/2021-08-06/113/!main" showAs=""/>
+                <passiveRef eId="rp150" href="/akn/it/act/DECRETO-LEGGE/stato/2021-09-08/120/!main" showAs=""/>
+                <passiveRef eId="rp151" href="/akn/it/act/DECRETO-LEGGE/stato/2021-09-10/121/!main" showAs=""/>
+                <passiveRef eId="rp152" href="/akn/it/act/DECRETO-LEGGE/stato/2021-11-06/152/!main" showAs=""/>
+                <passiveRef eId="rp153" href="/akn/it/act/LEGGE/stato/2021-11-08/155/!main" showAs=""/>
+                <passiveRef eId="rp154" href="/akn/it/act/LEGGE/stato/2021-11-09/156/!main" showAs=""/>
+                <passiveRef eId="rp155" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2021-11-08/197/!main" showAs=""/>
+                <passiveRef eId="rp156" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2021-11-08/196/!main" showAs=""/>
+                <passiveRef eId="rp157" href="/akn/it/act/DECRETO-LEGGE/stato/2021-12-30/228/!main" showAs=""/>
+                <passiveRef eId="rp158" href="/akn/it/act/LEGGE/stato/2021-12-30/234/!main" showAs=""/>
+                <passiveRef eId="rp159" href="/akn/it/act/LEGGE/stato/2021-12-29/233/!main" showAs=""/>
+                <passiveRef eId="rp160" href="/akn/it/act/DECRETO-LEGGE/stato/2022-01-27/4/!main" showAs=""/>
+                <passiveRef eId="rp161" href="/akn/it/act/LEGGE/stato/2022-02-25/15/!main" showAs=""/>
+                <passiveRef eId="rp162" href="/akn/it/act/DECRETO-LEGGE/stato/2022-03-01/17/!main" showAs=""/>
+                <passiveRef eId="rp163" href="/akn/it/act/LEGGE/stato/2022-03-28/25/!main" showAs=""/>
+                <passiveRef eId="rp164" href="/akn/it/act/LEGGE/stato/2022-04-27/34/!main" showAs=""/>
+                <passiveRef eId="rp165" href="/akn/it/act/DECRETO-LEGGE/stato/2022-04-30/36/!main" showAs=""/>
+                <passiveRef eId="rp166" href="/akn/it/act/DECRETO-LEGGE/stato/2022-05-17/50/!main" showAs=""/>
+                <passiveRef eId="rp167" href="/akn/it/act/LEGGE/stato/2022-05-17/60/!main" showAs=""/>
+                <passiveRef eId="rp168" href="/akn/it/act/DECRETO-LEGGE/stato/2022-06-16/68/!main" showAs=""/>
+                <passiveRef eId="rp169" href="/akn/it/act/LEGGE/stato/2022-06-29/79/!main" showAs=""/>
+                <passiveRef eId="rp170" href="/akn/it/act/LEGGE/stato/2022-07-15/91/!main" showAs=""/>
+                <passiveRef eId="rp171" href="/akn/it/act/LEGGE/stato/2022-08-05/108/!main" showAs=""/>
+                <passiveRef eId="rp172" href="/akn/it/act/DECRETO-LEGGE/stato/2022-08-09/115/!main" showAs=""/>
+                <passiveRef eId="rp173" href="/akn/it/act/LEGGE/stato/2022-08-05/118/!main" showAs=""/>
+                <passiveRef eId="rp174" href="/akn/it/act/LEGGE/stato/2022-09-21/142/!main" showAs=""/>
+                <passiveRef eId="rp175" href="/akn/it/act/DECRETO-LEGGE/stato/2022-09-23/144/!main" showAs=""/>
+                <passiveRef eId="rp176" href="/akn/it/act/DECRETO-LEGGE/stato/2022-11-11/173/!main" showAs=""/>
+                <passiveRef eId="rp177" href="/akn/it/act/DECRETO-LEGGE/stato/2022-11-18/176/!main" showAs=""/>
+                <passiveRef eId="rp178" href="/akn/it/act/DECRETO-LEGGE/stato/2022-12-29/198/!main" showAs=""/>
+                <passiveRef eId="rp179" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2022-11-25/203/!main" showAs=""/>
+                <passiveRef eId="rp180" href="/akn/it/act/LEGGE/stato/2022-12-16/204/!main" showAs=""/>
+                <passiveRef eId="rp181" href="/akn/it/act/LEGGE/stato/2023-01-13/6/!main" showAs=""/>
+                <passiveRef eId="rp182" href="/akn/it/act/DECRETO-LEGGE/stato/2023-02-24/13/!main" showAs=""/>
+                <passiveRef eId="rp183" href="/akn/it/act/LEGGE/stato/2023-02-24/14/!main" showAs=""/>
+                <passiveRef eId="rp184" href="/akn/it/act/DECRETO-LEGGE/stato/2023-04-14/39/!main" showAs=""/>
+                <passiveRef eId="rp185" href="/akn/it/act/LEGGE/stato/2023-04-21/41/!main" showAs=""/>
+                <passiveRef eId="rp186" href="/akn/it/act/DECRETO-LEGGE/stato/2023-05-29/57/!main" showAs=""/>
+                <passiveRef eId="rp187" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2022-12-23/213/!main" showAs=""/>
+                <passiveRef eId="rp188" href="/akn/it/act/LEGGE/stato/2023-06-13/68/!main" showAs=""/>
+                <passiveRef eId="rp189" href="/akn/it/act/DECRETO-LEGGE/stato/2023-06-22/75/!main" showAs=""/>
+                <passiveRef eId="rp190" href="/akn/it/act/DECRETO/MINISTERO_DELL'AMBIENTE_E_DELLA_SICUREZZA_ENERGETICA/2023-05-08/90/!main" showAs=""/>
+                <passiveRef eId="rp191" href="" showAs=""/>
+                <passiveRef eId="rp192" href="/akn/it/act/DECRETO-LEGGE/stato/2023-08-10/105/!main" showAs=""/>
+                <passiveRef eId="rp193" href="/akn/it/act/LEGGE/stato/2023-08-10/112/!main" showAs=""/>
+                <passiveRef eId="rp194" href="/akn/it/act/LEGGE/stato/2023-10-09/137/!main" showAs=""/>
+                <passiveRef eId="rp195" href="/akn/it/act/DECRETO-LEGGE/stato/2023-10-18/145/!main" showAs=""/>
+                <passiveRef eId="rp196" href="/akn/it/act/DECRETO-LEGGE/stato/2023-12-09/181/!main" showAs=""/>
+                <passiveRef eId="rp197" href="/akn/it/act/LEGGE/stato/2023-12-15/191/!main" showAs=""/>
+                <passiveRef eId="rp198" href="/akn/it/act/LEGGE/stato/2023-12-30/214/!main" showAs=""/>
+                <passiveRef eId="rp199" href="/akn/it/act/DECRETO-LEGGE/stato/2023-12-30/215/!main" showAs=""/>
+                <passiveRef eId="rp200" href="/akn/it/act/LEGGE/stato/2024-02-02/11/!main" showAs=""/>
+                <passiveRef eId="rp201" href="/akn/it/act/LEGGE/stato/2024-02-23/18/!main" showAs=""/>
+                <passiveRef eId="rp202" href="/akn/it/act/DECRETO-LEGGE/stato/2024-03-02/19/!main" showAs=""/>
+                <passiveRef eId="rp203" href="/akn/it/act/LEGGE/stato/2024-04-29/56/!main" showAs=""/>
+                <passiveRef eId="rp204" href="/akn/it/act/DECRETO-LEGGE/stato/2024-05-07/60/!main" showAs=""/>
+                <passiveRef eId="rp205" href="/akn/it/act/DECRETO/MINISTERO_DELL'AMBIENTE_E_DELLA_SICUREZZA_ENERGETICA/2024-03-21/74/!main" showAs=""/>
+                <passiveRef eId="rp206" href="/akn/it/act/DECRETO-LEGGE/stato/2024-06-25/84/!main" showAs=""/>
+                <passiveRef eId="rp207" href="/akn/it/act/LEGGE/stato/2024-07-04/95/!main" showAs=""/>
+                <passiveRef eId="rp208" href="/akn/it/act/LEGGE/stato/2024-08-08/115/!main" showAs=""/>
+                <passiveRef eId="rp209" href="/akn/it/act/DECRETO-LEGGE/stato/2024-09-16/131/!main" showAs=""/>
+                <passiveRef eId="rp210" href="/akn/it/act/DECRETO-LEGGE/stato/2024-10-17/153/!main" showAs=""/>
+                <passiveRef eId="rp211" href="/akn/it/act/LEGGE/stato/2024-11-14/166/!main" showAs=""/>
+                <passiveRef eId="rp212" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2024-11-25/190/!main" showAs=""/>
+                <passiveRef eId="rp213" href="/akn/it/act/LEGGE/stato/2024-12-13/191/!main" showAs=""/>
+                <passiveRef eId="rp214" href="/akn/it/act/LEGGE/stato/2024-12-16/193/!main" showAs=""/>
+                <passiveRef eId="rp215" href="/akn/it/act/DECRETO-LEGGE/stato/2024-12-27/202/!main" showAs=""/>
+                <passiveRef eId="rp216" href="/akn/it/act/LEGGE/stato/2024-12-30/207/!main" showAs=""/>
+                <passiveRef eId="rp217" href="/akn/it/act/LEGGE/stato/2025-02-21/15/!main" showAs=""/>
+                <passiveRef eId="rp218" href="/akn/it/act/DECRETO-LEGGE/stato/2025-02-28/19/!main" showAs=""/>
+                <passiveRef eId="rp219" href="/akn/it/act/DECRETO-LEGGE/stato/2025-03-14/25/!main" showAs=""/>
+                <passiveRef eId="rp220" href="/akn/it/act/LEGGE/stato/2025-03-18/40/!main" showAs=""/>
+                <passiveRef eId="rp221" href="/akn/it/act/LEGGE/stato/2025-04-24/60/!main" showAs=""/>
+                <passiveRef eId="rp222" href="/akn/it/act/LEGGE/stato/2025-05-09/69/!main" showAs=""/>
+                <passiveRef eId="rp223" href="/akn/it/act/DECRETO-LEGGE/stato/2025-05-21/73/!main" showAs=""/>
+                <passiveRef eId="rp224" href="/akn/it/act/LEGGE/stato/2025-07-18/105/!main" showAs=""/>
+                <passiveRef eId="rp225" href="/akn/it/act/DECRETO-LEGGE/stato/2025-08-08/116/!main" showAs=""/>
+                <passiveRef eId="rp226" href="/akn/it/act/LEGGE/stato/2025-10-03/147/!main" showAs=""/>
+                <passiveRef eId="rp227" href="/akn/it/act/DECRETO-LEGGE/stato/2025-11-21/175/!main" showAs=""/>
+                <passiveRef eId="rp228" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2025-11-26/178/!main" showAs=""/>
+                <passiveRef eId="rp229" href="/akn/it/act/LEGGE/stato/2025-12-02/182/!main" showAs=""/>
+                <passiveRef eId="rp230" href="/akn/it/act/LEGGE/stato/2025-12-30/199/!main" showAs=""/>
+                <passiveRef eId="rp231" href="/akn/it/act/DECRETO-LEGGE/stato/2025-12-31/200/!main" showAs=""/>
+                <passiveRef eId="rp232" href="/akn/it/act/LEGGE/stato/2026-01-15/4/!main" showAs=""/>
+                <passiveRef eId="rp233" href="/akn/it/act/LEGGE/stato/2026-01-26/9/!main" showAs=""/>
+                <passiveRef eId="rp234" href="/akn/it/act/LEGGE/stato/2026-01-26/14/!main" showAs=""/>
+                <passiveRef eId="rp235" href="/akn/it/act/DECRETO-LEGGE/stato/2026-02-19/19/!main" showAs=""/>
+                <passiveRef eId="rp236" href="/akn/it/act/DECRETO-LEGGE/stato/2026-02-20/21/!main" showAs=""/>
+                <passiveRef eId="rp237" href="/akn/it/act/LEGGE/stato/2026-02-27/26/!main" showAs=""/>
+                <passiveRef eId="rp238" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2026-02-10/29/!main" showAs=""/>
+                <passiveRef eId="rp239" href="/akn/it/act/DECRETO-LEGGE/stato/2026-03-27/38/!main" showAs=""/>
+                <passiveRef eId="rp240" href="/akn/it/act/LEGGE/stato/2026-04-10/49/!main" showAs=""/>
+                <passiveRef eId="rp241" href="/akn/it/act/LEGGE/stato/2026-04-20/50/!main" showAs=""/>
+                <passiveRef eId="rp242" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2026-04-21/81/!main" showAs=""/>
+                <passiveRef eId="rp243" href="/akn/it/act/LEGGE/stato/2026-05-22/88/!main" showAs=""/>
+                <passiveRef eId="rp244" href="/akn/it/act/DECRETO-LEGGE/stato/2026-07-27/133/!main" showAs=""/>
+                <passiveRef eId="rp245" href="/akn/it/act/DECRETO-LEGGE/stato/2026-08-07/143/!main" showAs=""/>
+                <passiveRef eId="rp246" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2026-08-07/147/!main" showAs=""/>
+                <passiveRef eId="rp247" href="/akn/it/act/DECRETO-LEGGE/stato/2026-08-28/154/!main" showAs=""/>
+                <passiveRef eId="rp248" href="/akn/it/act/LEGGE/stato/2026-09-25/166/!main" showAs=""/>
+                <passiveRef eId="rp249" href="/akn/it/act/LEGGE/stato/2026-10-05/173/!main" showAs=""/>
+            </references>
+            <proprietary source="">
+                <rdf:RDF>
+                    <rdf:Description rdf:about="na:id/2006/04/14/006G0171/CONSOLIDATED/20261007">
+                        <rdf:type rdf:resource="eli:LegalResource"/>
+                        <eli:title xml:lang="it">Norme in materia ambientale. </eli:title>
+                        <eli:uri_schema>http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}</eli:uri_schema>
+                        <eli:id_local>006G0171</eli:id_local>
+                        <eli:type_document rdf:resource="gu:tables/resource-type#DECRETO LEGISLATIVO"/>
+                        <eli:date_document rdf:datatype="xsd:date">2006-04-03</eli:date_document>
+                        <eli:version rdf:resource="gu:tables/versions#ORIGINAL"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/2006/04/14/006G0171/CONSOLIDATED/20261007/ita">
+                        <rdf:type rdf:resource="eli:LegalExpression"/>
+                        <eli:realizes rdf:resource="na:id/2006/04/14/006G0171/CONSOLIDATED/20261007"/>
+                        <eli:is_embodied_by rdf:resource="na:id/2006/04/14/006G0171/CONSOLIDATED/20261007/ita/akn"/>
+                        <eli:language rdf:resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                        <eli:publisher_agent rdf:resource="http://www.ipzs.it"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/2006/04/14/006G0171/CONSOLIDATED/20261007/ita/akn">
+                        <rdf:type rdf:resource="eli:format"/>
+                        <eli:format rdf:resource="http://www.iana.org/assignments/media-types/xml"/>
+                    </rdf:Description>
+                </rdf:RDF>
+            </proprietary>
+        </meta>
+        <preface>
+            <p>
+                <docType>DECRETO LEGISLATIVO</docType>
+                <docDate date="2006-04-03">03 aprile 2006</docDate>
+                <docNumber>152</docNumber>
+                <docTitle>Norme in materia ambientale.
+</docTitle>
+            </p>
+            <p>
+                <authorialNote eId="atn1" placement="bottom">
+                    <p>Entrata in vigore del provvedimento: 29/4/2006, ad eccezione delle disposizioni della Parte seconda che entrano in vigore il 12/8/2006.</p>
+                </authorialNote>
+            </p>
+        </preface>
+        <preamble>
+            <formula name="formulaInizialePreambolo">
+                <p>IL PRESIDENTE DELLA REPUBBLICA</p>
+            </formula>
+            <citations eId="cits_1">
+                <citation eId="cits_1__cit_1">
+                    <p>Visti gli <ref eId="ref_1" href="/akn/it/act/costituzione/stato/1947-12-27/const/!main#art_76">articoli 76</ref>, <ref eId="ref_2" href="/akn/it/act/costituzione/stato/1947-12-27/const/!main#art_87">87</ref> e <ref eId="ref_3" href="/akn/it/act/costituzione/stato/1947-12-27/const/!main#art_117">117 della Costituzione</ref>;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_2">
+                <citation eId="cits_2__cit_1">
+                    <p>Vista la <ref eId="ref_4" href="/akn/it/act/legge/stato/2004-12-15/308/!main">legge 15 dicembre 2004, n. 308</ref>, recante delega al Governo per il riordino, il coordinamento e l'integrazione della legislazione in materia ambientale e misure di diretta applicazione;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_3">
+                <citation eId="cits_3__cit_1">
+                    <p>Visto l'<ref eId="ref_5" href="/akn/it/act/legge/stato/1988-08-23/400/!main#art_14">articolo 14 della legge 23 agosto 1988, n. 400</ref>, recante disciplina dell'attivita' di Governo e ordinamento della Presidenza del Consiglio dei Ministri;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_4">
+                <citation eId="cits_4__cit_1">
+                    <p>Visto il <ref eId="ref_6" href="/akn/it/act/decretoLegislativo/stato/1998-03-31/112/!main">decreto legislativo 31 marzo 1998, n. 112</ref>, recante conferimento di funzioni e compiti amministrativi dello Stato alle regioni ed agli enti locali, in attuazione del capo I della <ref eId="ref_7" href="/akn/it/act/legge/stato/1997-03-15/59/!main">legge 15 marzo 1997, n. 59</ref>;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_5">
+                <citation eId="cits_5__cit_1">
+                    <p>Viste le <ref eId="ref_8" href="/akn/it/act/direttivaUe/eu/2001/42/!main">direttive 2001/42/CE del Parlamento europeo e del Consiglio, del 27 giugno 2001</ref>, concernente la valutazione degli effetti di determinati piani e programmi sull'ambiente, e 85/337/CEE del Consiglio, del 27 giugno 1985, come modificata dalle <ref eId="ref_9" href="/akn/it/act/direttivaUe/eu/1997/11/!main">direttive 97/11/CE del Consiglio, del 3 marzo 1997</ref>, e <ref eId="ref_10" href="/akn/it/act/direttivaUe/eu/2003/35/!main">2003/35/CE del Parlamento europeo e del Consiglio, del 26 maggio 2003</ref>, concernente la valutazione di impatto ambientale di determinati progetti pubblici e privati, nonche' riordino e coordinamento delle procedure per la valutazione di impatto ambientale (VIA), per la valutazione ambientale strategica (VAS) e per la prevenzione e riduzione integrate dell'inquinamento (IPPC);</p>
+                </citation>
+            </citations>
+            <citations eId="cits_6">
+                <citation eId="cits_6__cit_1">
+                    <p>Vista la <ref eId="ref_11" href="/akn/it/act/direttivaUe/eu/1996/61/!main">direttiva 96/61/CE del Consiglio, del 24 settembre 1996</ref>, sulla prevenzione e la riduzione integrate dell'inquinamento;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_7">
+                <citation eId="cits_7__cit_1">
+                    <p>Vista la <ref eId="ref_12" href="/akn/it/act/direttivaUe/eu/2000/60/!main">direttiva 2000/60/CE del Parlamento europeo e del Consiglio, del 23 ottobre 2000</ref>, che istituisce un quadro per l'azione comunitaria in materia di acque;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_8">
+                <citation eId="cits_8__cit_1">
+                    <p>Vista la <ref eId="ref_13" href="/akn/it/act/direttivaUe/eu/1991/156/!main">direttiva 91/156/CEE del Consiglio, del 18 marzo 1991</ref>, che modifica la <ref eId="ref_14" href="/akn/it/act/direttivaUe/eu/1975/442/!main">direttiva 75/442/CEE</ref> relativa ai rifiuti;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_9">
+                <citation eId="cits_9__cit_1">
+                    <p>Vista la <ref eId="ref_15" href="/akn/it/act/direttivaUe/eu/1991/689/!main">direttiva 91/689/CEE del Consiglio, del 12 dicembre 1991</ref>, relativa ai rifiuti pericolosi;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_10">
+                <citation eId="cits_10__cit_1">
+                    <p>Vista la <ref eId="ref_16" href="/akn/it/act/direttivaUe/eu/1994/62/!main">direttiva 94/62/CE del Parlamento europeo e del Consiglio, del 20 dicembre 1994</ref>, sugli imballaggi e i rifiuti da imballaggio;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_11">
+                <citation eId="cits_11__cit_1">
+                    <p>Vista la <ref eId="ref_17" href="/akn/it/act/direttivaUe/eu/1984/360/!main">direttiva 84/360/CEE del Consiglio, del 28 giugno 1984</ref>, concernente la lotta contro l'inquinamento atmosferico provocato dagli impianti industriali;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_12">
+                <citation eId="cits_12__cit_1">
+                    <p>Vista la <ref eId="ref_18" href="/akn/it/act/direttivaUe/eu/1994/63/!main">direttiva 94/63/CE del Parlamento europeo e del Consiglio, del 20 dicembre 1994</ref>, sul controllo delle emissioni di composti organici volatili (COV) derivanti dal deposito della benzina e dalla sua distribuzione dai terminali alle stazioni di servizio;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_13">
+                <citation eId="cits_13__cit_1">
+                    <p>Vista la <ref eId="ref_19" href="/akn/it/act/direttivaUe/eu/1999/13/!main">direttiva 1999/13/CE del Consiglio, dell'11 marzo 1999</ref>, concernente la limitazione delle emissioni di composti organici volatili dovute all'uso di solventi organici in talune attivita' e in taluni impianti;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_14">
+                <citation eId="cits_14__cit_1">
+                    <p>Vista la <ref eId="ref_20" href="/akn/it/act/direttivaUe/eu/1999/32/!main">direttiva 1999/32/CE del Consiglio, del 26 aprile 1999</ref>, relativa alla riduzione del tenore di zolfo di alcuni combustibili liquidi e recante modifica della <ref eId="ref_21" href="/akn/it/act/direttivaUe/eu/1993/12/!main">direttiva 93/12/CEE</ref>;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_15">
+                <citation eId="cits_15__cit_1">
+                    <p>Vista la <ref eId="ref_22" href="/akn/it/act/direttivaUe/eu/2001/80/!main">direttiva 2001/80/CE del Parlamento europeo e del Consiglio, del 23 ottobre 2001</ref>, concernente la limitazione delle emissioni nell'atmosfera di taluni inquinanti originati dai grandi impianti di combustione;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_16">
+                <citation eId="cits_16__cit_1">
+                    <p>Vista la <ref eId="ref_23" href="/akn/it/act/direttivaUe/eu/2004/35/!main">direttiva 2004/35/CE del Parlamento europeo e del Consiglio, del 21 aprile 2004</ref>, sulla responsabilita' ambientale in materia di prevenzione e riparazione del danno ambientale, che, in vista di questa finalita', "istituisce un quadro per la responsabilita' ambientale" basato sul principio "chi inquina paga";</p>
+                </citation>
+            </citations>
+            <citations eId="cits_17">
+                <citation eId="cits_17__cit_1">
+                    <p>Vista la preliminare deliberazione del Consiglio dei Ministri, adottata nella riunione del 18 novembre 2005;</p>
+                </citation>
+            </citations>
+            <p>Acquisito il parere della Conferenza unificata di cui all'<ref eId="ref_24" href="/akn/it/act/decretoLegislativo/stato/1997-08-28/281/!main#art_8">articolo 8 del decreto legislativo 28 agosto 1997, n. 281</ref>;</p>
+            <p>Acquisiti i pareri delle competenti Commissioni della Camera dei deputati e del Senato della Repubblica;</p>
+            <citations eId="cits_18">
+                <citation eId="cits_18__cit_1">
+                    <p>Vista la preliminare deliberazione del Consiglio dei Ministri, adottata nella riunione del 19 gennaio 2006;</p>
+                </citation>
+            </citations>
+            <p>Acquisiti i pareri delle competenti Commissioni della Camera dei deputati e del Senato della Repubblica;</p>
+            <citations eId="cits_19">
+                <citation eId="cits_19__cit_1">
+                    <p>Viste le deliberazioni del Consiglio dei Ministri, adottate nelle riunioni del 10 febbraio e del 29 marzo 2006;</p>
+                </citation>
+            </citations>
+            <p>Sulla proposta del Ministro dell'ambiente e della tutela del territorio, di concerto con i Ministri per le politiche comunitarie, per la funzione pubblica, per gli affari regionali, dell'interno, della giustizia, della difesa, dell'economia e delle finanze, delle attivita' produttive, della salute, delle infrastrutture e dei trasporti e delle politiche agricole e forestali;</p>
+            <formula name="formulaFinalePreambolo">
+                <p>Emana il seguente decreto legislativo:</p>
+            </formula>
+        </preamble>
+        <body>
+            <chapter eId="chp_I">
+                <num>PARTE PRIMA</num>
+                <heading>((DISPOSIZIONI COMUNI E PRINCIPI GENERALI)) - - - -</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_II">
+                <num>((PARTE SECONDA</num>
+                <heading>PROCEDURE PER LA VALUTAZIONE AMBIENTALE STRATEGICA (VAS), PER LA VALUTAZIONE DELL'IMPATTO AMBIENTALE (VIA) E PER L'AUTORIZZAZIONE INTEGRATA AMBIENTALE (IPPC) - - TITOLO I PRINCIPI GENERALI PER LE PROCEDURE DI VIA, DI VAS E PER LA VALUTAZIONE D'INCIDENZA E L'AUTORIZZAZIONE INTEGRATA AMBIENTALE (AIA).))</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_III">
+                <num>-</num>
+                <heading>((TITOLO II LA VALUTAZIONE AMBIENTALE STRATEGICA))</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_IV">
+                <num>-</num>
+                <heading>TITOLO III ((LA VALUTAZIONE DI IMPATTO AMBIENTALE))</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_V">
+                <num>-</num>
+                <heading>((TITOLO IIIBIS L'AUTORIZZAZIONE INTEGRATA AMBIENTALE))</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_VI">
+                <num>-</num>
+                <heading>TITOLO IV ((VALUTAZIONI AMBIENTALI INTERREGIONALI E TRANSFRONTALIERE))</heading>
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_VII">
+                <num>-</num>
+                <heading>((TITOLO V NORME TRANSITORIE E FINALI))</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_VIII">
+                <num>PARTE TERZA</num>
+                <heading>NORME IN MATERIA DI DIFESA DEL SUOLO E LOTTA ALLA DESERTIFICAZIONE, DI TUTELA DELLE ACQUE DALL'INQUINAMENTO E DI GESTIONE DELLE RISORSE IDRICHE SEZIONE I NORME IN MATERIA DI DIFESA DEL SUOLO E LOTTA ALLA DESERTIFICAZIONE TITOLO I PRINCIPI GENERALI E COMPETENZE CAPO I PRINCIPI GENERALI</heading>
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_IX">
+                <num>-</num>
+                <heading>CAPO II COMPETENZE</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_X">
+                <num>-</num>
+                <heading>TITOLO II I DISTRETTI IDROGRAFICI, GLI STRUMENTI, GLI INTERVENTI CAPO I I DISTRETTI IDROGRAFICI</heading>
+                
+            </chapter>
+            <chapter eId="chp_XI">
+                <num>-</num>
+                <heading>CAPO II GLI STRUMENTI</heading>
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XII">
+                <num>-</num>
+                <heading>CAPO III GLI INTERVENTI</heading>
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XIII">
+                <num>-</num>
+                <heading>SEZIONE II TUTELA DELLE ACQUE DALL'INQUINAMENTO TITOLO I PRINCIPI GENERALI E COMPETENZE</heading>
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XIV">
+                <num>-</num>
+                <heading>TITOLO II OBIETTIVI DI QUALITA' CAPO I OBIETTIVO DI QUALITA' AMBIENTALE E OBIETTIVO DI QUALITA' PER SPECIFICA DESTINAZIONE</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XV">
+                <num>-</num>
+                <heading>CAPO II ACQUE A SPECIFICA DESTINAZIONE</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XVI">
+                <num>-</num>
+                <heading>TITOLO III TUTELA DEI CORPI IDRICI E DISCIPLINA DEGLI SCARICHI CAPO I AREE RICHIEDENTI SPECIFICHE MISURE DI PREVENZIONE DALL'INQUINAMENTO E DI RISANAMENTO</heading>
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XVII">
+                <num>-</num>
+                <heading>CAPO II TUTELA QUANTITATIVA DELLA RISORSA E RISPARMIO IDRICO</heading>
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XVIII">
+                <num>-</num>
+                <heading>CAPO III TUTELA QUALITATIVA DELLA RISORSA: DISCIPLINA DEGLI SCARICHI</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XIX">
+                <num>-</num>
+                <heading>CAPO IV ULTERIORI MISURE PER LA TUTELA DEI CORPI IDRICI</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XX">
+                <num>-</num>
+                <heading>TITOLO IV STRUMENTI DI TUTELA CAPO I PIANI DI GESTIONE E PIANI DI TUTELA DELLE ACQUE</heading>
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXI">
+                <num>-</num>
+                <heading>CAPO II AUTORIZZAZIONE AGLI SCARICHI</heading>
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXII">
+                <num>-</num>
+                <heading>CAPO III CONTROLLO DEGLI SCARICHI</heading>
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXIII">
+                <num>-</num>
+                <heading>TITOLO V SANZIONI CAPO I SANZIONI AMMINISTRATIVE</heading>
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXIV">
+                <num>-</num>
+                <heading>CAPO II SANZIONI PENALI</heading>
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXV">
+                <num>-</num>
+                <heading>SEZIONE III GESTIONE DELLE RISORSE IDRICHE TITOLO I PRINCIPI GENERALI E COMPETENZE</heading>
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXVI">
+                <num>-</num>
+                <heading>TITOLO II SERVIZIO IDRICO INTEGRATO</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXVII">
+                <num>-</num>
+                <heading>TITOLO III VIGILANZA, CONTROLLI E PARTECIPAZIONE</heading>
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXVIII">
+                <num>-</num>
+                <heading>TITOLO IV USI PRODUTTIVI DELLE RISORSE IDRICHE</heading>
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXIX">
+                <num>-</num>
+                <heading>SEZIONE IV DISPOSIZIONI TRANSITORIE E FINALI</heading>
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXX">
+                <num>PARTE QUARTA</num>
+                <heading>NORME IN MATERIA DI GESTIONE DEI RIFIUTI E DI BONIFICA DEI SITI INQUINATI - - TITOLO I GESTIONE DEI RIFIUTI CAPO I DISPOSIZIONI GENERALI</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXXI">
+                <num>-</num>
+                <heading>CAPO II COMPETENZE</heading>
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXXII">
+                <num>-</num>
+                <heading>CAPO III SERVIZIO DI GESTIONE INTEGRATA DEI RIFIUTI</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXXIII">
+                <num>-</num>
+                <heading>CAPO IV AUTORIZZAZIONI E ISCRIZIONI</heading>
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXXIV">
+                <num>-</num>
+                <heading>CAPO V PROCEDURE SEMPLIFICATE</heading>
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXXV">
+                <num>-</num>
+                <heading>TITOLO II GESTIONE DEGLI IMBALLAGGI</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXXVI">
+                <num>-</num>
+                <heading>TITOLO III GESTIONE DI PARTICOLARI CATEGORIE DI RIFIUTI</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXXVII">
+                <num>-</num>
+                <heading>((TITOLO IIIbis INCENERIMENTO E COINCENERIMENTO DEI RIFIUTI))</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XXXVIII">
+                <num>-</num>
+                <heading>TITOLO IV TARIFFA PER LA GESTIONE DEI RIFIUTI URBANI</heading>
+                
+            </chapter>
+            <chapter eId="chp_XXXIX">
+                <num>-</num>
+                <heading>TITOLO V BONIFICA DI SITI CONTAMINATI</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XL">
+                <num>-</num>
+                <heading>TITOLO VI SISTEMA SANZIONATORIO E DISPOSIZIONI TRANSITORIE E FINALI CAPO I SANZIONI</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XLI">
+                <num>-</num>
+                <heading>CAPO II DISPOSIZIONI TRANSITORIE E FINALI</heading>
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XLII">
+                <num>PARTE QUINTA</num>
+                <heading>NORME IN MATERIA DI TUTELA DELL'ARIA E DI RIDUZIONE DELLE EMISSIONI IN ATMOSFERA - - TITOLO I PREVENZIONE E LIMITAZIONE DELLE EMISSIONI IN ATMOSFERA DI IMPIANTI E ATTIVITA'</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XLIII">
+                <num>-</num>
+                <heading>TITOLO II IMPIANTI TERMICI CIVILI</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XLIV">
+                <num>-</num>
+                <heading>TITOLO III COMBUSTIBILI</heading>
+                
+                
+                
+                
+                
+                
+                
+                <article eId="art_298">
+                    <num>Art. 298.</num>
+                    <heading>(disposizioni transitorie e finali)</heading>
+                    <paragraph eId="art_298__para_1">
+                        <num>1.</num>
+                        <content>
+                            <p>Le disposizioni del presente titolo relative agli impianti disciplinati dal titolo I della parte quinta del presente decreto si applicano agli impianti termici civili di cui all'articolo 290, comma 3, a partire dalla data in cui e' effettuato l'adeguamento disposto dalle autorizzazioni rilasciate ai sensi dell'articolo 281, comma 3. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_298__para_2">
+                        <num>2.</num>
+                        <content>
+                            <p>Alla modifica e all'integrazione dell'Allegato X alla parte quinta del presente decreto si provvede con le modalita' previste dall'articolo 281, commi 5 e 6. All'integrazione di tale Allegato si procede per la prima volta entro un anno dall'entrata in vigore della parte quinta del presente decreto. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_298__para_2-bis">
+                        <num>2-bis.</num>
+                        <content>
+                            <p>Entro il 30 giugno di ciascun anno il Ministero dell'ambiente e della tutela del territorio e del mare invia alla Commissione europea, sulla base di una relazione trasmessa dall'ISPRA entro il mese precedente, un rapporto circa il tenore di zolfo dell'olio combustibile pesante, del gasolio e dei combustibili per uso marittimo utilizzati nell'anno civile precedente. I soggetti di cui all'articolo 296, commi 2 e 9, i laboratori chimici delle dogane o, ove istituiti, gli uffici delle dogane nel cui ambito operano i laboratori chimici delle dogane, i gestori dei depositi fiscali, i gestori degli impianti di produzione di combustibili e i gestori dei grandi impianti di combustione trasmettono all'ISPRA ed al Ministero, nei casi, nei tempi e con le modalita' previsti nella parte I, sezione 3, dell'Allegato X alla parte quinta, i dati e le informazioni necessari ad elaborare la relazione. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_298__para_2-ter">
+                        <num>2-ter.</num>
+                        <content>
+                            <p>Con decreto del Ministro dell'ambiente e della sicurezza energetica, di concerto con il Ministro della salute <ins eId="ins_816">((e con il Ministro dell'agricoltura, della sovranita' alimentare e delle foreste,))</ins> e' istituita, nell'ambito delle risorse umane, finanziarie e strumentali disponibili a legislazione vigente e, comunque, senza nuovi o maggiori oneri a carico del bilancio dello Stato, una commissione per l'esame delle proposte di integrazione ed aggiornamento dell'Allegato X alla parte quinta del presente decreto, presentate dalle amministrazioni dello Stato e dalle regioni. La commissione e' composta da due rappresentanti del Ministero dell'ambiente e della sicurezza energetica, due rappresentanti del Ministero della salute, due rappresentanti del Ministero dell'agricoltura, della sovranita' alimentare e delle foreste, nonche' da un rappresentante del Dipartimento per gli affari regionali e le autonomie della Presidenza del Consiglio dei ministri.
+Ai componenti della commissione non sono dovuti compensi, gettoni di presenza, <ins eId="ins_817">((rimborsi di spese))</ins> o altri emolumenti comunque denominati. (40) 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>------------</p>
+                            <p>AGGIORNAMENTO (40)</p>
+                            <p>
+ Il <ref eId="1716" href="/akn/it/act/decretoLegislativo/stato/2010-06-29/128/!main">D.lgs. 29 giugno 2010, n. 128</ref>, ha disposto (con l'art. 4, comma 2) che nel presente decreto ovunque ricorrano, le parole "Ministero dell'ambiente e della tutela del territorio", sono sostituite dalle seguenti: "Ministero dell'ambiente e della tutela del territorio e del mare", le parole: "Ministro dell'ambiente e della tutela del territorio" sono sostituite dalle seguenti: "Ministro dell'ambiente e della tutela del territorio e del mare", le parole "Agenzia per la protezione dell'ambiente e per i servizi tecnici" sono sostituite dalle seguenti: "Istituto superiore per la protezione e la ricerca ambientale", e la parola "APAT" e' sostituita dalla seguente:
+"ISPRA". </p>
+                        </content>
+                    </paragraph>
+                </article>
+            </chapter>
+            <chapter eId="chp_XLV">
+                <num>PARTE QUINTA-BIS</num>
+                <heading>DISPOSIZIONI PER PARTICOLARI INSTALLAZIONI - - TITOLO I  ATTIVITA' DI PRODUZIONE DI BIOSSIDO DI TITANIO ((E SOLFATI DI CALCIO))</heading>
+                <article eId="art_298-bis">
+                    <num>Art. 298-bis.</num>
+                    <heading>Disposizioni particolari per installazioni e stabilimenti che producono biossido di titanio</heading>
+                    <paragraph eId="art_298-bis__para_1">
+                        <num>1.</num>
+                        <list>
+                            <intro eId="art_298-bis__para_1__intro_1">
+                                <p>Sono vietati, con riferimento alle sostanze relative ai processi di produzione di biossido di titanio, l'immersione, l'iniezione e lo scarico in qualsiasi corpo d'acqua e nel mare dei seguenti rifiuti: 
+ </p>
+                            </intro>
+                            <point eId="art_298-bis__para_1.__point_a">
+                                <num>a)</num>
+                                <content>
+                                    <p>rifiuti solidi, in particolare i residui insolubili del minerale che non vengono attaccati dall'acido solforico o dal cloro nel procedimento di fabbricazione; il vetriolo verde, ossia il solfato ferroso cristallizzato (FeSO4H2O; i cloruri metallici e idrossidi metallici (stanze di filtrazione) provenienti in forma solida dalla fabbricazione del tetracloruro di titanio; i residui di coke provenienti dalla fabbricazione del tetracloruro di titanio; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_298-bis__para_1.__point_b">
+                                <num>b)</num>
+                                <content>
+                                    <p>le acque madri provenienti dalla fase di filtrazione successiva all'idrolisi della soluzione di solfato di 1titanio e da installazioni che utilizzano il procedimento al solfato; sono compresi i rifiuti acidi associati a tali acque madri, contenenti complessivamente piu' dello 0,5 per cento di acido solforico libero nonche' vari metalli pesanti; sono e comprese le acque madri che sono state diluite fino a contenere lo 0,5 per cento o meno di acido solforico libero; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_298-bis__para_1.__point_c">
+                                <num>c)</num>
+                                <content>
+                                    <p>i rifiuti provenienti da installazioni che utilizzano il procedimento con cloruro, contenenti piu' dello 0,5 per cento di acido cloridrico, nonche' vari metalli pesanti; sono compresi i rifiuti acidi che sono stati diluiti fino a contenere lo 0,5 per cento o meno di acido cloridrico libero; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_298-bis__para_1.__point_d">
+                                <num>d)</num>
+                                <content>
+                                    <p>i sali di filtrazione, i fanghi ed i rifiuti liquidi ottenuti dal trattamento (concentrazione o neutralizzazione) dei rifiuti di cui alle lettere b) e c) e contenenti vari metalli pesanti; sono esclusi i rifiuti neutralizzati e filtrati o decantati che contengono metalli pesanti solo in tracce e che, prima di qualsiasi diluizione, hanno un valore di pH superiore a 5,5. 
+</p>
+                                </content>
+                            </point>
+                        </list>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>((</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_298-bis__para_1-bis">
+                        <num>1-bis.</num>
+                        <content>
+                            <p>Il gestore delle installazioni e degli stabilimenti che producono biossido di titanio informa immediatamente l'autorita' competente in caso di violazione delle condizioni di autorizzazione, adottando nel contempo le misure necessarie a ripristinare la conformita' nel piu' breve tempo possibile. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p> 1-ter. In caso di violazione delle condizioni di autorizzazione, l'autorita' competente impone al gestore di adottare ogni misura complementare appropriata che ritiene necessaria per ripristinare la conformita', disponendo la sospensione dell'esercizio della parte interessata laddove la violazione determini un pericolo immediato per la salute umana o minacci di provocare ripercussioni serie e immediate sull'ambiente, finche' la conformita' non sia ripristinata con l'applicazione delle misure adottate ai sensi del presente comma e del comma 1-bis))</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_298-bis__para_2">
+                        <num>2.</num>
+                        <content>
+                            <p>Per le installazioni e gli stabilimenti che producono biossido di titanio, le emissioni nelle acque e nell'atmosfera devono rispettare i valori limite di emissione previsti all'Allegato I, parti 1 e 2, alla Parte Quinta-bis. Le autorizzazioni prevedono inoltre opportune misure per prevenire l'emissione di aerosol acidi dalle installazioni. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_298-bis__para_3">
+                        <num>3.</num>
+                        <content>
+                            <p>Le autorita' competenti per il controllo <ins eId="ins_819">((effettuano))</ins> ispezioni e prelievi di campioni 3.relativamente alla emissioni nelle acque, alle emissioni nell'atmosfera, agli stoccaggi ed alle lavorazioni presso le installazioni e gli stabilimenti che producono biossido di titanio. Tale controllo comprende almeno il controllo delle emissioni di cui all'Allegato I, Parte 3.3, alla Parte Quinta-bis. Il controllo e' effettuato conformemente alle norme CEN oppure, se non sono disponibili norme CEN, conformemente a norme ISO, nazionali o internazionali che assicurino dati equivalenti sotto il profilo della qualita' scientifica. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>((3-bis. Alle installazioni e agli stabilimenti che producono biossido di titanio si applicano le disposizioni dell'articolo 29-undecies))</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_298-bis__para_4">
+                        <num>4.</num>
+                        <content>
+                            <p>Il Ministero dell'ambiente e della tutela del territorio e del mare integra la relazione di cui all'articolo 29-terdecies, comma 2, con i dati relativi all'attuazione del presente articolo, secondo le modalita' fissate dalla normativa comunitaria e sulla base di rapporti di cui al comma 5 che le regioni e le province autonome forniscono entro il 30 aprile di ogni anno. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_298-bis__para_5">
+                        <num>5.</num>
+                        <list>
+                            <intro eId="art_298-bis__para_5__intro_1">
+                                <p>Il rapporto di cui al comma 4, elaborato sulla base dei controlli di cui al comma 3 e dei dati di cui al comma 6, deve contenere almeno, con riferimento a ciascuna risorsa ambientale interessata, le seguenti informazioni: 
+ </p>
+                            </intro>
+                            <point eId="art_298-bis__para_5.__point_a">
+                                <num>a)</num>
+                                <content>
+                                    <p>una descrizione del luogo di campionamento e delle sue caratteristiche permanenti, unitamente ad altre notizie di tipo amministrativo e geografico; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_298-bis__para_5.__point_b">
+                                <num>b)</num>
+                                <content>
+                                    <p>l'indicazione dei metodi di campionamento e analisi usati; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_298-bis__para_5.__point_c">
+                                <num>c)</num>
+                                <content>
+                                    <p>i risultati delle analisi; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_298-bis__para_5.__point_d">
+                                <num>d)</num>
+                                <content>
+                                    <p>le modifiche apportate alla frequenza di campionamento e di analisi ed al luogo di campionamento. 
+</p>
+                                </content>
+                            </point>
+                        </list>
+                    </paragraph>
+                    <paragraph eId="art_298-bis__para_6">
+                        <num>6.</num>
+                        <content>
+                            <p>I gestori delle installazioni e degli stabilimenti che producono biossido di titanio trasmettono alle regioni e alla province autonome, entro il 31 marzo di ogni anno, una relazione contenente i dati necessari per il rapporto di cui al comma 5 con riferimento alle emissioni, agli stoccaggi e alle lavorazioni di cui al comma 3, indicando anche la tipologia e sui quantitativi di rifiuti prodotti e/o scaricati o stoccati nell'anno civile precedente. (76) 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_298-bis__para_6-bis">
+                        <num>6-bis.</num>
+                        <content>
+                            <p>Fatto salvo quanto disposto dal decreto del Ministro dell'ambiente 5 febbraio 1998, pubblicato nel supplemento ordinario n. 72 alla Gazzetta Ufficiale n. 88 del 16 aprile 1998, l'autorita' competente, in sede di valutazione di compatibilita' ambientale, puo' non applicare i valori di concentrazione soglia di contaminazione, indicati nella tabella 1 dell'allegato 5 al titolo V della parte quarta del presente decreto, agli analiti presenti nei solfati di calcio, ottenuti da neutralizzazione di correnti acide liquide o gassose generati da lavorazioni industriali, utilizzati nell'attivita' di recupero ambientale, qualora sia dimostrata, secondo le metodiche previste dal citato decreto ministeriale, l'assenza di cedibilita' dei suddetti analiti. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_298-bis__para_6-ter">
+                        <num>6-ter.</num>
+                        <content>
+                            <p>Fatto salvo l'obbligo di sottoporre i solfati di calcio destinati all'attivita' di recupero ambientale a test di cessione secondo le metodiche e i limiti di cui all'allegato 3 del decreto del Ministro dell'ambiente 5 febbraio 1998, pubblicato nel supplemento ordinario n. 72 alla Gazzetta Ufficiale n. 88 del 16 aprile 1998, l'autorita' competente, nell'autorizzare l'utilizzo dei solfati di calcio, ottenuti da neutralizzazione di correnti acide liquide o gassose generati da lavorazioni industriali, nell'attivita' di recupero ambientale, puo' derogare, sulla base delle caratteristiche del sito, alle concentrazioni limite di cloruri di cui al citato allegato 3, qualora tale deroga non costituisca un pericolo per la salute dell'uomo e non rechi pregiudizio all'ambiente. 
+ 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p>---------------</p>
+                            <p>AGGIORNAMENTO (76)</p>
+                            <p>
+ Il <ref eId="1717" href="/akn/it/act/decretoLegislativo/stato/2014-03-04/46/!main">D.Lgs. 4 marzo 2014, n. 46</ref> ha disposto (con l'art. 25, comma 1) l'introduzione del presente articolo 298-bis, senza tener conto che la <ref eId="1718" href="/akn/it/act/legge/stato/2013-08-06/97/!main#art_25-com1">L. 6 agosto 2013, n. 97 (con l'art. 25, comma 1</ref>) aveva gia' precedentemente introdotto un articolo con la medesima numerazione.</p>
+                        </content>
+                    </paragraph>
+                </article>
+            </chapter>
+            <chapter eId="chp_XLVI">
+                <num>PARTE SESTA</num>
+                <heading>NORME IN MATERIA DI TUTELA RISARCITORIA CONTRO I DANNI ALL'AMBIENTE - - TITOLO I AMBITO DI APPLICAZIONE</heading>
+                <article eId="art_298-bis">
+                    <num>Art. 298-bis.</num>
+                    <heading>
+                        <ins eId="ins_821">(( (Principi generali) ))</ins>
+                    </heading>
+                    <paragraph>
+                        <content>
+                            <p>((</p>
+                        </content>
+                    </paragraph>
+                    <paragraph eId="art_298-bis__para_1">
+                        <num>1.</num>
+                        <list>
+                            <intro eId="art_298-bis__para_1__intro_1">
+                                <p>La disciplina della parte sesta del presente decreto legislativo si applica: 
+ </p>
+                            </intro>
+                            <point eId="art_298-bis__para_1.__point_a">
+                                <num>a)</num>
+                                <content>
+                                    <p>al danno ambientale causato da una delle attivita' professionali elencate nell'allegato 5 alla stessa parte sesta e a qualsiasi minaccia imminente di tale danno derivante dalle suddette attivita'; 
+</p>
+                                </content>
+                            </point>
+                            <point eId="art_298-bis__para_1.__point_b">
+                                <num>b)</num>
+                                <content>
+                                    <p>al danno ambientale causato da un'attivita' diversa da quelle elencate nell'allegato 5 alla stessa parte sesta e a qualsiasi minaccia imminente di tale danno derivante dalle suddette attivita', in caso di comportamento doloso o colposo. 
+</p>
+                                </content>
+                            </point>
+                        </list>
+                    </paragraph>
+                    <paragraph eId="art_298-bis__para_2">
+                        <num>2.</num>
+                        <content>
+                            <p>La riparazione del danno ambientale deve avvenire nel rispetto dei principi e dei criteri stabiliti nel titolo II e nell'allegato 3 alla parte sesta, ove occorra anche mediante l'esperimento dei procedimenti finalizzati a conseguire dal soggetto che ha causato il danno, o la minaccia imminente di danno, le risorse necessarie a coprire i costi relativi alle misure di riparazione da adottare e non attuate dal medesimo soggetto. 
+</p>
+                        </content>
+                    </paragraph>
+                    <paragraph>
+                        <content>
+                            <p> 3. Restano disciplinati dal titolo V della parte quarta del presente decreto legislativo gli interventi di ripristino del suolo e del sottosuolo progettati ed attuati in conformita' ai principi ed ai criteri stabiliti al punto 2 dell'allegato 3 alla parte sesta nonche' gli interventi di riparazione delle acque sotterranee progettati ed attuati in conformita' al punto 1 del medesimo allegato 3, o, per le contaminazioni antecedenti alla data del 29 aprile 2006, gli interventi di riparazione delle acque sotterranee che conseguono gli obiettivi di qualita' nei tempi stabiliti dalla parte terza del presente decreto))</p>
+                        </content>
+                    </paragraph>
+                </article>
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XLVII">
+                <num>-</num>
+                <heading>TITOLO II PREVENZIONE E RIPRISTINO AMBIENTALE</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XLVIII">
+                <num>-</num>
+                <heading>TITOLO III RISARCIMENTO DEL DANNO AMBIENTALE</heading>
+                
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+            <chapter eId="chp_XLIX">
+                <num>((PARTE SESTA-BIS</num>
+                <heading>DISCIPLINA SANZIONATORIA DEGLI ILLECITI AMMINISTRATIVI E PENALI IN MATERIA DI TUTELA AMBIENTALE)) - - - -</heading>
+                
+                
+                
+                
+                
+                
+                
+            </chapter>
+        </body>
+        <attachments>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+        </attachments>
+    </act>
+</akomaNtoso>

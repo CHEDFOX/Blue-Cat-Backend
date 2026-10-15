@@ -30,7 +30,7 @@ class ItExt(BaseModel):
     # Abbreviation used in citations ("Cost.", "c.c.", "c.p.", "L. 241/1990", "d.lgs. 196/2003").
     citation_label: str = Field(min_length=3, max_length=40)
     # Redactional code of the Gazzetta Ufficiale, e.g. "047U0001".
-    codice_redazionale: str = Field(pattern=r"^\d{3}[A-Z]\d{4}$")
+    codice_redazionale: str = Field(pattern=r"^(?:\d{3}[A-Z]\d{4}|\d{2}[A-Z]\d{5})$")
     urn: str = Field(pattern=r"^urn:nir:stato:[a-z.]+(?::\d{4}-\d{2}-\d{2}(?:;\d+)?)?$")
     gazzetta_ufficiale_date: str = Field(pattern=_DATE)
     gazzetta_ufficiale_number: str | None = Field(default=None, pattern=r"^\d+$")
@@ -50,6 +50,8 @@ class ItModule(JurisdictionModule):
         if not c.num_path:
             return ""
         first = c.num_path[0]
+        if first.startswith("cite:"):  # "cite:c.p.m.p.:12": article 12 of a code that has its own abbreviation
+            first = first.rpartition(":")[2]
         out = [
             f"{first.removeprefix('trans:')} disp. trans. fin."
             if first.startswith("trans:")
@@ -70,6 +72,8 @@ class ItModule(JurisdictionModule):
         if not pin:
             return c.instrument_title
         label = str(c.ext.get("citation_label") or c.instrument_title)
+        if c.num_path[0].startswith("cite:"):
+            label = c.num_path[0].removeprefix("cite:").rpartition(":")[0]
         if c.num_path[0].startswith("prel:"):
             label = f"disp. prel. {label}"
         return f"{pin}{', ' if len(c.num_path) > 1 else ' '}{label}"

@@ -55,11 +55,13 @@ from dataclasses import dataclass, field
 from datetime import UTC, date, datetime
 from typing import Any, Literal
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "infoleg_ar_html"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 BUNDLE_FORMAT = "ulis-infoleg-bundle/1"
+# 2: the metadata come from the open-data CSV row (no summary page); any national law, not only the six instruments.
+BUNDLE_FORMAT_V2 = "ulis-infoleg-bundle/2"
 SITE = "https://www.argentina.gob.ar"
 JURISDICTION = "AR"
 NOTE_LIMIT = 4000
@@ -189,7 +191,8 @@ _SUFFIXES = "bis|ter|qu[aá]ter|quinquies|quinque|quinto|sexies|sexto|septies|oc
 HEAD = re.compile(
     r"^(?:ART[IÍ]CULO|Art[ií]culo|Art\.)\s+(?P<num>\d{1,4})\s*(?:[º°]\s*)?"
     rf"(?:(?P<suffix>(?i:{_SUFFIXES}))\b\.?\s*)?(?:[º°]\s*)?"
-    r"(?:(?:(?:,-|[.\-—–:])+\s*)+|$)(?P<rest>.*)$"
+    # The nineteenth-century laws print "Art. 1° Abrese un crédito ...": an ordinal sign and a capital, no stop.
+    r"(?:(?:(?:,-|[.\-—–:])+\s*)+|$|(?<=[º°])\s*(?=[A-ZÁÉÍÓÚÑ¡«“\"(]))(?P<rest>.*)$"
 )
 STRUCT = re.compile(
     r"^(?:(?P<kind>LIBRO|T[IÍ]TULO|CAP[IÍ]TULO|SECCI[OÓ]N|PAR[AÁ]GRAFO)\s+(?P<n>[\wÁÉÍÓÚáéíóúñÑºª°]+)"
@@ -436,6 +439,60 @@ def _date(value: str | None) -> date | None:
         raise InfolegParseError(f"invalid date {value!r}") from exc
 
 
+_DATASET_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+OBSERVATION_LIMIT = 1500
+ABROGATION = re.compile(r"(?i)abrogad|derogad|sin efecto")
+
+
+def _dotted(number: str) -> str:
+    return f"{int(number):,}".replace(",", ".")
+
+
+def _row_metadata(row: dict[str, Any]) -> dict[str, Any]:
+    """The summary-page facts, from a row of the open-data CSV (``dataset_row`` of a v2 bundle)."""
+
+    def text(key: str) -> str | None:
+        value = row.get(key)
+        return (str(value).strip() or None) if value is not None else None
+
+    def day(key: str) -> str | None:
+        value = text(key)
+        return value if value and _DATASET_DATE.match(value) else None
+
+    def count(key: str) -> int | None:
+        value = text(key)
+        return int(value) if value and value.isdigit() else None
+
+    if text("tipo_norma") != "Ley" or not (text("numero_norma") or "").isdigit():
+        raise InfolegParseError("dataset row: only numbered laws (tipo_norma 'Ley') are supported")
+    return {
+        "tipo": "Ley",
+        "numero": str(int(row["numero_norma"])),
+        "organismo": text("organismo_origen"),
+        "boletin_numero": text("numero_boletin"),
+        "boletin_pagina": text("pagina_boletin"),
+        "fecha_sancion": day("fecha_sancion"),
+        "fecha_boletin": day("fecha_boletin"),
+        "titulo_resumido": text("titulo_resumido"),
+        "titulo_sumario": text("titulo_sumario"),
+        "observaciones": text("observaciones"),
+        "modificada_por": count("modificada_por"),
+        "modifica_a": count("modifica_a"),
+    }
+
+
+def _generic_info(infoleg_id: int, meta: dict[str, Any], ambiguous: bool) -> InstrumentInfo:
+    """Any other national law: URI by number (and year of sanction where the number was issued twice), the
+    editors' summary title, the article style where the rubric is part of the first sentence."""
+    number = meta["numero"]
+    uri = f"/ar/ley/{number}"
+    if ambiguous:
+        year = (meta["fecha_sancion"] or "")[:4]
+        uri += f"-{year}" if year else f"-id{infoleg_id}"
+    title = f"Ley {_dotted(number)}" + (f" - {meta['titulo_resumido']}" if meta["titulo_resumido"] else "")
+    return InstrumentInfo(infoleg_id, uri, "law", title, None, "inline")
+
+
 def _summary(page: str, infoleg_id: int) -> dict[str, Any]:
     if f"/normativa/nacional/norma-{infoleg_id}" not in page:
         raise InfolegParseError(f"the summary page is not that of InfoLEG norm {infoleg_id}")
@@ -484,26 +541,50 @@ def parse_infoleg_ar(content: bytes) -> list[ParsedDocument]:
         bundle = json.loads(content)
     except ValueError as exc:
         raise InfolegParseError(f"not an InfoLEG bundle: {exc}") from exc
-    if not isinstance(bundle, dict) or bundle.get("format") != BUNDLE_FORMAT:
-        raise InfolegParseError(f"unsupported bundle (expected format {BUNDLE_FORMAT!r})")
+    formats = (BUNDLE_FORMAT, BUNDLE_FORMAT_V2)
+    if not isinstance(bundle, dict) or bundle.get("format") not in formats:
+        raise InfolegParseError(f"unsupported bundle (expected format {BUNDLE_FORMAT!r} or {BUNDLE_FORMAT_V2!r})")
+    v2 = bundle["format"] == BUNDLE_FORMAT_V2
     infoleg_id = bundle.get("infoleg_id")
     kind = bundle.get("text_kind")
-    info = INSTRUMENTS.get(infoleg_id) if isinstance(infoleg_id, int) else None
-    if info is None:
-        raise InfolegParseError(f"InfoLEG norm {infoleg_id!r} is not one of the instruments ULIS knows")
+    if not isinstance(infoleg_id, int):
+        raise InfolegParseError(f"InfoLEG norm {infoleg_id!r} is not an integer id")
     if kind not in ("actualizado", "original"):
         raise InfolegParseError(f"unknown text kind {kind!r}")
     pages = bundle.get("pages") or {}
     try:
-        summary_page, text_page = pages["summary"]["html"], pages["text"]["html"]
+        text_page = pages["text"]["html"]
         retrieved = datetime.fromisoformat(pages["text"]["retrieved_at"]).astimezone(UTC).date()
+        summary_page = None if v2 else pages["summary"]["html"]
     except (KeyError, TypeError, ValueError) as exc:
         raise InfolegParseError(f"incomplete bundle: {exc}") from exc
 
-    meta = _summary(summary_page, info.infoleg_id)
-    lines = _lines(_body_html(text_page, kind))
-    units = _parse_text_lines(info, lines)
+    if v2:
+        meta = _row_metadata(bundle.get("dataset_row") or {})
+        info = INSTRUMENTS.get(infoleg_id) or _generic_info(infoleg_id, meta, bool(bundle.get("number_ambiguous")))
+    else:
+        found = INSTRUMENTS.get(infoleg_id)
+        if found is None:
+            raise InfolegParseError(f"InfoLEG norm {infoleg_id!r} is not one of the instruments ULIS knows")
+        info = found
+        assert summary_page is not None
+        meta = _summary(summary_page, info.infoleg_id)
+    try:
+        lines = _lines(_body_html(text_page, kind))
+    except InfolegParseError as exc:
+        if v2 and str(exc).startswith("unsupported markup"):
+            # Superscripts and subscripts (m2, 1o ...) cannot be kept as plain text without changing it.
+            raise ParseSkipped(f"InfoLEG norm {infoleg_id}: {exc}") from exc
+        raise
+    try:
+        units = _parse_text_lines(info, lines)
+    except InfolegParseError as exc:
+        if v2 and str(exc).startswith("an image inside"):
+            raise ParseSkipped(f"InfoLEG norm {infoleg_id}: {exc}") from exc
+        raise
     if not units:
+        if v2:  # a well-formed page whose text has no article ULIS can read (annex only, a list, an image ...)
+            raise ParseSkipped(f"InfoLEG norm {infoleg_id}: the {kind} text has no article to read")
         raise InfolegParseError("no provisions found")
 
     provisions: list[ParsedProvision] = []
@@ -568,6 +649,37 @@ def parse_infoleg_ar(content: bytes) -> list[ParsedDocument]:
     for key in ("organismo", "fecha_sancion", "fecha_boletin", "boletin_numero", "boletin_pagina"):
         if meta[key]:
             ext[key] = meta[key]
+    outstanding: list[dict[str, Any]] = []
+    if v2:
+        for key in ("titulo_resumido", "titulo_sumario", "modificada_por", "modifica_a"):
+            if meta[key] is not None:
+                ext[key] = meta[key]
+        observation = meta["observaciones"]
+        if observation:
+            ext["observaciones"] = observation[:OBSERVATION_LIMIT]
+            if ABROGATION.search(observation):
+                outstanding.append(
+                    {
+                        "affects_eid": None,
+                        "affected_label": None,
+                        "by_uri": None,
+                        # shown in the "not yet incorporated changes" warning: the editors' words, as they are
+                        "by_title": "InfoLEG observation: " + observation[:300],
+                        "description": "InfoLEG's observation on this law reads: " + observation[:OBSERVATION_LIMIT],
+                    }
+                )
+        if kind == "original" and meta["modificada_por"]:
+            outstanding.append(
+                {
+                    "affects_eid": None,
+                    "affected_label": None,
+                    "by_uri": None,
+                    "by_title": f"{meta['modificada_por']} norm(s) listed as modifying this law; no updated text",
+                    "description": f"InfoLEG lists {meta['modificada_por']} norm(s) that modify this law "
+                    "(modificada_por) but publishes no updated text: the original text shown may not reflect "
+                    "those modifications.",
+                }
+            )
     updated = kind == "actualizado"
     return [
         ParsedDocument(
@@ -590,6 +702,7 @@ def parse_infoleg_ar(content: bytes) -> list[ParsedDocument]:
             extent=[JURISDICTION],
             ext_module="ar",
             ext=ext,
+            outstanding_changes=outstanding,
             events=events,
             provisions=provisions,
             validity_basis="attested_at_edition",

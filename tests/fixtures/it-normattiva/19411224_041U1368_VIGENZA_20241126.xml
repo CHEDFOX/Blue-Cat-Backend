@@ -1,0 +1,1414 @@
+<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:eli="http://data.europa.eu/eli/ontology#" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:gu="http://www.gazzettaufficiale.it/eli/" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:na="http://www.normattiva.it/eli/" xmlns:nakn="http://normattiva.it/akn/vocabulary" xmlns:nrdfa="http://www.normattiva.it/rdfa/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfa="http://www.w3.org/1999/xhtml#">
+    <act name="monovigente">
+        <meta>
+            <identification source="">
+                <FRBRWork>
+                    <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/!main"/>
+                    <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368"/>
+                    <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-12-18;1368"/>
+                    <FRBRalias name="eli" value="eli/id/1941/12/24/041U1368/CONSOLIDATED/20241126"/>
+                    <FRBRdate date="1941-12-18" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1941/12/24/041U1368/CONSOLIDATED/20241126" aknrelname="eli/id/1941/12/24/041U1368/CONSOLIDATED/20241126">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalResource"/>
+                            <nrdfa:span content="Disposizioni per l'attuazione del Codice di procedura civile e disposizioni transitorie. (041U1368)  " lang="it" property="eli:title" xml:lang="it"/>
+                            <nrdfa:span content="http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}" property="eli:uri_schema"/>
+                            <nrdfa:span content="041U1368" property="eli:id_local"/>
+                            <nrdfa:span property="eli:type_document" resource="gu:tables/resource-type#REGIO DECRETO"/>
+                            <nrdfa:span content="1941-12-18" datatype="xsd:date" property="eli:date_document"/>
+                            <nrdfa:span property="eli:version" resource="gu:tables/versions#ORIGINAL"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRcountry value="it"/>
+                </FRBRWork>
+                <FRBRExpression>
+                    <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main"/>
+                    <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08"/>
+                    <FRBRdate date="1942-01-08" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1941/12/24/041U1368/CONSOLIDATED/20241126/ita">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalExpression"/>
+                            <nrdfa:span property="eli:realizes" resource="na:id/1941/12/24/041U1368/CONSOLIDATED/20241126"/>
+                            <nrdfa:span property="eli:is_embodied_by" resource="na:id/1941/12/24/041U1368/CONSOLIDATED/20241126/ita/akn"/>
+                            <nrdfa:span property="eli:language" resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                            <nrdfa:span property="eli:publisher_agent" resource="http://www.ipzs.it"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRlanguage language="ita"/>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main.xml"/>
+                    <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08.xml"/>
+                    <FRBRdate date="1941-12-18" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1941/12/24/041U1368/CONSOLIDATED/20241126/ita/akn">
+                            <nrdfa:span property="rdf:type" resource="eli:Format"/>
+                            <nrdfa:span property="eli:format" resource="http://www.iana.org/assignments/media-types/xml"/>
+                        </nrdfa:eli>
+                    </preservation>
+                </FRBRManifestation>
+            </identification>
+            <publication date="1941-12-24" name="" number="302" showAs=""/>
+            <lifecycle source="">
+                <eventRef date="1941-12-24" eId="eventRef_0" source="ro1"/>
+                <eventRef date="1942-05-26" eId="eventRef_1" source="rp1"/>
+                <eventRef date="1945-11-13" eId="eventRef_2" source="rp2"/>
+                <eventRef date="1950-11-02" eId="eventRef_3" source="rp3"/>
+                <eventRef date="1959-05-20" eId="eventRef_4" source="rp4"/>
+                <eventRef date="1973-09-13" eId="eventRef_5" source="rp5"/>
+                <eventRef date="1977-11-02" eId="eventRef_6" source="rp6"/>
+                <eventRef date="1979-02-26" eId="eventRef_7" source="rp7"/>
+                <eventRef date="1979-08-01" eId="eventRef_8" source="rp8"/>
+                <eventRef date="1980-07-15" eId="eventRef_9" source="rp9"/>
+                <eventRef date="1990-12-01" eId="eventRef_10" source="rp10"/>
+                <eventRef date="1991-11-27" eId="eventRef_11" source="rp11"/>
+                <eventRef date="1991-12-18" eId="eventRef_12" source="rp12"/>
+                <eventRef date="1992-09-19" eId="eventRef_13" source="rp13"/>
+                <eventRef date="1992-12-12" eId="eventRef_14" source="rp14"/>
+                <eventRef date="1994-01-17" eId="eventRef_15" source="rp15"/>
+                <eventRef date="1994-04-20" eId="eventRef_16" source="rp16"/>
+                <eventRef date="1994-10-10" eId="eventRef_17" source="rp17"/>
+                <eventRef date="1998-03-20" eId="eventRef_18" source="rp18"/>
+                <eventRef date="1998-06-19" eId="eventRef_19" source="rp19"/>
+                <eventRef date="1998-08-24" eId="eventRef_20" source="rp20"/>
+                <eventRef date="2002-03-12" eId="eventRef_21" source="rp21"/>
+                <eventRef date="2002-06-15" eId="eventRef_22" source="rp22"/>
+                <eventRef date="2003-10-02" eId="eventRef_23" source="rp23"/>
+                <eventRef date="2005-03-16" eId="eventRef_24" source="rp24"/>
+                <eventRef date="2005-07-01" eId="eventRef_25" source="rp25"/>
+                <eventRef date="2005-12-28" eId="eventRef_26" source="rp26"/>
+                <eventRef date="2005-12-30" eId="eventRef_27" source="rp27"/>
+                <eventRef date="2006-02-15" eId="eventRef_28" source="rp28"/>
+                <eventRef date="2006-02-28" eId="eventRef_29" source="rp29"/>
+                <eventRef date="2009-06-19" eId="eventRef_30" source="rp30"/>
+                <eventRef date="2009-12-30" eId="eventRef_31" source="rp31"/>
+                <eventRef date="2011-07-06" eId="eventRef_32" source="rp32"/>
+                <eventRef date="2011-08-13" eId="eventRef_33" source="rp33"/>
+                <eventRef date="2011-11-14" eId="eventRef_34" source="rp34"/>
+                <eventRef date="2012-10-19" eId="eventRef_35" source="rp35"/>
+                <eventRef date="2012-12-29" eId="eventRef_36" source="rp36"/>
+                <eventRef date="2014-06-24" eId="eventRef_37" source="rp37"/>
+                <eventRef date="2014-09-12" eId="eventRef_38" source="rp38"/>
+                <eventRef date="2015-06-27" eId="eventRef_39" source="rp39"/>
+                <eventRef date="2015-12-30" eId="eventRef_40" source="rp40"/>
+                <eventRef date="2016-05-03" eId="eventRef_41" source="rp41"/>
+                <eventRef date="2017-11-22" eId="eventRef_42" source="rp42"/>
+                <eventRef date="2017-12-29" eId="eventRef_43" source="rp43"/>
+                <eventRef date="2019-04-18" eId="eventRef_44" source="rp44"/>
+                <eventRef date="2019-12-31" eId="eventRef_45" source="rp45"/>
+                <eventRef date="2020-02-29" eId="eventRef_46" source="rp46"/>
+                <eventRef date="2020-04-30" eId="eventRef_47" source="rp47"/>
+                <eventRef date="2020-06-29" eId="eventRef_48" source="rp48"/>
+                <eventRef date="2020-10-28" eId="eventRef_49" source="rp49"/>
+                <eventRef date="2020-11-09" eId="eventRef_50" source="rp50"/>
+                <eventRef date="2020-12-24" eId="eventRef_51" source="rp51"/>
+                <eventRef date="2021-05-22" eId="eventRef_52" source="rp52"/>
+                <eventRef date="2021-12-09" eId="eventRef_53" source="rp53"/>
+                <eventRef date="2022-10-17" eId="eventRef_54" source="rp54"/>
+                <eventRef date="2022-12-29" eId="eventRef_55" source="rp55"/>
+                <eventRef date="2023-02-24" eId="eventRef_56" source="rp56"/>
+                <eventRef date="2024-03-02" eId="eventRef_57" source="rp57"/>
+                <eventRef date="2024-04-30" eId="eventRef_58" source="rp58"/>
+                <eventRef date="2024-11-11" eId="eventRef_59" source="rp59"/>
+            </lifecycle>
+            
+            <references source="">
+                <original eId="ro1" href="/akn/it/act/REGIO_DECRETO/stato/1941-12-18/1368/!main" showAs=""/>
+                <passiveRef eId="rp1" href="/akn/it/act/REGIO_DECRETO/stato/1942-04-20/504/!main" showAs=""/>
+                <passiveRef eId="rp2" href="/akn/it/act/DECRETO_LEGISLATIVO_LUOGOTENENZIALE/stato/1945-10-12/700/!main" showAs=""/>
+                <passiveRef eId="rp3" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1950-10-17/857/!main" showAs=""/>
+                <passiveRef eId="rp4" href="/akn/it/act/LEGGE/stato/1959-04-28/275/!main" showAs=""/>
+                <passiveRef eId="rp5" href="/akn/it/act/LEGGE/stato/1973-08-11/533/!main" showAs=""/>
+                <passiveRef eId="rp6" href="/akn/it/act/LEGGE/stato/1977-10-18/793/!main" showAs=""/>
+                <passiveRef eId="rp7" href="/akn/it/act/LEGGE/stato/1979-02-07/59/!main" showAs=""/>
+                <passiveRef eId="rp8" href="" showAs=""/>
+                <passiveRef eId="rp9" href="/akn/it/act/LEGGE/stato/1980-07-08/319/!main" showAs=""/>
+                <passiveRef eId="rp10" href="/akn/it/act/LEGGE/stato/1990-11-26/353/!main" showAs=""/>
+                <passiveRef eId="rp11" href="/akn/it/act/LEGGE/stato/1991-11-21/374/!main" showAs=""/>
+                <passiveRef eId="rp12" href="/akn/it/act/LEGGE/stato/1991-12-02/399/!main" showAs=""/>
+                <passiveRef eId="rp13" href="/akn/it/act/DECRETO-LEGGE/stato/1992-09-19/384/!main" showAs=""/>
+                <passiveRef eId="rp14" href="/akn/it/act/LEGGE/stato/1992-12-04/477/!main" showAs=""/>
+                <passiveRef eId="rp15" href="/akn/it/act/LEGGE/stato/1994-01-05/25/!main" showAs=""/>
+                <passiveRef eId="rp16" href="" showAs=""/>
+                <passiveRef eId="rp17" href="/akn/it/act/DECRETO-LEGGE/stato/1994-10-07/571/!main" showAs=""/>
+                <passiveRef eId="rp18" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/1998-02-19/51/!main" showAs=""/>
+                <passiveRef eId="rp19" href="/akn/it/act/LEGGE/stato/1998-06-16/188/!main" showAs=""/>
+                <passiveRef eId="rp20" href="/akn/it/act/LEGGE/stato/1998-08-03/302/!main" showAs=""/>
+                <passiveRef eId="rp21" href="/akn/it/act/DECRETO-LEGGE/stato/2002-03-11/28/!main" showAs=""/>
+                <passiveRef eId="rp22" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/2002-05-30/115/!main" showAs=""/>
+                <passiveRef eId="rp23" href="/akn/it/act/DECRETO-LEGGE/stato/2003-09-30/269/!main" showAs=""/>
+                <passiveRef eId="rp24" href="/akn/it/act/DECRETO-LEGGE/stato/2005-03-14/35/!main" showAs=""/>
+                <passiveRef eId="rp25" href="/akn/it/act/DECRETO-LEGGE/stato/2005-06-30/115/!main" showAs=""/>
+                <passiveRef eId="rp26" href="/akn/it/act/LEGGE/stato/2005-12-28/263/!main" showAs=""/>
+                <passiveRef eId="rp27" href="/akn/it/act/DECRETO-LEGGE/stato/2005-12-30/273/!main" showAs=""/>
+                <passiveRef eId="rp28" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2006-02-02/40/!main" showAs=""/>
+                <passiveRef eId="rp29" href="/akn/it/act/LEGGE/stato/2006-02-24/52/!main" showAs=""/>
+                <passiveRef eId="rp30" href="/akn/it/act/LEGGE/stato/2009-06-18/69/!main" showAs=""/>
+                <passiveRef eId="rp31" href="/akn/it/act/DECRETO-LEGGE/stato/2009-12-29/193/!main" showAs=""/>
+                <passiveRef eId="rp32" href="/akn/it/act/DECRETO-LEGGE/stato/2011-07-06/98/!main" showAs=""/>
+                <passiveRef eId="rp33" href="/akn/it/act/DECRETO-LEGGE/stato/2011-08-13/138/!main" showAs=""/>
+                <passiveRef eId="rp34" href="/akn/it/act/LEGGE/stato/2011-11-12/183/!main" showAs=""/>
+                <passiveRef eId="rp35" href="/akn/it/act/DECRETO-LEGGE/stato/2012-10-18/179/!main" showAs=""/>
+                <passiveRef eId="rp36" href="/akn/it/act/LEGGE/stato/2012-12-24/228/!main" showAs=""/>
+                <passiveRef eId="rp37" href="/akn/it/act/DECRETO-LEGGE/stato/2014-06-24/90/!main" showAs=""/>
+                <passiveRef eId="rp38" href="/akn/it/act/DECRETO-LEGGE/stato/2014-09-12/132/!main" showAs=""/>
+                <passiveRef eId="rp39" href="/akn/it/act/DECRETO-LEGGE/stato/2015-06-27/83/!main" showAs=""/>
+                <passiveRef eId="rp40" href="/akn/it/act/DECRETO-LEGGE/stato/2015-12-30/210/!main" showAs=""/>
+                <passiveRef eId="rp41" href="/akn/it/act/DECRETO-LEGGE/stato/2016-05-03/59/!main" showAs=""/>
+                <passiveRef eId="rp42" href="" showAs=""/>
+                <passiveRef eId="rp43" href="/akn/it/act/LEGGE/stato/2017-12-27/205/!main" showAs=""/>
+                <passiveRef eId="rp44" href="/akn/it/act/LEGGE/stato/2019-04-12/31/!main" showAs=""/>
+                <passiveRef eId="rp45" href="/akn/it/act/DECRETO-LEGGE/stato/2019-12-30/162/!main" showAs=""/>
+                <passiveRef eId="rp46" href="/akn/it/act/LEGGE/stato/2020-02-28/8/!main" showAs=""/>
+                <passiveRef eId="rp47" href="/akn/it/act/DECRETO-LEGGE/stato/2020-04-30/28/!main" showAs=""/>
+                <passiveRef eId="rp48" href="/akn/it/act/LEGGE/stato/2020-06-25/70/!main" showAs=""/>
+                <passiveRef eId="rp49" href="/akn/it/act/DECRETO-LEGGE/stato/2020-10-28/137/!main" showAs=""/>
+                <passiveRef eId="rp50" href="/akn/it/act/DECRETO-LEGGE/stato/2020-11-09/149/!main" showAs=""/>
+                <passiveRef eId="rp51" href="/akn/it/act/LEGGE/stato/2020-12-18/176/!main" showAs=""/>
+                <passiveRef eId="rp52" href="/akn/it/act/LEGGE/stato/2021-04-22/70/!main" showAs=""/>
+                <passiveRef eId="rp53" href="/akn/it/act/LEGGE/stato/2021-11-26/206/!main" showAs=""/>
+                <passiveRef eId="rp54" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2022-10-10/149/!main" showAs=""/>
+                <passiveRef eId="rp55" href="/akn/it/act/LEGGE/stato/2022-12-29/197/!main" showAs=""/>
+                <passiveRef eId="rp56" href="/akn/it/act/DECRETO-LEGGE/stato/2023-02-24/13/!main" showAs=""/>
+                <passiveRef eId="rp57" href="/akn/it/act/DECRETO-LEGGE/stato/2024-03-02/19/!main" showAs=""/>
+                <passiveRef eId="rp58" href="/akn/it/act/LEGGE/stato/2024-04-29/56/!main" showAs=""/>
+                <passiveRef eId="rp59" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2024-10-31/164/!main" showAs=""/>
+            </references>
+            <proprietary source="">
+                <rdf:RDF>
+                    <rdf:Description rdf:about="na:id/1941/12/24/041U1368/CONSOLIDATED/20241126">
+                        <rdf:type rdf:resource="eli:LegalResource"/>
+                        <eli:title xml:lang="it">Disposizioni per l'attuazione del Codice di procedura civile e disposizioni transitorie. (041U1368)  </eli:title>
+                        <eli:uri_schema>http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}</eli:uri_schema>
+                        <eli:id_local>041U1368</eli:id_local>
+                        <eli:type_document rdf:resource="gu:tables/resource-type#REGIO DECRETO"/>
+                        <eli:date_document rdf:datatype="xsd:date">1941-12-18</eli:date_document>
+                        <eli:version rdf:resource="gu:tables/versions#ORIGINAL"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1941/12/24/041U1368/CONSOLIDATED/20241126/ita">
+                        <rdf:type rdf:resource="eli:LegalExpression"/>
+                        <eli:realizes rdf:resource="na:id/1941/12/24/041U1368/CONSOLIDATED/20241126"/>
+                        <eli:is_embodied_by rdf:resource="na:id/1941/12/24/041U1368/CONSOLIDATED/20241126/ita/akn"/>
+                        <eli:language rdf:resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                        <eli:publisher_agent rdf:resource="http://www.ipzs.it"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1941/12/24/041U1368/CONSOLIDATED/20241126/ita/akn">
+                        <rdf:type rdf:resource="eli:format"/>
+                        <eli:format rdf:resource="http://www.iana.org/assignments/media-types/xml"/>
+                    </rdf:Description>
+                </rdf:RDF>
+            </proprietary>
+        </meta>
+        <preface>
+            <p>
+                <docType>REGIO DECRETO</docType>
+                <docDate date="1941-12-18">18 dicembre 1941</docDate>
+                <docNumber>1368</docNumber>
+                <docTitle>Disposizioni per l'attuazione del Codice di procedura civile e disposizioni transitorie. (041U1368) 
+</docTitle>
+            </p>
+            <p>
+                <authorialNote eId="atn1" placement="bottom">
+                    <p>Entrata in vigore del provvedimento: 08/01/1942</p>
+                </authorialNote>
+            </p>
+        </preface>
+        <preamble>
+            <formula name="formulaInizialePreambolo">
+                <p>VITTORIO EMANUELE III</p>
+            </formula>
+            <p>PER GRAZIA DI DIO E PER VOLONTA' DELLA NAZIONE</p>
+            <p>RE D'ITALIA E DI ALBANIA</p>
+            <p>IMPERATORE D'ETIOPIA</p>
+            <citations eId="cits_1">
+                <citation eId="cits_1__cit_1">
+                    <p>Vista la <ref eId="ref_1" href="/akn/it/act/legge/stato/1923-12-30/2814/!main">legge 30 dicembre 1923, n. 2814</ref>, che delega al Governo la facolta' di pubblicare un nuovo <ref eId="ref_2" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main">Codice di procedura civile</ref>;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_2">
+                <citation eId="cits_2__cit_1">
+                    <p>Visto il <ref eId="ref_3" href="/akn/it/act/regio.decreto/stato/1940-10-28/1443/!main">R. decreto 28 ottobre 1940, n. 1443</ref>, che approva il testo del <ref eId="ref_4" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main">codice di procedura civile</ref>;</p>
+                </citation>
+            </citations>
+            <p>Udito il Consiglio dei Ministri;</p>
+            <formula name="formulaFinalePreambolo">
+                <p>Sulla proposta del Nostro Guardasigilli, Ministro Segretario di Stato per la giustizia e la grazia; Abbiamo decretato e decretiamo:</p>
+            </formula>
+        </preamble>
+        <body>
+            <article eId="art_1">
+                <num>Articolo unico.</num>
+                <heading/>
+                <paragraph>
+                    <content>
+                        <p>
+ 
+ Sono approvate le Disposizioni di attuazione e transitorie del <ref eId="content__ref_5" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main">Codice di procedura civile</ref>, viste, d'ordine Nostro, dal Ministro di grazia e giustizia. 
+ 
+ Ordiniamo che il presente decreto, munito del sigillo dello Stato, sia inserto nella Raccolta ufficiale delle leggi e dei decreti del Regno d'Italia, mandando a chiunque spetti di osservarlo e di farlo osservare. 
+ 
+ Dato a Roma, addi' 18 dicembre 1941-XX 
+ 
+ VITTORIO EMANUELE 
+ 
+ Mussolini - Grandi 
+ 
+ Visto, il Guardasigilli: Grandi 
+ 
+ Registrato alla corte dei conti, addi' 23 dicembre 1941-XX 
+ 
+ Atti del Governo, registro 440, foglio 77. - Mancini 
+</p>
+                    </content>
+                </paragraph>
+            </article>
+        </body>
+        <attachments>
+            <attachment>
+                <doc name="DISPOSIZIONI DI ATTUAZIONE DEL CODICE DI PROCEDURA CIVILE-art. 1">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/!main/annesso_1"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-12-18;1368"/>
+                                <FRBRalias name="eli" value="eli/id/1941/12/24/041U1368/CONSOLIDATED/20241126"/>
+                                <FRBRdate date="1942-01-08" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main/annesso_1"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08"/>
+                                <FRBRdate date="1942-01-08" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main/annesso_1.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08.xml"/>
+                                <FRBRdate date="1941-12-18" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p>DISPOSIZIONI DI ATTUAZIONE DEL <ref eId="content__ref_6" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main">CODICE DI PROCEDURA CIVILE</ref> E DISPOSIZIONI TRANSITORIE 
+ 
+ Art. 1. 
+ 
+ (Richiesta di comunicazione degli atti). 
+ 
+ In ogni stato e grado del processo il pubblico ministero puo' richiedere al giudice la comunicazione degli atti per l'esercizio dei poteri a lui attribuiti dalla legge. 
+ 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                <doc name="DISPOSIZIONI DI ATTUAZIONE DEL CODICE DI PROCEDURA CIVILE-art. 2">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/!main/annesso_2"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-12-18;1368"/>
+                                <FRBRalias name="eli" value="eli/id/1941/12/24/041U1368/CONSOLIDATED/20241126"/>
+                                <FRBRdate date="1951-01-01" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main/annesso_2"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08"/>
+                                <FRBRdate date="1942-01-08" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main/annesso_2.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08.xml"/>
+                                <FRBRdate date="1941-12-18" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 2. 
+ 
+ <ins eId="ins_1">(( (Intervento davanti all'istruttore). ))</ins>
+                                    <ins eId="ins_2">((L'intervento del pubblico ministero davanti all'istruttore avviene nei modi previsti nell'art. 267 del Codice))</ins>. 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                <doc name="DISPOSIZIONI DI ATTUAZIONE DEL CODICE DI PROCEDURA CIVILE-art. 3">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/!main/annesso_3"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-12-18;1368"/>
+                                <FRBRalias name="eli" value="eli/id/1941/12/24/041U1368/CONSOLIDATED/20241126"/>
+                                <FRBRdate date="2024-11-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main/annesso_3"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08"/>
+                                <FRBRdate date="1942-01-08" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main/annesso_3.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08.xml"/>
+                                <FRBRdate date="1941-12-18" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 3. 
+ 
+ (Intervento davanti al collegio). 
+ 
+ Il pubblico ministero puo' spiegare il suo intervento anche quando la causa si trova davanti al collegio, <ins eId="ins_3">((mediante comparsa da depositarsi in cancelleria o))</ins> all'udienza. <ins eId="ins_4">((59))</ins> 
+ 
+ Il pubblico ministero che interviene all'udienza prende oralmente le sue conclusioni, che sono <ins eId="ins_5">((riportate a verbale))</ins>. <ins eId="ins_6">((59))</ins> 
+ 
+ Se il pubblico ministero che interviene davanti al collegio non si limita ad aderire alle conclusioni di una delle parti, ma prende proprie conclusioni, produce documenti o deduce prove, il presidente, d'ufficio o su istanza di parte, puo' rimettere con ordinanza la causa al giudice istruttore per l'integrazione dell'istruzione. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                        <paragraph>
+                            <content>
+                                <p>---------------</p>
+                                <p>AGGIORNAMENTO (59)</p>
+                                <p>
+ Il <ref eId="7" href="/akn/it/act/decretoLegislativo/stato/2024-10-31/164/!main">D.Lgs. 31 ottobre 2024, n. 164</ref> ha disposto (con l'art. 7, comma 1) che "Ove non diversamente previsto, le disposizioni del presente decreto si applicano ai procedimenti introdotti successivamente al 28 febbraio 2023". </p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                <doc name="DISPOSIZIONI DI ATTUAZIONE DEL CODICE DI PROCEDURA CIVILE-art. 118">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/!main/annesso_133"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-12-18;1368"/>
+                                <FRBRalias name="eli" value="eli/id/1941/12/24/041U1368/CONSOLIDATED/20241126"/>
+                                <FRBRdate date="2009-07-04" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main/annesso_133"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08"/>
+                                <FRBRdate date="1942-01-08" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main/annesso_133.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08.xml"/>
+                                <FRBRdate date="1941-12-18" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 118. 
+ 
+ (Motivazione della sentenza). 
+ 
+ <ins eId="ins_139">((La motivazione della sentenza di cui all'articolo 132, secondo comma, numero 4), del codice consiste nella succinta esposizione dei fatti rilevanti della causa e delle ragioni giuridiche della decisione, anche con riferimento a precedenti conformi))</ins>. 
+ 
+ Debbono essere esposte concisamente e in ordine le questioni discusse e decise dal collegio ed indicati le norme di legge e i principi di diritto applicati. Nel caso previsto nell'articolo 114 del codice debbono essere esposte le ragioni di equita' sulle quali e' fondata la decisione. 
+ 
+ In ogni caso deve essere omessa ogni citazione di autori giuridici. 
+ 
+ La scelta dell'estensore della sentenza prevista nell'articolo 276 ultimo comma del codice e' fatta dal presidente tra i componenti il collegio che hanno espresso voto conforme alla decisione. 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                <doc name="DISPOSIZIONI DI ATTUAZIONE DEL CODICE DI PROCEDURA CIVILE-art. 230">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/!main/annesso_306"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-12-18;1368"/>
+                                <FRBRalias name="eli" value="eli/id/1941/12/24/041U1368/CONSOLIDATED/20241126"/>
+                                <FRBRdate date="1942-01-08" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main/annesso_306"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08"/>
+                                <FRBRdate date="1942-01-08" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08/!main/annesso_306.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-12-18/1368/ita@1942-01-08.xml"/>
+                                <FRBRdate date="1941-12-18" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 230. 
+ 
+ (Immutabilita' della competenza gia' fissata). 
+ 
+ Il giudice regolarmente adito secondo le leggi anteriori mantiene la competenza sugli affari di cui e' stato investito anche se le norme sulla competenza sono mutate. 
+ 
+ I giudizi proposti prima dell'entrata in vigore del codice davanti ai collegi tecnici per la decisione delle controversie di cottimo e alle commissioni per gli infortuni agricoli e per le assicurazioni sociali continuano ad essere regolati dalla legge precedente fino alla loro definizione. 
+ 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+        </attachments>
+    </act>
+</akomaNtoso>

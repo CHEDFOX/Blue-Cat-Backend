@@ -2,7 +2,7 @@
 # de Buenos Aires are not profiled yet; their legislation is out of scope.
 schema_version: 1
 id: AR
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Argentina
 names: {en: Argentina, es: Argentina}
 kind: sovereign_state
@@ -86,9 +86,10 @@ publication:
     Express repeal (shown in the updated text as "(Artículo derogado por ...)"); tacit repeal is not reflected in
     InfoLEG's texts.
 coverage:
-  corpus_status: pilot
+  corpus_status: partial
   known_gaps:
-    - Six instruments only (see the source manifest); no other laws, decrees, resolutions, treaties or Boletín Oficial issues.
+    - "National laws (tipo Ley) for which InfoLEG publishes a text: about 8,100 of the 27,600 laws in its database (the rest have a summary only, no text). No decrees, decree-laws (Decreto/Ley), resolutions, treaties or Boletín Oficial issues."
+    - InfoLEG does not say whether a law has since been repealed or has lapsed. Only the editors' remark (observaciones, shown as an outstanding-change warning when it mentions abrogation) and the count of modifying norms are known; a law without an updated text may have been modified (a warning says so).
     - InfoLEG's updated texts are informative; the authentic text is the Boletín Oficial, which is not ingested. Only express modifications are recorded.
     - Each text is attested at its retrieval date. When a provision took effect, and earlier versions of an amended provision, are not recorded (history not indexed); the Constitution's text is the original text of Ley 24.430, without an updated version.
     - Articles are the smallest provisions. Paragraphs and numbered or lettered items stay inside the article text; in the Constitution, the codes and Ley 19.549 the article's rubric is part of its first line.

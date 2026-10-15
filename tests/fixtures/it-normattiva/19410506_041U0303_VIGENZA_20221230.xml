@@ -1,0 +1,2721 @@
+<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:eli="http://data.europa.eu/eli/ontology#" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:gu="http://www.gazzettaufficiale.it/eli/" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:na="http://www.normattiva.it/eli/" xmlns:nakn="http://normattiva.it/akn/vocabulary" xmlns:nrdfa="http://www.normattiva.it/rdfa/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfa="http://www.w3.org/1999/xhtml#">
+    <act name="monovigente">
+        <meta>
+            <identification source="">
+                <FRBRWork>
+                    <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/!main"/>
+                    <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303"/>
+                    <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-02-20;303"/>
+                    <FRBRalias name="eli" value="eli/id/1941/05/06/041U0303/CONSOLIDATED/20221230"/>
+                    <FRBRdate date="1941-02-20" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1941/05/06/041U0303/CONSOLIDATED/20221230" aknrelname="eli/id/1941/05/06/041U0303/CONSOLIDATED/20221230">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalResource"/>
+                            <nrdfa:span content="Codici penali militari di pace e di guerra (041U0303)  " lang="it" property="eli:title" xml:lang="it"/>
+                            <nrdfa:span content="http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}" property="eli:uri_schema"/>
+                            <nrdfa:span content="041U0303" property="eli:id_local"/>
+                            <nrdfa:span property="eli:type_document" resource="gu:tables/resource-type#REGIO DECRETO"/>
+                            <nrdfa:span content="1941-02-20" datatype="xsd:date" property="eli:date_document"/>
+                            <nrdfa:span property="eli:version" resource="gu:tables/versions#ORIGINAL"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRcountry value="it"/>
+                </FRBRWork>
+                <FRBRExpression>
+                    <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main"/>
+                    <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21"/>
+                    <FRBRdate date="1941-05-21" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1941/05/06/041U0303/CONSOLIDATED/20221230/ita">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalExpression"/>
+                            <nrdfa:span property="eli:realizes" resource="na:id/1941/05/06/041U0303/CONSOLIDATED/20221230"/>
+                            <nrdfa:span property="eli:is_embodied_by" resource="na:id/1941/05/06/041U0303/CONSOLIDATED/20221230/ita/akn"/>
+                            <nrdfa:span property="eli:language" resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                            <nrdfa:span property="eli:publisher_agent" resource="http://www.ipzs.it"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRlanguage language="ita"/>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main.xml"/>
+                    <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21.xml"/>
+                    <FRBRdate date="1941-02-20" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/1941/05/06/041U0303/CONSOLIDATED/20221230/ita/akn">
+                            <nrdfa:span property="rdf:type" resource="eli:Format"/>
+                            <nrdfa:span property="eli:format" resource="http://www.iana.org/assignments/media-types/xml"/>
+                        </nrdfa:eli>
+                    </preservation>
+                </FRBRManifestation>
+            </identification>
+            <publication date="1941-05-06" name="" number="107" showAs=""/>
+            <lifecycle source="">
+                <eventRef date="1941-05-06" eId="eventRef_0" source="ro1"/>
+                <eventRef date="1943-11-24" eId="eventRef_1" source="rp1"/>
+                <eventRef date="1946-04-10" eId="eventRef_2" source="rp2"/>
+                <eventRef date="1947-10-22" eId="eventRef_3" source="rp3"/>
+                <eventRef date="1956-04-03" eId="eventRef_4" source="rp4"/>
+                <eventRef date="1957-07-13" eId="eventRef_5" source="rp5"/>
+                <eventRef date="1957-08-07" eId="eventRef_6" source="rp6"/>
+                <eventRef date="1958-03-10" eId="eventRef_7" source="rp7"/>
+                <eventRef date="1959-07-11" eId="eventRef_8" source="rp8"/>
+                <eventRef date="1967-07-08" eId="eventRef_9" source="rp9"/>
+                <eventRef date="1971-04-28" eId="eventRef_10" source="rp10"/>
+                <eventRef date="1971-04-28" eId="eventRef_11" source="rp11"/>
+                <eventRef date="1974-03-20" eId="eventRef_12" source="rp12"/>
+                <eventRef date="1974-06-12" eId="eventRef_13" source="rp13"/>
+                <eventRef date="1978-07-21" eId="eventRef_14" source="rp14"/>
+                <eventRef date="1979-05-30" eId="eventRef_15" source="rp15"/>
+                <eventRef date="1980-08-02" eId="eventRef_16" source="rp16"/>
+                <eventRef date="1982-06-02" eId="eventRef_17" source="rp17"/>
+                <eventRef date="1984-07-25" eId="eventRef_18" source="rp18"/>
+                <eventRef date="1985-03-27" eId="eventRef_19" source="rp19"/>
+                <eventRef date="1985-04-10" eId="eventRef_20" source="rp20"/>
+                <eventRef date="1985-05-08" eId="eventRef_21" source="rp21"/>
+                <eventRef date="1985-12-03" eId="eventRef_22" source="rp22"/>
+                <eventRef date="1986-10-28" eId="eventRef_23" source="rp23"/>
+                <eventRef date="1989-02-22" eId="eventRef_24" source="rp24"/>
+                <eventRef date="1989-03-08" eId="eventRef_25" source="rp25"/>
+                <eventRef date="1989-11-22" eId="eventRef_26" source="rp26"/>
+                <eventRef date="1989-12-27" eId="eventRef_27" source="rp27"/>
+                <eventRef date="1990-02-13" eId="eventRef_28" source="rp28"/>
+                <eventRef date="1990-06-06" eId="eventRef_29" source="rp29"/>
+                <eventRef date="1990-10-31" eId="eventRef_30" source="rp30"/>
+                <eventRef date="1991-01-16" eId="eventRef_31" source="rp31"/>
+                <eventRef date="1991-01-30" eId="eventRef_32" source="rp32"/>
+                <eventRef date="1991-12-18" eId="eventRef_33" source="rp33"/>
+                <eventRef date="1991-12-18" eId="eventRef_34" source="rp34"/>
+                <eventRef date="1992-07-01" eId="eventRef_35" source="rp35"/>
+                <eventRef date="1992-11-18" eId="eventRef_36" source="rp36"/>
+                <eventRef date="1993-06-09" eId="eventRef_37" source="rp37"/>
+                <eventRef date="1993-08-04" eId="eventRef_38" source="rp38"/>
+                <eventRef date="1993-08-04" eId="eventRef_39" source="rp39"/>
+                <eventRef date="1994-07-20" eId="eventRef_40" source="rp40"/>
+                <eventRef date="1994-10-25" eId="eventRef_41" source="rp41"/>
+                <eventRef date="1995-03-01" eId="eventRef_42" source="rp42"/>
+                <eventRef date="1995-07-12" eId="eventRef_43" source="rp43"/>
+                <eventRef date="1996-03-06" eId="eventRef_44" source="rp44"/>
+                <eventRef date="1998-04-15" eId="eventRef_45" source="rp45"/>
+                <eventRef date="1998-12-07" eId="eventRef_46" source="rp46"/>
+                <eventRef date="2002-02-02" eId="eventRef_47" source="rp47"/>
+                <eventRef date="2002-02-27" eId="eventRef_48" source="rp48"/>
+                <eventRef date="2003-03-20" eId="eventRef_49" source="rp49"/>
+                <eventRef date="2008-07-23" eId="eventRef_50" source="rp50"/>
+                <eventRef date="2009-11-04" eId="eventRef_51" source="rp51"/>
+                <eventRef date="2009-11-04" eId="eventRef_52" source="rp52"/>
+                <eventRef date="2010-05-08" eId="eventRef_53" source="rp53"/>
+                <eventRef date="2013-01-25" eId="eventRef_54" source="rp54"/>
+                <eventRef date="2022-10-17" eId="eventRef_55" source="rp55"/>
+                <eventRef date="2022-12-07" eId="eventRef_56" source="rp56"/>
+            </lifecycle>
+            
+            <references source="">
+                <original eId="ro1" href="/akn/it/act/REGIO_DECRETO/stato/1941-02-20/303/!main" showAs=""/>
+                <passiveRef eId="rp1" href="" showAs=""/>
+                <passiveRef eId="rp2" href="/akn/it/act/DECRETO_LEGISLATIVO_LUOGOTENENZIALE/stato/1946-03-21/144/!main" showAs=""/>
+                <passiveRef eId="rp3" href="/akn/it/act/DECRETO_LEGISLATIVO_DEL_CAPO_PROVVISORIO_DELLO_STATO/stato/1947-08-20/1103/!main" showAs=""/>
+                <passiveRef eId="rp4" href="/akn/it/act/LEGGE/stato/1956-03-23/167/!main" showAs=""/>
+                <passiveRef eId="rp5" href="" showAs=""/>
+                <passiveRef eId="rp6" href="/akn/it/act/LEGGE/stato/1957-07-30/655/!main" showAs=""/>
+                <passiveRef eId="rp7" href="/akn/it/act/LEGGE/stato/1958-02-08/109/!main" showAs=""/>
+                <passiveRef eId="rp8" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1959-07-11/460/!main" showAs=""/>
+                <passiveRef eId="rp9" href="" showAs=""/>
+                <passiveRef eId="rp10" href="" showAs=""/>
+                <passiveRef eId="rp11" href="" showAs=""/>
+                <passiveRef eId="rp12" href="" showAs=""/>
+                <passiveRef eId="rp13" href="" showAs=""/>
+                <passiveRef eId="rp14" href="/akn/it/act/LEGGE/stato/1978-07-11/382/!main" showAs=""/>
+                <passiveRef eId="rp15" href="" showAs=""/>
+                <passiveRef eId="rp16" href="/akn/it/act/DECRETO_DEL_PRESIDENTE_DELLA_REPUBBLICA/stato/1980-07-01/392/!main" showAs=""/>
+                <passiveRef eId="rp17" href="" showAs=""/>
+                <passiveRef eId="rp18" href="" showAs=""/>
+                <passiveRef eId="rp19" href="" showAs=""/>
+                <passiveRef eId="rp20" href="" showAs=""/>
+                <passiveRef eId="rp21" href="" showAs=""/>
+                <passiveRef eId="rp22" href="/akn/it/act/LEGGE/stato/1985-11-26/689/!main" showAs=""/>
+                <passiveRef eId="rp23" href="/akn/it/act/DECRETO-LEGGE/stato/1986-10-27/700/!main" showAs=""/>
+                <passiveRef eId="rp24" href="" showAs=""/>
+                <passiveRef eId="rp25" href="" showAs=""/>
+                <passiveRef eId="rp26" href="" showAs=""/>
+                <passiveRef eId="rp27" href="" showAs=""/>
+                <passiveRef eId="rp28" href="/akn/it/act/LEGGE/stato/1990-02-07/19/!main" showAs=""/>
+                <passiveRef eId="rp29" href="" showAs=""/>
+                <passiveRef eId="rp30" href="" showAs=""/>
+                <passiveRef eId="rp31" href="" showAs=""/>
+                <passiveRef eId="rp32" href="" showAs=""/>
+                <passiveRef eId="rp33" href="" showAs=""/>
+                <passiveRef eId="rp34" href="" showAs=""/>
+                <passiveRef eId="rp35" href="" showAs=""/>
+                <passiveRef eId="rp36" href="" showAs=""/>
+                <passiveRef eId="rp37" href="" showAs=""/>
+                <passiveRef eId="rp38" href="" showAs=""/>
+                <passiveRef eId="rp39" href="" showAs=""/>
+                <passiveRef eId="rp40" href="" showAs=""/>
+                <passiveRef eId="rp41" href="/akn/it/act/LEGGE/stato/1994-10-13/589/!main" showAs=""/>
+                <passiveRef eId="rp42" href="" showAs=""/>
+                <passiveRef eId="rp43" href="" showAs=""/>
+                <passiveRef eId="rp44" href="" showAs=""/>
+                <passiveRef eId="rp45" href="" showAs=""/>
+                <passiveRef eId="rp46" href="/akn/it/act/LEGGE/stato/1998-12-02/420/!main" showAs=""/>
+                <passiveRef eId="rp47" href="/akn/it/act/LEGGE/stato/2002-01-31/6/!main" showAs=""/>
+                <passiveRef eId="rp48" href="/akn/it/act/LEGGE/stato/2002-02-27/15/!main" showAs=""/>
+                <passiveRef eId="rp49" href="/akn/it/act/LEGGE/stato/2003-03-18/42/!main" showAs=""/>
+                <passiveRef eId="rp50" href="" showAs=""/>
+                <passiveRef eId="rp51" href="" showAs=""/>
+                <passiveRef eId="rp52" href="/akn/it/act/DECRETO-LEGGE/stato/2009-11-04/152/!main" showAs=""/>
+                <passiveRef eId="rp53" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2010-03-15/66/!main" showAs=""/>
+                <passiveRef eId="rp54" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2012-12-31/248/!main" showAs=""/>
+                <passiveRef eId="rp55" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2022-10-10/150/!main" showAs=""/>
+                <passiveRef eId="rp56" href="" showAs=""/>
+            </references>
+            <proprietary source="">
+                <rdf:RDF>
+                    <rdf:Description rdf:about="na:id/1941/05/06/041U0303/CONSOLIDATED/20221230">
+                        <rdf:type rdf:resource="eli:LegalResource"/>
+                        <eli:title xml:lang="it">Codici penali militari di pace e di guerra (041U0303)  </eli:title>
+                        <eli:uri_schema>http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}</eli:uri_schema>
+                        <eli:id_local>041U0303</eli:id_local>
+                        <eli:type_document rdf:resource="gu:tables/resource-type#REGIO DECRETO"/>
+                        <eli:date_document rdf:datatype="xsd:date">1941-02-20</eli:date_document>
+                        <eli:version rdf:resource="gu:tables/versions#ORIGINAL"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1941/05/06/041U0303/CONSOLIDATED/20221230/ita">
+                        <rdf:type rdf:resource="eli:LegalExpression"/>
+                        <eli:realizes rdf:resource="na:id/1941/05/06/041U0303/CONSOLIDATED/20221230"/>
+                        <eli:is_embodied_by rdf:resource="na:id/1941/05/06/041U0303/CONSOLIDATED/20221230/ita/akn"/>
+                        <eli:language rdf:resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                        <eli:publisher_agent rdf:resource="http://www.ipzs.it"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/1941/05/06/041U0303/CONSOLIDATED/20221230/ita/akn">
+                        <rdf:type rdf:resource="eli:format"/>
+                        <eli:format rdf:resource="http://www.iana.org/assignments/media-types/xml"/>
+                    </rdf:Description>
+                </rdf:RDF>
+            </proprietary>
+        </meta>
+        <preface>
+            <p>
+                <docType>REGIO DECRETO</docType>
+                <docDate date="1941-02-20">20 febbraio 1941</docDate>
+                <docNumber>303</docNumber>
+                <docTitle>Codici penali militari di pace e di guerra (041U0303) 
+</docTitle>
+            </p>
+            <p>
+                <authorialNote eId="atn1" placement="bottom">
+                    <p>Entrata in vigore del provvedimento: 21/05/1941</p>
+                </authorialNote>
+            </p>
+        </preface>
+        <preamble>
+            <formula name="formulaInizialePreambolo">
+                <p>VITTORIO EMANUELE III</p>
+            </formula>
+            <p>PER GRAZIA DI DIO E PER VOLONTA' DELLA NAZIONE</p>
+            <p>RE D'ITALIA E DI ALBANIA</p>
+            <p>IMPERATORE D'ETIOPIA</p>
+            <citations eId="cits_1">
+                <citation eId="cits_1__cit_1">
+                    <p>Vista la legge 25 novembre 1926-V, n. 2153, che delega al Governo del Re la facolta' di provvedere alla riforma della legislazione penale militare;</p>
+                </citation>
+            </citations>
+            <p>Sentito il parere della Commissione delle assemblee legislative, a' termini dell'articolo 2 della legge predetta;</p>
+            <p>Udito il Consiglio dei Ministri;</p>
+            <formula name="formulaFinalePreambolo">
+                <p>Sulla proposta del DUCE del Fascismo, Capo del Governo, Ministro della guerra, della marina e dell'aeronautica, di concerto con il Ministro di grazia e giustizia, con il Ministro dell'Africa Italiana e con il Ministro delle finanze; Abbiamo decretato e decretiamo:</p>
+            </formula>
+        </preamble>
+        <body>
+            <article eId="art_1">
+                <num>Art. 1.</num>
+                <heading/>
+                <paragraph>
+                    <content>
+                        <p>
+ 
+ Il testo del <ref eId="content__ref_1" href="/akn/it/act/regioDecreto/stato/1930-10-19/1398/!main">Codice penale</ref> militare di pace e il testo del <ref eId="content__ref_2" href="/akn/it/act/relazione.e.regio.decreto/stato/1941-02-20/303/!main">Codice penale militare di guerra</ref>, portanti la data di questo giorno, sono approvati e avranno esecuzione a cominciare dal 1° ottobre 1941-XIX. </p>
+                    </content>
+                </paragraph>
+            </article>
+            <article eId="art_2">
+                <num>Art. 2.</num>
+                <heading/>
+                <paragraph>
+                    <content>
+                        <p>
+ 
+ Un esemplare del <ref eId="content__ref_3" href="/akn/it/act/regioDecreto/stato/1930-10-19/1398/!main">Codice penale</ref> militare di pace e un esemplare del <ref eId="content__ref_4" href="/akn/it/act/relazione.e.regio.decreto/stato/1941-02-20/303/!main">Codice penale militare di guerra</ref>, firmati da Noi e contrassegnati dal DUCE del Fasciamo, Capo del Governo, Ministro della guerra, della marina e dell'aeronautica, serviranno da originali e saranno depositati e custoditi nell'Archivio del Regno. 
+</p>
+                    </content>
+                </paragraph>
+            </article>
+            <article eId="art_3">
+                <num>Art. 3.</num>
+                <heading/>
+                <paragraph>
+                    <content>
+                        <p>
+ 
+ La pubblicazione dei predetti codici si eseguira' col trasmettere un esemplare stampato di ciascuno di essi a ogni Comune del Regno, per essere depositato nella sala comunale, e tenuto ivi esposto, durante un mese successivo, per sei ore in ciascun giorno, affinche' ognuno possa prenderne cognizione. 
+ 
+ Ordiniamo che il presente decreto, munito del sigillo dello Stato, sia inserto nella Raccolta ufficiale delle leggi e dei decreti del Regno d'Italia, mandando a chiunque spetti di osservarlo e di farlo osservare. 
+ 
+ Dato a Roma, addi' 20 febbraio 1941-XIX 
+ 
+ VITTORIO EMANUELE 
+ 
+ Mussolini - Grandi - Teruzzi - Di Revel 
+ 
+ Visto: 
+ 
+ (ai sensi del R. decreto 20 febbraio 1941-XIX, n. 76) 
+ 
+ MUSSOLINI 
+ 
+ Registrato alla Corte dei conti, addi' 3 maggio 1941-XIX 
+ 
+ Atti del Governo, registro 433, foglio 17. - Mancini 
+</p>
+                    </content>
+                </paragraph>
+            </article>
+        </body>
+        <attachments>
+            <attachment>
+                <doc name="Codice penale militare di pace - art. 1">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/!main/annesso_1"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-02-20;303"/>
+                                <FRBRalias name="eli" value="eli/id/1941/05/06/041U0303/CONSOLIDATED/20221230"/>
+                                <FRBRdate date="1941-05-21" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main/annesso_1"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21"/>
+                                <FRBRdate date="1941-05-21" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main/annesso_1.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21.xml"/>
+                                <FRBRdate date="1941-02-20" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> <ref eId="content__ref_5" href="/akn/it/act/regioDecreto/stato/1930-10-19/1398/!main">CODICE PENALE</ref> MILITARE DI PACE 
+ 
+ Art. 1. 
+ 
+ (Persone soggette alla legge penale militare). 
+ 
+ La legge penale militare si applica ai militari in servizio alle armi e a quelli considerati tali. 
+ 
+ La legge determina i casi, nei quali la legge penale militare si applica ai militari in congedo, ai militari in congedo assoluto, agli assimilati ai militari, agli iscritti ai corpi civili militarmente ordinati e a ogni altra persona estranea alle forze armate dello Stato. 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                <doc name="Codice penale militare di pace - art. 2">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/!main/annesso_2"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-02-20;303"/>
+                                <FRBRalias name="eli" value="eli/id/1941/05/06/041U0303/CONSOLIDATED/20221230"/>
+                                <FRBRdate date="1941-05-21" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main/annesso_2"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21"/>
+                                <FRBRdate date="1941-05-21" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main/annesso_2.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21.xml"/>
+                                <FRBRdate date="1941-02-20" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 2. 
+ 
+ (Denominazioni di «militari» e di «forze armate dello Stato»). 
+ 
+ Il presente codice comprende: 
+ 
+ 1° sotto la denominazione di militari, quelli del Regio esercito, della Regia marina, della Regia aeronautica, della Regia guardia di finanza, della Milizia volontaria per la sicurezza nazionale, del Corpo di polizia dell'Africa italiana e le persone che a norma di legge acquistano la qualita' di militari; 
+ 
+ 2° sotto la denominazione di forze armate dello Stato, le forze militari suindicate. 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                <doc name="Codice penale militare di guerra - art. 1">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/!main/annesso_439"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-02-20;303"/>
+                                <FRBRalias name="eli" value="eli/id/1941/05/06/041U0303/CONSOLIDATED/20221230"/>
+                                <FRBRdate date="1941-05-21" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main/annesso_439"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21"/>
+                                <FRBRdate date="1941-05-21" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main/annesso_439.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21.xml"/>
+                                <FRBRdate date="1941-02-20" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> <ref eId="content__ref_189" href="/akn/it/act/relazione.e.regio.decreto/stato/1941-02-20/303/!main#art_1">CODICE PENALE MILITARE DI GUERRA 
+ 
+ Art. 1</ref>. 
+ 
+ (Nozione della legge penale militare di guerra). 
+ 
+ La legge penale militare di guerra comprende, oltre questo codice, ogni altra legge speciale, o provvedimento che abbia valore di legge, in materia penale militare attinente alla guerra. 
+ 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                <doc name="Codice penale militare di guerra - art. 33">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/!main/annesso_460"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-02-20;303"/>
+                                <FRBRalias name="eli" value="eli/id/1941/05/06/041U0303/CONSOLIDATED/20221230"/>
+                                <FRBRdate date="1941-05-21" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main/annesso_460"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21"/>
+                                <FRBRdate date="1941-05-21" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main/annesso_460.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21.xml"/>
+                                <FRBRdate date="1941-02-20" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 22. 
+ 
+(Cessazione dell'applicazione della legge penale militare di guerra). 
+ 
+ Con la cessazione dello stato di guerra cessano l'applicazione della legge penale militare di guerra e l'esercizio della giurisdizione militare di guerra, salvo che la legge disponga altrimenti. 
+ 
+ Per gli appartenenti ai corpi nazionali che si trovano all'estero, l'applicazione della legge penale militare di guerra cessa dal momento in cui i corpi stessi rientrano nel territorio dello Stato.  
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                <doc name="Codice penale militare di guerra - art. 33">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/!main/annesso_471"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:regio.decreto:1941-02-20;303"/>
+                                <FRBRalias name="eli" value="eli/id/1941/05/06/041U0303/CONSOLIDATED/20221230"/>
+                                <FRBRdate date="1941-05-21" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main/annesso_471"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21"/>
+                                <FRBRdate date="1941-05-21" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21/!main/annesso_471.xml"/>
+                                <FRBRuri value="/akn/it/act/regio_decreto/stato/1941-02-20/303/ita@1941-05-21.xml"/>
+                                <FRBRdate date="1941-02-20" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> Art. 33. 
+ 
+(Detrazione dalla durata della pena del periodo trascorso in speciali reparti combattenti). 
+ 
+ Per i condannati a una pena detentiva, di cui la esecuzione e' stata differita, il tempo trascorso in speciali reparti combattenti, ai quali, a causa della loro particolare condizione, siano stati assegnati, si detrae dalla durata della pena inflitta. 
+ 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+        </attachments>
+    </act>
+</akomaNtoso>

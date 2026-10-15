@@ -40,6 +40,8 @@ DISPOSITIONS = {
     "final_provision": "DF",
 }
 LABELS = {"preamble": "preámbulo", "enacting_terms": "parte dispositiva", "final_part": "parte final"}
+# Rangos whose Spanish noun is masculine: "del Real Decreto 2/2015", "de la Orden ECO/805/2003".
+MASCULINE_RANGOS = ("Real Decreto", "Decreto", "Acuerdo", "Reglamento")
 
 
 class EsExt(BaseModel):
@@ -49,6 +51,23 @@ class EsExt(BaseModel):
     numero_oficial: str | None = None
     eli: str | None = None
     departamento: str | None = None
+    # Whole-norm repeal or annulment and "vigencia agotada", as the BOE metadata state them.
+    fecha_derogacion: str | None = Field(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$")
+    fecha_anulacion: str | None = Field(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$")
+    vigencia_agotada: bool | None = None
+
+
+_PURPOSE = re.compile(r",\s+(?:por\s+(?:la|el|lo)\s+que|sobre|relativ[ao]|en relaci[oó]n)\b")
+DESIGNATION_LIMIT = 160
+
+
+def short_designation(title: str) -> str:
+    """The identifying head of an unnumbered norm's title (``Resolución de 31 de mayo de 2016, de la Dirección
+    General de ...``), without the clause that says what it does, and never more than 160 characters."""
+    head = _PURPOSE.split(title.strip().rstrip("."), maxsplit=1)[0].strip()
+    if len(head) > DESIGNATION_LIMIT:
+        head = head[:DESIGNATION_LIMIT].rsplit(" ", 1)[0].rstrip(",;: ") + " [...]"
+    return head
 
 
 def ordinal_label(word: str) -> str:
@@ -89,8 +108,9 @@ class EsModule(JurisdictionModule):
         abbreviation = ABBREVIATIONS.get(str(c.ext.get("boe_id")))
         if c.top_kind.startswith("decree_") or not abbreviation:
             if designation is None:
-                return f"{c.instrument_title}, {pin}" if pin else c.instrument_title
-            article = "del" if str(rango).startswith("Real Decreto") else "de la"
+                title = short_designation(c.instrument_title)
+                return f"{title}, {pin}" if pin else title
+            article = "del" if str(rango).startswith(MASCULINE_RANGOS) else "de la"
             return f"{pin} {article} {designation}" if pin else designation
         if c.top_kind in LABELS:
             return f"{abbreviation}, {pin}"
