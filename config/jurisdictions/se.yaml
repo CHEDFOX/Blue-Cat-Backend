@@ -2,7 +2,7 @@
 # regulations) are not profiled. EU membership is added separately, with the EU profile.
 schema_version: 1
 id: SE
-profile_version: 0.2.0
+profile_version: 0.3.0
 name: Sweden
 names: {sv: Sverige, en: Sweden}
 kind: sovereign_state
@@ -128,10 +128,10 @@ memberships:
 coverage:
   corpus_status: pilot
   known_gaps:
-    - Only eight statutes are ingested (see the source manifest), all as current consolidated (non-authentic) texts; the statutes as published in Svensk författningssamling are not ingested.
+    - The statutes in force in the Riksdag's open data (laws, ordinances and notices; 5,336 in the source manifest) are ingested, all as current consolidated (non-authentic) texts; the statutes as published in Svensk författningssamling are not ingested. Repealed statutes, the 192 records without a YYYY:N number (N series, RFS, old printed volumes) and a statute whose old-style sections are divided into "mom." are not.
     - No history - one current consolidation per statute. Dates are known only for wordings that change on a date the consolidation states (e.g. 2027-01-01); everything else is attested only at the record's publication date (start unknown).
     - Amendments awaiting a commencement date set by the Government ("den dag som regeringen bestämmer") are recorded as prospective and reported as outstanding changes.
-    - Chapters and headings are context, not provisions. Paragraph (stycke) numbers are not printed; they are derived from the layout.
-    - No ordinances, no other fundamental laws (successionsordningen, tryckfrihetsförordningen, yttrandefrihetsgrundlagen), no treaties, no regional or municipal regulations.
+    - Chapters and headings are context, not provisions. Paragraph (stycke) numbers are not printed; they are derived from the layout. A statute without numbered sections is one unnumbered provision; an annex (bilaga) is one provision without its table layout.
+    - The other fundamental laws (successionsordningen, tryckfrihetsförordningen, yttrandefrihetsgrundlagen) are in the manifest but only regeringsformen is named as a fundamental law in citations; no treaties, no regional or municipal regulations, no agencies' regulations outside Svensk författningssamling.
     - Case law is the official case reports (rättsfallsreferat) of the higher courts from Domstolsverket's open data (se-rattspraxis), not the courts' judgments and decisions themselves (open data from March 2025, in PDF), and not the lower courts' decisions; no citator beyond the publisher's statute references.
     - Swedish uses PostgreSQL's swedish text-search configuration (stemming only; no compound splitting).

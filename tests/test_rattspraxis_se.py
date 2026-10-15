@@ -224,7 +224,7 @@ def test_report_citations() -> None:
 
 def test_profile_has_the_special_courts_and_the_source_is_approved(catalog: Catalog) -> None:
     reg = catalog.jurisdictions
-    assert reg.get("SE").profile_version == "0.2.0" and "se-rattspraxis" in reg.get("SE").publication.official_sources
+    assert reg.get("SE").profile_version == "0.3.0" and "se-rattspraxis" in reg.get("SE").publication.official_sources
     for court_id in ("SE-HD", "SE-HFD", "SE-HOVR", "SE-KR", "SE-AD", "SE-MIOD", "SE-MMOD", "SE-PMOD", "SE-MD"):
         assert reg.court_jurisdiction(court_id) == "SE"
     source = catalog.sources.get(SOURCE)

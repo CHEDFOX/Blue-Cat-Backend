@@ -15,7 +15,7 @@ Format notes, all taken from the documents:
   consolidation status (``subtitel`` "t.o.m. SFS 2022:1600": amendments up to that statute are
   worked in) and the date the record was published (``publicerad``); ``dokumentuppgift`` adds
   the date of issue (``utfardad``), reprints (``omtryck``), editorial remarks (``text2``) and,
-  for a repealed statute, ``upphavd`` / ``upphnr`` (refused here: only statutes in force).
+  for a repealed statute, ``upphavd`` / ``upphnr`` (skipped here: only statutes in force are ingested).
 * ``text`` is the consolidated text as plain text: blocks separated by blank lines, hard-wrapped
   lines. Chapters (``3 kap. Om brott mot liv och hälsa``), headings, sections (``1 §``),
   numbered points (``1.``), sub-points (``a)``), dash items (``-``) and, after
@@ -54,14 +54,20 @@ from dataclasses import dataclass, field
 from datetime import date, datetime
 from typing import Any
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "riksdagen_sfs_json"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 
-# Fundamental laws (grundlagar) are named in regeringsformen 1 kap. 3 §; only those ingested and
-# checked are listed. They are cited by name, without the SFS number.
-FUNDAMENTAL_LAWS = {"1974:152": "regeringsformen"}
+# Fundamental laws (grundlagar) are named in regeringsformen 1 kap. 3 § ("Regeringsformen, successionsordningen,
+# tryckfrihetsförordningen och yttrandefrihetsgrundlagen är rikets grundlagar"; read in the record 1974:152). They are
+# cited by name, without the SFS number. The successionsordning's record prints its number as 1810:0926.
+FUNDAMENTAL_LAWS = {
+    "1974:152": "regeringsformen",
+    "1810:0926": "successionsordningen",
+    "1949:105": "tryckfrihetsförordningen",
+    "1991:1469": "yttrandefrihetsgrundlagen",
+}
 # Established short names (kortnamn) not printed in the statute's own title. Documented in
 # docs/jurisdictions/se.md; to be confirmed by a Swedish reviewer.
 SHORT_NAMES = {"1915:218": "avtalslagen"}
@@ -70,7 +76,7 @@ _NUMBER = re.compile(r"^(\d{4}):(\d{1,4})$")
 _NUM = r"\d+(?: ?[a-z])?"
 # "4 b § Text", "4 c /Träder i kraft I:.../ § Text" (a marker before "§"), "53 g §Text" (no space).
 _SECTION = re.compile(
-    rf"^({_NUM}) ((?:/[^/]*/\s*)*)§(?:\s*((?:[A-ZÅÄÖ/]|[Hh]ar (?:upp?hävts|upphört|betecknats)).*))?$", re.S
+    rf"^({_NUM}) ((?:/[^/]*/\s*)*)§\.?(?:\s*((?:[A-ZÅÄÖ/]|[Hh]ar (?:upp?hävts|upphört|betecknats)).*))?$", re.S
 )
 _SECTION_LINE = re.compile(rf"^{_NUM} §\s*(?=[A-ZÅÄÖ/])")
 _SECTION_RANGE = re.compile(
@@ -81,6 +87,8 @@ _POINT = re.compile(rf"^({_NUM})[.)] (.*)$", re.S)
 _SUBPOINT = re.compile(r"^([a-zåäö])\) (.*)$", re.S)
 _INDENT = re.compile(r"^[-–] (.*)$", re.S)
 _TRANSITIONAL_HEAD = re.compile(r"^(\d{4}):(\d{1,4})\.?$")
+# An annex: a line "Bilaga" or "Bilaga 1" on its own; its text runs up to the transitional provisions or the end.
+_ANNEX = re.compile(r"^Bilaga(?:\s+\S+)?$")
 _ELISION = re.compile(r"^(?:- ?){3,}$|^-{3,}$|^\[\.\.\.\]$")
 _MARKER = re.compile(
     r"^/\s*(?:(Rubriken|Kapitlet|Avdelningen)\s+)?(träder i kraft|upphör att gälla)\s+([IU])\s*:\s*(.*?)\s*/?$",
@@ -339,8 +347,8 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
     facts = {str(u.get("kod")): str(u.get("text") or "") for u in facts_list if isinstance(u, dict)}
     if facts.get("upphavd"):
         by = facts.get("upphnr") or "repealing act not stated"
-        raise SfsParseError(
-            f"the statute is repealed (upphävd {facts['upphavd'][:10]}, {by}); only statutes in force are supported"
+        raise ParseSkipped(
+            f"the statute is repealed (upphävd {facts['upphavd'][:10]}, {by}); only statutes in force are ingested"
         )
     number = _ws(str(dok.get("beteckning") or ""))
     nm = _NUMBER.match(number)
@@ -352,7 +360,7 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
         raise SfsParseError(f"title {title!r} does not carry the SFS number {number}")
     text = str(dok.get("text") or "")
     if not text.strip():
-        raise SfsParseError("empty text")
+        raise ParseSkipped(f"{number}: the record has no text")  # nothing to store (not flagged as repealed)
     try:
         published = datetime.strptime(str(dok.get("publicerad"))[:19], "%Y-%m-%d %H:%M:%S")
     except ValueError as exc:
@@ -369,12 +377,21 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
     bodies: list[str] = []
     markers_of: list[list[Marker]] = []
     in_transitional = False
+    in_annex = False
     for lines in raw_blocks:
         markers, rest = _split_markers(lines)
         body = _join(rest)
         markers_of.append(markers)
         bodies.append(body)
-        if in_transitional:
+        if _ANNEX.match(body):
+            in_annex, in_transitional = True, False
+            kinds.append("annex_start")
+        elif in_annex and body == "Övergångsbestämmelser":
+            in_annex, in_transitional = False, True
+            kinds.append("transitional_start")
+        elif in_annex:
+            kinds.append("annex")
+        elif in_transitional:
             kinds.append("transitional")
         elif not body:
             kinds.append("marker")
@@ -421,9 +438,18 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
     heading_run: list[str] = []
     current: _Variant | None = None
     transitional_blocks: list[str] = []
+    annexes: list[tuple[str, list[str]]] = []  # (printed heading, blocks)
     for i, (kind, body, markers) in enumerate(zip(kinds, bodies, markers_of, strict=True)):
         if kind == "transitional":
             transitional_blocks.append(body)
+            continue
+        if kind == "annex_start":
+            current = None
+            annexes.append((body, []))
+            continue
+        if kind == "annex":
+            if body:
+                annexes[-1][1].append(body)
             continue
         if kind == "marker":
             pending.extend(markers)
@@ -515,6 +541,13 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
             unattached.append(body)
         else:
             current.blocks.append(body)
+    if unattached and not variants:
+        # Some statutes (a repeal, an index figure, an approval of an agreement) have no numbered section: the whole
+        # text before the transitional provisions is cited as the statute itself ("första stycket förordningen ...").
+        variants.append(
+            _Variant(num="", chapter=None, chapter_heading=None, heading=None, markers=[], blocks=unattached)
+        )
+        unattached = []
     if unattached:
         raise SfsParseError(f"text outside any section: {unattached[0][:80]!r}")
     if not variants:
@@ -533,10 +566,14 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
     ceasing: list[tuple[str, str, str]] = []  # (eId, label, markers) of wordings that cease
 
     def section_eid(v: _Variant) -> str:
+        if not v.num:
+            return "main-text"
         local = f"section-{_compact(v.num)}"
         return f"chapter-{_compact(v.chapter)}-{local}" if per_chapter and v.chapter else local
 
     def label(v: _Variant) -> str:
+        if not v.num:
+            return "the text"
         return f"{v.chapter} kap. {v.num} §" if per_chapter and v.chapter else f"{v.num} §"
 
     def emit(
@@ -585,7 +622,7 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
 
     for v in variants:
         eid = section_eid(v)
-        base_path = ([f"ch:{v.chapter}"] if v.chapter else []) + [f"s:{v.num}"]
+        base_path = ([f"ch:{v.chapter}"] if v.chapter else []) + ([f"s:{v.num}"] if v.num else ["body:"])
         start_marker = next((mk for mk in v.markers if mk.kind == "I"), None)
         end_marker = next((mk for mk in v.markers if mk.kind == "U"), None)
         start = start_marker.when if start_marker else None
@@ -762,6 +799,7 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
 
     # ------------------------------------------------------------------ transitional provisions
     _transitional(transitional_blocks, emit)
+    _annexes(annexes, emit)
     # A repealed version has no children; when another wording of the same provision has some, the
     # provision is a container (the index uses the first version recorded to decide what to index).
     containers = {p.eid for p in provisions if not p.is_leaf}
@@ -851,6 +889,30 @@ def _date(value: str | None) -> date | None:
         return date.fromisoformat(value.strip()[:10])
     except ValueError:
         return None
+
+
+def _annexes(annexes: list[tuple[str, list[str]]], emit: Callable[..., bool]) -> None:
+    """Annexes (bilagor): each is one provision with the annex's text as printed (tables, forms, agreement texts keep
+    only the source's line breaks as paragraph breaks)."""
+    for n, (heading, blocks) in enumerate(annexes, start=1):
+        if not blocks:
+            continue
+        emit(
+            f"annex-{n}",
+            "annex",
+            [f"bil:{heading.partition(' ')[2]}"],
+            "\n\n".join(blocks),
+            None,
+            status="in_force",
+            start=None,
+            end=None,
+            note=None,
+            heading=heading,
+            context=None,
+            leaf=True,
+            own=False,
+            top_kind="annex",
+        )
 
 
 def _transitional(blocks: list[str], emit: Callable[..., bool]) -> None:
