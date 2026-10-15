@@ -1,7 +1,9 @@
 # Taiwan (laws of the Republic of China in force in Taiwan) - `TW`
 
-Status: **pilot sample**, profile `draft_unverified` (0.1.0). Eight central-government laws from
-全國法規資料庫 (Laws & Regulations Database, Ministry of Justice), current consolidation only.
+Status: profile `draft_unverified` (0.1.0). The committed manifest lists **every law and regulation page of
+the sitemap** of 全國法規資料庫 (Laws & Regulations Database, Ministry of Justice): 11,812 PCodes, current
+consolidation only (see "Widened to the whole database"). The real runs in "Results" cover the original eight
+laws and a 48-page slice of the widened manifest; the full download has not been run here.
 Naming is neutral: the profile is "Taiwan", with the official designation "Republic of China
 (Taiwan)" / 中華民國 in `names`, and `kind: other` (no position on international status).
 
@@ -81,6 +83,44 @@ needed one additive core change (below).
 
 Language: Chinese (Traditional script), `zh-Hant`, one version per law. Indexed: preambles (前言),
 articles (條), paragraphs (項), items (款) and sub-items (目). English translations are not ingested.
+
+## Widened to the whole database (2026-10-15)
+
+- **How the laws are listed.** robots.txt allows three paths; one is `/SearchEngineSitemap.aspx`, which the file
+  itself names as `Sitemap:`. One request to it (checked against robots.txt with the connector's matcher) returns
+  17,131 URLs: 11,812 `LawClass/LawAll.aspx?pcode=` pages (one per law or regulation, repealed ones included) and
+  5,319 `News/NewsDetail.aspx` pages (not read). `python -m scripts.build_moj_manifest` writes the PCodes to
+  `config/manifests/tw-moj-laws.yaml`: the original eight first, then the rest in sitemap order. By first letter
+  (a ministry/category code): A 716, B 89, C 62, D 1,786, E 125, F 593, G 1,069, H 1,276, I 436, J 1,172,
+  K 1,125, L 807, M 749, N 394, O 505, P 115, Q 87, R 256, S 285, T 114, U 51. The Open API stays unused.
+- **What the sitemap does not say** is whether a page is repealed. A random sample of 160 pages (seeded; 40 + 120):
+  52 repealed (header 廢止日期, 33 %), 7 charts published as attachments only (編制表, no article text, 4 %), 99
+  ingested (62 %), 2 errors; so about 37 % of the pages are fetched only to be skipped. Both skip cases raise
+  `ParseSkipped` (parser 1.1.0), counted as skipped documents, not errors.
+- **Lists below the 目 level.** 3 of the first 120 pages had `1.` `2.` lists (or `（1）`) under a 目, which the
+  parser refused. They are now kept, as printed, in the text of the 目 (else 款, else 項) they sit in: complete, but
+  not citable on their own (`天然氣事業輸儲設備防災相關設施裝置維修辦法第3條第1項第1款第3目` contains `1.` to `3.`).
+- **Still refused (2 of 160):** `B0010050` art 3, where the source prints items 8 and 9 on one line, so item 9
+  is not found; `J0100040`, whose 生效狀態 memo (「九十二年十二月五日訂定發布全文 13 條，施行日期，由主管機關定之」)
+  names no article number. Both are reported as errors; nothing is guessed.
+- **Orders (命令).** Their pages show **發布日期** (date of issue) where a law shows 公布日期; it is recorded as the
+  promulgation event and `work_date` of an order never amended. A name that is not a statute name
+  (法/律/條例/通則, 中央法規標準法 art 2) is an order or rule: `regulation` (before, an unlisted suffix such as 要點
+  was refused). A note in brackets after the name (`最低工資法（112.12.27制定）`) is not part of the name when the
+  kind is decided; the title stays as published. Citation: `植物診療機構開業登記及管理辦法第2條第2項第1款`.
+- **Connector** (`moj_laws`): a page that is missing (404), not a law page or a 5xx that outlasts the back-off goes
+  to `fetch_errors` and the run goes on; a refusal (401/403/429/451), a URL robots.txt disallows or 20 failures
+  in a row stops it; a PCode listed twice is refused.
+- **Cost of the full run:** 11,812 pages + robots.txt + sitemap = about 11,800 requests = **16.4 hours** at 5 s;
+  HTML 55 KB per page = about **0.65 GB**. The 99 ingested pages of the sample gave 7,428 provision versions
+  (75 per law); 23 of them, loaded alone, took 3.8 KB of database per provision version. So about 7,300 laws
+  ingested (6,400-8,200 allowing for the sample's size), **550,000 provision versions and about 2 GB** of
+  database (1.6-2.7).
+- **Slice run** (the eight + the first 40 random pages; 40 requests, 4 min): 48 seen, **31 ingested** (the eight
+  + 23), 17 skipped, **0 errors**, 9,857 provision versions, `verify-sources` **31/31 pass** (9,857 units).
+  The first attempt had 23 errors (repealed pages, orders dated 發布日期, a name with a bracketed note, charts
+  without text) before the parser was widened; the other 120 pages were fetched afterwards (13 min) and only
+  parsed (no database), which is where the list case above was found.
 
 ## Structure, identifiers and text
 
@@ -196,15 +236,19 @@ PostgreSQL configuration, so the `simple` configuration with CJK character bigra
 
 ## Known gaps
 
-- Sample of 8 laws; current consolidation only; no per-article dates (attested at the cut-off date).
+- Current consolidation only; no per-article dates (attested at the cut-off date). The full 11,812-page download
+  has not been run (a slice of 48 pages has); the size figures are estimates.
 - Articles amended but not in force: only the amended (prospective) wording; the wording in force is
   missing (PDPA 26 articles, Civil Code arts 166-1 and 1223).
 - No amendment history (沿革), no original promulgation dates of amended laws.
 - The Constitution is shown as promulgated; the Additional Articles suspend or replace several of its
   articles (e.g. arts 25-34 and 135, Additional Articles art 1(2)); the two are not linked.
-- No orders (命令), local self-government regulations, treaties, cross-strait agreements, case law,
-  Constitutional Court judgments or Judicial Yuan interpretations; no English translations; no
-  article attachments.
+- Repealed laws are not ingested. No local self-government regulations, treaties, cross-strait agreements,
+  case law, Constitutional Court judgments or Judicial Yuan interpretations; no English translations; no
+  article attachments (a chart published only as an attachment has no text here).
+- Pages whose text is not in the 第N條 form (for example administrative rules numbered 一、二、) would be refused
+  by the parser and show up as errors in a run; none occurred in the 160 sampled pages, but 11,812 pages have
+  not been read (expect a few percent). Instruments are typed by name only (`act` / `regulation`).
 - Bigram search with the `simple` configuration: no word segmentation, no variant-character folding
   (臺/台), short or common bigrams rank loosely.
 - Cached pages are kept forever: delete `var/sources/law.moj.gov.tw/LawClass/LawAll/<PCode>.html` (and
@@ -212,7 +256,6 @@ PostgreSQL configuration, so the `simple` configuration with CJK character bigra
 
 ## Unsure
 
-- Whether the publisher intends robots.txt to cover its documented Open API. If it confirms that the
-  API may be downloaded by bots, the JSON dump (with 沿革 and effective-date notes) would be a better
-  source; until then only the allowed page is used.
+- Whether robots.txt is meant to cover the documented Open API. ULIS does not depend on the answer: only the
+  allowed pages are used (the per-law page and the sitemap), and the JSON dump is not fetched.
 - Profile statements on precedent, treaty reception and commencement are research notes (to verify).

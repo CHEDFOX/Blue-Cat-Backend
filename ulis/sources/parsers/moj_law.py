@@ -11,15 +11,19 @@ law never amended (the page shows 公布日期 instead of 修正日期).
 Format notes (what the page provides and how ULIS uses it):
 
 * header table: 法規名稱 (title), 修正日期 (date the latest amendment was promulgated) or
-  公布日期 (promulgation, for a law never amended), 法規類別 (category) and, when some articles
-  are not yet in force, 生效狀態 with a memo (``law-vaildMemo``) naming them;
+  公布日期 (promulgation, for a law never amended; 發布日期, the date of issue, for an order never
+  amended), 法規類別 (category) and, when some articles are not yet in force, 生效狀態 with a memo
+  (``law-vaildMemo``) naming them. A page with 廢止日期 (repealed) or without article text (a chart
+  published as an attachment only) holds nothing to ingest and is skipped (``ParseSkipped``);
 * body (``law-reg-content``): 編/章/節/款/目 headings (``h3 char-1`` … ``char-5``, used as context
   only), a preamble (前言, a row without an article number) and articles (``第 184 條``,
   ``第 21-1 條`` = 第21條之1). Each article is a list of lines. The ``line-NNNN`` class is the
   hanging indent of the line's label, not its level (``十一、`` items are ``line-0006`` like
   ``（一）`` sub-items), so the structure is read from the labels: a line starting with a
   numeral and ``、`` (or, in the Constitution, a numeral and spaces) is a 款 (item), ``（一）``
-  a 目 (sub-item), any other line a 項 (paragraph). Paragraphs are not numbered in print;
+  a 目 (sub-item), any other line a 項 (paragraph). Paragraphs are not numbered in print. A list below
+  the 目 level (``1.``, ``（1）``) is kept as printed in the text of the line it sits in (the model has no
+  deeper level), so it is complete but cannot be cited on its own;
 * identifiers are language-neutral: ``article-184``, ``article-184-paragraph-1``,
   ``article-6-paragraph-1-item-2``, ``article-21_1`` (第21條之1), ``preamble``. An article with a
   single paragraph is one provision (cited 第N條) and its items are ``article-N-item-M``
@@ -43,10 +47,10 @@ from dataclasses import dataclass, field
 from datetime import date
 from html.parser import HTMLParser
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "moj_law_html"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 SITE = "https://law.moj.gov.tw"
 JURISDICTION = "TW"
 LANGUAGE = "zh-Hant"
@@ -68,6 +72,8 @@ IDEOGRAPHIC_SPACE = chr(0x3000)
 _ITEM = re.compile(rf"^([{NUMERALS}]+)(、|{IDEOGRAPHIC_SPACE}+| {{1,2}})(?=\S)")
 _SUBITEM = re.compile(rf"^[（(]([{NUMERALS}]+)[）)]")
 _ARABIC_LIST = re.compile(r"^[0-9０-９]+[.、．)）]")
+# 1. / 1、 / （1）: a list below the 目 level, which the structure model does not have
+_DEEPER = re.compile(r"^(?:[0-9０-９]+[.、．)）](?![0-9０-９])|[（(][0-9０-９]+[）)])")
 _ARTICLE = re.compile(r"^第\s*([0-9]+(?:-[0-9]+)?)\s*條$")
 _ROC_DATE = re.compile(r"民國\s*([0-9]+)\s*年\s*([0-9]+)\s*月\s*([0-9]+)\s*日")
 _CUTOFF = re.compile(r"法規整編資料截止日：\s*(民國\s*[0-9]+\s*年\s*[0-9]+\s*月\s*[0-9]+\s*日)")
@@ -190,14 +196,24 @@ def article_key(number: str) -> str:
     return number.replace("-", "_")
 
 
+_NOTE = re.compile(r"[（(][^（）()]*[）)]\s*$")
+
+
 def instrument_type(title: str) -> str:
-    if title in CONSTITUTIONAL:
+    """Kind of instrument from its name. A trailing note in brackets, as the database appends to the name of a law
+    that is enacted but not yet in force (``最低工資法（112.12.27制定）``), is not part of the name. A statute must be
+    named 法/律/條例/通則 (中央法規標準法 art 2), so anything else the database holds is an order or rule issued by an
+    agency (規程/規則/細則/辦法/綱要/標準/準則 and other names such as 要點): ``regulation``."""
+    name = title.strip()
+    while (stripped := _NOTE.sub("", name)) != name and stripped:
+        name = stripped.strip()
+    if name in CONSTITUTIONAL:
         return "constitution"
-    if title.endswith(ORDER_SUFFIXES):
+    if name.endswith(ORDER_SUFFIXES):
         return "regulation"
-    if title.endswith(ACT_SUFFIXES):
+    if name.endswith(ACT_SUFFIXES):
         return "act"
-    raise MojParseError(f"cannot tell the kind of {title!r} from its name")
+    return "regulation"
 
 
 # --------------------------------------------------------------------------- structure
@@ -245,6 +261,23 @@ class _Paragraph:
 def _paragraphs(lines: list[str], where: str) -> list[_Paragraph]:
     paragraphs: list[_Paragraph] = []
     for text in lines:
+        if _DEEPER.match(text):
+            # A list below the 目 level (1., （1）) is kept, as printed, in the text of the line it sits in
+            # (the 目, else the 款, else the 項): the text stays complete, but it cannot be cited on its own.
+            target = None
+            if paragraphs:
+                para = paragraphs[-1]
+                if para.items and para.items[-1].subitems:
+                    target = para.items[-1].subitems[-1]
+                elif para.items:
+                    target = para.items[-1].line
+                else:
+                    target = para.line
+            if target is None:
+                raise MojParseError(f"{where}: unsupported list level: {text[:20]!r}")
+            target.printed += "\n" + text
+            target.own += "\n" + text
+            continue
         line = _classify(text)
         if line.kind == "paragraph":
             paragraphs.append(_Paragraph(line))
@@ -539,8 +572,8 @@ def parse_moj_law(content: bytes) -> list[ParsedDocument]:
         raise MojParseError(f"not UTF-8: {exc}") from exc
     name_el = root.find(lambda n: n.attrs.get("id") == "hlLawName")
     body = root.find(_has_class("law-reg-content"))
-    if name_el is None or body is None:
-        raise MojParseError("not a law full-text page (no hlLawName / law-reg-content)")
+    if name_el is None:
+        raise MojParseError("not a law full-text page (no hlLawName)")
     title = _clean(name_el.text())
     href = name_el.attrs.get("href", "")
     pm = re.search(r"pcode=([A-Z][0-9]{7})", href)
@@ -549,11 +582,17 @@ def parse_moj_law(content: bytes) -> list[ParsedDocument]:
     pcode = pm.group(1)
     header = _header(root)
     if "廢止日期" in header:
-        raise MojParseError(f"{title}: repealed laws (廢止) are not supported")
+        raise ParseSkipped(
+            f"{title}: repealed on {header['廢止日期'].text().strip()} (廢止); repealed laws are not ingested"
+        )
+    if body is None:
+        raise ParseSkipped(f"{title}: the page has no article text (the law is published as an attachment only)")
     amended = roc_date(header["修正日期"].text()) if "修正日期" in header else None
-    promulgated = roc_date(header["公布日期"].text()) if "公布日期" in header else None
+    # 公布日期: a law (法律) never amended; 發布日期: the same for an order (命令) issued by an agency.
+    date_label = "公布日期" if "公布日期" in header else "發布日期"
+    promulgated = roc_date(header[date_label].text()) if date_label in header else None
     if amended is None and promulgated is None:
-        raise MojParseError(f"{title}: neither 修正日期 nor 公布日期 is stated")
+        raise MojParseError(f"{title}: none of 修正日期, 公布日期, 發布日期 is stated")
     category = " ".join(header["法規類別"].text().split()) if "法規類別" in header else None
     cutoff_m = _CUTOFF.search(root.text())
     cutoff = roc_date(cutoff_m.group(1)) if cutoff_m else None
@@ -589,7 +628,7 @@ def parse_moj_law(content: bytes) -> list[ParsedDocument]:
             0, ParsedEvent("amendment", amended, None, "修正日期 (latest amendment promulgated)", "header/修正日期")
         )
     if promulgated is not None:
-        events.insert(0, ParsedEvent("promulgation", promulgated, None, "公布日期", "header/公布日期"))
+        events.insert(0, ParsedEvent("promulgation", promulgated, None, date_label, f"header/{date_label}"))
     ext: dict[str, object] = {"pcode": pcode}
     if category:
         ext["category"] = category

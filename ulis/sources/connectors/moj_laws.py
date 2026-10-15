@@ -11,6 +11,12 @@ open-data download (``/api/ch/law/json``) is therefore not fetched. Before any l
 connector reads ``robots.txt`` and refuses a URL that it does not allow (longest-match rule of
 RFC 9309, ``Allow`` winning ties).
 
+The manifest may list every law and regulation of the database (``scripts/build_moj_manifest.py`` reads the
+sitemap that robots.txt allows: about 11,800 PCodes, one request each), so a page that is missing (404) or is not
+a law page, or a server error that outlasts the back-off, is reported in ``fetch_errors`` and the run goes on. A
+refusal (401, 403, 429, 451), a URL that robots.txt disallows and ``MAX_CONSECUTIVE_ERRORS`` pages failing in a
+row stop the run.
+
 Built on :class:`PoliteHttp`: identifying User-Agent, 5 s between requests (robots.txt sets no
 Crawl-delay), HTTPS to this one host only, refusals respected, and a cache under
 ``<cache_dir>/law.moj.gov.tw/LawClass/LawAll/<PCode>.html`` so runs can be repeated offline.
@@ -43,6 +49,8 @@ HOST = "law.moj.gov.tw"
 BASE_URL = f"https://{HOST}"
 LAW_PAGE = "/LawClass/LawAll.aspx"
 _PCODE = re.compile(r"^[A-Z][0-9]{7}$")
+_REFUSAL = re.compile(r"HTTP (?:401|403|429|451)\b")
+MAX_CONSECUTIVE_ERRORS = 20
 
 __all__ = ["FetchError", "MojLawsConnector", "law_url", "robots_allows", "tls_context"]
 
@@ -118,6 +126,7 @@ class MojLawsConnector:
         self.offline = offline
         self._sleep = sleep
         self.http: PoliteHttp | None = None
+        self.fetch_errors: list[str] = []
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -130,9 +139,14 @@ class MojLawsConnector:
         laws = manifest.get("laws") or []
         if not laws:
             raise ManifestError("the manifest lists no laws")
+        seen: set[str] = set()
         for law in laws:
-            if not _PCODE.match(str(law.get("pcode", ""))):
+            pcode = str(law.get("pcode", ""))
+            if not _PCODE.match(pcode):
                 raise ManifestError(f"invalid pcode {law.get('pcode')!r}")
+            if pcode in seen:
+                raise ManifestError(f"{pcode} is listed twice")
+            seen.add(pcode)
         return manifest
 
     def _get(self, url: str, cache_key: str) -> tuple[bytes, dict[str, Any]]:
@@ -144,6 +158,7 @@ class MojLawsConnector:
 
     def fetch(self) -> Iterator[RawDocument]:
         manifest = self._manifest()
+        self.fetch_errors = []
         self.http = PoliteHttp(
             self.cache_dir,
             manifest["user_agent"],
@@ -155,17 +170,32 @@ class MojLawsConnector:
         )
         robots, _ = self._get(f"{BASE_URL}/robots.txt", "robots.txt")
         robots_txt = robots.decode("utf-8", errors="replace")
+        failed_in_a_row = 0
         for law in manifest["laws"]:
             pcode = str(law["pcode"])
             url = law_url(pcode)
             if not robots_allows(robots_txt, manifest["user_agent"], url):
                 raise FetchError(f"{url}: disallowed by {BASE_URL}/robots.txt; not fetched")
-            data, meta = self._get(url, f"LawClass/LawAll/{pcode}.html")
-            if b"law-reg-content" not in data or b'id="hlLawName"' not in data:
-                raise FetchError(
-                    f"{url}: response is not a law page ({meta.get('content_type')}); not ingested. "
-                    f"Remove {self.http.cache_path(url, f'LawClass/LawAll/{pcode}.html')} after checking the site."
-                )
+            cache_key = f"LawClass/LawAll/{pcode}.html"
+            try:
+                data, meta = self._get(url, cache_key)
+                if b"law-reg-content" not in data or b'id="hlLawName"' not in data:
+                    cached = self.http.cache_path(url, cache_key)  # do not keep an error page for later runs
+                    cached.unlink(missing_ok=True)
+                    cached.with_name(cached.name + ".meta.json").unlink(missing_ok=True)
+                    raise FetchError(
+                        f"{url}: response is not a law page ({meta.get('content_type')}); not ingested, "
+                        "and not kept in the cache"
+                    )
+            except FetchError as exc:
+                if _REFUSAL.search(str(exc)) or self.offline:
+                    raise  # a refusal stops the run; so does a missing cache entry when offline
+                self.fetch_errors.append(f"moj-law:{pcode}: {exc}; skipped")
+                failed_in_a_row += 1
+                if failed_in_a_row >= MAX_CONSECUTIVE_ERRORS:
+                    raise FetchError(f"{failed_in_a_row} pages failed in a row (last: {exc}); stopping") from exc
+                continue
+            failed_in_a_row = 0
             yield RawDocument(
                 external_id=f"moj-law:{pcode}",
                 uri=meta.get("final_url") or url,

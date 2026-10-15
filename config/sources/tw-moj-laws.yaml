@@ -6,6 +6,9 @@
 #   https://data.gov.tw/license                    - 政府資料開放授權條款－第1版 (Open Government Data License 1.0)
 #   https://law.moj.gov.tw/api/swagger/index.html and /api/swagger/docs/v1 - Open API (bulk ZIP downloads only)
 #   https://law.moj.gov.tw/Index.aspx              - site footer (cut-off date, update frequency, disclaimer)
+#   https://law.moj.gov.tw/SearchEngineSitemap.aspx - the sitemap robots.txt names and allows (read 2026-10-15,
+#       once, by scripts/build_moj_manifest.py): 17,131 URLs = 11,812 LawClass/LawAll.aspx?pcode= pages (one per
+#       law or regulation, repealed ones included) + 5,319 News/NewsDetail.aspx pages (not read).
 # The licence and API pages are themselves under robots.txt "Disallow: /"; each was read once, by
 # hand, for this review only (no crawling).
 schema_version: 1
@@ -15,13 +18,16 @@ publisher: Ministry of Justice (法務部), 全國法規資料庫工作小組
 kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions: [TW]
-document_kinds: [constitution, act]
+document_kinds: [constitution, act, regulation]
 languages: [zh-Hant]
 coverage: >-
   The central government's laws (法律) and orders (命令), judicial interpretations, treaties and
   cross-strait agreements, as consolidated by the Ministry of Justice (current text, with
-  history pages and English translations of selected laws). ULIS ingests a selected list of laws
-  in Chinese from each law's full-text page (所有條文), the one law path robots.txt allows.
+  history pages and English translations of selected laws). ULIS ingests, in Chinese, every law
+  and regulation that the sitemap robots.txt allows lists (11,812 PCodes on 2026-10-15), from each
+  one's full-text page (所有條文), the one law path robots.txt allows. Repealed laws (廢止, about a
+  third of the pages) and pages that carry no article text (charts published as attachments) are
+  fetched to find that out and then skipped.
 access:
   method: permitted_web_retrieval
   endpoint: config/manifests/tw-moj-laws.yaml
@@ -32,8 +38,10 @@ update_frequency: >-
 rate_limits: >-
   No published numeric limit. robots.txt sets no Crawl-delay, so the ULIS default of one request
   every 5 seconds applies; the connector re-checks robots.txt and fetches only
-  /LawClass/LawAll.aspx (9 requests for the whole manifest). The Open API (/api/ch/law/json, one
-  ZIP of every law) is under robots.txt "Disallow: /" and is not used.
+  /LawClass/LawAll.aspx (one request per law: 11,812, about 16.5 hours at 5 seconds, about 0.65 GB of
+  HTML), after one request for the sitemap /SearchEngineSitemap.aspx (also allowed, and named in
+  robots.txt). The Open API (/api/ch/law/json, one ZIP of every law) is under robots.txt
+  "Disallow: /" and is not used. A refusal (401, 403, 429, 451) stops the run.
 licence:
   id: OGDL-TW-1.0
   name: 政府資料開放授權條款－第1版 / Open Government Data License, version 1.0 (compatible with CC BY 4.0)
@@ -79,6 +87,7 @@ provenance: >-
   differs from the text published by the competent authority, the published text prevails). The
   authentic text of a law is its promulgation in the Presidential Office Gazette (總統府公報).
 known_limitations:
+  - Orders (命令) and administrative rules are classed as regulations by their names; a name that is not a statute name (法/律/條例/通則) is taken to be an order or rule. A page the parser cannot read without guessing (an item number that jumps because two items share a line in the source; a 生效狀態 memo that names no article) is reported as an error, not guessed. Numbered lists below the 目 level are kept in the text of the 目.
   - Not the authentic text; the text published by the competent authority (for laws, the Presidential Office Gazette) prevails.
   - Current consolidation only, without per-article dates; each text is attested at the consolidation cut-off date (法規整編資料截止日).
   - For articles amended but not yet in force the page shows only the amended wording (recorded as prospective); the wording still in force is on the old-version page (LawOldVer.aspx), which robots.txt disallows.
