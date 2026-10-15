@@ -57,7 +57,7 @@ from typing import Any
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "riksdagen_sfs_json"
-PARSER_VERSION = "1.1.0"
+PARSER_VERSION = "1.2.0"
 
 # Fundamental laws (grundlagar) are named in regeringsformen 1 kap. 3 § ("Regeringsformen, successionsordningen,
 # tryckfrihetsförordningen och yttrandefrihetsgrundlagen är rikets grundlagar"; read in the record 1974:152). They are
@@ -105,7 +105,7 @@ _POINT_REPEAL = re.compile(r"^[Hh]ar upp?hävts genom [Ll]ag \(?\d{4}:\d+\)?\.?$
 _CHAPTER_REPEAL = re.compile(r"^[Hh]ar (?:upp?hävts|upphört att gälla)\b")
 _SENTENCE_END = re.compile(r"[.!?]['\")]*$")
 _CONJUNCTION = re.compile(r"(?:och|eller|samt|som|respektive|resp\.|liksom)\b")
-_HEADING_ABBREVIATION = re.compile(r"(?:m\.m\.|m\.fl\.|etc\.)$")
+_HEADING_ABBREVIATION = re.compile(r"(?:m\. ?m\.|m\. ?fl\.|etc\.)$")
 
 
 class SfsParseError(ValueError):
@@ -410,8 +410,9 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
             kinds.append("text")
     # Headings: text blocks without closing punctuation that are followed by structure (a section,
     # a chapter, a marker, the transitional provisions, the end, or another heading).
+    structured = any(k in ("section", "section_range", "chapter") for k in kinds)  # else nothing for a heading to head
     for i in range(len(kinds) - 1, -1, -1):
-        if kinds[i] != "text":
+        if kinds[i] != "text" or not structured:
             continue
         body = _strip_amended_by(bodies[i])[0]
         marked = any(mk.scope == "Rubriken" for mk in markers_of[i])
@@ -421,7 +422,9 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
             len(body) <= 200
             and not body[:1].islower()
             and (not re.search(r"[.,;:]$", body) or bool(_HEADING_ABBREVIATION.search(body)))
-            and not re.search(r"[.!?] [A-ZÅÄÖ]", re.sub(r"^[IVXLC]+\. ", "", body))  # "I. Om rättegången ..."
+            and not re.search(
+                r"[.!?] [A-ZÅÄÖ]", re.sub(r"^(?:AVDELNING |Avdelning )?[IVXLC]+\. ", "", body)
+            )  # "I. Om ..."
         )
         nxt = kinds[i + 1] if i + 1 < len(kinds) else "end"
         if marked or (candidate and nxt in ("section", "chapter", "marker", "transitional_start", "end", "heading")):

@@ -31,10 +31,11 @@ Status: **the whole open collection of statutes in force** (5,336 laws, ordinanc
   16 KB of text per statute, so about **340,000 provision versions** and **about 0.5 GB of database** (plus the raw JSON, 26 KB a
   statute, 0.14 GB in the object store). Far below the 15 GB threshold, so the default manifest is the whole list. Ingest in batches:
   `python scripts/ingest_in_batches.py se-riksdagen-sfs --batch 100`.
-- **Parser additions** (parser 1.1.0, module 1.2.0): repealed and text-less records are skipped (`ParseSkipped`, not errors);
+- **Parser additions** (parser 1.2.0, module 1.2.0): repealed and text-less records are skipped (`ParseSkipped`, not errors);
   a statute with no numbered section ("Regeringen föreskriver att följande uppräkningsfaktorer ska användas ...") is one
   unnumbered provision, cited as the statute; old statutes print "1 §." with a full stop; an annex (`Bilaga`) is its own
-  provision instead of being glued to the last transitional point; the four fundamental laws are cited by name; ids with a
+  provision instead of being glued to the last transitional point; a one-sentence announcement is not taken for a heading;
+  "AVDELNING I." and "m. m." headings are read; the four fundamental laws are cited by name; ids with a
   leading zero (`sfs-1810-0926`) are kept as printed.
 
 ### The pilot eight
@@ -80,7 +81,7 @@ others from the title with the SFS number. "första stycket" is cited even for s
   treaties or local regulations; the 192 records without a YYYY:N number and the Riksbank's regulations are not listed.
 - Chapters/headings are context only; headings and stycke boundaries are inferred from the plain-text layout; an annex is
   one provision without its table layout. Old sections divided into "mom." (`1 § 1 mom.`, e.g. 1944:407) are not parsed and
-  are reported as errors (1 in about 230 sampled).
+  are reported as errors (1 in about 420 in-force statutes sampled).
 - Hard wraps: no space after a line-final hyphen, so some layout hyphens remain ("gär-ningsorterna").
 - A statute marked in force by the list may be repealed before its record is republished; the parser then skips it.
 - Swedish search uses PostgreSQL `swedish` (no compound splitting). An undated wording's stated end is kept in its note.
@@ -104,10 +105,14 @@ others from the title with the SFS number. "första stycket" is cited even for s
 
 ## Widening run (2026-10-15; sample, not the whole manifest)
 
-- Requests during development: about 90 list pages and 300 statutes (cached afterwards).
-- Sample: the pilot eight and 150 statutes drawn at random from the committed manifest, fresh database, parser 1.1.0:
-  **158 documents, 156 stored, 2 skipped (records with no text), 0 errors**; 156 instruments, 17,118 provision versions, 12,298
-  passages. An earlier random draw of 140 statutes from the unfiltered list had 69 repealed ones (skipped) and one `mom.` error.
+- Requests during development: about 90 list pages and about 500 statutes (cached afterwards).
+- Samples drawn at random from the committed manifest (plus the pilot eight), fresh database, parser 1.2.0: 150 statutes -> **158
+  documents, 156 stored, 2 skipped (records with no text), 0 errors** (17,110 provision versions, 12,290 passages); 200 statutes ->
+  **208 documents, 187 new + 20 already stored, 1 skipped, 0 errors**. So 0 errors in 350 statutes and 3 records without text. Before
+  the parser fixes 13 of the first 100 documents failed (unnumbered statutes, "1 §." sections) and 3 of the third draw's 200 ("AVDELNING
+  I." and "m. m." headings, a one-sentence announcement read as a heading). A draw of 140 statutes from the unfiltered list had 69
+  repealed ones (skipped) and one `mom.` error (1944:407, still unsupported).
+- `verify-sources` on the sample database (together with the other three sources): see the Evidence line of `docs/jurisdictions/nl.md`.
 - Searches (`jurisdiction=SE`): "bidrag till arbetslivsmuseer" -> `1 § första stycket förordningen (2000:1078) om bidrag till
   arbetslivsmuseer`; "uppräkningsfaktorer preliminära kommunalskattemedel 2015" -> `första stycket förordningen (2014:1308) om
   uppräkningsfaktorer ...`; "skattefrihet anslag lågkonjunkturfond" -> `2 § första stycket kungörelsen (1959:82) om skattefrihet ...`;

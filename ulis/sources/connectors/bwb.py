@@ -23,7 +23,8 @@ regeling (``wetgeving/@soort``: beleidsregel, reglement, ...) is skipped after i
 
 Access rules (see ``config/sources/nl-bwb.yaml``): the repository publishes no robots.txt (404);
 the SRU search service on ``zoekservice.overheid.nl`` is **not** used, because that host's
-robots.txt disallows all robots, and ``wetten.overheid.nl`` (the website) is not crawled.
+robots.txt disallows all robots, and ``wetten.overheid.nl`` (the website) is not crawled (only its sitemap is read,
+once, by ``scripts/build_bwb_manifest.py``, to make the manifest).
 PoliteHttp: identifying User-Agent, 5 s between requests, back-off on 429/5xx, any other refusal
 stops the run, HTTPS to the repository host only, cache under ``var/sources/`` so runs can be
 repeated offline. The manifest's SHA-512 hash of each file is compared with the download and the

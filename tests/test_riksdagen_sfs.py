@@ -231,14 +231,43 @@ def test_repealed_renumbered_and_list_structure() -> None:
 def test_statute_without_numbered_sections_is_one_provision() -> None:
     # "Regeringen föreskriver att följande uppräkningsfaktorer ska användas ..." has no "1 §": cited as the statute.
     doc = _doc("sfs-2014-1308")
-    assert [p.eid for p in doc.provisions] == ["main-text", "main-text-paragraph-1"]
+    assert [p.eid for p in doc.provisions] == ["main-text", "main-text-paragraph-1", "main-text-paragraph-2"]
     assert _one(doc, "main-text").text.startswith(
         "Regeringen föreskriver att följande uppräkningsfaktorer ska användas"
     )
+    # the table that follows is part of the text (a line like "Inkomstår Uppräkningsfaktor" is not taken for a heading)
+    assert _one(doc, "main-text-paragraph-2").text == "Inkomstår Uppräkningsfaktor\n2014 1,033\n2015 1,046"
     assert _cite(doc, "main-text-paragraph-1").startswith(
         "första stycket förordningen (2014:1308) om uppräkningsfaktorer"
     )
     assert doc.instrument_type == "ordinance" and _one(doc, "main-text").status == "in_force"
+
+
+def _with_text(text: str) -> bytes:
+    """The record of 2014:1308 with another text (for layouts absent from the fixtures)."""
+    raw = json.loads(_read("sfs-2014-1308"))
+    raw["dokumentstatus"]["dokument"]["text"] = text
+    return json.dumps(raw).encode()
+
+
+def test_an_announcement_of_one_sentence_is_not_taken_for_a_heading() -> None:
+    # Tillkännagivande (2000:162): one line without closing punctuation ("... 2,5 procent.2", a footnote mark), nothing
+    # else; with no section or chapter in the record there is nothing for a heading to head.
+    doc = _doc("sfs-2000-162")
+    assert [p.eid for p in doc.provisions] == ["main-text", "main-text-paragraph-1"]
+    assert _one(doc, "main-text").text.startswith("Riksbanken ger till känna att Riksbankens diskonto")
+
+
+def test_division_headings_and_headings_ending_in_m_m() -> None:
+    text = (
+        "AVDELNING I. INLEDANDE BESTÄMMELSER\r\n\r\n1 kap. Innehåll och tillämpningsområde\r\n\r\n"
+        "1 § Denna lag innehåller bestämmelser om tillämpningsområdet.\r\n\r\n"
+        "Ansvarsbestämmelser m. m.\r\n\r\n2 § Den som bryter mot lagen döms till böter.\r\n"
+    )
+    (doc,) = parse_riksdagen_sfs(_with_text(text))
+    assert [p.eid for p in doc.provisions if p.kind == "section"] == ["section-1", "section-2"]
+    assert _one(doc, "section-2").heading == "Ansvarsbestämmelser m. m."
+    assert _one(doc, "section-1").context_heading == "1 kap. Innehåll och tillämpningsområde"
 
 
 def test_old_statutes_print_a_full_stop_after_the_section_sign() -> None:

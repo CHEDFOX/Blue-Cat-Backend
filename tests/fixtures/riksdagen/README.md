@@ -1,7 +1,7 @@
 # Riksdagen SFS fixtures
 
 Real, unmodified responses of the Riksdag's open data API
-(`https://data.riksdagen.se/dokument/sfs-<year>-<number>.json`), retrieved on 2026-10-14 (the last four on 2026-10-15) with the
+(`https://data.riksdagen.se/dokument/sfs-<year>-<number>.json`), retrieved on 2026-10-14 (the last five on 2026-10-15) with the
 ULIS User-Agent and kept in the `PoliteHttp` cache layout (`<host>/<path>` plus `.meta.json` with
 the URL and retrieval time). Each JSON response is stored gzip-compressed (`.json.gz`) to keep the
 repository small; the tests decompress it, and the bytes are exactly those received.
@@ -17,6 +17,7 @@ repository small; the tests decompress it, and the bytes are exactly those recei
 | `sfs-2014-1308.json.gz` | Förordning (2014:1308) om uppräkningsfaktorer ... (no numbered section) | - |
 | `sfs-1959-82.json.gz` | Kungörelse (1959:82) om skattefrihet för vissa anslag ... (sections printed "1 §.") | - |
 | `sfs-2013-125.json.gz` | Lag (2013:125) om avtal mellan Sverige och Antigua och Barbuda ... (an annex, 33 KB) | - |
+| `sfs-2000-162.json.gz` | Tillkännagivande (2000:162) av uppgift om Riksbankens diskonto (one sentence, no section) | - |
 | `sfs-2005-676.json.gz` | Förordning (2005:676) om statsbidrag till viss påbyggnadsutbildning (repealed: skipped) | - |
 
 Terms: "Riksdagens öppna data är fria att användas och spridas vidare så länge du anger källa"
