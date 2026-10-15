@@ -1,0 +1,52 @@
+schema_version: 1
+id: ca-qc-legisquebec
+name: LegisQuébec (Lois et règlements du Québec)
+publisher: Éditeur officiel du Québec (Direction des communications et du soutien juridique, ministère de la Justice)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [CA-QC]
+document_kinds: [act, regulation]
+languages: [fr, en]
+coverage: >-
+  Consolidated statutes and regulations of Québec in French (the French text prevails; some
+  English versions) at https://www.legisquebec.gouv.qc.ca. ULIS ingests nothing from it (status
+  planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.legisquebec.gouv.qc.ca
+update_frequency: not applicable (nothing is fetched)
+rate_limits: >-
+  https://www.legisquebec.gouv.qc.ca/robots.txt answered HTTP 403 to ULIS's identifying user
+  agent (read 2026-10-14), so the site's crawl rules cannot be read and the host refuses ULIS. A
+  refusal is respected: no other path was requested.
+licence:
+  id: UNVERIFIED
+  name: Licence not verified - the host refuses ULIS (HTTP 403 on robots.txt)
+  url: https://www.legisquebec.gouv.qc.ca
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. NOTHING READ: the only request, /robots.txt, was refused (HTTP
+    403).
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - >-
+        Do not fetch from www.legisquebec.gouv.qc.ca while it answers 403, and do not try other
+        identities or routes.
+    - >-
+        A person should ask the Éditeur officiel du Québec for permission or an export, and
+        should read the licence.
+  notes: >-
+    STOPPED, nothing ingested. Québec is the bijural exception (civil law for private law;
+    French is the language of the statutes), so its profile needs a French-speaking civil-law
+    reviewer anyway.
+provenance: >-
+  Official publisher named above. Nothing was downloaded from it for the corpus; the findings in this descriptor come from the pages named under licence.reviewed_by.
+known_limitations:
+  - Nothing of Québec law is ingested; the CA-QC profile has no corpus.
+status: planned

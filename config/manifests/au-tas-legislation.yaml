@@ -1,0 +1,55 @@
+# Tasmanian Legislation Online: principal Acts, named by the Acts-in-force cross-references of the Criminal Code Act 1924,
+# the Taxation Administration Act 1997 and the First Home Owner Grant Act 2000 (the identifiers are the publisher's own,
+# act-<year of assent>-<number>). The site offers no complete list that the connector may use (its A-Z pages answer 404 to
+# plain requests and /tables/pubactsif lists only Acts awaiting consolidation), so this is a curated list: add identifiers
+# to extend it. An identifier whose Act is no longer in force answers 404 and is reported, not ingested.
+schema_version: 1
+source_id: au-tas-legislation
+host: www.legislation.tas.gov.au
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+documents:
+  - {id: act-1924-069, title: "Criminal Code Act 1924"}
+  - {id: act-1931-059, title: "Acts Interpretation Act 1931"}
+  - {id: act-1925-038, title: "Traffic Act 1925"}
+  - {id: act-1935-044, title: "Police Offences Act 1935"}
+  - {id: act-1937-014, title: "Air Navigation Act 1937"}
+  - {id: act-1959-077, title: "Justices Act 1959"}
+  - {id: act-1980-019, title: "Land Titles Act 1980"}
+  - {id: act-1990-004, title: "Administrative Arrangements Act 1990"}
+  - {id: act-1990-042, title: "Legal Aid Commission Act 1990"}
+  - {id: act-1993-020, title: "Crime (Confiscation of Profits) Act 1993"}
+  - {id: act-1994-009, title: "Bail Act 1994"}
+  - {id: act-1994-044, title: "Environmental Management and Pollution Control Act 1994"}
+  - {id: act-1995-072, title: "Criminal Law (Detention and Interrogation) Act 1995"}
+  - {id: act-1995-105, title: "Classification (Publications, Films and Computer Games) Enforcement Act 1995"}
+  - {id: act-1996-023, title: "Firearms Act 1996"}
+  - {id: act-1997-028, title: "Children, Young Persons and Their Families Act 1997"}
+  - {id: act-1997-051, title: "Corrections Act 1997"}
+  - {id: act-1997-059, title: "Sentencing Act 1997"}
+  - {id: act-1997-074, title: "Taxation Administration Act 1997"}
+  - {id: act-1997-081, title: "Youth Justice Act 1997"}
+  - {id: act-1999-021, title: "Criminal Justice (Mental Impairment) Act 1999"}
+  - {id: act-1999-070, title: "Vehicle and Traffic Act 1999"}
+  - {id: act-2000-019, title: "First Home Owner Grant Act 2000"}
+  - {id: act-2000-074, title: "Land Tax Act 2000"}
+  - {id: act-2000-075, title: "Electronic Transactions Act 2000"}
+  - {id: act-2000-085, title: "State Service Act 2000"}
+  - {id: act-2000-102, title: "Dog Control Act 2000"}
+  - {id: act-2001-015, title: "Duties Act 2001"}
+  - {id: act-2001-016, title: "Debits Duties Act 2001"}
+  - {id: act-2001-062, title: "Child Care Act 2001"}
+  - {id: act-2001-076, title: "Evidence Act 2001"}
+  - {id: act-2001-077, title: "Oaths Act 2001"}
+  - {id: act-2001-079, title: "Evidence (Children and Special Witnesses) Act 2001"}
+  - {id: act-2001-094, title: "Misuse of Drugs Act 2001"}
+  - {id: act-2001-102, title: "Valuation of Land Act 2001"}
+  - {id: act-2003-044, title: "Relationships Act 2003"}
+  - {id: act-2003-075, title: "Police Service Act 2003"}
+  - {id: act-2004-067, title: "Family Violence Act 2004"}
+  - {id: act-2005-042, title: "Sex Industry Offences Act 2005"}
+  - {id: act-2005-073, title: "Defamation Act 2005"}
+  - {id: act-2009-070, title: "Right to Information Act 2009"}
+  - {id: act-2013-002, title: "Mental Health Act 2013"}
+  - {id: act-2016-051, title: "Education Act 2016"}
+  - {id: act-2019-022, title: "Biosecurity Act 2019"}

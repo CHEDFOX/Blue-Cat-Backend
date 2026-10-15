@@ -1,0 +1,49 @@
+schema_version: 1
+id: ca-ab-kings-printer
+name: Alberta King's Printer (Acts and regulations of Alberta)
+publisher: Alberta King's Printer (Alberta Queen's Printer), Government of Alberta
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [CA-AB]
+document_kinds: [act, regulation]
+languages: [en]
+coverage: >-
+  Current and historical Acts and regulations of Alberta (https://kings-printer.alberta.ca).
+  ULIS ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://kings-printer.alberta.ca
+update_frequency: not applicable (nothing is fetched)
+rate_limits: >-
+  robots.txt of kings-printer.alberta.ca (read 2026-10-14): "User-agent: * / Disallow: /" (every
+  robot, whole site).
+licence:
+  id: UNVERIFIED
+  name: Licence not verified - robots.txt forbids automated access, so the terms pages were not read
+  url: https://kings-printer.alberta.ca
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ: https://kings-printer.alberta.ca/robots.txt only. NOT READ
+    (the robots.txt disallows all robots from every path): the King's Printer copyright and
+    licence statements (the Alberta Open Government Licence is second-hand knowledge, not
+    checked).
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - >-
+        Do not fetch from kings-printer.alberta.ca while its robots.txt disallows all robots.
+    - >-
+        A person should ask the Alberta King's Printer whether an identified research client may
+        be allowed, and should read the licence.
+  notes: >-
+    STOPPED, nothing ingested. The robots.txt is an explicit refusal of automated access.
+provenance: >-
+  Official publisher named above. Nothing was downloaded from it for the corpus; the findings in this descriptor come from the pages named under licence.reviewed_by.
+known_limitations:
+  - Nothing of Alberta law is ingested; the CA-AB profile has no corpus.
+status: planned

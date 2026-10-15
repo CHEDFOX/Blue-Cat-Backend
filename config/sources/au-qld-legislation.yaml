@@ -1,0 +1,78 @@
+schema_version: 1
+id: au-qld-legislation
+name: Queensland Legislation (Acts in force, XML of the current reprint)
+publisher: Office of the Queensland Parliamentary Counsel (OQPC), Queensland Government
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [AU-QLD]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  The public Acts of Queensland in force, from https://www.legislation.qld.gov.au. ULIS fetches the
+  current reprint of each Act listed in the manifest (every public Act in force on 14 October 2026)
+  as XML, the link the Act's own page gives under "XML". Subordinate legislation, bills, Acts as
+  passed and earlier reprints are not fetched.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/au-qld-legislation.yaml
+update_frequency: continuous (a new reprint is published when amendments commence); re-fetch to refresh
+rate_limits: >-
+  robots.txt of www.legislation.qld.gov.au (read 2026-10-14): for all robots only /admin/,
+  /view/html/compare/, /view/xml/compare and /view/pdf/ are disallowed (and some named crawlers are
+  barred entirely); no Crawl-delay; it lists a sitemap and an Atom feed "for search crawlers". ULIS
+  requests only /view/xml/inforce/current/<id>, with a 5-second delay and a cache. The connector reads
+  robots.txt and refuses a disallowed path.
+licence:
+  id: CC-BY-4.0
+  name: Creative Commons Attribution 4.0 International
+  url: https://creativecommons.org/licenses/by/4.0/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ: https://www.legislation.qld.gov.au/copyright ("Unless otherwise
+    noted, all copyright material available on or through this website is licensed under a Creative
+    Commons Attribution 4.0 International licence (CC BY 4.0)"; it allows sharing and adapting "for any
+    purpose, even commercially"; excluded: the coat of arms and logos, trade marks, third-party
+    material), https://www.legislation.qld.gov.au/disclaimer, https://www.legislation.qld.gov.au/robots.txt,
+    https://www.legislation.qld.gov.au/authorisedlegislation and https://www.legislation.qld.gov.au/api
+    (a free API exists for registered users; ULIS has no account and does not use it). Nothing on the
+    pages read restricts automated retrieval beyond robots.txt.
+  reviewed_on: 2026-10-14
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Based on content from the Queensland Legislation website at [full date of download]. For the latest
+    information on Queensland Government legislation please go to https://www.legislation.qld.gov.au.
+    Licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); changes: text extracted
+    from the XML and divided into provisions.
+  conditions:
+    - >-
+      Attribution as the copyright page requires: the words "Based on content from the Queensland
+      Legislation website at [full date of download]. For the latest information on Queensland Government
+      legislation please go to https://www.legislation.qld.gov.au." when the content has been changed
+      (ULIS restructures the text into provisions) or "Sourced from ..." when unchanged, a link to the
+      licence, and the copyright notice kept.
+    - Do not use the coat of arms or the Queensland Government logos, and do not suggest that OQPC endorses ULIS.
+    - Respect robots.txt; the connector refuses the paths it disallows.
+  notes: >-
+    Authorised versions: "All Bills, Acts as passed, subordinate legislation (SL) as made and reprints published
+    on this website from 2013 are authorised by the Parliamentary Counsel under the Legislative Standards Act 1992"
+    (https://www.legislation.qld.gov.au/authorisedlegislation; see Acts Interpretation Act 1954 ss 14B, 14G and
+    Evidence Act 1977 ss 43, 46A for the effect). The page does not say which file format carries the authority
+    statement, so ULIS treats its XML as a reproduction, not as an authorised copy. The disclaimer says the State
+    accepts no responsibility for the accuracy or completeness of the material and that links and other website
+    aids are not part of the legislation. Counsel review is still recommended before production use.
+provenance: >-
+  Official site of the Office of the Queensland Parliamentary Counsel. Each raw document is the XML of one Act's
+  current reprint exactly as served (OQPC "QuILLS" DTD, external DTD not loaded), stored unmodified with its SHA-256.
+known_limitations:
+  - "Only the current reprint of each Act is fetched. Its first valid date is the date from which that reprint applies; individual provisions are not dated, so earlier wordings are not indexed and dates before the reprint's start are reported as history not indexed."
+  - "Amendments enacted but not yet commenced are listed on the cover of a reprint and reported as outstanding changes; they are not applied."
+  - "Repealed and expired provisions keep their number but no text; their history notes are kept as notes."
+  - "Drafting notes and history notes are kept as notes, not as text. The text of a draft Commonwealth Bill reproduced inside a schedule (for example in the Succession to the Crown Act 2013) is not indexed."
+  - "No subordinate legislation, bills, Acts as passed or case law."
+status: active
+connector: qld_legislation
+parser: qld_quills_xml

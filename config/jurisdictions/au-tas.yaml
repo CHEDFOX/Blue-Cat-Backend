@@ -1,0 +1,44 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Tasmania, a state of Australia.
+schema_version: 1
+id: AU-TAS
+profile_version: 0.1.0
+name: Tasmania
+names: {en: Tasmania}
+kind: constituent_unit
+parent: AU
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: >-
+    To verify - a state with its own Parliament and statute book; Commonwealth law also applies
+    in it (parent chain), and the Commonwealth prevails over inconsistent state law (Constitution s 109).
+legislative_institutions:
+  - id: AU-TAS-PARL
+    name: Parliament of Tasmania
+    instrument_types: [act, regulation]
+instrument_types: [act, regulation]
+norm_hierarchy: [act, regulation]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: au_state
+  examples:
+    - "Criminal Code (Tas) s 158"
+    - "Criminal Code Act 1924 (Tas) s 3"
+publication:
+  official_sources: [au-tas-legislation]
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - "Only a curated list of 44 principal Tasmanian Acts is ingested (see the source manifest), not
+      the whole statute book; no statutory rules, no bills."
+    - "Current version only: the version states the date from which it applies, not when each
+      provision commenced, and earlier versions are not indexed."
+    - "No case law and no courts of this state are modelled."

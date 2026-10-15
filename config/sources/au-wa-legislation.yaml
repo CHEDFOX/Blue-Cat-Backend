@@ -1,0 +1,51 @@
+schema_version: 1
+id: au-wa-legislation
+name: Western Australian Legislation website (legislation.wa.gov.au)
+publisher: Parliamentary Counsel's Office of Western Australia
+kind: official_legislation_portal
+authority: official_authentic
+jurisdictions: [AU-WA]
+document_kinds: [act, regulation]
+languages: [en]
+coverage: >-
+  In-force and historical Acts and subsidiary legislation of Western Australia at
+  https://www.legislation.wa.gov.au. ULIS ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.legislation.wa.gov.au/legislation/statutes.nsf/
+update_frequency: not applicable (nothing is fetched)
+rate_limits: >-
+  https://www.legislation.wa.gov.au/robots.txt: HTTP 404 (none) (read 2026-10-14).
+licence:
+  id: UNVERIFIED
+  name: Licence not verified - a Creative Commons licence is announced but its wording was not found
+  url: https://www.legislation.wa.gov.au/legislation/statutes.nsf/information.html
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ: the Disclaimer (disclaims accuracy only; no licence), the
+    FAQ (official versions under the Legislation Act 2021) and the Information page, which says:
+    "On November 13, 2019 the Attorney General made a statement in Parliament announcing the
+    granting of a creative commons licence for this website" without naming the licence or
+    giving a notice to cite. No copyright page was found. The site is a Lotus Domino application
+    serving HTML, PDF and RTF; no XML or API was found.
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - >-
+        Do not ingest until the licence (which Creative Commons licence, which attribution
+        wording) is confirmed from the publisher.
+    - >-
+        A person should ask the WA PCO (via the site's contact page) for the licence notice and
+        for a structured export.
+  notes: >-
+    NOT INGESTED. No robots restriction, but no confirmed licence and no structured format.
+provenance: >-
+  Official publisher named above. Nothing was downloaded from it for the corpus; the findings in this descriptor come from the pages named under licence.reviewed_by.
+known_limitations:
+  - Nothing of Western Australian law is ingested; the AU-WA profile has no corpus.
+status: planned

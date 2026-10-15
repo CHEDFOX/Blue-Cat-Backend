@@ -1,0 +1,54 @@
+schema_version: 1
+id: au-vic-legislation
+name: Victorian Legislation website (legislation.vic.gov.au)
+publisher: Office of the Chief Parliamentary Counsel, Victoria
+kind: official_legislation_portal
+authority: official_authentic
+jurisdictions: [AU-VIC]
+document_kinds: [act, regulation]
+languages: [en]
+coverage: >-
+  In-force and historical Acts and statutory rules of Victoria at
+  https://www.legislation.vic.gov.au. ULIS ingests nothing from it (status rejected).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.legislation.vic.gov.au
+update_frequency: not applicable (nothing is fetched)
+rate_limits: >-
+  robots.txt of www.legislation.vic.gov.au (read 2026-10-14): "Crawl-delay: 2"; /oauth, /preview
+  and /share-link disallowed; every downloadable document type (/sites/default/files/*.pdf,
+  *.doc, *.rtf, *.zip ...) disallowed for all robots.
+licence:
+  id: Vic-Government-Printer-copyright
+  name: Copyright of the Government Printer for Victoria; authorised versions for personal use only
+  url: https://www.legislation.vic.gov.au/copyright
+  review_status: rejected
+  reviewed_by: >-
+    ULIS project, 2026-10-14. https://www.legislation.vic.gov.au/copyright states: "The
+    information on this website is copyright. No part may be reproduced by any process except in
+    accordance with the provisions of the Copyright Act 1968 of the Commonwealth. The Government
+    Printer owns copyright in all Victorian legislation and publications printed with the
+    authority of the Government Printer. Authorised electronic versions are published on this
+    website under section 62 of the Interpretation of Legislation Act 1984 for personal use
+    only."
+  reviewed_on: 2026-10-14
+  redistribution: not_allowed
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: not_allowed
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - >-
+        Rejected: the terms limit authorised versions to personal use and reserve copyright; the
+        robots.txt also disallows the downloadable documents.
+    - >-
+        Re-open only if the Office of the Chief Parliamentary Counsel (ocpc@ocpc.vic.gov.au)
+        grants reuse in writing.
+  notes: >-
+    REJECTED, nothing ingested.
+provenance: >-
+  Official publisher named above. Nothing was downloaded from it for the corpus; the findings in this descriptor come from the pages named under licence.reviewed_by.
+known_limitations:
+  - Nothing of Victorian law is ingested; the AU-VIC profile has no corpus.
+status: rejected

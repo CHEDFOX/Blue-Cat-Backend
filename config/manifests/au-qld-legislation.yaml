@@ -1,0 +1,546 @@
+# Queensland Legislation: every public Act in force on 14 October 2026 (534 Acts), taken from the publisher's table
+# https://www.legislation.qld.gov.au/tables/pubactsif?pit=14/10/2026&sort=alpha&renderas=html
+# (Legislative tables > Acts in force). Each Act's current reprint is fetched as XML from
+# /view/xml/inforce/current/<id> (the link the Act's own page gives). Subordinate legislation (sl-...) is not listed.
+# To refresh the list, generate the table for a later date and replace this file. A run of the whole list takes
+# about 45 minutes at the 5-second delay and several hundred megabytes; the Criminal Code Act 1899 alone is 4 MB.
+schema_version: 1
+source_id: au-qld-legislation
+host: www.legislation.qld.gov.au
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+documents:
+  - {id: act-1984-051, title: "Aboriginal and Torres Strait Islander Communities (Justice, Land and Other Matters) Act 1984"}
+  - {id: act-2013-002, title: "Aboriginal and Torres Strait Islander Land Holding Act 2013"}
+  - {id: act-2003-079, title: "Aboriginal Cultural Heritage Act 2003"}
+  - {id: act-1991-032, title: "Aboriginal Land Act 1991"}
+  - {id: act-1967-048, title: "Acquisition of Land Act 1967"}
+  - {id: act-1954-003, title: "Acts Interpretation Act 1954"}
+  - {id: act-2009-029, title: "Adoption Act 2009"}
+  - {id: act-1975-002, title: "Agent-General for Queensland Act 1975"}
+  - {id: act-2014-018, title: "Agents Financial Administration Act 2014"}
+  - {id: act-1994-078, title: "Agricultural and Veterinary Chemicals (Queensland) Act 1994"}
+  - {id: act-1966-027, title: "Agricultural Chemicals Distribution Control Act 1966"}
+  - {id: act-1937-008, title: "Air Navigation Act 1937"}
+  - {id: act-2008-046, title: "Airport Assets (Restructuring and Disposal) Act 2008"}
+  - {id: act-1965-002, title: "Alcan Queensland Pty. Limited Agreement Act 1965"}
+  - {id: act-1924-023, title: "All Saints Church Lands Act 1924"}
+  - {id: act-1960-021, title: "All Saints Church Lands Act 1960"}
+  - {id: act-1926-029, title: "Allan and Stark Burnett Lane Subway Authorisation Act 1926"}
+  - {id: act-1991-036, title: "Ambulance Service Act 1991"}
+  - {id: act-1961-003, title: "Amoco Australia Pty. Limited Agreement Act 1961"}
+  - {id: act-1964-036, title: "Ampol Refineries Limited Agreement Act 1964"}
+  - {id: act-1895-015, title: "Anglican Church of Australia Act 1895"}
+  - {id: act-1901-021, title: "Anglican Church of Australia Act 1895 Amendment Act 1901"}
+  - {id: act-1961-017, title: "Anglican Church of Australia Constitution Act 1961"}
+  - {id: act-2001-064, title: "Animal Care and Protection Act 2001"}
+  - {id: act-2008-074, title: "Animal Management (Cats and Dogs) Act 2008"}
+  - {id: act-1991-085, title: "Anti-Discrimination Act 1991"}
+  - {id: act-1995-004, title: "Anzac Day Act 1995"}
+  - {id: act-1973-051, title: "Appeal Costs Fund Act 1973"}
+  - {id: act-2025-016, title: "Appropriation (Parliament) Act 2025"}
+  - {id: act-2026-017, title: "Appropriation (Parliament) Act 2026"}
+  - {id: act-2025-017, title: "Appropriation Act 2025"}
+  - {id: act-2026-018, title: "Appropriation Act 2026"}
+  - {id: act-2002-053, title: "Architects Act 2002"}
+  - {id: act-2024-046, title: "Assisted Reproductive Technology Act 2024"}
+  - {id: act-1951-047, title: "Assisted Students (Enforcement of Obligations) Act 1951"}
+  - {id: act-1981-074, title: "Associations Incorporation Act 1981"}
+  - {id: act-1999-001, title: "Attorney-General Act 1999"}
+  - {id: act-2009-008, title: "Auditor-General Act 2009"}
+  - {id: act-1967-024, title: "Austral-Pacific Fertilizers Limited Agreement Act 1967"}
+  - {id: act-1991-070, title: "Australia and New Zealand Banking Group Limited (NMRB) Act 1991"}
+  - {id: act-2007-013, title: "Australian Catholic University (Queensland) Act 2007"}
+  - {id: act-1946-043, title: "Australian Consular Officers’ Notarial Powers and Evidence Act 1946"}
+  - {id: act-2003-083, title: "Australian Crime Commission (Queensland) Act 2003"}
+  - {id: act-1980-035, title: "Bail Act 1980"}
+  - {id: act-2018-013, title: "Betting Tax Act 2018"}
+  - {id: act-2004-019, title: "Biodiscovery Act 2004"}
+  - {id: act-1987-051, title: "Biological Control Act 1987"}
+  - {id: act-2014-007, title: "Biosecurity Act 2014"}
+  - {id: act-2023-017, title: "Births, Deaths and Marriages Registration Act 2023"}
+  - {id: act-1997-028, title: "Body Corporate and Community Management Act 1997"}
+  - {id: act-1987-019, title: "Bond University Act 1987"}
+  - {id: act-1915-009, title: "Brands Act 1915"}
+  - {id: act-1984-111, title: "Breakwater Island Casino Agreement Act 1984"}
+  - {id: act-1992-052, title: "Brisbane Casino Agreement Act 1992"}
+  - {id: act-2021-025, title: "Brisbane Olympic and Paralympic Games Arrangements Act 2021"}
+  - {id: act-1898-010, title: "British Probates Act 1898"}
+  - {id: act-1975-011, title: "Building Act 1975"}
+  - {id: act-1991-090, title: "Building and Construction Industry (Portable Long Service Leave) Act 1991"}
+  - {id: act-2011-036, title: "Building Boost Grant Act 2011"}
+  - {id: act-2017-043, title: "Building Industry Fairness (Security of Payment) Act 2017"}
+  - {id: act-1980-042, title: "Building Units and Group Titles Act 1980"}
+  - {id: act-1965-023, title: "Burials Assistance Act 1965"}
+  - {id: act-2011-034, title: "Business Names (Commonwealth Powers) Act 2011"}
+  - {id: act-1993-042, title: "Cairns Casino Agreement Act 1993"}
+  - {id: act-2007-048, title: "Cape York Peninsula Heritage Act 2007"}
+  - {id: act-2008-070, title: "Carers (Recognition) Act 2008"}
+  - {id: act-1996-055, title: "Carruthers Inquiry Enabling Act 1996"}
+  - {id: act-1982-078, title: "Casino Control Act 1982"}
+  - {id: act-1853-003, title: "Cattle Stealing Prevention Act 1853"}
+  - {id: act-1968-055, title: "Central Queensland Coal Associates Agreement Act 1968"}
+  - {id: act-1984-027, title: "Central Queensland Coal Associates Agreement and Queensland Coal Trust Act 1984"}
+  - {id: act-1998-002, title: "Central Queensland University Act 1998"}
+  - {id: act-1997-049, title: "Century Zinc Project Act 1997"}
+  - {id: act-1999-026, title: "Charitable and Non-Profit Gaming Act 1999"}
+  - {id: act-1958-056, title: "Charitable Funds Act 1958"}
+  - {id: act-1988-103, title: "Chemical Usage (Agricultural and Veterinary) Control Act 1988"}
+  - {id: act-2006-002, title: "Child Employment Act 2006"}
+  - {id: act-2003-057, title: "Child Protection (International Measures) Act 2003"}
+  - {id: act-2004-052, title: "Child Protection (Offender Reporting and Offender Prohibition Order) Act 2004"}
+  - {id: act-1999-010, title: "Child Protection Act 1999"}
+  - {id: act-2024-049, title: "Child Safe Organisations Act 2024"}
+  - {id: act-1992-041, title: "Childrens Court Act 1992"}
+  - {id: act-1996-005, title: "Choice of Law (Limitation Periods) Act 1996"}
+  - {id: act-2010-023, title: "City of Brisbane Act 2010"}
+  - {id: act-1964-024, title: "Civil Aviation (Carriers’ Liability) Act 1964"}
+  - {id: act-2003-016, title: "Civil Liability Act 2003"}
+  - {id: act-2011-046, title: "Civil Partnerships Act 2011"}
+  - {id: act-2011-045, title: "Civil Proceedings Act 2011"}
+  - {id: act-1995-017, title: "Classification of Computer Games and Images Act 1995"}
+  - {id: act-1991-077, title: "Classification of Films Act 1991"}
+  - {id: act-1991-078, title: "Classification of Publications Act 1991"}
+  - {id: act-2024-016, title: "Clean Economy Jobs Act 2024"}
+  - {id: act-2001-096, title: "Co-operative Schemes (Administrative Actions) Act 2001"}
+  - {id: act-2020-018, title: "Co-operatives National Law Act 2020"}
+  - {id: act-1999-039, title: "Coal Mining Safety and Health Act 1999"}
+  - {id: act-1995-041, title: "Coastal Protection and Management Act 1995"}
+  - {id: act-2013-016, title: "Coexistence Queensland Act 2013"}
+  - {id: act-1966-007, title: "Collections Act 1966"}
+  - {id: act-2013-008, title: "Commercial Arbitration Act 2013"}
+  - {id: act-1957-029, title: "Commonwealth Aluminium Corporation Pty. Limited Agreement Act 1957"}
+  - {id: act-1970-045, title: "Commonwealth Places (Administration of Laws) Act 1970"}
+  - {id: act-1999-025, title: "Commonwealth Places (Mirror Taxes Administration) Act 1999"}
+  - {id: act-2003-078, title: "Commonwealth Powers (De Facto Relationships) Act 2003"}
+  - {id: act-1990-037, title: "Commonwealth Powers (Family Law—Children) Act 1990"}
+  - {id: act-2011-020, title: "Community Ambulance Cover Levy Repeal Act 2011"}
+  - {id: act-2020-008, title: "Community Based Sentences (Interstate Transfer) Act 2020"}
+  - {id: act-2007-038, title: "Community Services Act 2007"}
+  - {id: act-2020-019, title: "Community Services Industry (Portable Long Service Leave) Act 2020"}
+  - {id: act-1996-016, title: "Competition Policy Reform (Queensland) Act 1996"}
+  - {id: act-2015-035, title: "Constitution (Fixed Term Parliament) Referendum Act 2015"}
+  - {id: act-1867-038, title: "Constitution Act 1867"}
+  - {id: act-1934-035, title: "Constitution Act Amendment Act 1934"}
+  - {id: act-2001-080, title: "Constitution of Queensland 2001"}
+  - {id: act-1980-001, title: "Constitutional Powers (Coastal Waters) Act 1980"}
+  - {id: act-2005-021, title: "Contract Cleaning Industry (Portable Long Service Leave) Act 2005"}
+  - {id: act-2003-013, title: "Coroners Act 2003"}
+  - {id: act-2001-044, title: "Corporations (Administrative Actions) Act 2001"}
+  - {id: act-2001-045, title: "Corporations (Ancillary Provisions) Act 2001"}
+  - {id: act-2001-043, title: "Corporations (Commonwealth Powers) Act 2001"}
+  - {id: act-1990-098, title: "Corporations (Queensland) Act 1990"}
+  - {id: act-2006-029, title: "Corrective Services Act 2006"}
+  - {id: act-2010-016, title: "Credit (Commonwealth Powers) Act 2010"}
+  - {id: act-1996-039, title: "Credit (Rural Finance) Act 1996"}
+  - {id: act-2003-014, title: "Cremations Act 2003"}
+  - {id: act-2001-069, title: "Crime and Corruption Act 2001"}
+  - {id: act-2001-019, title: "Crimes at Sea Act 2001"}
+  - {id: act-1899-009, title: "Criminal Code Act 1899"}
+  - {id: act-2017-037, title: "Criminal Law (Historical Homosexual Convictions Expungement) Act 2017"}
+  - {id: act-1986-020, title: "Criminal Law (Rehabilitation of Offenders) Act 1986"}
+  - {id: act-1892-003, title: "Criminal Law Amendment Act 1892"}
+  - {id: act-1894-023, title: "Criminal Law Amendment Act 1894"}
+  - {id: act-1945-011, title: "Criminal Law Amendment Act 1945"}
+  - {id: act-2002-068, title: "Criminal Proceeds Confiscation Act 2002"}
+  - {id: act-2016-066, title: "Cross River Rail Delivery Authority Act 2016"}
+  - {id: act-2024-038, title: "Cross-Border Commissioner Act 2024"}
+  - {id: act-1980-002, title: "Crown Proceedings Act 1980"}
+  - {id: act-2001-054, title: "Dalrymple Bay Coal Terminal (Long-term Lease) Act 2001"}
+  - {id: act-2003-040, title: "Dangerous Prisoners (Sexual Offenders) Act 2003"}
+  - {id: act-2014-019, title: "Debt Collectors (Field Agents and Collection Agents) Act 2014"}
+  - {id: act-2005-055, title: "Defamation Act 2005"}
+  - {id: act-2016-023, title: "Director of Child Protection Litigation Act 2016"}
+  - {id: act-1984-095, title: "Director of Public Prosecutions Act 1984"}
+  - {id: act-2006-012, title: "Disability Services Act 2006"}
+  - {id: act-2003-091, title: "Disaster Management Act 2003"}
+  - {id: act-1967-056, title: "Disposal of Uncollected Goods Act 1967"}
+  - {id: act-1985-055, title: "Disposal of Unexecuted Warrants Act 1985"}
+  - {id: act-1990-035, title: "Dispute Resolution Centres Act 1990"}
+  - {id: act-1967-042, title: "District Court of Queensland Act 1967"}
+  - {id: act-2012-005, title: "Domestic and Family Violence Protection Act 2012"}
+  - {id: act-1981-051, title: "Domicile Act 1981"}
+  - {id: act-1986-036, title: "Drugs Misuse Act 1986"}
+  - {id: act-2001-071, title: "Duties Act 2001"}
+  - {id: act-2012-043, title: "Economic Development Act 2012"}
+  - {id: act-2017-024, title: "Education (Accreditation of Non-State Schools) Act 2017"}
+  - {id: act-1993-037, title: "Education (Capital Assistance) Act 1993"}
+  - {id: act-2006-039, title: "Education (General Provisions) Act 2006"}
+  - {id: act-2018-001, title: "Education (Overseas Students) Act 2018"}
+  - {id: act-2005-047, title: "Education (Queensland College of Teachers) Act 2005"}
+  - {id: act-2014-003, title: "Education (Queensland Curriculum and Assessment Authority) Act 2014"}
+  - {id: act-1996-009, title: "Education (Work Experience) Act 1996"}
+  - {id: act-2013-044, title: "Education and Care Services Act 2013"}
+  - {id: act-2011-038, title: "Education and Care Services National Law (Queensland) Act 2011"}
+  - {id: act-1992-028, title: "Electoral Act 1992"}
+  - {id: act-2002-042, title: "Electrical Safety Act 2002"}
+  - {id: act-1994-064, title: "Electricity Act 1994"}
+  - {id: act-1997-027, title: "Electricity—National Scheme (Queensland) Act 1997"}
+  - {id: act-2013-017, title: "Electronic Conveyancing National Law (Queensland) Act 2013"}
+  - {id: act-2001-042, title: "Electronic Transactions (Queensland) Act 2001"}
+  - {id: act-2005-005, title: "Emblems of Queensland Act 2005"}
+  - {id: act-2024-015, title: "Energy (Infrastructure Facilitation) Act 2024"}
+  - {id: act-2006-061, title: "Energy and Water Ombudsman Act 2006"}
+  - {id: act-2014-033, title: "Environmental Offsets Act 2014"}
+  - {id: act-1994-062, title: "Environmental Protection Act 1994"}
+  - {id: act-1937-024, title: "Evidence (Attestation of Documents) Act 1937"}
+  - {id: act-1977-047, title: "Evidence Act 1977"}
+  - {id: act-1867-013, title: "Evidence and Discovery Act 1867"}
+  - {id: act-1988-008, title: "Evidence on Commission Act 1988"}
+  - {id: act-2015-005, title: "Exhibited Animals Act 2015"}
+  - {id: act-1999-015, title: "Explosives Act 1999"}
+  - {id: act-1892-008, title: "Factors Act 1892"}
+  - {id: act-1989-084, title: "Fair Trading Act 1989"}
+  - {id: act-2014-008, title: "Fair Trading Inspectors Act 2014"}
+  - {id: act-2009-049, title: "Fair Work (Commonwealth Powers) and Other Provisions Act 2009"}
+  - {id: act-2014-027, title: "Family and Child Commission Act 2014"}
+  - {id: act-2008-009, title: "Family Responsibilities Commission Act 2008"}
+  - {id: act-2017-007, title: "Farm Business Debt Mediation Act 2017"}
+  - {id: act-1999-034, title: "Federal Courts (State Jurisdiction) Act 1999"}
+  - {id: act-2009-009, title: "Financial Accountability Act 2009"}
+  - {id: act-1994-072, title: "Financial Agreement Act 1994"}
+  - {id: act-1996-023, title: "Financial Intermediaries Act 1996"}
+  - {id: act-1999-027, title: "Financial Sector Reform (Queensland) Act 1999"}
+  - {id: act-1992-029, title: "Financial Transaction Reports Act 1992"}
+  - {id: act-1990-010, title: "Fire Services Act 1990"}
+  - {id: act-2000-014, title: "First Home Owner Grant and Other Home Owner Grants Act 2000"}
+  - {id: act-1994-037, title: "Fisheries Act 1994"}
+  - {id: act-2006-003, title: "Food Act 2006"}
+  - {id: act-2000-045, title: "Food Production (Safety) Act 2000"}
+  - {id: act-1988-075, title: "Foreign Ownership of Land Register Act 1988"}
+  - {id: act-2011-013, title: "Forensic Disability Act 2011"}
+  - {id: act-2024-008, title: "Forensic Science Queensland Act 2024"}
+  - {id: act-1959-058, title: "Forestry Act 1959"}
+  - {id: act-1994-063, title: "Fossicking Act 1994"}
+  - {id: act-2009-022, title: "Fuel Subsidy Repeal Act 2009"}
+  - {id: act-1982-072, title: "Funeral Benefit Business Act 1982"}
+  - {id: act-2014-025, title: "Further Education and Training Act 2014"}
+  - {id: act-1991-007, title: "Gaming Machine Act 1991"}
+  - {id: act-2003-029, title: "Gas Supply Act 2003"}
+  - {id: act-2016-054, title: "Gene Technology (Queensland) Act 2016"}
+  - {id: act-2010-031, title: "Geothermal Energy Act 2010"}
+  - {id: act-1993-084, title: "Gladstone Power Station Agreement Act 1993"}
+  - {id: act-2012-038, title: "Gold Coast Waterways Authority Act 2012"}
+  - {id: act-1993-028, title: "Government Owned Corporations Act 1993"}
+  - {id: act-2003-023, title: "Governors (Salary and Pensions) Act 2003"}
+  - {id: act-2016-052, title: "Grammar Schools Act 2016"}
+  - {id: act-2009-003, title: "Greenhouse Gas Storage Act 2009"}
+  - {id: act-1998-003, title: "Griffith University Act 1998"}
+  - {id: act-2000-020, title: "GST and Related Matters Act 2000"}
+  - {id: act-2000-008, title: "Guardianship and Administration Act 2000"}
+  - {id: act-2009-004, title: "Guide, Hearing and Assistance Dogs Act 2009"}
+  - {id: act-1970-005, title: "Guides Queensland Act 1970"}
+  - {id: act-2019-016, title: "Health and Wellbeing Queensland Act 2019"}
+  - {id: act-2013-036, title: "Health Ombudsman Act 2013"}
+  - {id: act-2009-045, title: "Health Practitioner Regulation National Law Act 2009"}
+  - {id: act-2019-038, title: "Health Transparency Act 2019"}
+  - {id: act-2012-021, title: "Heavy Vehicle National Law Act 2012"}
+  - {id: act-2024-031, title: "Help to Buy (Commonwealth Powers) Act 2024"}
+  - {id: act-1983-018, title: "Holidays Act 1983"}
+  - {id: act-2011-032, title: "Hospital and Health Boards Act 2011"}
+  - {id: act-2018-005, title: "Hospital Foundations Act 2018"}
+  - {id: act-1957-040, title: "Housing (Freeholding of Land) Act 1957"}
+  - {id: act-2003-052, title: "Housing Act 2003"}
+  - {id: act-2019-005, title: "Human Rights Act 2019"}
+  - {id: act-1984-070, title: "Imperial Acts Application Act 1984"}
+  - {id: act-2020-006, title: "Implementation of The Spit Master Plan Act 2020"}
+  - {id: act-2006-007, title: "Inala Shopping Centre Freeholding Act 2006"}
+  - {id: act-2016-063, title: "Industrial Relations Act 2016"}
+  - {id: act-2009-014, title: "Information Privacy Act 2009"}
+  - {id: act-2009-021, title: "Infrastructure Investment (Asset Restructuring and Disposal) Act 2009"}
+  - {id: act-2022-018, title: "Inspector of Detention Services Act 2022"}
+  - {id: act-1987-023, title: "Integrated Resort Development Act 1987"}
+  - {id: act-2009-052, title: "Integrity Act 2009"}
+  - {id: act-1998-014, title: "Interactive Gambling (Player Protection) Act 1998"}
+  - {id: act-2001-059, title: "Introduction Agents Act 2001"}
+  - {id: act-1971-050, title: "Invasion of Privacy Act 1971"}
+  - {id: act-1997-045, title: "James Cook University Act 1997"}
+  - {id: act-2015-023, title: "Jobs Queensland Act 2015"}
+  - {id: act-1957-038, title: "Judges (Pensions and Long Leave) Act 1957"}
+  - {id: act-2007-055, title: "Judicial Remuneration Act 2007"}
+  - {id: act-1991-100, title: "Judicial Review Act 1991"}
+  - {id: act-1983-007, title: "Jupiters Casino Agreement Act 1983"}
+  - {id: act-1987-088, title: "Jurisdiction of Courts (Cross-vesting) Act 1987"}
+  - {id: act-1995-042, title: "Jury Act 1995"}
+  - {id: act-2008-040, title: "Justice and Other Information Disclosure Act 2008"}
+  - {id: act-1886-017, title: "Justices Act 1886"}
+  - {id: act-1991-050, title: "Justices of the Peace and Commissioners for Declarations Act 1991"}
+  - {id: act-1996-047, title: "Keno Act 1996"}
+  - {id: act-2017-033, title: "Labour Hire Licensing Act 2017"}
+  - {id: act-2001-056, title: "Lake Eyre Basin Agreement Act 2001"}
+  - {id: act-2017-034, title: "Land Access Ombudsman Act 2017"}
+  - {id: act-1994-081, title: "Land Act 1994"}
+  - {id: act-2000-001, title: "Land Court Act 2000"}
+  - {id: act-1984-041, title: "Land Sales Act 1984"}
+  - {id: act-2010-015, title: "Land Tax Act 2010"}
+  - {id: act-1994-011, title: "Land Title Act 1994"}
+  - {id: act-2010-039, title: "Land Valuation Act 2010"}
+  - {id: act-1968-037, title: "Law Reform Commission Act 1968"}
+  - {id: act-1997-018, title: "Legal Aid Queensland Act 1997"}
+  - {id: act-2007-024, title: "Legal Profession Act 2007"}
+  - {id: act-1992-026, title: "Legislative Standards Act 1992"}
+  - {id: act-1988-029, title: "Libraries Act 1988"}
+  - {id: act-1974-075, title: "Limitation of Actions Act 1974"}
+  - {id: act-1984-078, title: "Liquid Fuel Supply Act 1984"}
+  - {id: act-1992-021, title: "Liquor Act 1992"}
+  - {id: act-1992-063, title: "Local Government (Robina Central Planning Agreement) Act 1992"}
+  - {id: act-2009-017, title: "Local Government Act 2009"}
+  - {id: act-2011-027, title: "Local Government Electoral Act 2011"}
+  - {id: act-1997-034, title: "Lotteries Act 1997"}
+  - {id: act-1991-075, title: "Magistrates Act 1991"}
+  - {id: act-1921-022, title: "Magistrates Courts Act 1921"}
+  - {id: act-1965-044, title: "Maintenance Act 1965"}
+  - {id: act-2014-060, title: "Major Events Act 2014"}
+  - {id: act-2001-084, title: "Major Sports Facilities Act 2001"}
+  - {id: act-2003-074, title: "Manufactured Homes (Residential Parks) Act 2003"}
+  - {id: act-2004-031, title: "Marine Parks Act 2004"}
+  - {id: act-2024-020, title: "Marine Rescue Queensland Act 2024"}
+  - {id: act-2002-029, title: "Maritime Safety Queensland Act 2002"}
+  - {id: act-2008-060, title: "Mater Public Health Services Act 2008"}
+  - {id: act-2019-026, title: "Medicines and Poisons Act 2019"}
+  - {id: act-2016-005, title: "Mental Health Act 2016"}
+  - {id: act-1867-036, title: "Mercantile Act 1867"}
+  - {id: act-2020-033, title: "Meriba Omasker Kaziw Kazipa (Torres Strait Islander Traditional Child Rearing Practice) Act 2020"}
+  - {id: act-2014-047, title: "Mineral and Energy Resources (Common Provisions) Act 2014"}
+  - {id: act-2018-030, title: "Mineral and Energy Resources (Financial Provisioning) Act 2018"}
+  - {id: act-1989-110, title: "Mineral Resources Act 1989"}
+  - {id: act-1999-040, title: "Mining and Quarrying Safety and Health Act 1999"}
+  - {id: act-2010-036, title: "Ministerial and Other Office Holder Staff Act 2010"}
+  - {id: act-1993-021, title: "Mixed Use Development Act 1993"}
+  - {id: act-2023-013, title: "Monitoring of Places of Detention (Optional Protocol to the Convention Against Torture) Act 2023"}
+  - {id: act-1994-009, title: "Motor Accident Insurance Act 1994"}
+  - {id: act-2014-020, title: "Motor Dealers and Chattel Auctioneers Act 2014"}
+  - {id: act-1985-007, title: "Mount Isa Mines Limited Agreement Act 1985"}
+  - {id: act-1988-042, title: "Mt. Gravatt Showgrounds Act 1988"}
+  - {id: act-2016-001, title: "Multicultural Recognition Act 2016"}
+  - {id: act-1992-067, title: "Mutual Recognition (Queensland) Act 1992"}
+  - {id: act-2014-049, title: "National Energy Retail Law (Queensland) Act 2014"}
+  - {id: act-1994-044, title: "National Environment Protection Council (Queensland) Act 1994"}
+  - {id: act-2008-027, title: "National Gas (Queensland) Act 2008"}
+  - {id: act-2016-034, title: "National Injury Insurance Scheme (Queensland) Act 2016"}
+  - {id: act-2018-021, title: "National Redress Scheme for Institutional Child Sexual Abuse (Commonwealth Powers) Act 2018"}
+  - {id: act-1993-085, title: "Native Title (Queensland) Act 1993"}
+  - {id: act-1992-020, title: "Nature Conservation Act 1992"}
+  - {id: act-2011-025, title: "Neighbourhood Disputes (Dividing Fences and Trees) Act 2011"}
+  - {id: act-1946-016, title: "New South Wales-Queensland Border Rivers Act 1946"}
+  - {id: act-1939-031, title: "Newstead House Trust Act 1939"}
+  - {id: act-2024-039, title: "Night-Life Economy Commissioner Act 2024"}
+  - {id: act-2011-011, title: "North Stradbroke Island Protection and Sustainability Act 2011"}
+  - {id: act-2007-004, title: "Nuclear Facilities Prohibition Act 2007"}
+  - {id: act-1867-012, title: "Oaths Act 1867"}
+  - {id: act-2010-049, title: "Occupational Licensing National Law (Queensland) Act 2010"}
+  - {id: act-1986-032, title: "Off-shore Facilities Act 1986"}
+  - {id: act-1998-010, title: "Offshore Minerals Act 1998"}
+  - {id: act-2001-073, title: "Ombudsman Act 2001"}
+  - {id: act-2001-081, title: "Parliament of Queensland Act 2001"}
+  - {id: act-1988-067, title: "Parliamentary Service Act 1988"}
+  - {id: act-1984-035, title: "Parole Orders (Transfer) Act 1984"}
+  - {id: act-1891-007, title: "Partnership Act 1891"}
+  - {id: act-1980-031, title: "Pastoral Workers’ Accommodation Act 1980"}
+  - {id: act-1971-037, title: "Payroll Tax Act 1971"}
+  - {id: act-1982-067, title: "Peace and Good Behaviour Act 1982"}
+  - {id: act-1992-038, title: "Peaceful Assembly Act 1992"}
+  - {id: act-1992-048, title: "Penalties and Sentences Act 1992"}
+  - {id: act-2002-024, title: "Personal Injuries Proceedings Act 2002"}
+  - {id: act-2010-044, title: "Personal Property Securities (Ancillary Provisions) Act 2010"}
+  - {id: act-2009-037, title: "Personal Property Securities (Commonwealth Powers) Act 2009"}
+  - {id: act-1982-022, title: "Petroleum (Submerged Lands) Act 1982"}
+  - {id: act-1923-026, title: "Petroleum Act 1923"}
+  - {id: act-2004-025, title: "Petroleum and Gas (Production and Safety) Act 2004"}
+  - {id: act-2024-009, title: "Pharmacy Business Ownership Act 2024"}
+  - {id: act-2008-072, title: "Photo Identification Card Act 2008"}
+  - {id: act-1994-057, title: "Place Names Act 1994"}
+  - {id: act-2016-025, title: "Planning Act 2016"}
+  - {id: act-2016-026, title: "Planning and Environment Court Act 2016"}
+  - {id: act-2018-017, title: "Plumbing and Drainage Act 2018"}
+  - {id: act-2000-005, title: "Police Powers and Responsibilities Act 2000"}
+  - {id: act-1990-004, title: "Police Service Administration Act 1990"}
+  - {id: act-1998-022, title: "Powers of Attorney Act 1998"}
+  - {id: act-1900-034, title: "Presbyterian Church of Australia Act 1900"}
+  - {id: act-1981-083, title: "Printing and Newspapers Act 1981"}
+  - {id: act-1982-043, title: "Prisoners (Interstate Transfer) Act 1982"}
+  - {id: act-1997-053, title: "Prisoners International Transfer (Queensland) Act 1997"}
+  - {id: act-2005-015, title: "Private Employment Agents Act 2005"}
+  - {id: act-1999-060, title: "Private Health Facilities Act 1999"}
+  - {id: act-2002-054, title: "Professional Engineers Act 2002"}
+  - {id: act-2004-023, title: "Professional Standards Act 2004"}
+  - {id: act-2023-027, title: "Property Law Act 2023"}
+  - {id: act-2014-022, title: "Property Occupations Act 2014"}
+  - {id: act-2014-026, title: "Public Guardian Act 2014"}
+  - {id: act-2003-081, title: "Public Health (Infection Control for Personal Appearance Services) Act 2003"}
+  - {id: act-2005-048, title: "Public Health Act 2005"}
+  - {id: act-2010-038, title: "Public Interest Disclosure Act 2010"}
+  - {id: act-1988-060, title: "Public Officers Superannuation Benefits Recovery Act 1988"}
+  - {id: act-2023-033, title: "Public Records Act 2023"}
+  - {id: act-1986-025, title: "Public Safety Preservation Act 1986"}
+  - {id: act-2022-034, title: "Public Sector Act 2022"}
+  - {id: act-1994-067, title: "Public Sector Ethics Act 1994"}
+  - {id: act-1978-073, title: "Public Trustee Act 1978"}
+  - {id: act-2025-009, title: "Queensland Academy of Sport Act 2025"}
+  - {id: act-1987-040, title: "Queensland Art Gallery Act 1987"}
+  - {id: act-1982-054, title: "Queensland Boundaries Declaratory Act 1982"}
+  - {id: act-1991-098, title: "Queensland Building and Construction Commission Act 1991"}
+  - {id: act-2009-023, title: "Queensland Civil and Administrative Tribunal Act 2009"}
+  - {id: act-1879-001, title: "Queensland Coast Islands Act 1879"}
+  - {id: act-1997-025, title: "Queensland Competition Authority Act 1997"}
+  - {id: act-2024-037, title: "Queensland Food Farmers’ Commissioner Act 2024"}
+  - {id: act-2021-012, title: "Queensland Future Fund (Titles Registry) Act 2021"}
+  - {id: act-2020-029, title: "Queensland Future Fund Act 2020"}
+  - {id: act-1992-009, title: "Queensland Heritage Act 1992"}
+  - {id: act-2013-032, title: "Queensland Independent Remuneration Tribunal Act 2013"}
+  - {id: act-2011-005, title: "Queensland Industry Participation Policy Act 2011"}
+  - {id: act-2025-023, title: "Queensland Institute of Medical Research Act 2025"}
+  - {id: act-1989-066, title: "Queensland International Tourist Centre Agreement Act Repeal Act 1989"}
+  - {id: act-1991-035, title: "Queensland Investment Corporation Act 1991"}
+  - {id: act-2013-007, title: "Queensland Mental Health Commission Act 2013"}
+  - {id: act-1970-008, title: "Queensland Museum Act 1970"}
+  - {id: act-1970-033, title: "Queensland Nickel Agreement Act 1970"}
+  - {id: act-1977-008, title: "Queensland Performing Arts Trust Act 1977"}
+  - {id: act-2014-058, title: "Queensland Plan Act 2014"}
+  - {id: act-2025-002, title: "Queensland Productivity Commission Act 2025"}
+  - {id: act-2013-019, title: "Queensland Rail Transit Authority Act 2013"}
+  - {id: act-2011-001, title: "Queensland Reconstruction Authority Act 2011"}
+  - {id: act-1970-007, title: "Queensland Theatre Company Act 1970"}
+  - {id: act-1988-054, title: "Queensland Treasury Corporation Act 1988"}
+  - {id: act-1998-004, title: "Queensland University of Technology Act 1998"}
+  - {id: act-2021-021, title: "Queensland Veterans’ Council Act 2021"}
+  - {id: act-2016-017, title: "Queen’s Wharf Brisbane Act 2016"}
+  - {id: act-2002-058, title: "Racing Act 2002"}
+  - {id: act-2016-012, title: "Racing Integrity Act 2016"}
+  - {id: act-1999-020, title: "Radiation Safety Act 1999"}
+  - {id: act-2017-004, title: "Rail Safety National Law (Queensland) Act 2017"}
+  - {id: act-1962-033, title: "Recording of Evidence Act 1962"}
+  - {id: act-2006-020, title: "Recreation Areas Management Act 2006"}
+  - {id: act-1997-011, title: "Referendums Act 1997"}
+  - {id: act-2014-011, title: "Regional Planning Interests Act 2014"}
+  - {id: act-1980-020, title: "Registration of Plans (H.S.P. (Nominees) Pty. Limited) Enabling Act 1980"}
+  - {id: act-1985-032, title: "Regulatory Offences Act 1985"}
+  - {id: act-1992-027, title: "Reprints Act 1992"}
+  - {id: act-2003-007, title: "Research Involving Human Embryos and Prohibition of Human Cloning for Reproduction Act 2003"}
+  - {id: act-2002-018, title: "Residential Services (Accreditation) Act 2002"}
+  - {id: act-2008-073, title: "Residential Tenancies and Rooming Accommodation Act 2008"}
+  - {id: act-2020-010, title: "Resources Safety and Health Queensland Act 2020"}
+  - {id: act-1994-047, title: "Retail Shop Leases Act 1994"}
+  - {id: act-1999-071, title: "Retirement Villages Act 1999"}
+  - {id: act-1956-004, title: "Returned Servicemen’s Badges Act 1956"}
+  - {id: act-2009-013, title: "Right to Information Act 2009"}
+  - {id: act-1940-005, title: "River Improvement Trust Act 1940"}
+  - {id: act-1994-054, title: "Roman Catholic Church (Incorporation of Church Entities) Act 1994"}
+  - {id: act-1830-009, title: "Roman Catholic Relief Act 1830"}
+  - {id: act-1971-068, title: "Royal National Agricultural and Industrial Association of Queensland Act 1971"}
+  - {id: act-1994-050, title: "Rural and Regional Adjustment Act 1994"}
+  - {id: act-2011-019, title: "Safety in Recreational Water Activities Act 2011"}
+  - {id: act-1986-041, title: "Sale of Goods (Vienna Convention) Act 1986"}
+  - {id: act-1896-006, title: "Sale of Goods Act 1896"}
+  - {id: act-1985-079, title: "Sanctuary Cove Resort Act 1985"}
+  - {id: act-1960-006, title: "Schools of Arts (Winding Up and Transfer) Act 1960"}
+  - {id: act-1981-085, title: "Schools of Arts (Winding Up and Transfer) Act Amendment Act 1981"}
+  - {id: act-1975-024, title: "Scout Association of Australia Queensland Branch Act 1975"}
+  - {id: act-1996-073, title: "Sea-Carriage Documents Act 1996"}
+  - {id: act-2003-073, title: "Second-hand Dealers and Pawnbrokers Act 2003"}
+  - {id: act-1993-083, title: "Security Providers Act 1993"}
+  - {id: act-1960-020, title: "Senate Elections Act 1960"}
+  - {id: act-2022-005, title: "Small Business Commissioner Act 2022"}
+  - {id: act-1986-037, title: "Soil Conservation Act 1986"}
+  - {id: act-1929-029, title: "Soil Survey Act 1929"}
+  - {id: act-1985-034, title: "Solicitor-General Act 1985"}
+  - {id: act-1989-037, title: "South Bank Corporation Act 1989"}
+  - {id: act-2007-058, title: "South East Queensland Water (Restructuring) Act 2007"}
+  - {id: act-2009-046, title: "South-East Queensland Water (Distribution and Retail Restructuring) Act 2009"}
+  - {id: act-2003-021, title: "Sports Anti-Doping Act 2003"}
+  - {id: act-1894-014, title: "Standard Time Act 1894"}
+  - {id: act-1971-055, title: "State Development and Public Works Organisation Act 1971"}
+  - {id: act-2024-019, title: "State Emergency Service Act 2024"}
+  - {id: act-1996-029, title: "State Financial Institutions and Metway Merger Act 1996"}
+  - {id: act-1999-070, title: "State Penalties Enforcement Act 1999"}
+  - {id: act-1989-075, title: "State Transport (People Movers) Act 1989"}
+  - {id: act-1938-015, title: "State Transport Act 1938"}
+  - {id: act-1896-016, title: "Statistical Returns Act 1896"}
+  - {id: act-1978-030, title: "Status of Children Act 1978"}
+  - {id: act-1994-021, title: "Statutory Authorities (Superannuation Arrangements) Act 1994"}
+  - {id: act-1982-033, title: "Statutory Bodies Financial Arrangements Act 1982"}
+  - {id: act-1992-022, title: "Statutory Instruments Act 1992"}
+  - {id: act-2002-012, title: "Stock Route Management Act 2002"}
+  - {id: act-1973-018, title: "Storage Liens Act 1973"}
+  - {id: act-2017-028, title: "Strong and Sustainable Resource Communities Act 2017"}
+  - {id: act-1981-069, title: "Succession Act 1981"}
+  - {id: act-2013-022, title: "Succession to the Crown Act 2013"}
+  - {id: act-1999-051, title: "Sugar Industry Act 1999"}
+  - {id: act-2005-004, title: "Summary Offences Act 2005"}
+  - {id: act-2026-011, title: "Sunshine Coast Waterways Authority Act 2026"}
+  - {id: act-1985-035, title: "Superannuation (Public Employees Portability) Act 1985"}
+  - {id: act-1990-020, title: "Superannuation (State Public Sector) Act 1990"}
+  - {id: act-1968-041, title: "Supreme Court Library Act 1968"}
+  - {id: act-1991-068, title: "Supreme Court of Queensland Act 1991"}
+  - {id: act-2012-032, title: "Surat Basin Rail (Infrastructure Development and Management) Act 2012"}
+  - {id: act-2010-002, title: "Surrogacy Act 2010"}
+  - {id: act-2003-071, title: "Survey and Mapping Infrastructure Act 2003"}
+  - {id: act-2003-070, title: "Surveyors Act 2003"}
+  - {id: act-2015-028, title: "Sustainable Ports Development Act 2015"}
+  - {id: act-1999-038, title: "TAB Queensland Limited Privatisation Act 1999"}
+  - {id: act-2013-027, title: "TAFE Queensland Act 2013"}
+  - {id: act-2013-046, title: "Tattoo Industry Act 2013"}
+  - {id: act-2001-072, title: "Taxation Administration Act 2001"}
+  - {id: act-2009-010, title: "Telecommunications Interception Act 2009"}
+  - {id: act-2018-023, title: "Termination of Pregnancy Act 2018"}
+  - {id: act-2002-079, title: "Terrorism (Commonwealth Powers) Act 2002"}
+  - {id: act-2005-073, title: "Terrorism (Preventative Detention) Act 2005"}
+  - {id: act-2019-027, title: "Therapeutic Goods Act 2019"}
+  - {id: act-1962-007, title: "Thiess Peabody Coal Pty. Ltd. Agreement Act 1962"}
+  - {id: act-1965-022, title: "Thiess Peabody Mitsui Coal Pty. Ltd. Agreements Act 1965"}
+  - {id: act-1998-001, title: "Tobacco and Other Smoking Products Act 1998"}
+  - {id: act-1984-101, title: "Torres Strait Fisheries Act 1984"}
+  - {id: act-2003-080, title: "Torres Strait Islander Cultural Heritage Act 2003"}
+  - {id: act-1991-033, title: "Torres Strait Islander Land Act 1991"}
+  - {id: act-2012-044, title: "Tourism and Events Queensland Act 2012"}
+  - {id: act-2003-061, title: "Tourism Services Act 2003"}
+  - {id: act-2023-028, title: "Tow Truck Act 2023"}
+  - {id: act-1991-087, title: "Townsville Breakwater Entertainment Centre Act 1991"}
+  - {id: act-1993-006, title: "Townsville City Council (Douglas Land Development) Act 1993"}
+  - {id: act-1996-057, title: "Townsville Zinc Refinery Act 1996"}
+  - {id: act-2013-028, title: "Trade and Investment Queensland Act 2013"}
+  - {id: act-1990-034, title: "Trading (Allowable Hours) Act 1990"}
+  - {id: act-2003-045, title: "Trans-Tasman Mutual Recognition (Queensland) Act 2003"}
+  - {id: act-1979-074, title: "Transplantation and Anatomy Act 1979"}
+  - {id: act-1999-014, title: "Transport (South Bank Corporation Area Land) Act 1999"}
+  - {id: act-1994-008, title: "Transport Infrastructure Act 1994"}
+  - {id: act-1995-002, title: "Transport Operations (Marine Pollution) Act 1995"}
+  - {id: act-1994-014, title: "Transport Operations (Marine Safety) Act 1994"}
+  - {id: act-2016-002, title: "Transport Operations (Marine Safety—Domestic Commercial Vessel National Law Application) Act 2016"}
+  - {id: act-1994-043, title: "Transport Operations (Passenger Transport) Act 1994"}
+  - {id: act-1995-009, title: "Transport Operations (Road Use Management) Act 1995"}
+  - {id: act-1994-002, title: "Transport Planning and Coordination Act 1994"}
+  - {id: act-2008-063, title: "Transport Security (Counter-Terrorism) Act 2008"}
+  - {id: act-2001-037, title: "Traveller Accommodation Providers (Liability) Act 2001"}
+  - {id: act-1973-035, title: "Trust Accounts Act 1973"}
+  - {id: act-1968-056, title: "Trustee Companies Act 1968"}
+  - {id: act-2025-008, title: "Trusts Act 2025"}
+  - {id: act-1998-009, title: "Tweed River Entrance Sand Bypassing Project Agreement Act 1998"}
+  - {id: act-1998-005, title: "University of Queensland Act 1998"}
+  - {id: act-1998-006, title: "University of Southern Queensland Act 1998"}
+  - {id: act-1998-047, title: "University of the Sunshine Coast Act 1998"}
+  - {id: act-1992-002, title: "Valuers Registration Act 1992"}
+  - {id: act-1999-090, title: "Vegetation Management Act 1999"}
+  - {id: act-1936-017, title: "Veterinary Surgeons Act 1936"}
+  - {id: act-2005-044, title: "Vexatious Proceedings Act 2005"}
+  - {id: act-2009-035, title: "Victims of Crime Assistance Act 2009"}
+  - {id: act-2024-021, title: "Victims’ Commissioner and Sexual Violence Review Board Act 2024"}
+  - {id: act-2012-011, title: "Vocational Education and Training (Commonwealth Powers) Act 2012"}
+  - {id: act-2021-017, title: "Voluntary Assisted Dying Act 2021"}
+  - {id: act-1998-015, title: "Wagering Act 1998"}
+  - {id: act-2011-031, title: "Waste Reduction and Recycling Act 2011"}
+  - {id: act-2008-058, title: "Water (Commonwealth Powers) Act 2008"}
+  - {id: act-2000-034, title: "Water Act 2000"}
+  - {id: act-2008-012, title: "Water Fluoridation Act 2008"}
+  - {id: act-2008-034, title: "Water Supply (Safety and Reliability) Act 2008"}
+  - {id: act-1990-071, title: "Weapons Act 1990"}
+  - {id: act-1838-007, title: "Wesleyan Methodists, Independents, and Baptists Churches Act 1838"}
+  - {id: act-1993-050, title: "Wet Tropics World Heritage Protection and Management Act 1993"}
+  - {id: act-1994-080, title: "Wine Industry Act 1994"}
+  - {id: act-2000-056, title: "Witness Protection Act 2000"}
+  - {id: act-2011-018, title: "Work Health and Safety Act 2011"}
+  - {id: act-1952-005, title: "Workers’ Accommodation Act 1952"}
+  - {id: act-2003-027, title: "Workers’ Compensation and Rehabilitation Act 2003"}
+  - {id: act-2000-060, title: "Working with Children Check Act 2000"}
+  - {id: act-1987-050, title: "Young Offenders (Interstate Transfer) Act 1987"}
+  - {id: act-1992-044, title: "Youth Justice Act 1992"}

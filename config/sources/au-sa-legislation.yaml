@@ -1,0 +1,49 @@
+schema_version: 1
+id: au-sa-legislation
+name: South Australian Legislation website (legislation.sa.gov.au)
+publisher: Attorney-General's Department, South Australia (Office of Parliamentary Counsel)
+kind: official_legislation_portal
+authority: official_authentic
+jurisdictions: [AU-SA]
+document_kinds: [act, regulation]
+languages: [en]
+coverage: >-
+  In-force and historical Acts and regulations of South Australia at
+  https://www.legislation.sa.gov.au. ULIS ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.legislation.sa.gov.au
+update_frequency: not applicable (nothing is fetched)
+rate_limits: >-
+  https://www.legislation.sa.gov.au/robots.txt answered HTTP 403 to ULIS's identifying user
+  agent (read 2026-10-14), so the crawl rules cannot be read and the host refuses ULIS. A
+  refusal is respected: no other path was requested.
+licence:
+  id: UNVERIFIED
+  name: Licence not verified - the host refuses ULIS (HTTP 403 on robots.txt)
+  url: https://www.legislation.sa.gov.au
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. NOTHING READ: the only request, /robots.txt, was refused (HTTP
+    403).
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - >-
+        Do not fetch from www.legislation.sa.gov.au while it answers 403, and do not try other
+        identities or routes.
+    - >-
+        A person should read the publisher's terms and ask whether an identified research client
+        may be allowed.
+  notes: >-
+    STOPPED, nothing ingested.
+provenance: >-
+  Official publisher named above. Nothing was downloaded from it for the corpus; the findings in this descriptor come from the pages named under licence.reviewed_by.
+known_limitations:
+  - Nothing of South Australian law is ingested; the AU-SA profile has no corpus.
+status: planned

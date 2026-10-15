@@ -1,0 +1,39 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. New South Wales, a state of Australia.
+schema_version: 1
+id: AU-NSW
+profile_version: 0.1.0
+name: New South Wales
+names: {en: New South Wales}
+kind: constituent_unit
+parent: AU
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: >-
+    To verify - a state with its own Parliament and statute book; Commonwealth law also applies
+    in it (parent chain), and the Commonwealth prevails over inconsistent state law (Constitution s 109).
+legislative_institutions:
+  - id: AU-NSW-PARL
+    name: Parliament of New South Wales
+    instrument_types: [act, regulation]
+instrument_types: [act, regulation]
+norm_hierarchy: [act, regulation]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: au_state
+publication:
+  official_sources: [au-nsw-legislation]
+coverage:
+  corpus_status: none
+  known_gaps:
+    - "No legislation of New South Wales is ingested (the publisher's access terms or robots.txt
+      block ULIS, or its terms are unclear; see the source descriptors)."
+    - "No case law and no courts of this state are modelled."

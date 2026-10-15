@@ -1,0 +1,60 @@
+schema_version: 1
+id: au-act-legislation
+name: ACT Legislation Register (legislation.act.gov.au)
+publisher: ACT Parliamentary Counsel's Office
+kind: official_legislation_portal
+authority: official_authentic
+jurisdictions: [AU-ACT]
+document_kinds: [act, regulation]
+languages: [en]
+coverage: >-
+  Authorised republications (point-in-time versions) of ACT Acts and subordinate laws at
+  https://www.legislation.act.gov.au; the register is an "approved website" under the
+  Legislation Act 2001 (ACT). ULIS ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.legislation.act.gov.au
+update_frequency: not applicable (nothing is fetched)
+rate_limits: >-
+  robots.txt of www.legislation.act.gov.au (read 2026-10-14): "User-agent: * / Crawl-delay: 10",
+  disallowing /results, /View/, /Scripts/, /Content/, /Subscription/, /Redirect/, /LegViewer/
+  and /html/. https://www.justice.act.gov.au (host of the copyright policy the register points
+  to) answered HTTP 403 to ULIS, including for /robots.txt.
+licence:
+  id: UNVERIFIED
+  name: Licence not verified - the register says "All rights reserved" and refers to a copyright policy ULIS cannot read
+  url: https://www.legislation.act.gov.au/Static/Footerlinks/Copyright/copyright.html
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ:
+    https://www.legislation.act.gov.au/Static/Footerlinks/Copyright/copyright.html ("Use of
+    material on the ACT Legislation Register should be in accordance with the JACS Copyright
+    Policy developed by the Justice and Community Safety Directorate", linking to
+    https://www.justice.act.gov.au/copyright), the Disclaimer, the FAQ and "About the register"
+    pages; the footer of every page reads "Copyright 2001 ACT Government. All rights reserved.".
+    NOT READ: the JACS Copyright Policy (https://www.justice.act.gov.au/copyright answered HTTP
+    403). The register offers authorised versions as PDF and unauthorised versions as Word (doc)
+    only ("About the register"); no XML or API was found.
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - >-
+        Do not ingest while the licence is unknown: the register's own footer says all rights
+        reserved and the policy it points to is unreadable by ULIS.
+    - >-
+        A person should read the JACS Copyright Policy and ask the ACT PCO (pco@act.gov.au)
+        whether an identified research client may reuse the register and whether a structured
+        export exists.
+  notes: >-
+    NOT INGESTED. A Creative Commons licence was suggested to ULIS but the register's own pages
+    do not say so. Only PDF and Word are offered, so a parser would also have to read PDF.
+provenance: >-
+  Official publisher named above. Nothing was downloaded from it for the corpus; the findings in this descriptor come from the pages named under licence.reviewed_by.
+known_limitations:
+  - Nothing of ACT law is ingested; the AU-ACT profile has no corpus.
+status: planned

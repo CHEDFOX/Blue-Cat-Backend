@@ -1,0 +1,52 @@
+schema_version: 1
+id: ca-ns-legislature
+name: Nova Scotia Legislature - statutes and regulations
+publisher: Office of the Legislative Counsel / Nova Scotia Legislature
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [CA-NS]
+document_kinds: [act]
+languages: [en]
+coverage: >-
+  Annual statutes (PDF/HTML bills) and the Revised Statutes of Nova Scotia on
+  https://nslegislature.ca. ULIS ingests nothing from it (status planned).
+access:
+  method: permitted_web_retrieval
+  endpoint: https://nslegislature.ca/legislative-business/bills-statutes/statutes
+update_frequency: not applicable (nothing is fetched)
+rate_limits: >-
+  robots.txt of nslegislature.ca (read 2026-10-14): "User-agent: * / Crawl-delay: 10" with only
+  the standard Drupal system paths (/admin/, /search/, /user/..., /misc/, /modules/ ...)
+  disallowed; the statutes pages are not disallowed.
+licence:
+  id: UNVERIFIED
+  name: Licence not verified - no copyright, terms or licence statement was found on the pages read
+  url: https://nslegislature.ca/legislative-business/bills-statutes/statutes
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-14. READ: https://nslegislature.ca/robots.txt and the annual statutes
+    page https://nslegislature.ca/legislative-business/bills-statutes/statutes (no copyright or
+    reuse statement on it; its navigation links to no terms page that could be identified). The
+    consolidated statutes are static HTML/PDF files, not structured data.
+  reviewed_on: 2026-10-14
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - >-
+        Do not ingest until a copyright/reuse statement of the Legislature is found and read.
+    - >-
+        A person should ask the Office of the Legislative Counsel whether reuse is permitted and
+        for a structured export.
+  notes: >-
+    NOT INGESTED. Robots.txt would allow a polite crawl (10 s delay), but no licence statement
+    was found and the effort of parsing static revised-statute HTML was not justified without
+    one.
+provenance: >-
+  Official publisher named above. Nothing was downloaded from it for the corpus; the findings in this descriptor come from the pages named under licence.reviewed_by.
+known_limitations:
+  - Nothing of Nova Scotia law is ingested; the CA-NS profile has no corpus.
+status: planned

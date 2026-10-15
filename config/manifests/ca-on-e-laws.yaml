@@ -1,0 +1,47 @@
+# Ontario e-Laws: statutes whose identifiers (the last part of https://www.ontario.ca/laws/statute/<id>) were checked
+# against the live pages. e-Laws's own list pages are not usable by a connector (the page /laws is a script-driven
+# application behind a bot manager), so this is a curated list: add identifiers to extend it. An identifier that does not
+# answer with a statute page is reported, not ingested. Regulations and the French texts are not listed.
+schema_version: 1
+source_id: ca-on-e-laws
+host: www.ontario.ca
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+documents:
+  - {id: 90c43, title: "Courts of Justice Act"}
+  - {id: 90h19, title: "Human Rights Code"}
+  - {id: 90s22, title: "Statutory Powers Procedure Act"}
+  - {id: 90b16, title: "Business Corporations Act"}
+  - {id: 02l24, title: "Limitations Act, 2002"}
+  - {id: 06r17, title: "Residential Tenancies Act, 2006"}
+  - {id: 90o01, title: "Occupational Health and Safety Act"}
+  - {id: 00e41, title: "Employment Standards Act, 2000"}
+  - {id: 90f03, title: "Family Law Act"}
+  - {id: 92s30, title: "Substitute Decisions Act, 1992"}
+  - {id: 90h08, title: "Highway Traffic Act"}
+  - {id: 90t21, title: "Trespass to Property Act"}
+  - {id: 90e23, title: "Evidence Act"}
+  - {id: 17c14, title: "Child, Youth and Family Services Act, 2017"}
+  - {id: 90l07, title: "Commercial Tenancies Act"}
+  - {id: 02c30, title: "Consumer Protection Act, 2002"}
+  - {id: 01m25, title: "Municipal Act, 2001"}
+  - {id: 90p33, title: "Provincial Offences Act"}
+  - {id: 98c19, title: "Condominium Act, 1998"}
+  - {id: 90n01, title: "Negligence Act"}
+  - {id: 91a17, title: "Arbitration Act, 1991"}
+  - {id: 90s26, title: "Succession Law Reform Act"}
+  - {id: 90t23, title: "Trustee Act"}
+  - {id: 90c30, title: "Construction Act"}
+  - {id: 90p13, title: "Planning Act"}
+  - {id: 90l08, title: "Law Society Act"}
+  - {id: 97w16, title: "Workplace Safety and Insurance Act, 1997"}
+  - {id: 95l01, title: "Labour Relations Act, 1995"}
+  - {id: 90e02, title: "Education Act"}
+  - {id: 90e19, title: "Environmental Protection Act"}
+  - {id: 90h06, title: "Health Insurance Act"}
+  - {id: 90m56, title: "Municipal Freedom of Information and Protection of Privacy Act"}
+  - {id: 90f31, title: "Freedom of Information and Protection of Privacy Act"}
+  - {id: 06c11, title: "City of Toronto Act, 2006"}
+  - {id: 92b23, title: "Building Code Act, 1992"}
+  - {id: 90m07, title: "Mental Health Act"}
+  - {id: 90o18, title: "Ontario Heritage Act"}

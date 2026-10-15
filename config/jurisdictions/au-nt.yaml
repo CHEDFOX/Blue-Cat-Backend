@@ -1,0 +1,36 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Northern Territory, a territory of Australia.
+schema_version: 1
+id: AU-NT
+profile_version: 0.1.0
+name: Northern Territory
+names: {en: Northern Territory}
+kind: constituent_unit
+parent: AU
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: >-
+    To verify - a territory with its own Parliament and statute book; Commonwealth law also applies
+    in it (parent chain), and the Commonwealth prevails over inconsistent territory law (Constitution s 109).
+legislative_institutions:
+  - id: AU-NT-PARL
+    name: Legislative Assembly of the Northern Territory of Australia
+    instrument_types: [act, regulation]
+instrument_types: [act, regulation]
+norm_hierarchy: [act, regulation]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: au_state
+coverage:
+  corpus_status: none
+  known_gaps:
+    - "No legislation of Northern Territory is ingested (the publisher has not been evaluated yet)."
+    - "No case law and no courts of this territory are modelled."

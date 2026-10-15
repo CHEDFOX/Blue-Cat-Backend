@@ -53,6 +53,12 @@ from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.connectors.riigi_teataja import RiigiTeatajaConnector
 from ulis.sources.connectors.riksdagen import RiksdagenSfsConnector
 from ulis.sources.connectors.ris_ogd import RisOgdConnector
+from ulis.sources.connectors.subnational_http import (
+    ManitobaLawsConnector,
+    OntarioELawsConnector,
+    QueenslandLegislationConnector,
+    TasmanianLegislationConnector,
+)
 from ulis.sources.connectors.uscode_house import UscodeHouseConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParsedRef, ParseSkipped
 from ulis.sources.parsers import (
@@ -72,13 +78,17 @@ from ulis.sources.parsers import (
     justice_canada,
     legislation_gov_uk,
     likumi_lv,
+    manitoba_laws,
     moj_law,
     normattiva,
+    ontario_elaws,
+    qld_legislation,
     rechtspraak,
     retsinformation,
     riigi_teataja,
     riksdagen_sfs,
     ris,
+    tas_legislation,
     uslm,
 )
 from ulis.sources.registry import SourceDescriptor, licence_gate
@@ -112,6 +122,10 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "riigi_teataja_xml": riigi_teataja.parse_riigi_teataja,
     "eli_sejm_bundle": eli_sejm.parse_eli_sejm,
     "infoleg_ar_html": infoleg_ar.parse_infoleg_ar,
+    "qld_quills_xml": qld_legislation.parse_qld_legislation,
+    "tas_act_xml": tas_legislation.parse_tas_legislation,
+    "ontario_elaws_html": ontario_elaws.parse_ontario_elaws,
+    "manitoba_laws_html": manitoba_laws.parse_manitoba_laws,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -138,6 +152,10 @@ PARSER_VERSIONS = {
     "riigi_teataja_xml": riigi_teataja.PARSER_VERSION,
     "eli_sejm_bundle": eli_sejm.PARSER_VERSION,
     "infoleg_ar_html": infoleg_ar.PARSER_VERSION,
+    "qld_quills_xml": qld_legislation.PARSER_VERSION,
+    "tas_act_xml": tas_legislation.PARSER_VERSION,
+    "ontario_elaws_html": ontario_elaws.PARSER_VERSION,
+    "manitoba_laws_html": manitoba_laws.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -197,6 +215,10 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "eli_sejm": EliSejmConnector,
     "uscode_house": UscodeHouseConnector,
     "infoleg_ar": InfolegArConnector,
+    "qld_legislation": QueenslandLegislationConnector,
+    "tas_legislation": TasmanianLegislationConnector,
+    "ontario_e_laws": OntarioELawsConnector,
+    "manitoba_laws": ManitobaLawsConnector,
 }
 
 
@@ -239,6 +261,10 @@ def resolve_uri(uri: str) -> tuple[str, str | None]:
         or riigi_teataja.resolve_uri(uri)
         or eli_sejm.resolve_uri(uri)
         or infoleg_ar.resolve_uri(uri)
+        or qld_legislation.resolve_uri(uri)
+        or tas_legislation.resolve_uri(uri)
+        or ontario_elaws.resolve_uri(uri)
+        or manitoba_laws.resolve_uri(uri)
         or (uri, None)
     )
 

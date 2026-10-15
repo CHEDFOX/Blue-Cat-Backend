@@ -1,0 +1,36 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Newfoundland and Labrador, a province or territory of Canada.
+schema_version: 1
+id: CA-NL
+profile_version: 0.1.0
+name: Newfoundland and Labrador
+names: {en: Newfoundland and Labrador, fr: Terre-Neuve-et-Labrador}
+kind: constituent_unit
+parent: CA
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: To verify - common law province; federal statutes also apply in it (parent chain).
+legislative_institutions:
+  - id: CA-NL-LEG
+    name: House of Assembly of Newfoundland and Labrador
+    instrument_types: [act, regulation]
+instrument_types: [act, regulation]
+norm_hierarchy: [act, regulation]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: ca_prov
+coverage:
+  corpus_status: none
+  known_gaps:
+    - "No legislation of Newfoundland and Labrador is ingested (the publisher has not been evaluated
+      yet)."
+    - "No regulations (except where stated), no case law and no courts of this province are
+      modelled."

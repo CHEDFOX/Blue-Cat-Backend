@@ -9,12 +9,14 @@ from __future__ import annotations
 from ulis.jurisdictions.modules.ar import ArModule
 from ulis.jurisdictions.modules.at import AtModule
 from ulis.jurisdictions.modules.au import AuModule
+from ulis.jurisdictions.modules.au_state import AuStateModule
 from ulis.jurisdictions.modules.base import (
     JudgmentCitationInput,
     JurisdictionModule,
     ProvisionCitationInput,
 )
 from ulis.jurisdictions.modules.ca import CaModule
+from ulis.jurisdictions.modules.ca_prov import CaProvModule
 from ulis.jurisdictions.modules.ch import ChModule
 from ulis.jurisdictions.modules.de import DeModule
 from ulis.jurisdictions.modules.dk import DkModule
@@ -61,6 +63,8 @@ MODULES: dict[str, JurisdictionModule] = {
         AuModule(),
         AtModule(),
         ArModule(),
+        CaProvModule(),
+        AuStateModule(),
     )
 }
 

@@ -1,5 +1,5 @@
-# REAL JURISDICTION - DRAFT, UNVERIFIED. Canada (federal). Provinces and territories are not
-# profiled yet.
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Canada (federal). The provinces and territories have their own profiles
+# (CA-ON, CA-BC, ... ) whose parent is CA.
 schema_version: 1
 id: CA
 profile_version: 0.1.0
@@ -60,6 +60,6 @@ coverage:
   known_gaps:
     - Only a hand-picked selection of federal Acts is ingested (see the source manifest).
     - Current consolidation only. Earlier wordings are not indexed, so dates before a provision's current wording are reported as history not indexed.
-    - No regulations, no provincial or territorial law, no case law.
+    - No regulations, no case law. Provincial and territorial law is not part of this profile; it lives in the provincial profiles (CA-ON and CA-MB hold pilot corpora; the other publishers block ULIS or are unevaluated, see docs/jurisdictions/ca-au-subnational.md). A search for CA does not return it; search the province.
     - The "Related provisions" schedule (provisions of amending Acts) is not indexed.
     - Amendments not in force are reported as outstanding changes but not applied.

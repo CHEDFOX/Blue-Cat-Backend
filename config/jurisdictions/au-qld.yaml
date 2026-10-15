@@ -1,0 +1,44 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Queensland, a state of Australia.
+schema_version: 1
+id: AU-QLD
+profile_version: 0.1.0
+name: Queensland
+names: {en: Queensland}
+kind: constituent_unit
+parent: AU
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en]
+legal_system:
+  families: [common_law]
+  structure: constituent
+  treaty_reception: not_applicable
+  notes: >-
+    To verify - a state with its own Parliament and statute book; Commonwealth law also applies
+    in it (parent chain), and the Commonwealth prevails over inconsistent state law (Constitution s 109).
+legislative_institutions:
+  - id: AU-QLD-PARL
+    name: Parliament of Queensland (Legislative Assembly)
+    instrument_types: [act, regulation]
+instrument_types: [act, regulation]
+norm_hierarchy: [act, regulation]
+precedent:
+  doctrine: stare_decisis
+  vertical_binding: true
+citation:
+  module: au_state
+  examples:
+    - "Criminal Code (Qld) s 302"
+    - "Acts Interpretation Act 1954 (Qld) s 14A"
+publication:
+  official_sources: [au-qld-legislation]
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - "Public Acts in force only (the manifest lists all 534 on 14 October 2026); no subordinate
+      legislation, no bills, no Acts as passed."
+    - "Current reprint only: the reprint states the date from which it applies, not when each
+      provision commenced, and earlier reprints are not indexed."
+    - "No case law and no courts of this state are modelled."
