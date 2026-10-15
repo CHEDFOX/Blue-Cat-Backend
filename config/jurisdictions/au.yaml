@@ -81,8 +81,8 @@ publication:
 coverage:
   corpus_status: pilot
   known_gaps:
-    - Only a hand-picked selection of Commonwealth Acts and the Constitution is ingested (see the source manifest); no legislative instruments, notifiable instruments or bills.
-    - Compilation history is fetched for a few titles only; the others start at their latest registered compilation, so earlier dates are reported as history not indexed.
+    - Every principal Commonwealth Act in force that has a compilation (785 titles) and the Constitution are ingested; 477 never-amended principal Acts (only an as-made version in the Register) are not, and there are no legislative instruments, notifiable instruments or bills.
+    - Compilation history is fetched for four titles only; the others start at their latest registered compilation, so earlier dates are reported as history not indexed.
     - Acts as made, and periods covered by versions without a registered compilation, have no text.
     - The source dates compilations, not individual provisions; repealed provisions are not recorded as repealed (they are omitted from compilations).
     - State and Territory law is not part of this profile; it lives in the State and Territory profiles (AU-QLD and AU-TAS hold pilot corpora; the other publishers block ULIS or are unevaluated, see docs/jurisdictions/ca-au-subnational.md). A search for AU does not return it (it applies only within its State; search the State profile). No case law.

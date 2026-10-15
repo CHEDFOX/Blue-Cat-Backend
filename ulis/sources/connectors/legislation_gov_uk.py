@@ -7,7 +7,11 @@ which some provision changed - which yields every historical version.
 Fair-use rules from legislation.gov.uk/fair-use-policy and robots.txt are built in:
 an identifying User-Agent, the robots ``Crawl-delay`` (5 s) between network requests,
 far below the 1,500 requests / 5 minutes limit, back-off on 429/5xx, and a local cache so
-nothing is fetched twice.
+nothing is fetched twice. robots.txt is read once per run and every URL is checked against it.
+
+A manifest may list thousands of works (``scripts/build_legislation_gov_uk_manifest.py``). One work
+that is missing (404) or keeps failing with a server error is recorded in ``fetch_errors`` and the run
+continues; a refusal (401/403/451, or 429 that persists after back-off) stops the run.
 """
 
 from __future__ import annotations
@@ -26,14 +30,26 @@ import yaml
 
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
+from ulis.sources.connectors.moj_laws import robots_allows
 
-_PATH = re.compile(r"^[a-z]+/\d{4}/\d+$")
+# ``ukpga/1998/42``; Acts before 1963 are identified by regnal year (``ukpga/Eliz2/10-11/58``,
+# ``ukpga/Vict/22-23/12``), and calendar year + chapter number alone is ambiguous for some of them.
+_PATH = re.compile(r"^[a-z]+/(?:\d{4}|[A-Za-z0-9]+/\d+(?:-\d+)*)/\d+$")
 _DATE = re.compile(rb'<FRBRExpression>.*?<FRBRdate date="(\d{4}-\d{2}-\d{2})', re.S)
+MAX_FAILURES_IN_A_ROW = 5
 _EVENTS = re.compile(rb'<eventRef[^>]*date="(\d{4}-\d{2}-\d{2})')
 
 
 class FetchError(RuntimeError):
     pass
+
+
+class Refused(FetchError):
+    """The publisher refused (401/403/451, or 429 that persists): the run stops, nothing is worked around."""
+
+
+class OfflineMiss(FetchError):
+    """Offline mode and the document is not in the cache."""
 
 
 class LegislationGovUkConnector:
@@ -53,6 +69,9 @@ class LegislationGovUkConnector:
         self._sleep = sleep
         self._last_request = 0.0
         self.requests_made = 0
+        # One line per work that could not be fetched (missing, or repeated server errors).
+        self.fetch_errors: list[str] = []
+        self._robots_txt: str | None = None
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -60,26 +79,67 @@ class LegislationGovUkConnector:
             raise ManifestError("manifest schema or source_id mismatch")
         if not manifest.get("user_agent") or "(" not in manifest["user_agent"]:
             raise ManifestError("an identifying user_agent with contact details is required (fair-use policy)")
+        seen: set[str] = set()
         for work in manifest["works"]:
             if not _PATH.match(work["path"]):
                 raise ManifestError(f"invalid work path {work['path']!r}")
+            if work["path"] in seen:
+                raise ManifestError(f"work {work['path']!r} is listed twice")
+            seen.add(work["path"])
         return manifest
 
-    def _get(self, manifest: dict[str, Any], url: str, cache_file: Path) -> tuple[bytes, dict[str, Any]] | None:
+    def _robots(self, manifest: dict[str, Any], base: str) -> str | None:
+        """robots.txt of the site (fetched once per run, cached); None when offline and not cached."""
+        if self._robots_txt is None:
+            cache_file = self.cache_dir / "robots.txt"
+            if cache_file.exists():
+                self._robots_txt = cache_file.read_text(encoding="utf-8", errors="replace")
+            elif not self.offline:
+                got = self._get(manifest, f"{base}/robots.txt", cache_file, check_robots=False)
+                self._robots_txt = got[0].decode("utf-8", errors="replace") if got else ""
+        return self._robots_txt
+
+    @staticmethod
+    def robots_crawl_delay(robots_txt: str) -> float:
+        """The ``Crawl-delay`` of the ``*`` group (0 if none)."""
+        group_all = False
+        for line in robots_txt.splitlines():
+            key, _, value = line.split("#", 1)[0].partition(":")
+            key, value = key.strip().lower(), value.strip()
+            if key == "user-agent":
+                group_all = value == "*"
+            elif key == "crawl-delay" and group_all:
+                try:
+                    return float(value)
+                except ValueError:
+                    return 0.0
+        return 0.0
+
+    def _get(
+        self, manifest: dict[str, Any], url: str, cache_file: Path, *, check_robots: bool = True
+    ) -> tuple[bytes, dict[str, Any]] | None:
         meta_file = cache_file.with_suffix(".json")
         if cache_file.exists() and meta_file.exists():
             return cache_file.read_bytes(), json.loads(meta_file.read_text())
         if self.offline:
-            raise FetchError(f"offline and not cached: {url}")
+            raise OfflineMiss(f"offline and not cached: {url}")
+        if not url.startswith("https://"):
+            raise FetchError(f"refusing non-https URL {url}")
+        if (
+            check_robots
+            and self._robots_txt is not None
+            and not robots_allows(self._robots_txt, manifest["user_agent"], url)
+        ):
+            raise Refused(f"{url}: disallowed by robots.txt")
         delay = float(manifest.get("crawl_delay_seconds", 5))
+        if self._robots_txt:
+            delay = max(delay, self.robots_crawl_delay(self._robots_txt))
         for attempt in range(5):
             wait = self._last_request + delay - time.monotonic()
             if wait > 0:
                 self._sleep(wait)
             self._last_request = time.monotonic()
             self.requests_made += 1
-            if not url.startswith("https://"):
-                raise FetchError(f"refusing non-https URL {url}")
             request = urllib.request.Request(url, headers={"User-Agent": manifest["user_agent"]})  # noqa: S310
             try:
                 with urllib.request.urlopen(request, timeout=120) as response:  # noqa: S310 - https only
@@ -98,6 +158,8 @@ class LegislationGovUkConnector:
                     retry_after = exc.headers.get("Retry-After")
                     self._sleep(float(retry_after) if retry_after and retry_after.isdigit() else delay * 2**attempt)
                     continue
+                if exc.code in (401, 403, 429, 451):
+                    raise Refused(f"{url}: HTTP {exc.code} (a refusal is respected, not worked around)") from exc
                 raise FetchError(f"{url}: HTTP {exc.code}") from exc
             except (urllib.error.URLError, TimeoutError) as exc:
                 if attempt < 4:
@@ -126,29 +188,45 @@ class LegislationGovUkConnector:
         base = manifest.get("base_url", "https://www.legislation.gov.uk").rstrip("/")
         if not base.startswith("https://"):
             raise ManifestError("base_url must be https")
+        self._robots(manifest, base)
+        failures_in_a_row = 0
         for work in manifest["works"]:
-            path = work["path"]
-            current = self._get(manifest, f"{base}/{path}/data.akn", self.cache_dir / path / "current.akn")
-            if current is None:
-                raise FetchError(f"{path}: not found")
-            data, meta = current
-            match = _DATE.search(data)
-            current_date = match.group(1).decode() if match else None
-            if work.get("history", True) and current_date:
-                seen = {current_date}
-                # ``history_dates`` restricts the versions fetched (used for small test fixtures). A
-                # partial history can hide intermediate versions, so production manifests omit it.
-                wanted = work.get("history_dates")
-                for d in sorted({m.decode() for m in _EVENTS.findall(data)}):
-                    if d >= current_date or (wanted is not None and d not in {str(w) for w in wanted}):
-                        continue
-                    got = self._get(manifest, f"{base}/{path}/{d}/data.akn", self.cache_dir / path / f"{d}.akn")
-                    if got is None:
-                        continue
-                    pit_match = _DATE.search(got[0])
-                    pit_date = pit_match.group(1).decode() if pit_match else d
-                    if pit_date in seen:  # this date resolved to a version already fetched
-                        continue
-                    seen.add(pit_date)
-                    yield self._raw(path, got[0], got[1], pit_date)
-            yield self._raw(path, data, meta, current_date or "current")
+            try:
+                yield from self._fetch_work(manifest, base, work)
+                failures_in_a_row = 0
+            except (Refused, OfflineMiss):
+                raise
+            except FetchError as exc:
+                # One missing or failing work must not abort a run of thousands; a publisher that
+                # keeps failing is not hammered.
+                self.fetch_errors.append(str(exc))
+                failures_in_a_row += 1
+                if failures_in_a_row >= MAX_FAILURES_IN_A_ROW:
+                    raise FetchError(f"stopping after {failures_in_a_row} failures in a row; last: {exc}") from exc
+
+    def _fetch_work(self, manifest: dict[str, Any], base: str, work: dict[str, Any]) -> Iterator[RawDocument]:
+        path = work["path"]
+        current = self._get(manifest, f"{base}/{path}/data.akn", self.cache_dir / path / "current.akn")
+        if current is None:
+            raise FetchError(f"{path}: not found (404)")
+        data, meta = current
+        match = _DATE.search(data)
+        current_date = match.group(1).decode() if match else None
+        if work.get("history", False) and current_date:
+            seen = {current_date}
+            # ``history_dates`` restricts the versions fetched (used for small test fixtures). A
+            # partial history can hide intermediate versions, so production manifests omit it.
+            wanted = work.get("history_dates")
+            for d in sorted({m.decode() for m in _EVENTS.findall(data)}):
+                if d >= current_date or (wanted is not None and d not in {str(w) for w in wanted}):
+                    continue
+                got = self._get(manifest, f"{base}/{path}/{d}/data.akn", self.cache_dir / path / f"{d}.akn")
+                if got is None:
+                    continue
+                pit_match = _DATE.search(got[0])
+                pit_date = pit_match.group(1).decode() if pit_match else d
+                if pit_date in seen:  # this date resolved to a version already fetched
+                    continue
+                seen.add(pit_date)
+                yield self._raw(path, got[0], got[1], pit_date)
+        yield self._raw(path, data, meta, current_date or "current")
