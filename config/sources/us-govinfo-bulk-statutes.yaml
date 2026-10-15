@@ -1,17 +1,29 @@
-# PLANNED - NOT INGESTED. Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15). Same publisher and terms as the
-# active us-govinfo-usreports and us-govinfo-uscourts sources (see their headers); only the collections differ.
-#   https://www.govinfo.gov/robots.txt - allowed for /bulkdata, /bulkdata/json/STATUTE, /bulkdata/STATUTE, /bulkdata/xml/PLAW (checked with
-#        urllib.robotparser for the ULIS agent, 2026-10-15); no Crawl-delay.
-#   https://www.govinfo.gov/bulkdata (index page): "GPO makes select collections available in bulk in a machine-readable format (i.e. XML) via
-#        our Bulk Data Repository." Listed there: "Statutes at Large (xml uslm beta)" (last modified 06-Oct-2026), "Public and Private Laws
-#        (xml uslm beta)" (10-Oct-2026), "Statute Compilations (xml uslm beta)" (09-Oct-2026).
-#   https://www.govinfo.gov/bulkdata/STATUTE - one folder per volume, 1 to 138 (folders only; which volumes hold XML and how complete the
-#        early volumes are was NOT examined). /bulkdata/PLAW - 113th to 119th Congress, public and private laws (2013-2026).
-#        /bulkdata/COMPS - 2,705 COMPS-<n>.xml statute compilations plus COMPS.zip.
-#   https://www.govinfo.gov/about/policies, "Public Domain & Copyright Notice": "Title 17, Section 105, United States Code, provides that:
-#        Copyright protection under this title is not available for any work of the United States Government ... By virtue of the
-#        foregoing, public documents can generally be reprinted without legal restriction. However, Government publications may contain
-#        copyrighted material which was used with permission of the copyright owner."
+# GovInfo Bulk Data Repository: Statutes at Large, public and private laws, statute compilations (USLM XML, "beta").
+# Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15); activated the same day. Same publisher and terms
+# as the active us-govinfo-usreports and us-govinfo-uscourts sources. Facts below were re-read on 2026-10-15 by the ULIS project:
+#   https://www.govinfo.gov/robots.txt (fetched 2026-10-15) - "User-agent: *" disallows only site internals (/core/, /profiles/,
+#        /admin/, /user/..., /search/, /app/search/* ...). /bulkdata/ is not disallowed (urllib.robotparser agrees for the ULIS agent:
+#        /bulkdata/STATUTE/, /bulkdata/PLAW/, /bulkdata/COMPS/ allowed); the file lists the bulk-data sitemaps
+#        (https://www.govinfo.gov/sitemap/bulkdata/STATUTE/sitemapindex.xml, .../PLAW/..., .../COMPS/... is not listed there but the
+#        directory is public). There is no Crawl-delay.
+#   https://www.govinfo.gov/bulkdata/ (the index) - "GPO makes select collections available in bulk in a machine-readable format
+#        (i.e. XML) via our Bulk Data Repository." Listed: "Statutes at Large (xml uslm beta)" (last modified 06-Oct-2026), "Public
+#        and Private Laws (xml uslm beta)" (10-Oct-2026), "Statute Compilations (xml uslm beta)" (09-Oct-2026).
+#   https://www.govinfo.gov/bulkdata/STATUTE/ - folders 1 to 138, each with one file STATUTE-<volume>.xml (volume 1: 5.2 MB; volume 138:
+#        25.7 MB). /bulkdata/STATUTE/resources/readme.html: "Please refer to GPO's USLM GitHub Repository at
+#        https://github.com/usgpo/uslm/tree/proposed for schema, css, and user guide files. After the beta period ends and the 2.0
+#        schema is moved out of draft, please refer https://github.com/usgpo/uslm." Each file says in its own metadata
+#        (dc:rights): "Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection
+#        and is in the public domain."; the historical volumes say processedBy "Digitization Vendor" (the printed volumes were
+#        digitised for GPO).
+#   https://www.govinfo.gov/bulkdata/PLAW/ - one folder per Congress, 113 to 119, each with public/ and private/ folders holding one
+#        PLAW-<congress>publ<n>.xml (or pvtl) per law and a zip of all of them (PLAW-119-public.zip, 3.2 MB).
+#   https://www.govinfo.gov/bulkdata/COMPS/ - 2,705 COMPS-<n>.xml compilations and COMPS.zip (81.2 MB).
+#   https://www.govinfo.gov/about/policies, "Public Domain & Copyright Notice": "Title 17, Section 105, United States Code, provides
+#        that: Copyright protection under this title is not available for any work of the United States Government ... By virtue of
+#        the foregoing, public documents can generally be reprinted without legal restriction. However, Government publications may
+#        contain copyrighted material which was used with permission of the copyright owner." The same page says that LOCKSS
+#        permission statements "allow participants in the LOCKSS program to crawl GovInfo content or the GovInfo bulk data repository".
 schema_version: 1
 id: us-govinfo-bulk-statutes
 name: GovInfo Bulk Data Repository - Statutes at Large, Public and Private Laws, Statute Compilations (USLM XML, beta)
@@ -22,21 +34,33 @@ jurisdictions: [US]
 document_kinds: [act]
 languages: [en]
 coverage: >-
-  The Statutes at Large (volumes 1 to 138 are listed), the public and private laws of the 113th to 119th Congress, and 2,705 statute
-  compilations, as USLM XML marked "beta" by GPO. Fills the gap between the US Code titles ULIS holds (as codified) and the laws as
-  enacted. Nothing is ingested; the contents of each volume were not examined.
+  Every public and private law (and act without a law number) of the Statutes at Large, volumes 1 to 138 (1789 to the end of the
+  118th Congress, January 2025), as GPO's USLM XML "beta"; the public and private laws of the 119th Congress (2025 on), which no
+  volume holds yet; and the statute compilations (an Act as amended, compiled by the Office of the Law Revision Counsel).
+  This is the enacted layer under the United States Code ULIS holds as codified (us-uscode-house): the Statutes at Large control
+  where a title of the Code is only prima facie evidence of the law. Concurrent resolutions, proclamations, treaties, indexes and
+  tables of the volumes are not ingested.
 access:
   method: bulk_download
-  endpoint: https://www.govinfo.gov/bulkdata/
+  endpoint: config/manifests/us-govinfo-bulk-statutes.yaml
   authentication: none
-update_frequency: STATUTE and PLAW updated as laws are published (last modified October 2026); COMPS by the Office of the Law Revision Counsel
-rate_limits: No Crawl-delay in robots.txt; use PoliteHttp (at least 5 s between requests); the collections are directory listings with downloadable XML/ZIP files.
+update_frequency: >-
+  STATUTE and PLAW are updated as laws are published and volumes corrected (index dates: October 2026); COMPS by the Office of the
+  Law Revision Counsel. A re-run with an empty cache fetches the current files; ULIS records every changed file as a new source
+  document.
+rate_limits: >-
+  No Crawl-delay in robots.txt. ULIS waits at least 5 s between requests, identifies itself, caches every download and applies
+  robots.txt to every URL. The manifest needs 141 requests (138 volumes, two zips of the 119th Congress, COMPS.zip); roughly 2 GB.
 licence:
   id: US-GovWork-17USC105
   name: Work of the United States Government, not protected by copyright (17 U.S.C. 105), per GovInfo's Public Domain & Copyright Notice
   url: https://www.govinfo.gov/about/policies
-  review_status: pending_review
-  reviewed_by: ULIS bulk-datasets survey (GovInfo policies page and bulk data index read on 2026-10-15). Not reviewed by counsel.
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-15, from the publisher's notice - GovInfo's Public Domain & Copyright Notice (17 U.S.C. 105), the
+    robots.txt of www.govinfo.gov (no restriction on /bulkdata/), the bulk-data index and the files' own dc:rights statement
+    ("Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in
+    the public domain."), all read 2026-10-15. Not reviewed by counsel.
   reviewed_on: 2026-10-15
   redistribution: allowed
   bulk_download: allowed
@@ -46,16 +70,36 @@ licence:
   attribution_text: U.S. Government Publishing Office, GovInfo Bulk Data Repository (https://www.govinfo.gov/bulkdata/).
   conditions:
     - GovInfo warns that "Government publications may contain copyrighted material"; private laws and some enrolled texts may embed third-party material (rare).
-    - The XML is labelled beta by GPO; the authenticated version of a public law is GPO's signed PDF, not this XML.
+    - The XML is labelled beta by GPO; the authenticated version of a public law is GPO's signed PDF, not this XML. The historical volumes were digitised by a vendor; their text may carry digitisation errors.
+    - Statute compilations are the Office of the Law Revision Counsel's editorial compilations of Acts, not the enacted text.
   notes: >-
-    Extends US coverage from codified law to enacted law. Check which volumes of STATUTE actually contain text before building a manifest.
+    Extends US coverage from codified law to enacted law. Counsel review is still recommended before production use.
 provenance: >-
-  GPO's own XML (USLM beta) of Statutes at Large, public and private laws and statute compilations, listed in the GovInfo Bulk Data
-  Repository. Not retrieved.
+  GPO's own XML (USLM, "beta") of the Statutes at Large, public and private laws and statute compilations, listed in the GovInfo Bulk
+  Data Repository. A volume file is stored byte for byte as one source document (SHA-256, URL, retrieval time); the zips of laws and
+  compilations are downloaded once and each XML member is stored byte for byte as its own source document.
 known_limitations:
-  - Not ingested - survey result only; no file was downloaded.
-  - USLM XML "beta"; completeness of the early Statutes at Large volumes not examined.
-  - Statute compilations are the Office of the Law Revision Counsel's editorial compilations of Acts, not the enacted text.
-status: planned
-connector: null
-parser: null
+  - >-
+    USLM XML marked "beta" by GPO; it is not the authenticated text (the legal evidence of a law is the Statutes at Large as
+    published, 1 U.S.C. 112). Historical volumes were digitised by a vendor and may carry transcription errors; text is stored as
+    the source gives it, without correction.
+  - >-
+    A law is one instrument, dated from its approval (the default rule that an Act takes effect on enactment, validity_basis
+    enactment_date_presumed): effective dates stated in the text, and later amendments, are not tracked. Margin notes and page
+    markers are not part of the stored text.
+  - >-
+    A law is identified by its public or private law number where the volume states it (from the 57th Congress, 1901) and
+    otherwise by the page on which it begins (/us/stat/<volume>/<page>); acts before 1901 are cited by date, chapter and Statutes at
+    Large page. Several short acts may start on one page (the later ones get a -2, -3 counter in their URI).
+  - >-
+    Concurrent resolutions, proclamations, treaties, reorganization plans, indexes and tables are not ingested. A law without
+    sections is stored as one unnumbered provision. A law whose date or page citation the file does not state is skipped, not guessed.
+  - >-
+    Laws of the 113th to 118th Congresses are taken from the volumes (127 to 138), not from the PLAW collection; the PLAW collection
+    is listed only from the 119th Congress, which no volume holds yet, so a law is not stored twice.
+  - >-
+    Statute compilations state that they are not an official version of any federal statute (1 U.S.C. 112, 204); they are
+    ingested as unofficial compilations current through the public law the file names.
+status: active
+connector: govinfo_bulk_statutes
+parser: uslm

@@ -1,56 +1,123 @@
-# PLANNED - NOT INGESTED. Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15). Same publisher and terms as
-# us-govinfo-bulk-statutes.yaml and the active us-govinfo-* sources; the active us-ecfr source holds only the current eCFR.
-#   https://www.govinfo.gov/robots.txt - /bulkdata/CFR and /bulkdata/FR allowed for the ULIS agent (urllib.robotparser, 2026-10-15).
-#   https://www.govinfo.gov/bulkdata (index page): "GPO makes select collections available in bulk in a machine-readable format (i.e. XML) via
-#        our Bulk Data Repository. The top level directory for select collections, such as the Federal Register and Code of Federal
-#        Regulations, also includes a Resources directory that contains the XML schema, XSL stylesheet, and user guide."
-#   https://www.govinfo.gov/bulkdata/CFR - "Code of Federal Regulations (Annual Edition)": year folders 1996 to 2026 (last modified 08-Oct-2026).
-#        /bulkdata/FR - "Federal Register": year folders 2000 to 2026 (last modified 15-Oct-2026).
+# GovInfo Bulk Data Repository: Code of Federal Regulations annual editions and Federal Register (final rules), XML.
+# Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15); activated the same day. Same publisher and terms
+# as us-govinfo-bulk-statutes and the active us-ecfr source (which holds only the current eCFR text). Facts below were re-read by the
+# ULIS project on 2026-10-15:
+#   https://www.govinfo.gov/robots.txt (fetched 2026-10-15) - "User-agent: *" disallows only site internals (/core/, /profiles/,
+#        /admin/, /user/..., /search/, /app/search/* ...). /bulkdata/CFR/ and /bulkdata/FR/ are not disallowed (urllib.robotparser for the
+#        ULIS agent agrees); the file lists https://www.govinfo.gov/sitemap/bulkdata/CFR/sitemapindex.xml and .../FR/sitemapindex.xml;
+#        no Crawl-delay.
+#   https://www.govinfo.gov/bulkdata/ (the index) - "GPO makes select collections available in bulk in a machine-readable format (i.e.
+#        XML) via our Bulk Data Repository. The top level directory for select collections, such as the Federal Register and Code of
+#        Federal Regulations, also includes a Resources directory that contains the XML schema, XSL stylesheet, and user guide."
+#        "Code of Federal Regulations (Annual Edition)" (last modified 08-Oct-2026), "Federal Register" (15-Oct-2026).
+#   https://www.govinfo.gov/bulkdata/CFR/ - year folders 1996 to 2026; each year folder has title-<n>/ folders (CFR-<year>-title<n>-vol<v>.xml
+#        per volume and CFR-<year>-title-<n>.zip) and CFR-<year>.zip. Older years are incomplete (1996: titles 21, 40, 42, 43, 47-50). A
+#        title that was not revised in a year is published again, unchanged, under the later year (title 1 of the 2025 folder is the edition
+#        revised as of January 1, 2023).
+#   https://www.govinfo.gov/bulkdata/CFR/resources/CFR-XML_User-Guide_v1.pdf (24 Jun 2026), 1.2: "No, the XML-structured files offered
+#        for bulk download are not part of the official on-line format of the Code of Federal Regulations ... only the PDF and Text versions
+#        of Code of Federal Regulations content on GPO Access and FDsys have legal status as parts of the official online format of the Code
+#        of Federal Regulations."; "No, XML files available for download are not digitally signed."; "In general, there are no restrictions
+#        on re-use of information in Code of Federal Regulations material because U.S. Government works are not subject to copyright. OFR
+#        and GPO do not restrict downstream uses of Code of Federal Regulations data, except that independent providers should be aware that
+#        only the OFR and GPO are entitled to represent that they are the providers of the official versions of the Code of Federal
+#        Regulations and related Federal Register publications."; "private sector re-publishers are prohibited from using the seal of the
+#        National Archives and Records Administration (NARA) or stylized Code of Federal Regulations logos identified in NARA regulations
+#        (36 CFR part 1200)". Also: "Code of Federal Regulations files in XML have been converted and simplified from the SGML rendition used
+#        for the printed publication. The Code of Federal Regulations is available in XML starting with the year 2000".
+#   https://www.govinfo.gov/bulkdata/FR/ - year folders 2000 to 2026, month folders, one FR-<year>-<month>-<day>.xml per issue and a zip per
+#        month (FR-<year>-<month>.zip) and year. https://www.govinfo.gov/bulkdata/FR/resources/FDsys_OFR-XML_User-Guide-v1.pdf (24 Jun 2026),
+#        1.2: the same statements for the Federal Register ("only the PDF and Text versions of Federal Register content ... have legal
+#        status"; "not digitally signed"; "In general, there are no restrictions on re-use of information in Federal Register documents
+#        because U.S. Government works are not subject to copyright.").
 #   https://www.govinfo.gov/about/policies, "Public Domain & Copyright Notice": "Title 17, Section 105, United States Code, provides that:
 #        Copyright protection under this title is not available for any work of the United States Government ... public documents can
-#        generally be reprinted without legal restriction. However, Government publications may contain copyrighted material ..."
+#        generally be reprinted without legal restriction. However, Government publications may contain copyrighted material which was used
+#        with permission of the copyright owner." The same page: LOCKSS permission statements "allow participants in the LOCKSS program to
+#        crawl GovInfo content or the GovInfo bulk data repository" (lockss.html under the Federal Register and CFR folders).
 schema_version: 1
 id: us-govinfo-bulk-cfr-fr
-name: GovInfo Bulk Data Repository - Code of Federal Regulations annual editions 1996-2026 and Federal Register 2000-2026 (XML)
-publisher: U.S. Government Publishing Office (GovInfo)
+name: GovInfo Bulk Data Repository - Code of Federal Regulations annual editions 1996-2026 and Federal Register final rules (XML)
+publisher: U.S. Government Publishing Office (GovInfo), from the Office of the Federal Register (National Archives and Records Administration)
 kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions: [US]
 document_kinds: [regulation]
 languages: [en]
 coverage: >-
-  The 31 annual editions of the CFR (1996 to 2026) and the daily Federal Register (2000 to 2026) as XML. The annual editions give the
-  point-in-time history of federal regulations that the current-only eCFR source cannot. Nothing is ingested; sizes and the per-year
-  layout were not examined.
+  The annual editions of the Code of Federal Regulations in the repository (1996 to 2026; one zip per title and year, about 1,400
+  title-years; older years are incomplete), each part dated by the "revised as of" date on its title page, so that the editions give
+  the point-in-time history of federal regulations that the current-only eCFR source (us-ecfr) cannot; and the final rules (including
+  interim and direct final rules and corrections) of the Federal Register for the last five calendar years (2022 to 2026), as one
+  instrument per rule with its preamble and its regulatory text. Proposed rules, notices, presidential documents and the Federal
+  Register issues of 2000 to 2021 are not ingested (the full daily archive is about 25 GB of XML; the manifest can be extended).
 access:
   method: bulk_download
-  endpoint: https://www.govinfo.gov/bulkdata/
+  endpoint: config/manifests/us-govinfo-bulk-cfr-fr.yaml
   authentication: none
-update_frequency: CFR annual editions added as GPO publishes them (folder last modified 08-Oct-2026); Federal Register daily (folder last modified 15-Oct-2026)
-rate_limits: No Crawl-delay in robots.txt; use PoliteHttp (at least 5 s between requests).
+update_frequency: >-
+  CFR editions are added as GPO publishes them (a title is revised once a year: January 1, April 1, July 1 or October 1); the Federal
+  Register daily. A re-run with an empty cache fetches the current files; ULIS records every changed file as a new source document.
+rate_limits: >-
+  No Crawl-delay in robots.txt. ULIS waits at least 5 s between requests, identifies itself, caches every download and applies
+  robots.txt to every URL. The manifest needs about 1,480 requests (1,421 title-year zips and 58 monthly Federal Register zips),
+  roughly 4 GB to download and 25 GB of XML, i.e. two hours of waiting plus transfer; ingestion of the full manifest is a matter of days.
 licence:
   id: US-GovWork-17USC105
   name: Work of the United States Government, not protected by copyright (17 U.S.C. 105), per GovInfo's Public Domain & Copyright Notice
   url: https://www.govinfo.gov/about/policies
-  review_status: pending_review
-  reviewed_by: ULIS bulk-datasets survey (GovInfo policies page and bulk data index read on 2026-10-15). Not reviewed by counsel.
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-15, from the publisher's notice - GovInfo's Public Domain & Copyright Notice (17 U.S.C. 105), the CFR and
+    Federal Register XML user guides ("there are no restrictions on re-use ... because U.S. Government works are not subject to
+    copyright"), the robots.txt of www.govinfo.gov (no restriction on /bulkdata/) and the bulk-data index, all read 2026-10-15. Not
+    reviewed by counsel.
   reviewed_on: 2026-10-15
   redistribution: allowed
   bulk_download: allowed
   automated_processing: allowed
   commercial_use: allowed
   attribution_required: false
-  attribution_text: U.S. Government Publishing Office, GovInfo Bulk Data Repository (https://www.govinfo.gov/bulkdata/).
+  attribution_text: >-
+    U.S. Government Publishing Office, GovInfo Bulk Data Repository (https://www.govinfo.gov/bulkdata/), from the Office of the Federal
+    Register. Not the official edition: only the PDF and text versions on govinfo.gov have legal status.
   conditions:
-    - Government publications may contain copyrighted material used with permission (GovInfo notice); rare in the CFR and FR.
-    - Each CFR annual edition states the date as of which each title is current; the parser must use that date (to be read from the files), not the download date.
+    - GovInfo warns that "Government publications may contain copyrighted material"; rare in the CFR and Federal Register.
+    - The guides say that only OFR and GPO may represent that they provide the official versions, and that private re-publishers may not use the seal of the National Archives and Records Administration or the stylized CFR logos (36 CFR part 1200). ULIS uses neither and labels every text as not authentic.
+    - Each CFR annual edition states the date as of which each title is current; the parser uses that date (read from the file), never the download date or the year of the folder.
   notes: >-
-    The Federal Register is the daily publication of rules and notices, not a consolidation; it is useful for the date a rule was
-    published and for amendments between editions.
-provenance: GPO's own XML of the CFR annual editions and the Federal Register in the GovInfo Bulk Data Repository. Not retrieved.
+    The XML is a display rendition of the official edition, "converted and simplified from the SGML rendition used for the printed
+    publication"; counsel review is still recommended before production use.
+provenance: >-
+  GPO's own XML of the CFR annual editions and of the Federal Register in the GovInfo Bulk Data Repository. The zips are downloaded once
+  and each XML member (one CFR volume, one Federal Register issue) is stored byte for byte as its own source document (SHA-256, URL,
+  retrieval time). The authenticated versions are the PDFs on govinfo.gov.
 known_limitations:
-  - Not ingested - survey result only; no file was downloaded.
-  - Annual editions are snapshots, not a day-by-day history; the eCFR (us-ecfr) is the current text.
-status: planned
-connector: null
-parser: null
+  - >-
+    The XML is not the official edition and is not digitally signed (CFR XML user guide, section 1.2); the legal text is the PDF and
+    text version. Complex tables may be flattened or distorted in the XML; tables are stored one line per row.
+  - >-
+    The CFR files are indented by GPO's pretty-printer; ULIS removes only that indentation, keeps every other space (checked against the
+    eCFR's non-indented XML: 1,612 of 1,625 provisions of title 1 and 454 of 454 shared provisions of the title 12 sample have identical
+    text and identifiers; the rest are layout, for example the eCFR runs "Authority:" into the text that follows). A stacked fraction
+    after a whole number is read as "1 1/2". Graphics and formulas are not reproduced; a note says where they were.
+  - >-
+    Each edition is attested as in force on its "revised as of" date, with no start date (validity_basis attested_at_edition); a
+    changed wording is recorded from the date of the edition that shows it, so the date a rule took effect is not known. Editions must
+    be ingested oldest first and before the current eCFR text (us-ecfr); in the other order the older wording of a provision the eCFR has
+    since changed is a recorded conflict, not a stored version. Sections whose paragraph labels are irregular stay one provision.
+  - >-
+    The CFR folders of 1996 to 1999 hold few titles and the guides say the XML starts in 2000; the older files are parsed when their
+    layout is the same (checked for title 43 of 1996 and title 1 of 2001) and a file the parser cannot read is reported, not guessed.
+  - >-
+    Federal Register: only final rules are ingested, for 2022 to 2026. A rule's effective date is stated in prose in its DATES paragraph
+    and is not extracted, so the rule has no start date (EFFECTIVE_DATE_UNKNOWN). The preamble is the agency's explanation, not
+    regulatory text, and says so in each provision's note. The Federal Register does not say what the law is after a later rule: the
+    current text of a regulation is the eCFR (us-ecfr).
+  - >-
+    The first page of a rule is read from the page marks in the issue; a rule whose page or document number cannot be read is skipped.
+    Corrections appear as rules of their own. Presidential documents (executive orders, proclamations), proposed rules and notices
+    are not ingested.
+status: active
+connector: govinfo_bulk_cfr_fr
+parser: govinfo_cfr_fr

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="uslm.css"?>
+<statutesAtLarge xmlns="http://schemas.gpo.gov/xml/uslm" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xml:lang="en" xsi:schemaLocation="http://schemas.gpo.gov/xml/uslm https://www.govinfo.gov/schemas/xml/uslm/uslm-2.0.17.xsd">
+<meta>
+<dc:publisher>United States Government Publishing Office</dc:publisher>
+<dc:format>text/xml</dc:format>
+<dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Digitization Vendor</processedBy>
+<processedDate>2025-03-26</processedDate>
+<congress>57</congress>
+<session>1</session>
+<dc:date>1903</dc:date>
+<volume>32</volume>
+</meta>
+<main><collection role="statutesParts">
+<component><pLaw>
+<meta>
+<dc:title>Chap. 1: To continue the Industrial Commission until February fifteenth, nineteen hundred and two.</dc:title>
+<dc:type>Chapter</dc:type>
+<docNumber>1</docNumber>
+<citableAs>32 Stat. 1</citableAs>
+<dc:date>1901-12-14</dc:date>
+<dc:publisher>United States Government Publishing Office</dc:publisher>
+<dc:format>text/xml</dc:format>
+<dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Digitization Vendor</processedBy>
+<processedDate>2025-03-26</processedDate>
+<congress>57</congress>
+<session>1</session>
+<publicPrivate>public</publicPrivate>
+</meta>
+<preface>
+<page identifier="/us/stat/32/1" renderingPosition="bottom">1</page>
+<dc:type>CHAP. </dc:type>
+<docNumber>1.—</docNumber>
+</preface>
+<main>
+<longTitle>
+<docTitle>An Act</docTitle>
+<officialTitle>To continue the Industrial Commission until February fifteenth, nineteen hundred and two.</officialTitle>
+<sidenote><p class="centered fontsize8"><approvedDate date="1901-12-14">December 14, 1901</approvedDate>.</p><p class="centered fontsize8">[<ref href="/us/pl/57/1">Public, No. 1</ref>.]</p></sidenote>
+</longTitle>
+<enactingFormula><i>Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled,</i></enactingFormula>
+<section class="inline">
+<content class="inline">That the Industrial Commission <sidenote><p class="firstIndent1 fontsize8">Industrial Commission.</p>
+<p class="firstIndent1 fontsize8">Powers continued to Feb. 15, 1902.</p>
+<p class="firstIndent1 fontsize8">Vol. 30, p. 476.</p></sidenote>authorized by “<shortTitle role="act">An Act authorizing the appointment of a nonpartisan commission to collate information and to consider and recommend legislation to meet the problems presented by labor, agriculture, and capital,</shortTitle>” approved June eighteenth, eighteen hundred and ninety-eight, and amended by “<shortTitle role="act">An Act making appropriation for the sundry <sidenote><p class="firstIndent1 fontsize8">Vol. 80, p. 1118.</p></sidenote>civil expenses of the Government for the fiscal year ending June thirtieth, nineteen hundred, and for other purposes,</shortTitle>” approved March third, eighteen hundred and ninety-nine, is hereby continued until February fifteenth, nineteen hundred and two, with all the powers and duties imposed upon it by said Acts; and for salaries of commissioners, <sidenote><p class="firstIndent1 fontsize8">Appropriation.</p></sidenote>secretary, disbursing officer, stenographers, messengers, rent, miscellaneous expenses, and printing the sum of nine thousand seven hundred and fifty dollars, or so much thereof as may be necessary, is hereby appropriated out of any money in the Treasury not otherwise appropriated.</content>
+</section>
+<action><actionDescription>Approved, December 14, 1901.</actionDescription></action>
+</main>
+</pLaw></component>
+<component><pLaw>
+<meta>
+<dc:title>Chap. 1105: Granting an increase of pension to Leath Gilliland.</dc:title>
+<dc:type>Chapter</dc:type>
+<docNumber>1105</docNumber>
+<citableAs>32 Stat. 1449</citableAs>
+<dc:date>1902-06-17</dc:date>
+<dc:publisher>United States Government Publishing Office</dc:publisher>
+<dc:format>text/xml</dc:format>
+<dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Digitization Vendor</processedBy>
+<processedDate>2025-03-26</processedDate>
+<congress>57</congress>
+<session>1</session>
+<publicPrivate>private</publicPrivate>
+</meta>
+<preface>
+<page identifier="/us/stat/32/1449">1449</page>
+<dc:type>CHAP. </dc:type>
+<docNumber>1105.—</docNumber>
+</preface>
+<main>
+<longTitle>
+<docTitle>An Act</docTitle>
+<officialTitle>Granting an increase of pension to Leath Gilliland.</officialTitle>
+<sidenote><p class="centered fontsize8"><approvedDate date="1902-06-17">June 17, 1902</approvedDate>.</p><p class="centered fontsize8">[<ref href="/us/pvtl/57/944">Private, No. 944</ref>.]</p></sidenote>
+</longTitle>
+<enactingFormula><i>Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled</i>, </enactingFormula>
+<section class="inline">
+<content class="inline">That the Secretary of the <sidenote><p class="firstIndent1 fontsize8">Leath Gilliland.</p><p class="firstIndent1 fontsize8">Pension increased.</p></sidenote>Interior be, and he is hereby, authorized and directed to place on the pension roll, subject to the provisions and limitations of the pension laws, the name of Leath Gilliland, widow of Andrew J. Gilliland, late of Company I, One hundred and fifteenth Regiment Illinois Volunteer Infantry, and pay her a pension at the rate of twelve dollars per month, and two dollars per month additional on account of her minor child, George M. Gilliland, in lieu of that she is now receiving.</content>
+</section>
+<action><actionDescription>Approved, June 17, 1902.</actionDescription></action>
+</main>
+</pLaw></component>
+<component><pLaw>
+<meta>
+<dc:title>Chap. 1293: For the relief of John D. Chadwick.</dc:title>
+<dc:type>Chapter</dc:type>
+<docNumber>1293</docNumber>
+<citableAs>32 Stat. 1759</citableAs>
+<dc:date>1903-03-03</dc:date>
+<dc:publisher>United States Government Publishing Office</dc:publisher>
+<dc:format>text/xml</dc:format>
+<dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Digitization Vendor</processedBy>
+<processedDate>2025-03-26</processedDate>
+<congress>57</congress>
+<session>2</session>
+<publicPrivate>private</publicPrivate>
+</meta>
+<preface>
+<dc:type>CHAP. </dc:type>
+<docNumber>1293.—</docNumber>
+</preface>
+<main>
+<longTitle>
+<docTitle>An Act</docTitle>
+<officialTitle>For the relief of John D. Chadwick.</officialTitle>
+<sidenote><p class="centered fontsize8"><approvedDate date="1903-03-03">March 3, 1903</approvedDate>.</p><p class="centered fontsize8">[<ref href="/us/pvtl/57/1122">Private, No. 1122</ref>.]</p></sidenote>
+</longTitle>
+<enactingFormula><i>Be it enacted by the Senate and House of Representatives of the United, States of America in Congress assembled</i>, </enactingFormula>
+<section class="inline">
+<content class="inline">That the Secretary of the <sidenote><p class="firstIndent1 fontsize8">John D. Chadwick.</p><p class="firstIndent1 fontsize8">Payment to.</p></sidenote>Treasury be, and he is hereby, authorized and directed to pay, out of any money in the Treasury not otherwise appropriated, to John D. Chadwick, of Madison County, Alabama, tlie sum of ninety-seven dollars and four cents to pay and discharge in full an account held by him against the Government of the United States for ninety-seven dollars and four cents, arising from certain transactions in the administration of justice in the Federal courts at Huntsville, Alabama.</content>
+</section>
+<action><actionDescription>Approved, March 3, 1903.</actionDescription></action>
+</main>
+</pLaw></component>
+</collection></main>
+</statutesAtLarge>

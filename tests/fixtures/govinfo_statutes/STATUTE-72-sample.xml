@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="uslm.css"?>
+<statutesAtLarge xmlns="http://schemas.gpo.gov/xml/uslm" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xml:lang="en" xsi:schemaLocation="http://schemas.gpo.gov/xml/uslm https://www.govinfo.gov/schemas/xml/uslm/uslm-2.0.17.xsd">
+<meta>
+<dc:publisher>United States Government Publishing Office</dc:publisher>
+<dc:format>text/xml</dc:format>
+<dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Digitization Vendor</processedBy>
+<processedDate>2025-12-22</processedDate>
+<congress>85</congress><session>2</session>
+<dc:date>1958</dc:date>
+<volume>72</volume>
+</meta>
+<main><collection role="statutesParts">
+<component><pLaw>
+<meta>
+<dc:title>Public Law 85–317: Authorizing the President to issue a proclamation calling upon the people of the United States to commemorate with appropriate ceremonies the one hundredth anniversary of the admission of the State of Oregon into the Union.</dc:title>
+<dc:type>Public Law</dc:type>
+<docNumber>317</docNumber>
+<citableAs>Public Law 85–317</citableAs>
+<citableAs>72 Stat. 706</citableAs>
+<approvedDate>1958-02-04</approvedDate>
+<dc:publisher>United States Government Publishing Office</dc:publisher>
+<dc:format>text/xml</dc:format>
+<dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Digitization Vendor</processedBy>
+<processedDate>2025-12-22</processedDate>
+<congress>85</congress>
+<session>2</session>
+<publicPrivate>public</publicPrivate>
+</meta>
+<preface>
+<dc:type>Public Law</dc:type> <docNumber>85–317</docNumber>
+</preface>
+<main>
+<longTitle>
+<docTitle>JOINT RESOLUTION</docTitle>
+<officialTitle>Authorizing the President to issue a proclamation calling upon the people of the United States to commemorate with appropriate ceremonies the one hundredth anniversary of the admission of the State of Oregon into the Union.</officialTitle>
+<sidenote><p class="centered fontsize8"><approvedDate date="1958-02-04">February 4, 1958</approvedDate></p><p class="centered fontsize8">[<ref href="/us/bill/85/sjres/131">S. J. Res. 131</ref>]</p></sidenote>
+</longTitle>
+<resolvingClause class="indent0 firstIndent1 fontsize10"><i>Resolved by the Senate and House of Representatives of the United States of America in Congress assembled</i>,</resolvingClause>
+<sidenote><p class="firstIndent1 fontsize8">Oregon, 100th anniversary.</p></sidenote>
+<section class="inline">
+<content class="inline">That the President of the United States is authorized and requested to issue, on or before February 14, 1959 (the one hundredth anniversary of the date on which the State of Oregon was admitted into the Union), a proclamation calling upon the people of the United States to commemorate with appropriate ceremonies the. one. hundredth anniversary of the admission of Oregon into the Union.
+</content>
+</section>
+<action>
+<actionDescription>Approved February 4, 1958.</actionDescription>
+</action>
+</main>
+</pLaw></component>
+</collection></main>
+</statutesAtLarge>

@@ -71,7 +71,7 @@ the eCFR is not a printed edition). The 2018-2019 annual-edition sample keeps `2
 
 ## Known gaps
 
-* Current text only, unofficial, possibly behind the website; no history; the print CFR is not ingested.
+* Current text only, unofficial, possibly behind the website; history comes from the annual editions (`us-govinfo-bulk-cfr-fr`, load them first: [us-govinfo-bulk.md](us-govinfo-bulk.md)).
 * About 2% of sections (irregular numbering) are one provision; unnumbered paragraphs belong to the paragraph before
   them; numbers repeated after unnumbered text (definitions) get `_dup2` eIds and an "Ambiguous pinpoint" note.
 * Content outside any part is not ingested (none in titles 1, 12, 17); the larger titles (26, 40, 42, 48 ...) were not

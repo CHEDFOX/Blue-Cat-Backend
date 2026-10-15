@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FEDREG xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FRMergedXML.xsd">
+<VOL>91</VOL>
+    <NO>197</NO>
+    <DATE>Wednesday, October 14, 2026</DATE>
+    <UNITNAME>Rules and Regulations</UNITNAME>
+    <RULES>
+<PRTPAGE P="65100"/>
+<RULE>
+            <PREAMB>
+                <AGENCY TYPE="N">DEPARTMENT OF TRANSPORTATION</AGENCY>
+                <SUBAGY>Federal Aviation Administration</SUBAGY>
+                <CFR>14 CFR Part 39</CFR>
+                <DEPDOC>[Docket No. FAA-2026-2289; Project Identifier MCAI-2025-01592-T; Amendment 39-23482; AD 2026-20-09]</DEPDOC>
+                <RIN>RIN 2120-AA64</RIN>
+                <SUBJECT>Airworthiness Directives; Bombardier, Inc., Airplanes</SUBJECT>
+                <AGY>
+                    <HD SOURCE="HED">AGENCY:</HD>
+                    <P>Federal Aviation Administration (FAA), DOT.</P>
+                </AGY>
+                <ACT>
+                    <HD SOURCE="HED">ACTION:</HD>
+                    <P>Final rule.</P>
+                </ACT>
+                <SUM>
+                    <HD SOURCE="HED">SUMMARY:</HD>
+                    <P>
+                        The FAA is adopting a new airworthiness directive (AD) for certain Bombardier, Inc., Model BD-700-2A12 airplanes. This AD was prompted by 
+                        <PRTPAGE P="65101"/>
+                        reports of low clearance in the right wing between the fuel line flexible coupling and the harness support bracket clip-nut, between the fuel line flexible coupling and hydraulic system, and between the hydraulic system and fuel vent tube. This AD requires rectifying the low clearance condition between the fuel line flexible coupling and the harness support bracket clip-nut, rectifying the low clearance condition between the fuel line flexible coupling and the hydraulic system, and doing an inspection for adequate clearance between the hydraulic system and the fuel vent tube and applicable on-conditions actions. The FAA is issuing this AD to address the unsafe condition on these products.
+                    </P>
+                </SUM>
+                <EFFDATE>
+                    <HD SOURCE="HED">DATES:</HD>
+                    <P>This AD is effective November 18, 2026.</P>
+                    <P>The Director of the Federal Register approved the incorporation by reference of a certain publication listed in this AD as of November 18, 2026.</P>
+                </EFFDATE>
+                <ADD>
+                    <HD SOURCE="HED">ADDRESSES:</HD>
+                    <P/>
+                    <P>
+                        <E T="03">AD Docket:</E>
+                         You may examine the AD docket at 
+                        <E T="03">regulations.gov</E>
+                         under Docket No. FAA-2026-2289; or in person at Docket Operations between 9 a.m. and 5 p.m., Monday through Friday, except Federal holidays. The AD docket contains this final rule, the mandatory continuing airworthiness information (MCAI), any comments received, and other information. The address for Docket Operations is U.S. Department of Transportation, Docket Operations, M-30, West Building Ground Floor, Room W12-140, 1200 New Jersey Avenue SE, Washington, DC 20590.
+                    </P>
+                    <P>
+                        <E T="03">Material Incorporated by Reference:</E>
+                    </P>
+                    <P>
+                        • For Transport Canada material identified in this AD, contact Transport Canada, Transport Canada National Aircraft Certification, 159 Cleopatra Drive, Nepean, Ontario K1A 0N5, Canada; telephone 888-663-3639; email 
+                        <E T="03">TC.AirworthinessDirectives-Consignesdenavigabilite.TC@tc.gc.ca.</E>
+                         You may find this material on the Transport Canada website at 
+                        <E T="03">tc.canada.ca/en/aviation.</E>
+                    </P>
+                    <P>
+                        • You may view this material at the FAA, Airworthiness Products Section, Operational Safety Branch, 2200 South 216th St., Des Moines, WA. For information on the availability of this material at the FAA, call 206-231-3195. It is also available at 
+                        <E T="03">regulations.gov</E>
+                         under Docket No. FAA-2026-2289.
+                    </P>
+                </ADD>
+                <FURINF>
+                    <HD SOURCE="HED">FOR FURTHER INFORMATION CONTACT:</HD>
+                    <P>
+                        Joseph Catanzaro, Aviation Safety Engineer, FAA, 1600 Stewart Avenue, Suite 410, Westbury, NY 11590; phone: 516-228-7300; email: 
+                        <E T="03">9-avs-nyaco-cos@faa.gov.</E>
+                    </P>
+                </FURINF>
+            </PREAMB>
+            <SUPLINF>
+                <HD SOURCE="HED">SUPPLEMENTARY INFORMATION:</HD>
+                <HD SOURCE="HD1">Background</HD>
+                <P>
+                    The FAA issued a notice of proposed rulemaking (NPRM) to amend 14 CFR part 39 by adding an AD that would apply to certain Bombardier, Inc., Model BD-700-2A12 airplanes. The NPRM was published in the 
+                    <E T="04">Federal Register</E>
+                     on March 4, 2026 (91 FR 10522). The NPRM was prompted by Transport Canada AD CF-2025-49, dated October 1, 2025 (Transport Canada AD CF-2025-49) (also referred to as the MCAI), issued by Transport Canada, which is the aviation authority for Canada. The MCAI states there have been reports of low clearance in the right wing between the fuel line flexible coupling and the harness support bracket clip-nut located in bay 3, between the fuel line flexible coupling and hydraulic system 3 line located in bay 18, and between the hydraulic system 3 lines and fuel vent tube located in bay 20. These low clearance conditions, if not addressed, may result in an ignition source developing in the fuel tank in the event of a lightning strike.
+                </P>
+                <P>In the NPRM, the FAA proposed to require rectifying the low clearance condition between the fuel line flexible coupling and the harness support bracket clip-nut, rectifying the low clearance condition between the fuel line flexible coupling and the hydraulic system, and doing an inspection for adequate clearance between the hydraulic system and the fuel vent tube and applicable on-conditions actions, as specified in Transport Canada AD CF-2025-49. The FAA is issuing this AD to address the unsafe condition on these products.</P>
+                <P>
+                    You may examine the MCAI in the AD docket at 
+                    <E T="03">regulations.gov</E>
+                     under Docket No. FAA-2026-2289.
+                </P>
+                <HD SOURCE="HD1">Discussion of Final Airworthiness Directive</HD>
+                <HD SOURCE="HD1">Comments</HD>
+                <P>The FAA received comments from five individuals who supported the NPRM without change.</P>
+                <P>The FAA received additional comments from two other individuals. The following presents the comments received on the NPRM and the FAA's response to each comment.</P>
+                <HD SOURCE="HD1">Request To Clarify Why an Emergency AD Was Not Issued</HD>
+                <P>Commenter #1 requested that the FAA clarify its determination that the unsafe condition does not meet the criteria for an emergency AD, given the potential interaction between fuel transfer systems, vibration-induced wear, and adjacent hydraulic and electrical components within the affected wing structure. Additionally, the commenter asked (1) if the low clearance condition could contribute to fuel starvation scenarios under certain operational conditions; (2) if interim inspections, operational limitations, or manufacturer service bulletins should be implemented while the rulemaking process proceeds; (3) if a shortened compliance period or immediate corrective action would better mitigate the identified risk; (4) if additional technical analysis regarding system interaction between fuel, hydraulic, and electrical components should be included in the final rulemaking record.</P>
+                <P>The FAA issues an emergency AD when an unsafe condition exists that requires immediate adoption, and the risk to the flying public justifies forgoing notice and comment prior to adopting an emergency AD. In developing this rulemaking, the FAA evaluated the compliance times and all the available information provided by Transport Canada and the manufacturer. The FAA has no additional data that would support reducing the compliance time below that specified in Transport Canada AD CF-2025-49, or issuing an emergency AD to address the unsafe condition.</P>
+                <P>Further, the FAA provides the following additional information:</P>
+                <P>(1) The low clearance condition would not contribute to fuel starvation. There is no potential fouling condition of the fuel vent line and, therefore, no effect on the fuel system operation.</P>
+                <P>(2) The corrective actions and compliance times in Transport Canada AD CF-2025-49 are adequate for addressing the unsafe condition. Therefore, no interim actions, operational limitations, or additional service bulletins need to be mandated. However, operators are permitted to accomplish the requirements of this AD at an earlier time, or may voluntarily adopt service information, operational limitations, or additional inspections to address the unsafe condition.</P>
+                <P>(3) Neither a shorter compliance time nor immediate corrective action are necessary to address the unsafe condition. Based on the risk evaluation conducted by the manufacturer, the corrective actions and compliance times in Transport Canada AD CF-2025-49 are sufficient for mitigating the identified risk.</P>
+                <P>
+                    (4) There is no system failure associated with this unsafe condition; therefore, no technical analysis regarding system interaction between the fuel, hydraulic, and electrical components needs to be included in the rulemaking docket.
+                    <PRTPAGE P="65102"/>
+                </P>
+                <HD SOURCE="HD1">Request To Reopen the Comment Period or Revise the Proposed AD</HD>
+                <P>Commenter #2 requested that the FAA either (1) re-open the comment period and add to the AD docket all materials incorporated by reference and the basis for the cost assumptions and warranty offset, or (2) revise the proposed AD to add the operative standard and un-offset cost estimate. The commenter stated that the FAA did not provide adequate information for the public to meaningfully evaluate and comment on the proposed requirements and costs of compliance. The commenter further stated if the FAA cannot provide these elements, the proposed AD cannot be evaluated for comment or supported as a matter of reasoned decision-making and should be withdrawn and reissued with a complete record.</P>
+                <P>The FAA disagrees with the requests. The FAA provides summaries and access details in the preamble and regulatory text, makes materials available for inspection at FAA and National Archives and Records Administration (NARA) offices, offers publisher contact information, and obtains formal incorporation by reference (IBR) approval from the Office of the Federal Register. These efforts are intended to ensure that all IBR materials meet the “reasonably available” standard required by 1 CFR part 51. The FAA did not change this AD as a result of this comment.</P>
+                <P>
+                    Further, the FAA notes that this AD incorporates by reference Transport Canada AD CF-2025-49, not the manufacturer service information referenced in Transport Canada AD CF-2025-49 (
+                    <E T="03">i.e.,</E>
+                     non-IBR material). The FAA posted Transport Canada AD CF-2025-49 to the AD docket when the NPRM was published in the 
+                    <E T="04">Federal Register</E>
+                    . The non-IBR material may only be posted before the final rule's publication if it is already publicly available or if there is written consent from the owner of that material. Additionally, affected operators that must comply with the AD may obtain the non-IBR material directly from the manufacturer during the comment period through their normal course of business.
+                </P>
+                <P>Further, the FAA based the estimated Costs of Compliance with this AD on information provided by the manufacturer. The number of estimated work hours and warranty terms are included in the manufacturer service bulletin, which is posted to the rulemaking docket upon publication of the final rule. The estimated parts cost was provided by the manufacturer. The FAA notes that no comments were received regarding the IBR material or estimated costs from any of the affected operators.</P>
+                <HD SOURCE="HD1">Conclusion</HD>
+                <P>These products have been approved by the civil aviation authority of another country and are approved for operation in the United States. Pursuant to the FAA's bilateral agreement with this State of Design Authority, that authority has notified the FAA of the unsafe condition described in the MCAI referenced above. The FAA reviewed the relevant data, considered any comments received, and determined that air safety requires adopting this AD as proposed. Accordingly, the FAA is issuing this AD to address the unsafe condition on these products. Except for minor editorial changes, this AD is adopted as proposed in the NPRM. None of the changes will increase the economic burden on any operator.</P>
+                <HD SOURCE="HD1">Material Incorporated by Reference Under 1 CFR Part 51</HD>
+                <P>
+                    Transport Canada AD CF-2025-49 specifies procedures for rectifying the low clearance condition between the fuel line flexible coupling and the harness support bracket clip-nut located in bay 3 of the right wing by replacing the clip-nut on the harness bracket in the right-hand wing between rib 3 and rib 4, rectifying the low clearance condition between the fuel line flexible coupling and the hydraulic system 3 line located in bay 18 of the right wing by replacing fuel tube assemblies in the right-hand wing between rib 17 and rib 20, doing an inspection for adequate clearance between the hydraulic system 3 lines and the fuel vent tube located in bay 20 of the right wing, and applicable on-conditions actions. On-condition actions include rectifying any low clearance condition found (
+                    <E T="03">i.e.,</E>
+                     replace the hydraulic system support brackets in the right-hand wing between rib 19 and rib 21).
+                </P>
+                <P>
+                    This material is reasonably available because the interested parties have access to it through their normal course of business or by the means identified in the 
+                    <E T="02">ADDRESSES</E>
+                     section.
+                </P>
+                <HD SOURCE="HD1">Costs of Compliance</HD>
+                <P>The FAA estimates that this AD affects 60 airplanes of U.S. registry. The FAA estimates the following costs to comply with this AD:</P>
+                <GPOTABLE COLS="4" OPTS="L2,nj,i1" CDEF="s100,12C,12C,12C">
+                    <TTITLE>Estimated Costs for Required Actions *</TTITLE>
+                    <BOXHD>
+                        <CHED H="1">Labor cost</CHED>
+                        <CHED H="1">Parts cost</CHED>
+                        <CHED H="1">
+                            Cost per
+                            <LI>product</LI>
+                        </CHED>
+                        <CHED H="1">
+                            Cost on U.S.
+                            <LI>operators</LI>
+                        </CHED>
+                    </BOXHD>
+                    <ROW>
+                        <ENT I="01">9 work-hours × $85 per hour = $765</ENT>
+                        <ENT>$1,928</ENT>
+                        <ENT>$2,693</ENT>
+                        <ENT>$161,580</ENT>
+                    </ROW>
+                    <TNOTE>* Includes the replacement of the clip-nut, replacement of the fuel tube assemblies, and inspection for adequate clearance between the hydraulic system 3 lines and the fuel vent tube.</TNOTE>
+                </GPOTABLE>
+                <P>The FAA estimates the following costs to do any necessary on-condition action that would be required based on the results of any required actions. The FAA has no way of determining the number of aircraft that might need this on-condition action:</P>
+                <GPOTABLE COLS="3" OPTS="L2,i1" CDEF="s100,12C,12C">
+                    <TTITLE>Estimated Costs of On-Condition Actions *</TTITLE>
+                    <BOXHD>
+                        <CHED H="1">Labor cost</CHED>
+                        <CHED H="1">Parts cost</CHED>
+                        <CHED H="1">
+                            Cost per
+                            <LI>product</LI>
+                        </CHED>
+                    </BOXHD>
+                    <ROW>
+                        <ENT I="01">14 work-hours × $85 per hour = $1,190</ENT>
+                        <ENT>$4,582</ENT>
+                        <ENT>$5,772</ENT>
+                    </ROW>
+                    <TNOTE>* Replacement of the hydraulic system support brackets.</TNOTE>
+                </GPOTABLE>
+                <P>
+                    The FAA has included all known costs in its cost estimate. According to the manufacturer, however, some or all of the costs of this AD may be covered under warranty, thereby reducing the cost impact on affected operators.
+                    <PRTPAGE P="65103"/>
+                </P>
+                <HD SOURCE="HD1">Authority for This Rulemaking</HD>
+                <P>Title 49 of the United States Code specifies the FAA's authority to issue rules on aviation safety. Subtitle I, section 106, describes the authority of the FAA Administrator. Subtitle VII: Aviation Programs, describes in more detail the scope of the Agency's authority.</P>
+                <P>The FAA is issuing this rulemaking under the authority described in Subtitle VII, Part A, Subpart III, Section 44701: General requirements. Under that section, Congress charges the FAA with promoting safe flight of civil aircraft in air commerce by prescribing regulations for practices, methods, and procedures the Administrator finds necessary for safety in air commerce. This regulation is within the scope of that authority because it addresses an unsafe condition that is likely to exist or develop on products identified in this rulemaking action.</P>
+                <HD SOURCE="HD1">Regulatory Findings</HD>
+                <P>This AD will not have federalism implications under Executive Order 13132. This AD will not have a substantial direct effect on the States, on the relationship between the national government and the States, or on the distribution of power and responsibilities among the various levels of government.</P>
+                <P>For the reasons discussed above, I certify that this AD:</P>
+                <P>(1) Is not a “significant regulatory action” under Executive Order 12866,</P>
+                <P>(2) Will not affect intrastate aviation in Alaska, and</P>
+                <P>(3) Will not have a significant economic impact, positive or negative, on a substantial number of small entities under the criteria of the Regulatory Flexibility Act.</P>
+                <LSTSUB>
+                    <HD SOURCE="HED">List of Subjects in 14 CFR Part 39</HD>
+                    <P>Air transportation, Aircraft, Aviation safety, Incorporation by reference, Safety.</P>
+                </LSTSUB>
+                <HD SOURCE="HD1">The Amendment</HD>
+                <P>Accordingly, under the authority delegated to me by the Administrator, the FAA amends 14 CFR part 39 as follows:</P>
+                <PART>
+                    <HD SOURCE="HED">PART 39—AIRWORTHINESS DIRECTIVES</HD>
+                </PART>
+                <REGTEXT TITLE="14" PART="39">
+                    <AMDPAR>1. The authority citation for part 39 continues to read as follows:</AMDPAR>
+                    <AUTH>
+                        <HD SOURCE="HED">Authority: </HD>
+                        <P>49 U.S.C. 106(g), 40113, 44701.</P>
+                    </AUTH>
+                </REGTEXT>
+                <SECTION>
+                    <SECTNO>§ 39.13</SECTNO>
+                    <SUBJECT>[Amended]</SUBJECT>
+                </SECTION>
+                <REGTEXT TITLE="14" PART="39">
+                    <AMDPAR>2. The FAA amends § 39.13 by adding the following new airworthiness directive:</AMDPAR>
+                    <EXTRACT>
+                        <FP SOURCE="FP-2">
+                            <E T="04">2026-20-09 Bombardier, Inc.:</E>
+                             Amendment 39-23482; Docket No. FAA-2026-2289; Project Identifier MCAI-2025-01592-T.
+                        </FP>
+                        <HD SOURCE="HD1">(a) Effective Date</HD>
+                        <P>This airworthiness directive (AD) is effective November 18, 2026.</P>
+                        <HD SOURCE="HD1">(b) Affected ADs</HD>
+                        <P>None.</P>
+                        <HD SOURCE="HD1">(c) Applicability</HD>
+                        <P>This AD applies to Bombardier, Inc., Model BD-700-2A12 airplanes, certificated in any category, as identified in Transport Canada AD CF-2025-49, dated October 1, 2025 (Transport Canada AD CF-2025-49).</P>
+                        <HD SOURCE="HD1">(d) Subject</HD>
+                        <P>Air Transport Association (ATA) of America Code 57, Wings.</P>
+                        <HD SOURCE="HD1">(e) Unsafe Condition</HD>
+                        <P>This AD was prompted by reports of low clearance in the right wing between the fuel line flexible coupling and the harness support bracket clip-nut located in bay 3, between the fuel line flexible coupling and hydraulic system 3 line located in bay 18, and between the hydraulic system 3 lines and fuel vent tube located in bay 20. The FAA is issuing this AD to address low clearance conditions. The unsafe condition, if not addressed, could result in an ignition source developing in the fuel tank in the event of a lightning strike.</P>
+                        <HD SOURCE="HD1">(f) Compliance</HD>
+                        <P>Comply with this AD within the compliance times specified, unless already done.</P>
+                        <HD SOURCE="HD1">(g) Requirements</HD>
+                        <P>Except as specified in paragraphs (h) and (i) of this AD: Comply with all required actions and compliance times specified in, and in accordance with, Transport Canada AD CF-2025-49.</P>
+                        <HD SOURCE="HD1">(h) Exception to Transport Canada AD CF-2025-49</HD>
+                        <P>(1) Where Transport Canada AD CF-2025-49 refers to its effective date, this AD requires using the effective date of this AD.</P>
+                        <P>(2) Where Transport Canada AD CF-2025-49 refers to hours air time, this AD requires using flight hours.</P>
+                        <HD SOURCE="HD1">(i) No Reporting Requirement</HD>
+                        <P>Although the material referenced in Transport Canada AD CF-2025-49 specifies to submit certain information to the manufacturer, this AD does not include that requirement.</P>
+                        <HD SOURCE="HD1">(j) Additional AD Provisions</HD>
+                        <P>The following provisions also apply to this AD:</P>
+                        <P>
+                            (1) 
+                            <E T="03">Alternative Methods of Compliance (AMOCs):</E>
+                             The Manager, International Validation Branch, FAA, has the authority to approve AMOCs for this AD, if requested using the procedures found in 14 CFR 39.19. In accordance with 14 CFR 39.19, send your request to your principal inspector or responsible Flight Standards Office, as appropriate. If sending information directly to the manager of the International Validation Branch, send it to the attention of the person identified in paragraph (k) of this AD and email to: 
+                            <E T="03">AMOC@faa.gov</E>
+                            . Before using any approved AMOC, notify your appropriate principal inspector, or lacking a principal inspector, the manager of the responsible Flight Standards Office.
+                        </P>
+                        <P>
+                            (2) 
+                            <E T="03">Contacting the Manufacturer:</E>
+                             For any requirement in this AD to obtain instructions from a manufacturer, the instructions must be accomplished using a method approved by the Manager, International Validation Branch, FAA; or Transport Canada; or Bombardier, Inc.'s Transport Canada Design Approval Organization (DAO). If approved by the DAO, the approval must include the DAO-authorized signature.
+                        </P>
+                        <HD SOURCE="HD1">(k) Additional Information</HD>
+                        <P>
+                            For more information about this AD, contact Joseph Catanzaro, Aviation Safety Engineer, FAA, 1600 Stewart Avenue, Suite 410, Westbury, NY 11590; phone: 516-228-7300; email: 
+                            <E T="03">9-avs-nyaco-cos@faa.gov.</E>
+                        </P>
+                        <HD SOURCE="HD1">(l) Material Incorporated by Reference</HD>
+                        <P>(1) The Director of the Federal Register approved the incorporation by reference of the material listed in this paragraph under 5 U.S.C. 552(a) and 1 CFR part 51.</P>
+                        <P>(2) You must use this material as applicable to do the actions required by this AD, unless this AD specifies otherwise.</P>
+                        <P>(i) Transport Canada AD CF-2025-49, dated October 1, 2025.</P>
+                        <P>(ii) [Reserved]</P>
+                        <P>
+                            (3) For Transport Canada material identified in this AD, contact Transport Canada, Transport Canada National Aircraft Certification, 159 Cleopatra Drive, Nepean, Ontario K1A 0N5, Canada; telephone 888-663-3639; email 
+                            <E T="03">TC.AirworthinessDirectives-Consignesdenavigabilite.TC@tc.gc.ca.</E>
+                             You may find this material on the Transport Canada website at 
+                            <E T="03">tc.canada.ca/en/aviation.</E>
+                        </P>
+                        <P>(4) You may view this material at the FAA, Airworthiness Products Section, Operational Safety Branch, 2200 South 216th St., Des Moines, WA. For information on the availability of this material at the FAA, call 206-231-3195.</P>
+                        <P>
+                            (5) You may view this material at the National Archives and Records Administration (NARA). For information on the availability of this material at NARA, visit 
+                            <E T="03">www.archives.gov/federal-register/cfr/ibr-locations</E>
+                             or email 
+                            <E T="03">fr.inspection@nara.gov.</E>
+                        </P>
+                    </EXTRACT>
+                </REGTEXT>
+                <SIG>
+                    <DATED>Issued on September 25, 2026.</DATED>
+                    <NAME>Steven W. Thompson,</NAME>
+                    <TITLE>Acting Deputy Director, Compliance &amp; Airworthiness Division, Aircraft Certification Service.</TITLE>
+                </SIG>
+            </SUPLINF>
+            <FRDOC>[FR Doc. 2026-21010 Filed 10-13-26; 8:45 am]</FRDOC>
+            <BILCOD>BILLING CODE 4910-13-P</BILCOD>
+        </RULE>
+<PRTPAGE P="65107"/>
+<RULE>
+            <PREAMB>
+                <AGENCY TYPE="S">DEPARTMENT OF TRANSPORTATION</AGENCY>
+                <SUBAGY>Federal Aviation Administration</SUBAGY>
+                <CFR>14 CFR Part 73</CFR>
+                <DEPDOC>[Docket No. FAA-2026-12475; Airspace Docket No. 26-ASO-14]</DEPDOC>
+                <RIN>RIN 2120-AA66</RIN>
+                <SUBJECT>Amendment of Boundaries for Restricted Areas R-5301, R-5302B, and R-5302C; NC</SUBJECT>
+                <AGY>
+                    <HD SOURCE="HED">AGENCY:</HD>
+                    <P>Federal Aviation Administration (FAA), DOT.</P>
+                </AGY>
+                <ACT>
+                    <HD SOURCE="HED">ACTION:</HD>
+                    <P>Final rule.</P>
+                </ACT>
+                <SUM>
+                    <HD SOURCE="HED">SUMMARY:</HD>
+                    <P>This action amends geographic coordinates for boundary points listed in the airspace descriptions for restricted areas R-5301, R-5302B, and R-5302C to correct minor discrepancies that resulted in gaps and overlaps between the areas. This action does not expand any external boundaries or change any altitudes, times of designation, or activities conducted within the restricted areas.</P>
+                </SUM>
+                <EFFDATE>
+                    <HD SOURCE="HED">DATES:</HD>
+                    <P>Effective date 0901 UTC, December 24, 2026.</P>
+                </EFFDATE>
+                <ADD>
+                    <HD SOURCE="HED">ADDRESSES:</HD>
+                    <P>
+                        A copy of this final rule and all background material may be viewed online at 
+                        <E T="03">www.regulations.gov</E>
+                         using the FAA Docket number. Electronic retrieval help and guidelines are available on the website. It is available 24 hours each day, 365 days each year. An electronic copy of this document 
+                        <PRTPAGE P="65108"/>
+                        may also be downloaded from 
+                        <E T="03">www.federalregister.gov.</E>
+                    </P>
+                </ADD>
+                <FURINF>
+                    <HD SOURCE="HED">FOR FURTHER INFORMATION CONTACT:</HD>
+                    <P>Ashley Toth, Airspace Regulation Group, Operational Policy, Federal Aviation Administration, 800 Independence Avenue SW, Washington, DC 20591; telephone: (202) 267-8783.</P>
+                </FURINF>
+            </PREAMB>
+            <SUPLINF>
+                <HD SOURCE="HED">SUPPLEMENTARY INFORMATION:</HD>
+                <P/>
+                <HD SOURCE="HD1">Authority for this Rulemaking</HD>
+                <P>The FAA's authority to issue rules regarding aviation safety is found in Title 49 of the United States Code. Subtitle I, Section 106 describes the authority of the FAA Administrator. Subtitle VII, Aviation Programs, describes in more detail the scope of the agency's authority. This rulemaking is promulgated under the authority described in Subtitle VII, Part A, Subpart I, Section 40103. Under that section, the FAA is charged with prescribing regulations to assign the use of the airspace necessary to ensure the safety of aircraft and the efficient use of airspace. This regulation is within the scope of that authority as it amends the coordinates for restricted areas R-5301, R-5302B, and R-5302C in North Carolina to close small gaps and eliminate overlaps between the restricted areas.</P>
+                <HD SOURCE="HD1">Background</HD>
+                <P>The FAA recently conducted a review of restricted areas R-5301, R-5302B, and R-5302C, revealing minor discrepancies in the points defining the areas. The FAA identified small gaps and overlap points based on the coordinates used in the boundary descriptions, which necessitates this amendment to accurately align the restricted areas. Moreover, the U.S. Marine Corps, the using agency, requested that the FAA amend the coordinates to eliminate these gaps and overlaps.</P>
+                <HD SOURCE="HD1">Good Cause for Bypassing Notice and Comment</HD>
+                <P>
+                    Under 5 U.S.C. 553, federal agencies engaged in informal rulemaking must provide the public with a notice of proposed rulemaking and an opportunity for public participation. However, 5 U.S.C. 553(b)(B) exempts a rule from these requirements “when the agency for good cause finds (and incorporates the finding and a brief statement of reasons therefor in the rules issued) that notice and public procedure thereon are impracticable, unnecessary, or contrary to the public interest.” Courts have construed these exceptions narrowly, but have nonetheless accepted determinations of good cause that notice and comment is unnecessary in “those situations in which the administrative rule is a routine determination, insignificant in nature and impact, and inconsequential to the industry and to the public.” 
+                    <E T="03">See Mack Trucks, Inc.</E>
+                     v. 
+                    <E T="03">EPA,</E>
+                     682 F.3d 87, 94 (D.C. Cir. 2012). This action consists of minor technical amendments only. It does not affect the external boundaries or change the altitudes, time of designation, operating requirements, or activities conducted in the restricted areas. Therefore, the FAA finds good cause that notice and public procedure under 5 U.S.C. 553(b) are unnecessary.
+                </P>
+                <HD SOURCE="HD1">The Rule</HD>
+                <P>This action amends 14 CFR part 73 by updating the coordinates used in the boundary descriptions to accurately align restricted areas R-5301, R-5302B, and R-5302C, eliminating gaps and overlaps. The first coordinate listed in R-5301 is changed from “lat. 36°04′56″ N, long. 76°16′47″ W” to “lat. 36°04′56″ N, long. 76°16′48″ W”. Two tie-in coordinates are added to R-5302B, “lat. 36°04′23″ N, long. 076°20′59″ W” to “lat. 36°04′56″ N, long. 076°16′48″ W”, to eliminate overlap and provide coincidence with R-5301. Finally, an additional tie-in coordinate is added to R-5302B and R-5302C, “lat. 36°00′01″ N, long. 76°14′29″ W”, to eliminate overlap and provide coincidence with R-5302A.</P>
+                <HD SOURCE="HD1">Regulatory Notices and Analyses</HD>
+                <P>The FAA has determined that this regulation only involves an established body of technical regulations for which frequent and routine amendments are necessary to keep them operationally current. It, therefore: (1) is not a “significant regulatory action” under Executive Order 12866; (2) is not a “significant rule” under DOT Order 2100.6B, “Rulemaking and Guidance Procedures” (March 10, 2025); and (3) is anticipated to have a minimal economic impact, as it only affects air traffic procedures and air navigation, resulting in at most de minimis costs from minor rerouting of flights. Since this is a routine matter that only affects air traffic procedures with de minimis impact on operators, it is certified that this rule, when promulgated, does not have a significant economic impact on a substantial number of small entities under the criteria of the Regulatory Flexibility Act.</P>
+                <HD SOURCE="HD1">Environmental Review</HD>
+                <P>
+                    The FAA has determined that this action of making an administrative change of updating the coordinates used in the boundary descriptions to accurately align restricted areas R-5301, R-5302B, and R-5302C, NC, eliminating gaps and overlaps, qualifies for categorical exclusion under the National Environmental Policy Act (42 U.S.C. 4321 
+                    <E T="03">et seq.</E>
+                    ) and in accordance with FAA Order 1050.1G, 
+                    <E T="03">FAA National Environmental Policy Act Implementing Procedures,</E>
+                     paragraph B-2.5 (d) Modification of the technical description of special use airspace (SUA) that does not alter the dimensions, altitudes, or times of designation of the airspace (such as changes in designation of the controlling or using agency, or correction of typographical errors). As such, this action is not expected to result in any potentially significant environmental impacts. In accordance with Appendix B, paragraph B-1 of FAA Order 1050.1G regarding Extraordinary Circumstances, the FAA has reviewed this action for factors and circumstances in which a normally categorically excluded action may have a significant environmental impact requiring further analysis. Accordingly, the FAA has determined that no extraordinary circumstances exist that warrant preparation of an environmental assessment or environmental impact statement.
+                </P>
+                <LSTSUB>
+                    <HD SOURCE="HED">List of Subjects in 14 CFR Part 73</HD>
+                    <P>Airspace, Prohibited areas, Restricted areas.</P>
+                </LSTSUB>
+                <HD SOURCE="HD1">The Amendment</HD>
+                <P>In consideration of the foregoing, the Federal Aviation Administration amends 14 CFR part 73 as follows:</P>
+                <PART>
+                    <HD SOURCE="HED">PART 73—SPECIAL USE AIRSPACE</HD>
+                </PART>
+                <REGTEXT TITLE="14" PART="73">
+                    <AMDPAR>1. The authority citation for 14 CFR Part 73 continues to read as follows:</AMDPAR>
+                    <AUTH>
+                        <HD SOURCE="HED">Authority: </HD>
+                        <P>49 U.S.C. 106(f), 106(g), 40103, 40113, 40120; E.O. 10854, 24 FR 9565, 3 CFR, 1959-1963 Comp., p. 389.</P>
+                    </AUTH>
+                </REGTEXT>
+                <SECTION>
+                    <SECTNO>§ 73.53 </SECTNO>
+                    <SUBJECT>North Carolina (NC) [Amended]</SUBJECT>
+                </SECTION>
+                <REGTEXT TITLE="14" PART="73">
+                    <AMDPAR>2. Section 73.53 is amended as follows:</AMDPAR>
+                    <EXTRACT>
+                        <STARS/>
+                        <HD SOURCE="HD1">R-5301 Harvey Point, NC [Amended]</HD>
+                        <P>
+                            <E T="03">Boundaries</E>
+                            . Beginning at lat. 36°04′56″ N, long. 76°16′48″ W; to lat. 36°04′23″ N, long. 76°20′59″ W; to lat. 36°06′58″ N, long. 76°20′58″ W; thence clockwise via a 3 nautical mile arc centered at lat. 36°04′01″ N, long. 76°20′19″ W; to the point of beginning.
+                        </P>
+                        <P>
+                            <E T="03">Designated altitudes.</E>
+                             Surface to 14,000 feet MSL.
+                        </P>
+                        <P>
+                            <E T="03">Time of designation.</E>
+                             Continuous.
+                        </P>
+                        <P>
+                            <E T="03">Controlling agency.</E>
+                             USMC, MCAS Cherry Point CERAP.
+                        </P>
+                        <P>
+                            <E T="03">Using agency.</E>
+                             USMC, Commanding Officer, MCAS Cherry Point, NC.
+                        </P>
+                        <STARS/>
+                        <PRTPAGE P="65109"/>
+                        <HD SOURCE="HD1">R-5302B Albemarle Sound, NC [Amended]</HD>
+                        <P>
+                            <E T="03">Boundaries.</E>
+                             Beginning at lat. 36°04′59″ N, long. 76°16′29″ W; to lat. 36°04′01″ N, long. 76°05′59″ W; to lat. 36°00′01″ N, long. 76°05′59″ W; to lat. 36°00′01″ N, long. 76°12′59″ W; to lat. 36°00′01″ N, long. 76°14′29″ W; to lat. 36°00′04″ N, long. 76°24′17″ W; thence clockwise via a 4 nautical mile arc centered at lat. 36°02′01″ N, long. 76°19′59″ W; to lat. 36°03′56″ N, long. 76°24′18″ W; to lat. 36°04′23″ N, long. 076°20′59″ W; to lat. 36°04′56″ N, long. 076°16′48″ W; to the point of beginning.
+                        </P>
+                        <P>
+                            <E T="03">Designated altitudes.</E>
+                             100 feet AGL to 14,000 feet MSL.
+                        </P>
+                        <P>
+                            <E T="03">Time of designation.</E>
+                             By NOTAM at least 24 hours in advance.
+                        </P>
+                        <P>
+                            <E T="03">Controlling agency.</E>
+                             USMC, MCAS Cherry Point CERAP.
+                        </P>
+                        <P>
+                            <E T="03">Using agency</E>
+                            . USMC, Commanding Officer, MCAS Cherry Point, NC.
+                        </P>
+                        <HD SOURCE="HD1">R-5302C Albemarle Sound, NC [Amended]</HD>
+                        <P>
+                            <E T="03">Boundaries.</E>
+                             Beginning at lat. 36°00′01″ N, long. 76°12′59″ W; to lat. 35°58′50″ N, long. 76°16′58″ W; thence clockwise via a 4 nautical mile arc centered at lat. 36°02′01″ N, long. 76°19′59″ W; to lat. 36°00′04″ N, long. 76°24′17″ W; to lat. 36°00′01″ N, long. 76°14′29″ W; to the point of beginning.
+                        </P>
+                        <P>
+                            <E T="03">Designated altitudes.</E>
+                             100 feet AGL to 3,000 feet MSL.
+                        </P>
+                        <P>
+                            <E T="03">Time of designation.</E>
+                             By NOTAM at least 24 hours in advance.
+                        </P>
+                        <P>
+                            <E T="03">Controlling agency.</E>
+                             USMC, MCAS Cherry Point CERAP.
+                        </P>
+                        <P>
+                            <E T="03">Using agency.</E>
+                             USMC, Commanding Officer, MCAS Cherry Point, NC.
+                        </P>
+                        <STARS/>
+                    </EXTRACT>
+                </REGTEXT>
+                <SIG>
+                    <DATED>Issued in Washington, DC, on October 8, 2026.</DATED>
+                    <NAME>Brian Eric Konie,</NAME>
+                    <TITLE>Acting Manager, Airspace Regulation Group.</TITLE>
+                </SIG>
+            </SUPLINF>
+            <FRDOC>[FR Doc. 2026-20974 Filed 10-13-26; 8:45 am]</FRDOC>
+            <BILCOD>BILLING CODE 4910-13-P</BILCOD>
+        </RULE>
+<PRTPAGE P="65109"/>
+<RULE>
+            <PREAMB>
+                <AGENCY TYPE="N">DEPARTMENT OF HEALTH AND HUMAN SERVICES</AGENCY>
+                <SUBAGY>Food and Drug Administration</SUBAGY>
+                <CFR>21 CFR Part 573</CFR>
+                <DEPDOC>[Docket No. FDA-2026-F-2048]</DEPDOC>
+                <SUBJECT>Food Additives Permitted in Feed and Drinking Water of Animals; Chromium Propionate</SUBJECT>
+                <AGY>
+                    <HD SOURCE="HED">AGENCY:</HD>
+                    <P>Food and Drug Administration, HHS.</P>
+                </AGY>
+                <ACT>
+                    <HD SOURCE="HED">ACTION:</HD>
+                    <P>Final Amendment; Order.</P>
+                </ACT>
+                <SUM>
+                    <HD SOURCE="HED">SUMMARY:</HD>
+                    <P>The Food and Drug Administration (FDA, we, or the Agency) is amending the regulations for food additives permitted in feed and drinking water of animals to provide for the safe use of chromium propionate as a source of chromium in food for laying hens and breeder chickens. This action is in response to a food additive petition filed by Kemin Industries, Inc.</P>
+                </SUM>
+                <EFFDATE>
+                    <HD SOURCE="HED">DATES:</HD>
+                    <P>This amendment is effective October 14, 2026. See section V, Objections and Hearing Requests, for further information on the filing of objections. Either electronic or written objections and requests for a hearing on the final amendment must be submitted by November 13, 2026.</P>
+                </EFFDATE>
+                <ADD>
+                    <HD SOURCE="HED">ADDRESSES:</HD>
+                    <P>
+                        You may submit objections and requests for a hearing as follows. Please note that late, untimely filed objections will not be considered. The 
+                        <E T="03">https://www.regulations.gov</E>
+                         electronic filing system will accept comments until 11:59 p.m. Eastern Time at the end of November 13, 2026. Objections received by mail/hand delivery/courier (for written/paper submissions) will be considered timely if they are received on or before that date.
+                    </P>
+                </ADD>
+                <HD SOURCE="HD2">Electronic Submissions</HD>
+                <P>Submit electronic objections in the following way:</P>
+                <P>
+                    • 
+                    <E T="03">Federal eRulemaking Portal:</E>
+                      
+                    <E T="03">https://www.regulations.gov.</E>
+                     Follow the instructions for submitting objections. Objections submitted electronically, including attachments, to 
+                    <E T="03">https://www.regulations.gov</E>
+                     will be posted to the docket unchanged. Because your objection will be made public, you are solely responsible for ensuring that your objection does not include any confidential information that you or a third party may not wish to be posted, such as medical information, your or anyone else's Social Security number, or confidential business information, such as a manufacturing process. Please note that if you include your name, contact information, or other information that identifies you in the body of your objection, that information will be posted on 
+                    <E T="03">https://www.regulations.gov.</E>
+                </P>
+                <P>• If you want to submit an objection with confidential information that you do not wish to be made available to the public, submit the objection as a written/paper submission and in the manner detailed (see “Written/Paper Submissions” and “Instructions”).</P>
+                <HD SOURCE="HD2">Written/Paper Submissions</HD>
+                <P>Submit written/paper submissions as follows:</P>
+                <P>
+                    • 
+                    <E T="03">Mail/Hand Delivery/Courier (for written/paper submissions):</E>
+                     Dockets Management Staff (HFA-305), Food and Drug Administration, 5630 Fishers Lane, Rm. 1061, Rockville, MD 20852.
+                </P>
+                <P>• For written/paper objections submitted to the Dockets Management Staff, FDA will post your objection, as well as any attachments, except for information submitted, marked and identified, as confidential, if submitted as detailed in “Instructions.”</P>
+                <P>
+                    <E T="03">Instructions:</E>
+                     All submissions received must include the Docket No. FDA-2026-F-2048 for “Food Additives Permitted in Feed and Drinking Water of Animals; Chromium propionate.” Received objections, those filed in a timely manner (see 
+                    <E T="02">ADDRESSES</E>
+                    ), will be placed in the docket and, except for those submitted as “Confidential Submissions,” publicly viewable at 
+                    <E T="03">https://www.regulations.gov</E>
+                     or at the Dockets Management Staff between 9 a.m. and 4 p.m., Monday through Friday, 240-402-7500.
+                </P>
+                <P>
+                    • Confidential Submissions—To submit an objection with confidential information that you do not wish to be made publicly available, submit your objections only as a written/paper submission. You should submit two copies in total. One copy will include the information you claim to be confidential with a heading or cover note that states “THIS DOCUMENT CONTAINS CONFIDENTIAL INFORMATION.” The Agency will review this copy, including the claimed confidential information, in its consideration of objections. The second copy, which will have the claimed confidential information redacted/blacked out, will be available for public viewing and posted on 
+                    <E T="03">https://www.regulations.gov.</E>
+                     Submit both copies to the Dockets Management Staff. If you do not wish your name and contact information to be made publicly available, you can provide this information on the cover sheet and not in the body of your objections and you must identify this information as “confidential.” Any information marked as “confidential” will not be disclosed except in accordance with 21 CFR 10.20 and other applicable disclosure law. For more information about FDA's posting of comments to public dockets, see 80 FR 56469, September 18, 2015, or access the information at: 
+                    <E T="03">https://www.govinfo.gov/content/pkg/FR-2015-09-18/pdf/2015-23389.pdf.</E>
+                </P>
+                <P>
+                    <E T="03">Docket:</E>
+                     For access to the docket to read background documents or the electronic and written/paper comments received, go to 
+                    <E T="03">https://www.regulations.gov</E>
+                     and insert the docket number, found in brackets in the heading of this document, into the “Search” box and follow the prompts and/or go to the Dockets Management Staff, 5630 Fishers Lane, Rm. 1061, Rockville, MD 20852, 240-402-7500.
+                </P>
+                <FURINF>
+                    <HD SOURCE="HED">FOR FURTHER INFORMATION CONTACT:</HD>
+                    <P>
+                        Lauren LaPlace, Center for Veterinary Medicine, Food and Drug Administration, 5001 Campus Dr., 
+                        <PRTPAGE P="65110"/>
+                        College Park, MD 20740, 301-796-1987, 
+                        <E T="03">Lauren.LaPlace@fda.hhs.gov.</E>
+                    </P>
+                </FURINF>
+            </PREAMB>
+            <SUPLINF>
+                <HD SOURCE="HED">SUPPLEMENTARY INFORMATION:</HD>
+                <P/>
+                <HD SOURCE="HD1">I. Background</HD>
+                <P>
+                    In a document published in the 
+                    <E T="04">Federal Register</E>
+                     of March 4, 2026 (91 FR 10525), FDA announced that we had filed a food additive petition (animal use) (FAP 2325) submitted by Kemin Industries, Inc., 1900 Scott Avenue, Des Moines, IA 50317. The petition proposed that the regulations for food additives permitted in feed and drinking water of animals be amended to provide for the safe use of chromium propionate as a source of chromium in food for laying hens and breeder chickens.
+                </P>
+                <HD SOURCE="HD1">II. Conclusion</HD>
+                <P>FDA concludes that the data establish the safety and utility of chromium propionate as a source of chromium in food for laying hens and breeder chickens and that the food additive regulations should be amended as set forth in this document.</P>
+                <HD SOURCE="HD1">III. Public Disclosure</HD>
+                <P>
+                    In accordance with § 571.1(h) (21 CFR 571.1(h)), the petition and documents we considered and relied upon in reaching our decision to approve the petition will be made available for public disclosure (see 
+                    <E T="02">FOR FURTHER INFORMATION CONTACT</E>
+                    ). As provided in § 571.1(h), we will delete from the documents any materials that are not available for public disclosure.
+                </P>
+                <HD SOURCE="HD1">IV. Analysis of Environmental Impact</HD>
+                <P>
+                    The Agency has carefully considered the potential environmental effects of this action and has concluded that the action will not have a significant impact on the human environment and that an environmental impact statement is not required. FDA's finding of no significant impact and the evidence supporting that finding, contained in an environmental assessment, may be seen in the Dockets Management Staff (see 
+                    <E T="02">ADDRESSES</E>
+                    ) between 9 a.m. and 4 p.m., Monday through Friday.
+                </P>
+                <HD SOURCE="HD1">V. Objections and Hearing Requests</HD>
+                <P>
+                    If you will be adversely affected by one or more provisions of this regulation, you may file with the Dockets Management Staff (see 
+                    <E T="02">ADDRESSES</E>
+                    ) either electronic or written objections. You must separately number each objection, and within each numbered objection you must specify with particularity the provision(s) to which you object, and the grounds for your objection. Within each numbered objection, you must specifically state whether you are requesting a hearing on the particular provision that you specify in that numbered objection. If you do not request a hearing for any particular objection, you waive the right to a hearing on that objection. If you request a hearing, your objection must include a detailed description and analysis of the specific factual information you intend to present in support of the objection in the event that a hearing is held. If you do not include such a description and analysis for any particular objection, you waive the right to a hearing on the objection.
+                </P>
+                <LSTSUB>
+                    <HD SOURCE="HED">List of Subjects in 21 CFR Part 573</HD>
+                    <P>Animal feeds, Food additives.</P>
+                </LSTSUB>
+                <P>Therefore, under the Federal Food, Drug, and Cosmetic Act and under authority delegated to the Commissioner of Food and Drugs, 21 CFR part 573 is amended as follows:</P>
+                <PART>
+                    <HD SOURCE="HED">PART 573—FOOD ADDITIVES PERMITTED IN FEED AND DRINKING WATER OF ANIMALS</HD>
+                </PART>
+                <REGTEXT TITLE="21" PART="573">
+                    <AMDPAR>1. The authority citation for part 573 continues to read as follows:</AMDPAR>
+                    <AUTH>
+                        <HD SOURCE="HED">Authority: </HD>
+                        <P>21 U.S.C. 321, 342, 348.</P>
+                    </AUTH>
+                </REGTEXT>
+                <REGTEXT TITLE="21" PART="573">
+                    <AMDPAR>2. In § 573.304, revise paragraphs (b)(1), (d)(3)(i), and (e)(2)(ii)(A) to read as follows:</AMDPAR>
+                    <SECTION>
+                        <SECTNO>§ 573.304 </SECTNO>
+                        <SUBJECT>Chromium propionate.</SUBJECT>
+                        <STARS/>
+                        <P>(b) * * *</P>
+                        <P>
+                            (1) In complete feed for broiler chickens, laying hens, breeder chickens
+                            <E T="03">,</E>
+                             and growing turkeys at a level not to exceed 0.2 milligrams (mg) of chromium from chromium propionate per kilogram feed.
+                        </P>
+                        <STARS/>
+                        <P>(d) * * *</P>
+                        <P>(3) * * *</P>
+                        <P>(i) A level of 0.2 ppm in complete feed for broiler chickens, laying hens, breeder chickens, and growing turkeys.</P>
+                        <STARS/>
+                        <P>(e) * * *</P>
+                        <P>(2) * * *</P>
+                        <P>(ii) * * *</P>
+                        <P>(A) For feed for broiler chickens, laying hens, breeder chickens, and growing turkeys, “Chromium from all sources of supplemental chromium cannot exceed 0.2 parts per million of the complete feed.”</P>
+                        <STARS/>
+                    </SECTION>
+                </REGTEXT>
+                <SIG>
+                    <NAME>Grace R. Graham,</NAME>
+                    <TITLE>Deputy Commissioner for Policy, Legislation, and International Affairs. </TITLE>
+                </SIG>
+            </SUPLINF>
+            <FRDOC>[FR Doc. 2026-20979 Filed 10-13-26; 8:45 am]</FRDOC>
+            <BILCOD>BILLING CODE 4164-01-P</BILCOD>
+        </RULE>
+</RULES>
+</FEDREG>

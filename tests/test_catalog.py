@@ -201,6 +201,8 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "cz-esbirka-opendata",
         "us-govinfo-usreports",
         "us-govinfo-uscourts",
+        "us-govinfo-bulk-statutes",
+        "us-govinfo-bulk-cfr-fr",
         "fr-dila-legi",
         "fr-dila-constit",
         "fr-dila-cass",

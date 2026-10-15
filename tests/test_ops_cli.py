@@ -18,7 +18,7 @@ from ulis.db import models as m
 from ulis.ingestion.pipeline import IngestionReport
 from ulis.ops import loading
 from ulis.ops.loading import LoadOptions, UnknownSource, evict_stale_cache, select_sources
-from ulis.ops.sources import STATIC_PINS, manifest_info
+from ulis.ops.sources import LOAD_AFTER, STATIC_PINS, apply_load_order, manifest_info
 from ulis.ops.text import format_table, human_duration
 from ulis.settings import REPO_ROOT
 
@@ -65,9 +65,26 @@ def test_default_selection_is_every_active_source_except_the_fictional_sample(ca
 
 def test_small_sources_come_first(catalog: Catalog) -> None:
     items = select_sources(catalog, LoadOptions()).selected
-    weights = [(i.weight, i.source.id) for i in items]
+    # (except the sources that follow others: see test_the_ecfr_follows_the_annual_editions)
+    weights = [(i.weight, i.source.id) for i in items if i.source.id not in LOAD_AFTER]
     assert weights == sorted(weights) and len(items) > 5
     assert all(i.info is not None for i in items)  # every active source has a readable manifest
+
+
+def test_the_ecfr_follows_the_annual_editions(catalog: Catalog) -> None:
+    """Older editions of a part are loaded before the current eCFR text: the pipeline records a newer wording from
+    its own date, but an older wording that arrives after it would be a conflict."""
+    order = ids(catalog)
+    ecfr = order.index("us-ecfr")
+    assert ecfr > order.index("us-govinfo-bulk-cfr-fr") and ecfr > order.index("us-gpo-uslm-samples")
+    assert ids(catalog, only=("us-ecfr",)) == ["us-ecfr"]
+    assert apply_load_order(["a", "us-ecfr", "us-gpo-uslm-samples", "b"], str) == [
+        "a",
+        "us-gpo-uslm-samples",
+        "us-ecfr",
+        "b",
+    ]
+    assert apply_load_order(["a", "us-ecfr"], str) == ["a", "us-ecfr"]
 
 
 def test_only_skip_and_include_fictional(catalog: Catalog) -> None:

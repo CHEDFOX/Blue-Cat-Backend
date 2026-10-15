@@ -1,0 +1,157 @@
+# GovInfo Bulk Data Repository - Statutes at Large, public and private laws,
+# statute compilations (USLM XML, beta).
+# Written by scripts/build_govinfo_manifests.py on 2026-10-15 from the directory listings of
+# https://www.govinfo.gov/bulkdata/STATUTE/ and /PLAW/ (robots.txt allows /bulkdata/; no Crawl-delay).
+# STATUTE: volumes 1-138 (138), one XML file each (1789 to the latest).
+# PLAW: the public and private laws of the Congresses 119 and later, as zips: the laws
+# of earlier Congresses are in the Statutes at Large volumes and are not listed twice.
+# COMPS: COMPS.zip, the statute compilations (an Act as amended; editorial, not the enacted text).
+# No sha256 pins: these collections are live (GPO adds laws and corrects volumes); the connector
+# records the SHA-256 of every file it stores.
+schema_version: 1
+source_id: us-govinfo-bulk-statutes
+base_url: https://www.govinfo.gov
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+files:
+  - {path: bulkdata/STATUTE/1/STATUTE-1.xml, kind: xml, volume: 1}
+  - {path: bulkdata/STATUTE/2/STATUTE-2.xml, kind: xml, volume: 2}
+  - {path: bulkdata/STATUTE/3/STATUTE-3.xml, kind: xml, volume: 3}
+  - {path: bulkdata/STATUTE/4/STATUTE-4.xml, kind: xml, volume: 4}
+  - {path: bulkdata/STATUTE/5/STATUTE-5.xml, kind: xml, volume: 5}
+  - {path: bulkdata/STATUTE/6/STATUTE-6.xml, kind: xml, volume: 6}
+  - {path: bulkdata/STATUTE/7/STATUTE-7.xml, kind: xml, volume: 7}
+  - {path: bulkdata/STATUTE/8/STATUTE-8.xml, kind: xml, volume: 8}
+  - {path: bulkdata/STATUTE/9/STATUTE-9.xml, kind: xml, volume: 9}
+  - {path: bulkdata/STATUTE/10/STATUTE-10.xml, kind: xml, volume: 10}
+  - {path: bulkdata/STATUTE/11/STATUTE-11.xml, kind: xml, volume: 11}
+  - {path: bulkdata/STATUTE/12/STATUTE-12.xml, kind: xml, volume: 12}
+  - {path: bulkdata/STATUTE/13/STATUTE-13.xml, kind: xml, volume: 13}
+  - {path: bulkdata/STATUTE/14/STATUTE-14.xml, kind: xml, volume: 14}
+  - {path: bulkdata/STATUTE/15/STATUTE-15.xml, kind: xml, volume: 15}
+  - {path: bulkdata/STATUTE/16/STATUTE-16.xml, kind: xml, volume: 16}
+  - {path: bulkdata/STATUTE/17/STATUTE-17.xml, kind: xml, volume: 17}
+  - {path: bulkdata/STATUTE/18/STATUTE-18.xml, kind: xml, volume: 18}
+  - {path: bulkdata/STATUTE/19/STATUTE-19.xml, kind: xml, volume: 19}
+  - {path: bulkdata/STATUTE/20/STATUTE-20.xml, kind: xml, volume: 20}
+  - {path: bulkdata/STATUTE/21/STATUTE-21.xml, kind: xml, volume: 21}
+  - {path: bulkdata/STATUTE/22/STATUTE-22.xml, kind: xml, volume: 22}
+  - {path: bulkdata/STATUTE/23/STATUTE-23.xml, kind: xml, volume: 23}
+  - {path: bulkdata/STATUTE/24/STATUTE-24.xml, kind: xml, volume: 24}
+  - {path: bulkdata/STATUTE/25/STATUTE-25.xml, kind: xml, volume: 25}
+  - {path: bulkdata/STATUTE/26/STATUTE-26.xml, kind: xml, volume: 26}
+  - {path: bulkdata/STATUTE/27/STATUTE-27.xml, kind: xml, volume: 27}
+  - {path: bulkdata/STATUTE/28/STATUTE-28.xml, kind: xml, volume: 28}
+  - {path: bulkdata/STATUTE/29/STATUTE-29.xml, kind: xml, volume: 29}
+  - {path: bulkdata/STATUTE/30/STATUTE-30.xml, kind: xml, volume: 30}
+  - {path: bulkdata/STATUTE/31/STATUTE-31.xml, kind: xml, volume: 31}
+  - {path: bulkdata/STATUTE/32/STATUTE-32.xml, kind: xml, volume: 32}
+  - {path: bulkdata/STATUTE/33/STATUTE-33.xml, kind: xml, volume: 33}
+  - {path: bulkdata/STATUTE/34/STATUTE-34.xml, kind: xml, volume: 34}
+  - {path: bulkdata/STATUTE/35/STATUTE-35.xml, kind: xml, volume: 35}
+  - {path: bulkdata/STATUTE/36/STATUTE-36.xml, kind: xml, volume: 36}
+  - {path: bulkdata/STATUTE/37/STATUTE-37.xml, kind: xml, volume: 37}
+  - {path: bulkdata/STATUTE/38/STATUTE-38.xml, kind: xml, volume: 38}
+  - {path: bulkdata/STATUTE/39/STATUTE-39.xml, kind: xml, volume: 39}
+  - {path: bulkdata/STATUTE/40/STATUTE-40.xml, kind: xml, volume: 40}
+  - {path: bulkdata/STATUTE/41/STATUTE-41.xml, kind: xml, volume: 41}
+  - {path: bulkdata/STATUTE/42/STATUTE-42.xml, kind: xml, volume: 42}
+  - {path: bulkdata/STATUTE/43/STATUTE-43.xml, kind: xml, volume: 43}
+  - {path: bulkdata/STATUTE/44/STATUTE-44.xml, kind: xml, volume: 44}
+  - {path: bulkdata/STATUTE/45/STATUTE-45.xml, kind: xml, volume: 45}
+  - {path: bulkdata/STATUTE/46/STATUTE-46.xml, kind: xml, volume: 46}
+  - {path: bulkdata/STATUTE/47/STATUTE-47.xml, kind: xml, volume: 47}
+  - {path: bulkdata/STATUTE/48/STATUTE-48.xml, kind: xml, volume: 48}
+  - {path: bulkdata/STATUTE/49/STATUTE-49.xml, kind: xml, volume: 49}
+  - {path: bulkdata/STATUTE/50/STATUTE-50.xml, kind: xml, volume: 50}
+  - {path: bulkdata/STATUTE/51/STATUTE-51.xml, kind: xml, volume: 51}
+  - {path: bulkdata/STATUTE/52/STATUTE-52.xml, kind: xml, volume: 52}
+  - {path: bulkdata/STATUTE/53/STATUTE-53.xml, kind: xml, volume: 53}
+  - {path: bulkdata/STATUTE/54/STATUTE-54.xml, kind: xml, volume: 54}
+  - {path: bulkdata/STATUTE/55/STATUTE-55.xml, kind: xml, volume: 55}
+  - {path: bulkdata/STATUTE/56/STATUTE-56.xml, kind: xml, volume: 56}
+  - {path: bulkdata/STATUTE/57/STATUTE-57.xml, kind: xml, volume: 57}
+  - {path: bulkdata/STATUTE/58/STATUTE-58.xml, kind: xml, volume: 58}
+  - {path: bulkdata/STATUTE/59/STATUTE-59.xml, kind: xml, volume: 59}
+  - {path: bulkdata/STATUTE/60/STATUTE-60.xml, kind: xml, volume: 60}
+  - {path: bulkdata/STATUTE/61/STATUTE-61.xml, kind: xml, volume: 61}
+  - {path: bulkdata/STATUTE/62/STATUTE-62.xml, kind: xml, volume: 62}
+  - {path: bulkdata/STATUTE/63/STATUTE-63.xml, kind: xml, volume: 63}
+  - {path: bulkdata/STATUTE/64/STATUTE-64.xml, kind: xml, volume: 64}
+  - {path: bulkdata/STATUTE/65/STATUTE-65.xml, kind: xml, volume: 65}
+  - {path: bulkdata/STATUTE/66/STATUTE-66.xml, kind: xml, volume: 66}
+  - {path: bulkdata/STATUTE/67/STATUTE-67.xml, kind: xml, volume: 67}
+  - {path: bulkdata/STATUTE/68/STATUTE-68.xml, kind: xml, volume: 68}
+  - {path: bulkdata/STATUTE/69/STATUTE-69.xml, kind: xml, volume: 69}
+  - {path: bulkdata/STATUTE/70/STATUTE-70.xml, kind: xml, volume: 70}
+  - {path: bulkdata/STATUTE/71/STATUTE-71.xml, kind: xml, volume: 71}
+  - {path: bulkdata/STATUTE/72/STATUTE-72.xml, kind: xml, volume: 72}
+  - {path: bulkdata/STATUTE/73/STATUTE-73.xml, kind: xml, volume: 73}
+  - {path: bulkdata/STATUTE/74/STATUTE-74.xml, kind: xml, volume: 74}
+  - {path: bulkdata/STATUTE/75/STATUTE-75.xml, kind: xml, volume: 75}
+  - {path: bulkdata/STATUTE/76/STATUTE-76.xml, kind: xml, volume: 76}
+  - {path: bulkdata/STATUTE/77/STATUTE-77.xml, kind: xml, volume: 77}
+  - {path: bulkdata/STATUTE/78/STATUTE-78.xml, kind: xml, volume: 78}
+  - {path: bulkdata/STATUTE/79/STATUTE-79.xml, kind: xml, volume: 79}
+  - {path: bulkdata/STATUTE/80/STATUTE-80.xml, kind: xml, volume: 80}
+  - {path: bulkdata/STATUTE/81/STATUTE-81.xml, kind: xml, volume: 81}
+  - {path: bulkdata/STATUTE/82/STATUTE-82.xml, kind: xml, volume: 82}
+  - {path: bulkdata/STATUTE/83/STATUTE-83.xml, kind: xml, volume: 83}
+  - {path: bulkdata/STATUTE/84/STATUTE-84.xml, kind: xml, volume: 84}
+  - {path: bulkdata/STATUTE/85/STATUTE-85.xml, kind: xml, volume: 85}
+  - {path: bulkdata/STATUTE/86/STATUTE-86.xml, kind: xml, volume: 86}
+  - {path: bulkdata/STATUTE/87/STATUTE-87.xml, kind: xml, volume: 87}
+  - {path: bulkdata/STATUTE/88/STATUTE-88.xml, kind: xml, volume: 88}
+  - {path: bulkdata/STATUTE/89/STATUTE-89.xml, kind: xml, volume: 89}
+  - {path: bulkdata/STATUTE/90/STATUTE-90.xml, kind: xml, volume: 90}
+  - {path: bulkdata/STATUTE/91/STATUTE-91.xml, kind: xml, volume: 91}
+  - {path: bulkdata/STATUTE/92/STATUTE-92.xml, kind: xml, volume: 92}
+  - {path: bulkdata/STATUTE/93/STATUTE-93.xml, kind: xml, volume: 93}
+  - {path: bulkdata/STATUTE/94/STATUTE-94.xml, kind: xml, volume: 94}
+  - {path: bulkdata/STATUTE/95/STATUTE-95.xml, kind: xml, volume: 95}
+  - {path: bulkdata/STATUTE/96/STATUTE-96.xml, kind: xml, volume: 96}
+  - {path: bulkdata/STATUTE/97/STATUTE-97.xml, kind: xml, volume: 97}
+  - {path: bulkdata/STATUTE/98/STATUTE-98.xml, kind: xml, volume: 98}
+  - {path: bulkdata/STATUTE/99/STATUTE-99.xml, kind: xml, volume: 99}
+  - {path: bulkdata/STATUTE/100/STATUTE-100.xml, kind: xml, volume: 100}
+  - {path: bulkdata/STATUTE/101/STATUTE-101.xml, kind: xml, volume: 101}
+  - {path: bulkdata/STATUTE/102/STATUTE-102.xml, kind: xml, volume: 102}
+  - {path: bulkdata/STATUTE/103/STATUTE-103.xml, kind: xml, volume: 103}
+  - {path: bulkdata/STATUTE/104/STATUTE-104.xml, kind: xml, volume: 104}
+  - {path: bulkdata/STATUTE/105/STATUTE-105.xml, kind: xml, volume: 105}
+  - {path: bulkdata/STATUTE/106/STATUTE-106.xml, kind: xml, volume: 106}
+  - {path: bulkdata/STATUTE/107/STATUTE-107.xml, kind: xml, volume: 107}
+  - {path: bulkdata/STATUTE/108/STATUTE-108.xml, kind: xml, volume: 108}
+  - {path: bulkdata/STATUTE/109/STATUTE-109.xml, kind: xml, volume: 109}
+  - {path: bulkdata/STATUTE/110/STATUTE-110.xml, kind: xml, volume: 110}
+  - {path: bulkdata/STATUTE/111/STATUTE-111.xml, kind: xml, volume: 111}
+  - {path: bulkdata/STATUTE/112/STATUTE-112.xml, kind: xml, volume: 112}
+  - {path: bulkdata/STATUTE/113/STATUTE-113.xml, kind: xml, volume: 113}
+  - {path: bulkdata/STATUTE/114/STATUTE-114.xml, kind: xml, volume: 114}
+  - {path: bulkdata/STATUTE/115/STATUTE-115.xml, kind: xml, volume: 115}
+  - {path: bulkdata/STATUTE/116/STATUTE-116.xml, kind: xml, volume: 116}
+  - {path: bulkdata/STATUTE/117/STATUTE-117.xml, kind: xml, volume: 117}
+  - {path: bulkdata/STATUTE/118/STATUTE-118.xml, kind: xml, volume: 118}
+  - {path: bulkdata/STATUTE/119/STATUTE-119.xml, kind: xml, volume: 119}
+  - {path: bulkdata/STATUTE/120/STATUTE-120.xml, kind: xml, volume: 120}
+  - {path: bulkdata/STATUTE/121/STATUTE-121.xml, kind: xml, volume: 121}
+  - {path: bulkdata/STATUTE/122/STATUTE-122.xml, kind: xml, volume: 122}
+  - {path: bulkdata/STATUTE/123/STATUTE-123.xml, kind: xml, volume: 123}
+  - {path: bulkdata/STATUTE/124/STATUTE-124.xml, kind: xml, volume: 124}
+  - {path: bulkdata/STATUTE/125/STATUTE-125.xml, kind: xml, volume: 125}
+  - {path: bulkdata/STATUTE/126/STATUTE-126.xml, kind: xml, volume: 126}
+  - {path: bulkdata/STATUTE/127/STATUTE-127.xml, kind: xml, volume: 127}
+  - {path: bulkdata/STATUTE/128/STATUTE-128.xml, kind: xml, volume: 128}
+  - {path: bulkdata/STATUTE/129/STATUTE-129.xml, kind: xml, volume: 129}
+  - {path: bulkdata/STATUTE/130/STATUTE-130.xml, kind: xml, volume: 130}
+  - {path: bulkdata/STATUTE/131/STATUTE-131.xml, kind: xml, volume: 131}
+  - {path: bulkdata/STATUTE/132/STATUTE-132.xml, kind: xml, volume: 132}
+  - {path: bulkdata/STATUTE/133/STATUTE-133.xml, kind: xml, volume: 133}
+  - {path: bulkdata/STATUTE/134/STATUTE-134.xml, kind: xml, volume: 134}
+  - {path: bulkdata/STATUTE/135/STATUTE-135.xml, kind: xml, volume: 135}
+  - {path: bulkdata/STATUTE/136/STATUTE-136.xml, kind: xml, volume: 136}
+  - {path: bulkdata/STATUTE/137/STATUTE-137.xml, kind: xml, volume: 137}
+  - {path: bulkdata/STATUTE/138/STATUTE-138.xml, kind: xml, volume: 138}
+  - {path: bulkdata/PLAW/119/public/PLAW-119-public.zip, kind: zip, congress: 119}
+  - {path: bulkdata/PLAW/119/private/PLAW-119-private.zip, kind: zip, congress: 119}
+  - {path: bulkdata/COMPS/COMPS.zip, kind: zip}

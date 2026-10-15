@@ -126,6 +126,7 @@ def select_sources(catalog: Catalog, options: LoadOptions, base_dir: Path = REPO
         else:
             selection.selected.append(PlanItem(source, ops_sources.manifest_info(source, base_dir)))
     selection.selected.sort(key=lambda item: (item.weight, item.source.id))  # small first
+    selection.selected = ops_sources.apply_load_order(selection.selected, lambda item: item.source.id)
     selection.skipped.sort()
     return selection
 
