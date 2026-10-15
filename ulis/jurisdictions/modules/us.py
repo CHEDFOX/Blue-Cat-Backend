@@ -2,8 +2,16 @@
 
 Citation forms follow common US practice (Bluebook-style) for the document types ingested:
 
-* public law (as enacted): ``Short Title, Pub. L. No. 115-6, § 2(1), 131 Stat. 11 (2017)``
-* regulation (CFR annual edition): ``27 C.F.R. § 478.11(b) (2018)``
+* public law (as enacted): ``Short Title, Pub. L. No. 115-6, § 2(1), 131 Stat. 11 (2017)``; a private law:
+  ``Priv. L. No. 85-1, 71 Stat. A1 (1957)``-style (``Priv. L. No.``)
+* act of the Statutes at Large without a public law number (before the 57th Congress, 1901): the Bluebook form
+  ``Act of Jan. 13, 1902, ch. 2, § 1, 32 Stat. 1``; a named act keeps its name in front
+* regulation (a final rule in the Federal Register): ``91 Fed. Reg. 65,077 (Oct. 14, 2026)``, with the part of the rule
+  after a comma for a provision (``, summary``, ``, dates``, ``, regulatory text``)
+* regulation (CFR annual edition): ``27 C.F.R. § 478.11(b) (2018)``; the year is the year of the edition's revision
+  date, which is the first day of a quarter (January 1 for titles 1-16, April 1 for 17-27, July 1 for 28-41, October 1
+  for 42-50). A version of the same part dated any other day is a file of the eCFR, which is not an edition, and is
+  cited without a year, whichever source created the instrument
 * regulation (the eCFR, the Federal Register Office's continuously updated compilation): ``12 CFR 220.1(b)(3)(ii)``,
   ``12 CFR part 220, appendix A`` - the Office of the Federal Register's own form; no year, because the eCFR is not a
   printed edition (the date of the file is carried in the version data)
@@ -24,6 +32,7 @@ sign-off is required before the US profile can be marked "reviewed".
 
 from __future__ import annotations
 
+from datetime import date
 from typing import Any, ClassVar
 
 from pydantic import BaseModel, ConfigDict
@@ -61,7 +70,16 @@ class UsExt(BaseModel):
     bill_type: str | None = None
     version_date_basis: str | None = None
     usc_title: int | None = None
-    positive_law: bool | None = None
+    positive_law: bool | None = None  # False: a title that is only prima facie evidence of the law (1 U.S.C. 204)
+    chapter: str | None = None  # chapter of an act in the Statutes at Large (acts before 1901: no public law number)
+    session: int | None = None
+    fr_volume: int | None = None  # Federal Register: volume, first page and document number of a final rule
+    fr_page: int | None = None
+    fr_number: str | None = None
+    fr_action: str | None = None  # "Final rule", "Interim final rule", "Direct final rule" ... as the rule states it
+    sub_agency: str | None = None
+    rin: str | None = None  # Regulation Identifier Number
+    cfr_affected: list[str] | None = None  # the CFR parts the rule's heading names, as printed
     release_point: str | None = None
     cfr_compilation: str | None = None  # "ecfr": the eCFR (current text), as against an annual edition
     cfr_chapter: str | None = None
@@ -119,6 +137,30 @@ COURT_ABBREVIATIONS = {
 MONTHS = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."]
 
 
+BLUEBOOK_MONTHS = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."]
+CFR_REVISION_DAYS = {(1, 1), (4, 1), (7, 1), (10, 1)}
+# The parts of a final rule in the Federal Register that its provisions are named after (the first word of the eId).
+FR_PARTS = {
+    "summary": "summary",
+    "dates": "dates",
+    "addresses": "addresses",
+    "contact": "contact",
+    "supplementary": "supplementary information",
+    "regtext": "regulatory text",
+    "signature": "signature",
+    "footnotes": "footnotes",
+}
+
+
+def bluebook_date(d: date) -> str:
+    return f"{BLUEBOOK_MONTHS[d.month - 1]} {d.day}, {d.year}"
+
+
+def is_cfr_edition_date(d: date | None) -> bool:
+    """True for the revision dates of the annual CFR (first day of a quarter); False for the date of an eCFR file."""
+    return d is not None and (d.month, d.day) in CFR_REVISION_DAYS
+
+
 def ordinal(n: int) -> str:
     suffix = "th" if 10 <= n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
     return f"{n}{suffix}"
@@ -126,7 +168,7 @@ def ordinal(n: int) -> str:
 
 class UsModule(JurisdictionModule):
     id: ClassVar[str] = "us"
-    version: ClassVar[str] = "1.2.0"
+    version: ClassVar[str] = "1.3.0"
     ext_model: ClassVar[type[BaseModel]] = UsExt
 
     def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:
@@ -153,6 +195,15 @@ class UsModule(JurisdictionModule):
             return f"{title} CFR part {part}, {what}{tail}"
         return f"{title} CFR {parts[0]}{tail}"
 
+    def fr_citation(self, c: ProvisionCitationInput) -> str:
+        """``91 Fed. Reg. 65,077 (Oct. 14, 2026)``; a provision adds the part of the rule it is (``, summary``)."""
+        published = c.work_date or c.version_date
+        cite = f"{c.ext['fr_volume']} Fed. Reg. {c.ext['fr_page']:,}"
+        if published:
+            cite += f" ({bluebook_date(published)})"
+        label = FR_PARTS.get(c.eid.split("_")[0]) if c.eid else None
+        return f"{cite}, {label}" if label else cite
+
     def provision_citation(self, c: ProvisionCitationInput) -> str:
         ext = c.ext
         pin = self.pinpoint(c)
@@ -162,7 +213,11 @@ class UsModule(JurisdictionModule):
             return f"{ext['usc_title']} U.S.C." + (f" {pin}" if pin else "")
         if c.instrument_type == "regulation" and ext.get("cfr_title") and ext.get("cfr_compilation") == "ecfr":
             return self.ecfr_citation(c)
+        if c.instrument_type == "regulation" and ext.get("fr_volume") and ext.get("fr_page"):
+            return self.fr_citation(c)
         if c.instrument_type == "regulation" and ext.get("cfr_title"):
+            if not is_cfr_edition_date(c.version_date):  # a file of the eCFR in an instrument that began as an edition
+                return self.ecfr_citation(c)
             return f"{ext['cfr_title']} C.F.R. {pin or 'pt. ' + str(ext.get('cfr_part'))}{when}"
         if c.instrument_type in ("bill", "resolution") and ext.get("bill_type"):
             label = BILL_LABELS.get(ext["bill_type"], ext["bill_type"].upper())
@@ -171,13 +226,26 @@ class UsModule(JurisdictionModule):
         if c.instrument_type == "act" and ext.get("congress"):
             stat = (ext.get("statutes_at_large") or [None])[0]
             enacted_year = f" ({c.work_date.year})" if c.work_date else ""
-            parts = [
-                c.instrument_title if not c.instrument_title.startswith("Public Law") else None,
-                f"Pub. L. No. {ext['congress']}-{ext.get('number')}",
-                pin or None,
-                stat,
-            ]
-            return ", ".join(p for p in parts if p) + enacted_year
+            named = not c.instrument_title.startswith(("Public Law", "Private Law", "Act of "))
+            if not ext.get("number") and ext.get("chapter") and c.work_date:
+                # "Act of Jan. 13, 1902, ch. 2, § 1, 32 Stat. 1": the chapter stands in for the public law number
+                parts = [
+                    c.instrument_title if named else None,
+                    f"Act of {bluebook_date(c.work_date)}",
+                    f"ch. {ext['chapter']}",
+                    pin or None,
+                    stat,
+                ]
+                return ", ".join(p for p in parts if p)
+            if ext.get("number"):
+                label = "Priv. L. No." if ext.get("public_private") == "private" else "Pub. L. No."
+                parts = [
+                    c.instrument_title if named else None,
+                    f"{label} {ext['congress']}-{ext['number']}",
+                    pin or None,
+                    stat,
+                ]
+                return ", ".join(p for p in parts if p) + enacted_year
         return f"{c.instrument_title}{', ' + pin if pin else ''}"
 
     def judgment_citation(self, c: JudgmentCitationInput) -> str:

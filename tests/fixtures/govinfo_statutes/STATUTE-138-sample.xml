@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?xml-stylesheet type="text/css" href="uslm.css"?><statutesAtLarge xmlns="http://schemas.gpo.gov/xml/uslm" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:lang="en" xsi:schemaLocation="http://schemas.gpo.gov/xml/uslm https://www.govinfo.gov/schemas/xml/uslm/uslm-2.0.17.xsd">
+<meta><dc:publisher>United States Government Publishing Office</dc:publisher>
+<dc:creator>Office of the Federal Register</dc:creator><dc:creator>National Archives and Records Administration</dc:creator>
+<dc:format>text/xml</dc:format><dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Stage2.20250613</processedBy><processedDate>2026-10-06</processedDate>
+<congress>118</congress><session>2</session>
+<dc:date>2024</dc:date><volume>138</volume></meta>
+<main><collection role="statutesParts">
+<component><pLaw>
+
+<?I97 138 STAT. ?>
+<?I98 138 STAT. ?>
+<?I99 138 STAT. ?>
+<?I50 PUBLIC LAW 118–214—JAN. 2, 2025?>
+<?I51 PUBLIC LAW 118–214—JAN. 2, 2025?>
+<?I52 PUBLIC LAW 118–214—JAN. 2, 2025?>
+
+
+<!--Disclaimer: Legislative measures that include compacts or other non-standard data structures will require additional modeling and may contain inconsistencies in the converted USLM XML.-->
+<meta><dc:title>Public Law 118–214: To name the Department of Veterans Affairs community-based outpatient clinic in Plano, Texas, as the “U.S. Congressman Sam Johnson Memorial VA Clinic”.</dc:title>
+<dc:type>Public Law</dc:type><docNumber>214</docNumber>
+<citableAs>Public Law 118–214</citableAs><citableAs>138 Stat. 2805</citableAs>
+<approvedDate>2025-01-02</approvedDate>
+<dc:date>2025-01-02</dc:date>
+<dc:publisher>United States Government Publishing Office</dc:publisher><dc:creator>National Archives and Records Administration</dc:creator><dc:creator>Office of the Federal Register</dc:creator><dc:format>text/xml</dc:format><dc:language>EN</dc:language><dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>GPO Locator to USLM Converter 4.15.130;Stage2.20260828</processedBy><processedDate>2026-10-06</processedDate>
+<congress>118</congress><publicPrivate>public</publicPrivate>
+</meta>
+<preface><centerRunningHead>PUBLIC LAW 118–214—JAN. 2, 2025</centerRunningHead>
+<page identifier="/us/stat/138/2805">138 STAT. 2805</page>
+<dc:type>Public Law</dc:type><docNumber>118–214</docNumber>
+<congress value="118">118th Congress</congress>
+</preface>
+<main>
+<longTitle>
+<docTitle class="centered fontsize12" style="-uslm-lc:I658005">An Act</docTitle>
+<officialTitle class="indentUp0 firstIndent1 fontsize8" style="-uslm-lc:I658011">To name the Department of Veterans Affairs community-based outpatient clinic in Plano, Texas, as the “U.S. Congressman Sam Johnson Memorial VA Clinic”<sidenote><p class="centered fontsize8" id="x78ede761-c18e-11f1-a37f-e7703b762a33" style="-uslm-lc:I658076"><approvedDate date="2025-01-02">Jan. 2, 2025</approvedDate></p><p class="centered fontsize8" id="x78ede762-c18e-11f1-a37f-e7703b762a33" style="-uslm-lc:I658076">[<ref href="/us/bill/118/hr/4136">H.R. 4136</ref>]<?GPOvSpace 08?></p></sidenote>.</officialTitle>
+</longTitle>
+<enactingFormula style="-uslm-lc:I658120"><i>  Be it enacted by the Senate and House of Representa­tives of the United States of America in Congress assembled,</i></enactingFormula><sidenote><p class="leftAlign firstIndent0 fontsize8" id="x78ede763-c18e-11f1-a37f-e7703b762a33" style="-uslm-lc:I658180">U.S. Congressman  Sam Johnson  Memorial VA  Clinic Act.</p></sidenote>
+<section style="-uslm-lc:I658146"><num class="bold" value="1">SECTION 1. </num><heading>SHORT TITLE.</heading><content style="-uslm-lc:I658120">  This Act may be cited as the “<shortTitle role="act">U.S. Congressman Sam Johnson Memorial VA Clinic Act</shortTitle>”.</content></section>
+<section style="-uslm-lc:I658141"><num class="fontsize12" value="2">SEC. 2. </num><heading class="fontsize12">NAME OF DEPARTMENT OF VETERANS AFFAIRS COMMUNITY-BASED OUTPATIENT CLINIC, PLANO, TEXAS.</heading><content style="-uslm-lc:I658120">   The Department of Veterans Affairs community-based outpatient clinic in Plano, Texas, shall after the date of the enactment of this Act be known and designated as the “U.S. Congressman Sam Johnson Memorial VA Clinic”. Any reference to such clinic in any law, regulation, map, document, record, or other paper of the United States shall be considered to be a reference to the U.S. Congressman Sam Johnson Memorial VA Clinic.</content></section>
+<action>
+<actionDescription style="-uslm-lc:I658030">Approved</actionDescription> <date date="2025-01-02">January 2, 2025</date>.</action>
+</main>
+<legislativeHistory>
+<heading class="block" style="-uslm-lc:I658031"><inline class="underline">LEGISLATIVE HISTORY</inline>—<ref href="/us/bill/118/hr/4136">H.R. 4136</ref>:</heading>
+<note>
+<heading class="block" style="-uslm-lc:I658032">CONGRESSIONAL RECORD, Vol. 170 (2024):</heading>
+<p class="indentUp4 firstIndent-1" id="x78ee0e74-c18e-11f1-a37f-e7703b762a33" style="-uslm-lc:I658035">July 22, considered and passed House.</p><p class="indentUp4 firstIndent-1" id="x78ee0e75-c18e-11f1-a37f-e7703b762a33" style="-uslm-lc:I658035">Dec. 20, considered and passed Senate.</p></note>
+</legislativeHistory>
+</pLaw></component>
+<component><pLaw>
+
+<?I97 138 STAT. ?>
+<?I98 138 STAT. ?>
+<?I99 138 STAT. ?>
+<?I50 PUBLIC LAW 118–250—JAN. 4, 2025?>
+<?I51 PUBLIC LAW 118–250—JAN. 4, 2025?>
+<?I52 PUBLIC LAW 118–250—JAN. 4, 2025?>
+
+
+<!--Disclaimer: Legislative measures that include compacts or other non-standard data structures will require additional modeling and may contain inconsistencies in the converted USLM XML.-->
+<meta><dc:title>Public Law 118–250: To amend title 28, United States Code, to authorize holding court for the Central Division of Utah in Moab and Monticello.</dc:title>
+<dc:type>Public Law</dc:type><docNumber>250</docNumber>
+<citableAs>Public Law 118–250</citableAs><citableAs>138 Stat. 2939</citableAs>
+<approvedDate>2025-01-04</approvedDate>
+<dc:date>2025-01-04</dc:date>
+<dc:publisher>United States Government Publishing Office</dc:publisher><dc:creator>National Archives and Records Administration</dc:creator><dc:creator>Office of the Federal Register</dc:creator><dc:format>text/xml</dc:format><dc:language>EN</dc:language><dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>GPO Locator to USLM Converter 4.15.130;Stage2.20260828</processedBy><processedDate>2026-10-06</processedDate>
+<congress>118</congress><publicPrivate>public</publicPrivate>
+</meta>
+<preface><centerRunningHead>PUBLIC LAW 118–250—JAN. 4, 2025</centerRunningHead>
+<page identifier="/us/stat/138/2939">138 STAT. 2939</page>
+<dc:type>Public Law</dc:type><docNumber>118–250</docNumber>
+<congress value="118">118th Congress</congress>
+</preface>
+<main>
+<longTitle>
+<docTitle class="centered fontsize12" style="-uslm-lc:I658005">An Act</docTitle>
+<officialTitle class="indentUp0 firstIndent1 fontsize8" style="-uslm-lc:I658011">To amend title 28, United States Code, to authorize holding court for the Central Division of Utah in Moab and Monticello.<sidenote><p class="centered fontsize8" id="x76bde869-c18e-11f1-a37f-e7703b762a33" style="-uslm-lc:I658076"><approvedDate date="2025-01-04">Jan. 4, 2025</approvedDate></p><p class="centered fontsize8" id="x76bde86a-c18e-11f1-a37f-e7703b762a33" style="-uslm-lc:I658076">[<ref href="/us/bill/118/hr/8666">H.R. 8666</ref>]<?GPOvSpace 08?></p></sidenote></officialTitle>
+</longTitle>
+<enactingFormula style="-uslm-lc:I658120"><i>  Be it enacted by the Senate and House of Representa­tives of the United States of America in Congress assembled,</i></enactingFormula>
+<section role="instruction" style="-uslm-lc:I658146"><num class="bold" value="1">SECTION 1. </num><heading>JUDICIAL DISTRICT.</heading><content style="-uslm-lc:I658120">  <ref href="/us/usc/t28/s125">Section 125 of title 28, United States Code</ref>, <amendingAction type="amend">is amended</amendingAction> by <amendingAction type="delete">striking</amendingAction> “<quotedText>and St. George</quotedText>” and <amendingAction type="insert">inserting</amendingAction> “<quotedText>St. George, Moab, and Monticello.</quotedText>”</content></section>
+<action>
+<actionDescription style="-uslm-lc:I658030">Approved</actionDescription> <date date="2025-01-04">January 4, 2025</date>.</action>
+</main>
+<legislativeHistory>
+<heading class="block" style="-uslm-lc:I658031"><inline class="underline">LEGISLATIVE HISTORY</inline>—<ref href="/us/bill/118/hr/8666">H.R. 8666</ref>:</heading>
+<note>
+<heading class="block" style="-uslm-lc:I658032">CONGRESSIONAL RECORD, Vol. 170 (2024):</heading>
+<p class="indentUp4 firstIndent-1" id="x76be0f7b-c18e-11f1-a37f-e7703b762a33" style="-uslm-lc:I658035">Dec. 3, considered and passed House.</p><p class="indentUp4 firstIndent-1" id="x76be0f7c-c18e-11f1-a37f-e7703b762a33" style="-uslm-lc:I658035">Dec. 19, considered and passed Senate.</p></note>
+</legislativeHistory>
+</pLaw></component>
+</collection></main>
+</statutesAtLarge>

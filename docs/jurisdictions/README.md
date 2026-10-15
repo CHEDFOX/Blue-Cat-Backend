@@ -7,7 +7,8 @@ gaps and the actual test and ingestion results. See
 | Jurisdiction | Source | Notes |
 |---|---|---|
 | United States (federal, sample) | GPO USLM samples | [test-results.md](../test-results.md) |
-| United States (federal, US Code, 10 positive-law titles) | OLRC USLM XML (uscode.house.gov) | [us-code.md](us-code.md) |
+| United States (federal, US Code, all 53 titles) | OLRC USLM XML (uscode.house.gov) | [us-code.md](us-code.md) |
+| United States (federal, Statutes at Large, public laws, compilations, annual CFR editions 1996-2026, Federal Register final rules 2022-2026) | GovInfo bulk data XML (govinfo.gov/bulkdata) | [us-govinfo-bulk.md](us-govinfo-bulk.md) |
 | United States (federal case law, planned) | Caselaw Access Project (robots.txt disallows) | [us-case-law.md](us-case-law.md) |
 | United States (federal regulations, eCFR, all CFR titles) | GPO bulk data XML (govinfo.gov/bulkdata/ECFR) | [us-ecfr.md](us-ecfr.md) |
 | United States (federal case law) | GovInfo: United States Reports (Supreme Court) and courts of appeals; CAP, CourtListener, LII, Justia, supremecourt.gov examined | [us-case-law.md](us-case-law.md) |

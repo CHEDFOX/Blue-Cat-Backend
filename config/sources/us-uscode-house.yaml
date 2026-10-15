@@ -1,17 +1,25 @@
 # United States Code, USLM XML, from the Office of the Law Revision Counsel (OLRC), U.S. House of Representatives.
-# Facts below were read on 2026-10-14 from the publisher's own pages and from GovInfo:
+# Facts below were read on 2026-10-14 and 2026-10-15 from the publisher's own pages and from GovInfo:
 #   https://uscode.house.gov/robots.txt          - "User-agent: Slurp / Disallow: /" only (Yahoo's robot); no Crawl-delay;
 #        every other robot, including ULIS-research-bot, is unrestricted
 #   https://uscode.house.gov/download.html       - "Each update of the United States Code is a release point. This page
 #        provides downloadable files for the current release point. All files are current through Public Law 119-120
-#        (10/07/2026)"; per-title XML (USLM), XHTML, PCC and PDF archives, a User Guide and the USLM schema are offered
-#        for download; "* This title has been enacted as positive law. However, any Appendix to this title has not been
-#        enacted as part of the title."
+#        (10/07/2026)"; per-title XML (USLM), XHTML, PCC and PDF archives (53 main titles, 1 to 54 without the reserved
+#        title 53, and the appendices to titles 5, 11, 18, 28, 50) and a single archive of all titles
+#        (xml_uscAll@119-120.zip), a User Guide and the USLM schema are offered for download; "* This title has been
+#        enacted as positive law. However, any Appendix to this title has not been enacted as part of the title."
+#        The page marks 27 titles with the asterisk.
 #   https://uscode.house.gov/about_code.html     - the Code is "prepared and published by the Office of the Law Revision
 #        Counsel ... pursuant to 2 U.S.C. 285b"; "Under 1 U.S.C. 204, the matter set forth in a main edition of the Code
 #        (together with its current supplement) establishes the law prima facie, except that the text of titles enacted
 #        into positive law is legal evidence of the law"; the online versions "are produced using the same database ...
 #        from which the Government Publishing Office (GPO) prints volumes of the United States Code"
+#   https://uscode.house.gov/codification/legislation.html - "A positive law title of the Code is itself a Federal
+#        statute. A non-positive law title of the Code is an editorial compilation of Federal statutes."; "Non-positive
+#        law titles are prima facie evidence of the law, but positive law titles constitute legal evidence of the law in
+#        all Federal and State courts (1 U.S.C. 204)."; "Statutory text appearing in a non-positive law title may be
+#        rebutted by showing that the wording in the underlying statute is different."; "The text of the law appearing
+#        in the Statutes at Large prevails over the text of the law appearing in a non-positive law title."
 #   https://uscode.house.gov/privacy-policy.html, /faq.html, /about-office.html - no copyright notice or terms of use
 #        (none says anything for or against automated reuse); the site notes it "is currently operating in a temporary format"
 #   https://www.govinfo.gov/about/policies       - "Public Domain & Copyright Notice": quotes 17 U.S.C. 105 ("Copyright
@@ -30,10 +38,11 @@ jurisdictions: [US]
 document_kinds: [act]
 languages: [en]
 coverage: >-
-  Selected titles of the United States Code that have been enacted into positive law, one USLM XML
-  file per title at one release point: 1, 5, 11, 17, 18, 28, 31, 35, 38 and 44, whole titles (no
-  appendices), current through the release point's Public Law. A selection, not the whole Code;
-  the non-positive-law titles (for example 26 and 42) and earlier release points are not ingested.
+  All 53 main titles of the United States Code (1 to 54 without the reserved title 53), one USLM XML file per title at
+  one release point, current through Public Law 119-120 (7 October 2026), whole titles without appendices. 27 titles
+  have been enacted into positive law (legal evidence of the law); the other 26 (for example 26, the Internal Revenue
+  Code, and 42, Public Health and Welfare) are editorial compilations, prima facie evidence of the law only (1 U.S.C. 204),
+  and are marked as such in every result. Earlier release points are not ingested.
 access:
   method: permitted_web_retrieval
   endpoint: config/manifests/us-uscode-house.yaml
@@ -47,11 +56,11 @@ licence:
   url: https://www.govinfo.gov/about/policies
   review_status: approved
   reviewed_by: >-
-    ULIS project - 17 U.S.C. 105 as quoted in GovInfo's Public Domain & Copyright Notice (the Code is prepared by
-    OLRC staff, whose work for the House is a work of the United States Government, and consists of enacted law);
-    the OLRC download page offers the XML, its schema and a user guide for download; robots.txt allows the path.
-    No OLRC page states a licence or restricts reuse.
-  reviewed_on: 2026-10-14
+    ULIS project, 2026-10-15, from the publisher's notice - 17 U.S.C. 105 as quoted in GovInfo's Public Domain &
+    Copyright Notice (the Code is prepared by OLRC staff, whose work for the House is a work of the United States
+    Government, and consists of enacted law); the OLRC download page offers the XML, its schema and a user guide for
+    download; robots.txt allows the path. No OLRC page states a licence or restricts reuse. Not reviewed by counsel.
+  reviewed_on: 2026-10-15
   redistribution: allowed
   bulk_download: allowed
   automated_processing: allowed
@@ -68,12 +77,33 @@ provenance: >-
   The OLRC's per-title USLM XML for one release point, stored byte-for-byte as the downloaded zip (SHA-256, URL,
   retrieval time). The authenticated version is the GPO's print/PDF Code on govinfo.gov (USCODE collection).
 known_limitations:
-  - Online version, not authenticated. Only titles enacted into positive law are ingested; their text is legal evidence of the law (1 U.S.C. 204), but the XML itself is not the authenticated edition.
-  - Titles not enacted into positive law (for example 26 and 42) are prima facie evidence of the law only; the Statutes at Large control. They are not ingested (the parser marks them positive_law=false).
-  - One release point only (current through Public Law 119-120); no earlier release points, so no point-in-time history; each text is attested as in force at the release date, with no per-provision dates.
-  - The XML does not state the release date; the date in the parser comes from the download page.
-  - Editorial and statutory notes (amendment and effective-date notes, repeal histories) are not ingested; source credits are kept as notes. Placeholder entries marked omitted, transferred or renumbered carry no law text and are not ingested; repealed sections and subsections are recorded as repealed with their notes.
-  - Tables are flattened to text; appendices to titles (5, 11, 18, 28) are not ingested and are not part of the title.
+  - >-
+    Online version, not authenticated; the authenticated Code is GPO's print/PDF edition. The text of a positive-law
+    title is legal evidence of the law (1 U.S.C. 204), but the XML itself is not the authenticated edition.
+  - >-
+    26 of the 53 titles (for example 26 and 42) have NOT been enacted into positive law. The OLRC states that such a
+    title "is an editorial compilation of Federal statutes", that it is "prima facie evidence of the law", that its
+    wording "may be rebutted by showing that the wording in the underlying statute is different" and that "the text
+    of the law appearing in the Statutes at Large prevails"
+    (https://uscode.house.gov/codification/legislation.html). ULIS marks these titles in the instrument title, in
+    ext.positive_law (false) and with the NOT_POSITIVE_LAW limitation on every result; the underlying statutes are
+    the us-govinfo-bulk-statutes source.
+  - >-
+    One release point only (current through Public Law 119-120); no earlier release points, so no point-in-time
+    history; each text is attested as in force at the release date, with no per-provision dates.
+  - >-
+    The XML does not state the release date; the date in the parser comes from the download page.
+  - >-
+    Editorial and statutory notes (amendment and effective-date notes, repeal histories) are not ingested; source
+    credits are kept as notes. Placeholder entries marked omitted, transferred or renumbered carry no law text and
+    are not ingested; repealed sections and subsections are recorded as repealed with their notes.
+  - >-
+    Tables are flattened to text; the appendices to titles 5, 11, 18, 28 and 50 are not ingested (the OLRC: an
+    Appendix "has not been enacted as part of the title").
+  - >-
+    A container provision (section, subsection) stores the text of its whole subtree and its parts are stored again,
+    so the stored text is several times the size of the XML text; only leaves and containers with their own text are
+    indexed.
 status: active
 connector: uscode_house
 parser: uslm

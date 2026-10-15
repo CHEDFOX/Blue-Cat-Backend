@@ -46,6 +46,7 @@ from ulis.sources.connectors.finlex import FinlexConnector
 from ulis.sources.connectors.finlex_decisions import FinlexDecisionsConnector
 from ulis.sources.connectors.gesetze_im_internet import GesetzeImInternetConnector
 from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
+from ulis.sources.connectors.govinfo_bulk import GovInfoCfrFrConnector, GovInfoStatutesConnector
 from ulis.sources.connectors.govinfo_uscourts import UsCourtsGovInfoConnector
 from ulis.sources.connectors.govinfo_usreports import UsReportsGovInfoConnector
 from ulis.sources.connectors.impo_uy import ImpoUyConnector
@@ -99,6 +100,7 @@ from ulis.sources.parsers import (
     finlex,
     finlex_decisions,
     gesetze_im_internet,
+    govinfo_cfr_fr,
     govinfo_uscourts,
     govinfo_usreports,
     impo_uy,
@@ -142,6 +144,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "akn3": lambda content: [akn.parse_akn(content)],
     "uslm": uslm.parse_uslm,
     "ecfr_xml": ecfr.parse_ecfr,
+    "govinfo_cfr_fr": govinfo_cfr_fr.parse_govinfo_cfr_fr,
     "legislation_gov_uk_akn": legislation_gov_uk.parse_legislation_gov_uk,
     "justice_canada_xml": justice_canada.parse_justice_canada,
     "gii_norm_xml": gesetze_im_internet.parse_gesetze_im_internet,
@@ -193,6 +196,7 @@ PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
     "uslm": uslm.PARSER_VERSION,
     "ecfr_xml": ecfr.PARSER_VERSION,
+    "govinfo_cfr_fr": govinfo_cfr_fr.PARSER_VERSION,
     "legislation_gov_uk_akn": legislation_gov_uk.PARSER_VERSION,
     "justice_canada_xml": justice_canada.PARSER_VERSION,
     "gii_norm_xml": gesetze_im_internet.PARSER_VERSION,
@@ -310,6 +314,8 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "esbirka_opendata": EsbirkaOpenDataConnector,
     "slovlex_static": SlovLexStaticConnector,
     "govinfo_usreports": UsReportsGovInfoConnector,
+    "govinfo_bulk_statutes": GovInfoStatutesConnector,
+    "govinfo_bulk_cfr_fr": GovInfoCfrFrConnector,
     "govinfo_uscourts": UsCourtsGovInfoConnector,
     "us_wa_rcw": WaRcwConnector,
     "us_tx_statutes": TxStatutesConnector,

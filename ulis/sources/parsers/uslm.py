@@ -33,14 +33,14 @@ from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing use
 
 from defusedxml.ElementTree import fromstring
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef, ParseSkipped
 
 NS = "http://schemas.gpo.gov/xml/uslm"
 HOUSE_NS = "http://xml.house.gov/schemas/uslm/1.0"  # the OLRC's United States Code files
 DC = "http://purl.org/dc/elements/1.1/"
 PARSER_ID = "uslm"
-PARSER_VERSION = "1.2.0"
-MAX_XML_BYTES = 120 * 1024 * 1024  # largest XML member read from a zip (title 38 is 19 MB)
+PARSER_VERSION = "1.3.0"
+MAX_XML_BYTES = 512 * 1024 * 1024  # largest XML member read from a zip (title 42 is 114 MB at release point 119-120)
 
 # The OLRC's XML says only "Online@<congress>-<law>" (current through that Public Law). The date of the
 # release point is stated on https://uscode.house.gov/download.html ("Public Law 119-120 (10/07/2026)").
@@ -370,6 +370,8 @@ def parse_uslm(content: bytes) -> list[ParsedDocument]:
         return [_usc_title(root)]
     if kind == "pLaw":
         return [_public_law(root)]
+    if kind == "statutesAtLarge":
+        return _statutes_at_large(root)
     if kind == "statuteCompilation":
         return [_compilation(root)]
     if kind == "cfrDoc":
@@ -386,41 +388,200 @@ def _main(root: Element) -> Element:
     return main
 
 
+_LAW_CITE = re.compile(r"^(Public|Private) Law (?:(\d+)[\u2013-])?(\d+)$")
+# "138 Stat. 3", "110 STAT. 3213", "2 Stat. 329." (a full stop in older volumes), "66 Stat. A3" (appendix pages)
+_STAT_CITE = re.compile(r"^(\d+)\s+stat\.\s+([A-Za-z]?\d+)\.?$", re.I)
+_ENACTED_REF = re.compile(r"^/us/(pl|pvtl)/(\d+)/(\d+)$")
+_RUNNING_HEAD_DATE = re.compile(r"([A-Za-z]{3,5})\.?\s+(\d{1,2}),\s+(\d{4})\s*$")
+MONTH_NAMES = [m.capitalize() for m in MONTHS]
+ABBREVIATED_MONTHS = {m[:3]: n for m, n in MONTHS.items()}
+
+
+def _iso_date(text: str | None) -> date | None:
+    try:
+        return date.fromisoformat((text or "").strip())
+    except ValueError:
+        return None
+
+
+def _plausible(d: date | None) -> date | None:
+    """A date the Statutes at Large can have: the volumes begin in 1789 (the converter writes 0001-01-01 for a date it
+    could not read)."""
+    return d if d is not None and 1789 <= d.year <= 2100 else None
+
+
+def _law_date(root: Element, meta: Element, main: Element) -> date | None:
+    """The approval date of a law, from what the file states: the action, the metadata (``approvedDate``, then
+    ``dc:date``), the margin note under the title, and last the running head of the first page ("PUBLIC LAW 109-368 -
+    NOV. 17, 2006"). A value that cannot be a date of the Statutes at Large is passed over, not replaced by a guess."""
+    for action in root.iter(_q("actionDescription")):
+        found = _plausible(_parse_us_date(inline_text(action)))
+        if found:
+            return found
+    for text in (_find_text(meta, "u:approvedDate"), _find_text(meta, "dc:date")):
+        found = _plausible(_iso_date(text))
+        if found:
+            return found
+    for note in main.iter(_q("approvedDate")):
+        found = _plausible(_iso_date(note.get("date")))
+        if found:
+            return found
+    head = _find_text(root, "u:preface/u:centerRunningHead") or ""
+    m = _RUNNING_HEAD_DATE.search(head)
+    if m and m.group(1)[:3].lower() in ABBREVIATED_MONTHS:
+        try:
+            return _plausible(date(int(m.group(3)), ABBREVIATED_MONTHS[m.group(1)[:3].lower()], int(m.group(2))))
+        except ValueError:
+            return None
+    return None
+
+
+def _short_title_in(el: Element) -> Element | None:
+    """The first short title element below ``el``, outside quoted material, that is not the title of an earlier Act
+    (older volumes also tag the quoted titles of other Acts: "entitled 'An Act to establish ...'")."""
+    for child in el:
+        tag = _local(child.tag)
+        if tag in QUOTED:
+            continue
+        if tag == "shortTitle":
+            if child.get("role") in (None, "act") and not inline_text(child).startswith(("An Act", "An act")):
+                return child
+            continue
+        found = _short_title_in(child)
+        if found is not None:
+            return found
+    return None
+
+
+def _own_short_title(el: Element) -> Element | None:
+    """The short title of the Act itself: the one in its "Short title" section, or in a sentence saying that the Act
+    "may be cited as" it. An Act that amends another Act names that Act in its text; that is not its own title."""
+    for child in el:
+        tag = _local(child.tag)
+        if tag in QUOTED:
+            continue
+        if tag == "section":
+            heading = (_find_text(child, "u:heading") or "").lower()
+            if heading.startswith("short title") or "may be cited as" in inline_text(child).lower():
+                found = _short_title_in(child)
+                if found is not None:
+                    return found
+        elif tag in CONTAINERS:
+            found = _own_short_title(child)
+            if found is not None:
+                return found
+    return None
+
+
 def _public_law(root: Element) -> ParsedDocument:
+    """A public or private law as enacted, from a ``PLAW`` file or the ``pLaw`` of a sample."""
+    doc = _law(root, None)
+    if doc is None:
+        raise UslmParseError("public law number or approval date not found")
+    return doc
+
+
+def _law(root: Element, volume: str | None) -> ParsedDocument | None:
+    """One enacted law (``pLaw``). In a Statutes at Large volume (``volume`` given) the law is identified by its
+    public or private law number when the volume states one (a ``Public Law 85-317`` citation, or the ``/us/pl/57/2``
+    reference in the margin note of laws from the 57th Congress on) and otherwise by its first page
+    (``/us/stat/1/23``); ``None`` when the law cannot be identified or dated."""
     meta = root.find(_q("meta"))
-    if meta is None:
-        raise UslmParseError("missing meta")
+    main = root.find(_q("main"))
+    if meta is None or main is None:
+        raise UslmParseError("missing meta" if meta is None else "missing main")
     congress = _find_text(meta, "u:congress")
     citable = [inline_text(c) for c in meta.findall(_q("citableAs"))]
-    pl = next((c for c in citable if c.startswith("Public Law")), None)
-    m = re.match(r"Public Law (\d+)[–-](\d+)", pl or "")
-    if not m or not congress:
-        raise UslmParseError("public law number not found")
-    number = m.group(2)
-    approved = None
-    for action in root.iter(_q("actionDescription")):
-        approved = _parse_us_date(inline_text(action))
-        if approved:
+    kind = (_find_text(meta, "u:publicPrivate") or "").lower() or None
+    number: str | None = None
+    for cite in citable:
+        m = _LAW_CITE.match(cite)
+        if m:
+            kind, congress, number = m.group(1).lower(), m.group(2) or congress, m.group(3)
             break
-    if approved is None:
-        raise UslmParseError("approval date not found")
-    main = _main(root)
-    short = main.find(f".//{_q('shortTitle')}")
+    long_title = main.find(_q("longTitle"))
+    if number is None and volume is not None and long_title is not None:
+        # Laws of the 57th-84th Congresses carry no public law number in their metadata; the margin note
+        # under the title has it as a reference ("[Public, No. 2.]" -> /us/pl/57/2).
+        for ref in long_title.iter(_q("ref")):
+            m = _ENACTED_REF.match(ref.get("href") or "")
+            if m:
+                kind, congress, number = ("public" if m.group(1) == "pl" else "private"), m.group(2), m.group(3)
+                break
+    approved = _law_date(root, meta, main)
+    stats = [f"{m.group(1)} Stat. {m.group(2).upper()}" for c in citable if (m := _STAT_CITE.match(c.strip()))]
+    stat = stats[0] if stats else None
+    if volume is None:
+        if number is None or not congress:
+            raise UslmParseError("public law number not found")
+        if approved is None:
+            raise UslmParseError("approval date not found")
+    elif (number is None and stat is None) or approved is None or not congress:
+        return None
+    short = _own_short_title(main)
     official = _find_text(main, "u:longTitle/u:officialTitle") or ""
-    work_uri = f"/us/pl/{congress}/{number}"
+    chapter = None
+    if (_find_text(meta, "dc:type") or "").startswith("Chap"):
+        chapter = _find_text(meta, "u:docNumber")
+    if number is not None:
+        work_uri = f"/us/{'pvtl' if kind == 'private' else 'pl'}/{congress}/{number}"
+        label = f"{'Private' if kind == 'private' else 'Public'} Law {congress}-{number}"
+    else:
+        assert stat is not None  # volume given and no law number: the page identifies the law
+        work_uri = "/us/stat/" + stat.replace(" Stat. ", "/")
+        label = f"Act of {MONTH_NAMES[approved.month - 1]} {approved.day}, {approved.year}" + (
+            f", ch. {chapter}" if chapter else ""
+        )
     builder = _Builder(["US"], "in_force", approved)
     builder.walk(main, None, [], None, None, "")
-    title = inline_text(short).strip('“”"') if short is not None else f"Public Law {congress}-{number}"
+    if not builder.provisions and volume is not None:
+        # a short act without sections: the enacting formula and the text, as one provision
+        text = "\n".join(
+            t for t in (inline_text(c) for c in main if _local(c.tag) in ("enactingFormula", "content")) if t
+        )
+        if not text:
+            return None
+        builder.provisions.append(
+            ParsedProvision(
+                eid="sec_unnumbered_1",
+                kind="section",
+                num_path=[""],
+                top_kind="section",
+                heading=None,
+                text=text,
+                parent_eid=None,
+                sort_order=0,
+                status="in_force",
+                valid_from=approved,
+                valid_to=None,
+                extent=["US"],
+                note=None,
+                refs=[],
+                is_leaf=True,
+                has_own_content=False,
+                context_heading=None,
+            )
+        )
+    short_text = inline_text(short).strip('\u201c\u201d"') if short is not None else None
+    title = short_text or label
+    cite = f"{stat}, " if stat else ""
+    if volume is None:
+        full_title = f"{title} ({label}, as enacted)"
+    elif short_text:
+        full_title = f"{short_text} ({label}, {cite}as enacted)"
+    else:
+        full_title = f"{label} ({cite}as enacted)" + (f": {official}" if official else "")
+    expression = f"{work_uri}/en@{approved.isoformat()}" + (f"/stat-{volume}" if volume is not None else "")
     return ParsedDocument(
         doc_kind="legislation",
         instrument_type="act",
         jurisdiction_id="US",
         work_uri=work_uri,
-        expression_uri=f"{work_uri}/en@{approved.isoformat()}",
+        expression_uri=expression,
         work_title=title,
-        title=f"{title} (Public Law {congress}-{number}, as enacted)",
-        short_title=title if short is not None else None,
-        number=f"{congress}-{number}",
+        title=full_title,
+        short_title=short_text,
+        number=f"{congress}-{number}" if number is not None else chapter,
         work_date=approved,
         language="en",
         authoritative=False,
@@ -431,11 +592,13 @@ def _public_law(root: Element) -> ParsedDocument:
         extent=["US"],
         ext_module="us",
         ext={
-            "congress": int(congress),
+            "congress": int(congress or 0),
             "number": number,
-            "statutes_at_large": [c for c in citable if "Stat." in c],
+            "statutes_at_large": stats,
             "official_title": official or None,
-            "public_private": _find_text(meta, "u:publicPrivate"),
+            "public_private": kind,
+            "chapter": chapter,
+            "session": int(_find_text(meta, "u:session") or 0) or None,
         },
         events=[ParsedEvent("enactment", approved, None, "Approved by the President", "main/action")],
         provisions=builder.provisions,
@@ -443,7 +606,39 @@ def _public_law(root: Element) -> ParsedDocument:
     )
 
 
+def _statutes_at_large(root: Element) -> list[ParsedDocument]:
+    """One volume of the Statutes at Large: one instrument per enacted law (public and private laws, and acts
+    without a law number). Concurrent resolutions, proclamations, treaties and the tables are not laws and are
+    not ingested; a law that cannot be identified or dated is not guessed at and is skipped."""
+    meta = root.find(_q("meta"))
+    volume = _find_text(meta, "u:volume") if meta is not None else None
+    if not volume or not volume.isdigit():
+        raise UslmParseError("Statutes at Large volume number not found")
+    docs: list[ParsedDocument] = []
+    used: Counter[str] = Counter()
+    for law in root.iter(_q("pLaw")):
+        doc = _law(law, volume)
+        if doc is None:
+            continue
+        used[doc.work_uri] += 1
+        if used[doc.work_uri] > 1:  # two acts starting on one page: the later one keeps its page, with a counter
+            first = doc.work_uri
+            doc.work_uri = f"{first}-{used[first]}"
+            doc.expression_uri = doc.work_uri + doc.expression_uri[len(first) :]
+        docs.append(doc)
+    if not docs:
+        raise ParseSkipped(f"Statutes at Large volume {volume} holds no law to ingest")
+    return docs
+
+
 def _compilation(root: Element) -> ParsedDocument:
+    """A statute compilation (an Act as amended, by the House Office of the Legislative Counsel / OLRC).
+
+    The compilation is a version of the Act it compiles when the file names the Act by Congress and public law number
+    (or chapter): ``/us/pl/89/304``. A file that does not (a title of an Act, a repealed title) is identified by GPO's
+    file number: ``/us/comp/838``. Several files may compile parts of one Act; the file number keeps their expressions
+    apart.
+    """
     meta = root.find(_q("meta"))
     preface = root.find(_q("preface"))
     if meta is None or preface is None:
@@ -451,6 +646,7 @@ def _compilation(root: Element) -> ParsedDocument:
     congress = _find_text(meta, "u:congress")
     number = _find_text(meta, "u:docNumber")
     approved_text = _find_text(meta, "u:approvedDate")
+    file_id = _find_text(meta, "u:property[@role='fileId']")
     edition = preface.find(_q("editionNote"))
     current_date = None
     current_through = None
@@ -458,24 +654,43 @@ def _compilation(root: Element) -> ParsedDocument:
         d = edition.find(_q("date"))
         current_date = date.fromisoformat(d.get("date", "")) if d is not None and d.get("date") else None
         current_through = _find_text(edition, "u:currentThroughPublicLaw")
-    if not congress or not number or not approved_text:
+    approved = _iso_date(approved_text)
+    named_act = bool(congress and number and approved)
+    if not named_act and not (file_id and file_id.isdigit()):
         raise UslmParseError("compilation lacks congress, number or approval date")
-    approved = date.fromisoformat(approved_text)
     currency = current_date or approved
+    if currency is None:
+        raise ParseSkipped("the compilation states neither the date it is current to nor an approval date")
     title = (_find_text(meta, "u:containsShortTitle") or _find_text(meta, "dc:title") or "").strip()
-    work_uri = f"/us/pl/{congress}/{number}"
+    chapter = None
+    if named_act:
+        work_uri = f"/us/pl/{congress}/{number}"
+        label = f"{congress}-{number}"
+        chapter_match = re.fullmatch(r"ch(\w+)", str(number))
+        if chapter_match is not None:  # an act from before the law numbers: chapter 192
+            chapter, number = chapter_match.group(1), None
+    else:
+        work_uri = f"/us/comp/{file_id}"
+        label = f"comp-{file_id}"
     builder = _Builder(["US"], "in_force", None)
     builder.walk(_main(root), None, [], None, None, "")
+    ext: dict[str, object] = {"compiled_through": current_through}
+    if congress:
+        ext["congress"] = int(congress)
+    if number:
+        ext["number"] = number
+    if chapter:
+        ext["chapter"] = chapter
     return ParsedDocument(
         doc_kind="legislation",
         instrument_type="act",
         jurisdiction_id="US",
         work_uri=work_uri,
-        expression_uri=f"{work_uri}/en@{currency.isoformat()}/compilation",
+        expression_uri=f"{work_uri}/en@{currency.isoformat()}/compilation" + (f"-{file_id}" if file_id else ""),
         work_title=title,
         title=f"{title} (compilation as amended through {current_through or 'enactment'})",
         short_title=title,
-        number=f"{congress}-{number}",
+        number=label,
         work_date=approved,
         language="en",
         authoritative=False,
@@ -485,8 +700,8 @@ def _compilation(root: Element) -> ParsedDocument:
         currency_date=currency,
         extent=["US"],
         ext_module="us",
-        ext={"congress": int(congress), "number": number, "compiled_through": current_through},
-        events=[ParsedEvent("enactment", approved, None, None, "meta/approvedDate")],
+        ext=ext,
+        events=[ParsedEvent("enactment", approved, None, None, "meta/approvedDate")] if approved else [],
         provisions=builder.provisions,
         validity_basis="attested_at_edition",
     )
@@ -734,7 +949,9 @@ def resolve_identifier(uri: str) -> tuple[str, str | None] | None:
     """Map a USLM identifier to (work URI, eId) in ULIS terms, or None if not a known form.
 
     ``/us/cfr/t12/s220.1/b/1`` -> (``/us/cfr/t12/p220``, ``sec_220.1__para_b__para_1``);
-    ``/us/pl/115/6/s2/a`` -> (``/us/pl/115/6``, ``sec_2__subsec_a``);
+    ``/us/pl/115/6/s2/a`` -> (``/us/pl/115/6``, ``sec_2__subsec_a``) (also ``/us/pvtl/57/944``, a private law, and
+    ``/us/stat/1/23``, an act of the Statutes at Large that has no law number, named by its first page, and
+    ``/us/fr/91/65077``, a document of the Federal Register named by volume and first page);
     ``/us/bill/116/hr/1000/s2`` -> (``/us/bill/116/hr/1000``, ``sec_2``);
     ``/us/usc/t18/s1030/a/2`` -> (``/us/usc/t18``, ``sec_1030``): a Code reference below the section resolves to the
     section (the levels between a section and its parts vary, so its subdivisions are not guessed);
@@ -749,7 +966,10 @@ def resolve_identifier(uri: str) -> tuple[str, str | None] | None:
         title, part, rest, tail = m.groups()
         parts = [f"{part}.{rest}", *[t for t in tail.split("/") if t]]
         return f"/us/cfr/t{title}/p{part}", "__".join([f"sec_{parts[0]}", *[f"para_{p}" for p in parts[1:]]])
-    m = re.match(r"^(/us/(?:pl/\d+/\d+|bill/\d+/[a-z]+/\d+))(?:/s([0-9A-Za-z.-]+)((?:/[0-9A-Za-z.-]+)*))?/?$", uri)
+    m = re.match(
+        r"^(/us/(?:(?:pl|pvtl)/\d+/\d+|bill/\d+/[a-z]+/\d+|stat/\d+/\d+|fr/\d+/\d+))(?:/s([0-9A-Za-z.-]+)((?:/[0-9A-Za-z.-]+)*))?/?$",
+        uri,
+    )
     if m:
         work, section, tail = m.groups()
         if not section:

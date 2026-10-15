@@ -14,6 +14,7 @@ from ulis.db import models as m
 from ulis.retrieval.authority import classify_provision
 from ulis.retrieval.details import (
     _source_info,
+    cited_date,
     judgment_citation,
     load_provision,
     provision_citation,
@@ -65,7 +66,7 @@ def provision_at(
     selected_version_date: date | None = None
     if pit.version is not None:
         data = load_provision(session, catalog, pit.version.id)  # type: ignore[arg-type]
-        selected_version_date = data.instrument_version.version_date
+        selected_version_date = cited_date(data.instrument_version, data.currency_date)
         authority = classify_provision(
             catalog.jurisdictions,
             target=None,

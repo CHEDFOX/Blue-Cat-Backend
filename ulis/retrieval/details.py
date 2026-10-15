@@ -223,6 +223,16 @@ def _citing(session: Session, catalog: Catalog, link: m.CitationLink) -> Treatme
     return None
 
 
+def cited_date(iv: m.InstrumentVersion, currency: date | None) -> date:
+    """The date a citation names the expression by. A wording attested at editions (``attested_at_edition``) is recorded
+    once, with the first edition that has it; later editions that repeat it are only added as sources, so the citation
+    names the latest edition that attests the wording (the CFR of 2025, not the one of 2001, for a section unchanged
+    since)."""
+    if iv.validity_basis == "attested_at_edition" and currency is not None and currency > iv.version_date:
+        return currency
+    return iv.version_date
+
+
 def load_provision(session: Session, catalog: Catalog, version_id: uuid.UUID) -> ProvisionData:
     pv = session.get(m.ProvisionVersion, version_id)
     assert pv is not None
@@ -320,7 +330,9 @@ def load_provision(session: Session, catalog: Catalog, version_id: uuid.UUID) ->
         instrument=instrument,
         instrument_version=iv,
         source=_source_info(session, catalog, pv.source_document_id, pv.source_locator),
-        citation=provision_citation(catalog, instrument, provision, pv.language, iv.version_date, iv.short_title),
+        citation=provision_citation(
+            catalog, instrument, provision, pv.language, cited_date(iv, currency), iv.short_title
+        ),
         currency_date=currency,
         outstanding_changes=outstanding,
         timeline=timeline,

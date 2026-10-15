@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -21,6 +22,8 @@ STATIC_PINS: dict[str, str] = {
     "us-gpo-uslm-samples": "pinned git commit; regenerate with scripts/build_uslm_manifest.py",
     "ca-justice-laws-xml": "pinned commit and hashes; regenerate with scripts/build_justice_canada_manifest.py",
     "us-uscode-house": "pinned OLRC release point and per-title hashes; move the release point in the manifest",
+    "us-govinfo-bulk-statutes": "explicit list of volumes and zips; regenerate with build_govinfo_manifests.py",
+    "us-govinfo-bulk-cfr-fr": "explicit list of title-year and month zips; regenerate with build_govinfo_manifests.py",
     "ie-irish-statute-book": "Acts as enacted (hash-pinned); add new Acts to the manifest",
     "dk-retsinformation": "explicit list of consolidations; add newer ones to the manifest",
     "ee-riigi-teataja": "explicit list of versions (globaalID); add newer ones to the manifest",
@@ -29,6 +32,31 @@ STATIC_PINS: dict[str, str] = {
     "it-normattiva": "text as of the date in the manifest; change the date to refresh",
     "eu-eur-lex": "explicit CELEX list (original Official Journal texts and the 2016 consolidated treaties)",
 }
+
+# Sources that must be loaded after others, whatever their size. The pipeline never overwrites a stored wording and does
+# not put an older wording of a provision before a newer one: it records the older wording as a conflict instead. The
+# annual CFR editions (and the 2018-2019 samples) are older versions of the parts the eCFR holds as current text, so
+# they are loaded first and the eCFR last, whose newer wording is then recorded from its own date.
+LOAD_AFTER: dict[str, tuple[str, ...]] = {
+    "us-ecfr": ("us-govinfo-bulk-cfr-fr", "us-gpo-uslm-samples"),
+}
+
+
+def apply_load_order(items: list[Any], get_id: Callable[[Any], str]) -> list[Any]:
+    """``items`` (already ordered by size) with every source of ``LOAD_AFTER`` moved right behind the last of the
+    sources it follows that is also in the list."""
+    ordered = list(items)
+    for dependent, prerequisites in LOAD_AFTER.items():
+        ids = [get_id(i) for i in ordered]
+        if dependent not in ids:
+            continue
+        here = ids.index(dependent)
+        behind = [ids.index(p) for p in prerequisites if p in ids]
+        if behind and max(behind) > here:
+            # popping the dependent moves the last prerequisite one place up; insert right after it
+            ordered.insert(max(behind), ordered.pop(here))
+    return ordered
+
 
 _URL_HOST = re.compile(r"https?://([A-Za-z0-9.-]+)")
 # Every manifest carries the bot's User-Agent, whose contact URL is not a host that is fetched.

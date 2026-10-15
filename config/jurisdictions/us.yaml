@@ -3,7 +3,7 @@
 # Every statement must be confirmed by a qualified US lawyer before verification.status can become "reviewed".
 schema_version: 1
 id: US
-profile_version: 0.3.0
+profile_version: 0.4.0
 name: United States of America (federal)
 names: {en: United States of America}
 kind: sovereign_state
@@ -115,7 +115,12 @@ citation:
     - "Roe v. Wade, 410 U.S. 113, 153 (1973)"
     - "Kolenc v. HHS, No. 23-1808 (Fed. Cir. Jan. 3, 2024)"
 publication:
-  official_sources: [us-gpo-uslm-samples, us-uscode-house, us-ecfr]
+  official_sources:
+    - us-gpo-uslm-samples
+    - us-uscode-house
+    - us-ecfr
+    - us-govinfo-bulk-statutes
+    - us-govinfo-bulk-cfr-fr
   commencement: >-
     To verify - absent a contrary provision, an Act takes effect on the date of enactment.
     Agency rules take effect on the date stated in the Federal Register.
@@ -124,10 +129,23 @@ publication:
 coverage:
   corpus_status: pilot
   known_gaps:
-    - Besides ten United States Code titles, only the US Government Publishing Office's USLM sample files are ingested; this is a sample, not a complete or current collection.
-    - Only ten positive-law titles of the United States Code are ingested (1, 5, 11, 17, 18, 28, 31, 35, 38, 44), as one online release point (current through Public Law 119-120, 7 October 2026), without earlier release points, appendices or notes. The other titles (including 26 and 42, which are not positive law and only prima facie evidence) are not ingested; the public laws in the sample are as enacted, not as amended.
-    - Regulations come from the eCFR (an unofficial compilation, not the legal annual edition) is listed for all 50 CFR titles (Title 35 is reserved) as current text only, without dated versions, as one file per title attested at the date GPO generated it; the older annual-edition samples (2018-2019) are separate, undated-start expressions of the same parts. Federal agency guidance, Federal Register notices and the print CFR are not ingested.
-    - Federal Register documents, Statutes at Large volumes, engrossed amendments and some bill stages without a dated action are not ingested.
+    - >-
+      United States Code: all 53 titles are listed (one online release point, current through Public Law 119-120,
+      7 October 2026; no earlier release points, appendices or notes). 27 are positive law; the other 26 (including 26 and
+      42) are editorial compilations and only prima facie evidence of the law (1 U.S.C. 204): their results carry the
+      NOT_POSITIVE_LAW limitation, and the Statutes at Large control.
+    - >-
+      Enacted law: the Statutes at Large, volumes 1 to 138 (1789 to January 2025) and the public and private laws of the
+      119th Congress, as GPO's USLM "beta" XML, as enacted (dated from approval, later amendments not tracked); statute
+      compilations of Acts (unofficial, current through the public law the file names). Concurrent resolutions,
+      proclamations and treaties in the volumes are not ingested. The GPO USLM sample files remain a small separate sample.
+    - >-
+      Regulations: the eCFR is current text only and unofficial; the annual editions of the CFR in GovInfo's bulk
+      repository (1996-2026, one version per part and edition, attested at the edition's revision date) give the history,
+      but are GPO's XML rendition, not the official PDF; they must be loaded before the eCFR (load-all does). Federal
+      Register: only final rules of 2022-2026 (preamble and regulatory text, no start date); proposed rules, notices,
+      presidential documents and earlier years are not ingested. Federal agency guidance is not ingested.
+    - Engrossed amendments and some bill stages without a dated action are not ingested.
     - >-
       Case law ingested: United States Reports volumes 2-586 from GovInfo (OCR text of the bound volumes; only the cases
       whose page headers the parser recognises, about four in five in the volumes sampled and fewer before 1900) and

@@ -87,10 +87,12 @@ Estonia or Australia (federal): see "Gaps" below.
    downloads `xml_usc<NN>@119-120.zip`. Next step: add the titles to `config/manifests/us-uscode-house.yaml` with their sha256 (the
    alternative single file is 108.7 MB). Caveat: titles not enacted into positive law (26, 42 ...) are prima facie evidence only (1 U.S.C. 204);
    the parser already sets `positive_law=false`, so the owner decides whether to show them.
+   **Done 2026-10-15:** all 53 titles are in the manifest (27 positive law, 26 marked `NOT_POSITIVE_LAW`); see `docs/jurisdictions/us-code.md`.
 3. **GovInfo statutes** (`us-govinfo-bulk-statutes`). Enacted laws 2013-today and Statutes at Large volumes plus 2,705 compilations: the "as
    enacted" layer under the Code. Next step: inspect two volumes of `/bulkdata/STATUTE` and one `PLAW/119/public` listing, then reuse
    `ulis/sources/parsers/uslm.py` with a manifest connector like `govinfo.py`. Caveat: "beta" XML; early volumes may be absent; compilations are
    editorial.
+   **Done 2026-10-15:** `us-govinfo-bulk-statutes` is active (Statutes at Large volumes 1-138, the laws of the 119th Congress, the statute compilations); see `docs/jurisdictions/us-govinfo-bulk.md`.
 4. **Judicial Yuan** (`tw-judicial-yuan-opendata`). Fills Taiwanese case law, the most permissive court-data licence found. Next step: the owner
    registers an account, stores user/password as secrets, and a connector calls Auth, JList (changes of the day 7 days back) and JDoc between
    00:00 and 06:00 Taiwan time; ask the Judicial Yuan how to obtain the back catalogue. Parser: JSON text into the `tw` module. Caveat: attachments
@@ -100,6 +102,7 @@ Estonia or Australia (federal): see "Gaps" below.
    a new `br` profile and module (none exists). Caveat: CC version unstated; dates are milliseconds since 1970 in the JSON.
 6. **GovInfo CFR annual editions and Federal Register** (`us-govinfo-bulk-cfr-fr`). Next step: manifest of year folders; reuse the `ecfr.py`
    parser for CFR XML and `ulis/ingestion/snapshots.py` (`revision_snapshot`) so each edition is one dated version; FR as dated rule documents.
+   **Done 2026-10-15:** `us-govinfo-bulk-cfr-fr` is active (CFR annual editions 1996-2026, Federal Register final rules of 2022-2026); see `docs/jurisdictions/us-govinfo-bulk.md`.
 7. **Corte costituzionale** (`it-corte-costituzionale-opendata`). About 18-20k pronunce, three zips of 108 MB in all. Next step: read the DTD
    (https://dati.cortecostituzionale.it/Scarica_i_dati/I_dtd/I_dtd), write a parser into the `it` module's judgments. Caveat: CC BY-SA 3.0.
 

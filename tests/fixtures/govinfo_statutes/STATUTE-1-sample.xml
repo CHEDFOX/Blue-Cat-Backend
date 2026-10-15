@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="uslm.css"?>
+<statutesAtLarge xmlns="http://schemas.gpo.gov/xml/uslm" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/" xml:lang="en" xsi:schemaLocation="http://schemas.gpo.gov/xml/uslm https://www.govinfo.gov/schemas/xml/uslm/uslm-2.0.17.xsd">
+<meta>
+<dc:publisher>Charles C. Little and James Brown</dc:publisher>
+<dc:format>text/xml</dc:format>
+<dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Digitization Vendor</processedBy>
+<processedDate>2025-11-03</processedDate>
+<congress>1</congress>
+<congress>2</congress>
+<congress>3</congress>
+<congress>4</congress>
+<congress>5</congress>
+<dc:date>1789</dc:date>
+<dc:date>1790</dc:date>
+<dc:date>1791</dc:date>
+<dc:date>1792</dc:date>
+<dc:date>1793</dc:date>
+<dc:date>1794</dc:date>
+<dc:date>1795</dc:date>
+<dc:date>1796</dc:date>
+<dc:date>1797</dc:date>
+<dc:date>1798</dc:date>
+<dc:date>1799</dc:date>
+<volume>1</volume>
+</meta>
+<main><collection role="statutesParts">
+<component><pLaw>
+<meta>
+<dc:title>Chapter I: to regulate the Time and Manner of administering certain Oaths.</dc:title>
+<citableAs>1 Stat. 23</citableAs>
+<dc:date>1789-06-01</dc:date>
+<dc:type>Chapter</dc:type>
+<docNumber>I</docNumber>
+<dc:publisher>Charles C. Little and James Brown</dc:publisher>
+<dc:format>text/xml</dc:format>
+<dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Digitization Vendor</processedBy>
+<processedDate>2025-11-03</processedDate>
+<congress>1</congress>
+<session>1</session>
+<publicPrivate>public</publicPrivate>
+</meta>
+<preface>
+<p class="smallCaps"><dc:type>Chapter</dc:type> <docNumber>I.—</docNumber></p>
+</preface>
+<main>
+<longTitle>
+<docTitle class="italic inline">An Act </docTitle>
+<officialTitle class="inline"><i>to regulate the Time and Manner of administering certain Oaths.</i></officialTitle><sidenote><p class="centered fontsize8"><approvedDate date="1789-06-01">June 1, 1789</approvedDate>.</p></sidenote>
+</longTitle>
+<section class="indent0 firstIndent1 fontsize10"><num value="1"><inline class="smallCaps">Sec.</inline> 1. </num><content class="inline"><enactingFormula class="inline"><i>Be it enacted by the Senate and</i> [<i>House of</i>] <i>Representatives of<sidenote><p class="firstIndent1 fontsize8">Constitution of the U.S. article 6, page 19.</p></sidenote> the United States of America in Congress assembled,</i></enactingFormula> That the oath or affirmation required by the sixth article of the Constitution of the United<sidenote><p class="firstIndent1 fontsize8">Form of the oath or affirmation to support the Constitution of the United States, to be administered to the members of the Senate and to the members of the House of Representatives.</p></sidenote> States, shall be administered in the form following, to wit: “I, A. B. do solemnly swear or affirm (as the case may be) that I will support the Constitution of the United States.” The said oath or affirmation shall be administered within three days after the passing of this act, by any one member of the Senate, to the President of the Senate, and by him to all the members and to the secretary; and by the Speaker of the House of Representatives, to all the members who have not taken a similar oath, by virtue of a particular resolution of the said House, and to the clerk: and in case of the absence of any member from the service of either House, at the time prescribed for taking the said oath or affirmation, the same shall be administered to such member, when he shall appear to take his seat.</content></section>
+<section class="indent0 firstIndent1 fontsize10"><num value="2"><inline class="smallCaps">Sec.</inline> 2. </num><content class="inline"><enactingFormula class="inline"><i>And be it further enacted,</i></enactingFormula> That at the first session of Congress<sidenote><p class="firstIndent1 fontsize8">Manner of administering the oath or affirmation to Speaker of the House of Representatives.</p></sidenote> after every general election of Representatives, the oath or affirmation aforesaid, shall be administered by any one member of the House of Representatives to the Speaker; and by him to all the members present, and to the clerk, previous to entering on any other business; and to the members who shall afterwards appear, previous to taking their seats. The President of the Senate for the time being, shall also administer<sidenote><p class="firstIndent1 fontsize8">To each Senator.</p></sidenote> the said oath or affirmation to each Senator who shall hereafter be elected, previous to his taking his seat: and in any future case of a President of the Senate, who shall not have taken the said oath or affirmation, the same shall be administered to him by any one of the members of the Senate.<sidenote><p class="firstIndent1 fontsize8">To the members of the several State Legislatures, and to all executive and judicial officers of the States.</p></sidenote></content></section>
+<section class="indent0 firstIndent1 fontsize10"><num value="3"><inline class="smallCaps">Sec.</inline> 3. </num><content class="inline"><enactingFormula class="inline"><i>And be it further enacted,</i></enactingFormula> That the members of the several State legislatures, at the next sessions of the said legislatures, respectively, and all executive and judicial officers of the several States, who have been heretofore chosen or appointed, or who shall be chosen or <page identifier="/us/stat/1/23" renderingPosition="bottom">23</page>
+<centerRunningHead class="smallCaps">FIRST CONGRESS. Sess. I. Ch. 2. 1789.</centerRunningHead>
+<page identifier="/us/stat/1/24">24</page><sidenote><p class="firstIndent1 fontsize8">By whom the oaths or affirmations shall be administered in the several States.</p></sidenote>appointed before the first day of August next, and who shall then be in office, shall, within one month thereafter, take the same oath or affirmation, except where they shall have taken it before; which may be administered by any person authorized by the law of the State, in which such office shall be holden, to administer oaths. And the members of the several State legislatures, and all executive and judicial officers of the several States, who shall be chosen or appointed after the said first day of August, shall, before they proceed to execute the duties of their respective offices, take the foregoing oath or affirmation, which shall be administered by the person or persons, who by the law of the State shall be authorized to administer the oath of office; and the person or persons so administering the oath hereby required to be taken, shall cause a record or certificate thereof to be made, in the same manner, as, by the law of the State, he or they shall be directed to record or certify the oath of office.</content></section>
+<section class="indent0 firstIndent1 fontsize10"><num value="4"><inline class="smallCaps">Sec.</inline> 4. </num><content class="inline"><sidenote><p class="firstIndent1 fontsize8">To all officers of the U. States appointed, or to be appointed, before they act.</p></sidenote><enactingFormula class="inline"><i>And be it further enacted,</i></enactingFormula> That all officers appointed, or hereafter to be appointed under the authority of the United States, shall, before they act in their respective offices, take the same oath or affirmation, which shall be administered by the person or persons who shall be authorized by law to administer to such officers their respective oaths of office; and such officers shall incur the same penalties in case of failure, as shall be imposed by law in case of failure in taking their respective oaths of office.</content></section>
+<section class="indent0 firstIndent1 fontsize10"><num value="5"><inline class="smallCaps">Sec.</inline> 5. </num><content class="inline"><sidenote><p class="firstIndent1 fontsize8">Oath of secretary of the Senate and clerk of the House of Representatives.</p></sidenote><enactingFormula class="inline"><i>And be it further enacted,</i></enactingFormula> That the secretary of the Senate, and the clerk of the House of Representatives for the time being, shall, at the time of taking the oath or affirmation aforesaid, each take an oath or affirmation in the words following, to wit: “I, A. B. secretary of the Senate, or clerk of the House of Representatives (as the case may be) of the United States of America, do solemnly swear or affirm, that I will truly and faithfully discharge the duties of my said office, to the best of my knowledge and abilities.”</content></section>
+<action>
+<actionDescription class="smallCaps">Approved, </actionDescription><date date="1789-06-01">June 1, 1789</date>.</action>
+</main>
+</pLaw></component>
+<component><pLaw>
+<meta>
+<dc:title>Chap. LXI: to punish frauds committed on the Bank of the United States.</dc:title>
+<citableAs>1 Stat. 573</citableAs>
+<dc:date>1798-06-27</dc:date>
+<dc:type>Chapter</dc:type>
+<docNumber>LXI</docNumber>
+<dc:publisher>Charles C. Little and James Brown</dc:publisher>
+<dc:format>text/xml</dc:format>
+<dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Digitization Vendor</processedBy>
+<processedDate>2025-11-03</processedDate>
+<congress>5</congress>
+<session>2</session>
+<publicPrivate>public</publicPrivate>
+</meta>
+<preface>
+<p class="smallCaps"><dc:type>Chap.</dc:type> <docNumber>LXI.—</docNumber></p>
+</preface>
+<main>
+<longTitle>
+<docTitle class="italic inline">An Act </docTitle><officialTitle class="inline"><i>to punish frauds committed on the Bank of the United States.</i></officialTitle><sidenote><p class="centered fontsize8"><approvedDate date="1798-06-27">June 27, 1798</approvedDate>.</p><p class="centered fontsize8">[Obsolete.]</p></sidenote></longTitle>
+<enactingFormula><i>Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled,</i></enactingFormula><sidenote><p class="firstIndent1 fontsize8">Penalty on forging or uttering counterfeit bills, notes, orders or checks, by or upon the bank of the U. States.</p></sidenote>
+<content class="inline">That if any person shall falsely make, alter, forge or counterfeit, or cause or procure to be <centerRunningHead class="smallCaps">FIFTH CONGRESS. Sess. II. Ch. 62. 1798.</centerRunningHead><page identifier="/us/stat/1/574">574</page>falsely made, altered, forged or counterfeited, or willingly aid or assist in falsely making, altering, forging or counterfeiting any bill or note issued by order of the president, directors and company of the Bank of the United States, and signed by the president, and countersigned by the cashier thereof, or any order or check on the said cashier or corporation, for the payment of money, with intention to defraud the said corporation, or any other body politic or person, or shall utter or publish, as true, any false, altered, forged or counterfeited bill or note issued by order of the president, directors and company of the Bank of the United States, and signed by the president, and countersigned by the cashier thereof, or any order or check on the said cashier or corporation, for the payment of money, with intention to defraud the said corporation, or any other body politic or person, knowing the same to be falsely altered, forged or counterfeited, every such person shall be deemed and adjudged guilty of felony, and being thereof convicted, according to the due course of law, shall be sentenced to be imprisoned and kept at hard labour for a period not less than three years, nor more than ten years, or shall be imprisoned not exceeding ten years, and fined not exceeding five thousand dollars: Provided, that nothing herein contained shall be construed to deprive the courts of the individual states of a jurisdiction under the laws of the several states over the offences declared punishable by this act.</content>
+<action>
+<actionDescription class="smallCaps">Approved, </actionDescription><date date="1798-06-27">June 27, 1798</date>.</action>
+</main>
+</pLaw></component>
+<component><pLaw>
+<meta>
+<dc:title>Chap. XXIV: supplementary to the act concerning Invalids.</dc:title>
+<citableAs>1 Stat. 418</citableAs>
+<dc:date>1795-02-21</dc:date>
+<dc:type>Chapter</dc:type>
+<docNumber>XXIV</docNumber>
+<dc:publisher>Charles C. Little and James Brown</dc:publisher>
+<dc:format>text/xml</dc:format>
+<dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Digitization Vendor</processedBy>
+<processedDate>2025-11-03</processedDate>
+<congress>3</congress>
+<session>2</session>
+<publicPrivate>public</publicPrivate>
+</meta>
+<preface>
+<centerRunningHead class="smallCaps">THIRD CONGRESS. Sess. II. Ch. 24, 25, 26. 1795.</centerRunningHead>
+<page identifier="/us/stat/1/418">418</page>
+<p class="smallCaps"><dc:type>Chap.</dc:type> <docNumber>XXIV.—</docNumber></p>
+</preface>
+<main>
+<longTitle>
+<docTitle class="italic inline">An Act </docTitle><officialTitle class="inline"><i>supplementary to the act concerning Invalids.</i></officialTitle><sidenote><p class="centered fontsize8"><approvedDate date="1795-02-21">Feb. 21, 1795</approvedDate>.</p></sidenote></longTitle>
+<section class="indent0 firstIndent1 fontsize10"><num value="1"><inline class="smallCaps">Section</inline> 1. </num><sidenote><p class="centered fontsize8">[Obsolete.]</p></sidenote><content class="inline"><enactingFormula class="inline"><i>Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled,</i></enactingFormula> That the right, <sidenote><p class="firstIndent1 fontsize8">Right to pension, when to commence.</p></sidenote>any person now has, or may hereafter acquire, to receive a pension, by virtue of the act passed on the twenty-eighth day of February, one thousand seven hundred and ninety-three, intituled “An act to regulate the <sidenote><p class="firstIndent1 fontsize8">1793, ch. 17.</p></sidenote>claims to invalid pensions,” be considered to commence at the time of completing his testimony before the district judge, or commissioners, pursuant to the said act : And nothing shall be allowed to any invalid <sidenote><p class="firstIndent1 fontsize8">No arrears.</p></sidenote>of the description aforesaid, by way of arrear of pension, antecedent to <sidenote><p class="firstIndent1 fontsize8">Pension how long to continue.</p></sidenote>the date of his completing his testimony as aforesaid : And the pensions allowed under the said act shall be continued to the respective pensioners, during the continuance of their disability.</content></section>
+<section class="indent0 firstIndent1 fontsize10"><num value="2">
+<inline class="smallCaps">Sec.</inline> 2. </num><sidenote><p class="firstIndent1 fontsize8">Officers to return commutation.</p></sidenote><content class="inline"><enactingFormula class="inline"><i>And be it further enacted,</i></enactingFormula> That no commissioned officer, who has received commutation of half pay, shall be paid a pension, as an invalid, until he shall return his commutation into the treasury of the United States; except where special provision has been made, in particular cases, for allowing pensions on the return only of certain portions of the commutation.</content></section>
+<action>
+<actionDescription class="smallCaps">Approved, </actionDescription><date date="1795-02-21">February 21, 1795</date>.</action>
+</main>
+</pLaw></component>
+<component><pLaw>
+<meta>
+<dc:title>Chap. XXV: for the reimbursement of a Loan authorized by an Act of the last Session of Congress.</dc:title>
+<citableAs>1 Stat. 418</citableAs>
+<dc:date>1795-02-21</dc:date>
+<dc:type>Chapter</dc:type>
+<docNumber>XXV</docNumber>
+<dc:publisher>Charles C. Little and James Brown</dc:publisher>
+<dc:format>text/xml</dc:format>
+<dc:language>EN</dc:language>
+<dc:rights>Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.</dc:rights>
+<processedBy>Digitization Vendor</processedBy>
+<processedDate>2025-11-03</processedDate>
+<congress>3</congress>
+<session>2</session>
+<publicPrivate>public</publicPrivate>
+</meta>
+<preface>
+<p class="smallCaps"><dc:type>Chap.</dc:type> <docNumber>XXV.—</docNumber></p>
+</preface>
+<main>
+<longTitle>
+<docTitle class="italic inline">An Act </docTitle><officialTitle class="inline"><i>for the reimbursement of a Loan authorized by an Act of the last Session of Congress.</i></officialTitle><sidenote><p class="centered fontsize8"><approvedDate date="1795-02-21">Feb. 21, 1795</approvedDate>.</p><p class="centered fontsize8">[Obsolete.]</p></sidenote></longTitle>
+<section class="indent0 firstIndent1 fontsize10"><num value="1"><inline class="smallCaps">Section</inline> 1. </num><sidenote><p class="firstIndent1 fontsize8">Bank of U. States authorized to lend.</p></sidenote><content class="inline"><enactingFormula class="inline"><i>Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled,</i></enactingFormula> That the Bank of the United States be, and the same is hereby authorized to lend to the United States, the whole, or any part of the sum of eight hundred thousand dollars (remaining unapplied) in pursuance of the authority granted to borrow one million of dollars, by the act, intituled “An act making further provision for the expenses attending the intercourse of <sidenote><p class="firstIndent1 fontsize8">1794, ch. 7.</p></sidenote>the United States with foreign nations; and further to continue in force the act, intituled “An act providing the means of intercourse between the United States and foreign nations.</content></section>
+<section class="indent0 firstIndent1 fontsize10"><num value="2">
+<inline class="smallCaps">Sec.</inline> 2. </num><sidenote><p class="firstIndent1 fontsize8">Surplus of certain revenues appropriated.</p></sidenote><content class="inline"><enactingFormula class="inline"><i>And be it further enacted,</i></enactingFormula> That after reserving such sums as may be sufficient to satisfy prior appropriations, there be further appropriated, in aid of the provision heretofore made, out of the proceeds of the duties which have arisen, or may arise upon carriages for the conveyance of persons; upon licenses for selling wines and foreign distilled spirituous liquors by retail; upon snuff and refined sugar; and upon property sold at auction; which were imposed by acts passed during the last session, and which may be further continued, the present session of Congress, or from the proceeds of such duties or revenues as may be established in lieu thereof, a sum sufficient to the reimbursement, before the year one thousand eight hundred and one, of any loan or loans, which have been, or which may hereafter be made, in virtue of the act aforesaid : And that the faith of the United States be, and the same is hereby pledged, to make good any deficiency of the said duties.</content></section>
+<action>
+<actionDescription class="smallCaps">Approved, </actionDescription><date date="1795-02-21">February 21, 1795</date>.</action>
+</main>
+</pLaw></component>
+</collection></main>
+</statutesAtLarge>

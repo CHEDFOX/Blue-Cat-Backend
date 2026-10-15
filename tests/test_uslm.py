@@ -112,7 +112,12 @@ def test_rejects_unsafe_foreign_or_unsupported(payload: bytes) -> None:
         ("/us/bill/116/hjres/37/s1", ("/us/bill/116/hjres/37", "sec_1")),
         ("/us/pl/113/291", ("/us/pl/113/291", None)),
         ("/us/usc/t15/s78g", ("/us/usc/t15", "sec_78g")),  # Code titles are resolved since the Code is ingested
-        ("/us/stat/61/633", None),
+        # an act of the Statutes at Large and a Federal Register document are named by volume and page; a link
+        # resolves only if an instrument with that name exists
+        ("/us/stat/61/633", ("/us/stat/61/633", None)),
+        ("/us/fr/91/65077", ("/us/fr/91/65077", None)),
+        ("/us/pvtl/57/944/s1", ("/us/pvtl/57/944", "sec_1")),
+        ("/us/ch/1", None),
     ],
 )
 def test_identifier_resolution(uri: str, expected: tuple[str, str | None] | None) -> None:
