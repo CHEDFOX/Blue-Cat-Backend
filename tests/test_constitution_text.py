@@ -525,6 +525,29 @@ def test_kenya_pdf_headings_above_the_number_wrapped_headings_and_page_furniture
     assert prov(doc, "art-79").text.startswith("Parliament shall enact legislation to establish an independent")
 
 
+def test_decomposed_letters_and_gzip_bodies_are_read(tmp_path: Path) -> None:
+    import gzip
+    import unicodedata
+
+    # Vietnamese headings typed as base letter + combining accent are the same text as the composed form
+    lines = []
+    for n in range(1, 8):
+        heading = unicodedata.normalize("NFD" if n % 2 else "NFC", f"Điều {n}")
+        lines += [heading, f"Nội dung của điều {n}, đủ dài để được tính."]
+    doc = parse(text_bundle(lines, language="vi", structure={"heading": "text"}))
+    assert [p.eid for p in tops(doc)] == [f"art-{n}" for n in range(1, 8)]
+    assert prov(doc, "art-3").text == "Nội dung của điều 3, đủ dài để được tính."
+    # a server may send gzip although none was asked for: the connector stores the decoded page
+    cache, http = _http(tmp_path)
+    _write(http, f"https://{HOST}/robots.txt", b"", status=404)
+    page = _page()
+    _write(http, f"https://{HOST}/en/constitution", gzip.compress(page), slug="xx-en")
+    manifest = _manifest(tmp_path, [_doc("xx-en", "/en/constitution", structure={"unit_kind": "article"})])
+    connector = ConstitutionDocsConnector(manifest, "x-test", cache, offline=True)
+    (raw,) = list(connector.fetch())
+    assert base64.b64decode(json.loads(raw.content)["body_b64"]) == page and connector.fetch_errors == []
+
+
 def test_page_furniture_is_only_removed_when_the_manifest_names_it() -> None:
     pages = [
         ["Article 1", "Words of the first article.", "", "- 7 -"],
@@ -875,6 +898,7 @@ ACTIVE = [
     "bd-bdlaws-constitution",
     "ke-parliament-constitution",
     "np-lawcommission-constitution",
+    "vn-chinhphu-constitution",
 ]
 
 
@@ -926,6 +950,7 @@ def test_commercial_deployments_are_refused_where_the_terms_forbid_commercial_us
         "bd-bdlaws-constitution",
         "ke-parliament-constitution",
         "np-lawcommission-constitution",
+        "vn-chinhphu-constitution",
     ):
         assert catalog.sources.get(source_id).licence.commercial_use == "unknown"
         with pytest.raises(LicenceNotApproved, match="commercial"):

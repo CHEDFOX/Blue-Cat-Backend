@@ -21,6 +21,8 @@ For every document in the manifest the connector
 from __future__ import annotations
 
 import base64
+import contextlib
+import gzip
 import re
 import time
 import urllib.parse
@@ -222,6 +224,9 @@ class ConstitutionDocsConnector:
                         problem = f"{part_url} not found (404)"
                         break
                     data, meta = got
+                    if data[:2] == b"\x1f\x8b":  # a server that sends gzip although none was asked for
+                        with contextlib.suppress(OSError, EOFError):
+                            data = gzip.decompress(data)
                     problem = self._check(doc, part_url, data, meta)
                     if problem:
                         break

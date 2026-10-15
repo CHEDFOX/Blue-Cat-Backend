@@ -437,6 +437,8 @@ def document_lines(bundle: dict[str, Any]) -> list[str]:
             for ch in line.replace("\u00a0", " ")
             if (ch == "\t" or unicodedata.category(ch) != "Cc") and ch not in BIDI_MARKS
         ).strip()
+        # canonically equivalent spellings (Vietnamese letters typed as base + accent) are stored in one form
+        line = unicodedata.normalize("NFC", line)
         if layout:  # the column layout of the page is spacing, not text
             line = re.sub(r"\s{2,}", " ", line)
         if line and any(p.search(line) for p in drop):

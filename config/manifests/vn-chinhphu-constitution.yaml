@@ -1,0 +1,40 @@
+# The Constitution of Vietnam (vi): 1 document(s) on xaydungchinhsach.chinhphu.vn. See config/sources/vn-chinhphu-constitution.yaml.
+schema_version: 1
+source_id: vn-chinhphu-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- xaydungchinhsach.chinhphu.vn
+documents:
+- slug: vn-vi
+  jurisdiction: VN
+  url: >-
+    https://xaydungchinhsach.chinhphu.vn/toan-van-hien-phap-nuoc-cong-hoa-xa-hoi-chu-nghia-viet-nam-119231225213002261.htm
+  format: html
+  language: vi
+  title: Hiến pháp nước Cộng hòa xã hội chủ nghĩa Việt Nam
+  citation_name: Vietnam Constitution
+  adopted_on: '2013-11-28'
+  edition_date: '2023-12-28'
+  edition_label: article of the Government Electronic Newspaper dated 28/12/2023 07:07
+  events:
+  - type: adoption
+    date: '2013-11-28'
+    description: >-
+      'Hiến pháp này đã được Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam khóa XIII, kỳ họp thứ 6 thông qua ngày 28
+      tháng 11 năm 2013.'
+    locator: closing line
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    html_select:
+      class: detail-cmain
+    html_skip_classes:
+    - kbwscwl-relatedbox
+    unit_kind: article
+    heading: text
+    paragraphs: dot
+    chapter_regex: ^CHƯƠNG [IVX]+$
+    chapter_title_lines: 1
+    preamble_regex: ^LỜI NÓI ĐẦU$
+    tail_regex: ^Hiến pháp này đã được Quốc hội

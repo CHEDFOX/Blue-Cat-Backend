@@ -108,6 +108,7 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "SN",
         "TH",
         "UZ",
+        "VN",
         "ZA",
     }
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
@@ -246,6 +247,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "sn-cc-constitution",
         "th-senate-constitution",
         "uz-constitution-site",
+        "vn-chinhphu-constitution",
         "za-doj-constitution",
     }
     for source_id in approved:
