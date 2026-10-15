@@ -33,6 +33,7 @@ from ulis.sources.connectors.au_federal_register import FederalRegisterConnector
 from ulis.sources.connectors.base import Connector, RawDocument
 from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.bwb import BwbConnector
+from ulis.sources.connectors.constitution_pages_b import ConstitutionPagesBConnector
 from ulis.sources.connectors.dila_case_law import DilaCaseLawConnector
 from ulis.sources.connectors.dila_legi import DilaLegiConnector
 from ulis.sources.connectors.ecfr import EcfrConnector
@@ -60,6 +61,7 @@ from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.connectors.narodne_novine import NarodneNovineConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
+from ulis.sources.connectors.oecd_legal_instruments import OecdLegalInstrumentsConnector
 from ulis.sources.connectors.rattspraxis_se import RattspraxisConnector
 from ulis.sources.connectors.rechtspraak import RechtspraakConnector
 from ulis.sources.connectors.retsinformation import RetsinformationConnector
@@ -87,6 +89,7 @@ from ulis.sources.parsers import (
     au_federal_register,
     boe_consolidada,
     bwb,
+    constitution_pages_b,
     dila_juri,
     dila_legi,
     ecfr,
@@ -115,6 +118,7 @@ from ulis.sources.parsers import (
     moj_law,
     narodne_novine,
     normattiva,
+    oecd_legal_instruments,
     ontario_elaws,
     qld_legislation,
     rattspraxis_se,
@@ -191,6 +195,8 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "lilex_html": lilex.parse_lilex,
     "narodne_novine_html": narodne_novine.parse_narodne_novine,
     "uradni_list_html": uradni_list.parse_uradni_list,
+    "constitution_pages_b": constitution_pages_b.parse_constitution_pages_b,
+    "oecd_legal_instruments": oecd_legal_instruments.parse_oecd_legal_instruments,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
@@ -243,6 +249,8 @@ PARSER_VERSIONS = {
     "lilex_html": lilex.PARSER_VERSION,
     "narodne_novine_html": narodne_novine.PARSER_VERSION,
     "uradni_list_html": uradni_list.PARSER_VERSION,
+    "constitution_pages_b": constitution_pages_b.PARSER_VERSION,
+    "oecd_legal_instruments": oecd_legal_instruments.PARSER_VERSION,
 }
 PROPOSED_TYPES = ("bill", "resolution")
 
@@ -328,6 +336,8 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "lilex": LilexConnector,
     "narodne_novine": NarodneNovineConnector,
     "uradni_list": UradniListConnector,
+    "constitution_pages_b": ConstitutionPagesBConnector,
+    "oecd_legal_instruments": OecdLegalInstrumentsConnector,
 }
 
 

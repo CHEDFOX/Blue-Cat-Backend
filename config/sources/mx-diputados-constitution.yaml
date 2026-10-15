@@ -1,0 +1,83 @@
+# Mexico - the Constitución Política de los Estados Unidos Mexicanos (texto vigente) in the "Leyes Federales Vigentes" of the
+# Cámara de Diputados. A separate descriptor from the whole-compilation source mx-diputados-leyes-federales (still planned):
+# this one carries the Constitution only, because for the Constitution the statutory basis below was read and quoted.
+# Read on 2026-10-15 (pages cached under var/sources/www.diputados.gob.mx/):
+#   https://www.diputados.gob.mx/robots.txt - not found (HTTP 404): no rules; https://www.diputados.gob.mx/ answers with
+#        <meta http-equiv="refresh" content="0; url=https://web.diputados.gob.mx" /> (the PDFs are served on www.diputados.gob.mx).
+#   https://www.diputados.gob.mx/LeyesBiblio/pdf/CPEUM.pdf - cover: "CONSTITUCIÓN POLÍTICA DE LOS ESTADOS UNIDOS MEXICANOS /
+#        CÁMARA DE DIPUTADOS DEL H. CONGRESO DE LA UNIÓN / Última Reforma DOF 07-10-2026 / Secretaría General / Secretaría de
+#        Servicios Parlamentarios", then "Constitución publicada en el Diario Oficial de la Federación el 5 de febrero de 1917 /
+#        TEXTO VIGENTE". After each paragraph the Cámara adds annotations such as "Párrafo reformado DOF 10-06-2011".
+#   https://www.diputados.gob.mx/LeyesBiblio/pdf/LFDA.pdf (Ley Federal del Derecho de Autor, "Última Reforma DOF 14-05-2026"),
+#        Artículo 14: "No son objeto de la protección como derecho de autor a que se refiere esta Ley: ... VIII. Los textos
+#        legislativos, reglamentarios, administrativos o judiciales, así como sus traducciones oficiales. En caso de ser
+#        publicados, deberán apegarse al texto oficial y no conferirán derecho exclusivo de edición; Sin embargo, serán objeto
+#        de protección las concordancias, interpretaciones, estudios comparativos, anotaciones, comentarios y demás trabajos
+#        similares que entrañen, por parte de su autor, una elaboración original."
+#   The earlier ULIS check of the whole compilation (config/sources/mx-diputados-leyes-federales.yaml, 2026-10-14) read the
+#        index page: "La compilación de leyes y reglamentos federales que aquí se presenta es sólo de carácter informativo ...
+#        el órgano de publicación con carácter oficial de la leyes, reglamentos y decretos federales, es el Diario Oficial de la
+#        Federación" and found no licence, terms of use or open-data statement.
+schema_version: 1
+id: mx-diputados-constitution
+name: Constitución Política de los Estados Unidos Mexicanos (Cámara de Diputados, texto vigente)
+publisher: Cámara de Diputados del H. Congreso de la Unión, Secretaría General, Secretaría de Servicios Parlamentarios
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [MX]
+document_kinds: [constitution]
+languages: [es]
+coverage: >-
+  Articles 1 to 136 of the Mexican Constitution in the current text the Cámara de Diputados publishes (the file read on
+  2026-10-15 states "Última reforma publicada DOF 07-10-2026"), in Spanish, with the Cámara's reform annotations as notes. The
+  transitional articles (the 1917 ones and those of every reform decree) are not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/mx-diputados-constitution.yaml
+update_frequency: >-
+  The PDF is replaced after each reform published in the Diario Oficial de la Federación (its cover gives the date of the last one).
+rate_limits: >-
+  None stated and no robots.txt (404). ULIS waits 5 s between requests, identifies itself, caches every download and stops on any
+  refusal.
+licence:
+  id: MX-LFDA-14-VIII
+  name: >-
+    Legislative texts are not protected by copyright (Ley Federal del Derecho de Autor, artículo 14, fracción VIII); the Cámara's
+    PDF states no licence or terms of use
+  url: https://www.diputados.gob.mx/LeyesBiblio/pdf/LFDA.pdf
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-15. READ: the Constitution PDF (cover and body), robots.txt (404) and the Ley Federal del Derecho de
+    Autor art. 14 on the Cámara's own site (quoted above). The basis is statutory only, together with the publisher's silence
+    on reuse - weaker than an explicit licence (AMBER). The Cámara's annotations are "anotaciones ... que entrañen ... una
+    elaboración original" at most, which art. 14 keeps protected; ULIS keeps them only as provision notes (amendment dates).
+    NOT READ: any terms page of the Cámara.
+  reviewed_on: 2026-10-15
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: >-
+    Fuente: Cámara de Diputados del H. Congreso de la Unión, "Constitución Política de los Estados Unidos Mexicanos" (texto
+    vigente), consultada el {retrieved_date}. Compilación informativa: el órgano oficial de publicación es el Diario Oficial de
+    la Federación.
+  conditions:
+    - The text is informative; the authentic publication is the Diario Oficial de la Federación (the compilation says so itself).
+    - The reform annotations are the Cámara's own work; they are kept as notes (amendment dates) and not presented as law.
+    - Polite retrieval (identifying User-Agent, 5 s between requests, cached download); stop on any refusal.
+  notes: >-
+    Statutory basis plus silence; no explicit permission for automated reuse exists. Counsel should confirm art. 14 VIII covers a
+    consolidated text published by the legislature. The whole-compilation source stays planned until its scope is decided.
+provenance: >-
+  PDF published by the Cámara de Diputados (PDF metadata: Microsoft Word 2016, created 2026-10-09). Stored byte for byte inside a
+  JSON bundle with the URL and retrieval date. Reform annotations ("Párrafo reformado DOF ...") are kept as provision notes.
+known_limitations:
+  - Informative compilation; the Diario Oficial de la Federación is authentic and is not ingested.
+  - The transitional articles of the 1917 text and of the reform decrees (about 280 of the 416 pages) are not ingested.
+  - The PDF gives the date of the last reform only, not the date each provision took effect (no provision start dates; text is attested at the retrieval date).
+  - Articles are the smallest provisions; fracciones and incisos stay inside the article text.
+  - Spanish only; no secondary legislation, no case law.
+status: active
+connector: constitution_pages_b
+parser: constitution_pages_b

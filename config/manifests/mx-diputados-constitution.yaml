@@ -1,0 +1,26 @@
+# Mexico - the Constitution (texto vigente) as published by the Cámara de Diputados in "Leyes Federales Vigentes".
+# One PDF with a text layer (416 pages: articles 1-136, the 1917 transitional articles, and the transitional articles of
+# every reform decree), read 2026-10-15. www.diputados.gob.mx has no robots.txt (HTTP 404). The parser stops at the first
+# "Artículos Transitorios" heading, so the transitional articles are NOT ingested (known gap in the source descriptor).
+# The Cámara's reform annotations ("Párrafo reformado DOF 10-06-2011") are kept as notes, not text.
+schema_version: 1
+source_id: mx-diputados-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts: [www.diputados.gob.mx]
+documents:
+  - id: mx-diputados-constitution-es
+    country: MX
+    language: es
+    url: https://www.diputados.gob.mx/LeyesBiblio/pdf/CPEUM.pdf
+    format: pdf
+    title: Constitución Política de los Estados Unidos Mexicanos
+    status_note: >-
+      The PDF's cover reads "TEXTO VIGENTE / Última reforma publicada DOF ..." and "Constitución publicada en el Diario Oficial
+      de la Federación el 5 de febrero de 1917"; the Diario Oficial de la Federación is the official organ of publication.
+    parser_hints:
+      country_name: Mexico
+      work_date: "1917-02-05"
+      end_at: "^Artículos Transitorios$"
+      note_regex: "^.{0,150}\\bDOF\\s+\\d{2}-\\d{2}-\\d{4}(?:,\\s*\\d{2}-\\d{2}-\\d{4})*\\.?\\s*$"
+      edition_note_regex: "^Última reforma publicada DOF"

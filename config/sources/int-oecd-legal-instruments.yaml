@@ -1,0 +1,96 @@
+# OECD Compendium of Legal Instruments (legalinstruments.oecd.org): ACTIVE for a SELECTION of individual instruments, never the Compendium
+# as a whole. Read on 2026-10-15 (pages cached under var/sources/legalinstruments.oecd.org/ and var/sources/www.oecd.org/):
+#   https://legalinstruments.oecd.org/robots.txt - "User-agent: * / Disallow:" (HTTP 200: nothing is disallowed).
+#   https://legalinstruments.oecd.org/public/doc/187/187.en.pdf - the PDF of OECD/LEGAL/0162; after "© OECD 2025" it reads: "This
+#        document is provided free of charge. It may be reproduced and distributed free of charge without requiring any further
+#        permissions, as long as it is not altered in any way. It may not be sold." and "This document is available in the two OECD
+#        official languages (English and French). It may be translated into other languages, as long as the translation is labelled
+#        "unofficial translation" and includes the following disclaimer: "This translation has been prepared by [NAME OF TRANSLATION
+#        AUTHOR] for informational purpose only and its accuracy cannot be guaranteed by the OECD. The only official versions are the
+#        English and French texts available on the OECD website http://legalinstruments.oecd.org"".
+#   https://legalinstruments.oecd.org/static/js/main.*.js (the Compendium's web application, footer text "footerDisclaimer"): "The
+#        present Compendium of OECD Legal Instruments is owned by the OECD. It represents significant time and resource investment and
+#        shall not be reproduced in whole or significant part without express permission from the OECD. For use, reproduction and
+#        translation of individual Legal Instruments, please consult the Terms and Conditions." (link: https://www.oecd.org/termsandconditions/).
+#   https://www.oecd.org/termsandconditions/ - HTTP 403 to the identifying user agent (twice, 2026-10-15); www.oecd.org/robots.txt does not
+#        disallow it ("Disallow: /content/dam/oecd/" and "/adobe/dynamicmedia/deliver/" only). Not retried, no other client used.
+# Reading: individual instruments may be reproduced free of charge, unaltered, not sold (the notice on the document); the Compendium as a
+# whole or a significant part may not be reproduced without permission (the Compendium's own notice). ULIS therefore takes a curated
+# selection of 16 of the 504 instruments (3%), the connector refuses a manifest of more than 25, and the text is stored exactly.
+schema_version: 1
+id: int-oecd-legal-instruments
+name: OECD Compendium of Legal Instruments - selected instruments (Compendium des instruments juridiques de l'OCDE)
+publisher: Organisation for Economic Co-operation and Development (legalinstruments.oecd.org)
+kind: international_organisation
+authority: official_authentic
+jurisdictions: [INT-OECD]
+document_kinds: [treaty, decision, recommendation, declaration]
+languages: [en, fr]
+coverage: >-
+  16 individual instruments of the Compendium in English and French (the two official languages): the Convention on Combating Bribery of
+  Foreign Public Officials, the Convention on Mutual Administrative Assistance in Tax Matters and its 2010 Protocol, the Council acts on
+  privacy, multinational enterprises, foreign bribery, corporate governance, regulatory policy, hard core cartels, consumer protection
+  in e-commerce, children in the digital environment, artificial intelligence and data access, the Declarations on propriety and on
+  automatic exchange of tax information, and one abrogated Recommendation (0162, abrogated 2023-06-08). The Compendium lists 504
+  instruments; the other 488 are not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/int-oecd-legal-instruments.yaml
+update_frequency: >-
+  Not stated. The record of each instrument carries its dates of adoption, entry into force, last update, last amendment and abrogation
+  and the date it was last published; ULIS keeps the version it read.
+rate_limits: >-
+  None stated (robots.txt has no Crawl-delay). ULIS waits 5 s between requests, identifies itself, caches every download and stops on
+  any refusal: three requests per instrument (its record and its English and French HTML texts), 48 for the selection (about 4 minutes).
+licence:
+  id: OECD-INSTRUMENT-NOTICE
+  name: >-
+    Notice on each instrument: "This document is provided free of charge. It may be reproduced and distributed free of charge without
+    requiring any further permissions, as long as it is not altered in any way. It may not be sold." Compendium notice: not to be
+    reproduced "in whole or significant part without express permission from the OECD"
+  url: https://legalinstruments.oecd.org/public/doc/187/187.en.pdf
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-15. READ on legalinstruments.oecd.org: robots.txt ("User-agent: *", "Disallow:"), the notice in the PDF of
+    OECD/LEGAL/0162 (quoted in the licence name), the footer notice of the Compendium web application ("The present Compendium of OECD
+    Legal Instruments is owned by the OECD. It represents significant time and resource investment and shall not be reproduced in whole
+    or significant part without express permission from the OECD. For use, reproduction and translation of individual Legal
+    Instruments, please consult the Terms and Conditions."), the Compendium's record and HTML text of the 16 instruments. NOT
+    READ: the OECD Terms and Conditions (www.oecd.org/termsandconditions/, HTTP 403), which the Compendium names as the terms for "use,
+    reproduction and translation of individual Legal Instruments". The notice is on the PDF of each instrument, whereas ULIS reads the
+    HTML text and record that the Compendium serves for the same instrument (the PDF of one instrument was fetched only to read the
+    notice); that the notice covers the HTML text is ULIS's reading (AMBER). "Not altered" is read as: the words of the text are
+    stored exactly as published and only divided into numbered units. "May not be sold" is not read as barring a free research
+    service, but commercial use is left unknown. The size of a "significant part" is not defined; 16 of 504 instruments is the ceiling
+    ULIS applies (the connector refuses more than 25).
+  reviewed_on: 2026-10-15
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    OECD, Compendium of OECD Legal Instruments (legalinstruments.oecd.org), retrieved {retrieved_date}. © OECD. The only official
+    versions are the English and French texts available on the OECD website.
+  conditions:
+    - Individual instruments only, a curated selection; never the Compendium in whole or in significant part (the connector refuses more than 25 instruments).
+    - The text is stored as published, not altered; ULIS adds only numbered units and labels, and keeps the record's dates beside it.
+    - Not sold; no translation is made or stored (only the English and French official texts).
+    - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    Commercial use stays unknown, so a commercial deployment (ULIS_COMMERCIAL_USE) refuses this source. The general OECD Terms and
+    Conditions could not be read (HTTP 403); if they restrict more than the notice on the instruments, this approval falls.
+provenance: >-
+  Per instrument and language: the Compendium's record (JSON, /api/instruments/<id>) and its HTML text (the file the record names under
+  bodyText.ref, an export of the OECD's Word document), stored byte for byte inside a JSON bundle with the URL and retrieval date.
+known_limitations:
+  - Only the current text of each instrument; earlier wordings of an amended instrument, background notes, commentaries, reports and lists of adherents are not ingested.
+  - The record's dates are the Compendium's; "last update" can be an editorial date, so the start date of the current wording is the later of the entry into force, the last update and the last amendment, and is stated as the record gives it.
+  - The structure (preamble, Roman and numbered paragraphs, decimal principles, annex units) is recognised from the text's own numbering; where the numbering is not recognised the text is kept as blocks. Sub-points (a, b, i, ii) stay in the paragraph.
+  - Tables and figures of the HTML are reduced to their text.
+  - 'The platform labels every non-treaty instrument of a jurisdiction "Binding - legislation in force" (ulis/retrieval/authority.py has no soft-law category). That is wrong for a Recommendation, a Declaration or an arrangement; the instrument type is in the data, not in the label.'
+  - 'The Conventions are treaties and no party is recorded (the record lists its adherents by internal country ids), so a search by jurisdiction does not list them and a search without one labels them "Foreign authority - not binding".'
+  - A selection of 16 of 504 instruments; the curated list is in the manifest.
+status: active
+connector: oecd_legal_instruments
+parser: oecd_legal_instruments

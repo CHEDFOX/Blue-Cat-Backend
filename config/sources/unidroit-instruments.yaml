@@ -1,0 +1,51 @@
+# UNIDROIT instruments (www.unidroit.org): PLANNED, NOT INGESTED. robots.txt closes nothing relevant, but the Disclaimer authorises
+# reproduction of the information only "except for commercial purposes"; a non-commercial-only permission is not accepted for ULIS without
+# a decision by the owner (the project's rule for NonCommercial terms). Read 2026-10-15.
+schema_version: 1
+id: unidroit-instruments
+name: UNIDROIT - Conventions, Model Laws and Principles (International Institute for the Unification of Private Law)
+publisher: International Institute for the Unification of Private Law (UNIDROIT, www.unidroit.org)
+kind: international_organisation
+authority: official_non_authentic
+jurisdictions: [INT]
+document_kinds: [treaty]
+languages: [en, fr]
+coverage: >-
+  UNIDROIT's instruments (for example the Cape Town Convention and its Protocols, the Convention on Stolen or Illegally Exported Cultural
+  Objects, the Principles of International Commercial Contracts) as published on www.unidroit.org. ULIS ingests nothing from it.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.unidroit.org/instruments/
+  authentication: null
+update_frequency: Not stated.
+rate_limits: >-
+  https://www.unidroit.org/robots.txt (HTTP 200, read 2026-10-15): "User-agent: * / Disallow: /wp-admin/ / Allow: /wp-admin/admin-ajax.php"
+  and "Disallow: /wp-content/uploads/wpo/wpo-plugins-tables-list.json"; no Crawl-delay; the instruments' pages are not disallowed.
+licence:
+  id: UNIDROIT-DISCLAIMER
+  name: 'Copyright notice on the UNIDROIT Disclaimer: "Reproduction of the information is authorised, except for commercial purposes, provided the source is duly acknowledged."'
+  url: https://www.unidroit.org/disclaimer/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-15. READ https://www.unidroit.org/disclaimer/ ("LEGAL NOTICE"): "UNIDROIT has developed this site to facilitate
+    and enhance public access to information about the work and achievements of UNIDROIT. While UNIDROIT makes every effort to ensure that
+    information available on this site is updated and accurate, neither can be guaranteed, especially in non-official languages of the
+    Organisation." and "Copyright notice: Reproduction of the information is authorised, except for commercial purposes, provided the source
+    is duly acknowledged."; page footer "© UNIDROIT 2021. All Rights Reserved." NOT READ: the pages of the instruments themselves, any
+    other terms.
+  reviewed_on: 2026-10-15
+  redistribution: allowed_with_conditions
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: not_allowed
+  attribution_required: true
+  attribution_text: null
+  conditions:
+    - Source acknowledged; no commercial purposes. Whether ULIS's use is commercial is the owner's decision; until it is made as non-commercial, nothing is ingested.
+  notes: >-
+    Same wording as the HCCH Disclaimer (source hcch-conventions). The notice does not say whether automated retrieval or indexing is
+    covered; neither was tested, and the instruments are mainly PDFs (not examined).
+provenance: robots.txt and the Disclaimer fetched once each on 2026-10-15. Nothing stored.
+known_limitations:
+  - Not ingested.
+status: planned

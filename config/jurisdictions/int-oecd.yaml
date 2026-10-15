@@ -1,0 +1,60 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED, MINIMAL. The Organisation for Economic Co-operation and Development: only a short selection of
+# individual instruments of its Compendium of Legal Instruments is ingested (source int-oecd-legal-instruments). The organisation's
+# other acts, its Members' adherence and its bodies are not modelled. Every field below is a research note, not reviewed law.
+schema_version: 1
+id: INT-OECD
+profile_version: 0.1.0
+name: Organisation for Economic Co-operation and Development
+names:
+  en: Organisation for Economic Co-operation and Development
+  fr: Organisation de coopération et de développement économiques
+kind: other
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [en, fr]
+legal_system:
+  families: [international]
+  structure: international_organisation
+  treaty_reception: not_applicable
+  notes: >-
+    To verify - an intergovernmental organisation; the preambles of its Council acts as ingested cite "Article 5 b) of the Convention
+    on the Organisation for Economic Co-operation and Development of 14 December 1960". Its English and French texts are the official
+    ones (the OECD's notice on each instrument: "The only official versions are the English and French texts available on the OECD
+    website"). Which acts bind whom, and how an instrument has effect inside a State, are not modelled here.
+instrument_types: [treaty, decision, decision_recommendation, recommendation, declaration, arrangement, other]
+norm_hierarchy: [treaty, decision, decision_recommendation, recommendation, declaration, arrangement, other]
+precedent:
+  doctrine: not_applicable
+  vertical_binding: false
+  notes: Not modelled; no decisions of any body of the organisation are ingested.
+citation:
+  module: oecd
+  notes: >-
+    "OECD/LEGAL/nnnn" (the Compendium's key, printed on every instrument) followed by the unit the text numbers: "art. 5" for a
+    convention, "para. II" or "para. II.4" for a Council act's Roman and numbered paragraphs, "para. 1.2" for decimal-numbered
+    principles, "appendix para. I.A" for a unit of an annex or appendix, "preamble".
+  examples:
+    - OECD/LEGAL/0293 art. 5
+    - OECD/LEGAL/0188 para. II.4
+    - OECD/LEGAL/0449 para. 1.2
+    - OECD/LEGAL/0413 appendix para. I.A
+publication:
+  official_sources: [int-oecd-legal-instruments]
+  commencement: >-
+    To verify - the Compendium's record gives a date of adoption and a date of entry into force; ULIS records both as the record states
+    them and does not interpret them.
+  amendment: >-
+    The record gives the date of the last amendment and of the last update; the Compendium shows one current text, so earlier wordings
+    of an amended instrument are not ingested and the current text is recorded as valid from the latest of those dates.
+  repeal: The record gives an abrogation date for an abrogated instrument; its text is then recorded as valid until that date.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - A curated selection of 16 of the 504 instruments the Compendium lists - the Compendium says it "shall not be reproduced in whole or significant part without express permission from the OECD" (source int-oecd-legal-instruments).
+    - Only the current text of each instrument; no earlier wordings of amended instruments, no background notes, commentaries, reports or adherents' lists.
+    - Adherence and treaty parties are not recorded, and the Members have no memberships recorded in their profiles.
+    - The retrieval layer has no soft-law authority category, so Recommendations and Declarations are labelled like binding legislation, and the three Conventions (treaties with no recorded party) are listed only when no jurisdiction is given or foreign instruments are asked for.
+    - Institutions (Council, committees) and the organisation's other acts (guidelines, standards, model conventions) are not described.

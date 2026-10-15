@@ -1,0 +1,51 @@
+# ILO NORMLEX (normlex.ilo.org): PLANNED, NOT INGESTED. The host answered HTTP 403 to the request for its robots.txt, which ULIS treats as
+# a refusal; the ILO's rights page grants Creative Commons BY 4.0 only to knowledge products published on or after 3 May 2023, and says
+# that earlier ones "do not automatically benefit from a Creative Commons licence". Read 2026-10-15.
+schema_version: 1
+id: ilo-normlex
+name: ILO NORMLEX - International Labour Standards (conventions, recommendations, protocols)
+publisher: International Labour Organization (normlex.ilo.org)
+kind: international_organisation
+authority: official_non_authentic
+jurisdictions: [INT]
+document_kinds: [treaty, recommendation]
+languages: [en, fr, es]
+coverage: >-
+  The ILO's international labour standards database: Conventions, Protocols and Recommendations adopted by the International Labour
+  Conference, with ratifications and supervisory comments. ULIS ingests nothing from it.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://normlex.ilo.org/
+  authentication: null
+update_frequency: Not stated.
+rate_limits: >-
+  https://normlex.ilo.org/robots.txt - HTTP 403 (read 2026-10-15, one request, not retried: a refusal is respected). The ILO's main site
+  (https://www.ilo.org/robots.txt, HTTP 200) has "Crawl-delay: 10", disallows /search and /admin/ and carries "Content-Signal:
+  search=yes,ai-input=yes,ai-train=no,use=reference" ("use=reference: retain/index/reference/cite rather than reproduce").
+licence:
+  id: ILO-RIGHTS-AND-PERMISSIONS
+  name: ILO Rights and permissions / Open Access policy (CC BY 4.0 from 3 May 2023, earlier products to be checked one by one)
+  url: https://www.ilo.org/rights-and-permissions
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-15. READ https://www.ilo.org/rights-and-permissions (fetched as /global/copyright/lang--en/index.htm): "All ILO
+    knowledge products published on or after 3 May 2023 by the ILO or on its behalf will be available for use or reuse without needing to
+    request permission - as long as the ILO is cited as the source of material."; "As of 3 May 2023, unless otherwise indicated, ILO
+    publications are licensed under a Creative Commons Attribution BY 4.0 licence (CC BY 4.0)."; "ILO publications produced prior to 3 May
+    2023 do not automatically benefit from a Creative Commons licence. It is essential that users check the copyright page of each work for
+    exact licence information." The Conventions and Recommendations on NORMLEX were adopted before that date and no licence statement
+    for the NORMLEX texts was read: the host refused the robots.txt request, so no page of NORMLEX was requested.
+  reviewed_on: 2026-10-15
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: null
+  conditions:
+    - Not ingested. Enabling needs a NORMLEX response that is not a refusal to the identifying user agent, and a licence statement for the standards' texts themselves (the CC BY 4.0 grant starts on 3 May 2023).
+  notes: Recorded by the international instruments sweep; the finding above is what the pages said when read.
+provenance: normlex.ilo.org/robots.txt (HTTP 403), www.ilo.org/robots.txt and the rights page fetched once each on 2026-10-15. Nothing stored.
+known_limitations:
+  - Not ingested.
+status: planned

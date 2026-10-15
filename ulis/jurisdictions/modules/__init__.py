@@ -19,6 +19,7 @@ from ulis.jurisdictions.modules.br import BrModule
 from ulis.jurisdictions.modules.ca import CaModule
 from ulis.jurisdictions.modules.ca_prov import CaProvModule
 from ulis.jurisdictions.modules.ch import ChModule
+from ulis.jurisdictions.modules.constitution_b import ConstitutionBModule
 from ulis.jurisdictions.modules.cz import CzModule
 from ulis.jurisdictions.modules.de import DeModule
 from ulis.jurisdictions.modules.dk import DkModule
@@ -38,6 +39,7 @@ from ulis.jurisdictions.modules.lu import LuModule
 from ulis.jurisdictions.modules.lv import LvModule
 from ulis.jurisdictions.modules.mu import MuModule
 from ulis.jurisdictions.modules.nl import NlModule
+from ulis.jurisdictions.modules.oecd import OecdModule
 from ulis.jurisdictions.modules.pl import PlModule
 from ulis.jurisdictions.modules.pt import PtModule
 from ulis.jurisdictions.modules.se import SeModule
@@ -98,6 +100,8 @@ MODULES: dict[str, JurisdictionModule] = {
         HrModule(),
         SiModule(),
         BrModule(),
+        ConstitutionBModule(),
+        OecdModule(),
     )
 }
 

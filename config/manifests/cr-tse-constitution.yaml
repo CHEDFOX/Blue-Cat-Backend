@@ -1,0 +1,23 @@
+# Costa Rica - the Constitution as published by the Tribunal Supremo de Elecciones (www.tse.go.cr), section "Normativa".
+# One PDF with a text layer (65 pages, 197 articles and the transitional provisions), read 2026-10-15.
+# robots.txt (https://www.tse.go.cr/robots.txt) disallows only /cgi-bin/, /images/, /tmp/, /private/ and /directory/file.html;
+# the file below is under /pdf/normativa/. To extend: append rows (one per document) and, for a new host, name it in `hosts`.
+schema_version: 1
+source_id: cr-tse-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts: [www.tse.go.cr]
+documents:
+  - id: cr-tse-constitution-es
+    country: CR
+    language: es
+    url: https://www.tse.go.cr/pdf/normativa/constitucion.pdf
+    format: pdf
+    title: Constitución Política de la República de Costa Rica
+    status_note: >-
+      The file's own title page reads "CONSTITUCIÓN POLÍTICA DE 7 DE NOVIEMBRE DE 1949 (Y SUS REFORMAS)"; each amended
+      article is followed by the publisher's "Nota: Reformado ..." line, kept as the provision's note.
+    parser_hints:
+      country_name: Costa Rica
+      work_date: "1949-11-07"
+      preamble_start: "^Nosotros, los Representantes"

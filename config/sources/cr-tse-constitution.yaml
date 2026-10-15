@@ -1,0 +1,74 @@
+# Costa Rica - the Constitution on the site of the Tribunal Supremo de Elecciones (TSE), section "Normativa".
+# Terms read on 2026-10-15 from the site itself (pages cached under var/sources/www.tse.go.cr/):
+#   https://www.tse.go.cr/robots.txt - "User-agent: *  Disallow: /cgi-bin/ ejemplos de bloqueados.  Disallow: /images/
+#        Disallow: /tmp/  Disallow: /private/  Disallow: /directory/file.html"; the document path /pdf/normativa/ is not disallowed.
+#   https://www.tse.go.cr/ - the footer of the home page: "Basada en una obra en https://www.tse.go.cr" with the licence link
+#        <a href="http://creativecommons.org/licenses/by-sa/4.0/" rel="license"> ("Página de la licencia de creative commons").
+#   https://www.tse.go.cr/terminos_condiciones_uso.html - "Términos y Condiciones de Uso": the only restriction on copying is
+#        "Uso de las marcas: El logotipo, nombre y todos los gráficos que identifican al Tribunal dentro de su sitio pertenecen a
+#        este. El uso, reproducción, copia o redistribución de ellos, sin el permiso escrito al Tribunal Supremo de Elecciones es
+#        prohibido." (the Tribunal's marks and graphics); "Este sitio, y cualquier información o servicios relacionados con él, se
+#        proporcionan 'tal cual'"; "El acceso al sitio es gratuito".
+#   https://www.tse.go.cr/pdf/normativa/constitucion.pdf - every page carries "Tribunal Supremo de Elecciones / Normativa /
+#        www.tse.go.cr"; the title page reads "CONSTITUCIÓN POLÍTICA DE 7 DE NOVIEMBRE DE 1949 (Y SUS REFORMAS)".
+schema_version: 1
+id: cr-tse-constitution
+name: Constitución Política de la República de Costa Rica (Tribunal Supremo de Elecciones)
+publisher: Tribunal Supremo de Elecciones de Costa Rica (www.tse.go.cr)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [CR]
+document_kinds: [constitution]
+languages: [es]
+coverage: >-
+  The Constitution of Costa Rica of 7 November 1949 with its reforms, in Spanish, as the TSE publishes it under "Normativa":
+  197 articles, the transitional provisions, and the publisher's "Nota: Reformado ..." line under every amended article.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/cr-tse-constitution.yaml
+update_frequency: >-
+  Not stated. The PDF is replaced when the Constitution is reformed; ULIS reads it once per run and keeps the version it read.
+rate_limits: >-
+  None stated beyond robots.txt (no Crawl-delay). ULIS waits 5 s between requests, identifies itself, caches every download and stops
+  on any refusal.
+licence:
+  id: CC-BY-SA-4.0
+  name: >-
+    Creative Commons Attribution-ShareAlike 4.0 International (licence link with rel="license" in the footer of the TSE site,
+    next to "Basada en una obra en https://www.tse.go.cr")
+  url: http://creativecommons.org/licenses/by-sa/4.0/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-15. READ on www.tse.go.cr: robots.txt, the home page (footer licence link), the Términos y Condiciones
+    de Uso (no restriction on copying text; marks and graphics only) and the PDF itself. The footer licence is the site's; the
+    page does not say in so many words that it covers the PDFs of "Normativa", which is ULIS's reading (hence AMBER). The
+    Constitution is also a law, which the Ley de Derechos de Autor of Costa Rica may exclude from protection; that was not read.
+  reviewed_on: 2026-10-15
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Fuente: Tribunal Supremo de Elecciones de Costa Rica (www.tse.go.cr), "Constitución Política de la República de Costa Rica",
+    consultada el {retrieved_date}; licencia CC BY-SA 4.0. Texto informativo: la publicación oficial es La Gaceta.
+  conditions:
+    - Attribution as in attribution_text; ShareAlike applies to adaptations (CC BY-SA 4.0).
+    - The TSE's logo, name and graphics are not licensed (Términos y Condiciones de Uso, "Uso de las marcas"); ULIS stores text only.
+    - The text is informative; the authentic publication is La Gaceta (the amendment notes cite its numbers).
+  notes: >-
+    Explicit licence statement on the publisher's own site, but a footer licence mark rather than a licence text next to the
+    document; counsel should confirm it extends to the PDFs under /pdf/normativa/.
+provenance: >-
+  PDF published by the TSE (PDF metadata: Microsoft Word, created 2025-05-28). Stored byte for byte inside a JSON bundle with the
+  URL and retrieval date. The publisher's "Nota: Reformado el artículo N por la Ley n.° ... publicada en La Gaceta ..." lines are
+  kept as provision notes, never as text.
+known_limitations:
+  - Informative copy; the authentic publication is La Gaceta, which is not ingested, and the amending laws are not ingested.
+  - The PDF carries no date of consolidation; the retrieval date is recorded as the date the text was presented as current, and no provision start dates are known.
+  - Articles are the smallest provisions; paragraphs and numbered points stay inside the article text (lines re-joined from the PDF's wrapping).
+  - Transitional provisions are headed "(Artículo N)" in the PDF and are stored as separate series labelled T10, T78 ... ; unnumbered preliminary text is stored as text blocks.
+  - Spanish only; no case law, no regulations.
+status: active
+connector: constitution_pages_b
+parser: constitution_pages_b

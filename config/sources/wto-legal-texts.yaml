@@ -1,0 +1,46 @@
+# WTO legal texts (www.wto.org, docs.wto.org): PLANNED, NOT INGESTED. robots.txt closes both hosts to every crawler that is not named; ULIS's
+# user agent is not named. The WTO's terms were not read (they sit on the closed host). Read 2026-10-15.
+schema_version: 1
+id: wto-legal-texts
+name: WTO legal texts - the WTO Agreements, schedules and documents (World Trade Organization)
+publisher: World Trade Organization (www.wto.org, docs.wto.org)
+kind: international_organisation
+authority: official_non_authentic
+jurisdictions: [INT]
+document_kinds: [treaty]
+languages: [en, fr, es]
+coverage: >-
+  The Marrakesh Agreement and the WTO Agreements as published on www.wto.org ("Legal texts") and the document database docs.wto.org.
+  ULIS ingests nothing from them.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.wto.org/english/docs_e/legal_e/legal_e.htm
+  authentication: null
+update_frequency: Not stated.
+rate_limits: >-
+  https://www.wto.org/robots.txt (HTTP 200, read 2026-10-15): "# Default: block unspecified crawlers / User-agent: * / Disallow: /", with
+  "Allow: /" only for named agents (Googlebot, Googlebot-Image, OAI-SearchBot, ChatGPT-User, Claude-SearchBot, Claude-User, Bingbot).
+  https://docs.wto.org/robots.txt (HTTP 200): "User-agent: * / Disallow: *". ULIS's agent (ULIS-research-bot) is not named, and ULIS does not
+  use another crawler's name.
+licence:
+  id: UNKNOWN-ROBOTS-REFUSAL
+  name: Terms not read - robots.txt of both hosts disallows ULIS's crawler
+  url: https://www.wto.org/robots.txt
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project, 2026-10-15. READ the two robots.txt files quoted above (one request each). The WTO terms of use and copyright page are on
+    www.wto.org, which the robots.txt closes to ULIS, so they were not requested.
+  reviewed_on: 2026-10-15
+  redistribution: unknown
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+  conditions:
+    - Not ingested. Enabling needs a robots.txt that does not close the host to the identifying user agent, and terms that allow the use.
+  notes: Recorded by the international instruments sweep; the finding above is what the files said when read.
+provenance: The two robots.txt files named above, fetched once each on 2026-10-15. No other page of either host was requested. Nothing stored.
+known_limitations:
+  - Not ingested.
+status: planned

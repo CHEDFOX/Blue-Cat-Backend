@@ -1,0 +1,41 @@
+# Belgium - the coordinated Constitution as the Chamber of Representatives publishes it (PDF, text layer), French and Dutch.
+# READY BUT NOT ACTIVE: the source be-dekamer-constitution is `planned` (the Chamber's FAQ lets "officiële akten" be reproduced freely but
+# says Chamber publications may not be reproduced without permission; whether this PDF is an official act is undecided). The manifest
+# exists so that the fixtures and the parser hints are tested against the real documents, and so that activating the source is a
+# status change once the reading is settled. robots.txt (https://www.dekamer.be/robots.txt): "Crawl-delay: 5", Disallow lines for
+# /intranet, /extranet, /external, /toegankelijk, /accessible (absolute URLs). The German text is not published as a PDF there.
+schema_version: 1
+source_id: be-dekamer-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts: [www.dekamer.be]
+documents:
+  - id: be-dekamer-constitution-fr
+    country: BE
+    language: fr
+    url: https://www.dekamer.be/kvvcr/pdf_sections/publications/constitution/GrondwetFR.pdf
+    format: pdf
+    title: La Constitution belge
+    status_note: >-
+      Cover: "La Constitution belge, mars 2021, Service Affaires juridiques et Documentation parlementaire de la Chambre des
+      représentants, D/2021/4686/02"; "Cette publication reprend le texte de la Constitution coordonnée du 17 février 1994,
+      complétée par les révisions constitutionnelles suivantes: ...".
+    parser_hints:
+      country_name: Belgium
+      work_date: "1994-02-17"
+      start_at: "(?-i:^TITRE PREMIER$)"
+      edition_note_regex: "^(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre) \\d{4}$"
+  - id: be-dekamer-constitution-nl
+    country: BE
+    language: nl
+    url: https://www.dekamer.be/kvvcr/pdf_sections/publications/constitution/GrondwetNL.pdf
+    format: pdf
+    title: De Belgische Grondwet
+    status_note: >-
+      Cover: "De Belgische Grondwet, maart 2021, Dienst Juridische Zaken en Parlementaire Documentatie van de Kamer van
+      volksvertegenwoordigers".
+    parser_hints:
+      country_name: Belgium
+      work_date: "1994-02-17"
+      start_at: "(?-i:^TITEL I$)"
+      edition_note_regex: "^(?:januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december) \\d{4}$"
