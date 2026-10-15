@@ -7,6 +7,7 @@ the connector in offline mode.
 from __future__ import annotations
 
 import gzip
+import hashlib
 import json
 import shutil
 from collections.abc import Iterator
@@ -27,7 +28,16 @@ from ulis.retrieval.lookup import provision_at
 from ulis.retrieval.search import SearchRequest, search
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import RawDocument
-from ulis.sources.connectors.eu_cellar import CellarConnector, query_metadata
+from ulis.sources.connectors.eu_cellar import (
+    CONSOLIDATED_RE,
+    CellarConnector,
+    derived_response,
+    query_changes_batch,
+    query_items_batch,
+    query_metadata,
+    query_metadata_batch,
+    split_rows,
+)
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
 from ulis.sources.normalized import ParsedDocument, ParsedProvision
@@ -451,3 +461,397 @@ def test_eu_law_applies_in_member_states_only_while_they_are_members(
     assert rome_i("GB-ENG", date(2015, 6, 1)) is not None
     assert rome_i("GB-ENG", date(2022, 6, 1)) is None
     assert rome_i("CA", date(2020, 1, 1)) is None  # not a member
+
+
+# --------------------------------------------------------------------------- batches and consolidated versions
+# (the manifest was widened to every act in force; see docs/jurisdictions/eu.md)
+
+
+def _batch_manifest(tmp_path: Path, **changes: Any) -> Path:
+    manifest = {
+        "schema_version": 1,
+        "source_id": "eu-eur-lex",
+        "user_agent": "ULIS-test (+https://example.org)",
+        "crawl_delay_seconds": 5,
+        "sparql_batch": 20,
+        "languages": ["en"],
+        "works": [
+            {"celex": "02016R0679-20160504", "base": "32016R0679", "format": "fmx4", "languages": ["en", "fr"]},
+            {"celex": "32008R0593", "format": "fmx4"},
+        ],
+        **changes,
+    }
+    path = tmp_path / "batched.yaml"
+    path.write_text(yaml.safe_dump(manifest))
+    return path
+
+
+def test_batch_queries_cover_every_work_and_only_validated_celex() -> None:
+    celexes = ["32016R0679", "02016R0679-20160504"]
+    for query in (
+        query_metadata_batch(celexes),
+        query_changes_batch(celexes[:1], ["en"]),
+        query_items_batch(celexes, ["en", "de"], "fmx4"),
+    ):
+        assert "VALUES" in query and '"32016R0679"^^xsd:string' in query
+    assert '"02016R0679-20160504"^^xsd:string' in query_metadata_batch(celexes)
+    assert "?base" in query_changes_batch(celexes[:1], ["en"]) and "?celex ?work" in query_items_batch(
+        celexes, ["en"], "fmx4"
+    )
+    for bad in ('32016R0679" } ; DROP', "../x", "3201"):
+        with pytest.raises(ManifestError, match="CELEX"):
+            query_metadata_batch([bad])
+    assert CONSOLIDATED_RE.match("02016R0679-20160504") and not CONSOLIDATED_RE.match("32016R0679")
+
+
+def test_a_batched_answer_is_cut_down_to_the_rows_of_each_work() -> None:
+    answer = json.dumps(
+        {
+            "head": {"vars": ["celex", "p"]},
+            "results": {
+                "bindings": [
+                    {"celex": {"value": "A"}, "p": {"value": "1"}},
+                    {"celex": {"value": "B"}, "p": {"value": "2"}},
+                    {"celex": {"value": "A"}, "p": {"value": "3"}},
+                ]
+            },
+        }
+    ).encode()
+    variables, grouped = split_rows(answer, "celex")
+    assert variables == ["celex", "p"] and sorted(grouped) == ["A", "B"] and len(grouped["A"]) == 2
+    again = json.loads(derived_response(variables, grouped["A"]))
+    assert [r["p"]["value"] for r in again["results"]["bindings"]] == ["1", "3"]
+
+
+def test_manifest_validation_for_batches_languages_and_consolidated_versions(tmp_path: Path) -> None:
+    def run(**changes: Any) -> None:
+        list(
+            CellarConnector(
+                _batch_manifest(tmp_path, **changes), "eu-eur-lex", tmp_path / "cache", offline=True
+            ).fetch()
+        )
+
+    base = {"celex": "02016R0679-20160504", "base": "32016R0679", "format": "fmx4"}
+    for changes, message in (
+        ({"sparql_batch": 0}, "sparql_batch"),
+        ({"sparql_batch": 500}, "sparql_batch"),
+        ({"crawl_delay_seconds": 1}, "crawl_delay_seconds"),
+        (
+            {"works": [{"celex": "32016R0679", "format": "fmx4"}, {"celex": "32016R0679", "format": "fmx4"}]},
+            "repeated CELEX",
+        ),
+        ({"works": [{"celex": "32016R0679", "format": "fmx4", "languages": ["en", "xx"]}]}, "languages"),
+        ({"works": [{"celex": "32016R0679", "format": "fmx4", "base": "32016R0679"}]}, "only a consolidated version"),
+        ({"works": [{"celex": "02016R0679-20160504", "format": "fmx4"}]}, "base act"),
+        ({"works": [{**base, "base": "02016R0679-20160504"}]}, "base act"),
+        ({"works": [{**base, "format": "xhtml"}]}, "Formex 4"),
+    ):
+        with pytest.raises(ManifestError, match=message):
+            run(**changes)
+
+
+def test_the_committed_manifest_lists_acts_in_force_and_passes_validation(tmp_path: Path) -> None:
+    path = REPO_ROOT / "config" / "manifests" / "eu-eur-lex.yaml"
+    manifest = CellarConnector(path, "eu-eur-lex", tmp_path)._manifest()  # noqa: SLF001
+    works = manifest["works"]
+    assert manifest["sparql_batch"] == 20 and manifest["languages"] == ["en"]
+    assert [w["celex"] for w in works[:3]] == ["12016M/TXT", "12016E/TXT", "12016P/TXT"]
+    assert len(works) > 15000 and len({w["celex"] for w in works}) == len(works)
+    consolidated = [w for w in works if CONSOLIDATED_RE.match(w["celex"])]
+    assert consolidated and all(w["base"][0] == "3" and w["format"] == "fmx4" for w in consolidated)
+    core = {w.get("base") or w["celex"]: w for w in works if w.get("languages")}
+    assert {"32016R0679", "32008R0593", "32012R1215", "32011L0083", "32024R1689"} <= set(core)
+    assert all(core[c]["languages"] == ["en", "fr", "de"] for c in core)
+
+
+class _FakeHttp:
+    """Answers the batched queries from canned rows and serves one tiny file per item URL."""
+
+    crawl_delay = 5.0
+    requests_made = 0
+
+    def __init__(self, fail_first_metadata: bool = False, missing: set[str] | None = None):
+        self.fail_first_metadata = fail_first_metadata
+        self.missing = missing or set()
+        self.queries: list[str] = []
+
+    def get(self, url: str, cache_key: str | None = None, headers: dict[str, str] | None = None):  # type: ignore[no-untyped-def]
+        self.requests_made += 1
+        meta = {
+            "url": url,
+            "status": 200,
+            "content_type": "application/json",
+            "retrieved_at": "2026-10-15T08:00:00+00:00",
+        }
+        if cache_key and "/sparql/batch/" in cache_key:
+            name = cache_key.rsplit("/", 1)[1].split("-")[0]
+            self.queries.append(name)
+            if name == "metadata" and self.fail_first_metadata and self.queries.count("metadata") == 1:
+                from ulis.sources.connectors.polite_http import FetchError as _Fetch
+
+                raise _Fetch(f"{url}: HTTP 500 (not retried: a refusal is respected)")
+            return json.dumps(self._answer(name, url)).encode(), meta
+        if url in self.missing:
+            return None
+        meta["content_type"] = "application/xml"
+        return b"<ACT/>", meta
+
+    @staticmethod
+    def _answer(name: str, url: str) -> dict[str, Any]:
+        import urllib.parse as up
+
+        query = up.parse_qs(up.urlsplit(url).query)["query"][0]
+        wanted = [c for c in ("32016R0679", "02016R0679-20160504", "32008R0593") if f'"{c}"^^xsd:string' in query]
+
+        def v(value: str) -> dict[str, str]:
+            return {"value": value}
+
+        rows: list[dict[str, Any]] = []
+        for celex in wanted:
+            if name == "metadata":
+                rows.append(
+                    {
+                        "celex": v(celex),
+                        "work": v("urn:" + celex),
+                        "p": v("http://publications.europa.eu/ontology/cdm#resource_legal_id_celex"),
+                        "o": v(celex),
+                    }
+                )
+            elif name == "changes" and not celex.startswith("0"):
+                rows.append({"base": v(celex), "x": v("urn:amending"), "rel": v("rel"), "celex": v("32020R0001")})
+            elif name.startswith("items"):
+                lang = "http://publications.europa.eu/resource/authority/language/ENG"
+                doc = 1 if celex[0] == "0" else 2
+                item = f"http://publications.europa.eu/resource/cellar/5f2552c2-cc45-11e6-ad7c-01aa75ed71a1.0022.01/DOC_{doc}"
+                rows.append(
+                    {
+                        "celex": v(celex),
+                        "work": v("urn:" + celex),
+                        "lang": v(lang),
+                        "title": v("T"),
+                        "m": v("urn:m"),
+                        "item": v(item),
+                    }
+                )
+        return {"head": {"vars": ["celex"]}, "results": {"bindings": rows}}
+
+
+def test_batched_fetch_splits_answers_reports_what_is_missing_and_splits_a_failing_batch(tmp_path: Path) -> None:
+    fake = _FakeHttp()
+    connector = CellarConnector(_batch_manifest(tmp_path), "eu-eur-lex", tmp_path / "cache", offline=True)
+    connector.http = fake  # type: ignore[assignment]
+    docs = list(connector.fetch())
+    # Three queries for the two works (metadata, changes, items), one file each; no French file for the consolidated.
+    assert fake.queries == ["metadata", "changes", "items"]
+    assert [d.external_id for d in docs] == ["cellar:02016R0679-20160504:en", "cellar:32008R0593:en"]
+    assert connector.fetch_errors == ["02016R0679-20160504 (fr): Cellar lists no fmx4 file in this language; skipped"]
+    consolidated = json.loads(docs[0].content)
+    assert consolidated["base_celex"] == "32016R0679"
+    assert [p["role"] for p in consolidated["parts"]] == [
+        "sparql:metadata",
+        "sparql:metadata:base",
+        "sparql:items:fmx4",
+        "item:fmx4",
+    ]
+    selection = {p["role"]: p["selection"] for p in consolidated["parts"] if "selection" in p}
+    assert (
+        selection["sparql:metadata"] == "celex = 02016R0679-20160504"
+        and selection["sparql:metadata:base"] == "celex = 32016R0679"
+    )
+    assert all(len(p["derived_from_sha256"]) == 64 for p in consolidated["parts"] if "derived_from_sha256" in p)
+    plain = json.loads(docs[1].content)
+    assert [p["role"] for p in plain["parts"]][:3] == ["sparql:metadata", "sparql:changes", "sparql:items:fmx4"]
+    assert "base_celex" not in plain
+    # Each work's metadata part holds only that work's rows.
+    own = json.loads(plain["parts"][0]["content"])["results"]["bindings"]
+    assert {r["celex"]["value"] for r in own} == {"32008R0593"}
+
+    # A batch the endpoint cannot answer (HTTP 5xx) is split in halves; a missing file is reported and skipped.
+    flaky = _FakeHttp(
+        fail_first_metadata=True,
+        missing={"https://publications.europa.eu/resource/cellar/5f2552c2-cc45-11e6-ad7c-01aa75ed71a1.0022.01/DOC_2"},
+    )
+    again = CellarConnector(
+        _batch_manifest(tmp_path, works=_batch_manifest_works()), "eu-eur-lex", tmp_path / "cache", offline=True
+    )
+    again.http = flaky  # type: ignore[assignment]
+    docs = list(again.fetch())
+    assert [d.external_id for d in docs] == ["cellar:02016R0679-20160504:en"]
+    assert flaky.queries.count("metadata") == 3  # the failed batch, then one query for each half
+    assert any("the batch is split" in e for e in again.fetch_errors)
+    assert any("DOC_2 not found (404); skipped" in e for e in again.fetch_errors)
+
+
+def _batch_manifest_works() -> list[dict[str, Any]]:
+    return [
+        {"celex": "02016R0679-20160504", "base": "32016R0679", "format": "fmx4"},
+        {"celex": "32008R0593", "format": "fmx4"},
+    ]
+
+
+def test_manifest_generator_reads_the_sparql_rows() -> None:
+    from scripts.build_eu_manifest import acts_of_year, consolidated_of_year
+
+    class _Http:
+        def __init__(self, rows: list[dict[str, Any]]):
+            self.rows = rows
+
+        def get(self, url: str, cache_key: str | None = None, headers: dict[str, str] | None = None):  # type: ignore[no-untyped-def]
+            return json.dumps({"results": {"bindings": self.rows}}).encode(), {}
+
+    acts = _Http([{"c": {"value": "32016R0679"}, "d": {"value": "2016-04-27"}}, {"c": {"value": "32016L0680"}}])
+    assert acts_of_year(acts, 2016) == {"32016R0679": "2016-04-27", "32016L0680": ""}  # type: ignore[arg-type]
+    cons = _Http(
+        [
+            {"b": {"value": "32016R0679"}, "cc": {"value": "02016R0679-20160504"}, "cd": {"value": "2016-05-04"}},
+            {"b": {"value": "32016R0679"}, "cc": {"value": "02016R0679-20180523"}, "cd": {"value": "2018-05-23"}},
+        ]
+    )
+    assert consolidated_of_year(cons, 2016) == {  # type: ignore[arg-type]
+        "32016R0679": [("2016-05-04", "02016R0679-20160504"), ("2018-05-23", "02016R0679-20180523")]
+    }
+
+
+@pytest.fixture(scope="module")
+def batched(tmp_path_factory: pytest.TempPathFactory) -> tuple[dict[str, RawDocument], CellarConnector]:
+    cache = _cache_copy(tmp_path_factory.mktemp("eu-batched") / "cache")
+    connector = CellarConnector(FIX / "manifest-batched.yaml", "eu-eur-lex", cache, offline=True)
+    docs = {raw.external_id: raw for raw in connector.fetch()}
+    return docs, connector
+
+
+CONS = "02016R0679-20160504"
+
+
+def test_the_batched_connector_replays_the_cache_and_cuts_the_answers_per_work(
+    batched: tuple[dict[str, RawDocument], CellarConnector],
+) -> None:
+    docs, connector = batched
+    assert sorted(docs) == sorted(
+        [f"cellar:{CONS}:en", f"cellar:{CONS}:fr", f"cellar:{CONS}:de", "cellar:32008R0593:en"]
+    )
+    assert connector.http is not None and connector.http.requests_made == 0 and connector.fetch_errors == []
+    bundle = json.loads(docs[f"cellar:{CONS}:de"].content)
+    assert bundle["base_celex"] == "32016R0679"
+    roles = [p["role"] for p in bundle["parts"]]
+    assert (
+        roles[:3] == ["sparql:metadata", "sparql:metadata:base", "sparql:items:fmx4"] and "sparql:changes" not in roles
+    )
+    batch_urls = {p["url"] for p in bundle["parts"] if p["role"].startswith("sparql:")}
+    assert len(batch_urls) == 2  # the metadata answer (consolidated version and base act) and the items answer
+    for part in bundle["parts"][:3]:
+        assert part["derived_from_sha256"] and part["selection"].startswith("celex = ")
+        rows = json.loads(part["content"])["results"]["bindings"]
+        assert rows and {r["celex"]["value"] for r in rows} == {part["selection"].removeprefix("celex = ")}
+    plain = json.loads(docs["cellar:32008R0593:en"].content)
+    assert [p["role"] for p in plain["parts"]][:3] == ["sparql:metadata", "sparql:changes", "sparql:items:fmx4"]
+    assert "base_celex" not in plain
+
+
+def test_a_consolidated_version_is_a_snapshot_of_the_instrument_of_its_base_act(
+    batched: tuple[dict[str, RawDocument], CellarConnector],
+) -> None:
+    docs, _ = batched
+    (doc,) = parse_eu_cellar(docs[f"cellar:{CONS}:en"].content)
+    assert (doc.instrument_type, doc.work_uri) == ("regulation", "/eu/reg/2016/679")
+    assert doc.expression_uri == "/eu/reg/2016/679/eng@2016-05-04"
+    assert (doc.validity_basis, doc.consolidation_kind, doc.text_origin, doc.authoritative) == (
+        "revision_snapshot",
+        "point_in_time",
+        "official_revised",
+        False,
+    )
+    assert (doc.version_date, doc.currency_date) == (date(2016, 5, 4), date(2018, 5, 23))
+    assert doc.ext["celex"] == CONS and doc.ext["base_celex"] == "32016R0679" and doc.ext["number"] == "679"
+    assert doc.number == "2016/679" and doc.short_title == "Regulation (EU) 2016/679"
+    assert get_module("eu").validate_ext(doc.ext)["base_celex"] == "32016R0679"
+    # Dates come from INFO.CONSLEG (START.DATE, END.DATE 99999999 = open) and not from the act's own metadata.
+    assert {(p.valid_from, p.valid_to) for p in doc.provisions} == {(date(2016, 5, 4), None)}
+    assert all("Consolidated version applying from 2016-05-04" in (p.note or "") for p in doc.provisions)
+    assert doc.outstanding_changes == []  # the amendments are in the text
+    kinds = {e.event_type: e.date for e in doc.events}
+    assert kinds["entry_into_force"] == date(2016, 5, 24) and kinds["application"] == date(2018, 5, 25)
+    # Corrigendum applied in the consolidated text: "or" where the Official Journal text of 2016 said "and".
+    assert "Article 9 or personal data relating to criminal convictions" in _p(doc, "art_37__para_1__point_c").text
+    adopted = parse_eu_cellar(docs["cellar:32008R0593:en"].content)[0]
+    assert adopted.validity_basis == "source_periods" and adopted.consolidation_kind == "as_adopted"
+
+
+def test_consolidated_versions_cite_like_the_act_in_every_language(
+    batched: tuple[dict[str, RawDocument], CellarConnector],
+) -> None:
+    docs, _ = batched
+    expected = {
+        "en": "Regulation (EU) 2016/679, art 6(1)(a)",
+        "fr": "Règlement (UE) 2016/679, art. 6, par. 1, point a)",
+        "de": "Verordnung (EU) 2016/679, Art. 6 Abs. 1 Buchst. a",
+    }
+    for lang, citation in expected.items():
+        (doc,) = parse_eu_cellar(docs[f"cellar:{CONS}:{lang}"].content)
+        assert _cite(doc, "art_6__para_1__point_a") == citation and doc.language == lang
+        assert {p.eid for p in doc.provisions} >= {"art_1", "art_6", "art_37", "art_41"}
+    # All three language versions share the identifiers, the dates and the work.
+    versions = [parse_eu_cellar(docs[f"cellar:{CONS}:{lang}"].content)[0] for lang in expected]
+    assert len({d.work_uri for d in versions}) == 1 and len({tuple(p.eid for p in d.provisions) for d in versions}) == 1
+
+
+def test_a_consolidated_bundle_without_start_date_or_base_is_rejected(
+    batched: tuple[dict[str, RawDocument], CellarConnector],
+) -> None:
+    docs, _ = batched
+    bundle = json.loads(docs[f"cellar:{CONS}:en"].content)
+    for part in bundle["parts"]:
+        if part["role"] == "item:fmx4" and "CONS.ACT" in part["content"]:
+            part["content"] = part["content"].replace(' START.DATE="20160504"', "")
+            part["sha256"] = hashlib.sha256(part["content"].encode()).hexdigest()
+    with pytest.raises(EuParseError, match="START.DATE"):
+        parse_eu_cellar(json.dumps(bundle).encode())
+    no_base = json.loads(docs[f"cellar:{CONS}:en"].content)
+    no_base["content_format"] = "xhtml"
+    with pytest.raises(EuParseError, match="Formex 4 with its base act"):
+        parse_eu_cellar(json.dumps(no_base).encode())
+
+
+@pytest.mark.db
+def test_a_consolidated_version_is_ingested_searched_and_resolved_by_date(
+    session: Session,
+    catalog: Catalog,
+    store: LocalObjectStore,
+    eu_ingested: IngestionReport,
+    batched: tuple[dict[str, RawDocument], CellarConnector],
+) -> None:
+    docs, _ = batched
+    # Ingested in the test's own session, which is rolled back afterwards.
+    consolidated = {k: v for k, v in docs.items() if CONS in k}
+    report = Ingestor(session, catalog, store).ingest_source(
+        "eu-eur-lex", actor="pytest", connector=_Fixtures(consolidated)
+    )
+    assert report.errors == [] and report.conflicts == [] and report.instruments_created == 1
+    assert report.instrument_versions_created == 3 and report.provision_versions_created == 3 * 44
+    res = _search(
+        session,
+        catalog,
+        q="has given consent to the processing of his or her personal data for one or more specific purposes",
+        as_of=date(2026, 10, 14),
+        query_language="en",
+    )
+    hit = _hit(res, "art_6__para_1__point_a")
+    assert hit["citation"] == "Regulation (EU) 2016/679, art 6(1)(a)"
+    assert hit["version"]["valid_from"] == "2016-05-04" and hit["version"]["text_origin"] == "official_revised"
+    codes = {lim["code"] for lim in hit["limitations"]}
+    assert {"SNAPSHOT_DATES", "REVISED_TEXT", "SOURCE_NOT_AUTHENTIC"} <= codes
+    assert "NOT_AUTHENTICATED" not in codes or hit["version"]["text_origin"] == "official_revised"
+    assert {p["citation"] for p in hit["parallel_versions"]} == {
+        "Règlement (UE) 2016/679, art. 6, par. 1, point a)",
+        "Verordnung (EU) 2016/679, Art. 6 Abs. 1 Buchst. a",
+    }
+    uri = "/eu/reg/2016/679/~art_6__para_1__point_a"
+    on = provision_at(session, catalog, uri, date(2020, 1, 1), language="en")
+    assert on["status_on_date"] == "in_force" and on["version"]["valid_from"] == "2016-05-04"
+    before = provision_at(session, catalog, uri, date(2015, 1, 1), language="en")
+    assert before["status_on_date"] in ("history_not_indexed", "not_yet_in_force") and before["version"] is None
+    # The corrected wording of the consolidated text is what is stored.
+    point_c = provision_at(
+        session, catalog, "/eu/reg/2016/679/~art_37__para_1__point_c", date(2020, 1, 1), language="en"
+    )
+    assert "Article 9 or personal data" in point_c["version"]["text"]

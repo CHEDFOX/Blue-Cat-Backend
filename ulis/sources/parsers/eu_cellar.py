@@ -11,6 +11,13 @@ version, each exactly as received. Two text formats are read:
   format: articles are ``div`` elements whose ``id`` is the Formex identifier (``003``,
   ``003.001``), points are two-column tables.
 
+* **consolidated versions** of an act (``CONS.ACT``, CELEX ``0YYYYTNNNN-YYYYMMDD``), in the same Formex 4: the text
+  with the amendments applied, which the Publications Office prepares for documentation. Its ``INFO.CONSLEG`` gives
+  the dates the version applies from and to (``END.DATE`` 99999999 = still current). Such a version belongs to the
+  instrument of its base act (same work URI), is a whole-instrument snapshot (``validity_basis =
+  "revision_snapshot"``) and is not authentic. The amendments are in the text, so the base act's list of changes is
+  not applied to it.
+
 Legal status, as recorded on every version:
 
 * since 1 July 2013 only the electronic Official Journal is authentic (Regulation (EU)
@@ -51,12 +58,13 @@ from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing use
 
 from defusedxml.ElementTree import fromstring
 
+from ulis.ingestion.snapshots import SNAPSHOT_BASIS
 from ulis.jurisdictions.modules.eu import DOMAIN_CODES, TREATY_ABBREVIATION, designation
 from ulis.sources.connectors.eu_cellar import BUNDLE_FORMAT, LANG3
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
 
 PARSER_ID = "eu_cellar"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 CDM = "http://publications.europa.eu/ontology/cdm#"
 ANN = "http://publications.europa.eu/ontology/annotation#"
 XHTML_NS = "{http://www.w3.org/1999/xhtml}"
@@ -563,6 +571,10 @@ class FormexDoc:
     year: int | None
     domain_code: str | None
     publication_date: date | None
+    # A consolidated version (CONS.ACT): the dates it applies from and to, and the date it was consolidated.
+    cons_start: date | None = None
+    cons_end: date | None = None
+    cons_date: date | None = None
 
 
 def _xml(data: bytes, name: str) -> Element:
@@ -610,14 +622,19 @@ def parse_formex(parts: list[Part]) -> tuple[FormexDoc, list[Prov]]:
             raise EuParseError(f"{name}: unsupported Formex root {root.tag!r}")
     if main is None:
         raise EuParseError("no Formex document with enacting terms")
-    title_el = main.find("TITLE")
+    consolidated = main.tag == "CONS.ACT"
+    doc_root = main.find("CONS.DOC") if consolidated else main
+    if doc_root is None:
+        raise EuParseError("CONS.ACT without CONS.DOC")
+    title_el = doc_root.find("TITLE")
     title = _ws(" ".join(fmx_lines(title_el))) if title_el is not None else ""
     terms = main.find(".//ENACTING.TERMS")
     assert terms is not None
     fmx_body(b, terms, [])
     for annex in annexes:
         fmx_annex(b, annex)
-    no_doc = main.find("BIB.INSTANCE/NO.DOC")
+    no_doc = doc_root.find("BIB.INSTANCE/NO.DOC")
+    info = main.find("INFO.CONSLEG") if consolidated else None
     year = no_doc.findtext("YEAR") if no_doc is not None else None
     pub = None
     if descriptor is not None:
@@ -630,6 +647,11 @@ def parse_formex(parts: list[Part]) -> tuple[FormexDoc, list[Prov]]:
         domain_code=_ws(no_doc.findtext("COM") or "") or None if no_doc is not None else None,
         publication_date=pub,
     )
+    if info is not None:
+        end = _date(_iso8(info.get("END.DATE")))
+        doc.cons_start = _date(_iso8(info.get("START.DATE")))
+        doc.cons_end = end if end and end != NO_END and end.year < 9999 else None
+        doc.cons_date = _date(_iso8(info.get("CONSLEG.DATE")))
     return doc, b.provisions
 
 
@@ -1035,8 +1057,14 @@ def parse_eu_cellar(content: bytes) -> list[ParsedDocument]:
     if not isinstance(celex, str) or language not in LANG3 or fmt not in ("fmx4", "xhtml"):
         raise EuParseError("bundle lacks celex, language or format")
     lang3 = LANG3[language]
-    meta = parse_metadata(_bindings(parts, "sparql:metadata"), celex)
-    changes = parse_changes(_bindings(parts, "sparql:changes"))
+    base_celex = bundle.get("base_celex")
+    if base_celex is not None and (not isinstance(base_celex, str) or fmt != "fmx4"):
+        raise EuParseError(f"{celex}: a consolidated version is read from Formex 4 with its base act's CELEX number")
+    consolidated = base_celex is not None
+    own_meta = parse_metadata(_bindings(parts, "sparql:metadata"), celex)
+    # A consolidated version describes itself with the base act's facts: type, ELI, dates of entry into force.
+    meta = parse_metadata(_bindings(parts, "sparql:metadata:base"), str(base_celex)) if consolidated else own_meta
+    changes = [] if consolidated else parse_changes(_bindings(parts, "sparql:changes"))
     items = _bindings(parts, f"sparql:items:{fmt}")
     expression_title = next(
         (_ws(r["title"]) for r in items if r.get("lang", "").endswith("/" + lang3.upper()) and r.get("title")), None
@@ -1055,9 +1083,17 @@ def parse_eu_cellar(content: bytes) -> list[ParsedDocument]:
     else:
         raise EuParseError(f"{celex}: unsupported resource type {meta.resource_type!r}")
 
-    ext: dict[str, Any] = {"celex": celex, "eli": meta.eli, "resource_type": meta.resource_type}
+    ext: dict[str, Any] = {"celex": celex, "eli": own_meta.eli, "resource_type": own_meta.resource_type}
+    if consolidated:
+        ext.update(base_celex=base_celex, resource_type=meta.resource_type)
     if fmt == "fmx4":
         fdoc, provs = parse_formex(parts)
+        if consolidated:  # the consolidated file does not repeat the act's number and year: the base ELI does
+            eli = _ELI.match(meta.eli or "")
+            if eli and eli.group(2).isdigit() and eli.group(3):
+                fdoc.year, fdoc.number = int(eli.group(2)), eli.group(3)
+            elif re.fullmatch(r"3\d{4}[A-Z]\d{4}", str(base_celex)):
+                fdoc.year, fdoc.number = int(str(base_celex)[1:5]), str(int(str(base_celex)[6:]))
         title = expression_title or fdoc.title
         short_title: str | None = None
         number: str | None = None
@@ -1110,7 +1146,27 @@ def parse_eu_cellar(content: bytes) -> list[ParsedDocument]:
     currency: date | None = None
     valid_from: date | None = None
     valid_to: date | None = None
-    if instrument_type == "founding_treaty":
+    version_date: date | None
+    if consolidated:
+        # A consolidated version: the whole act as it applies from START.DATE (to END.DATE), documentation only.
+        start = fdoc.cons_start
+        if start is None:
+            raise EuParseError(f"{celex}: no START.DATE in the consolidated version")
+        validity_basis, text_origin, authoritative, consolidation = (
+            SNAPSHOT_BASIS,
+            "official_revised",
+            False,
+            "point_in_time",
+        )
+        valid_from, valid_to, currency = start, fdoc.cons_end, fdoc.cons_date
+        span = f"from {start.isoformat()}" + (f" to {valid_to.isoformat()}" if valid_to else "")
+        note_lines.append(
+            f"Consolidated version applying {span}, prepared by the Publications Office for documentation; only the "
+            "acts as published in the Official Journal are authentic. The version gives no date for individual "
+            "provisions."
+        )
+        version_date = start
+    elif instrument_type == "founding_treaty":
         # A consolidated version attests the text on its publication date only.
         validity_basis, text_origin, authoritative, consolidation = (
             "attested_at_edition",
@@ -1165,7 +1221,7 @@ def parse_eu_cellar(content: bytes) -> list[ParsedDocument]:
         raise EuParseError(f"{celex}: no publication date")
 
     eids = {p.eid for p in provs}
-    fx = apply_changes(changes, language, eids)
+    fx = VersionEffects() if consolidated else apply_changes(changes, language, eids)
     events.extend(fx.events)
 
     provisions: list[ParsedProvision] = []

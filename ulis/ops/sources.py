@@ -26,8 +26,8 @@ STATIC_PINS: dict[str, str] = {
     "ee-riigi-teataja": "explicit list of versions (globaalID); add newer ones to the manifest",
     "ch-fedlex": "explicit list of consolidation files; regenerate with scripts/build_fedlex_manifest.py",
     "pl-eli-sejm": "explicit list of consolidated texts; add newer ones to the manifest",
-    "it-normattiva": "text as of the date in the manifest; change the date to refresh",
-    "eu-eur-lex": "explicit CELEX list (original Official Journal texts and the 2016 consolidated treaties)",
+    "it-normattiva": "text as of the dates in the manifest; scripts/build_normattiva_manifest.py appends acts",
+    "eu-eur-lex": "explicit CELEX list of the acts in force; regenerate with scripts/build_eu_manifest.py to refresh",
 }
 
 _URL_HOST = re.compile(r"https?://([A-Za-z0-9.-]+)")
