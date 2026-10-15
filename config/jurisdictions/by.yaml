@@ -1,0 +1,54 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED, MINIMAL. Belarus: only the text of the Constitution is ingested (source
+# by-president-constitution), in Russian and Belarusian. Every field below is a research note, not reviewed law.
+schema_version: 1
+id: BY
+profile_version: 0.1.0
+name: Belarus
+names:
+  ru: Республика Беларусь
+  be: Рэспубліка Беларусь
+  en: Republic of Belarus
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [be, ru]
+legal_system:
+  families: [civil_law]
+  structure: unitary
+  treaty_reception: unknown
+  notes: >-
+    To verify - a unitary presidential republic with a civil-law system. The Constitution names Belarusian and Russian as state
+    languages (to verify in the ingested text). How treaties take domestic effect is not settled by the ingested text and is
+    recorded as unknown. Nothing else about the legal order is modelled.
+instrument_types: [constitution]
+norm_hierarchy: [constitution]
+precedent:
+  doctrine: not_applicable
+  vertical_binding: false
+  notes: Not modelled in this minimal profile; no case law is ingested.
+citation:
+  module: constitution_b
+  notes: >-
+    "Belarus Constitution art. N" with the article number as the portal prints it; an article printed with a superscript (116
+    with a superscript 1) is cited with the superscript. The same citation is used for the Russian and the Belarusian version.
+  examples:
+    - Belarus Constitution art. 1
+    - Belarus Constitution art. 116¹
+publication:
+  official_sources: [by-president-constitution]
+  commencement: To verify - not recorded in the ingested text.
+  amendment: >-
+    The portal's commentary names the referendums of 1996, 2004 and 27 February 2022; the text does not record when each
+    provision took effect.
+  repeal: >-
+    The portal prints "Исключена." for repealed articles; ULIS stores that placeholder as the article's text.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only the Constitution (by-president-constitution); no statutes, decrees, treaties or case law.
+    - The portal's reproduction is not the official publication, which is not ingested.
+    - No history of earlier wordings and no provision start dates.
+    - Courts, the legislative institutions and precedent rules are not described.

@@ -1,0 +1,42 @@
+# Belarus - the Constitution on the Official Internet Portal of the President of the Republic of Belarus
+# (president.gov.by), in Russian and Belarusian, read 2026-10-15. Two HTML pages. robots.txt (https://president.gov.by/robots.txt):
+# "User-agent: * / Allow: / / Disallow: /*/search* / Disallow: /*?openVideo=true / Disallow: /*?openPhoto=true".
+# Each page starts with a commentary of the portal; the constitution proper starts at "Текст Конституции" / "Тэкст Канстытуцыі",
+# and the portal's footer ("©", "Обычная версия") ends it.
+schema_version: 1
+source_id: by-president-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts: [president.gov.by]
+documents:
+  - id: by-president-constitution-ru
+    country: BY
+    language: ru
+    url: https://president.gov.by/ru/gosudarstvo/constitution
+    format: html
+    title: Конституция Республики Беларусь
+    status_note: >-
+      The page's commentary: "Конституция Беларуси была принята 15 марта 1994 года Верховным Советом Республики Беларусь";
+      amended by the referendums of 1996, 2004 and 27 February 2022 (the portal's words).
+    parser_hints:
+      country_name: Belarus
+      work_date: "1994-03-15"
+      start_at: "^Текст Конституции Республики Беларусь$"
+      end_at: "^©"
+      preamble_start: "^Мы, народ"
+      edition_note_regex: "^27 февраля 2022 года состоялся"
+  - id: by-president-constitution-be
+    country: BY
+    language: be
+    url: https://president.gov.by/be/gosudarstvo/constitution
+    format: html
+    title: Канстытуцыя Рэспублікі Беларусь
+    status_note: >-
+      Belarusian version of the same page of the portal (the portal does not say whether it is a translation or an
+      equally authentic text).
+    parser_hints:
+      country_name: Belarus
+      work_date: "1994-03-15"
+      start_at: "^Тэкст Канстытуцыі Рэспублікі Беларусь$"
+      end_at: "^ ?©"
+      preamble_start: "^Мы, народ"

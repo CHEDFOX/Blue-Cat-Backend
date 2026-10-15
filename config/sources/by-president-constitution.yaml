@@ -1,0 +1,74 @@
+# Belarus - the Constitution on the Official Internet Portal of the President of the Republic of Belarus (president.gov.by).
+# Read on 2026-10-15 (pages cached under var/sources/president.gov.by/):
+#   https://president.gov.by/robots.txt - "User-agent: * / Allow: / / Disallow: /*/search* / Disallow: /*?openVideo=true /
+#        Disallow: /*?openPhoto=true / Sitemap: https://president.gov.by/sitemap.xml"; the constitution pages are not disallowed.
+#   https://president.gov.by/ru/gosudarstvo/constitution - footer: "© Пресс-служба Президента Республики Беларусь, 2026" and
+#        "Материалы Портала могут использоваться в средствах массовой информации, распространяться в сети Интернет без
+#        каких-либо ограничений по объему и срокам публикации. Единственным условием является ссылка на первоисточник.
+#        Никакого предварительного согласия на использование материалов Портала со стороны пресс-службы Президента
+#        Республики Беларусь не требуется." The Belarusian page (/be/) carries the same footer in Belarusian.
+#   Same page, commentary above the text: "Конституция Беларуси была принята 15 марта 1994 года Верховным Советом Республики
+#        Беларусь ... 27 февраля 2022 года состоялся очередной республиканский референдум по вопросу внесения изменений и
+#        дополнений в Конституцию ... В настоящее время Конституция Республики Беларусь содержит 9 разделов, 9 глав и 156 статей."
+schema_version: 1
+id: by-president-constitution
+name: Конституция Республики Беларусь (Официальный интернет-портал Президента Республики Беларусь)
+publisher: Пресс-служба Президента Республики Беларусь (Official Internet Portal of the President of the Republic of Belarus)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [BY]
+document_kinds: [constitution]
+languages: [ru, be]
+coverage: >-
+  The Constitution of the Republic of Belarus of 15 March 1994 as amended (the page describes the referendums of 1996, 2004 and
+  27 February 2022), in Russian and in Belarusian, as two pages of the President's portal: the preamble and 158 articles
+  (numbered 1 to 148 and those with a superscript number, such as 116 with a superscript 1, which the page prints).
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/by-president-constitution.yaml
+update_frequency: Not stated; the page is edited when the Constitution is amended. ULIS keeps the version it read.
+rate_limits: >-
+  None stated beyond robots.txt (no Crawl-delay). ULIS waits 5 s between requests, identifies itself, caches every download and stops
+  on any refusal.
+licence:
+  id: BY-PRESIDENT-PORTAL-NOTICE
+  name: >-
+    Portal notice: "Материалы Портала могут использоваться в средствах массовой информации, распространяться в сети Интернет без
+    каких-либо ограничений по объему и срокам публикации. Единственным условием является ссылка на первоисточник."
+  url: https://president.gov.by/ru/gosudarstvo/constitution
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, 2026-10-15. READ on president.gov.by: robots.txt, the Russian and Belarusian constitution pages (text, commentary
+    and footer notice quoted above). The notice speaks of use in the media and distribution on the Internet without limit on
+    volume or period, conditioned on naming the source, and says no prior consent of the press service is needed; it does not mention
+    automated processing, indexing or commercial services, which ULIS reads as not restricted (AMBER). NOT READ: any further terms
+    page of the portal.
+  reviewed_on: 2026-10-15
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Источник: Официальный интернет-портал Президента Республики Беларусь (president.gov.by), «Конституция Республики
+    Беларусь», по состоянию на {retrieved_date}. Текст на портале не является официальным опубликованием.
+  conditions:
+    - The source must be named (the notice's only condition); no prior consent is needed.
+    - The text is the portal's reproduction; the official publication is a different source (not read).
+    - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    The notice is general to the portal, not specific to the Constitution page, and silent on commercial use (commercial_use
+    stays unknown, so a commercial deployment (ULIS_COMMERCIAL_USE) refuses this source).
+provenance: >-
+  HTML pages of the portal, stored byte for byte inside a JSON bundle with the URL and retrieval date. The commentary above the
+  text and the portal's navigation are not part of the stored text (the manifest cuts at the heading "Текст Конституции" and at the
+  footer).
+known_limitations:
+  - The portal's reproduction is not the official publication; the page does not name the official publication it follows.
+  - The page does not date the current wording; the retrieval date is recorded and no provision start dates are known.
+  - Chapter and section headings give the context of articles only where the page marks them; no repealed-article history ("Исключена.") beyond the placeholder text.
+  - Articles are the smallest provisions; paragraphs stay inside the article text.
+  - No English version (the portal's English page is a translation and is not ingested), no secondary legislation, no case law.
+status: active
+connector: constitution_pages_b
+parser: constitution_pages_b

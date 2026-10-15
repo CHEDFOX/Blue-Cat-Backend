@@ -1,0 +1,54 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED, MINIMAL. Mexico: only the federal Constitution (articles 1-136) is ingested (source
+# mx-diputados-constitution). The states' constitutions and laws are not covered. Every field below is a research note.
+schema_version: 1
+id: MX
+profile_version: 0.1.0
+name: Mexico
+names:
+  es: Estados Unidos Mexicanos
+  en: United Mexican States
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages: [es]
+legal_system:
+  families: [civil_law]
+  structure: federal
+  treaty_reception: monist
+  notes: >-
+    To verify - a federal republic of states and Mexico City with a civil-law tradition. Art. 133 of the Constitution as ingested
+    makes the Constitution, the laws of Congress that emanate from it and the treaties "the Supreme Law of the whole Union"; the
+    profile records treaty reception as monist on that basis only. The states have their own constitutions, which are not ingested.
+instrument_types: [constitution]
+norm_hierarchy: [constitution]
+precedent:
+  doctrine: not_applicable
+  vertical_binding: false
+  notes: Not modelled in this minimal profile; no case law is ingested.
+citation:
+  module: constitution_b
+  notes: >-
+    "Mexico Constitution art. N" with the article number as the Cámara's PDF prints it (the ordinal sign of "Artículo 1o." is not
+    part of the label).
+  examples:
+    - Mexico Constitution art. 1
+    - Mexico Constitution art. 133
+publication:
+  official_sources: [mx-diputados-constitution]
+  commencement: >-
+    To verify - the compilation says the Constitution was published in the Diario Oficial de la Federación on 5 February 1917; the
+    ingested text does not record when each article took effect.
+  amendment: >-
+    The Cámara's PDF annotates each amended paragraph ("Párrafo reformado DOF 10-06-2011"); ULIS keeps the annotations as notes and
+    does not record when an amendment took effect.
+  repeal: Not modelled.
+coverage:
+  corpus_status: pilot
+  known_gaps:
+    - Only articles 1 to 136 of the federal Constitution (mx-diputados-constitution); the transitional articles, statutes, regulations, treaties and case law are not ingested.
+    - The Cámara's compilation is informative; the Diario Oficial de la Federación is authentic and not ingested.
+    - No history of earlier wordings and no provision start dates.
+    - The federal structure (states, Mexico City, municipalities), courts and precedent rules are not described.
