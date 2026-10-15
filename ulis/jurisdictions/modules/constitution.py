@@ -4,7 +4,8 @@ A constitution is cited by the country's name and the number the document itself
 
 * ``Ghana Constitution art. 12``, ``Ghana Constitution art. 12(3)`` (an article and its numbered paragraph),
 * ``Nigeria Constitution s. 33`` for documents that number *sections*,
-* ``China Constitution`` in Chinese: ``中华人民共和国宪法第51条`` (title + 第N条), paragraph ``第2款``,
+* ``China Constitution`` in Chinese: ``中华人民共和国宪法第51条`` (title + 第N条), paragraph ``第2款``; in
+  traditional characters (``zh-Hant``) ``澳門基本法第23條``,
 * ``Angola Constitution art. 107-A`` for an article added with a letter (the document's ``107.º-A``),
 * ``Angola Constitution, preamble`` and ``Angola Constitution, text block 3`` (a document whose structure was not
   recognised is stored in blocks; a block has no number of its own in the constitution).
@@ -25,7 +26,8 @@ _EID = re.compile(
     r"^(?P<kind>art|sec)-(?P<num>[0-9]+)(?P<letters>[a-z]*)(?:_(?P<branch>[0-9]+))?(?:-par(?P<par>[0-9]+[a-z]?))?$"
 )
 _BLOCK = re.compile(r"^blk-(?P<n>[0-9]+)$")
-NO_SPACE = {"zh"}  # languages whose citations join title and pinpoint without a space
+NO_SPACE = {"zh", "zh-Hant"}  # languages whose citations join title and pinpoint without a space
+ARTICLE_MARK = {"zh": "条", "zh-Hant": "條"}  # simplified and traditional character of 第N条 / 第N條
 
 
 def _number(m: re.Match[str]) -> str:
@@ -45,8 +47,8 @@ class ConstitutionModule(JurisdictionModule):
         if not m:
             return super().pinpoint(c)
         number = _number(m)
-        if c.language == "zh":
-            return f"第{number}条" + (f"第{m.group('par')}款" if m.group("par") else "")
+        if c.language in ARTICLE_MARK:
+            return f"第{number}{ARTICLE_MARK[c.language]}" + (f"第{m.group('par')}款" if m.group("par") else "")
         label = "s." if m.group("kind") == "sec" else "art."
         return f"{label} {number}" + (f"({m.group('par')})" if m.group("par") else "")
 

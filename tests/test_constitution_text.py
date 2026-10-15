@@ -440,6 +440,50 @@ def test_unnumbered_interlude_between_numbered_articles_is_kept_as_blocks() -> N
     assert prov(doc, "art-7").text == "Words of article 7, long enough to count."
 
 
+def test_footnote_marks_danda_numbers_headings_on_their_own_line_and_wide_gaps() -> None:
+    lines = ["PREAMBLE", "We, the people, adopt this text of the preamble.", "Part I", "THE REPUBLIC"]
+    lines += ["The Republic", "1. The Republic is unitary, independent and sovereign."]
+    lines += ["The state religion", "5[2A. The state religion is stated here.]"]
+    for n in range(3, 8):
+        lines += [f"Heading {n}", f"{n}. Text of article {n}, long enough to count."]
+    lines += ["Heading 12", "12. Text of article 12 after a wide gap in the numbering."]
+    doc = parse(
+        text_bundle(
+            lines,
+            structure={
+                "style": "numdot",
+                "unit_kind": "article",
+                "heading_before": "line",
+                "chapter_regex": "^Part [IVX]+$",
+                "preamble_regex": "^PREAMBLE$",
+                "max_gap": 6,
+            },
+        )
+    )
+    assert [p.eid for p in tops(doc)] == ["preamble", "art-1", "art-2a"] + [f"art-{n}" for n in (3, 4, 5, 6, 7, 12)]
+    assert prov(doc, "art-1").heading == "The Republic" and prov(doc, "art-1").context_heading == "Part I THE REPUBLIC"
+    assert prov(doc, "art-2a").heading == "The state religion"
+    assert prov(doc, "art-2a").text == "The state religion is stated here.]"
+    assert "footnote reference 5" in (prov(doc, "art-2a").note or "")
+    assert prov(doc, "art-12").heading == "Heading 12"
+    bengali = ["প্রস্তাবনা", "আমরা এই সংবিধান গ্রহণ করিলাম এবং ইহা প্রস্তাবনার পাঠ।"]
+    for number in ("১", "২", "২ক", "৩", "৪", "৫"):
+        bengali += [f"শিরোনাম {number}", f"{number}। এই অনুচ্ছেদের পাঠ, যথেষ্ট দীর্ঘ।"]
+    doc = parse(
+        text_bundle(
+            bengali,
+            language="bn",
+            structure={
+                "style": "numdot",
+                "unit_kind": "article",
+                "heading_before": "line",
+                "preamble_regex": "^প্রস্তাবনা$",
+            },
+        )
+    )
+    assert [p.eid for p in tops(doc)] == ["preamble", "art-1", "art-2", "art-2a", "art-3", "art-4", "art-5"]
+
+
 def test_page_furniture_is_only_removed_when_the_manifest_names_it() -> None:
     pages = [
         ["Article 1", "Words of the first article.", "", "- 7 -"],
@@ -494,6 +538,7 @@ def test_citation_forms() -> None:
         cite("art-51-par2", "article", ["art:51", "par:2"], "中华人民共和国宪法", "zh")
         == "中华人民共和国宪法第51条第2款"
     )
+    assert cite("art-23", "article", ["art:23"], "澳門基本法", "zh-Hant") == "澳門基本法第23條"
 
 
 # --------------------------------------------------------------------------- connector (offline)
@@ -590,6 +635,58 @@ def test_connector_yields_bundles_with_the_exact_bytes_and_metadata(tmp_path: Pa
     assert base64.b64decode(json.loads(docs[1].content)["body_b64"]) == pdf
     assert connector.fetch_errors == [] and connector.http is not None and connector.http.requests_made == 0
     assert len(parse(docs[0].content).provisions) == 8
+
+
+def test_connector_joins_the_pages_of_a_document_published_chapter_by_chapter(tmp_path: Path) -> None:
+    cache, http = _http(tmp_path)
+    _write(http, f"https://{HOST}/robots.txt", b"", status=404)
+    pages = []
+    for number in range(1, 4):
+        body = f"<html><head><title>Site - Chapter {number}</title></head><body>"
+        body += f'<span class="hd">Section {number}</span>Title of section {number}'
+        for k in range(2 * number - 1, 2 * number + 1):
+            body += f"<h2>Article {k}</h2><p>Text of article {k} is long enough to be the body.</p>"
+        body += '<div class="nav">Prev | Next</div></body></html>'
+        pages.append(body.encode())
+        _write(http, f"https://{HOST}/c/ch{number}.html", pages[-1], slug=f"xx-en-{number}")
+    parts = [{"url": f"https://{HOST}/c/ch{n}.html", "heading": f"Chapter {n}"} for n in range(1, 4)]
+    manifest = _manifest(
+        tmp_path,
+        [
+            _doc(
+                "xx-en",
+                "/c/index.html",
+                parts=parts,
+                structure={
+                    "html_skip_tags": ["title"],
+                    "html_skip_classes": ["nav"],
+                    "html_replace": [['(<span class="hd">[^<]*</span>)', "\\1 "]],
+                    "chapter_regex": "^Chapter [0-9]+$",
+                    "chapter_title_lines": 1,
+                    "heading": "text",
+                    "unit_kind": "article",
+                },
+            )
+        ],
+    )
+    connector = ConstitutionDocsConnector(manifest, "x-test", cache, offline=True)
+    (raw,) = list(connector.fetch())
+    assert connector.fetch_errors == []
+    sent = json.loads(raw.content)
+    assert [base64.b64decode(p["body_b64"]) for p in sent["parts"]] == pages  # every page, exactly as received
+    assert raw.uri == f"https://{HOST}/c/index.html"
+    doc = parse(raw.content)
+    assert [p.eid for p in doc.provisions] == [f"art-{n}" for n in range(1, 7)]
+    assert prov(doc, "art-1").text == "Text of article 1 is long enough to be the body."
+    assert "Prev" not in " ".join(p.text for p in doc.provisions) and "Site -" not in " ".join(
+        p.text for p in doc.provisions
+    )
+    assert prov(doc, "art-1").context_heading == "Chapter 1 Section 1 Title of section 1"
+    assert prov(doc, "art-6").context_heading == "Chapter 3 Section 3 Title of section 3"
+    # a page that is missing stops that document and is reported
+    (cache / HOST / "constitutions" / "xx-en-2.html").unlink()
+    again = ConstitutionDocsConnector(manifest, "x-test", cache, offline=True)
+    assert list(again.fetch()) == [] and "xx-en" in again.fetch_errors[0]
 
 
 def test_connector_robots_rules_and_soft_robots_pages(tmp_path: Path) -> None:
@@ -731,6 +828,10 @@ ACTIVE = [
     "id-mpr-constitution",
     "pk-cci-constitution",
     "sn-cc-constitution",
+    "hk-cmab-basiclaw",
+    "mo-dsaj-basiclaw",
+    "lb-presidency-constitution",
+    "bd-bdlaws-constitution",
 ]
 
 
@@ -765,7 +866,7 @@ def test_committed_manifest_loads_and_matches_its_source(catalog: Catalog, sourc
 
 
 def test_commercial_deployments_are_refused_where_the_terms_forbid_commercial_use(catalog: Catalog) -> None:
-    for source_id in ("cn-govcn-constitution", "za-doj-constitution"):
+    for source_id in ("cn-govcn-constitution", "za-doj-constitution", "hk-cmab-basiclaw"):
         with pytest.raises(LicenceNotApproved, match="commercial"):
             licence_gate(catalog.sources.get(source_id), commercial=True)
     for source_id in (
@@ -777,6 +878,9 @@ def test_commercial_deployments_are_refused_where_the_terms_forbid_commercial_us
         "id-mpr-constitution",
         "pk-cci-constitution",
         "sn-cc-constitution",
+        "mo-dsaj-basiclaw",
+        "lb-presidency-constitution",
+        "bd-bdlaws-constitution",
     ):
         assert catalog.sources.get(source_id).licence.commercial_use == "unknown"
         with pytest.raises(LicenceNotApproved, match="commercial"):

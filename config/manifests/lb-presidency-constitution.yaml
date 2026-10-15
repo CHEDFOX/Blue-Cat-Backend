@@ -1,0 +1,57 @@
+# The Constitution of Lebanon (ar): 1 document(s) on www.presidency.gov.lb. See config/sources/lb-presidency-constitution.yaml.
+schema_version: 1
+source_id: lb-presidency-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.presidency.gov.lb
+documents:
+- slug: lb-ar
+  jurisdiction: LB
+  url: https://www.presidency.gov.lb/lebanon-system/3
+  format: html
+  language: ar
+  title: الدستور اللبناني
+  citation_name: Lebanon Constitution
+  edition_label: page of the Presidency of the Republic, no edition date on the page
+  events:
+  - type: amendment
+    date: '1927-10-17'
+    description: القانون الدستوري الصادر في 17/10/1927
+    locator: notes of the articles
+  - type: amendment
+    date: '1929-05-08'
+    description: القانون الدستوري الصادر في 8/5/1929
+    locator: notes of the articles
+  - type: amendment
+    date: '1943-11-09'
+    description: القانون الدستوري الصادر في 9/11/1943
+    locator: notes of the articles
+  - type: amendment
+    date: '1943-12-07'
+    description: القانون الدستوري الصادر في 7/12/1943
+    locator: notes of the articles
+  - type: amendment
+    date: '1947-01-21'
+    description: القانون الدستوري الصادر في 21/1/1947
+    locator: notes of the articles
+  - type: amendment
+    date: '1990-09-21'
+    description: القانون الدستوري الصادر في 21/9/1990
+    locator: notes of the articles
+  - type: amendment
+    date: '2004-09-04'
+    description: تعديل المادة بتاريخ 4/9/2004
+    locator: note before article 49
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    html_select:
+      id: Accordion
+    unit_kind: article
+    max_gap: 6
+    chapter_regex: '^(الباب|الفصل) '
+    chapter_title_lines: 0
+    preamble_regex: ^-- مقدمة الدستور --$
+    note_lines:
+    - ^\((المعدلة|أضيفت|تعديل المادة)

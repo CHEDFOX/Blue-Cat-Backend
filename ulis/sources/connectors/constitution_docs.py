@@ -147,6 +147,14 @@ class ConstitutionDocsConnector:
             parts = urllib.parse.urlsplit(str(doc.get("url", "")))
             if parts.scheme != "https" or parts.netloc not in hosts:
                 raise ManifestError(f"{slug}: url must be https on one of {hosts}")
+            doc_parts = doc.get("parts")
+            if doc_parts is not None:
+                if doc["format"] != "html" or not isinstance(doc_parts, list) or not doc_parts:
+                    raise ManifestError(f"{slug}: parts must be a non-empty list and only for html documents")
+                for part in doc_parts:
+                    pu = urllib.parse.urlsplit(str(part.get("url", "")) if isinstance(part, dict) else "")
+                    if pu.scheme != "https" or pu.netloc not in hosts:
+                        raise ManifestError(f"{slug}: every part needs an https url on one of {hosts}")
             for key in ("adopted_on", "edition_date"):
                 if doc.get(key) is not None and not re.match(r"^\d{4}-\d{2}-\d{2}$", str(doc[key])):
                     raise ManifestError(f"{slug}: {key} must be an ISO date")
@@ -193,45 +201,65 @@ class ConstitutionDocsConnector:
             try:
                 robots = self._host_rules(host, manifest)
                 if robots is not None:
-                    if not robots_allows(robots, manifest["user_agent"], url):
-                        self.fetch_errors.append(
-                            f"{slug}: {url} is disallowed by https://{host}/robots.txt; not fetched"
-                        )
-                        continue
                     wanted = crawl_delay(robots, manifest["user_agent"])
                     self.http.crawl_delay = max(base_delay, wanted or 0.0)
                 else:
                     self.http.crawl_delay = base_delay
                 ext = "pdf" if doc["format"] == "pdf" else "html"
-                got = self.http.get(url, cache_key=f"constitutions/{slug}.{ext}")
+                wanted_parts = doc.get("parts") or [{"url": url}]
+                fetched: list[tuple[bytes, dict[str, Any], str | None]] = []
+                problem = None
+                for number, part in enumerate(wanted_parts, start=1):
+                    part_url = str(part["url"])
+                    if robots is not None and not robots_allows(robots, manifest["user_agent"], part_url):
+                        problem = f"{part_url} is disallowed by https://{host}/robots.txt; not fetched"
+                        break
+                    key = f"constitutions/{slug}.{ext}"
+                    if len(wanted_parts) > 1:
+                        key = f"constitutions/{slug}-{number}.{ext}"
+                    got = self.http.get(part_url, cache_key=key)
+                    if got is None:
+                        problem = f"{part_url} not found (404)"
+                        break
+                    data, meta = got
+                    problem = self._check(doc, part_url, data, meta)
+                    if problem:
+                        break
+                    fetched.append((data, meta, part.get("heading")))
             except FetchError as exc:
                 self.fetch_errors.append(f"{slug}: {exc}")
                 if re.search(r"HTTP (401|403|451)\b", str(exc)):
                     stopped.add(host)
                 continue
-            if got is None:
-                self.fetch_errors.append(f"{slug}: {url} not found (404)")
-                continue
-            data, meta = got
-            problem = self._check(doc, url, data, meta)
             if problem:
                 self.fetch_errors.append(f"{slug}: {problem}")
                 continue
-            bundle = {
+            data, meta, _ = fetched[0]
+            bundle: dict[str, Any] = {
                 "schema": BUNDLE_SCHEMA,
                 "document": {k: doc[k] for k in DOCUMENT_KEYS if k in doc},
                 "url": url,
                 "final_url": meta.get("final_url") or url,
                 "media": doc["format"],
-                "retrieved_at": meta["retrieved_at"],
+                "retrieved_at": max(m["retrieved_at"] for _, m, _ in fetched),
                 "body_b64": base64.b64encode(data).decode("ascii"),
             }
+            if doc.get("parts"):
+                bundle["parts"] = [
+                    {
+                        "url": str(p["url"]),
+                        "final_url": m.get("final_url") or str(p["url"]),
+                        "heading": h,
+                        "body_b64": base64.b64encode(d).decode("ascii"),
+                    }
+                    for p, (d, m, h) in zip(doc["parts"], fetched, strict=True)
+                ]
             yield RawDocument(
                 external_id=f"constitution:{slug}",
-                uri=meta.get("final_url") or url,
+                uri=url if doc.get("parts") else (meta.get("final_url") or url),
                 media_type="application/json",
                 content=bundle_bytes(bundle),
-                retrieved_at=datetime.fromisoformat(meta["retrieved_at"]),
+                retrieved_at=datetime.fromisoformat(str(bundle["retrieved_at"])),
                 metadata={"slug": slug, "jurisdiction": doc["jurisdiction"], "format": doc["format"]},
             )
 

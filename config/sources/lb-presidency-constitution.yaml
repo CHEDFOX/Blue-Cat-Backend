@@ -1,0 +1,91 @@
+# Constitution of Lebanon from the Presidency of the Lebanese Republic (www.presidency.gov.lb). Read on 2026-10-15, before any document was fetched:
+#   robots.txt - www.presidency.gov.lb/robots.txt: HTTP 200 with five rules for "User-agent: *", none of which covers /lebanon-system/; no Crawl-delay
+#   Terms - no terms-of-use, copyright or licence page was found: the footer links to "سياسة الخصوصية" (privacy policy, which concerns the mobile application's notifications) and to a contact page only, and the home page and the page of the Constitution carry no copyright line
+#   The document - The page "الدستور اللبناني" (menu "النظام اللبناني") prints the text in six Parts (الباب) with the notes of the amending constitutional laws in brackets after the number of each article (for example "المادة 5 (المعدلة بالقانون الدستوري الصادر في 7/12/1943)"), the preamble with the note "(أضيفت هذه المقدمة إلى الدستور اللبناني بموجب القانون الدستوري الصادر في 21/9/1990)", and a note "(تعديل المادة بتاريخ 4/9/2004)" before article 49. It prints no date of its own edition. Articles repealed by amendment are printed as a heading with the note "(ألغيت ...)", several at once ("المواد 90 و91 و92").
+schema_version: 1
+id: lb-presidency-constitution
+name: Constitution of Lebanon - the Presidency of the Lebanese Republic (www.presidency.gov.lb)
+publisher: Presidency of the Lebanese Republic (رئاسة الجمهورية اللبنانية), www.presidency.gov.lb
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- LB
+document_kinds:
+- constitution
+languages:
+- ar
+coverage: >-
+  The Constitution of Lebanon in ar as published by the Presidency of the Lebanese Republic: 1 document(s). The preamble
+  (مقدمة الدستور, added by the constitutional law of 21 September 1990) and the articles 1 to 102 in six Parts, as the Presidency
+  prints them, with the amendments of 1927, 1929, 1943, 1947, 1990 and 2004 applied; repealed articles are printed as repealed.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/lb-presidency-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: LB-official-text-no-terms
+  name: >-
+    Official legal text published by the Presidency of the Lebanese Republic; no terms-of-use, copyright or licence page
+    was found: the footer links to "سياسة الخصوصية" (privacy policy, which concerns the mobile applic
+  url: https://www.presidency.gov.lb/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the publisher's own pages quoted in the header of this file: robots.txt
+    (www.presidency.gov.lb/robots.txt: HTTP 200 with five rules for "User-agent: *", none of which covers /lebanon-system/;
+    no Crawl-delay) and the terms (no terms-of-use, copyright or licence page was found: the footer links to "سياسة الخصوصية"
+    (privacy policy, which concerns the mobile application's notifications) and to a contact page only, and the home page
+    and the page of the Constitution carry no copyright line). The page "الدستور اللبناني" (menu "النظام اللبناني") prints
+    the text in six Parts (الباب) with the notes of the amending constitutional laws in brackets after the number of each
+    article (for example "المادة 5 (المعدلة بالقانون الدستوري الصادر في 7/12/1943)"), the preamble with the note "(أضيفت
+    هذه المقدمة إلى الدستور اللبناني بموجب القانون الدستوري الصادر في 21/9/1990)", and a note "(تعديل المادة بتاريخ 4/9/2004)"
+    before article 49. It prints no date of its own edition. Articles repealed by amendment are printed as a heading with
+    the note "(ألغيت ...)", several at once ("المواد 90 و91 و92"). The Constitution is an official legal text; the Lebanese
+    copyright law (Law No. 75 of 1999) is believed to exclude official texts such as laws (to verify; not read on a publisher's
+    page). Reading: AMBER - the publisher states no restriction on reusing the text; no permission for automated retrieval
+    is stated either.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Lebanon, the Presidency of the Lebanese Republic (www.presidency.gov.lb); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (ar), not the authentic publication; amendments after the edition date are not applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/lb-presidency-constitution.yaml, stored byte for byte inside JSON bundles with
+  the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- >-
+  The page prints no edition date; the retrieval date is the edition date. It shows amendments up to the constitutional
+  law of 4 September 2004 (note before article 49); an amendment adopted later would not be in it.
+- >-
+  The notes of the amending laws ("المعدلة بالقانون الدستوري ...") that the page prints after an article's number are kept
+  as notes of that article, not as its text.
+- >-
+  Articles repealed by amendment (90 to 94, 96 to 100, and 22, 23) are printed by the site as a heading with the note of
+  repeal and no text; they are stored as the site prints them. A heading that lists several articles ("المواد 90 و91 و92")
+  is stored as the article with the first number (art-90), the rest of that heading ("و91و92") as its heading; the articles
+  named after the first one have no unit of their own.
+- >-
+  Arabic only. The page prints the Parts ("الباب") and Chapters ("الفصل") as headings; they are kept as the context of the
+  articles below them.
+status: active
+connector: constitution_docs
+parser: constitution_text

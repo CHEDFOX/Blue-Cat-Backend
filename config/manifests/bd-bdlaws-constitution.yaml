@@ -1,0 +1,73 @@
+# The Constitution of Bangladesh (bn, en): 2 document(s) on bdlaws.minlaw.gov.bd. See config/sources/bd-bdlaws-constitution.yaml.
+schema_version: 1
+source_id: bd-bdlaws-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- bdlaws.minlaw.gov.bd
+documents:
+- slug: bd-en
+  jurisdiction: BD
+  url: https://bdlaws.minlaw.gov.bd/act-details-367.html
+  format: html
+  language: en
+  title: The Constitution of the People's Republic of Bangladesh
+  citation_name: Bangladesh Constitution
+  adopted_on: '1972-11-04'
+  edition_label: >-
+    page of Laws of Bangladesh, no edition date on the page (latest amendment shown - Seventeenth Amendment Act, 2018)
+  events:
+  - type: adoption
+    date: '1972-11-04'
+    description: >-
+      adopted by the Constituent Assembly, 'this eighteenth day of Kartick, 1379 B.S., corresponding to the fourth day of
+      November, 1972 A.D.'
+    locator: Preamble
+  - type: commencement
+    date: '1972-12-16'
+    description: '''shall come into force on the sixteenth day of December, 1972'''
+    locator: article 153(1)
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    encoding: utf-16
+    style: numdot
+    unit_kind: article
+    heading_before: line
+    chapter_regex: ^(Part|Chapter) [IVXLA]+$
+    chapter_title_lines: 1
+    preamble_regex: ^PREAMBLE$
+    tail_regex: ^1$
+- slug: bd-bn
+  jurisdiction: BD
+  url: https://bdlaws.minlaw.gov.bd/act-details-957.html
+  format: html
+  language: bn
+  title: গণপ্রজাতন্ত্রী বাংলাদেশের সংবিধান
+  citation_name: Bangladesh Constitution
+  adopted_on: '1972-11-04'
+  edition_label: page of Laws of Bangladesh, no edition date on the page
+  events:
+  - type: adoption
+    date: '1972-11-04'
+    description: >-
+      'অদ্য তের শত ঊনআশী বঙ্গাব্দের কার্তিক মাসের আঠারো তারিখ, মোতাবেক ঊনিশ শত বাহাত্তর খ্রীষ্টাব্দের নভেম্বর মাসের চার
+      তারিখে' (adopted by the Constituent Assembly, 4 November 1972)
+    locator: প্রস্তাবনা
+  - type: commencement
+    date: '1972-12-16'
+    description: '''১৯৭২ সালের ডিসেম্বর মাসের ১৬ তারিখে ইহা বলবৎ হইবে'''
+    locator: ১৫৩ (১)
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    encoding: utf-16
+    style: numdot
+    unit_kind: article
+    heading_before: line
+    chapter_regex: >-
+      ^(প্রথম|দ্বিতীয়|তৃতীয়|চতুর্থ|পঞ্চম|ষষ্ঠ|সপ্তম|অষ্টম|নবম|দশম|একাদশ|[০-৯]+) ভাগ|^(প্রথম|দ্বিতীয়|তৃতীয়|চতুর্থ|পঞ্চম|ষষ্ঠ|সপ্তম|অষ্টম|নবম|দশম|একাদশ)
+      পরিচ্ছেদ$
+    chapter_title_lines: 1
+    preamble_regex: ^প্রস্তাবনা$
+    tail_regex: ^1$

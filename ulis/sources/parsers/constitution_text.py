@@ -163,9 +163,12 @@ def parse_number(token: str, suffix: str = "") -> tuple[int, str] | None:
     key = ""
     if suffix:
         m = re.fullmatch(r"[-.]\s?(?P<branch>[0-9]{1,2})", suffix)
-        key = f"_{int(m.group('branch'))}" if m else re.sub(r"[^A-Za-z]", "", suffix).lower()
+        key = f"_{int(m.group('branch'))}" if m else re.sub(r"[^A-Za-z]", "", suffix.translate(BENGALI_LETTERS)).lower()
     return int(token), key
 
+
+# the letters Bengali texts add to an article number (2ক, 7খ) are the a, b, c ... of the Latin-script numbering
+BENGALI_LETTERS = str.maketrans("কখগঘঙচছজ", "abcdefgh")
 
 # --------------------------------------------------------------------------- heading patterns
 
@@ -189,6 +192,7 @@ DEFAULT_KEYWORDS = [
     "មាត្រា",
     "ມາດຕາ",
     "المادة",
+    "المواد",
     "مادة",
     "اصل",
     "ماده",
@@ -223,6 +227,7 @@ class Candidate:
     remainder: str
     keyword: str = ""
     weight: int = 0
+    mark: str = ""  # footnote reference printed before the number ("5[2A. ...")
 
     @property
     def key(self) -> str:
@@ -233,7 +238,7 @@ def keyword_regex(keywords: list[str]) -> re.Pattern[str]:
     alternatives = "|".join(re.escape(k) for k in sorted(set(keywords), key=len, reverse=True))
     return re.compile(
         r"^\s*[«“„\"\-–—•]?\s*(?P<kw>" + alternatives + r")\s*[\s:#№]*(?:\(\s*)?" + NUMBER + r"\s*\)?"
-        r"(?P<tail>(?:\s*[.:–—-]+\s*|\s+|$).*)$",
+        r"(?P<tail>(?:\s*[.:–—-]+\s*|\s+|(?=\()|$).*)$",
         re.IGNORECASE,
     )
 
@@ -249,7 +254,11 @@ def numword_regex(words: list[str]) -> re.Pattern[str]:
 
 CJK_ARTICLE = re.compile(r"^\s*第(?P<base>[" + _CJK + r"0-9]{1,6})(?P<unit>[条條])(?P<tail>.*)$")
 KOREAN_ARTICLE = re.compile(r"^\s*제\s?(?P<base>[0-9]{1,4})\s?조(?:의\s?(?P<branch>[0-9]{1,2}))?(?P<tail>.*)$")
-NUMDOT = re.compile(r"^\s*(?P<base>[0-9]{1,3})(?P<suffix>[A-Za-z]{1,2}(?![A-Za-z])|-[0-9]{1,2})?\.(?P<tail>(?:\s.*)?)$")
+NUMDOT = re.compile(
+    r"^\s*(?:(?P<mark>[0-9]{1,3})\s?\[\s*)?(?P<base>\d{1,3})"
+    r"(?P<suffix>[A-Za-z\u0995-\u099c]{1,2}(?![A-Za-z\u0995-\u099c])|-[0-9]{1,2})?"
+    r"(?:\.(?P<t1>(?:\s.*)?)|\s?[\u0964\u09f7](?P<t2>.*))$"
+)
 TOC_LEADER = re.compile(r"(\.{4,}|…{2,}|\s\.\s\.\s\.)\s*[0-9ivxlc]*\s*$")
 
 
@@ -262,12 +271,14 @@ def find_candidates(lines: list[str], style: str, keywords: list[str], words_aft
             continue
         parsed: tuple[int, str] | None
         keyword = ""
+        mark = ""
         if style == "numdot":
             m = NUMDOT.match(line)
             if not m:
                 continue
             parsed = parse_number(m.group("base"), m.group("suffix") or "")
-            remainder = m.group("tail").strip()
+            remainder = (m.group("t1") or m.group("t2") or "").strip()
+            mark = m.group("mark") or ""
         elif style == "numword":
             if after is None:
                 continue
@@ -298,11 +309,11 @@ def find_candidates(lines: list[str], style: str, keywords: list[str], words_aft
                 continue
         if parsed is None or parsed[0] == 0:
             continue
-        out.append(Candidate(i, parsed[0], parsed[1], remainder, keyword))
+        out.append(Candidate(i, parsed[0], parsed[1], remainder, keyword, mark=mark))
     return out
 
 
-def body_chain(cands: list[Candidate], lines: list[str]) -> list[Candidate]:
+def body_chain(cands: list[Candidate], lines: list[str], max_gap: int = MAX_GAP) -> list[Candidate]:
     """The most text-bearing run of consecutive numbers among the candidates (dynamic programming)."""
     if not cands:
         return []
@@ -315,7 +326,7 @@ def body_chain(cands: list[Candidate], lines: list[str]) -> list[Candidate]:
         best[i] = c.weight if c.base <= 3 else 0
         for j in range(i):
             d = c.base - cands[j].base
-            follows = (1 <= d <= MAX_GAP) or (d == 0 and c.suffix and c.suffix != cands[j].suffix)
+            follows = (1 <= d <= max_gap) or (d == 0 and c.suffix and c.suffix != cands[j].suffix)
             if best[j] and follows and best[j] + c.weight > best[i]:
                 best[i] = best[j] + c.weight
                 prev[i] = j
@@ -337,6 +348,14 @@ PAGE_NUMBER = re.compile(r"^\s*(?:[-–—]\s*)?[0-9]{1,4}(?:\s*[-–—])?\s*$"
 
 
 def _html_lines(body: bytes, hints: dict[str, Any], encoding: str) -> list[str]:
+    # markup repairs named by the manifest, applied before the page is parsed (e.g. a space the page draws with CSS
+    # between a label and its title); they never touch the words of the text
+    pairs = hints.get("html_replace") or []
+    if pairs:
+        page = body.decode(encoding, errors="replace")
+        for pattern, replacement in pairs:
+            page = re.sub(str(pattern), str(replacement), page)
+        body = page.encode(encoding)
     try:
         root = parse_html(body, encoding)
     except HtmlParseError as exc:
@@ -397,7 +416,15 @@ def document_lines(bundle: dict[str, Any]) -> list[str]:
     if media == "pdf":
         raw = _pdf_lines(body, hints)
     elif media == "html":
-        raw = _html_lines(body, hints, hints.get("encoding", "utf-8"))
+        encoding = hints.get("encoding", "utf-8")
+        raw = []
+        # a constitution published as one page per chapter: the pages in the manifest's order, each optionally
+        # preceded by the heading the manifest names (the publisher's words for what the page is)
+        for part in bundle.get("parts") or [{"body_b64": bundle["body_b64"]}]:
+            if part.get("heading"):
+                raw += [str(part["heading"]), ""]
+            raw += _html_lines(base64.b64decode(part["body_b64"]), hints, encoding)
+            raw.append("")
     else:
         raise ConstitutionParseError(f"unknown media {media!r}")
     drop = [re.compile(p) for p in hints.get("drop_lines") or []]
@@ -515,9 +542,17 @@ def _blocks(lines: list[str], note: str, start: int = 1) -> list[Unit]:
     return units
 
 
-def _pop_heading(region: list[str]) -> tuple[list[str], str | None]:
+def _pop_heading(region: list[str], line_mode: bool = False) -> tuple[list[str], str | None]:
     """For texts that print an article's heading *above* its number: the short last paragraph of the lines before
     the number (at most two lines, 100 characters, not a sentence) is that heading and leaves the previous article."""
+    if line_mode:  # lines are not separated by blank lines (HTML): the last line, when short and not a sentence
+        positions = [i for i, x in enumerate(region) if x]
+        if not positions:
+            return region, None
+        text = region[positions[-1]]
+        if len(text) > 100 or text.endswith(SENTENCE_END) or text.startswith("("):
+            return region, None
+        return region[: positions[-1]], text
     end = len(region)
     while end and not region[end - 1]:
         end -= 1
@@ -546,6 +581,7 @@ def _split_region(
     title_lines: int,
     before: bool,
     heading_re: re.Pattern[str] | None = None,
+    line_mode: bool = False,
 ) -> tuple[list[str], str | None, str | None]:
     """Split the lines between two articles into (rest, chapter heading, heading of the next article).
 
@@ -566,7 +602,7 @@ def _split_region(
                 return region[:i], " ".join(block[:-1]), block[-1]
             return region[:i], " ".join(block), None
     if before:
-        rest, heading = _pop_heading(region)
+        rest, heading = _pop_heading(region, line_mode)
         return rest, None, heading
     return region, None, None
 
@@ -589,7 +625,9 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
         words_after = list(hints.get("keywords_after") or [])
         order = ["keyword", "numdot", *(["numword"] if words_after else [])] if style == "auto" else [style]
         for name in order:
-            found = body_chain(find_candidates(lines, name, keywords, words_after), lines)
+            found = body_chain(
+                find_candidates(lines, name, keywords, words_after), lines, int(hints.get("max_gap", MAX_GAP))
+            )
             if len(found) >= MIN_UNITS and len(found) > len(chain):
                 chain, chosen = found, name
     if not chain:
@@ -618,6 +656,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
 
     heading_re = re.compile(hints["heading_before_regex"]) if hints.get("heading_before_regex") else None
     heading_before = bool(hints.get("heading_before")) or heading_re is not None
+    heading_line = hints.get("heading_before") == "line"
     pending: str | None = None  # the heading printed above the next number (heading_before)
     first = chain[0].line
     tops: list[tuple[Unit, str | None]] = []
@@ -630,7 +669,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
             stored_from = markers[-1]
             region = lines[markers[-1] + 1 : first]
             region, context, found_heading = _split_region(
-                region, chapter_re, chapter_title_lines, heading_before, heading_re
+                region, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line
             )
             pending = found_heading
             body = [x for x in _nonblank(region) if not any(p.search(x) for p in note_re)]
@@ -641,7 +680,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
                 tops.append((unit, None))
     if context is None:
         _, context, found_heading = _split_region(
-            pre_region, chapter_re, chapter_title_lines, heading_before, heading_re
+            pre_region, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line
         )
         pending = found_heading
     front_lines = len([x for x in lines[:stored_from] if x])
@@ -673,7 +712,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
             if cut is not None:  # unnumbered text between two numbered units (provisional provisions ...)
                 region, between = region[:cut], region[cut:]
                 between, found_chapter, next_heading = _split_region(
-                    between, chapter_re, chapter_title_lines, heading_before, heading_re
+                    between, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line
                 )
                 inter_blocks = _blocks(
                     _trim(between),
@@ -684,7 +723,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
                 block_no += len(inter_blocks)
             else:
                 region, found_chapter, next_heading = _split_region(
-                    region, chapter_re, chapter_title_lines, heading_before, heading_re
+                    region, chapter_re, chapter_title_lines, heading_before, heading_re, heading_line
                 )
             if found_chapter:
                 next_context = found_chapter
@@ -717,6 +756,11 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
             content, heading = [heading], None
         unit = Unit(word, tag, key_of(cand.key), heading=heading)
         unit.notes.extend(notes)
+        if cand.mark:
+            unit.notes.append(
+                f"The source prints the footnote reference {cand.mark} before the number of this {word}, "
+                f"in the form '{cand.mark}[{cand.key}.'."
+            )
         unit.content.extend(_paragraph_units(content, paragraph_style))
         if not last:
             following = chain[n + 1]

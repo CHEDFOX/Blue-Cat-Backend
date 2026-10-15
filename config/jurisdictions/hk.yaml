@@ -1,0 +1,63 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Hong Kong Special Administrative Region: a minimal profile created for the constitution sweep of Africa, the
+# Middle East, Asia and Oceania. Only the constitution is loaded; nothing else about the legal system is profiled.
+schema_version: 1
+id: HK
+profile_version: 0.1.0
+name: Hong Kong Special Administrative Region
+names:
+  en: Hong Kong Special Administrative Region of the People's Republic of China
+  zh-Hant: 中華人民共和國香港特別行政區
+kind: constituent_unit
+parent: CN
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages:
+- zh-Hant
+- en
+legal_system:
+  families:
+  - common_law
+  structure: constituent
+  treaty_reception: unknown
+  notes: >-
+    To verify - a Special Administrative Region of the People's Republic of China with a high degree of autonomy under the
+    Basic Law (arts 2, 12); Chinese and English are the official languages (Basic Law art 9); the laws previously in force,
+    the common law among them, are maintained (art 8). The legal system of the mainland and the national Constitution are
+    modelled in the CN profile.
+legislative_institutions: []
+instrument_types:
+- constitution
+norm_hierarchy:
+- constitution
+courts: []
+precedent:
+  doctrine: not_applicable
+  vertical_binding: false
+  notes: >-
+    Not profiled: only the constitution is loaded, no court decisions. To verify - how precedent works in this jurisdiction.
+citation:
+  module: constitution
+  notes: >-
+    The constitution is cited as "Hong Kong Basic Law art. N" (a label, with the article number as the document itself prints
+    it). To verify - the country's own citation convention.
+  examples:
+  - Hong Kong Basic Law art. 23
+  - Hong Kong Basic Law art. 158
+publication:
+  official_sources:
+  - hk-cmab-basiclaw
+coverage:
+  corpus_status: pilot
+  known_gaps:
+  - >-
+    Only the constitution is loaded (the English text of the Basic Law on the Basic Law website of the Constitutional and
+    Mainland Affairs Bureau; the Chinese text is not ingested). No legislation, regulations, treaties or case law of Hong
+    Kong Special Administrative Region are ingested.
+  - >-
+    The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since
+    are not applied, and no history is held (docs/constitutions-africa-asia-oceania.md).
+  - >-
+    Courts, legislative institutions, legal families and treaty reception are not profiled: this is a minimal profile, not
+    reviewed by counsel.
