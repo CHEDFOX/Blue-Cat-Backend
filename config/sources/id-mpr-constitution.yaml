@@ -1,0 +1,82 @@
+# Constitution of Indonesia from the MPR (People's Consultative Assembly) Secretariat General (www.mpr.go.id). Read on 2026-10-15, before any document was fetched:
+#   robots.txt - www.mpr.go.id/robots.txt names only "facebookexternalhit" (with an empty "Disallow:"); no rule applies to other agents; no Crawl-delay
+#   Terms - home page footer: "HAK CIPTA (c) SEKRETARIAT JENDERAL MPR RI" (copyright, Secretariat General of the MPR) - a generic footer; no terms-of-use or licence page was found
+#   The document - The PDF is headed "MAJELIS PERMUSYAWARATAN RAKYAT SEKRETARIAT JENDERAL UNDANG-UNDANG DASAR NEGARA REPUBLIK INDONESIA TAHUN 1945 DALAM SATU NASKAH" (the Constitution in one text, with the four Amendments, Perubahan Pertama to Keempat, marked by *), **), ***), ****) after the provisions they changed); it carries no copyright notice. The font prints the hyphen of "undang-undang" as a soft-hyphen glyph (U+00AD), which the parser reads as a hyphen (hint soft_hyphen).
+schema_version: 1
+id: id-mpr-constitution
+name: >-
+  Constitution of Indonesia - the MPR (People's Consultative Assembly) Secretariat General (www.mpr.go.id)
+publisher: >-
+  Majelis Permusyawaratan Rakyat Republik Indonesia (People's Consultative Assembly), Sekretariat Jenderal MPR RI, www.mpr.go.id
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- ID
+document_kinds:
+- constitution
+languages:
+- id
+coverage: >-
+  The Constitution of Indonesia in id as published by the MPR (People's Consultative Assembly) Secretariat General: 1 document(s).
+  Pembukaan (preamble) and 37 Pasal (articles) in 16 chapters (BAB) with the Aturan Peralihan and Aturan Tambahan (transitional
+  and additional rules) as trailing blocks.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/id-mpr-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: ID-official-text-no-terms
+  name: >-
+    Official legal text published by the MPR (People's Consultative Assembly) Secretariat General; home page footer: "HAK
+    CIPTA (c) SEKRETARIAT JENDERAL MPR RI" (copyright, Secretariat General of the MPR) - a generic footer; no terms-of-us
+  url: https://www.mpr.go.id/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the publisher's own pages quoted in the header of this file: robots.txt
+    (www.mpr.go.id/robots.txt names only "facebookexternalhit" (with an empty "Disallow:"); no rule applies to other agents;
+    no Crawl-delay) and the terms (home page footer: "HAK CIPTA (c) SEKRETARIAT JENDERAL MPR RI" (copyright, Secretariat
+    General of the MPR) - a generic footer; no terms-of-use or licence page was found). The PDF is headed "MAJELIS PERMUSYAWARATAN
+    RAKYAT SEKRETARIAT JENDERAL UNDANG-UNDANG DASAR NEGARA REPUBLIK INDONESIA TAHUN 1945 DALAM SATU NASKAH" (the Constitution
+    in one text, with the four Amendments, Perubahan Pertama to Keempat, marked by *), **), ***), ****) after the provisions
+    they changed); it carries no copyright notice. The font prints the hyphen of "undang-undang" as a soft-hyphen glyph
+    (U+00AD), which the parser reads as a hyphen (hint soft_hyphen). The Constitution is an official legal text; Law No.
+    28 of 2014 on Copyright, art 42, excludes laws and regulations from copyright (to verify; not read on a publisher's
+    page). Reading: AMBER - the publisher states no restriction on reusing the text; no permission for automated retrieval
+    is stated either.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Indonesia, the MPR (People's Consultative Assembly) Secretariat General (www.mpr.go.id); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (id), not the authentic publication; amendments after the edition date are not applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/id-mpr-constitution.yaml, stored byte for byte inside JSON bundles with the
+  URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- >-
+  The Amendment marks (*), **), ***), ****) after provisions are part of the text as printed; the dates of the four Amendments
+  are not printed in the file and are not recorded.
+- >-
+  The Aturan Peralihan, Aturan Tambahan and the closing text are stored as blocks of paragraphs after Pasal 37.
+status: active
+connector: constitution_docs
+parser: constitution_text

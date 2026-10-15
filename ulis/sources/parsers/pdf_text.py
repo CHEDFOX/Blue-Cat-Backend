@@ -39,11 +39,13 @@ def normalise_glyphs(text: str) -> str:
     return LIGATURE.sub(lambda m: LIGATURES[m.group()], text)
 
 
-def pdf_pages(pdf: bytes, *, layout: bool = False) -> list[str]:
+def pdf_pages(pdf: bytes, *, layout: bool = False, soft_hyphen: str = "drop") -> list[str]:
     """The text of each PDF page, as ``pdftotext`` extracts it (reading order), glyph forms normalised.
 
     ``layout=True`` asks for ``pdftotext -layout`` (physical layout kept: numbers printed in a margin column stay on
-    the line of their text); the default reading order is unchanged for every existing caller."""
+    the line of their text). ``soft_hyphen="hyphen"`` reads U+00AD as the visible hyphen it is in some fonts
+    ("undang-undang" printed with a soft-hyphen glyph) instead of dropping it. The defaults leave the text every
+    existing caller gets unchanged."""
     exe = shutil.which("pdftotext")
     if exe is None:
         raise PdfTextError("pdftotext (poppler-utils) is not installed; it is needed to read PDF files")
@@ -67,4 +69,6 @@ def pdf_pages(pdf: bytes, *, layout: bool = False) -> list[str]:
     pages = done.stdout.decode("utf-8", "replace").split("\f")
     if pages and not pages[-1].strip():
         pages.pop()
+    if soft_hyphen == "hyphen":
+        pages = [page.replace("­", "-") for page in pages]
     return [normalise_glyphs(page) for page in pages]

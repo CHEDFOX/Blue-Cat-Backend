@@ -67,6 +67,8 @@ TEXT_ORIGINS = {
     "unofficial_compilation",
 }
 SECTION_WORDS = {"section", "sec.", "sec", "clause"}
+# invisible direction marks that Arabic and Hebrew pages put around words and numbers; they are layout, not text
+BIDI_MARKS = frozenset("\u061c\u200e\u200f\u202a\u202b\u202c\u202d\u202e\u2066\u2067\u2068\u2069\ufeff")
 
 __all__ = [
     "BUNDLE_SCHEMA",
@@ -230,7 +232,7 @@ class Candidate:
 def keyword_regex(keywords: list[str]) -> re.Pattern[str]:
     alternatives = "|".join(re.escape(k) for k in sorted(set(keywords), key=len, reverse=True))
     return re.compile(
-        r"^\s*[«“„\"]?\s*(?P<kw>" + alternatives + r")\s*[\s:#№]*(?:\(\s*)?" + NUMBER + r"\s*\)?"
+        r"^\s*[«“„\"\-–—•]?\s*(?P<kw>" + alternatives + r")\s*[\s:#№]*(?:\(\s*)?" + NUMBER + r"\s*\)?"
         r"(?P<tail>(?:\s*[.:–—-]+\s*|\s+|$).*)$",
         re.IGNORECASE,
     )
@@ -366,7 +368,7 @@ def _html_lines(body: bytes, hints: dict[str, Any], encoding: str) -> list[str]:
 
 def _pdf_lines(body: bytes, hints: dict[str, Any]) -> list[str]:
     try:
-        pages = pdf_pages(body, layout=bool(hints.get("layout")))
+        pages = pdf_pages(body, layout=bool(hints.get("layout")), soft_hyphen=str(hints.get("soft_hyphen", "drop")))
     except PdfTextError as exc:
         raise ConstitutionParseError(str(exc)) from exc
     first = int(hints.get("first_page", 1))
@@ -403,7 +405,11 @@ def document_lines(bundle: dict[str, Any]) -> list[str]:
     lines = []
     for line in raw:
         # control characters (a PDF font's bullet comes out as BEL) are not text; no-break spaces become spaces
-        line = "".join(ch for ch in line.replace(" ", " ") if ch == "\t" or unicodedata.category(ch) != "Cc").strip()
+        line = "".join(
+            ch
+            for ch in line.replace("\u00a0", " ")
+            if (ch == "\t" or unicodedata.category(ch) != "Cc") and ch not in BIDI_MARKS
+        ).strip()
         if layout:  # the column layout of the page is spacing, not text
             line = re.sub(r"\s{2,}", " ", line)
         if line and any(p.search(line) for p in drop):
@@ -476,7 +482,7 @@ def _trim(lines: list[str]) -> list[str]:
     return lines[start:end]
 
 
-def _blocks(lines: list[str], note: str) -> list[Unit]:
+def _blocks(lines: list[str], note: str, start: int = 1) -> list[Unit]:
     """Blocks of about ``BLOCK_CHARS`` characters: whole paragraphs (runs of lines between blanks) where possible."""
     paragraphs: list[list[str]] = [[]]
     for line in lines:
@@ -492,7 +498,7 @@ def _blocks(lines: list[str], note: str) -> list[Unit]:
     def flush() -> None:
         nonlocal current, size
         if current:
-            unit = Unit("block", "blk", str(len(units) + 1), notes=[note])
+            unit = Unit("block", "blk", str(start + len(units)), notes=[note])
             unit.content.extend(current)
             units.append(unit)
         current, size = [], 0
@@ -535,15 +541,23 @@ def _is_tail(line: str, tail_re: re.Pattern[str], strict: bool) -> bool:
 
 
 def _split_region(
-    region: list[str], chapter_re: re.Pattern[str], title_lines: int, before: bool
+    region: list[str],
+    chapter_re: re.Pattern[str],
+    title_lines: int,
+    before: bool,
+    heading_re: re.Pattern[str] | None = None,
 ) -> tuple[list[str], str | None, str | None]:
     """Split the lines between two articles into (rest, chapter heading, heading of the next article).
 
     The chapter heading is the block of the last few non-blank lines that starts with a chapter/part keyword; the lines
     before it stay with the article above. For texts that print an article's heading above its number (``before``),
     the last line of that block (beyond the chapter's own title lines) - or, without a chapter heading, the short last
-    paragraph - is the heading of the article that follows."""
+    paragraph - is the heading of the article that follows. A ``heading_re`` (Turkish "II. Cumhuriyetin nitelikleri")
+    names the heading line itself: the last line before the number, when it matches."""
     positions = [i for i, x in enumerate(region) if x]
+    if before and heading_re is not None and positions and heading_re.match(region[positions[-1]]):
+        rest, chapter, _ = _split_region(region[: positions[-1]], chapter_re, title_lines, False)
+        return rest, chapter, region[positions[-1]]
     window = positions[-(CHAPTER_TRAIL + title_lines + (1 if before else 0)) :]
     for i in window:
         if chapter_re.match(region[i]):
@@ -557,7 +571,7 @@ def _split_region(
     return region, None, None
 
 
-def _structure(lines: list[str], document: dict[str, Any]) -> tuple[list[tuple[Unit, str | None]], bool]:
+def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[list[tuple[Unit, str | None]], bool]:
     """(top-level units with their context heading, whether numbered units were recognised)."""
     hints = document.get("structure") or {}
     note_re = [re.compile(p) for p in hints.get("note_lines") or []]
@@ -592,7 +606,8 @@ def _structure(lines: list[str], document: dict[str, Any]) -> tuple[list[tuple[U
     )
     tag = "sec" if unit_kind == "section" else "art"
     word = "section" if unit_kind == "section" else "article"
-    heading_mode = hints.get("heading", "auto")
+    # in a PDF the lines are hard-wrapped: what follows the number on its line is the start of the text, not a heading
+    heading_mode = hints.get("heading", "text" if media == "pdf" else "auto")
     heading_lines = int(hints.get("heading_lines", 0))
     heading_paren = hints.get("heading_next") == "paren"
     paragraph_style = hints.get("paragraphs", "paren")
@@ -601,7 +616,8 @@ def _structure(lines: list[str], document: dict[str, Any]) -> tuple[list[tuple[U
     tail_re = re.compile(hints["tail_regex"]) if hints.get("tail_regex") else DEFAULT_TAIL
     preamble_re = re.compile(hints["preamble_regex"]) if hints.get("preamble_regex") else DEFAULT_PREAMBLE
 
-    heading_before = bool(hints.get("heading_before"))
+    heading_re = re.compile(hints["heading_before_regex"]) if hints.get("heading_before_regex") else None
+    heading_before = bool(hints.get("heading_before")) or heading_re is not None
     pending: str | None = None  # the heading printed above the next number (heading_before)
     first = chain[0].line
     tops: list[tuple[Unit, str | None]] = []
@@ -613,15 +629,20 @@ def _structure(lines: list[str], document: dict[str, Any]) -> tuple[list[tuple[U
         if markers:
             stored_from = markers[-1]
             region = lines[markers[-1] + 1 : first]
-            region, context, found_heading = _split_region(region, chapter_re, chapter_title_lines, heading_before)
+            region, context, found_heading = _split_region(
+                region, chapter_re, chapter_title_lines, heading_before, heading_re
+            )
             pending = found_heading
-            body = _nonblank(region)
+            body = [x for x in _nonblank(region) if not any(p.search(x) for p in note_re)]
             if body:
                 unit = Unit("preamble", "", "preamble", heading=lines[markers[-1]])
                 unit.content.extend(body)
+                unit.notes.extend(x for x in _nonblank(region) if any(p.search(x) for p in note_re))
                 tops.append((unit, None))
     if context is None:
-        _, context, found_heading = _split_region(pre_region, chapter_re, chapter_title_lines, heading_before)
+        _, context, found_heading = _split_region(
+            pre_region, chapter_re, chapter_title_lines, heading_before, heading_re
+        )
         pending = found_heading
     front_lines = len([x for x in lines[:stored_from] if x])
     front_note = (
@@ -631,6 +652,8 @@ def _structure(lines: list[str], document: dict[str, Any]) -> tuple[list[tuple[U
         else None
     )
 
+    interlude_re = re.compile(hints["interlude_regex"]) if hints.get("interlude_regex") else None
+    block_no = 1
     for n, cand in enumerate(chain):
         last = n + 1 == len(chain)
         end = chain[n + 1].line if not last else len(lines)
@@ -638,6 +661,7 @@ def _structure(lines: list[str], document: dict[str, Any]) -> tuple[list[tuple[U
         tail_from: int | None = None
         next_context = context
         next_heading: str | None = None
+        inter_blocks: list[Unit] = []
         if last:
             for k, line in enumerate(region):
                 if _is_tail(line, tail_re, not hints.get("tail_regex")):
@@ -645,7 +669,23 @@ def _structure(lines: list[str], document: dict[str, Any]) -> tuple[list[tuple[U
                     region = region[:k]
                     break
         else:
-            region, found_chapter, next_heading = _split_region(region, chapter_re, chapter_title_lines, heading_before)
+            cut = next((k for k, x in enumerate(region) if interlude_re is not None and interlude_re.match(x)), None)
+            if cut is not None:  # unnumbered text between two numbered units (provisional provisions ...)
+                region, between = region[:cut], region[cut:]
+                between, found_chapter, next_heading = _split_region(
+                    between, chapter_re, chapter_title_lines, heading_before, heading_re
+                )
+                inter_blocks = _blocks(
+                    _trim(between),
+                    f"Unnumbered text between the numbered {word}s (e.g. provisional provisions), "
+                    "stored as blocks of paragraphs.",
+                    block_no,
+                )
+                block_no += len(inter_blocks)
+            else:
+                region, found_chapter, next_heading = _split_region(
+                    region, chapter_re, chapter_title_lines, heading_before, heading_re
+                )
             if found_chapter:
                 next_context = found_chapter
         heading, leftover = _heading_text(
@@ -689,6 +729,7 @@ def _structure(lines: list[str], document: dict[str, Any]) -> tuple[list[tuple[U
         if n == 0 and front_note:
             unit.notes.append(front_note)
         tops.append((unit, context))
+        tops.extend((b, None) for b in inter_blocks)
         context = next_context
         pending = next_heading
         if tail_from is not None:
@@ -696,6 +737,7 @@ def _structure(lines: list[str], document: dict[str, Any]) -> tuple[list[tuple[U
                 _trim(lines[tail_from:]),
                 f"Text after the last numbered {word} (schedules, annexes, closing formula), "
                 "stored as blocks of paragraphs.",
+                block_no,
             )
             tops.extend((b, None) for b in tail)
     if not tops:
@@ -733,7 +775,7 @@ def parse_constitution(content: bytes) -> list[ParsedDocument]:
         raise ConstitutionParseError(f"unknown text_origin {text_origin!r}")
 
     lines = document_lines(bundle)
-    tops, recognised = _structure(lines, document)
+    tops, recognised = _structure(lines, document, str(bundle["media"]))
     if document.get("note") and tops:  # a statement of the manifest taken from the document (e.g. its heading line)
         tops[0][0].notes.append(str(document["note"]))
     provisions: list[ParsedProvision] = build_provisions(

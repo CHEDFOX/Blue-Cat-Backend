@@ -1,0 +1,59 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Senegal: a minimal profile created for the constitution sweep of Africa, the
+# Middle East, Asia and Oceania. Only the constitution is loaded; nothing else about the legal system is profiled.
+schema_version: 1
+id: SN
+profile_version: 0.1.0
+name: Senegal
+names:
+  fr: République du Sénégal
+  en: Republic of Senegal
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages:
+- fr
+legal_system:
+  families: []
+  structure: unitary
+  treaty_reception: unknown
+  notes: >-
+    To verify - a unitary republic; French is the official language and Wolof, Pulaar, Sereer, Joola, Mandinka and Soninke
+    (and other codified languages) are national languages (Constitution art 1). A civil-law system inspired by French law,
+    with Islamic and customary rules in personal status.
+legislative_institutions: []
+instrument_types:
+- constitution
+norm_hierarchy:
+- constitution
+courts: []
+precedent:
+  doctrine: not_applicable
+  vertical_binding: false
+  notes: >-
+    Not profiled: only the constitution is loaded, no court decisions. To verify - how precedent works in this jurisdiction.
+citation:
+  module: constitution
+  notes: >-
+    The constitution is cited as "Senegal Constitution art. N" (a label, with the article number as the document itself
+    prints it). To verify - the country's own citation convention.
+  examples:
+  - Senegal Constitution art. 1
+  - Senegal Constitution art. 92
+publication:
+  official_sources:
+  - sn-cc-constitution
+coverage:
+  corpus_status: pilot
+  known_gaps:
+  - >-
+    Only the constitution is loaded (the French text of the Constitution as consolidated by the Conseil constitutionnel
+    up to the law of 11 May 2018). No legislation, regulations, treaties or case law of Senegal are ingested.
+  - >-
+    The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since
+    are not applied, and no history is held (docs/constitutions-africa-asia-oceania.md).
+  - >-
+    Courts, legislative institutions, legal families and treaty reception are not profiled: this is a minimal profile, not
+    reviewed by counsel.

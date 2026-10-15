@@ -420,6 +420,26 @@ def test_number_first_headings_and_the_manifest_hints() -> None:
     assert cite == "Test Constitution s. 3"
 
 
+def test_unnumbered_interlude_between_numbered_articles_is_kept_as_blocks() -> None:
+    lines: list[str] = []
+    for n in range(1, 7):
+        lines += [f"Article {n}", f"Words of article {n}, long enough to count."]
+    lines += [
+        "Provisional Provisions",
+        "Provisional article 1 - first transitional rule of the text.",
+        "Second transitional rule.",
+    ]
+    for n in range(7, 9):
+        lines += [f"Article {n}", f"Words of article {n}, long enough to count."]
+    doc = parse(text_bundle(lines, structure={"interlude_regex": "^Provisional Provisions$"}))
+    assert [p.eid for p in tops(doc)] == [f"art-{n}" for n in range(1, 7)] + ["blk-1", "art-7", "art-8"]
+    assert prov(doc, "art-6").text == "Words of article 6, long enough to count."
+    block = prov(doc, "blk-1")
+    assert block.text.startswith("Provisional Provisions") and "Second transitional rule." in block.text
+    assert "Unnumbered text between the numbered articles" in (block.note or "")
+    assert prov(doc, "art-7").text == "Words of article 7, long enough to count."
+
+
 def test_page_furniture_is_only_removed_when_the_manifest_names_it() -> None:
     pages = [
         ["Article 1", "Words of the first article.", "", "- 7 -"],
@@ -707,6 +727,10 @@ ACTIVE = [
     "kg-shailoo-constitution",
     "am-concourt-constitution",
     "lk-parliament-constitution",
+    "th-senate-constitution",
+    "id-mpr-constitution",
+    "pk-cci-constitution",
+    "sn-cc-constitution",
 ]
 
 
@@ -749,6 +773,10 @@ def test_commercial_deployments_are_refused_where_the_terms_forbid_commercial_us
         "kg-shailoo-constitution",
         "am-concourt-constitution",
         "lk-parliament-constitution",
+        "th-senate-constitution",
+        "id-mpr-constitution",
+        "pk-cci-constitution",
+        "sn-cc-constitution",
     ):
         assert catalog.sources.get(source_id).licence.commercial_use == "unknown"
         with pytest.raises(LicenceNotApproved, match="commercial"):

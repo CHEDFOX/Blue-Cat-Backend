@@ -1,0 +1,25 @@
+# The Constitution of Pakistan (en): 1 document(s) on cci.gov.pk. See config/sources/pk-cci-constitution.yaml.
+schema_version: 1
+source_id: pk-cci-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- cci.gov.pk
+documents:
+- slug: pk-en
+  jurisdiction: PK
+  url: >-
+    https://cci.gov.pk/SiteImage/Misc/files/Constitutions%20of%20Pakistan/Constitution%20of%20Pakistan%201973.pdf
+  format: pdf
+  language: en
+  title: The Constitution of the Islamic Republic of Pakistan
+  citation_name: Pakistan Constitution
+  edition_date: '2018-05-31'
+  edition_label: As modified upto the 31st May, 2018 (cover)
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    layout: true
+    page_numbers: true
+    unit_kind: article
+    heading: auto
