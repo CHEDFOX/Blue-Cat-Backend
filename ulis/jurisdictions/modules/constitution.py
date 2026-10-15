@@ -54,8 +54,8 @@ class ConstitutionModule(JurisdictionModule):
 
     def provision_citation(self, c: ProvisionCitationInput) -> str:
         pin = self.pinpoint(c)
-        if c.language in NO_SPACE:
-            return f"{c.instrument_title}{pin}"
         if c.eid == "preamble" or _BLOCK.match(c.eid):
             return f"{c.instrument_title}, {pin}"
+        if c.language in NO_SPACE:
+            return f"{c.instrument_title}{pin}"
         return f"{c.instrument_title} {pin}"

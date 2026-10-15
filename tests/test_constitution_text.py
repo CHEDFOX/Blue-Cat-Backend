@@ -603,6 +603,7 @@ def test_citation_forms() -> None:
         == "中华人民共和国宪法第51条第2款"
     )
     assert cite("art-23", "article", ["art:23"], "澳門基本法", "zh-Hant") == "澳門基本法第23條"
+    assert cite("blk-3", "block", ["blk:3"], "澳門基本法", "zh-Hant") == "澳門基本法, text block 3"
 
 
 # --------------------------------------------------------------------------- connector (offline)
