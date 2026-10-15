@@ -1,0 +1,48 @@
+# The Constitution of Nepal (en): 1 document(s) on giwmscdnone.gov.np. See config/sources/np-lawcommission-constitution.yaml.
+schema_version: 1
+source_id: np-lawcommission-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 10
+hosts:
+- giwmscdnone.gov.np
+documents:
+- slug: np-en
+  jurisdiction: NP
+  url: >-
+    https://giwmscdnone.gov.np/media/files/Constitution%20of%20Nepal%20(2nd%20amd.%20English)_xf33zb3.pdf
+  format: pdf
+  language: en
+  title: The Constitution of Nepal
+  citation_name: Nepal Constitution
+  adopted_on: '2015-09-20'
+  edition_label: text with the Second Amendment (2020) on the Nepal Law Commission's page; no edition date printed
+  events:
+  - type: promulgation
+    date: '2015-09-20'
+    description: '''Date of Publication in Nepal Gazette September 20, 2015'''
+    locator: first page
+  - type: amendment
+    date: '2016-02-28'
+    description: '''The Constitution of Nepal (First Amendment), 2016'''
+    locator: first page
+  - type: amendment
+    date: '2020-06-18'
+    description: '''The Constitution of Nepal (Second Amendment), 2020'''
+    locator: first page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    style: numdot
+    unit_kind: article
+    page_numbers: true
+    start_regex: ^Preamble:$
+    drop_lines:
+    - ^www\.lawcommission\.gov\.np$
+    chapter_regex: ^Part ?-? ?[0-9]+$
+    chapter_title_lines: 1
+    preamble_regex: ^Preamble:$
+    tail_regex: ^Schedule-1
+  note: >-
+    First page of the PDF, not stored as an article: 'The Constitution of Nepal Date of Publication in Nepal Gazette September
+    20, 2015 Amendments: 1. The Constitution of Nepal (First Amendment), 2016 February 28, 2016 2. The Constitution of Nepal
+    (Second Amendment), 2020 June 18, 2020'.

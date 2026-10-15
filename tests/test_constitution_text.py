@@ -874,6 +874,7 @@ ACTIVE = [
     "lb-presidency-constitution",
     "bd-bdlaws-constitution",
     "ke-parliament-constitution",
+    "np-lawcommission-constitution",
 ]
 
 
@@ -924,6 +925,7 @@ def test_commercial_deployments_are_refused_where_the_terms_forbid_commercial_us
         "lb-presidency-constitution",
         "bd-bdlaws-constitution",
         "ke-parliament-constitution",
+        "np-lawcommission-constitution",
     ):
         assert catalog.sources.get(source_id).licence.commercial_use == "unknown"
         with pytest.raises(LicenceNotApproved, match="commercial"):
