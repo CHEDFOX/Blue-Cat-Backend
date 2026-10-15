@@ -38,6 +38,7 @@ from ulis.storage.object_store import LocalObjectStore
 FIX = REPO_ROOT / "tests" / "fixtures" / "legislation_gov_uk" / "cache" / "legislation.gov.uk" / "ukpga" / "Vict"
 CLERK = FIX / "22-23" / "1"
 BURIAL = FIX / "22" / "1"
+CHEVENING = FIX.parent / "Eliz2" / "7-8" / "49"  # Chevening Estate Act 1959: a deed with repeated paragraph numbers
 MANIFEST = REPO_ROOT / "config" / "manifests" / "gb-legislation-gov-uk.yaml"
 
 
@@ -76,6 +77,18 @@ def test_regnal_year_uris_resolve_to_the_same_work_uris() -> None:
         "section-4-5",
     )
     assert resolve_uri("http://www.legislation.gov.uk/id/ukpga/Vict/not-a-number/1") is None
+
+
+def test_paragraphs_sharing_an_eid_are_separate_provisions() -> None:
+    """The deed in the Schedule of the Chevening Estate Act 1959 numbers its paragraphs several times over, so the site
+    gives them the same eId; with the same dates they were read as two wordings of one provision, which the database
+    refuses (a version ending on the day it starts)."""
+    doc = parse_legislation_gov_uk(_read(CHEVENING))[0]
+    eids = [p.eid for p in doc.provisions]
+    assert doc.work_uri == "/gb/ukpga/Eliz2/7-8/49" and len(eids) == len(set(eids))
+    first, second = (p for p in doc.provisions if p.eid in ("schedule-paragraph-1", "schedule-paragraph-1-dup2"))
+    assert first.text != second.text and first.valid_from == second.valid_from
+    assert first.text.startswith("The said Earl Stanhope") and second.text.startswith("In this Deed")
 
 
 def test_a_document_with_no_provisions_is_skipped_not_an_error() -> None:
@@ -268,13 +281,17 @@ def regnal_ingested(
                 "source_id": "gb-legislation-gov-uk",
                 "base_url": "https://www.legislation.gov.uk",
                 "user_agent": "ULIS-test (+https://example.org)",
-                "works": [{"path": "ukpga/Vict/22-23/1", "history": False}, {"path": "ukpga/Vict/22/1"}],
+                "works": [
+                    {"path": "ukpga/Vict/22-23/1", "history": False},
+                    {"path": "ukpga/Vict/22/1"},
+                    {"path": "ukpga/Eliz2/7-8/49"},
+                ],
             }
         )
     )
     connector = LegislationGovUkConnector(manifest, "gb-legislation-gov-uk", cache, offline=True)
     docs = list(connector.fetch())
-    assert len(docs) == 2
+    assert len(docs) == 3
     with session_factory() as session:
         report = Ingestor(session, catalog, store).ingest_source(
             "gb-legislation-gov-uk", actor="pytest", connector=_Docs(docs)
@@ -288,7 +305,7 @@ def test_same_chapter_acts_are_two_instruments(
     session: Session, catalog: Catalog, regnal_ingested: IngestionReport
 ) -> None:
     assert regnal_ingested.errors == [] and regnal_ingested.conflicts == []
-    assert regnal_ingested.instruments_created == 2
+    assert regnal_ingested.instruments_created == 3
     burial = provision_at(session, catalog, "/gb/ukpga/Vict/22/1/~section-1", date(2026, 10, 1))
     clerk = provision_at(session, catalog, "/gb/ukpga/Vict/22-23/1/~section-1", date(2026, 10, 1))
     assert burial["provision"]["citation"] == "Burial Act 1859, s 1"

@@ -277,6 +277,7 @@ def parse_legislation_gov_uk(content: bytes) -> list[ParsedDocument]:
     if body is None:
         raise UkParseError("missing body")
     provisions: list[ParsedProvision] = []
+    seen_wordings: dict[tuple[object, ...], int] = {}
 
     def own_notes(el: Element) -> list[str]:
         out: list[str] = []
@@ -367,6 +368,13 @@ def parse_legislation_gov_uk(content: bytes) -> list[ParsedDocument]:
                 text = ""
             else:
                 state = "in_force"
+            # Two different provisions can carry the same eId (the numbered paragraphs of a deed set out in a Schedule,
+            # Chevening Estate Act 1959): with the same dates and extent they would be taken for two wordings of one
+            # provision. The later ones get a suffix so that each is its own provision.
+            wording = (eid, start, end, tuple(c_extent))
+            seen_wordings[wording] = seen_wordings.get(wording, 0) + 1
+            if seen_wordings[wording] > 1:
+                eid = f"{eid}-dup{seen_wordings[wording]}"
             children = [c for c in child if _is_provision(c)]
             own = any(_local(c.tag) in ("content", "intro", "wrapUp") for c in child)
             note_texts = own_notes(child)

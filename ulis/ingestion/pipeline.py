@@ -493,7 +493,11 @@ class Ingestor:
         report.errors.extend(getattr(connector, "fetch_errors", []))  # documents a connector skipped on purpose
         self._refresh_statistics()
         for instrument_id in touched_instruments:
-            self._recompute_validity(instrument_id)
+            try:
+                with self.session.begin_nested():
+                    self._recompute_validity(instrument_id)
+            except Exception as exc:  # one instrument must not undo a run of thousands; it is reported
+                report.errors.append(f"validity of instrument {instrument_id} could not be derived: {exc}")
         report.citation_links_resolved = self.resolve_citations()
         report.passages_indexed = rebuild_passages(
             self.session, self.catalog, instrument_ids=touched_instruments, judgment_ids=touched_judgments
