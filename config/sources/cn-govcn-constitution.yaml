@@ -1,0 +1,99 @@
+# Constitution of the People's Republic of China (Chinese) from the central government portal. Pages read on 2026-10-15,
+# before the constitution page was fetched:
+#   https://www.gov.cn/robots.txt - "User-agent: *", "Allow: /1", then Disallow lines for /2016gov/, /2016shuju/,
+#        /2016guoqing/, /2016zhengce/, /premier/, /guowuyuan/..., /guoqing/2013-03/16/content_2583121.htm and others; no
+#        Crawl-delay; the page used here (/guoqing/2018-03/22/content_5276318.htm) is not disallowed.
+#   https://www.gov.cn/home/2014-02/23/content_5046258.htm - 网站声明 (website statement), linked from every page footer:
+#        "本网站内容由中央和地方各级政府、政府网站以及相关单位提供。任何媒体、互联网站和商业机构不得利用本网站发布的内容进行商业性的原版原式地转载，
+#        也不得歪曲和篡改本网站所发布的内容。本网站所涉及到的版权归本网站所属。 本网站提供的资料如与相关纸质文本不符，以纸质文本为准。"
+#        (Content is supplied by central and local governments and related units. No media, website or commercial body may
+#        use the content published on this site for commercial reposting of the original as it is, nor distort or tamper with
+#        it. The copyright of this site belongs to it. Where the material differs from the printed text, the printed text
+#        prevails.)
+#   The constitution page itself (source line "来源： 新华社") has no further terms. The copyright statute (Copyright Law of
+#   the PRC, art 5(1): laws, regulations and other documents of a legislative nature and their official translations are
+#   outside the Law's protection) was not read on a publisher's page; marked "to verify".
+schema_version: 1
+id: cn-govcn-constitution
+name: 中华人民共和国宪法 on 中国政府网 (www.gov.cn)
+publisher: 中国政府网 (www.gov.cn), the central government portal of the People's Republic of China
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- CN
+document_kinds:
+- constitution
+languages:
+- zh
+coverage: >-
+  The Constitution of the People's Republic of China (中华人民共和国宪法) in Chinese: preamble and 143 articles in four chapters,
+  as printed on the page of www.gov.cn headed "（1982年12月4日第五届全国人民代表大会第五次会议通过 ... 根据2018年3月11日第十三届全国人民代表大会第一次会议通过的《中华人民共和国宪法修正案》修正）".
+  One page, one language.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/cn-govcn-constitution.yaml
+  authentication: none
+update_frequency: >-
+  Not stated. The page was published on 2018-03-22 and has not changed since the 2018 Amendment; ULIS re-reads it only when
+  the manifest is run again.
+rate_limits: >-
+  robots.txt sets no Crawl-delay: ULIS waits 5 s between requests, identifies itself, caches the page and makes one request
+  (plus robots.txt).
+licence:
+  id: CN-gov.cn-website-statement
+  name: >-
+    网站声明 (website statement of www.gov.cn) - no commercial reposting of the original as it is; no distortion; the printed
+    text prevails
+  url: https://www.gov.cn/home/2014-02/23/content_5046258.htm
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the publisher's own pages: robots.txt (the page is not disallowed) and
+    the 网站声明 quoted in the header of this file. The statement forbids "商业性的原版原式地转载" (commercial reposting of the content
+    as it is) and distortion, and says the site's copyright belongs to the site; it says nothing against non-commercial
+    copying or automated retrieval. The Constitution is a text outside copyright protection under the PRC Copyright Law
+    art 5(1) (to verify; not read on a publisher's page). Reading: AMBER - automated retrieval and storage for a non-commercial
+    deployment is not forbidden; commercial use is excluded by the statement.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: not_allowed
+  attribution_required: true
+  attribution_text: >-
+    中华人民共和国宪法，来源：中国政府网 (https://www.gov.cn/guoqing/2018-03/22/content_5276318.htm)，新华社。检索于 {retrieved_date}。 ULIS 仅作结构化及索引加工，非中国政府网的认可。
+    (Source: Constitution of the PRC, www.gov.cn, from Xinhua; retrieved {retrieved_date}; structured and indexed by ULIS,
+    not endorsed by the publisher.)
+  conditions:
+  - >-
+    No commercial reposting of the content as it is, and no distortion or tampering (网站声明); ULIS keeps the page byte for
+    byte and re-derives the text from it. A commercial deployment must not use this source (ULIS_COMMERCIAL_USE refuses
+    it).
+  - >-
+    Where the material differs from the printed text, the printed text prevails (网站声明); the authentic text is the one the
+    National People's Congress published.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached page); stop on any refusal; robots.txt is read
+    before the page.
+  notes: >-
+    No licence is granted; the basis is the absence of any restriction on non-commercial use together with the PRC Copyright
+    Law art 5(1) (to verify). Counsel review is recommended before production use.
+provenance: >-
+  The page https://www.gov.cn/guoqing/2018-03/22/content_5276318.htm (HTML), stored byte for byte inside a JSON bundle with
+  its URL and retrieval time; the text is re-derived from the element with id UCAP-CONTENT. The page names Xinhua News Agency
+  (新华社) as its source.
+known_limitations:
+- >-
+  The page is a copy on a news-style portal, not the authentic publication; the printed text of the Constitution published
+  by the National People's Congress prevails (网站声明).
+- >-
+  The text is as amended up to the Amendment of 11 March 2018 (the last one printed on the page); an amendment adopted later
+  would not be in it.
+- Chinese only. No English version is ingested.
+- >-
+  Each article is a single passage (Chinese articles are not numbered inside); chapter and section headings are kept as
+  the context of the articles below them.
+- >-
+  The heading line with the adoption and amendment dates is kept in the note of the first provision, not as an article.
+status: active
+connector: constitution_docs
+parser: constitution_text

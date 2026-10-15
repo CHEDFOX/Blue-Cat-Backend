@@ -1,0 +1,89 @@
+# Constitution of Sri Lanka, English, "as amended up to 31st October 2022", Revised Edition 2023, as a PDF on the Parliament's website. Read on 2026-10-15:
+#   https://www.parliament.lk/robots.txt - "User-agent: *" "Disallow: /adminpanel" "Disallow: /api" "Disallow: /preview" "Allow: /"; no Crawl-delay. /files/pdf/ is not disallowed.
+#   https://www.parliament.lk/ (page footer): "Copyright (c) The Parliament of Sri Lanka. All Rights Reserved." - a generic footer; no terms-of-use, licence or copyright page was found.
+#   The PDF (306 pages, text layer): cover "THE CONSTITUTION OF THE DEMOCRATIC SOCIALIST REPUBLIC OF SRI LANKA (As amended up to 31st October 2022) Revised Edition - 2023 Published by the
+#        Parliament Secretariat Printed at the Department of Government Printing"; page iii: "This unofficial edition edited by the Bills Office of the Legislative Services
+#        Department of Parliament of Sri Lanka reproduces the text of the Constitution of the Democratic Socialist Republic of Sri Lanka as amended by Parliament from time to
+#        time up to the Twenty First Amendment to the Constitution. The footnotes below the text indicate the particular Amendments to the Constitution by which such Amendments
+#        have been made." No copyright notice in the PDF.
+#   beta.parliament.lk/files/pdf/constitution.pdf (the address a search engine returned) answered 502 through the sandbox proxy and was not used.
+schema_version: 1
+id: lk-parliament-constitution
+name: >-
+  The Constitution of the Democratic Socialist Republic of Sri Lanka, Revised Edition 2023 - Parliament of Sri Lanka (www.parliament.lk)
+publisher: >-
+  Parliament of Sri Lanka (Parliament Secretariat; edited by the Bills Office of the Legislative Services Department), www.parliament.lk
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- LK
+document_kinds:
+- constitution
+languages:
+- en
+coverage: >-
+  The Constitution of the Democratic Socialist Republic of Sri Lanka (1978) in English, the Parliament's unofficial Revised
+  Edition 2023 as amended up to 31 October 2022 (up to the Twenty First Amendment): 172 articles in 24 chapters, with the
+  Schedules and the text of the amendments' transitional provisions as trailing blocks. One PDF of 306 pages (8 MB).
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/lk-parliament-constitution.yaml
+  authentication: none
+update_frequency: >-
+  Not stated. The edition is dated by its cover: "As amended up to 31st October 2022", Revised Edition 2023.
+rate_limits: >-
+  robots.txt sets no Crawl-delay: ULIS waits 5 s between requests, identifies itself, caches the PDF and makes one request
+  (8 MB).
+licence:
+  id: LK-official-text-no-terms
+  name: >-
+    Official legal text published by the Parliament Secretariat (unofficial edition); generic "All Rights Reserved" footer;
+    no terms page; the PDF carries no copyright notice
+  url: https://www.parliament.lk/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the Parliament's own pages quoted in the header of this file: robots.txt
+    (the PDF is not disallowed), the home page footer (a generic copyright line) and the PDF's own front matter (an "unofficial
+    edition" reproducing the text, with no copyright notice). No terms page was found. The Constitution is an official legal
+    text; the Sri Lankan Intellectual Property Act No. 36 of 2003 excludes official texts of a legislative nature (to verify;
+    not read on a publisher's page). Reading: AMBER - no restriction on reusing the text is stated; no permission for automated
+    retrieval is stated either.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    The Constitution of the Democratic Socialist Republic of Sri Lanka (as amended up to 31st October 2022), Revised Edition
+    2023, published by the Parliament Secretariat (www.parliament.lk); retrieved {retrieved_date}. An unofficial edition;
+    structured and indexed by ULIS, not endorsed by the Parliament.
+  conditions:
+  - >-
+    The edition is "unofficial" by its own words; the authentic text is the Constitution as certified and the Amendments
+    as certified by the Speaker.
+  - The footnotes naming the amending Amendments are part of the text of the provision they follow.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached download); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The PDF https://www.parliament.lk/files/pdf/constitution.pdf, stored byte for byte inside a JSON bundle with the URL and
+  retrieval time; the text is the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  Unofficial edition (the Bills Office's own words); the Sinhala and Tamil texts are not ingested. English is not one of
+  the languages in which the Constitution was enacted.
+- Amended up to 31 October 2022 (Twenty First Amendment); a later amendment is not in it.
+- >-
+  The marginal notes (headings) are printed beside the text and come out of the PDF as short lines before or after the text
+  of an article; where they follow the text they stay in the text of the article.
+- >-
+  The footnotes naming the amending Amendments are part of the PDF text and stay in the text of the provision they follow.
+- >-
+  Articles whose heading line was not recognised (a note says which) are included in the preceding article; the schedules
+  and the transitional provisions are stored as blocks of paragraphs.
+status: active
+connector: constitution_docs
+parser: constitution_text

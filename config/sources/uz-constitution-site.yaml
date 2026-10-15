@@ -1,0 +1,97 @@
+# Constitution of the Republic of Uzbekistan (2023 edition) from the national portal https://constitution.gov.uz. Read on 2026-10-15:
+#   https://constitution.gov.uz/robots.txt - HTTP 404 (no robots.txt): no crawling rules to apply. The connector reads it anyway.
+#   https://constitution.gov.uz/ru (page footer, Russian): "При использовании материалов ссылка на konstitutsiya.gov.uz обязательна. Все права
+#        защищены" (When using the materials a link to konstitutsiya.gov.uz is mandatory. All rights reserved). The page links
+#        the President's website and the Government portal under "Полезные ссылки". No terms-of-use page was found; the
+#        privacy policy ("Политика конфиденциальности") is the only legal page linked.
+#   The page offers the Constitution as PDF in five versions (/uploads/constitution_ru.pdf, _en.pdf, _uz.pdf [Uzbek in Cyrillic],
+#        _oz.pdf [Uzbek in Latin], _qr.pdf [Karakalpak]). The English file's first line reads "Unofficial translation".
+# The 2023 Constitution is described on the first page of each version: "Настоящая новая редакция Конституции Республики Узбекистан
+# принята путем всенародного голосования на референдуме Республики Узбекистан, проведенном 30 апреля 2023 года."
+schema_version: 1
+id: uz-constitution-site
+name: >-
+  Konstitutsiya Yangi O'zbekiston - "Конституция Нового Узбекистана" national portal (constitution.gov.uz)
+publisher: >-
+  Official national portal "Конституция Нового Узбекистана" (constitution.gov.uz, also konstitutsiya.gov.uz), Republic of
+  Uzbekistan
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- UZ
+document_kinds:
+- constitution
+languages:
+- ru
+- en
+- uz
+- uz-Cyrl
+coverage: >-
+  The Constitution of the Republic of Uzbekistan, new edition adopted by the referendum of 30 April 2023: preamble and 155
+  articles in six parts, in Russian, English (the site's "Unofficial translation"), Uzbek in Latin script and Uzbek in Cyrillic
+  script. Four PDFs.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/uz-constitution-site.yaml
+  authentication: none
+update_frequency: >-
+  Not stated. The portal shows its own statistics "по состоянию на 15.10.2026" daily; the Constitution text is the 2023
+  edition.
+rate_limits: >-
+  No robots.txt. ULIS waits 5 s between requests, identifies itself, caches each PDF, and makes four requests (about 0.5
+  MB each).
+licence:
+  id: UZ-constitution-portal-attribution
+  name: >-
+    Portal footer - link to konstitutsiya.gov.uz mandatory when using the materials, "Все права защищены"; no terms page;
+    no robots.txt
+  url: https://constitution.gov.uz/ru
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the portal itself: the absence of robots.txt (404) and the footer quoted
+    in the header of this file (a link to the portal is mandatory when its materials are used; "all rights reserved" without
+    any further restriction). The Constitution of the Republic of Uzbekistan is an official legal text; the Law on Copyright
+    and Related Rights of Uzbekistan excludes official documents (to verify; not read on a publisher's page). The English
+    file is labelled "Unofficial translation" by the portal. Reading: AMBER - a link back is the only condition the publisher
+    states; no permission or prohibition for automated retrieval is stated.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Конституция Республики Узбекистан, национальный портал «Конституция Нового Узбекистана» (konstitutsiya.gov.uz / constitution.gov.uz);
+    получено {retrieved_date}. Source: Constitution of the Republic of Uzbekistan, portal constitution.gov.uz, retrieved
+    {retrieved_date}; structured and indexed by ULIS, not endorsed by the portal.
+  conditions:
+  - >-
+    A link to konstitutsiya.gov.uz must accompany the use of the materials (the portal's footer); every result carries the
+    attribution text.
+  - >-
+    The English version is the portal's "Unofficial translation"; the Russian and Uzbek versions are the portal's PDFs of
+    the Constitution.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: >-
+    No licence or terms page. The basis is the official status of the text and the portal's single stated condition (a link
+    back). Counsel review is recommended before production use.
+provenance: >-
+  PDF files https://constitution.gov.uz/uploads/constitution_{ru,en,uz,oz}.pdf, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is the PDF's text layer (pdftotext). Each file starts with the title and the
+  sentence on the referendum of 30 April 2023 (kept in the note of the first provision).
+known_limitations:
+- >-
+  The portal does not say which text is authentic; the Constitution is adopted in Uzbek. The Russian and English versions
+  are translations (the English one is labelled unofficial).
+- Karakalpak (Qoraqalpoq) is not ingested.
+- >-
+  The text is the 2023 edition; amendments after the referendum of 30 April 2023, if any, are not in it. The portal prints
+  no consolidation date; the retrieval date is the edition date.
+- >-
+  Articles have no titles in the files; a chapter and part heading is kept as the context of the articles below it.
+- >-
+  The first page's sentence on the referendum (title page text) is kept in the note of the first provision, not as an article.
+status: active
+connector: constitution_docs
+parser: constitution_text

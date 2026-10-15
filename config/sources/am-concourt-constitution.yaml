@@ -1,0 +1,83 @@
+# Constitution of the Republic of Armenia, English text "with amendments", from the website of the Constitutional Court. Read on 2026-10-15:
+#   https://concourt.am/robots.txt - HTTP 404 (no robots.txt): no crawling rules to apply. The connector reads it anyway.
+#   https://concourt.am/en (page footer): "(c) 2021-2026. All rights reserved. The images posted on this website are protected by the law of the Republic of Armenia
+#        on copyright and related rights. It is forbidden to reproduce, distribute, illustrate, adopt or to redesign the posted photos in any other way, as well as to
+#        use it in other ways unless permission by the S..." - the reservation is about the site's photographs; no terms page about texts was found.
+#   https://concourt.am/en/normative-legal-bases/constitution-of-ra - the page lists three versions ("Constitution with the Amendments adopted by the Referendum of 6 December 2015",
+#        "... of 27 November 2005", "Constitution adopted by the Referendum of 5 July 1995") and prints the current one under the heading "CONSTITUTION OF THE REPUBLIC OF ARMENIA
+#        (WITH AMENDMENTS) Adopted by the Referendum of 06.12.2015 Amended by the National Assembly on 22.06.2020". It ends with the amending law's last article and
+#        "Source: http://www.translation-centre.am/pdf/Translat/RA_Constitution/RA_Constitution_2015_en.pdf".
+schema_version: 1
+id: am-concourt-constitution
+name: >-
+  Constitution of the Republic of Armenia (with amendments) - Constitutional Court of Armenia (concourt.am)
+publisher: Constitutional Court of the Republic of Armenia (Սահմանադրական դատարան), concourt.am
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- AM
+document_kinds:
+- constitution
+languages:
+- en
+coverage: >-
+  The Constitution of the Republic of Armenia as adopted by the referendum of 6 December 2015 and amended by the National
+  Assembly on 22 June 2020 (the Constitutional Court's page "CONSTITUTION OF THE REPUBLIC OF ARMENIA (WITH AMENDMENTS)"):
+  preamble and 220 articles in 16 chapters, in English. One page, one language.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/am-concourt-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the page names the amendment of 22.06.2020 as the last.
+rate_limits: >-
+  No robots.txt. ULIS waits 5 s between requests, identifies itself, caches the page and makes one request (about 190 KB).
+licence:
+  id: AM-official-text-no-terms
+  name: >-
+    Official legal text on the Constitutional Court's website; the footer's copyright reservation concerns the site's photographs;
+    no terms page; no robots.txt
+  url: https://concourt.am/en
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the Constitutional Court's own pages quoted in the header of this file:
+    no robots.txt (404); the footer reserves rights in the images only; no terms-of-use page for texts was found. The English
+    text is a translation (the page cites the Translation Centre as its source); the Armenian text is the authentic one.
+    The Constitution is an official legal text and the Armenian law on copyright excludes official documents (to verify;
+    not read on a publisher's page). Reading: AMBER - no restriction on reusing the text is stated; no permission for automated
+    retrieval is stated either.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of the Republic of Armenia (with amendments), English text published by the Constitutional Court of the
+    Republic of Armenia (concourt.am); retrieved {retrieved_date}. A translation, not the authentic Armenian text; structured
+    and indexed by ULIS, not endorsed by the Court.
+  conditions:
+  - >-
+    The English text is a translation (the page cites the Translation Centre as its source); the Armenian text is the authentic
+    one and is not ingested.
+  - The photographs of the site are protected (footer); only the text is used.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached page); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on the text; there is no licence.
+    Counsel review is recommended before production use.
+provenance: >-
+  The page https://concourt.am/en/normative-legal-bases/constitution-of-ra (HTML), stored byte for byte inside a JSON bundle
+  with the URL and retrieval time; the text is re-derived from the page's content block (class workTimeLineInfoChild). The
+  page prints the text of the amending law of 22.06.2020 after Article 220; it is stored as a trailing block.
+known_limitations:
+- >-
+  English translation published by the Constitutional Court; the Armenian text prevails and is not ingested.
+- >-
+  The page's text of the amending law (Article 2 of the 2020 amendments, and its source line) is stored as a trailing block,
+  not as an article of the Constitution.
+- >-
+  Article 220 ends with the closing quotation marks of the amending law's quoted text, as printed on the page.
+- >-
+  No consolidation date is printed besides the amendment of 22.06.2020; the retrieval date is the edition date.
+status: active
+connector: constitution_docs
+parser: constitution_text

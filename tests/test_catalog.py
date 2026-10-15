@@ -93,6 +93,12 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "HR",
         "SI",
         "BR",
+        "AM",
+        "CN",
+        "KG",
+        "LK",
+        "UZ",
+        "ZA",
     }
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"
@@ -215,6 +221,12 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "hr-narodne-novine",
         "si-uradni-list",
         "br-stj-dados-abertos",
+        "am-concourt-constitution",
+        "cn-govcn-constitution",
+        "kg-shailoo-constitution",
+        "lk-parliament-constitution",
+        "uz-constitution-site",
+        "za-doj-constitution",
     }
     for source_id in approved:
         licence_gate(catalog.sources.get(source_id))

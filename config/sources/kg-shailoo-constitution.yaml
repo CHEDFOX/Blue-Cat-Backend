@@ -1,0 +1,81 @@
+# Constitution of the Kyrgyz Republic (Russian text, in force from 5 May 2021) as a PDF on the site of the Central Commission for Elections and
+# Referenda. Read on 2026-10-15:
+#   https://www.shailoo.gov.kg/robots.txt - one rule only (the file has a single line); no Crawl-delay; the PDF path is not disallowed.
+#   https://www.shailoo.gov.kg/ (page footer): "© 2026 Кыргыз Республикасынын Шайлоо жана референдум өткөрүү боюнча борбордук комиссиясы. Бардык укуктар корголгон."
+#        (all rights reserved) - a generic footer; no terms-of-use, licence or copyright page was found.
+# The PDF itself starts "КОНСТИТУЦИЯ КЫРГЫЗСКОЙ РЕСПУБЛИКИ (Введена в действие Законом Кыргызской Республики от 5 мая 2021 года)" and ends with the signature of the
+# President of the Kyrgyz Republic (S. Zhaparov). It carries no copyright notice.
+schema_version: 1
+id: kg-shailoo-constitution
+name: >-
+  Конституция Кыргызской Республики (2021) - Central Commission for Elections and Referenda, shailoo.gov.kg
+publisher: >-
+  Central Commission for Elections and Referenda of the Kyrgyz Republic (Кыргыз Республикасынын Шайлоо жана референдум өткөрүү
+  боюнча борбордук комиссиясы), www.shailoo.gov.kg
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- KG
+document_kinds:
+- constitution
+languages:
+- ru
+coverage: >-
+  The Constitution of the Kyrgyz Republic (Конституция Кыргызской Республики) in Russian: preamble ("Мы, народ Кыргызской
+  Республики, ...") and 116 articles in five parts (разделы), "Введена в действие Законом Кыргызской Республики от 5 мая
+  2021 года".
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/kg-shailoo-constitution.yaml
+  authentication: none
+update_frequency: Not stated. The file's path carries the date 2021/08/28; the document prints no consolidation date.
+rate_limits: >-
+  robots.txt sets no Crawl-delay: ULIS waits 5 s between requests, identifies itself, caches the PDF and makes one request
+  (0.4 MB).
+licence:
+  id: KG-official-text-no-terms
+  name: >-
+    Official legal text of the Kyrgyz Republic on an official electoral-commission site; generic "all rights reserved" footer;
+    no terms page
+  url: https://www.shailoo.gov.kg/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-15, from the publisher's own pages quoted in the header of this file: robots.txt
+    (the PDF is not disallowed) and the home page footer (a generic © notice of the Commission). No terms page was found
+    and the PDF carries no copyright notice. The Constitution is an official legal text; the Kyrgyz copyright statute excludes
+    official documents (to verify; not read on a publisher's page). Reading: AMBER - the publisher states no restriction
+    on reuse of the text; no permission for automated retrieval is stated either.
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Конституция Кыргызской Республики, сайт Центральной комиссии по выборам и проведению референдумов (www.shailoo.gov.kg);
+    получено {retrieved_date}. Source: Constitution of the Kyrgyz Republic, Central Commission for Elections and Referenda
+    (www.shailoo.gov.kg), retrieved {retrieved_date}; structured and indexed by ULIS, not endorsed by the Commission.
+  conditions:
+  - >-
+    The text is the Commission's PDF of the Constitution, not the authentic publication; amendments after 5 May 2021 are
+    not in it.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests, cached download); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The PDF https://www.shailoo.gov.kg/media/ruslan_pressa/2021/08/28/dtmvnt.pdf, stored byte for byte inside a JSON bundle
+  with the URL and retrieval time; the text is the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  The PDF is a copy on an electoral-commission site, not the authentic publication of the Constitution; the date of the
+  copy is not printed (only the path of the file suggests 2021-08-28).
+- Russian only; the Kyrgyz text (the state language) is not ingested.
+- >-
+  No consolidation date is printed; the text is attested as of the retrieval date, and later amendments, if any, are not
+  applied.
+- The signature block at the end of the file is part of the text of the last article.
+status: active
+connector: constitution_docs
+parser: constitution_text

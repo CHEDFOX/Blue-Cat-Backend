@@ -1,0 +1,38 @@
+# The Constitution of the Republic of Armenia (with amendments), English, one page on concourt.am. See config/sources/am-concourt-constitution.yaml.
+schema_version: 1
+source_id: am-concourt-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- concourt.am
+documents:
+- slug: am-en
+  jurisdiction: AM
+  url: https://concourt.am/en/normative-legal-bases/constitution-of-ra
+  format: html
+  language: en
+  title: Constitution of the Republic of Armenia (with amendments)
+  citation_name: Armenia Constitution
+  adopted_on: '2015-12-06'
+  edition_label: >-
+    Constitution adopted by the referendum of 06.12.2015, amended by the National Assembly on 22.06.2020 (no consolidation
+    date printed)
+  events:
+  - type: adoption
+    date: '2015-12-06'
+    description: Adopted by the Referendum of 06.12.2015
+    locator: heading of the page
+  - type: amendment
+    date: '2020-06-22'
+    description: Amended by the National Assembly on 22.06.2020
+    locator: heading of the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    html_select:
+      class: workTimeLineInfoChild
+    paragraphs: dot
+    tail_regex: ^Article 2\. The amendments to this Constitution shall enter
+  note: >-
+    Heading of the page, not stored as an article: 'CONSTITUTION OF THE REPUBLIC OF ARMENIA (WITH AMENDMENTS) Adopted by
+    the Referendum of 06.12.2015 Amended by the National Assembly on 22.06.2020'

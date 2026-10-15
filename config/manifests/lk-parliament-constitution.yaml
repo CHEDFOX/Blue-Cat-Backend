@@ -1,0 +1,37 @@
+# The Constitution of Sri Lanka (English, Revised Edition 2023, as amended up to 31 October 2022), one PDF on www.parliament.lk. See config/sources/lk-parliament-constitution.yaml.
+schema_version: 1
+source_id: lk-parliament-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.parliament.lk
+documents:
+- slug: lk-en
+  jurisdiction: LK
+  url: https://www.parliament.lk/files/pdf/constitution.pdf
+  format: pdf
+  language: en
+  title: The Constitution of the Democratic Socialist Republic of Sri Lanka
+  citation_name: Sri Lanka Constitution
+  edition_date: '2022-10-31'
+  edition_label: >-
+    As amended up to 31st October 2022 (Revised Edition 2023), unofficial edition of the Parliament Secretariat
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    page_numbers: true
+    heading_before: true
+    unit_kind: article
+    preamble: false
+    drop_lines:
+    - ^The Constitution of the Democratic Socialist Republic of Sri Lanka$
+    tail_regex: ^Devo Vassatukalena$
+    note_lines:
+    - ^[0-9]{1,3} ?- ?(Inserted|Substituted|Repealed|Amended|Added|Omitted|Deleted|Re-numbered|Renumbered)
+    - ^[0-9]{1,3}$
+  note: >-
+    Cover and page iii of the PDF, not stored as articles: 'THE CONSTITUTION OF THE DEMOCRATIC SOCIALIST REPUBLIC OF SRI
+    LANKA (As amended up to 31st October 2022) Revised Edition - 2023 Published by the Parliament Secretariat'; 'This unofficial
+    edition edited by the Bills Office of the Legislative Services Department of Parliament of Sri Lanka reproduces the
+    text of the Constitution of the Democratic Socialist Republic of Sri Lanka as amended by Parliament from time to time
+    up to the Twenty First Amendment to the Constitution.'
