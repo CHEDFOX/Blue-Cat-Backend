@@ -64,3 +64,33 @@ def test_refuses_other_hosts_plain_http_and_respects_refusals(tmp_path: Path, mo
     with pytest.raises(FetchError, match="403"):
         http.get("https://example.org/c")
     assert http.requests_made == 1  # a refusal is not retried
+
+
+def test_a_dropped_connection_is_retried_like_a_timeout(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A server that closes the connection with no response (http.client.RemoteDisconnected is no URLError and no
+    TimeoutError) is waited out and asked again, so one hiccup does not end a run of thousands of requests."""
+    import http.client
+
+    attempts: list[int] = []
+
+    def flaky(request: Any, timeout: float) -> _Response:
+        attempts.append(1)
+        if len(attempts) < 3:
+            raise http.client.RemoteDisconnected("Remote end closed connection without response")
+        return _Response(b"<law/>")
+
+    monkeypatch.setattr(polite_http.urllib.request, "urlopen", flaky)
+    pauses: list[float] = []
+    http_ = PoliteHttp(tmp_path, "ULIS-test (+https://example.org)", allowed_hosts={"example.org"}, sleep=pauses.append)
+    got = http_.get("https://example.org/a")
+    assert got is not None and got[0] == b"<law/>" and len(attempts) == 3
+    assert pauses and max(pauses) >= 2 * http_.crawl_delay  # backed off between the attempts
+
+    def always(request: Any, timeout: float) -> None:
+        raise http.client.RemoteDisconnected("Remote end closed connection without response")
+
+    monkeypatch.setattr(polite_http.urllib.request, "urlopen", always)
+    with pytest.raises(FetchError, match="closed connection"):
+        PoliteHttp(
+            tmp_path / "other", "ULIS-test (+https://example.org)", allowed_hosts={"example.org"}, sleep=lambda s: None
+        ).get("https://example.org/b")
