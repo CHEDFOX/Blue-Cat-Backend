@@ -112,7 +112,10 @@ others from the title with the SFS number. "första stycket" is cited even for s
   the parser fixes 13 of the first 100 documents failed (unnumbered statutes, "1 §." sections) and 3 of the third draw's 200 ("AVDELNING
   I." and "m. m." headings, a one-sentence announcement read as a heading). A draw of 140 statutes from the unfiltered list had 69
   repealed ones (skipped) and one `mom.` error (1944:407, still unsupported).
-- `verify-sources` on the sample database (together with the other three sources): see the Evidence line of `docs/jurisdictions/nl.md`.
+- 408 statutes stored in the final sample database (the two draws above plus the pilot eight and a draw of 140 from the unfiltered
+  list: 65 new, 69 repealed and skipped). `verify-sources` on it (together with 311 Irish, 227 Dutch and 18 Danish documents):
+  **964 of 964 pass**, 128,588 units re-derived from the raw bytes. `tests/test_riksdagen_sfs.py` now has 18 tests (15 unit, 3
+  PostgreSQL).
 - Searches (`jurisdiction=SE`): "bidrag till arbetslivsmuseer" -> `1 § första stycket förordningen (2000:1078) om bidrag till
   arbetslivsmuseer`; "uppräkningsfaktorer preliminära kommunalskattemedel 2015" -> `första stycket förordningen (2014:1308) om
   uppräkningsfaktorer ...`; "skattefrihet anslag lågkonjunkturfond" -> `2 § första stycket kungörelsen (1959:82) om skattefrihet ...`;

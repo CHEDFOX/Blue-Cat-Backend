@@ -78,8 +78,9 @@ as ingest errors and not corrected. Search ranks a container with its own text a
   samples (70, 100 and 150 of 4,001; some overlap): **311 distinct Acts stored, 2 errors (the defective files above)**; 66,427 provision
   versions, 60,346 passages, 6,358 citation links. About 430 requests in all, including the 105 year lists. Before the fixes listed
   above the same samples had 10 errors (`<page/>` 2, `<degree/>` 2, `<eolhyphen/>` 1, `<chapter>` in a Schedule 2, `<?version` header 1,
-  source defects 2). `verify-sources` on this database: see the run log in the report.
+  source defects 2). `verify-sources` on the final sample database (311 Irish Acts, with 408 Swedish, 227 Dutch and 18 Danish
+  documents): **964 of 964 pass**, 128,588 units re-derived from the raw bytes.
 - Searches (`jurisdiction=IE`): "unlawful to import flour or wheaten meal" -> `Agricultural Produce (Cereals) Act 1938, s 9(1)`
   (version from 1938-05-16, title "..., as enacted"); "to safeguard cabinet confidentiality ..." -> `Data Protection Act 2018, s 60(3)(a)(i)`;
   "directors duty to act in good faith" -> `Companies Act 2014, s 228(1)(a)`.
-- Checks: ruff and mypy clean; tests `tests/test_irish_statute_book.py` (48 tests, 4 PostgreSQL) with a 1938 Act among the fixtures.
+- Checks: ruff and mypy clean; tests `tests/test_irish_statute_book.py` (48 tests, 5 PostgreSQL) with a 1938 Act among the fixtures.

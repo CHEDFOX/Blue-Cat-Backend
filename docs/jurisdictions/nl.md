@@ -42,7 +42,9 @@ aid, not legal advice. Not reviewed by a Dutch lawyer.
 - **Sample run** (fresh database, 319 random regulations plus the six pilot regulations): **100 stored** (9,616 provision versions, 7,873
   passages), 3 skipped as "no toestand in force when the manifest was generated", **0 parse errors**. Before the parser read these
   structures the first draws had 20 parse errors (18 `<regeling>` bodies, 1 `<enig-artikel>`, 1 table of contents). The 186 lapsed
-  and 30 other-kind regulations cost a manifest request (the second group also its toestand) and are not stored.
+  and 30 other-kind regulations cost a manifest request (the second group also its toestand) and are not stored. `verify-sources` on
+  that database (227 Dutch documents with 408 Swedish, 311 Irish and 18 Danish): **964 of 964 pass**, 128,588 units re-derived from the
+  raw bytes. `tests/test_bwb.py` now has 25 tests (22 unit, 3 PostgreSQL).
 - Searches: "standaardpremie 2014 vastgesteld" -> the Regeling vaststelling standaardpremie 2014, art. 1 (a `<regeling>`); the pilot
   searches below return the same first hits as before.
 
