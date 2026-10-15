@@ -37,6 +37,8 @@ from ulis.storage.object_store import LocalObjectStore, ObjectStore
 LOCK_KEY = 0x554C4953_4C4F4144
 EXIT_OK, EXIT_ERRORS, EXIT_USAGE, EXIT_LOCKED, EXIT_INTERRUPTED = 0, 1, 2, 3, 130
 MAX_MESSAGES = 3
+# Hosts that descriptors cite (licence texts, standards, the project) but sources are not fetched from.
+NOT_FETCHED_FROM = ("creativecommons.org", "github.com", "w3.org", "iso.org", "wikipedia.org", "opendefinition.org")
 
 
 class UnknownSource(ValueError):
@@ -59,6 +61,9 @@ class LoadOptions:
     # The fictional sample is invented law; it is only loaded when asked for.
     include_fictional: bool = False
     actor: str = "load-all"
+    # Sources loaded at the same time. Never two on the same host (so the crawl delay each publisher asked for
+    # holds), whatever this is set to; 1 = one source after the other.
+    jobs: int = 1
 
 
 @dataclass(frozen=True)
@@ -324,22 +329,10 @@ def run_load_all(
             with session_scope(factory) as session:
                 out(f"catalog synchronised: {sync_catalog(session, catalog, actor=options.actor)}")
             out(format_plan(selection, options))
-            total = len(selection.selected)
-            for n, item in enumerate(selection.selected, 1):
-                label = f"[{n}/{total}] {item.source.id}"
-                if options.refresh and item.info:
-                    cache = settings.source_cache_dir
-                    files, size = evict_stale_cache(cache, item.info.hosts, options.max_cache_age_days)
-                    if files:
-                        out(f"{label}: discarded {files} stale cached download(s) ({human_bytes(size)})")
-                entries = item.info.entries if item.info else "?"
-                out(f"{label}: starting ({entries} manifest entries)")
-                result = _load_one(factory, catalog, store, settings, item.source, options, explicit)
-                results.append(result)
-                out(
-                    f"{label}: {result.status} - {result.documents_new} new of {result.documents_seen} documents, "
-                    f"{result.errors} errors, {human_duration(result.seconds)}"
-                )
+            if options.jobs > 1:
+                _run_parallel(selection, options, settings, catalog, factory, store, explicit, results, out)
+            else:
+                _run_sequential(selection, options, settings, catalog, factory, store, explicit, results, out)
     except AlreadyRunning as exc:
         out(f"error: {exc}")
         return EXIT_LOCKED
@@ -352,6 +345,129 @@ def run_load_all(
     out("")
     out(format_summary(results, time.monotonic() - started))
     return EXIT_ERRORS if any(r.failed for r in results) else EXIT_OK
+
+
+def _host_keys(item: PlanItem) -> frozenset[str]:
+    """What two sources must not share while loading at the same time: the publisher domains named in their
+    manifest and in their descriptor (a connector may also fetch from a host only its code names, so this is a
+    conservative approximation: it errs on the side of loading fewer things at once)."""
+    hosts: set[str] = set(item.info.hosts) if item.info else set()
+    hosts |= {h for h in ops_sources.url_hosts(item.source.model_dump_json()) if not h.endswith(NOT_FETCHED_FROM)}
+    keys = {ops_sources.registrable_domain(h) for h in hosts}
+    return frozenset(keys or {f"source:{item.source.id}"})
+
+
+def _announce_and_load(
+    label: str,
+    item: PlanItem,
+    options: LoadOptions,
+    settings: Settings,
+    catalog: Catalog,
+    factory: sessionmaker[Session],
+    store: ObjectStore,
+    explicit: set[str],
+    out: Callable[[str], None],
+) -> SourceResult:
+    if options.refresh and item.info:
+        files, size = evict_stale_cache(settings.source_cache_dir, item.info.hosts, options.max_cache_age_days)
+        if files:
+            out(f"{label}: discarded {files} stale cached download(s) ({human_bytes(size)})")
+    entries = item.info.entries if item.info else "?"
+    out(f"{label}: starting ({entries} manifest entries)")
+    result = _load_one(factory, catalog, store, settings, item.source, options, explicit)
+    out(
+        f"{label}: {result.status} - {result.documents_new} new of {result.documents_seen} documents, "
+        f"{result.errors} errors, {human_duration(result.seconds)}"
+    )
+    return result
+
+
+def _run_sequential(
+    selection: Selection,
+    options: LoadOptions,
+    settings: Settings,
+    catalog: Catalog,
+    factory: sessionmaker[Session],
+    store: ObjectStore,
+    explicit: set[str],
+    results: list[SourceResult],
+    out: Callable[[str], None],
+) -> None:
+    total = len(selection.selected)
+    for n, item in enumerate(selection.selected, 1):
+        label = f"[{n}/{total}] {item.source.id}"
+        results.append(_announce_and_load(label, item, options, settings, catalog, factory, store, explicit, out))
+
+
+def _run_parallel(
+    selection: Selection,
+    options: LoadOptions,
+    settings: Settings,
+    catalog: Catalog,
+    factory: sessionmaker[Session],
+    store: ObjectStore,
+    explicit: set[str],
+    results: list[SourceResult],
+    out: Callable[[str], None],
+) -> None:
+    """Load up to ``options.jobs`` sources at once, in plan order, never two that share a host.
+
+    Each source still runs in its own transaction. Worker threads are daemons: on Ctrl-C/SIGTERM the workers
+    still running are abandoned, their transactions end with the process (rolled back), downloads stay cached.
+    """
+    pending = list(selection.selected)
+    total = len(pending)
+    busy: set[str] = set()
+    cond = threading.Condition()
+    stop = threading.Event()
+    started = 0
+    out_lock = threading.Lock()
+
+    def say(line: str) -> None:
+        with out_lock:
+            out(line)
+
+    def take() -> tuple[PlanItem, frozenset[str]] | None:  # cond must be held
+        for i, item in enumerate(pending):
+            keys = _host_keys(item)
+            if busy.isdisjoint(keys):
+                pending.pop(i)
+                busy.update(keys)
+                return item, keys
+        return None
+
+    def worker() -> None:
+        nonlocal started
+        while True:
+            with cond:
+                while True:
+                    if stop.is_set() or not pending:
+                        return
+                    picked = take()
+                    if picked is not None:
+                        break
+                    cond.wait(timeout=1.0)  # every remaining source shares a host with a running one
+                started += 1
+                label = f"[{started}/{total}] {picked[0].source.id}"
+            item, keys = picked
+            result = _announce_and_load(label, item, options, settings, catalog, factory, store, explicit, say)
+            with cond:
+                busy.difference_update(keys)
+                results.append(result)
+                cond.notify_all()
+
+    threads = [
+        threading.Thread(target=worker, name=f"load-all-{n}", daemon=True) for n in range(min(options.jobs, total))
+    ]
+    for thread in threads:
+        thread.start()
+    try:
+        while any(thread.is_alive() for thread in threads):
+            for thread in threads:
+                thread.join(timeout=0.5)
+    except KeyboardInterrupt:
+        stop.set()
+        raise
 
 
 def _load_one(

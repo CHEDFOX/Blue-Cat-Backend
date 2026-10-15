@@ -335,3 +335,59 @@ def test_ops_commands_are_registered_in_the_cli(capsys: pytest.CaptureFixture[st
         cli.main(["--help"])
     out = capsys.readouterr().out
     assert "load-all" in out and "status" in out
+
+
+# --------------------------------------------------------------------------- loading several sources at once
+
+
+@pytest.mark.db
+def test_jobs_load_sources_at_the_same_time_but_never_two_from_the_same_host(
+    db: str, catalog: Catalog, capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import threading
+
+    wanted = ["ar-infoleg", "es-boe-consolidada", "nl-bwb", "jp-egov-laws", "ch-fedlex", "ch-fedlex-treaties"]
+    hosts = {
+        s: set(manifest_info(catalog.sources.get(s), REPO_ROOT).hosts)  # type: ignore[union-attr]
+        for s in wanted
+    }
+    assert hosts["ch-fedlex"] & hosts["ch-fedlex-treaties"], "the test needs two sources that share a host"
+    lock = threading.Lock()
+    running: set[str] = set()
+    overlaps: list[tuple[str, str]] = []
+    peak = 0
+
+    def fake(factory: Any, catalog: Catalog, store: Any, source_id: str, cache_dir: Path, actor: str) -> Any:
+        nonlocal peak
+        with lock:
+            overlaps.extend((source_id, other) for other in running if hosts[source_id] & hosts[other])
+            running.add(source_id)
+            peak = max(peak, len(running))
+        time.sleep(0.3)
+        with lock:
+            running.discard(source_id)
+        return IngestionReport(run_id="x", source_id=source_id, documents_seen=1, documents_new=1)
+
+    monkeypatch.setattr(loading, "ingest_one", fake)
+    code, out = run("load-all", "--jobs", "4", "--only", *wanted, capsys=capsys)
+    assert code == 0, out
+    assert overlaps == []  # two sources with a common host were never loading together
+    assert peak >= 2  # ... while sources on different hosts were
+    for source_id in wanted:
+        assert f"] {source_id}: ok" in out
+    assert "[6/6]" in out
+
+
+@pytest.mark.db
+def test_jobs_one_keeps_the_order_of_the_plan(
+    db: str, capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    seen: list[str] = []
+
+    def fake(factory: Any, catalog: Catalog, store: Any, source_id: str, cache_dir: Path, actor: str) -> Any:
+        seen.append(source_id)
+        return IngestionReport(run_id="x", source_id=source_id)
+
+    monkeypatch.setattr(loading, "ingest_one", fake)
+    code, _ = run("load-all", "--jobs", "1", "--only", "nl-bwb", "ar-infoleg", capsys=capsys)
+    assert code == 0 and len(seen) == 2

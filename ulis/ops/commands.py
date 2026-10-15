@@ -39,6 +39,13 @@ def add_ops_parsers(sub: argparse._SubParsersAction) -> None:  # type: ignore[ty
     )
     load.add_argument("--max-cache-age-days", type=float, default=7.0, metavar="DAYS")
     load.add_argument("--include-fictional", action="store_true", help="also load the fictional sample corpus")
+    load.add_argument(
+        "--jobs",
+        type=int,
+        default=1,
+        metavar="N",
+        help="load N sources at the same time (never two from the same host; try 4); default 1",
+    )
     stat = sub.add_parser("status", help="per-jurisdiction counts, last ingestion and verification freshness")
     stat.add_argument("--json", action="store_true", help="machine-readable output")
     stat.add_argument("--all", action="store_true", help="also list jurisdictions without data")
@@ -65,6 +72,7 @@ def _run(args: argparse.Namespace, settings: Settings, catalog: Catalog, engine:
             refresh=args.refresh,
             max_cache_age_days=args.max_cache_age_days,
             include_fictional=args.include_fictional,
+            jobs=max(1, min(args.jobs, 8)),
         )
         return loading.run_load_all(settings, catalog, engine, options)
     with session_scope(make_session_factory(engine)) as session:

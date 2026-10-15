@@ -61,7 +61,7 @@ the publisher's crawl delay, back-off, refusals respected), and takes hours.
 ```bash
 cd /opt/ulis/deploy
 docker compose --profile tools run --rm cli load-all --dry-run     # the plan: order, sizes, minimum network time
-docker compose --profile tools run -d --name ulis-load cli load-all # detached; survives logout
+docker compose --profile tools run -d --name ulis-load cli load-all --jobs 4  # detached; survives logout
 docker logs -f ulis-load                                            # progress; `docker rm ulis-load` when done
 docker compose --profile tools run --rm cli status                  # per-jurisdiction counts, last run, verification
 ```
@@ -71,11 +71,14 @@ docker compose --profile tools run --rm cli status                  # per-jurisd
   2 usage, 3 another `load-all` is running, 130 interrupted. `--only SRC...`, `--skip SRC...`, `--dry-run`.
 * **Resumable**: downloads are cached under `/srv/ulis/sources` and ingestion is idempotent (documents are keyed by
   SHA-256). After a crash, reboot or Ctrl-C run the same command again; cached files are not fetched twice.
+* **Parallel**: `--jobs 4` loads four sources at once (default 1). Two sources whose publishers share a domain are never
+  loaded together, so every publisher still sees one polite client; sources on different sites overlap. Sequentially
+  the network time of the 50 active sources is at least 31 hours (`--dry-run` prints it); with `--jobs 4` the wall time
+  is set by the slowest sources, Germany (at least 8.5 h) and the French and Czech dumps, so plan for about a day. Each
+  source runs in its own transaction; use `--jobs 2` on a small VPS (memory: the French and Czech archives are
+  streamed, the largest single documents are US Code titles and CFR parts).
 * Time (estimates, not measured end to end): the smaller sources take minutes each (measured ingestion: Canada 2 min,
-  UK from cache 3.5 min, US GPO samples 8 min; downloads add requests x crawl delay). With the manifests in this
-  checkout the network floor of everything except Germany is about 25 min; expect 1-3 hours in total. **Germany** (all federal
-  laws, about 6,100 `xml.zip` files at one request per 5 s) is at least **8.5 hours** of downloading plus parsing,
-  so allow a day for a complete first load. Run `VACUUM ANALYZE` afterwards.
+  UK from cache 3.5 min, US GPO samples 8 min; downloads add requests x crawl delay).
 * **Germany**: the committed manifest (`config/manifests/de-gesetze-im-internet.yaml`) lists all 6,139 federal laws,
   so `load-all` alone fetches and loads them (a law the site no longer serves is reported as a run error and skipped; a
   refusal such as 403/429 stops the source and is respected). About 2.6% of the files hold no text (consumed

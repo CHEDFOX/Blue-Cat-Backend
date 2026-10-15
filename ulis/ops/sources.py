@@ -31,6 +31,25 @@ STATIC_PINS: dict[str, str] = {
 }
 
 _URL_HOST = re.compile(r"https?://([A-Za-z0-9.-]+)")
+# Every manifest carries the bot's User-Agent, whose contact URL is not a host that is fetched.
+_BOT_CONTACT = re.compile(r"\(\+https?://github\.com/CHEDFOX/Blue-Cat-Backend\)")
+_SECOND_LEVEL = {"co", "com", "gov", "org", "ac", "go", "or", "ne", "nic", "gob", "gv", "edu"}
+
+
+def registrable_domain(host: str) -> str:
+    """Rough registrable domain (``static.slov-lex.sk`` -> ``slov-lex.sk``, ``www.legislation.gov.uk`` ->
+    ``legislation.gov.uk``). Used to keep sources of one publisher from loading at the same time."""
+    labels = host.lower().rstrip(".").split(".")
+    if len(labels) <= 2:
+        return ".".join(labels)
+    keep = 3 if labels[-2] in _SECOND_LEVEL and len(labels[-1]) == 2 else 2
+    return ".".join(labels[-keep:])
+
+
+def url_hosts(text: str) -> set[str]:
+    return {h.lower().rstrip(".") for h in _URL_HOST.findall(_BOT_CONTACT.sub("", text))}
+
+
 DEFAULT_ENTRIES = 500  # ordering weight for a manifest that lists no recognisable collection
 
 
@@ -78,7 +97,7 @@ def _read(path: str, mtime_ns: int) -> ManifestInfo:
         raw_delay = data.get("crawl_delay_seconds")
         delay = float(raw_delay) if isinstance(raw_delay, int | float) else None
         git = "repository" in data
-    hosts = tuple(sorted({h.lower().rstrip(".") for h in _URL_HOST.findall(raw)}))
+    hosts = tuple(sorted(url_hosts(raw)))
     return ManifestInfo(entries, requests, delay, hosts, git)
 
 
