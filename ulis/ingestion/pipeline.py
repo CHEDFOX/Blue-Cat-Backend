@@ -44,8 +44,8 @@ from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.infoleg_ar import InfolegArConnector
 from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
-from ulis.sources.connectors.lilex import LilexConnector
 from ulis.sources.connectors.likumi_lv import LikumiLvConnector
+from ulis.sources.connectors.lilex import LilexConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.connectors.narodne_novine import NarodneNovineConnector
@@ -73,8 +73,8 @@ from ulis.sources.parsers import (
     irish_statute_book,
     justice_canada,
     legislation_gov_uk,
-    lilex,
     likumi_lv,
+    lilex,
     moj_law,
     narodne_novine,
     normattiva,

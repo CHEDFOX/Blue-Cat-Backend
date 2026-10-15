@@ -64,7 +64,9 @@ def law_page_info(page: bytes, lgbl: str) -> tuple[str, list[tuple[int, str]]]:
     """
     text = page.decode("utf-8", "replace")
     root = parse_html(page)
-    chrono = root.find(lambda n: n.tag == "a" and n.attrs.get("href", "").startswith("/chrono/") and "target" in n.attrs)
+    chrono = root.find(
+        lambda n: n.tag == "a" and n.attrs.get("href", "").startswith("/chrono/") and "target" in n.attrs
+    )
     chrono_id = (chrono.attrs["href"].rsplit("/", 1)[-1]) if chrono is not None else ""
     if not re.fullmatch(r"[0-9]{9,10}", chrono_id):
         raise HtmlParseError(f"{lgbl}: not a Lilex law page (no LGBl link)")

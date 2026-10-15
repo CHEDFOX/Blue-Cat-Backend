@@ -131,9 +131,15 @@ def test_structure_headings_paragraphs_points_and_closing() -> None:
     assert _prov(doc, "art-2-par2").text.startswith("Odredbe ovoga Zakona ne primjenjuju se na državna tijela osnovana")
     assert _prov(doc, "art-2-par2").num_path == ["art:2", "par:2"] and _prov(doc, "art-2-par2").label if False else True
     five = _prov(doc, "art-5-par5")
-    assert five.text.startswith("Elektronički kontaktni čip iz stavka 2. podstavka 4. ovoga članka sadrži:\n1. broj službene")
+    assert five.text.startswith(
+        "Elektronički kontaktni čip iz stavka 2. podstavka 4. ovoga članka sadrži:\n1. broj službene"
+    )
     point = _prov(doc, "art-5-par5-pt1")
-    assert point.kind == "point" and point.num_path == ["art:5", "par:5", "pt:1"] and point.text == "broj službene iskaznice"
+    assert (
+        point.kind == "point"
+        and point.num_path == ["art:5", "par:5", "pt:1"]
+        and point.text == "broj službene iskaznice"
+    )
     # dashes are text of the paragraph; the source numbers nothing there
     assert "– državna tijela su tijela državne uprave" in _prov(doc, "art-3-par1").text
     closing = _prov(doc, "zav-1")
@@ -150,7 +156,9 @@ def test_consolidated_text_without_eli_block() -> None:
     arts = [p for p in doc.provisions if p.kind == "article"]
     assert len(arts) == 152 and arts[0].eid == "art-1" and arts[-1].eid == "art-152"
     art90 = _prov(doc, "art-90")
-    assert art90.text.startswith("Prije nego što stupe na snagu zakoni i drugi propisi državnih tijela objavljuju se u ")
+    assert art90.text.startswith(
+        "Prije nego što stupe na snagu zakoni i drugi propisi državnih tijela objavljuju se u "
+    )
     assert "Zakon stupa na snagu najranije osmi dan od dana njegove objave" in art90.text
     assert art90.context_heading is not None and art90.context_heading.startswith("VI.") is False
     assert _prov(doc, "art-1").context_heading == "II. TEMELJNE ODREDBE"
@@ -195,7 +203,10 @@ def test_genitive_forms_and_fallback() -> None:
     assert genitive("Zakon o radu") == "Zakona o radu"
     assert genitive("Zakon o izmjenama i dopunama Zakona o radu") == "Zakona o izmjenama i dopunama Zakona o radu"
     assert genitive("Ustav Republike Hrvatske") == "Ustava Republike Hrvatske"
-    assert genitive("Ustavni zakon o Ustavnom sudu Republike Hrvatske") == "Ustavnog zakona o Ustavnom sudu Republike Hrvatske"
+    assert (
+        genitive("Ustavni zakon o Ustavnom sudu Republike Hrvatske")
+        == "Ustavnog zakona o Ustavnom sudu Republike Hrvatske"
+    )
     assert genitive("Kazneni zakon") == "Kaznenog zakona" and genitive("Obiteljski zakon") == "Obiteljskog zakona"
     assert genitive("Zakonik o kaznenom postupku") == "Zakonika o kaznenom postupku"
     assert genitive("Uredba o nečemu") is None
@@ -213,7 +224,9 @@ def test_parser_rejects_foreign_pages() -> None:
     page = _page("nn-2023-30-510.html.gz").decode("utf-8").replace("NN 30/2023 (15.3.2023.)", "NN 31/2023 (15.3.2023.)")
     with pytest.raises(HtmlParseError, match="another edition"):
         parse_narodne_novine(page.encode("utf-8"))
-    page = _page("nn-2023-30-510.html.gz").decode("utf-8").replace("eli/sluzbeni/2023/30/510", "eli/sluzbeni/2023/30/511")
+    page = (
+        _page("nn-2023-30-510.html.gz").decode("utf-8").replace("eli/sluzbeni/2023/30/510", "eli/sluzbeni/2023/30/511")
+    )
     with pytest.raises(HtmlParseError, match="describe another act"):
         parse_narodne_novine(page.encode("utf-8"))
 
@@ -243,7 +256,12 @@ def _cache(tmp_path: Path) -> Path:
         _write(http, f"https://{HOST}/eli/sluzbeni/{eli}", _page(name), final)
     _write(http, f"https://{HOST}/eli/sluzbeni/2020/1/1", b"", status=404)
     _write(http, f"https://{HOST}/eli/sluzbeni/2020/2/2", "<html><body>Održavanje</body></html>".encode())
-    _write(http, f"https://{HOST}/eli/sluzbeni/2010/47/1183", _page("nn-2005-42-816.html.gz"), "/clanci/sluzbeni/2010_04_47_1183.html")
+    _write(
+        http,
+        f"https://{HOST}/eli/sluzbeni/2010/47/1183",
+        _page("nn-2005-42-816.html.gz"),
+        "/clanci/sluzbeni/2010_04_47_1183.html",
+    )
     return cache
 
 
@@ -301,7 +319,9 @@ def test_connector_skips_blocked_missing_and_foreign_pages(tmp_path: Path) -> No
 def test_connector_is_offline_and_refuses_bad_manifests(tmp_path: Path) -> None:
     cache = _cache(tmp_path)
     with pytest.raises(FetchError, match="offline and not cached"):
-        list(NarodneNovineConnector(_manifest(tmp_path, [{"eli": "2023/155/2358"}]), SOURCE, cache, offline=True).fetch())
+        list(
+            NarodneNovineConnector(_manifest(tmp_path, [{"eli": "2023/155/2358"}]), SOURCE, cache, offline=True).fetch()
+        )
     good = [{"eli": "2023/30/510"}]
     for acts, extra, message in (
         ([{"eli": "2023/30/510/../x"}], {}, "invalid ELI path"),

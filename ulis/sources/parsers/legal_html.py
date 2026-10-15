@@ -273,7 +273,9 @@ def build_provisions(
                 out.append(ParsedRef(target, text, "cites"))
         return out
 
-    def add(u: Unit, parent_eid: str | None, path: list[str], eid_base: str, top_kind: str, context: str | None) -> None:
+    def add(
+        u: Unit, parent_eid: str | None, path: list[str], eid_base: str, top_kind: str, context: str | None
+    ) -> None:
         eid = unique(eid_base)
         children = u.children()
         own = u.own_text()

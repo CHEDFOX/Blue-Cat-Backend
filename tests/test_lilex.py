@@ -116,7 +116,9 @@ def test_glg_document_facts_and_version_period() -> None:
     assert old.work_uri == new.work_uri == "/li/lgbl/1999.096"
     assert old.expression_uri == "/li/lgbl/1999.096/deu@2017-01-01"
     assert new.expression_uri == "/li/lgbl/1999.096/deu@2022-01-01"
-    assert old.title == "Gesetz vom 10. März 1999 über die Gleichstellung von Frau und Mann (Gleichstellungsgesetz, GLG)"
+    assert (
+        old.title == "Gesetz vom 10. März 1999 über die Gleichstellung von Frau und Mann (Gleichstellungsgesetz, GLG)"
+    )
     assert (old.instrument_type, old.language, old.jurisdiction_id) == ("act", "de", "LI")
     assert old.short_title == "GLG" and old.number == "1999.096" and old.work_date == date(1999, 3, 10)
     # consolidation for information, no legal effect; every version is a whole-law snapshot
@@ -137,7 +139,10 @@ def test_structure_labels_and_context() -> None:
     doc = _doc("glg6")
     art = _prov(doc, "art-4a")
     assert art.kind == "article" and art.top_kind == "article" and art.num_path == ["art:4a"]
-    assert art.context_heading == "III. Gleichstellung beim Zugang zu und bei der Versorgung mit Gütern und Dienstleistungen"
+    assert (
+        art.context_heading
+        == "III. Gleichstellung beim Zugang zu und bei der Versorgung mit Gütern und Dienstleistungen"
+    )
     para = _prov(doc, "art-4a-abs5")
     assert para.kind == "paragraph" and para.num_path == ["art:4a", "abs:5"] and para.parent_eid == "art-4a"
     assert para.text.startswith("Keine Diskriminierung liegt vor, wenn:\na) angemessene Massnahmen")
@@ -173,7 +178,11 @@ def test_repealed_places_keep_their_number_and_the_repeal_note() -> None:
     assert "art-4a-abs5-bstc-ziff1" not in {p.eid for p in new.provisions}  # its numbers went with it
     assert _prov(old, "art-4a-abs5-bstc").status == "in_force"
     article = _prov(new, "art-18")
-    assert article.status == "repealed" and article.text == "" and article.note == "Art. 18 aufgehoben durch LGBl. 2016 Nr. 505."
+    assert (
+        article.status == "repealed"
+        and article.text == ""
+        and article.note == "Art. 18 aufgehoben durch LGBl. 2016 Nr. 505."
+    )
     assert _prov(new, "art-4-abs3").status == "repealed"
     # an unnumbered paragraph in an article is the article's own text
     assert _prov(new, "art-21").text == "Dieses Gesetz tritt am Tage der Kundmachung in Kraft."
@@ -207,7 +216,9 @@ def test_urg_exclusion_of_official_works_is_article_5() -> None:
     assert art5.heading == "Nicht geschützte Werke"
     point = _prov(doc, "art-5-abs1-bsta")
     assert point.text == "Gesetze, Verordnungen, völkerrechtliche Verträge und andere amtliche Erlasse;"
-    assert _prov(doc, "art-5-abs2").text.startswith("Ebenfalls nicht geschützt sind amtliche oder gesetzlich geforderte")
+    assert _prov(doc, "art-5-abs2").text.startswith(
+        "Ebenfalls nicht geschützt sind amtliche oder gesetzlich geforderte"
+    )
     assert _prov(doc, "art-51").status == "repealed"
     nested = [p for p in doc.provisions if p.num_path[-1].startswith("ziff:") and len(p.num_path) == 4]
     assert nested and all(p.parent_eid for p in nested)
@@ -254,7 +265,13 @@ def _write(http: PoliteHttp, url: str, data: bytes, status: int = 200) -> None:
     path = http.cache_path(url)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(data)
-    meta = {"url": url, "final_url": url, "status": status, "content_type": "text/html;charset=UTF-8", "retrieved_at": RETRIEVED}
+    meta = {
+        "url": url,
+        "final_url": url,
+        "status": status,
+        "content_type": "text/html;charset=UTF-8",
+        "retrieved_at": RETRIEVED,
+    }
     path.with_name(path.name + ".meta.json").write_text(json.dumps(meta))
 
 
@@ -326,7 +343,9 @@ def test_connector_offline_yields_bundles_oldest_first(tmp_path: Path) -> None:
     assert docs[0].retrieved_at == datetime(2026, 10, 14, 13, 0, tzinfo=UTC) and docs[0].metadata["title"] == "GLG"
     assert connector.http is not None and connector.http.requests_made == 0 and connector.fetch_errors == []
     # the default is the current version only
-    only_current = list(LilexConnector(_manifest(tmp_path, [{"lgbl": "1999.096"}]), SOURCE, cache, offline=True).fetch())
+    only_current = list(
+        LilexConnector(_manifest(tmp_path, [{"lgbl": "1999.096"}]), SOURCE, cache, offline=True).fetch()
+    )
     assert [d.external_id for d in only_current] == ["li-lilex:1999.096@v7"]
 
 
@@ -458,12 +477,16 @@ def test_search_finds_exact_text_with_citation_and_limitations(
     assert {"SOURCE_NOT_AUTHENTIC", "NOT_AUTHENTIC_TEXT", "PROFILE_UNVERIFIED", "CURRENCY_UNKNOWN"} <= codes
     assert {"SNAPSHOT_DATES", "OFFICIAL_CONSOLIDATION_REPRODUCED"} <= codes
     assert hit["source"]["attribution"].startswith("Quelle: Lilex")
-    state = _search(session, catalog, q="Das Fürstentum ist eine konstitutionelle Erbmonarchie auf demokratischer Grundlage")
+    state = _search(
+        session, catalog, q="Das Fürstentum ist eine konstitutionelle Erbmonarchie auf demokratischer Grundlage"
+    )
     assert state["results"][0]["citation"] == "Art. 2 Verfassung des Fürstentums Liechtenstein"
 
 
 @pytest.mark.db
-def test_point_in_time_follows_the_version_list(session: Session, catalog: Catalog, li_ingested: IngestionReport) -> None:
+def test_point_in_time_follows_the_version_list(
+    session: Session, catalog: Catalog, li_ingested: IngestionReport
+) -> None:
     uri = "/li/lgbl/1999.096/~art-4a-abs5-bstc"
     before = provision_at(session, catalog, uri, date(2021, 12, 31))
     assert before["status_on_date"] == "in_force"

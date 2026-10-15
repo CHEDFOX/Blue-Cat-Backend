@@ -3,9 +3,9 @@
 * ``članak 5. stavak 2. točka 3. Zakona o službenoj iskaznici (NN 30/2023)`` - article (članak), paragraph (stavak),
   point (točka) and sub-point (podtočka, ``podtočka a)``), then the act's name in the genitive and the gazette reference
   ``NN <edition>/<year>``; an inserted article is written ``članak 12.a``;
-* the name is put in the genitive for the usual forms (``Zakon o ...`` -> ``Zakona o ...``, ``Ustav ...`` -> ``Ustava ...``,
-  ``Ustavni zakon`` -> ``Ustavnog zakona``, ``Kazneni zakon`` -> ``Kaznenog zakona``); any other title is cited as
-  ``<title>, članak 5. (NN 30/2023)``;
+* the name is put in the genitive for the usual forms (``Zakon o ...`` -> ``Zakona o ...``,
+  ``Ustav ...`` -> ``Ustava ...``, ``Ustavni zakon`` -> ``Ustavnog zakona``, ``Kazneni zakon`` -> ``Kaznenog zakona``);
+  any other title is cited as ``<title>, članak 5. (NN 30/2023)``;
 * a consolidated text (``... (pročišćeni tekst)``) is cited ``Zakona o radu (pročišćeni tekst, NN 137/2004)``;
 * units outside the articles: ``uvodni dio`` (promulgation decree, title, preamble), ``završni dio`` (signature),
   ``prilog 1.`` (annex).

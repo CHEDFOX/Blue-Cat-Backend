@@ -49,7 +49,9 @@ SUBPOINT = re.compile(r"^([a-zšćčđž]{1,2})\)\s+(\S.*)$", re.DOTALL)
 REPEALED = re.compile(r"^\(?\s*brisan[oaie]?\s*\)?\.?$", re.IGNORECASE)
 CLOSING = re.compile(r"^(Klasa|KLASA|Urbroj|URBROJ|Broj|BROJ)\s*:|^(U\s+)?Zagreb(u)?,\s")
 ANNEX = re.compile(r"^(PRILOG|Prilog|DODATAK|Dodatak)\b")
-STRUCTURAL = re.compile(r"^(?:[IVXLC]+\.\s|(?:PRVI|DRUGI|TREĆI|ČETVRTI|PETI|ŠESTI|SEDMI|OSMI|DEVETI|DESETI)\s+DIO\b|DIO\b|GLAVA\b|POGLAVLJE\b|NASLOV\b)")
+STRUCTURAL = re.compile(
+    r"^(?:[IVXLC]+\.\s|(?:PRVI|DRUGI|TREĆI|ČETVRTI|PETI|ŠESTI|SEDMI|OSMI|DEVETI|DESETI)\s+DIO\b|DIO\b|GLAVA\b|POGLAVLJE\b|NASLOV\b)"
+)
 SUBSTRUCTURAL = re.compile(r"^(?:\d+\.\s|[A-ZŠĐČĆŽ]\)\s|ODJELJAK\b|ODSJEK\b|Odjeljak\b|Odsjek\b)")
 CENTRED = re.compile(r"(?:pcenter|sred|curz|kurz|mn1|mn2|center)", re.IGNORECASE)
 
@@ -322,7 +324,9 @@ def parse_narodne_novine(content: bytes) -> list[ParsedDocument]:
             article = _Article(unit)
             tops.append((unit, context()))
             continue
-        centred_line = b.centred and b.kind == "p" and text.count("\n") <= 2 and len(text) <= 240 and not PARAGRAPH.match(text)
+        centred_line = (
+            b.centred and b.kind == "p" and text.count("\n") <= 2 and len(text) <= 240 and not PARAGRAPH.match(text)
+        )
         if article is None:
             if centred_line:
                 pending.append(text)
@@ -384,7 +388,11 @@ def parse_narodne_novine(content: bytes) -> list[ParsedDocument]:
         }
     ]
     events = [
-        *([ParsedEvent("enactment", adopted, None, "date_document in the ELI metadata", "eli/date_document")] if adopted else []),
+        *(
+            [ParsedEvent("enactment", adopted, None, "date_document in the ELI metadata", "eli/date_document")]
+            if adopted
+            else []
+        ),
         ParsedEvent("publication", published, None, nn, "eli/date_publication"),
     ]
     return [

@@ -8,7 +8,7 @@ official part has a stable ELI address, ``/eli/sluzbeni/<year>/<edition>/<number
 
 For every act in the manifest the connector fetches that address (one request, 5 s apart) and yields the page exactly as
 received. Built on :class:`PoliteHttp` (identifying User-Agent, HTTPS to ``narodne-novine.nn.hr`` only, cache under
-``<cache_dir>/narodne-novine.nn.hr/``, refusals respected). The site's robots.txt is read first and applied twice: to the
+``<cache_dir>/narodne-novine.nn.hr/``, refusals respected). robots.txt is read first and applied twice: to the
 ELI path requested and, because it names individual article pages (``/clanci/sluzbeni/2017_06_57_1277.html``, about two
 hundred of them, removed from public view), to the act's year/edition/number and to the address the server redirects to.
 An act that is missing, blocked or not an act page is reported in ``fetch_errors`` and the run goes on; a refusal
@@ -123,7 +123,11 @@ class NarodneNovineConnector:
                     self.session.http.cache_path(f"{BASE_URL}{path}").unlink(missing_ok=True)
                     raise PageNotAvailable(f"{BASE_URL}{final} is disallowed by robots.txt; not kept")
                 marker = f"/clanci/sluzbeni/full/{year}_".encode()
-                if b'class="sl-content"' not in data or marker not in data or f"_{edition}_{number}.html".encode() not in data:
+                if (
+                    b'class="sl-content"' not in data
+                    or marker not in data
+                    or f"_{edition}_{number}.html".encode() not in data
+                ):
                     raise PageNotAvailable(f"{BASE_URL}{path}: not the page of act NN {edition}/{year} no. {number}")
             except PageNotAvailable as exc:
                 self.fetch_errors.append(f"hr-nn:{eli}: {exc}")

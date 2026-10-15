@@ -10,8 +10,8 @@
   ``Einleitung`` (the enacting formula), ``Anhang`` (annex and closing text).
 
 The abbreviation is read from the title ("Gesetz vom ... (Urheberrechtsgesetz, URG)", "Strafgesetzbuch (StGB) vom
-..."); the source has no separate field for it. Formatting conventions only; to be confirmed by a Liechtenstein reviewer before the
-LI profile is "reviewed".
+..."); the source has no separate field for it. Formatting conventions only; to be confirmed by a Liechtenstein
+reviewer before the LI profile is "reviewed".
 """
 
 from __future__ import annotations
