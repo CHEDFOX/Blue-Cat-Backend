@@ -31,8 +31,13 @@ CATEGORIES: dict[str, tuple[str, float]] = {
     "treaty_not_in_force_for_state": ("Treaty not in force for the State on the date", 0.4),
     "proposed": ("Proposed: not law", 0.4),
     "non_binding_resolution": ("Resolution: not law", 0.35),
+    "non_binding_instrument": ("Soft law: recommendation or declaration, not binding by itself", 0.7),
     "overruled_precedent": ("Overruled: not good law on the point decided", 0.3),
 }
+
+
+# Instrument types of international organisations that do not bind by themselves.
+SOFT_LAW_TYPES = frozenset({"recommendation", "declaration", "arrangement", "decision_recommendation"})
 
 
 @dataclass(frozen=True)
@@ -84,6 +89,12 @@ def classify_provision(
                 "A simple or concurrent resolution expresses the position of one or both chambers; it is not law.",
             )
         return _make("proposed", "A bill or draft has no legal effect unless and until it is enacted.")
+    if doc_type in SOFT_LAW_TYPES:
+        return _make(
+            "non_binding_instrument",
+            f"A {doc_type.replace('_', ' ')} of {passage_jurisdiction}: soft law that states a position or a standard "
+            "but does not bind a State or a court by itself; check the instrument for what it asks of its adherents.",
+        )
     if doc_type == "treaty":
         state = reg.sovereign(home)
         party = next((p for p in treaty_parties or [] if p.party == state), None)

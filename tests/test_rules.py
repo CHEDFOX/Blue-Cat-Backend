@@ -245,3 +245,29 @@ def test_commercial_deployments_refuse_sources_whose_commercial_use_is_unknown(
     with pytest.raises(LicenceNotApproved, match="commercial"):
         licence_gate(catalog.sources.get("us-wa-rcw"))
     licence_gate(catalog.sources.get("de-gesetze-im-internet"))  # CC-style free reuse stays loadable
+
+
+@pytest.mark.parametrize("doc_type", ["recommendation", "declaration", "arrangement", "decision_recommendation"])
+def test_soft_law_instruments_are_never_labelled_binding(catalog: Catalog, doc_type: str) -> None:
+    reg = catalog.jurisdictions
+    for target in ("INT-OECD", "DE", None):
+        got = classify_provision(
+            reg,
+            target=target,
+            passage_jurisdiction="INT-OECD",
+            doc_type=doc_type,
+            status="in_force",
+            applies_on_date=True,
+            as_of=date(2025, 1, 1),
+        )
+        assert got.category == "non_binding_instrument" and not got.label.startswith("Binding")
+    binding = classify_provision(
+        reg,
+        target="INT-OECD",
+        passage_jurisdiction="INT-OECD",
+        doc_type="decision",
+        status="in_force",
+        applies_on_date=True,
+        as_of=date(2025, 1, 1),
+    )
+    assert binding.category == "binding_legislation"  # an OECD Decision does bind its members
