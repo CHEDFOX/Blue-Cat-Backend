@@ -56,4 +56,5 @@ coverage:
     - A curated selection of 16 of the 504 instruments the Compendium lists - the Compendium says it "shall not be reproduced in whole or significant part without express permission from the OECD" (source int-oecd-legal-instruments).
     - Only the current text of each instrument; no earlier wordings of amended instruments, no background notes, commentaries, reports or adherents' lists.
     - Adherence and treaty parties are not recorded, and the Members have no memberships recorded in their profiles.
+    - The retrieval layer has no soft-law authority category, so Recommendations and Declarations are labelled like binding legislation, and the three Conventions (treaties with no recorded party) are listed only when no jurisdiction is given or foreign instruments are asked for.
     - Institutions (Council, committees) and the organisation's other acts (guidelines, standards, model conventions) are not described.

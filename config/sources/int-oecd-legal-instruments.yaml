@@ -88,6 +88,8 @@ known_limitations:
   - The record's dates are the Compendium's; "last update" can be an editorial date, so the start date of the current wording is the later of the entry into force, the last update and the last amendment, and is stated as the record gives it.
   - The structure (preamble, Roman and numbered paragraphs, decimal principles, annex units) is recognised from the text's own numbering; where the numbering is not recognised the text is kept as blocks. Sub-points (a, b, i, ii) stay in the paragraph.
   - Tables and figures of the HTML are reduced to their text.
+  - 'The platform labels every non-treaty instrument of a jurisdiction "Binding - legislation in force" (ulis/retrieval/authority.py has no soft-law category). That is wrong for a Recommendation, a Declaration or an arrangement; the instrument type is in the data, not in the label.'
+  - 'The Conventions are treaties and no party is recorded (the record lists its adherents by internal country ids), so a search by jurisdiction does not list them and a search without one labels them "Foreign authority - not binding".'
   - A selection of 16 of 504 instruments; the curated list is in the manifest.
 status: active
 connector: oecd_legal_instruments

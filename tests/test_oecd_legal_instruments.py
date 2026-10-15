@@ -649,12 +649,9 @@ def test_abrogated_instrument_is_in_force_until_its_abrogation_date(
     during = provision_at(session, catalog, "/int/oecd/0162/~para-ii", date(2010, 1, 1))
     assert during["status_on_date"] == "in_force" and during["provision"]["citation"] == "OECD/LEGAL/0162 para. II"
     after = provision_at(session, catalog, "/int/oecd/0162/~para-ii", date(2024, 1, 1))
-    assert after["status_on_date"] != "in_force"
+    assert after["status_on_date"] == "no_version"  # abrogated on 2023-06-08: nothing applies after that date
     amended = provision_at(session, catalog, "/int/oecd/0449/~para-ii", date(2020, 1, 1))
-    assert amended["status_on_date"] in (
-        "history_not_indexed",
-        "not_yet_in_force",
-    )  # only the 2024 wording is published
+    assert amended["status_on_date"] == "history_not_indexed"  # only the 2024 wording is published
     current = provision_at(session, catalog, "/int/oecd/0449/~para-ii", TODAY)
     assert current["status_on_date"] == "in_force" and current["version"]["currency_date"] == "2026-10-15"
 
