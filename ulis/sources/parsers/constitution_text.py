@@ -614,7 +614,7 @@ def _split_region(
             rest, chapter, _ = _split_region(region[: positions[-2]], chapter_re, title_lines, False)
             return rest, chapter, f"{first} {tail}"
     if before and heading_re is not None and positions and heading_re.match(region[positions[-1]]):
-        start, heading = positions[-1], region[positions[-1]]
+        start, heading_text = positions[-1], region[positions[-1]]
         # a heading wrapped over two lines: the line above has the shape of a heading's first line (no end mark)
         if (
             wrap
@@ -623,9 +623,9 @@ def _split_region(
             and not region[positions[-2]].isupper()
             and not chapter_re.match(region[positions[-2]])
         ):
-            start, heading = positions[-2], f"{region[positions[-2]]} {heading}"
+            start, heading_text = positions[-2], f"{region[positions[-2]]} {heading_text}"
         rest, chapter, _ = _split_region(region[:start], chapter_re, title_lines, False)
-        return rest, chapter, heading
+        return rest, chapter, heading_text
     window = positions[-(CHAPTER_TRAIL + title_lines + (1 if before else 0)) :]
     for i in window:
         if chapter_re.match(region[i]):
