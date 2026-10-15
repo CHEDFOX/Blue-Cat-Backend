@@ -1,7 +1,9 @@
 # Japan (national law) - `JP`
 
-Status: **pilot sample**, profile `draft_unverified` (0.1.0). Seven laws from e-Gov 法令検索,
-two of them with their full revision history since 1 April 2017.
+Status: profile `draft_unverified` (0.1.0). The committed manifest lists **every law in force** that
+e-Gov 法令検索 names (8,989 laws, see "Widened to every law in force"); the real runs recorded in
+"Results" cover the original seven laws (two with their full revision history since 1 April 2017) and a
+35-law slice of the widened manifest. The full download has not been run here.
 
 ## Source
 
@@ -51,6 +53,39 @@ Licence review status: `approved` (project review; counsel review still recommen
 
 Language: Japanese only (`ja`). Indexed: preamble, articles (条), paragraphs (項), items (号),
 sub-items (号細分), the law's own original supplementary provisions (附則) and appended tables (別表).
+
+## Widened to every law in force (2026-10-15)
+
+- **Manifest** `config/manifests/jp-egov-laws.yaml`, written by `python -m scripts.build_egov_manifest` from the
+  API's own list endpoint, `GET /api/2/laws?repeal_status=None&limit=1000&offset=N` (10 requests; spec
+  `lawapi-v2.yaml`, parameters `repeal_status`, `law_type`, `limit`). `total_count` 9,003 laws not repealed or
+  expired (a further 561 are repealed or expired and are left out). 14 of the 9,003 have no revision in force yet
+  (`current_revision_info` is `UnEnforced`) and are left out. Listed: **8,989** = the seven laws above (their
+  `history` flags unchanged) + Act 2,073, Cabinet Order 2,310, Imperial Order 66, Ministerial Ordinance 4,103,
+  Rule 409 and 21 that the list types twice (`Act,CabinetOrder` 16, `Act,ImperialOrder` 3,
+  `Act,MinisterialOrdinance` 2). The rest are `history: false`: the revision in force plus the revision list.
+- **Double-typed laws.** For those 21 the list and revision-list endpoints say e.g. `Act,CabinetOrder`, the text
+  endpoint says `Act`. A slice run exposed it (the change report named a work the text had not created). They are
+  recorded as `act` (the text endpoint's type); `ext.law_type` keeps each response's own value.
+- **Connector** (`egov_laws`): a law that cannot be fetched (404, no revision in force, a 5xx that outlasts the
+  back-off) goes to `fetch_errors` and the run continues; a refusal (401/403/429/451) or 20 failures in a row
+  stops it; a law is yielded only when all its requests succeeded; duplicate ids in the manifest are refused.
+  **Parser** 1.1.0: a law with nothing to index raises `ParseSkipped`; double types are mapped.
+- **Cost of the full run:** 2 requests per law = about 18,000 requests = **25 hours** at the 5 s delay; text about
+  2.5 GB (28-law sample: mean 265 KB, median 21 KB per law, plus 16 KB per revision list). Database estimated
+  **4-9 GB** (1-2 million provision versions): the sample gave 185 provision versions and 0.97 MB per law, but
+  60 % of it is one organisation rule (財務省組織規則, 3,114 provision versions); without it 77 and 0.4 MB.
+  Responses are cached (`var/sources/`), so an interrupted run resumes without new requests; use
+  `python -m scripts.ingest_in_batches jp-egov-laws --batch 50` to commit in batches.
+- **Slice run** (manifest = the seven laws + 28 laws drawn at random, seeded, by type: Act 6, Cabinet Order 6,
+  Ministerial Ordinance 8, Rule 3, Imperial Order 2, one of each double type; 56 requests, 5 min): documents seen
+  106, instruments 35, instrument versions 71, provision versions 19,125 (+21,235 corroborated), passages 19,442,
+  **0 errors** (first run: 3, the double types above; re-run: 103 unchanged, 3 new). `verify-sources`: **106/106
+  pass**, 40,360 units. Searches (`ulis.cli search … --jurisdiction JP`): `予防接種の実施` → 予防接種実施規則第1条;
+  `検疫感染症` → 検疫法施行令別表第二, 第2条の2第2項; `農薬の登録` → 農薬取締法第36条第1項; `豪雨による災害についての
+  激甚災害` → the 2010 Cabinet Order 附則第1項 and 第1項.
+- Not evaluated: e-Gov's bulk download of all laws (one file instead of 18,000 requests), which would need a
+  different parser input and has no revision list.
 
 ## Structure, identifiers and text
 
@@ -150,8 +185,11 @@ configuration, so the `simple` configuration is used with CJK character bigrams 
 
 ## Known gaps
 
-- Sample of 7 laws; history only for 刑法 and APPI and only from 1 April 2017.
-- No Cabinet Orders, ministerial ordinances, rules, notices, treaties, local ordinances or case law.
+- History only for 刑法 and APPI and only from 1 April 2017; every other law is the revision in force on the
+  day it was fetched (add `history: true` per law to widen, in a fresh database).
+- The full 8,989-law download has not been run (a slice of 35 has); the size figures above are estimates.
+- No notices, treaties, local ordinances or case law. Laws that are repealed, expired or not yet in force at all
+  are not ingested.
 - Supplementary provisions of amending laws (改正附則, including transitional and reading-substitution
   rules), the table of contents, the enacting formula, figures and forms are not indexed; furigana dropped.
 - Pending amendments are reported for the whole law, not linked to the provisions they change.

@@ -44,10 +44,10 @@ from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing use
 
 from defusedxml.ElementTree import fromstring
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "egov_law_xml"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 SITE = "https://laws.e-gov.go.jp"
 JURISDICTION = "JP"
 
@@ -59,6 +59,13 @@ INSTRUMENT_TYPES = {
     "ImperialOrder": "imperial_ordinance",
     "MinisterialOrdinance": "ministerial_ordinance",
     "Rule": "rule",
+    # e-Gov's list and revision-list endpoints give 21 laws two types ("Act,ImperialOrder", "Act,CabinetOrder",
+    # "Act,MinisterialOrdinance": post-war orders that have the force of an Act) while its text endpoint types
+    # them "Act". The text endpoint's classification is the one used for the instrument type, so a text and
+    # its revision list agree; each response's own value is kept unchanged in ext.law_type.
+    "Act,ImperialOrder": "act",
+    "Act,CabinetOrder": "act",
+    "Act,MinisterialOrdinance": "act",
 }
 IN_FORCE = {"CurrentEnforced", "PreviousEnforced"}
 CONTAINERS = {"Part", "Chapter", "Section", "Subsection", "Division"}
@@ -518,7 +525,7 @@ def _parse_law_data(root: Element) -> ParsedDocument:
     for index, table in enumerate(body.findall("AppdxTable"), start=1):
         builder.appendix_table(table, index)
     if not builder.provisions:
-        raise EgovParseError("no provisions found")
+        raise ParseSkipped(f"revision {revision_id}: the law has no provisions to index")
 
     original = (rev.findtext("amendment_type") or "").strip() == "1"
     by_uri, by_label = _amendment(rev)

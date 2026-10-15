@@ -26,6 +26,7 @@ from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.egov_laws import EgovLawsConnector, FetchError, revisions_to_fetch
 from ulis.sources.connectors.local_manifest import ManifestError
+from ulis.sources.normalized import ParseSkipped
 from ulis.sources.parsers.egov_law import EgovParseError, parse_egov, resolve_uri
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
@@ -48,6 +49,17 @@ LAWS = {
     "415AC0000000057": [APPI],
 }
 PENAL_HISTORY = ["2016-06-23", "2017-07-13", "2023-07-13"]
+# Cabinet Orders, Ministerial Ordinances and laws listed under two types (the widened manifest, 2026-10-15):
+CABINET_ORDER = "law_data/353CO0000000167_20260521_508CO0000000149.xml"
+MINISTERIAL_ORDINANCE = "law_data/405M50000400033_20260401_508M60000400006.xml"
+ACT_CABINET_ORDER = "law_data/322CO0000000052_19530801_328AC0000000161.xml"
+ACT_IMPERIAL_ORDER = "law_data/320IO0000000730_19451229_000000000000000.xml"
+WIDE = {
+    "353CO0000000167": [CABINET_ORDER],
+    "405M50000400033": [MINISTERIAL_ORDINANCE],
+    "322CO0000000052": [ACT_CABINET_ORDER],
+    "320IO0000000730": [ACT_IMPERIAL_ORDER],
+}
 
 
 def _read(rel: str) -> bytes:
@@ -265,14 +277,134 @@ def test_connector_requires_cache_offline_and_identification(tmp_path: Path) -> 
         list(EgovLawsConnector(_manifest(tmp_path, [{"law_id": "../x"}]), "jp-egov-laws", tmp_path).fetch())
 
 
+def test_cabinet_order_and_ministerial_ordinance() -> None:
+    order = _doc(CABINET_ORDER)  # 成田国際空港の安全確保に関する緊急措置法施行令
+    assert (order.instrument_type, order.work_uri) == ("cabinet_order", "/jp/cabinet_order/353CO0000000167")
+    assert order.ext["law_type"] == "CabinetOrder" and order.validity_basis == "revision_snapshot"
+    assert order.number == "昭和五十三年政令第百六十七号" and order.version_date == date(2026, 5, 21)
+    assert _cite(order, "article-1-item-1") == "成田国際空港の安全確保に関する緊急措置法施行令第1条第1号"
+    ordinance = _doc(MINISTERIAL_ORDINANCE)  # 密閉形蓄電池の表示の標準となるべき事項を定める省令
+    assert ordinance.instrument_type == "ministerial_ordinance"
+    assert ordinance.work_uri == "/jp/ministerial_ordinance/405M50000400033"
+    assert _cite(ordinance, "article-2-item-1") == "密閉形蓄電池の表示の標準となるべき事項を定める省令第2条第1号"
+    assert _by_eid(ordinance)["article-2-item-1"].text.startswith("別表の上欄の指定表示製品の区分ごとに")
+
+
+def test_laws_listed_under_two_types_keep_one_identity() -> None:
+    """e-Gov's list and revision-list endpoints say "Act,CabinetOrder" / "Act,ImperialOrder" for 21 laws, its text
+    endpoint says "Act": the text and its revision list must describe the same work."""
+    for text_rel, listing, law_type in (
+        (ACT_CABINET_ORDER, "law_revisions/322CO0000000052.xml", "Act,CabinetOrder"),
+        (ACT_IMPERIAL_ORDER, "law_revisions/320IO0000000730.xml", "Act,ImperialOrder"),
+    ):
+        text, report = _doc(text_rel), _doc(listing)
+        assert text.ext["law_type"] == "Act" and report.ext["law_type"] == law_type
+        assert text.instrument_type == report.instrument_type == "act"
+        assert text.work_uri == report.work_uri and text.expression_uri == report.expression_uri
+
+
+def test_a_law_with_no_provisions_is_skipped_not_an_error() -> None:
+    import re
+
+    page = _read(CABINET_ORDER).decode()
+    for tag in ("MainProvision", "SupplProvision", "AppdxTable"):
+        page = re.sub(rf"<{tag}\b.*?</{tag}>", "", page, flags=re.S)
+    with pytest.raises(ParseSkipped, match="no provisions"):
+        parse_egov(page.encode())
+
+
+def test_committed_manifest_lists_every_law_in_force(tmp_path: Path) -> None:
+    """config/manifests/jp-egov-laws.yaml is generated from the API's list endpoint (scripts/build_egov_manifest.py)."""
+    connector = EgovLawsConnector(REPO_ROOT / "config/manifests/jp-egov-laws.yaml", "jp-egov-laws", tmp_path)
+    laws = connector._manifest()["laws"]  # also checks every law_id's shape and that none is listed twice
+    assert len(laws) > 8_900
+    # The hand-picked laws keep their place and their history flags.
+    assert [(law["law_id"], law["history"]) for law in laws[:7]] == [
+        ("321CONSTITUTION", False),
+        ("129AC0000000089", False),
+        ("140AC0000000045", True),
+        ("408AC0000000109", False),
+        ("415AC0000000057", True),
+        ("322AC0000000049", False),
+        ("417AC0000000086", False),
+    ]
+    assert {law["law_id"] for law in laws if law["history"]} == {"140AC0000000045", "415AC0000000057"}
+    # Cabinet Orders and Ministerial Ordinances are listed too: their ids carry CO / M<ministry>.
+    assert any(law["law_id"][3:5] == "CO" for law in laws) and any(law["law_id"][3] == "M" for law in laws)
+    with pytest.raises(ManifestError, match="listed twice"):
+        dup = _manifest(tmp_path, [{"law_id": "321CONSTITUTION"}, {"law_id": "321CONSTITUTION"}])
+        EgovLawsConnector(dup, "jp-egov-laws", tmp_path)._manifest()
+
+
+class _FakeHttp:
+    """PoliteHttp stand-in serving fixtures; a law id decides the answer (for connector robustness tests)."""
+
+    gone = "999AC0000000404"  # 404
+    refused = "999AC0000000403"  # HTTP 403
+    unenforced = "999AC0000000001"  # a revision list with nothing in force yet
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        pass
+
+    def get(self, url: str, cache_key: str | None = None, headers: Any = None) -> tuple[bytes, dict[str, Any]] | None:
+        meta = {"url": url, "retrieved_at": "2026-10-15T00:00:00+00:00", "status": 200}
+        for law_id in (self.gone, self.refused, self.unenforced):
+            if law_id in url:
+                if law_id == self.gone:
+                    return None
+                if law_id == self.refused:
+                    raise FetchError(f"{url}: HTTP 403 (not retried: a refusal is respected)")
+                body = (
+                    b"<law_revisions_response><revisions><revision><law_revision_id>x</law_revision_id>"
+                    b"<current_revision_status>UnEnforced</current_revision_status>"
+                    b"<amendment_enforcement_date>2030-01-01</amendment_enforcement_date></revision>"
+                    b"</revisions></law_revisions_response>"
+                )
+                return body, meta
+        rel = "law_revisions/321CONSTITUTION.xml" if "law_revisions" in url else CONSTITUTION
+        return _read(rel), meta
+
+
+def test_one_bad_law_does_not_abort_the_run_but_a_refusal_does(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr("ulis.sources.connectors.egov_laws.PoliteHttp", _FakeHttp)
+    ok = {"law_id": "321CONSTITUTION"}
+    laws = [ok, {"law_id": _FakeHttp.gone}, {"law_id": _FakeHttp.unenforced}]
+    connector = EgovLawsConnector(_manifest(tmp_path, laws), "jp-egov-laws", tmp_path)
+    ids = [d.external_id for d in connector.fetch()]
+    assert ids == ["e-gov:321CONSTITUTION_19470503_000000000000000", "e-gov:321CONSTITUTION:law_revisions"]
+    assert len(connector.fetch_errors) == 2
+    assert _FakeHttp.gone in connector.fetch_errors[0] and "not found" in connector.fetch_errors[0]
+    assert (
+        _FakeHttp.unenforced in connector.fetch_errors[1]
+        and "no revision currently in force" in (connector.fetch_errors[1])
+    )
+    # A refusal stops the run (after the laws before it), whatever follows.
+    refused = [ok, {"law_id": _FakeHttp.refused}, {"law_id": "129AC0000000089"}]
+    connector = EgovLawsConnector(_manifest(tmp_path, refused), "jp-egov-laws", tmp_path)
+    got: list[str] = []
+    with pytest.raises(FetchError, match="HTTP 403"):
+        for doc in connector.fetch():
+            got.append(doc.external_id)
+    assert got == ["e-gov:321CONSTITUTION_19470503_000000000000000", "e-gov:321CONSTITUTION:law_revisions"]
+    # So do many failures in a row.
+    many = [{"law_id": f"999AC00000{i:05d}"} for i in range(500, 525)]
+    monkeypatch.setattr(_FakeHttp, "get", lambda self, url, cache_key=None, headers=None: None)  # all 404
+    connector = EgovLawsConnector(_manifest(tmp_path, many), "jp-egov-laws", tmp_path)
+    with pytest.raises(FetchError, match="20 laws failed in a row"):
+        list(connector.fetch())
+    assert len(connector.fetch_errors) == 20
+
+
 # --------------------------------------------------------------------------- PostgreSQL
 
 
 class _Fixtures:
     """In-memory connector: every law's revision texts oldest first, then its revision list."""
 
+    laws = LAWS
+
     def fetch(self) -> Iterator[RawDocument]:
-        for law_id, texts in LAWS.items():
+        for law_id, texts in self.laws.items():
             for rel in [*texts, f"law_revisions/{law_id}.xml"]:
                 meta = json.loads((API / f"{rel}.meta.json").read_text())
                 yield RawDocument(
@@ -415,3 +547,37 @@ def test_snapshots_must_be_recorded_oldest_first(
         report = Ingestor(s, catalog, store).ingest_source("jp-egov-laws", actor="pytest", connector=_Docs([raw]))
         s.rollback()
     assert len(report.errors) == 1 and "oldest first" in report.errors[0]
+
+
+@pytest.fixture(scope="module")
+def jp_wide_ingested(
+    session_factory: sessionmaker[Session], catalog: Catalog, store: LocalObjectStore, jp_ingested: IngestionReport
+) -> IngestionReport:
+    class Wide(_Fixtures):
+        laws = WIDE
+
+    with session_factory() as session:
+        report = Ingestor(session, catalog, store).ingest_source("jp-egov-laws", actor="pytest", connector=Wide())
+        session.commit()
+    return report
+
+
+@pytest.mark.db
+def test_orders_and_ordinances_are_searchable_with_their_own_citations(
+    session: Session, catalog: Catalog, store: LocalObjectStore, jp_wide_ingested: IngestionReport
+) -> None:
+    assert jp_wide_ingested.errors == [] and jp_wide_ingested.conflicts == []
+    assert (jp_wide_ingested.instruments_created, jp_wide_ingested.instrument_versions_created) == (4, 4)
+    res = _search(session, catalog, q="当該物件を除去した日時及び場所", as_of=date(2026, 10, 14))
+    hit = res["results"][0]
+    assert hit["citation"] == "成田国際空港の安全確保に関する緊急措置法施行令第1条第2号"
+    codes = {lim["code"] for lim in hit["limitations"]}
+    assert {"REVISED_TEXT", "SOURCE_NOT_AUTHENTIC"} <= codes
+    res = _search(session, catalog, q="指定表示製品の区分ごとに", as_of=date(2026, 10, 14))
+    assert res["results"][0]["citation"] == "密閉形蓄電池の表示の標準となるべき事項を定める省令第2条第1号"
+    # A law listed under two types is one work: its text and its revision list agree on it.
+    at = provision_at(session, catalog, "/jp/act/322CO0000000052/~suppl-article-6", date(2026, 10, 14))
+    assert at["status_on_date"] == "in_force"
+    ids = session.scalars(select(m.SourceDocument.id).where(m.SourceDocument.external_id.like("e-gov:32%"))).all()
+    assert len(ids) >= 2
+    assert all(verify_source_document(session, catalog, store, i)["result"] == "pass" for i in ids)
