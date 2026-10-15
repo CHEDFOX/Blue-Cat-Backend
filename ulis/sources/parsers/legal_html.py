@@ -158,7 +158,8 @@ def render(
     def walk(el: Node) -> None:
         for child in el.children:
             if isinstance(child, str):
-                parts.append(child)
+                # newlines in the source are white space; only <br> and block boundaries break a line
+                parts.append(re.sub(r"[ \t\r\n\f]+", " ", child).replace("\u00ad", ""))  # soft hyphens are not text
                 continue
             if child.tag in ("script", "style", "noscript") or (skip is not None and skip(child)):
                 continue
