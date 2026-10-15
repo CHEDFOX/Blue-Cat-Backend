@@ -76,3 +76,178 @@ works:
   gazzetta_date: '1990-08-18'
   urn: urn:nir:stato:legge:1990-08-07;241
   vigenza: ['2026-10-14']
+- code: 040U1443
+  label: Codice di procedura civile (R.D. 28 ottobre 1940, n. 1443)
+  gazzetta_date: '1940-10-28'
+  urn: urn:nir:stato:regio.decreto:1940-10-28;1443
+  vigenza: ['2026-10-15']
+- code: 041U1368
+  label: Disposizioni per l'attuazione del Codice di procedura civile e disposizioni transitorie (R.D. 25 agosto 1941, n. 1368)
+  gazzetta_date: '1941-12-24'
+  urn: urn:nir:stato:regio.decreto:1941-08-25;1368
+  vigenza: ['2026-10-15']
+- code: 041U0303
+  label: Codici penali militari di pace e di guerra (R.D. 20 febbraio 1941, n. 303)
+  gazzetta_date: '1941-05-06'
+  urn: urn:nir:stato:relazione.e.regio.decreto:1941-02-20;303
+  vigenza: ['2026-10-15']
+- code: 041U1023
+  label: Disposizioni di coordinamento, transitorie e di attuazione dei Codici penali militari di pace e di guerra (R.D. 9 settembre 1941, n. 1023)
+  gazzetta_date: '1941-09-27'
+  urn: urn:nir:stato:regio.decreto:1941-09-09;1023
+  vigenza: ['2026-10-15']
+- code: 042U0318
+  label: Disposizioni per l'attuazione del Codice civile e disposizioni transitorie (R.D. 30 marzo 1942, n. 318)
+  gazzetta_date: '1942-04-17'
+  urn: urn:nir:stato:regio.decreto:1942-03-30;318
+  vigenza: ['2026-10-15']
+- code: 042U0327
+  label: Codice della navigazione (R.D. 30 marzo 1942, n. 327)
+  gazzetta_date: '1942-04-18'
+  urn: urn:nir:stato:regio.decreto:1942-03-30;327
+  vigenza: ['2026-10-15']
+- code: 052U0328
+  label: Approvazione del Regolamento per l'esecuzione del Codice della navigazione (Navigazione marittima) (d.P.R. 15 febbraio 1952, n. 328)
+  gazzetta_date: '1952-04-21'
+  urn: urn:nir:stato:decreto.del.presidente.della.repubblica:1952-02-15;328
+  vigenza: ['2026-10-15']
+- code: 073U0156
+  label: Codice postale e delle telecomunicazioni (d.P.R. 29 marzo 1973, n. 156)
+  gazzetta_date: '1973-05-03'
+  urn: urn:nir:stato:decreto.del.presidente.della.repubblica:1973-03-29;156
+  vigenza: ['2026-10-15']
+- code: 088G0492
+  label: Codice di procedura penale (d.P.R. 22 settembre 1988, n. 447)
+  gazzetta_date: '1988-10-24'
+  urn: urn:nir:stato:decreto.del.presidente.della.repubblica:1988-09-22;447
+  vigenza: ['2026-10-15']
+- code: 089G0340
+  label: Norme di attuazione, di coordinamento e transitorie del codice di procedura penale (d.lgs. 28 luglio 1989, n. 271)
+  gazzetta_date: '1989-08-05'
+  urn: urn:nir:stato:decreto.legislativo:1989-07-28;271
+  vigenza: ['2026-10-15']
+- code: 092G0306
+  label: Codice della strada (d.lgs. 30 aprile 1992, n. 285)
+  gazzetta_date: '1992-05-18'
+  urn: urn:nir:stato:decreto.legislativo:1992-04-30;285
+  vigenza: ['2026-10-15']
+- code: 092G0531
+  label: Regolamento di esecuzione e di attuazione del nuovo codice della strada. (d.P.R. 16 dicembre 1992, n. 495)
+  gazzetta_date: '1992-12-28'
+  urn: urn:nir:stato:decreto.del.presidente.della.repubblica:1992-12-16;495
+  vigenza: ['2026-10-15']
+- code: 093G0007
+  label: Codice del processo tributario (d.lgs. 31 dicembre 1992, n. 546)
+  gazzetta_date: '1993-01-13'
+  urn: urn:nir:stato:decreto.legislativo:1992-12-31;546
+  vigenza: ['2026-10-15']
+- code: 003G0280
+  label: Codice delle comunicazioni elettroniche (d.lgs. 1 agosto 2003, n. 259)
+  gazzetta_date: '2003-09-15'
+  urn: urn:nir:stato:decreto.legislativo:2003-08-01;259
+  vigenza: ['2026-10-15']
+- code: 004G0066
+  label: Codice dei beni culturali e del paesaggio (d.lgs. 22 gennaio 2004, n. 42)
+  gazzetta_date: '2004-02-24'
+  urn: urn:nir:stato:decreto.legislativo:2004-01-22;42
+  vigenza: ['2026-10-15']
+- code: 005G0055
+  label: Codice della proprietà industriale (d.lgs. 10 febbraio 2005, n. 30)
+  gazzetta_date: '2005-03-04'
+  urn: urn:nir:stato:decreto.legislativo:2005-02-10;30
+  vigenza: ['2026-10-15']
+- code: 005G0104
+  label: Codice dell'amministrazione digitale (d.lgs. 7 marzo 2005, n. 82)
+  gazzetta_date: '2005-05-16'
+  urn: urn:nir:stato:decreto.legislativo:2005-03-07;82
+  vigenza: ['2026-10-15']
+- code: 005G0200
+  label: Codice della nautica da diporto (d.lgs. 18 luglio 2005, n. 171)
+  gazzetta_date: '2005-08-31'
+  urn: urn:nir:stato:decreto.legislativo:2005-07-18;171
+  vigenza: ['2026-10-15']
+- code: 005G0232
+  label: Codice del consumo (d.lgs. 6 settembre 2005, n. 206)
+  gazzetta_date: '2005-10-08'
+  urn: urn:nir:stato:decreto.legislativo:2005-09-06;206
+  vigenza: ['2026-10-15']
+- code: 005G0233
+  label: Codice delle assicurazioni private (d.lgs. 7 settembre 2005, n. 209)
+  gazzetta_date: '2005-10-13'
+  urn: urn:nir:stato:decreto.legislativo:2005-09-07;209
+  vigenza: ['2026-10-15']
+- code: 006G0171
+  label: Norme in materia ambientale (d.lgs. 3 aprile 2006, n. 152)
+  gazzetta_date: '2006-04-14'
+  urn: urn:nir:stato:decreto.legislativo:2006-04-03;152
+  vigenza: ['2026-10-15']
+- code: 006G0184
+  label: Codice dei contratti pubblici (in vigore fino al 18 aprile 2016) (d.lgs. 12 aprile 2006, n. 163)
+  gazzetta_date: '2006-05-02'
+  urn: urn:nir:stato:decreto.legislativo:2006-04-12;163
+  vigenza: ['2026-10-15']
+- code: 010G0226
+  label: Regolamento di esecuzione ed attuazione del Codice dei contratti pubblici (d.P.R. 5 ottobre 2010, n. 207)
+  gazzetta_date: '2010-12-10'
+  urn: urn:nir:stato:decreto.del.presidente.della.repubblica:2010-10-05;207
+  vigenza: ['2026-10-15']
+- code: 006G0216
+  label: Codice delle pari opportunità (d.lgs. 11 aprile 2006, n. 198)
+  gazzetta_date: '2006-05-31'
+  urn: urn:nir:stato:decreto.legislativo:2006-04-11;198
+  vigenza: ['2026-10-15']
+- code: 010G0089
+  label: Codice dell'ordinamento militare (d.lgs. 15 marzo 2010, n. 66)
+  gazzetta_date: '2010-05-08'
+  urn: urn:nir:stato:decreto.legislativo:2010-03-15;66
+  vigenza: ['2026-10-15']
+- code: 010G0127
+  label: Codice del processo amministrativo (d.lgs. 2 luglio 2010, n. 104)
+  gazzetta_date: '2010-07-07'
+  urn: urn:nir:stato:decreto.legislativo:2010-07-02;104
+  vigenza: ['2026-10-15']
+- code: 011G0123
+  label: Codice del turismo (d.lgs. 23 maggio 2011, n. 79)
+  gazzetta_date: '2011-06-06'
+  urn: urn:nir:stato:decreto.legislativo:2011-05-23;79
+  vigenza: ['2026-10-15']
+- code: 011G0201
+  label: Codice antimafia (d.lgs. 6 settembre 2011, n. 159)
+  gazzetta_date: '2011-09-28'
+  urn: urn:nir:stato:decreto.legislativo:2011-09-06;159
+  vigenza: ['2026-10-15']
+- code: 23G00044
+  label: Nuovo Codice dei contratti pubblici (d.lgs. 31 marzo 2023, n. 36)
+  gazzetta_date: '2023-03-31'
+  urn: urn:nir:stato:decreto.legislativo:2023-03-31;36
+  vigenza: ['2026-10-15']
+- code: 16G00062
+  label: Codice dei contratti pubblici (in vigore fino al 31 marzo 2023) (d.lgs. 18 aprile 2016, n. 50)
+  gazzetta_date: '2016-04-19'
+  urn: urn:nir:stato:decreto.legislativo:2016-04-18;50
+  vigenza: ['2026-10-15']
+- code: 16G00187
+  label: Codice di giustizia contabile (d.lgs. 26 agosto 2016, n. 174)
+  gazzetta_date: '2016-09-07'
+  urn: urn:nir:stato:decreto.legislativo:2016-08-26;174
+  vigenza: ['2026-10-15']
+- code: 17G00128
+  label: Codice del Terzo settore (d.lgs. 3 luglio 2017, n. 117)
+  gazzetta_date: '2017-08-02'
+  urn: urn:nir:stato:decreto.legislativo:2017-07-03;117
+  vigenza: ['2026-10-15']
+- code: 18G00011
+  label: Codice della protezione civile (d.lgs. 2 gennaio 2018, n. 1)
+  gazzetta_date: '2018-01-22'
+  urn: urn:nir:stato:decreto.legislativo:2018-01-02;1
+  vigenza: ['2026-10-15']
+- code: 19G00007
+  label: Codice della crisi d'impresa e dell'insolvenza (d.lgs. 12 gennaio 2019, n. 14)
+  gazzetta_date: '2019-02-14'
+  urn: urn:nir:stato:decreto.legislativo:2019-01-12;14
+  vigenza: ['2026-10-15']
+- code: 25G00192
+  label: Codice degli incentivi (d.lgs. 27 novembre 2025, n. 184)
+  gazzetta_date: '2025-12-10'
+  urn: urn:nir:stato:decreto.legislativo:2025-11-27;184
+  vigenza: ['2026-10-15']

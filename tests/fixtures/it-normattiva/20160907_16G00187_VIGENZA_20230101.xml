@@ -1,0 +1,1656 @@
+<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:eli="http://data.europa.eu/eli/ontology#" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:gu="http://www.gazzettaufficiale.it/eli/" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:na="http://www.normattiva.it/eli/" xmlns:nakn="http://normattiva.it/akn/vocabulary" xmlns:nrdfa="http://www.normattiva.it/rdfa/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfa="http://www.w3.org/1999/xhtml#">
+    <act name="monovigente">
+        <meta>
+            <identification source="">
+                <FRBRWork>
+                    <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main"/>
+                    <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                    <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                    <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                    <FRBRdate date="2016-08-26" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/2016/09/07/16G00187/CONSOLIDATED/20230101" aknrelname="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalResource"/>
+                            <nrdfa:span content="Codice di giustizia contabile, adottato ai sensi dell'articolo 20 della legge 7 agosto 2015, n. 124. (16G00187)  " lang="it" property="eli:title" xml:lang="it"/>
+                            <nrdfa:span content="http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}" property="eli:uri_schema"/>
+                            <nrdfa:span content="16G00187" property="eli:id_local"/>
+                            <nrdfa:span property="eli:type_document" resource="gu:tables/resource-type#DECRETO LEGISLATIVO"/>
+                            <nrdfa:span content="2016-08-26" datatype="xsd:date" property="eli:date_document"/>
+                            <nrdfa:span property="eli:version" resource="gu:tables/versions#ORIGINAL"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRcountry value="it"/>
+                </FRBRWork>
+                <FRBRExpression>
+                    <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main"/>
+                    <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                    <FRBRdate date="2016-10-07" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/2016/09/07/16G00187/CONSOLIDATED/20230101/ita">
+                            <nrdfa:span property="rdf:type" resource="eli:LegalExpression"/>
+                            <nrdfa:span property="eli:realizes" resource="na:id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                            <nrdfa:span property="eli:is_embodied_by" resource="na:id/2016/09/07/16G00187/CONSOLIDATED/20230101/ita/akn"/>
+                            <nrdfa:span property="eli:language" resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                            <nrdfa:span property="eli:publisher_agent" resource="http://www.ipzs.it"/>
+                        </nrdfa:eli>
+                    </preservation>
+                    <FRBRlanguage language="ita"/>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main.xml"/>
+                    <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                    <FRBRdate date="2016-08-26" name=""/>
+                    <FRBRauthor as="#author" href=""/>
+                    <preservation>
+                        <nrdfa:eli about="na:id/2016/09/07/16G00187/CONSOLIDATED/20230101/ita/akn">
+                            <nrdfa:span property="rdf:type" resource="eli:Format"/>
+                            <nrdfa:span property="eli:format" resource="http://www.iana.org/assignments/media-types/xml"/>
+                        </nrdfa:eli>
+                    </preservation>
+                </FRBRManifestation>
+            </identification>
+            <publication date="2016-09-07" name="" number="209" showAs=""/>
+            <lifecycle source="">
+                <eventRef date="2016-09-07" eId="eventRef_0" source="ro1"/>
+                <eventRef date="2019-10-16" eId="eventRef_1" source="rp1"/>
+                <eventRef date="2020-10-28" eId="eventRef_2" source="rp2"/>
+                <eventRef date="2020-11-23" eId="eventRef_3" source="rp3"/>
+                <eventRef date="2020-12-24" eId="eventRef_4" source="rp4"/>
+                <eventRef date="2021-04-01" eId="eventRef_5" source="rp5"/>
+                <eventRef date="2022-10-17" eId="eventRef_6" source="rp6"/>
+                <eventRef date="2022-12-29" eId="eventRef_7" source="rp7"/>
+            </lifecycle>
+            
+            <references source="">
+                <original eId="ro1" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2016-08-26/174/!main" showAs=""/>
+                <passiveRef eId="rp1" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2019-10-07/114/!main" showAs=""/>
+                <passiveRef eId="rp2" href="/akn/it/act/DECRETO-LEGGE/stato/2020-10-28/137/!main" showAs=""/>
+                <passiveRef eId="rp3" href="/akn/it/act/DECRETO-LEGGE/stato/2020-11-23/154/!main" showAs=""/>
+                <passiveRef eId="rp4" href="/akn/it/act/LEGGE/stato/2020-12-18/176/!main" showAs=""/>
+                <passiveRef eId="rp5" href="/akn/it/act/DECRETO-LEGGE/stato/2021-04-01/44/!main" showAs=""/>
+                <passiveRef eId="rp6" href="/akn/it/act/DECRETO_LEGISLATIVO/stato/2022-10-10/149/!main" showAs=""/>
+                <passiveRef eId="rp7" href="/akn/it/act/LEGGE/stato/2022-12-29/197/!main" showAs=""/>
+            </references>
+            <proprietary source="">
+                <rdf:RDF>
+                    <rdf:Description rdf:about="na:id/2016/09/07/16G00187/CONSOLIDATED/20230101">
+                        <rdf:type rdf:resource="eli:LegalResource"/>
+                        <eli:title xml:lang="it">Codice di giustizia contabile, adottato ai sensi dell'articolo 20 della legge 7 agosto 2015, n. 124. (16G00187)  </eli:title>
+                        <eli:uri_schema>http://www.normattiva.it/eli/id/{yyyy}/{mm}/{dd}/{codiceRedazionale}/{tipoVersione}</eli:uri_schema>
+                        <eli:id_local>16G00187</eli:id_local>
+                        <eli:type_document rdf:resource="gu:tables/resource-type#DECRETO LEGISLATIVO"/>
+                        <eli:date_document rdf:datatype="xsd:date">2016-08-26</eli:date_document>
+                        <eli:version rdf:resource="gu:tables/versions#ORIGINAL"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/2016/09/07/16G00187/CONSOLIDATED/20230101/ita">
+                        <rdf:type rdf:resource="eli:LegalExpression"/>
+                        <eli:realizes rdf:resource="na:id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                        <eli:is_embodied_by rdf:resource="na:id/2016/09/07/16G00187/CONSOLIDATED/20230101/ita/akn"/>
+                        <eli:language rdf:resource="http://publications.europa.eu/resource/authority/language/ITA"/>
+                        <eli:publisher_agent rdf:resource="http://www.ipzs.it"/>
+                    </rdf:Description>
+                    <rdf:Description rdf:about="na:id/2016/09/07/16G00187/CONSOLIDATED/20230101/ita/akn">
+                        <rdf:type rdf:resource="eli:format"/>
+                        <eli:format rdf:resource="http://www.iana.org/assignments/media-types/xml"/>
+                    </rdf:Description>
+                </rdf:RDF>
+            </proprietary>
+        </meta>
+        <preface>
+            <p>
+                <docType>DECRETO LEGISLATIVO</docType>
+                <docDate date="2016-08-26">26 agosto 2016</docDate>
+                <docNumber>174</docNumber>
+                <docTitle>Codice di giustizia contabile, adottato ai sensi dell'articolo 20 della legge 7 agosto 2015, n. 124. (16G00187) 
+</docTitle>
+            </p>
+            <p>
+                <authorialNote eId="atn1" placement="bottom">
+                    <p>Entrata in vigore del provvedimento: 07/10/2016</p>
+                </authorialNote>
+            </p>
+        </preface>
+        <preamble>
+            <formula name="formulaInizialePreambolo">
+                <p>IL PRESIDENTE DELLA REPUBBLICA</p>
+            </formula>
+            <citations eId="cits_1">
+                <citation eId="cits_1__cit_1">
+                    <p>Visti gli <ref eId="ref_1" href="/akn/it/act/costituzione/stato/1947-12-27/const/!main#art_76">articoli 76</ref>, <ref eId="ref_2" href="/akn/it/act/costituzione/stato/1947-12-27/const/!main#art_87">87</ref> e <ref eId="ref_3" href="/akn/it/act/costituzione/stato/1947-12-27/const/!main#art_117-com2-letl">117, secondo comma, lettera l), della Costituzione</ref>;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_2">
+                <citation eId="cits_2__cit_1">
+                    <p>Visto l'<ref eId="ref_4" href="/akn/it/act/legge/stato/2015-08-07/124/!main#art_20">articolo 20 della legge 7 agosto 2015, n. 124</ref>, recante «Deleghe al Governo in materia di riorganizzazione delle amministrazioni pubbliche»;</p>
+                </citation>
+            </citations>
+            <citations eId="cits_3">
+                <citation eId="cits_3__cit_1">
+                    <p>Vista la preliminare deliberazione del Consiglio dei ministri, adottata nella riunione del 30 giugno 2016;</p>
+                </citation>
+            </citations>
+            <p>Acquisito il parere delle sezioni riunite della Corte dei conti ai sensi dell'<ref eId="ref_5" href="/akn/it/act/regio.decreto.legge/stato/1939-02-09/273/!main#art_1">articolo 1 del regio decreto-legge 9 febbraio 1939, n. 273</ref>, convertito dalla <ref eId="ref_6" href="/akn/it/act/legge/stato/1939-06-02/739/!main">legge 2 giugno 1939, n. 739</ref>;</p>
+            <p>Acquisito il parere delle competenti Commissioni parlamentari;</p>
+            <citations eId="cits_4">
+                <citation eId="cits_4__cit_1">
+                    <p>Vista la deliberazione del Consiglio dei ministri, adottata nella riunione del 10 agosto 2016;</p>
+                </citation>
+            </citations>
+            <p>Sulla proposta del Presidente del Consiglio dei ministri;</p>
+            <formula name="formulaFinalePreambolo">
+                <p>Emana il seguente decreto legislativo:</p>
+            </formula>
+        </preamble>
+        <body>
+            <article eId="art_1">
+                <num>Art. 1.</num>
+                <heading> Approvazione del codice e delle disposizioni connesse</heading>
+                <paragraph eId="art_1__para_1">
+                    <num>1.</num>
+                    <content>
+                        <p>E' approvato il codice della giustizia contabile di cui all'allegato 1 al presente decreto. 
+ 
+</p>
+                    </content>
+                </paragraph>
+                <paragraph eId="art_1__para_2">
+                    <num>2.</num>
+                    <content>
+                        <p>Sono altresi' approvate le norme di attuazione di cui all'allegato 2 nonche' le norme transitorie e le abrogazioni di cui all'allegato 3. 
+</p>
+                    </content>
+                </paragraph>
+                <section>
+                    <content>
+                        <p>
+                            <authorialNote eId="authorialNote_1" placement="bottom">
+                                <p> Avvertenza: 
+ 
+ Il testo delle note qui pubblicato e' stato redatto dall'amministrazione competente per materia, ai sensi dell'art. 10, comma 3, del testo unico delle disposizioni sulla promulgazione delle leggi, sull'emanazione dei decreti del Presidente della Repubblica e sulle pubblicazioni ufficiali della Repubblica italiana, approvato con <ref eId="content__ref_7" href="/akn/it/act/decretoDelPresidenteDellaRepubblica/stato/1985-12-28/1092/!main">D.P.R. 28 dicembre 1985, n. 1092</ref>, al solo fine di facilitare la lettura delle disposizioni di legge alle quali e' operato il rinvio. Restano invariati il valore e l'efficacia degli atti legislativi qui trascritti. 
+ Nota al titolo. 
+ 
+ - Si riporta il testo dell'<ref eId="content__ref_8" href="/akn/it/act/legge/stato/2015-08-07/124/!main#art_20">art. 20 della legge 7 agosto 2015, n. 124</ref> (Deleghe al Governo in materia di riorganizzazione delle amministrazioni pubbliche): 
+ 
+ «Art. 20 (Riordino della procedura dei giudizi innanzi la Corte dei conti). - 1. Il Governo e' delegato ad adottare, entro un anno dalla data di entrata in vigore della presente legge, un decreto legislativo recante il riordino e la ridefinizione della disciplina processuale concernente tutte le tipologie di giudizi che si svolgono innanzi la Corte dei conti, compresi i giudizi pensionistici, i giudizi di conto e i giudizi a istanza di parte. 
+ 
+ 2. Il decreto legislativo di cui al comma 1, oltre che ai principi e criteri direttivi di cui all'<ref eId="content__ref_9" href="/akn/it/act/legge/stato/1997-03-15/59/!main#art_20-com3">art. 20, comma 3, della legge 15 marzo 1997, n. 59</ref>, e successive modificazioni, in quanto compatibili, si attiene ai seguenti principi e criteri direttivi: 
+ 
+ a) adeguare le norme vigenti, anche tramite disposizioni innovative, alla giurisprudenza della Corte costituzionale e delle giurisdizioni superiori, coordinandole con le norme del <ref eId="content__ref_10" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main">codice di procedura civile</ref> espressione di principi generali e assicurando la concentrazione delle tutele spettanti alla cognizione della giurisdizione contabile; 
+ 
+ b) disciplinare lo svolgimento dei giudizi tenendo conto della peculiarita' degli interessi pubblici oggetto di tutela e dei diritti soggettivi coinvolti, in base ai principi della concentrazione e dell'effettivita' della tutela e nel rispetto del principio della ragionevole durata del processo anche mediante il ricorso a procedure informatiche e telematiche; 
+ 
+ c) disciplinare le azioni del pubblico ministero, nonche' le funzioni e le attivita' del giudice e delle parti, attraverso disposizioni di semplificazione e razionalizzazione dei principi vigenti in materia di giurisdizione del giudice contabile e di riparto delle competenze rispetto alle altre giurisdizioni; 
+ 
+ d) prevedere l'interruzione del termine quinquennale di prescrizione delle azioni esperibili dal pubblico ministero per una sola volta e per un periodo massimo di due anni tramite formale atto di costituzione in mora e la sospensione del termine per il periodo di durata del processo; 
+ 
+ e) procedere all'elevazione del limite di somma per il rito monitorio di cui all'art. 55 del testo unico di cui al <ref eId="content__ref_11" href="/akn/it/act/regio.decreto/stato/1934-07-12/1214/!main">regio decreto 12 luglio 1934, n. 1214</ref>, concernente fatti dannosi di lieve entita' patrimonialmente lesiva, prevedendo che esso sia periodicamente aggiornabile in base alle variazioni dell'indice ISTAT dei prezzi al consumo per le famiglie degli operai e degli impiegati; 
+ 
+ f) prevedere l'introduzione, in alternativa al rito ordinario, con funzione deflativa e anche per garantire l'incameramento certo e immediato di somme risarcitorie all'Erario, di un rito abbreviato per la responsabilita' amministrativa che, esclusi i casi di doloso arricchimento del danneggiante, su previo e concorde parere del pubblico ministero consenta la definizione del giudizio di primo grado per somma non superiore al 50 per cento del danno economico imputato, con immediata esecutivita' della sentenza, non appellabile; prevedere che, in caso di richiesta del rito abbreviato formulata in appello, il giudice emetta sentenza per somma non inferiore al 70 per cento del quantum della pretesa risarcitoria azionata in citazione, restando in ogni caso precluso l'esercizio del potere di riduzione; 
+ 
+ g) riordinare la fase dell'istruttoria e dell'emissione di eventuale invito a dedurre in conformita' ai seguenti principi: 
+ 
+ 1) specificita' e concretezza della notizia di danno; 
+ 
+ 2) dopo l'avvenuta emissione dell'invito a dedurre, nel quale devono essere esplicitati gli elementi essenziali del fatto, pieno accesso agli atti e ai documenti messi a base della contestazione; 
+ 
+ 3) obbligatorio svolgimento, a pena di inammissibilita' dell'azione, dell'audizione personale eventualmente richiesta dal presunto responsabile, con facolta' di assistenza difensiva; 
+ 
+ 4) specificazione delle modalita' di esercizio dei poteri istruttori del pubblico ministero, anche attraverso l'impiego delle forze di polizia, anche locali; 
+ 
+ 5) formalizzazione del provvedimento di archiviazione; 
+ 
+ 6) preclusione in sede di giudizio di chiamata in causa su ordine del giudice e in assenza di nuovi elementi e motivate ragioni di soggetto gia' destinatario di formalizzata archiviazione; 
+ 
+ h) unificare le disposizioni di legge vigenti in materia di obbligo di denuncia del danno erariale e di tutela del dipendente pubblico denunciante, anche al fine di favorire l'adozione di misure cautelari; 
+ 
+ i) disciplinare le procedure per l'affidamento di consulenze tecniche prevedendo l'istituzione di specifici albi regionali, con indicazione delle modalita' di liquidazione dei compensi, ovvero l'utilizzo di albi gia' in uso presso le altre giurisdizioni o l'avvalimento di strutture e organismi tecnici di amministrazioni pubbliche; 
+ 
+ l) riordinare le disposizioni processuali vigenti integrandole e coordinandole con le norme e i principi del <ref eId="content__ref_12" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main">codice di procedura civile</ref> relativamente ai seguenti aspetti: 
+ 
+ 1) i termini processuali, il regime delle notificazioni, delle domande ed eccezioni, delle preclusioni e decadenze, dell'ammissione ed esperimento di prove, dell'integrazione del contraddittorio e dell'intervento di terzi, delle riassunzioni anche a seguito di translatio, in conformita' ai principi della speditezza procedurale, della concentrazione, della ragionevole durata del processo, della salvaguardia del contraddittorio tra le parti, dell'imparzialita' e terzieta' del giudice; 
+ 
+ 2) gli istituti processuali in tema di tutela cautelare anche ante causam e di tutela delle ragioni del credito erariale tramite le azioni previste dal <ref eId="content__ref_13" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main">codice di procedura civile</ref>, nonche' i mezzi di conservazione della garanzia patrimoniale di cui al libro VI, titolo III, capo V, del <ref eId="content__ref_14" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main">codice civile</ref>; 
+ 
+ m) ridefinire le disposizioni applicabili alle impugnazioni mediante rinvio, ove possibile, a quelle del processo di primo grado, nonche' riordinare e ridefinire le norme concernenti le decisioni impugnabili, l'effetto devolutivo dell'appello, la sospensione dell'esecuzione della decisione di primo grado ove impugnata, il regime delle eccezioni e delle prove esperibili in appello, la disciplina dei termini per la revocazione in conformita' a quella prevista dal <ref eId="content__ref_15" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main">codice di procedura civile</ref> in ossequio ai principi del giusto processo e della durata ragionevole dello stesso; 
+ 
+ n) ridefinire e riordinare le norme concernenti il deferimento di questioni di massima e di particolare importanza, i conflitti di competenza territoriale e il regolamento di competenza avverso ordinanze che dispongano la sospensione necessaria del processo, proponibili alle sezioni riunite della Corte dei conti in sede giurisdizionale, in conformita' alle disposizioni dell'<ref eId="content__ref_16" href="/akn/it/act/codice.procedura.civile/stato/1940-10-28/1443/!main#art_374">art. 374 del codice di procedura civile</ref>, in quanto compatibili, e in ossequio ai principi della nomofilachia e della certezza del diritto; 
+ 
+ o) ridefinire e riordinare le disposizioni concernenti l'esecuzione delle decisioni definitive di condanna al risarcimento del danno, attribuendo al pubblico ministero contabile la titolarita' di agire e di resistere innanzi al giudice civile dell'esecuzione mobiliare o immobiliare, nonche' prevedere l'inclusione del credito erariale tra i crediti assistiti da privilegio ai sensi del libro VI, titolo III, capo II, del <ref eId="content__ref_17" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main">codice civile</ref>; 
+ 
+ p) disciplinare esplicitamente le connessioni tra risultanze ed esiti accertativi raggiunti in sede di controllo e documentazione ed elementi probatori producibili in giudizio, assicurando altresi' il rispetto del principio secondo cui i pareri resi dalla Corte dei conti in via consultiva, in sede di controllo e in favore degli enti locali nel rispetto dei presupposti generali per il rilascio dei medesimi, siano idoneamente considerati, nell'ambito di un eventuale procedimento per responsabilita' amministrativa, anche in sede istruttoria, ai fini della valutazione dell'effettiva sussistenza dell'elemento soggettivo della responsabilita' e del nesso di causalita'. 
+ 
+ 3. Il decreto legislativo di cui al comma 1 provvede altresi' a: 
+ 
+ a) confermare e ridefinire, quale norma di chiusura, il rinvio alla disciplina del processo civile, con l'individuazione esplicita delle norme e degli istituti del rito processuale civile compatibili e applicabili al rito contabile; 
+ 
+ b) abrogare esplicitamente le disposizioni normative oggetto del riordino e quelle con esso incompatibili, fatta salva l'applicazione dell'art. 15 delle disposizioni sulla legge in generale premesse al <ref eId="content__ref_18" href="/akn/it/act/codice.civile/stato/1942-03-16/262/!main">codice civile</ref>; 
+ 
+ c) dettare le opportune disposizioni di coordinamento in relazione alle norme non abrogate; 
+ 
+ d) fissare una disciplina transitoria applicabile ai giudizi gia' in corso alla data di entrata in vigore della nuova disciplina processuale. 
+ 
+ 4. Per la stesura dello schema di decreto legislativo di cui al comma 1 e' istituita presso il Dipartimento per gli affari giuridici e legislativi della Presidenza del Consiglio dei ministri una commissione, presieduta dal capo del medesimo Dipartimento e composta da magistrati della Corte dei conti, esperti esterni e rappresentanti del libero foro e dell'Avvocatura generale dello Stato, i quali prestano la propria attivita' a titolo gratuito e senza diritto al rimborso delle spese. 
+ 
+ 5. Il decreto legislativo di cui al comma 1 e' adottato su proposta del Presidente del Consiglio dei ministri.
+ Sullo schema di decreto sono acquisiti il parere delle sezioni riunite della Corte dei conti ai sensi dell'<ref eId="content__ref_19" href="/akn/it/act/regio.decreto.legge/stato/1939-02-09/273/!main#art_1">art. 1 del regio decreto-legge 9 febbraio 1939, n. 273</ref>, convertito dalla <ref eId="content__ref_20" href="/akn/it/act/legge/stato/1939-06-02/739/!main">legge 2 giugno 1939, n. 739</ref>, e, successivamente, il parere delle competenti Commissioni parlamentari. I pareri sono resi entro trenta giorni dalla data di trasmissione dello schema. Decorso il termine, il decreto puo' essere comunque adottato, anche senza i predetti pareri, su deliberazione del Consiglio dei ministri. 
+ 
+ 6. Entro due anni dalla data di entrata in vigore del decreto legislativo di cui al comma 1, il Governo puo' adottare uno o piu' decreti legislativi recanti le disposizioni integrative e correttive che l'applicazione pratica renda necessarie od opportune, nel rispetto dei principi e criteri direttivi e della procedura di cui al presente articolo. 
+ 
+ 7. Dall'attuazione del presente articolo non devono derivare nuovi o maggiori oneri per la finanza pubblica.». 
+ Note alle premesse. 
+ 
+ - Si riporta il testo degli <ref eId="content__ref_21" href="/akn/it/act/costituzione/stato/1947-12-27/const/!main#art_76">articoli 76</ref>, <ref eId="content__ref_22" href="/akn/it/act/costituzione/stato/1947-12-27/const/!main#art_87">87</ref> e <ref eId="content__ref_23" href="/akn/it/act/costituzione/stato/1947-12-27/const/!main#art_117-com2-letl">117, secondo comma, lettera l), della Costituzione</ref>: 
+ 
+ «Art. 76. - L'esercizio della funzione legislativa non puo' essere delegato al Governo se non con determinazione di principi e criteri direttivi e soltanto per tempo limitato e per oggetti definiti.». 
+ 
+ «Art. 87. - Il Presidente della Repubblica e' il capo dello Stato e rappresenta l'unita' nazionale. 
+ 
+ Puo' inviare messaggi alle Camere. 
+ 
+ Indice le elezioni delle nuove Camere e ne fissa la prima riunione. 
+ 
+ Autorizza la presentazione alle Camere dei disegni di legge di iniziativa del Governo. 
+ 
+ Promulga le leggi ed emana i decreti aventi valore di legge e i regolamenti. 
+ 
+ Indice il referendum popolare nei casi previsti dalla Costituzione. 
+ 
+ Nomina, nei casi indicati dalla legge, i funzionari dello Stato. 
+ 
+ Accredita e riceve i rappresentanti diplomatici, ratifica i trattati internazionali, previa, quando occorra, l'autorizzazione delle Camere. 
+ 
+ Ha il comando delle Forze armate, presiede il Consiglio supremo di difesa costituito secondo la legge, dichiara lo stato di guerra deliberato dalle Camere. 
+ 
+ Presiede il Consiglio superiore della magistratura. 
+ 
+ Puo' concedere grazia e commutare le pene. 
+ 
+ Conferisce le onorificenze della Repubblica.». 
+ 
+ «Art. 117. - (Omissis). 
+ 
+ Lo Stato ha legislazione esclusiva nelle seguenti materie: 
+ 
+ (omissis); 
+ 
+ l) giurisdizione e norme processuali; ordinamento civile e penale; giustizia amministrativa; 
+ 
+ (omissis).». 
+ 
+ - Per il testo dell'art. 20 della citata n. 124 del 2015, si veda la nota al titolo. 
+ 
+ - Si riporta il testo dell'<ref eId="content__ref_24" href="/akn/it/act/regio.decreto.legge/stato/1939-02-09/273/!main#art_1">art. 1 del regio decreto-legge 9 febbraio 1939, n. 273</ref> (Provvedimenti legislativi riguardanti l'ordinamento e le funzioni del Consiglio di Stato o della Corte dei conti), convertito, dalla <ref eId="content__ref_25" href="/akn/it/act/legge/stato/1939-06-02/739/!main">legge 2 giugno 1939, n. 739</ref>: 
+ 
+ «Art. 1. - I provvedimenti legislativi che importino il conferimento di nuove attribuzioni al Consiglio di Stato oppure alla Corte dei conti, nonche' la soppressione o la modificazione di quelle esistenti o che comunque riguardino l'ordinamento e le funzioni dei predetti Consessi in sede consultiva o di controllo, ovvero giurisdizionale, sono adottati previo parere rispettivamente del Consiglio di Stato in adunanza generale o della Corte dei conti a Sezioni riunite.». 
+ 
+</p>
+                            </authorialNote>
+                        </p>
+                    </content>
+                </section>
+            </article>
+            <article eId="art_2">
+                <num>Art. 2.</num>
+                <heading> Entrata in vigore</heading>
+                <paragraph eId="art_2__para_1">
+                    <num>1.</num>
+                    <content>
+                        <p>Il presente decreto entra in vigore il trentesimo giorno successivo a quello della sua pubblicazione nella Gazzetta Ufficiale della Repubblica italiana. 
+ 
+ </p>
+                    </content>
+                </paragraph>
+            </article>
+        </body>
+        <conclusions>
+            <formula name="formulaFinaleConclusioni">
+                <p>Il presente decreto, munito del sigillo dello Stato sara' inserito nella Raccolta ufficiale degli atti normativi della Repubblica italiana. E' fatto obbligo a chiunque spetti di osservarlo e di farlo osservare. </p>
+            </formula>
+            <p> Dato a Roma, addi' 26 agosto 2016 </p>
+            <p>MATTARELLA Renzi, Presidente del Consiglio dei ministri Visto, il Guardasigilli: Orlando</p>
+        </conclusions>
+        <attachments>
+            <attachment>
+                <doc name="Allegato 1 Codice della giustizia contabile-art. 1">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_1"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_1"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_1.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> 
+ ALLEGATO 1 
+ 
+ CODICE DELLA GIUSTIZIA CONTABILE 
+ 
+ Art. 1 
+ 
+ (Ambiti della giurisdizione contabile) 
+ 
+ 
+ 1. La Corte dei conti ha giurisdizione nei giudizi di conto, di responsabilita' amministrativa per danno all'erario e negli altri giudizi in materia di contabilita' pubblica. 
+ 
+ 
+ 2. Sono devoluti alla giurisdizione della Corte dei conti i giudizi in materia pensionistica, i giudizi aventi per oggetto l'irrogazione di sanzioni pecuniarie e gli altri giudizi nelle materie specificate dalla legge. 
+ 
+ 
+ 3. La giurisdizione della Corte dei conti e' esercitata dai giudici contabili secondo le norme del presente codice. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                <doc name="Allegato 1 Codice della giustizia contabile-art. 10">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_10"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2019-10-31" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_10"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_10.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> 
+ Art. 10 
+ 
+ (Sezioni giurisdizionali di appello) 
+ 
+ 
+ 1. Sono organi di giurisdizione contabile di secondo grado le sezioni giurisdizionali centrali di appello, con sede in Roma, con competenza estesa al territorio nazionale e la sezione giurisdizionale di appello per la Regione siciliana, con sede a Palermo, con competenza estesa al territorio regionale. Le sezioni giurisdizionali di appello decidono con l'intervento di cinque magistrati compreso un presidente. <ins eId="ins_12">((Il collegio e' presieduto dal presidente o dal presidente aggiunto, o, in caso di loro assenza o impedimento, dal magistrato con maggiore anzianita' nel ruolo.))</ins> 
+ 
+ 
+ 2. All'inizio di ogni anno, il Presidente della Corte dei conti, con proprio decreto, fissa i criteri di distribuzione dei giudizi <ins eId="ins_13">((tra le sezioni giurisdizionali centrali di appello))</ins>, nel rispetto del principio di rotazione. 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                <doc name="Allegato 1 Codice della giustizia contabile-art. 100">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_101"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_101"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_101.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> 
+ Art. 100 
+ 
+ (Decisione del collegio) 
+ 
+ 
+ 1. Terminata l'udienza di discussione il collegio giudicante, in camera di consiglio, pronuncia la sentenza. 
+ 
+ 
+ 2. La sentenza e' depositata in segreteria entro sessanta giorni dalla conclusione della camera di consiglio nella quale e' stata deliberata. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                <doc name="Allegato 1 Codice della giustizia contabile-art. 101">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_102"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_102"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_102.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> 
+ Art. 101 
+ 
+ (Deliberazione) 
+ 
+ 
+ 1. La decisione e' deliberata in segreto nella camera di consiglio.
+Ad essa possono partecipare soltanto i giudici che hanno assistito alla discussione. 
+ 
+ 
+ 2. Il collegio, sotto la direzione del presidente, decide gradatamente le questioni pregiudiziali proposte dalle parti o rilevabili d'ufficio e quindi il merito della causa. 
+ 
+ 
+ 3. Il collegio, nel deliberare sul merito, decide su tutte le domande proposte e non oltre i limiti di esse e sulle relative eccezioni; non puo' pronunciare d'ufficio su eccezioni che possono essere proposte soltanto dalle parti. 
+ 
+ 
+ 4. La decisione e' presa a maggioranza dei voti. Il primo a votare e' il relatore, quindi l'altro o gli altri giudici e infine il presidente. 
+ 
+ 
+ 5. Quando su una questione si prospettano piu' soluzioni e non si forma la maggioranza alla prima votazione, il presidente mette ai voti due delle soluzioni per escluderne una, quindi mette ai voti la non esclusa e quella eventualmente restante, e cosi' successivamente finche' le soluzioni siano ridotte a due, sulle quali avviene la votazione definitiva. 
+ 
+ 
+ 6. Chiusa la votazione, il presidente scrive e sottoscrive il dispositivo. La motivazione e' quindi stesa dal relatore, a meno che il presidente non creda di stenderla egli stesso o affidarla all'altro giudice. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                <doc name="Allegato 2 Norme di attuazione del Codice della Giustizia contabile-art. 1">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_223"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_223"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_223.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> ALLEGATO 2 
+ 
+ 
+ NORME DI ATTUAZIONE DEL CODICE DELLA GIUSTIZIA CONTABILE 
+ 
+ Art. 1 
+ 
+ (Richiesta di comunicazione degli atti) 
+ 
+ 
+ 1. In ogni stato e grado del processo il pubblico ministero puo' richiedere al giudice la comunicazione degli atti per l'esercizio dei poteri a lui attributi dalla legge. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                <doc name="Allegato 2 Norme di attuazione del Codice della Giustizia contabile-art. 10">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_232"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_232"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_232.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> 
+ Art. 10 
+ 
+ (Rinvio della discussione) 
+ 
+ 
+ 1. Il collegio puo' rinviare la discussione della causa per non piu' di una volta soltanto per grave impedimento di uno o piu' componenti del collegio o delle parti e per non piu' di sei mesi. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                <doc name="Allegato 2 Norme di attuazione del Codice della Giustizia contabile-art. 11">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_233"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_233"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_233.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> 
+ Art. 11 
+ 
+ (Produzione dei documenti) 
+ 
+ 
+ 1. I documenti offerti in comunicazione delle parti, unitamente al relativo elenco, sono prodotti mediante deposito in segreteria all'atto della costituzione. Il presidente della sezione, per gravi ragioni, sentite le parti, puo' autorizzare la produzione di documenti anche all'udienza; in questo caso dei documenti prodotti si fa menzione nel verbale. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                <doc name="Allegato 2 Norme di attuazione del Codice della Giustizia contabile-art. 12">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_234"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_234"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_234.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> 
+ Art. 12 
+ 
+ (Istanza di esibizione) 
+ 
+ 
+ 1. L'istanza di esibizione di un documento o di una cosa in possesso di una parte o di un terzo deve contenere la specifica indicazione del documento o della cosa e, quando e' necessario, l'offerta della prova che la parte o il terzo li possiede. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                
+            </attachment>
+            <attachment>
+                <doc name="Allegato 3 Norme transitorie e abrogazioni-art. 1">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_249"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_249"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_249.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> 
+ ALLEGATO 3 
+ 
+ NORME TRANSITORIE E ABROGAZIONI 
+ 
+ Art. 1 
+ 
+ (Ultrattivita' della disciplina previgente) 
+ 
+ 1. Per i termini processuali, anche se sospesi o interrotti, di giudizi che siano in corso alla data di entrata in vigore del codice della giustizia contabile di cui all'Allegato 1 (di seguito codice), continuano a trovare applicazione le norme previgenti. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                <doc name="Allegato 3 Norme transitorie e abrogazioni-art. 2">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_250"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2019-10-31" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_250"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_250.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> 
+ Art. 2 
+ 
+ (Disposizioni particolari) 
+ 
+ 1. Le disposizioni di cui alla Parte II, Titolo I, Capi I, II e III del codice, che disciplinano l'istruttoria del pubblico ministero, si applicano alle istruttorie in corso alla data di entrata in vigore del codice, fatti salvi gli atti gia' compiuti secondo il regime previgente. Le disposizioni di cui alla Parte II, Titoli II, III, IV e V si applicano anche ai giudizi in corso. 
+ 
+ 2. Le disposizioni di cui all'articolo 66 del codice si applicano ai fatti commessi e alle omissioni avvenute a decorrere dalla data di entrata in vigore del codice. 
+ 
+ 3. Le disposizioni di cui alla Parte III del codice si applicano ai conti giudiziali <ins eId="ins_209">((da presentarsi))</ins> presso l'amministrazione di competenza a decorrere dalla data di entrata in vigore del codice <ins eId="ins_210">((, qualunque sia l'esercizio di riferimento))</ins>. 
+ 
+ 4. Le disposizioni della Parte VI del codice, che disciplina i procedimenti di impugnazione, si applicano ai giudizi instaurati con atto di cui sia stata richiesta la notificazione a decorrere dalla data di entrata in vigore del codice. 
+ 
+ 5. Ai fini dell'impugnazione, ai giudizi avverso le sentenze per le quali stia decorrendo il termine per l'impugnazione alla data di entrata in vigore del codice, si applicano gli articoli 193, 194 e 199 del codice. 
+ 
+ 6. Le disposizioni di cui agli articoli 212, 213, 214, 215 e 216 del codice, che disciplinano l'esecuzione della sentenza, si applicano relativamente alle sentenze pubblicate a decorrere dalla data di entrata in vigore del codice. 
+ 
+ <ins eId="ins_211">((6-bis. La disposizione di cui all'articolo 12, comma 1-bis, del codice, non si applica agli incarichi gia' conferiti alla data di entrata in vigore della medesima disposizione, i quali proseguono sino alla relativa scadenza.))</ins>
+                                </p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                <doc name="Allegato 3 Norme transitorie e abrogazioni-art. 3">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_251"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_251"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_251.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> 
+ Art. 3 
+ 
+ (Disposizioni particolari per giudizi pensionistici) 
+ 
+ 1. Le disposizioni di cui alla Parte IV del codice, che disciplinano il giudizio pensionistico, si applicano ai giudizi instaurati in primo grado con ricorso depositato a decorrere dalla data di entrata in vigore del codice. 
+ 
+ 2. Le disposizioni di cui all'articolo 170 del codice, sull'appello in materia pensionistica, si applicano ai giudizi instaurati con atto di cui sia stata richiesta la notificazione a decorrere dalla data di entrata in vigore del codice. 
+ 
+ 3. Ai fini dell'impugnazione, ai giudizi avverso le sentenze per le quali stia decorrendo il termine per l'impugnazione alla data di entrata in vigore del codice, si applicano gli articoli 170, comma 4, 193 e 194 del medesimo codice. 
+ 
+ 4. Per i giudizi in materia pensionistica pendenti, in primo grado ed in appello, alla data di entrata in vigore del codice, le parti, entro il termine perentorio di centottanta giorni dalla stessa data, presentano una nuova istanza di fissazione di udienza, sottoscritta dalla parte, relativamente ai ricorsi pendenti da oltre cinque anni e per i quali non e' stata ancora fissata l'udienza di discussione. In difetto, il ricorso e' dichiarato perento con decreto del presidente.
+Il decreto e' depositato in segreteria, che ne da' formale comunicazione alle parti costituite. 
+ 
+ 5. Nel termine di sessanta giorni dalla comunicazione ciascuna delle parti costituite puo' proporre opposizione al collegio, con atto notificato a tutte le altre parti e depositato presso la segreteria del giudice adito entro dieci giorni dall'ultima notifica.
+Nei trenta giorni successivi il collegio decide sulla opposizione in camera di consiglio, sentite le parti che ne facciano richiesta, con ordinanza che, in caso di accoglimento della opposizione, dispone la reiscrizione del ricorso nel ruolo ordinario. Nel caso di rigetto, le spese sono poste a carico dell'opponente e vengono liquidate dal collegio nella stessa ordinanza, esclusa la possibilita' di compensazione anche parziale. L'ordinanza e' depositata in segreteria, che ne da' comunicazione alle parti costituite. Avverso l'ordinanza che decide sulla opposizione puo' essere proposto ricorso in appello. Il giudizio di appello procede secondo le regole ordinarie, ridotti alla meta' tutti i termini processuali. 
+ 
+ 6. Se, nel termine di centottanta giorni dalla comunicazione del decreto di cui al comma 4, la parte deposita un atto, sottoscritto personalmente e dal difensore e notificato alle altre parti, in cui dichiara di avere ancora interesse alla trattazione della causa, il presidente revoca il decreto e dispone ai sensi degli articoli 155, comma 4, e 181 del codice. 
+ 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+            <attachment>
+                <doc name="Allegato 3 Norme transitorie e abrogazioni-art. 4">
+                    <meta>
+                        <identification source="">
+                            <FRBRWork>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/!main/annesso_252"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174"/>
+                                <FRBRalias name="urn:nir" value="urn:nir:stato:decreto.legislativo:2016-08-26;174"/>
+                                <FRBRalias name="eli" value="eli/id/2016/09/07/16G00187/CONSOLIDATED/20230101"/>
+                                <FRBRdate date="2019-10-31" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRcountry value="it"/>
+                            </FRBRWork>
+                            <FRBRExpression>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_252"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07"/>
+                                <FRBRdate date="2016-10-07" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                                <FRBRlanguage language="ita"/>
+                            </FRBRExpression>
+                            <FRBRManifestation>
+                                <FRBRthis value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07/!main/annesso_252.xml"/>
+                                <FRBRuri value="/akn/it/act/decreto_legislativo/stato/2016-08-26/174/ita@2016-10-07.xml"/>
+                                <FRBRdate date="2016-08-26" name=""/>
+                                <FRBRauthor as="#author" href=""/>
+                            </FRBRManifestation>
+                        </identification>
+                    </meta>
+                    <mainBody>
+                        <paragraph>
+                            <content>
+                                <p> 
+ Art. 4 
+ 
+ (Abrogazioni) 
+ 
+ 1. A decorrere dalla data di entrata in vigore del codice, sono o restano abrogati, in particolare: 
+ 
+ a) il <ref eId="content__ref_121" href="/akn/it/act/regio.decreto/stato/1933-08-13/1038/!main">regio decreto 13 agosto 1933, n. 1038</ref>; 
+ 
+ b) gli <ref eId="content__ref_122" href="/akn/it/act/regio.decreto/stato/1934-07-12/1214/!main#art_67">articoli da 67</ref> <ref eId="content__ref_123" href="/akn/it/act/regio.decreto/stato/1934-07-12/1214/!main#art_97">a 97 del regio decreto 12 luglio 1934, n. 1214</ref>; 
+ 
+ c) l'<ref eId="content__ref_124" href="/akn/it/act/decretoDelPresidenteDellaRepubblica/stato/1957-01-10/3/!main#art_20">articolo 20 del decreto del Presidente della Repubblica 10 gennaio 1957, n. 3</ref>; 
+ 
+ d) gli <ref eId="content__ref_125" href="/akn/it/act/decretoLegge/stato/1993-11-15/453/!main#art_5">articoli 5</ref> e <ref eId="content__ref_126" href="/akn/it/act/decretoLegge/stato/1993-11-15/453/!main#art_6">6 del decreto-legge 15 novembre 1993, n. 453</ref>, convertito, con modificazioni, dalla <ref eId="content__ref_127" href="/akn/it/act/legge/stato/1994-01-14/19/!main">legge 14 gennaio 1994, n. 19</ref>; 
+ 
+ e) l'<ref eId="content__ref_128" href="/akn/it/act/legge/stato/1994-01-14/20/!main#art_1-com1septies">articolo 1, comma 1-septies, della legge 14 gennaio 1994, n. 20</ref>, limitatamente alle parole "di cui all'<ref eId="content__ref_129" href="/akn/it/act/decretoLegge/stato/1993-11-15/453/!main#art_5-com2">articolo 5, comma 2, del decreto-legge 15 novembre 1993, n. 453</ref>, convertito, con modificazioni, dalla <ref eId="content__ref_130" href="/akn/it/act/legge/stato/1994-01-14/19/!main">legge 14 gennaio 1994, n. 19</ref>" e l'articolo 2 della medesima <ref eId="content__ref_131" href="/akn/it/act/legge/stato/1994-01-14/20/!main">legge 14 gennaio 1994, n. 20</ref>; 
+ 
+ f) gli <ref eId="content__ref_132" href="/akn/it/act/decretoDelPresidenteDellaRepubblica/stato/1998-06-24/260/!main#art_1">articoli 1</ref>, <ref eId="content__ref_133" href="/akn/it/act/decretoDelPresidenteDellaRepubblica/stato/1998-06-24/260/!main#art_2">2</ref>, <ref eId="content__ref_134" href="/akn/it/act/decretoDelPresidenteDellaRepubblica/stato/1998-06-24/260/!main#art_3">3</ref>, <ref eId="content__ref_135" href="/akn/it/act/decretoDelPresidenteDellaRepubblica/stato/1998-06-24/260/!main#art_6">6</ref> e <ref eId="content__ref_136" href="/akn/it/act/decretoDelPresidenteDellaRepubblica/stato/1998-06-24/260/!main#art_7">7 del decreto del Presidente della Repubblica 24 giugno 1998, n. 260</ref>; 
+ 
+ <ins eId="ins_212">((f-bis) l'articolo 5 della legge 21 luglio 2000, n. 205;))</ins> 
+ 
+ g) l'<ref eId="content__ref_137" href="/akn/it/act/legge/stato/2001-03-27/97/!main#art_7">articolo 7 della legge 27 marzo 2001, n. 97</ref>; 
+ 
+ h) l'articolo 17, comma 30-ter, primo periodo, del <ref eId="content__ref_138" href="/akn/it/act/decretoLegge/stato/2009-07-01/78/!main">decreto-legge 1 luglio 2009, n. 78</ref>, convertito, con modificazioni, dalla <ref eId="content__ref_139" href="/akn/it/act/legge/stato/2009-08-03/102/!main">legge 3 agosto 2009, n. 102</ref>; 
+ 
+ i) l'<ref eId="content__ref_140" href="/akn/it/act/decretoLegge/stato/2014-06-24/90/!main#art_43">articolo 43 del decreto-legge 24 giugno 2014, n. 90</ref>, convertito, con modificazioni, dalla <ref eId="content__ref_141" href="/akn/it/act/legge/stato/2014-08-11/114/!main">legge 11 agosto 2014, n. 114</ref>. 
+ 
+ 2. Quando disposizioni vigenti richiamano disposizioni abrogate dal comma 1, il riferimento agli istituti previsti da queste ultime si intende operato ai corrispondenti istituti disciplinati nel presente codice. 
+</p>
+                            </content>
+                        </paragraph>
+                    </mainBody>
+                </doc>
+            </attachment>
+        </attachments>
+    </act>
+</akomaNtoso>
