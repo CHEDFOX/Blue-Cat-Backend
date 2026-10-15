@@ -1,0 +1,56 @@
+# PLANNED - NOT INGESTED. Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15). Same publisher and terms as
+# us-govinfo-bulk-statutes.yaml and the active us-govinfo-* sources; the active us-ecfr source holds only the current eCFR.
+#   https://www.govinfo.gov/robots.txt - /bulkdata/CFR and /bulkdata/FR allowed for the ULIS agent (urllib.robotparser, 2026-10-15).
+#   https://www.govinfo.gov/bulkdata (index page): "GPO makes select collections available in bulk in a machine-readable format (i.e. XML) via
+#        our Bulk Data Repository. The top level directory for select collections, such as the Federal Register and Code of Federal
+#        Regulations, also includes a Resources directory that contains the XML schema, XSL stylesheet, and user guide."
+#   https://www.govinfo.gov/bulkdata/CFR - "Code of Federal Regulations (Annual Edition)": year folders 1996 to 2026 (last modified 08-Oct-2026).
+#        /bulkdata/FR - "Federal Register": year folders 2000 to 2026 (last modified 15-Oct-2026).
+#   https://www.govinfo.gov/about/policies, "Public Domain & Copyright Notice": "Title 17, Section 105, United States Code, provides that:
+#        Copyright protection under this title is not available for any work of the United States Government ... public documents can
+#        generally be reprinted without legal restriction. However, Government publications may contain copyrighted material ..."
+schema_version: 1
+id: us-govinfo-bulk-cfr-fr
+name: GovInfo Bulk Data Repository - Code of Federal Regulations annual editions 1996-2026 and Federal Register 2000-2026 (XML)
+publisher: U.S. Government Publishing Office (GovInfo)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [US]
+document_kinds: [regulation]
+languages: [en]
+coverage: >-
+  The 31 annual editions of the CFR (1996 to 2026) and the daily Federal Register (2000 to 2026) as XML. The annual editions give the
+  point-in-time history of federal regulations that the current-only eCFR source cannot. Nothing is ingested; sizes and the per-year
+  layout were not examined.
+access:
+  method: bulk_download
+  endpoint: https://www.govinfo.gov/bulkdata/
+  authentication: none
+update_frequency: CFR annual editions added as GPO publishes them (folder last modified 08-Oct-2026); Federal Register daily (folder last modified 15-Oct-2026)
+rate_limits: No Crawl-delay in robots.txt; use PoliteHttp (at least 5 s between requests).
+licence:
+  id: US-GovWork-17USC105
+  name: Work of the United States Government, not protected by copyright (17 U.S.C. 105), per GovInfo's Public Domain & Copyright Notice
+  url: https://www.govinfo.gov/about/policies
+  review_status: pending_review
+  reviewed_by: ULIS bulk-datasets survey (GovInfo policies page and bulk data index read on 2026-10-15). Not reviewed by counsel.
+  reviewed_on: 2026-10-15
+  redistribution: allowed
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: false
+  attribution_text: U.S. Government Publishing Office, GovInfo Bulk Data Repository (https://www.govinfo.gov/bulkdata/).
+  conditions:
+    - Government publications may contain copyrighted material used with permission (GovInfo notice); rare in the CFR and FR.
+    - Each CFR annual edition states the date as of which each title is current; the parser must use that date (to be read from the files), not the download date.
+  notes: >-
+    The Federal Register is the daily publication of rules and notices, not a consolidation; it is useful for the date a rule was
+    published and for amendments between editions.
+provenance: GPO's own XML of the CFR annual editions and the Federal Register in the GovInfo Bulk Data Repository. Not retrieved.
+known_limitations:
+  - Not ingested - survey result only; no file was downloaded.
+  - Annual editions are snapshots, not a day-by-day history; the eCFR (us-ecfr) is the current text.
+status: planned
+connector: null
+parser: null

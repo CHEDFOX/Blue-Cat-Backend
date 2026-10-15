@@ -1,0 +1,62 @@
+# PLANNED - NOT INGESTED. Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15). Checked on that date:
+#   https://dati.cortecostituzionale.it/robots.txt - HTTP 200, the paths below allowed for the ULIS agent (urllib.robotparser); no Crawl-delay.
+#   https://dati.cortecostituzionale.it/ - "Il sito dati.cortecostituzionale.it ha come obiettivo di rendere diretto l'accesso ai dati della
+#        Corte costituzionale. I dati attualmente pubblicati riguardano: l'archivio delle pronunce (circa 20.000 testi delle pronunce della
+#        Corte costituzionale dal 1956 ad oggi), l'archivio delle massime delle pronunce, l'anagrafica dei Giudici costituzionali ...,
+#        le norme pendenti nei giudizi dinanzi alla Corte costituzionale". (The download page says "circa 18.000 testi".)
+#   https://dati.cortecostituzionale.it/Scarica_i_dati/Scarica_i_dati - the archive of pronouncements is offered as xml, csv and json in three
+#        zips (1956-1980, 1981-2000, 2001-today): "I seguenti dataset sono aggiornati giornalmente"; "I dataset vengono aggiornati con
+#        cadenza settimanale." (the page says both); licence: "I dati disponibili in vari formati sono rilasciati con licenza Creative
+#        Commons (CC BY SA 3.0) per il libero riuso. Per eventuali segnalazioni è possibile scrivere a: info@cortecostituzionale.it".
+#   HEAD requests only (no download): CC_OpenPronunce_1956_1980.zip 14,887,390 bytes; _1981_2000.zip 36,154,053; _2001_oggi.zip 57,069,758
+#        (last modified 2026-10-15 03:11 GMT), under https://dati.cortecostituzionale.it/opendata/distribuzione/ . Massime and the register
+#        files (norme impugnate) are separate zips on the same page. DTDs and an XML example are linked from the page (not read).
+schema_version: 1
+id: it-corte-costituzionale-opendata
+name: Corte costituzionale - Open Data (pronunce, massime, norme impugnate)
+publisher: Corte costituzionale della Repubblica italiana
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [IT]
+document_kinds: [judgment]
+languages: [it]
+coverage: >-
+  About 18,000 to 20,000 pronouncements (sentenze and ordinanze) of the Italian Constitutional Court from 1956 to today as XML/CSV/JSON,
+  with the headnotes (massime), the list of constitutional judges and the register of the norms challenged. Fills the Italian case-law
+  gap (ULIS holds Italian legislation only). Nothing is ingested.
+access:
+  method: bulk_download
+  endpoint: https://dati.cortecostituzionale.it/Scarica_i_dati/Scarica_i_dati
+  authentication: none
+update_frequency: weekly (the page also says daily)
+rate_limits: None stated; three zips of 15, 36 and 57 MB for the pronouncements; use PoliteHttp with at least 5 s between requests.
+licence:
+  id: CC-BY-SA-3.0
+  name: >-
+    Creative Commons (CC BY SA 3.0), "per il libero riuso" (the page does not name a national port of the licence)
+  url: https://dati.cortecostituzionale.it/Scarica_i_dati/Scarica_i_dati
+  review_status: pending_review
+  reviewed_by: ULIS bulk-datasets survey (home page, download page and robots.txt read on 2026-10-15). Not reviewed by counsel.
+  reviewed_on: 2026-10-15
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Corte costituzionale, Open Data (https://dati.cortecostituzionale.it/), CC BY SA 3.0. (Wording is ULIS's; the licence requires credit, a licence link and an indication of changes.)
+  conditions:
+    - Attribution and ShareAlike (CC BY-SA 3.0) apply, so adaptations of the dataset must be offered under the same licence. Counsel must decide whether a search index and the ULIS database are adaptations; if they are, the ShareAlike condition reaches ULIS's own database.
+    - The licence applies to the publisher's data and mark-up; the pronouncements are acts of a public authority, and ULIS should keep them verbatim.
+    - Anonymisation and personal data in the texts are the Court's; do not attempt to re-identify.
+  notes: >-
+    The only machine-readable Italian court decisions found without a key or a refusal. Cassation (Italgiure) and the Consiglio di Stato
+    were not found as datasets (not examined).
+provenance: Published by the Constitutional Court itself from its own archive (pronunce, massime); not retrieved.
+known_limitations:
+  - Not ingested - survey result only; only HEAD requests were sent to the zip files.
+  - Share-alike condition (see conditions); the XML schema (DTD) and the text fidelity of the XML were not examined.
+  - The page gives two update rhythms (daily, weekly) and two counts (18,000, 20,000 texts).
+status: planned
+connector: null
+parser: null
