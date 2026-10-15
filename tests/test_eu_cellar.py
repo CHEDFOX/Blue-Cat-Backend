@@ -897,3 +897,15 @@ def _bundle_with_formex(content: bytes, xml: str) -> bytes:
             part["sha256"] = hashlib.sha256(xml.encode()).hexdigest()
     raw["parts"] = parts[:4]
     return json.dumps(raw).encode()
+
+
+def test_a_consolidated_file_gives_the_number_year_and_domain_of_the_act(
+    batched: tuple[dict[str, RawDocument], CellarConnector],
+) -> None:
+    from ulis.sources.parsers.eu_cellar import Part, load_bundle, parse_formex
+
+    bundle, parts = load_bundle(batched[0][f"cellar:{CONS}:en"].content)
+    doc, _ = parse_formex([p for p in parts if p.role.startswith("item:")])
+    assert (doc.number, doc.year, doc.domain_code) == ("679", 2016, "EU")
+    assert (doc.cons_start, doc.cons_end, doc.cons_date) == (date(2016, 5, 4), None, date(2018, 5, 23))
+    assert isinstance(parts[0], Part) and bundle["base_celex"] == "32016R0679"

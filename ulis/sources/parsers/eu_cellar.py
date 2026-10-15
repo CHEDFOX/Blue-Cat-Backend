@@ -658,6 +658,10 @@ def parse_formex(parts: list[Part]) -> tuple[FormexDoc, list[Prov]]:
     for annex in annexes:
         fmx_annex(b, annex)
     no_doc = doc_root.find("BIB.INSTANCE/NO.DOC")
+    if no_doc is None and consolidated:
+        # A consolidated file carries the act's number, year and domain in the family of acts it brings together: the
+        # first entry is the act itself (the others are its amendments and corrigenda).
+        no_doc = doc_root.find("FAM.COMP/BIB.DATA/BIB.INSTANCE.CONS/NO.DOC")
     info = main.find("INFO.CONSLEG") if consolidated else None
     year = no_doc.findtext("YEAR") if no_doc is not None else None
     pub = None
