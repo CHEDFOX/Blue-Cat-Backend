@@ -5,10 +5,16 @@ from __future__ import annotations
 import re
 from datetime import date
 
+_C1 = {c: bytes([c]).decode("cp1252", errors="ignore") or chr(c) for c in range(0x80, 0xA0)}
+
 
 def ws(text: str) -> str:
-    """Collapse runs of whitespace (including non-breaking spaces) to single spaces."""
-    return re.sub(r"\s+", " ", text).strip()
+    """Collapse runs of whitespace (including non-breaking spaces) to single spaces.
+
+    A numeric character reference to a C1 control character (for example ``&#150;``, which Windows-1252 and
+    browsers read as an en dash) is read the way browsers read it.
+    """
+    return re.sub(r"\s+", " ", text.translate(_C1)).strip()
 
 
 def iso_date(value: str | None) -> date | None:

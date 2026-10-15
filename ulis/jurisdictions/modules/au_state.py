@@ -16,7 +16,7 @@ from typing import ClassVar, Literal
 
 from pydantic import BaseModel, ConfigDict
 
-from ulis.jurisdictions.modules.au import AuModule
+from ulis.jurisdictions.modules.au import AuModule, _subs
 from ulis.jurisdictions.modules.base import ProvisionCitationInput
 
 
@@ -32,6 +32,12 @@ class AuStateModule(AuModule):
     id: ClassVar[str] = "au_state"
     version: ClassVar[str] = "1.0.0"
     ext_model: ClassVar[type[BaseModel]] = AuStateExt
+
+    def pinpoint(self, c: ProvisionCitationInput) -> str:
+        if c.top_kind == "schedule" and len(c.num_path) > 1 and c.num_path[1].startswith("def:"):
+            # a definition in a schedule (a dictionary): sch 1 (definition of ‘act’)
+            return f"sch {c.num_path[0]}".rstrip() + _subs(c.num_path[1:])
+        return super().pinpoint(c)
 
     def _title(self, c: ProvisionCitationInput) -> str:
         state = c.ext.get("state", "")

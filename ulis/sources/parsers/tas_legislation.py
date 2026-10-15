@@ -72,8 +72,27 @@ def resolve_uri(uri: str) -> tuple[str, str | None] | None:
     return (work_uri(m.group(1), m.group(2)), None) if m else None
 
 
+def _raw(el: Element) -> str:
+    """Text of an element; an empty ``DATE`` element carries its date in attributes (shown as ``1 July 2000``)."""
+    if el.tag == "DATE" and not "".join(el.itertext()).strip():
+        day, month, year = el.get("DAY"), el.get("MONTH"), el.get("YEAR")
+        if day and month and year and day.isdigit():
+            return f"{int(day)} {month.capitalize()} {year}" + (el.tail or "")
+        return el.tail or ""
+    parts = [el.text or ""]
+    for child in el:
+        parts.append(_raw(child))
+    parts.append(el.tail or "")
+    return "".join(parts)
+
+
 def inline(el: Element) -> str:
-    return ws("".join(el.itertext()))
+    # _raw includes the element's tail (needed for children); drop the root's own tail
+    saved, el.tail = el.tail, None
+    try:
+        return ws(_raw(el))
+    finally:
+        el.tail = saved
 
 
 def _table_text(el: Element) -> str:

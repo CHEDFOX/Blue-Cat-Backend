@@ -171,17 +171,24 @@ class _Node:
     kind: str
     label: str
     heading: str | None = None
-    lines: list[str] = field(default_factory=list)
-    children: list[_Node] = field(default_factory=list)
+    items: list[str | _Node] = field(default_factory=list)  # lines of text and child nodes, in document order
     note: list[str] = field(default_factory=list)
     repealed: bool = False
+
+    @property
+    def lines(self) -> list[str]:
+        return [i for i in self.items if isinstance(i, str)]
+
+    @property
+    def children(self) -> list[_Node]:
+        return [i for i in self.items if isinstance(i, _Node)]
 
     def set_text(self, text: str) -> None:
         if re.match(r"^\[?Repealed\b", text):
             self.repealed = True
             self.note.append(text)
         elif text:
-            self.lines.append(text)
+            self.items.append(text)
 
 
 def _date(text: str) -> date:
@@ -237,11 +244,11 @@ def parse_manitoba_laws(content: bytes) -> list[ParsedDocument]:
                 row_node = section
                 if subs:
                     sub = _Node("subsection", subs[0])
-                    section.children.append(sub)
+                    section.items.append(sub)
                     row_node = sub
                     if len(subs) > 1:
                         row_node = _Node("paragraph", subs[1])
-                        sub.children.append(row_node)
+                        sub.items.append(row_node)
                 if heading and row_node.heading is None:
                     row_node.heading = heading
                 defn = ind1 = None
@@ -249,34 +256,34 @@ def parse_manitoba_laws(content: bytes) -> list[ParsedDocument]:
             elif b.cls == "def1" and row_node is not None:
                 term = b.bold.strip('"“” ')
                 defn = _Node("definition", f"def:{term}")
-                row_node.children.append(defn)
+                row_node.items.append(defn)
                 ind1 = None
                 defn.set_text(b.text)
             elif b.cls == "ind1" and row_node is not None:
                 ind1 = _Node("paragraph", b.clause.strip())
-                row_node.children.append(ind1)
+                row_node.items.append(ind1)
                 defn = None
                 ind1.set_text(b.text)
             elif b.cls == "ind2" and row_node is not None:
                 if defn is not None:
                     node = _Node("paragraph", b.clause.strip())
-                    defn.children.append(node)
+                    defn.items.append(node)
                 elif ind1 is not None:
                     node = _Node("subparagraph", b.clause.strip())
-                    ind1.children.append(node)
+                    ind1.items.append(node)
                 else:
                     node = _Node("paragraph", b.clause.strip())
-                    row_node.children.append(node)
+                    row_node.items.append(node)
                 node.set_text(b.text)
             elif b.cls == "note" and row_node is not None:
                 row_node.note.append(b.text)
             elif b.tag == "p" and not seen_section and b.text and b.cls != "left":  # "(Assented to ...)" is not text
                 label = b.clause.strip()
-                preamble.lines.append(f"{label} {b.text}".strip())
+                preamble.items.append(f"{label} {b.text}".strip())
             elif b.tag == "p" and row_node is not None and b.text and b.cls in ("", "left"):
-                (ind1 or defn or row_node).lines.append(b.text)
+                (ind1 or defn or row_node).items.append(b.text)
 
-    if preamble.lines:
+    if preamble.items:
         nodes.insert(0, preamble)
     if not [n for n in nodes if n.kind == "section"]:
         raise ManitobaParseError("no sections found")
@@ -285,11 +292,14 @@ def parse_manitoba_laws(content: bytes) -> list[ParsedDocument]:
     used: dict[str, int] = {}
 
     def text_of(node: _Node) -> str:
-        lines = list(node.lines)
-        for child in node.children:
-            label = child.label if not child.label.startswith("def:") else ""
-            body = text_of(child)
-            lines.append(f"{label} {body}".strip() if label else body)
+        lines: list[str] = []
+        for item in node.items:
+            if isinstance(item, str):
+                lines.append(item)
+            else:
+                label = item.label if not item.label.startswith("def:") else ""
+                body = text_of(item)
+                lines.append(f"{label} {body}".strip() if label else body)
         return "\n".join(line for line in lines if line)
 
     def flatten(node: _Node, parent_eid: str | None, num_path: list[str], top_kind: str, ctx: str | None) -> None:
