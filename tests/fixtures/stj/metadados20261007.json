@@ -1,0 +1,30 @@
+[
+ {
+  "SeqDocumento": 378802014,
+  "dataPublicacao": "2026-10-07",
+  "tipoDocumento": "DECISÃO",
+  "numeroRegistro": "202600824373",
+  "processo": "AREsp 3196481",
+  "dataRecebimento": "2026-03-06",
+  "dataDistribuição": "2026-03-19",
+  "NM_MINISTRO": "NANCY ANDRIGHI",
+  "recurso": null,
+  "teor": "Não Conhecendo",
+  "descricaoMonocratica": "Não conhecido o recurso de #{nome_da_parte} #{campo_livre_final}",
+  "assuntos": "12480.12482.12486.12487."
+ },
+ {
+  "SeqDocumento": 402726084,
+  "dataPublicacao": "2026-10-07",
+  "tipoDocumento": "DECISÃO",
+  "numeroRegistro": "202602462799",
+  "processo": "AREsp 3296420",
+  "dataRecebimento": "2026-06-18",
+  "dataDistribuição": "2026-07-20",
+  "NM_MINISTRO": "LUIS FELIPE SALOMÃO",
+  "recurso": null,
+  "teor": "Não Conhecendo",
+  "descricaoMonocratica": "Não conhecido o recurso de #{nome_da_parte} #{campo_livre_final}",
+  "assuntos": "00899.07673.07687."
+ }
+]
