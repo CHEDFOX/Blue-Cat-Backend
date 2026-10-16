@@ -62,6 +62,22 @@ NO_SOURCE_ROWS = [
         outcome="not found elsewhere - no new descriptor; see at-ris-bundesrecht",
     ),
     dict(
+        country="Kazakhstan",
+        region="Caucasus and Central Asia",
+        url="https://akorda.kz/ru/official_documents/constitution",
+        langs="ru, kk",
+        finding="Read here as planned (no terms found); activated by the deep Asia and Oceania sweep as `kz-akorda-constitution` under the AMBER rule (official text, robots.txt `Allow: /`, no terms): docs/constitutions-asia-oceania-deep.md.",
+        outcome="activated later - ingested (ru, kk)",
+    ),
+    dict(
+        country="Turkmenistan",
+        region="Caucasus and Central Asia",
+        url="https://minjust.gov.tm/assets/files/law_documents/hukuknama_1_tm.pdf",
+        langs="tk",
+        finding="Read here as planned (no terms found); activated by the deep Asia and Oceania sweep as `tm-minjust-constitution` under the AMBER rule (official text, no robots.txt, no terms): docs/constitutions-asia-oceania-deep.md.",
+        outcome="activated later - ingested (tk)",
+    ),
+    dict(
         country="Slovakia",
         region="Europe",
         url="https://www.nrsr.sk/web/",
