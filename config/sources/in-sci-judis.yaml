@@ -22,6 +22,10 @@
 #        Eastern Book Company v. D.B. Modak, (2008) 1 SCC 1 (as summarised by law blogs) - no copyright in the raw text of judgments,
 #        while editorial inputs (headnotes, footnotes) of a reporter are protected. No prohibition by the Court was found on
 #        api.sci.gov.in.
+#   Supporting, read on another judiciary host: the e-Committee of the Supreme Court's Copyright Policy for the eCourts judgments portal
+#        (https://judgments.ecourts.gov.in/pdfsearch/?p=pdf_search/footerlinks/cp&escr_flag=) allows reproduction of its contents "duly &
+#        prominently acknowledging the source", not "in any misleading or objectionable context or derogatory manner", and excluding
+#        third-party copyright. It does not govern api.sci.gov.in; ULIS follows the same conditions (attribution text below).
 # The list of numbers is not published anywhere the bot could read; the manifest is a range of numbers (see the connector).
 schema_version: 1
 id: in-sci-judis

@@ -11,12 +11,14 @@ stored bytes; the parser drops it).
 Terms: see ``config/sources/in-sci-judis.yaml``. ``PoliteHttp``: identifying User-Agent, at least 5 s between requests,
 HTTPS to ``api.sci.gov.in`` only, back-off on 429/5xx, any other refusal (401/403/451 ...) stops the run, cache under
 ``<cache_dir>/api.sci.gov.in/``. The host's ``robots.txt`` (an empty file on 2026-10-16: nothing disallowed) is read
-first and every URL is checked against it. Anything that answers 200 but is not a PDF is reported in ``fetch_errors``
-and the run goes on.
+first and every URL is checked against it. Anything that answers 200 but is not a PDF, and any single number that
+fails for another reason than a refusal (a 5xx after the retries, a dropped connection), is reported in ``fetch_errors``
+and the run goes on; 20 failures in a row, a refusal (401/403/407/429/451) or an offline cache miss stop it.
 """
 
 from __future__ import annotations
 
+import re
 import time
 from collections.abc import Iterator
 from datetime import datetime
@@ -35,6 +37,10 @@ BASE_URL = f"https://{HOST}"
 ROBOTS_URL = f"{BASE_URL}/robots.txt"
 MIN_DELAY = 5.0
 MAX_ID = 1_000_000
+# A refusal stops the run; any other failure of one number (a 5xx that outlasts the retries, a dropped connection) is
+# reported and the run goes on, unless this many numbers in a row fail (the host is down).
+REFUSAL = re.compile(r"HTTP (?:401|403|407|429|451)\b")
+MAX_CONSECUTIVE_FAILURES = 20
 
 __all__ = ["FetchError", "SciJudisConnector", "judgment_url"]
 
@@ -107,12 +113,21 @@ class SciJudisConnector:
         # No robots.txt (404) means no restrictions (RFC 9309, 2.3.1.3); an empty file allows everything.
         got = self.http.get(ROBOTS_URL, cache_key="robots.txt")
         robots = got[0].decode("utf-8", "replace") if got is not None else ""
+        failures = 0
         for judis_id in self.numbers():
             url = judgment_url(judis_id)
             if not robots_allows(robots, self.http.user_agent, url):
                 raise FetchError(f"{url}: disallowed by {ROBOTS_URL}; not fetched")
             self.numbers_asked += 1
-            got = self.http.get(url, cache_key=f"judis/{judis_id}.pdf")
+            try:
+                got = self.http.get(url, cache_key=f"judis/{judis_id}.pdf")
+            except FetchError as exc:
+                failures += 1
+                if self.offline or REFUSAL.search(str(exc)) or failures >= MAX_CONSECUTIVE_FAILURES:
+                    raise
+                self.fetch_errors.append(f"{exc}; skipped")
+                continue
+            failures = 0
             if got is None:
                 self.numbers_empty += 1  # 404: no judgment under this number
                 continue

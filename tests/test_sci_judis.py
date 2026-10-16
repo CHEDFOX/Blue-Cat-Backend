@@ -455,21 +455,56 @@ def test_connector_refuses_bad_manifests_and_obeys_robots_txt(tmp_path: Path) ->
         list(SciJudisConnector(_manifest(tmp_path, [[100, 100]]), SOURCE, blocked, offline=True).fetch())
 
 
-def test_a_refusal_stops_the_run(tmp_path: Path) -> None:
-    class Refusing(PoliteHttp):
-        def get(self, url: str, cache_key: str | None = None, headers: dict[str, str] | None = None) -> Any:
-            raise FetchError(f"{url}: HTTP 403 (not retried: a refusal is respected)")
+class _Scripted(PoliteHttp):
+    """A PoliteHttp whose answers are scripted per number: bytes, None (404) or an exception to raise."""
 
-    connector = SciJudisConnector(_manifest(tmp_path, [[1, 3]]), SOURCE, tmp_path, offline=True)
+    script: dict[int, Any] = {}
+
+    def get(self, url: str, cache_key: str | None = None, headers: dict[str, str] | None = None) -> Any:
+        if url == ROBOTS_URL:
+            return b"", {"status": 200}
+        number = int(url.rsplit("/", 1)[1].removesuffix(".pdf"))
+        answer = self.script.get(number, b"")
+        if isinstance(answer, Exception):
+            raise answer
+        if answer is None:
+            return None
+        return answer, {"status": 200, "content_type": "application/pdf", "retrieved_at": "2026-10-16T08:00:00+00:00"}
+
+
+def _scripted(monkeypatch: pytest.MonkeyPatch, script: dict[int, Any]) -> None:
     import ulis.sources.connectors.sci_judis as module
 
-    original = module.PoliteHttp
-    module.PoliteHttp = Refusing  # type: ignore[misc]
-    try:
-        with pytest.raises(FetchError, match="HTTP 403"):
-            list(connector.fetch())
-    finally:
-        module.PoliteHttp = original  # type: ignore[misc]
+    _Scripted.script = script
+    monkeypatch.setattr(module, "PoliteHttp", _Scripted)
+
+
+def test_a_refusal_stops_the_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    refusal = FetchError(f"{judgment_url(2)}: HTTP 403 (not retried: a refusal is respected)")
+    _scripted(monkeypatch, {1: _raw(NATHMAL), 2: refusal, 3: _raw(MORCHA)})
+    connector = SciJudisConnector(_manifest(tmp_path, [[1, 3]]), SOURCE, tmp_path)
+    seen: list[str] = []
+    with pytest.raises(FetchError, match="HTTP 403"):
+        for doc in connector.fetch():
+            seen.append(doc.external_id)
+    assert seen == ["sci-judis:1"]  # number 3 was never asked
+
+
+def test_one_failing_number_is_reported_and_the_run_goes_on_but_a_dead_host_stops_it(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    down = FetchError(f"{judgment_url(2)}: HTTP 503 (not retried: a refusal is respected)")
+    _scripted(monkeypatch, {1: _raw(NATHMAL), 2: down, 3: _raw(MORCHA), 4: None})
+    connector = SciJudisConnector(_manifest(tmp_path, [[1, 4]]), SOURCE, tmp_path)
+    assert [d.external_id for d in connector.fetch()] == ["sci-judis:1", "sci-judis:3"]
+    assert len(connector.fetch_errors) == 1 and "HTTP 503" in connector.fetch_errors[0]
+    assert (connector.numbers_asked, connector.numbers_empty) == (4, 1)
+    dead = {n: FetchError(f"{judgment_url(n)}: timed out") for n in range(1, 40)}
+    _scripted(monkeypatch, dead)
+    connector = SciJudisConnector(_manifest(tmp_path, [[1, 39]]), SOURCE, tmp_path)
+    with pytest.raises(FetchError, match="timed out"):
+        list(connector.fetch())
+    assert connector.numbers_asked == 20 and len(connector.fetch_errors) == 19
 
 
 # --------------------------------------------------------------------------- PostgreSQL

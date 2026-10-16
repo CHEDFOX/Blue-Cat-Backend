@@ -32,7 +32,14 @@ route was found and built: **Supreme Court judgments as PDF on the Court's API h
   has title, parties, judges, `nc_display` ("2023 INSC 1043"), case id, CNR, disposal nature. But the uploader's code
   (<https://github.com/vanga/indian-high-court-judgments>, <https://github.com/vanga/indian-supreme-court-judgments>) "solves the eCourts
   arithmetic CAPTCHA automatically with an ONNX model" and imports a CAPTCHA solver for the Supreme Court portal; the project's rule
-  (docs/bulk-datasets-survey.md) is to use nothing obtained that way. The licence is not the obstacle (judgments are freely reproducible).
+  (docs/bulk-datasets-survey.md) is to use nothing obtained that way. The licence is not the obstacle: the eCourts portal's own
+  Copyright Policy (<https://judgments.ecourts.gov.in/pdfsearch/?p=pdf_search/footerlinks/cp&escr_flag=>, read) says "The contents on this
+  website shall not be reproduced partially or fully, without duly & prominently acknowledging the source" and not "in any misleading or
+  objectionable context", excluding third-party copyright; its Terms say the documents "are for reference purposes only"; robots.txt
+  of the portal and of scr.sci.gov.in: HTTP 404 (none); the search form carries a CAPTCHA (securimage image). If the owner decides that
+  using the CC-BY compilation is acceptable despite how it was built, the rest is routine: a connector over the yearly `english.tar`
+  and `metadata.parquet` files (SC: about 52 GB; HC: 1.25 TiB, so scoped by court and year) and a parser for the SCR PDF (the Supreme
+  Court Reports layout: citation line, CASE DETAILS, headnotes, numbered paragraphs, neutral citation "2023 INSC 1043").
 * India Code mirrors: Hugging Face `RUDXLABS/india-central-state-acts` (`license: other`, "public-domain ... under section 52(1)(q)",
   34,729 hash-named PDFs, a scrape of a site that refuses the bot) and GitHub `anoopdixith/TheConstitutionOfIndia` (no licence file) rejected.
   Section 52(1)(q)(ii), as we read it, frees an Act only when reproduced with commentary or other original matter.
@@ -67,14 +74,18 @@ manifest is the whole range. Empty numbers are cached (not asked twice).
 * `migrate`, `sync-catalog` (148 profiles, 345 sources); slice ingest (cache of the first run, no network): 89 seen, 88 new, 1 skipped
   (33824, a Record of Proceedings), 0 errors, 88 judgments, 1,566 paragraphs, 1,566 passages indexed. (First run with an earlier
   parser: 1 error on the same document; fixed.) `verify-sources`: 88 pass, 0 fail.
-* Years in the slice: 1950, 1970, 1978, 1981, 1996, 2007, 2009, 2011, 2014, 2016. Parser outcome on the 89 PDFs: 75 JUDIS header (to 2007
-  ones included), 14 signed; 68 with a case number (older judgments seldom print one in the header).
+* Years in the slice: 1950, 1970, 1978, 1981, 1996, 2007, 2009, 2011, 2014, 2016. Of the 88 judgments, 50 have the JUDIS header (30 with
+  reporter citations, 35 with a case number, all with a bench) and 38 are signed judgments (38 with a case number, 35 with an author).
 * Searches (CLI, `--jurisdiction IN`): "requisitioned vehicle election duty compensation" -> *National Insurance Co. Ltd. v. Deepa Devi & Ors,
   CIVIL APPEAL NO. 5796 OF 2007 (Supreme Court of India, 11 December 2007), para 2*; "arbitrator section 11(6) Arbitration and
   Conciliation Act" -> *Deepak Kumar Bansal v. Union of India & Anr., CIVIL APPEAL NO.1089 OF 2009 (Supreme Court of India, 17 February
   2009), para 2*; "sales tax cement Kota" -> *ASSOCIATED CEMENT CO. LTD. v. COMMERCIAL TAX OFFICER, KOTA & ORS., 1981 AIR 1887; 1982 SCR (1)
-  563; 1981 SCC (4) 578 (Supreme Court of India, 2 September 1981)*. Limitations returned: PROFILE_UNVERIFIED, CITATOR_COVERAGE, AUTHORITY.
-* Checks: TESTS_PLACEHOLDER
+  563; 1981 SCC (4) 578 (Supreme Court of India, 2 September 1981)*. Limitations returned: PROFILE_UNVERIFIED, CITATOR_COVERAGE, AUTHORITY; with `--forum-court IN-HC-DEL` the Supreme Court hit is "Binding precedent for the forum court".
+* Checks: `ruff check`, `ruff format --check`, `mypy ulis` clean. Full suite (1,847 tests) run once: 1,845 passed, 2 failed - (1)
+  `test_assistant_tools::test_smoke_real_us_statute_is_found_with_its_exact_citation` fails identically on the unmodified base commit
+  c8b8327 (expects "Binding" in a US provision's authority label), not ours; (2) `test_search::test_unindexed_jurisdiction_reports_no_coverage`
+  used IN as its "unindexed" country, which now has a corpus: changed to NZ, passes. The affected files (sci_judis, india_blocked, catalog,
+  search, api) pass together after the change (73 tests); the full suite was not repeated. `tests/test_sci_judis.py` has 27 tests.
 
 ## What remains missing, and why
 

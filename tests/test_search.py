@@ -165,7 +165,7 @@ def test_judicial_treatment_and_outstanding_changes_on_statute(session: Session,
 
 
 def test_unindexed_jurisdiction_reports_no_coverage(session: Session, catalog: Catalog) -> None:
-    res = run(session, catalog, q="retention of personal data", jurisdiction="IN")
+    res = run(session, catalog, q="retention of personal data", jurisdiction="NZ")
     assert res["results"] == []
     assert {"NO_CORPUS", "PROFILE_UNVERIFIED"} <= codes(res)
     assert res["coverage"][0]["instruments"] == 0

@@ -13,7 +13,14 @@
 #        Digital Supreme Court Reports portal scr.sci.gov.in; its download.py imports a CAPTCHA solver ("from src.captcha_solver.main
 #        import get_text"), solves the search-session CAPTCHA (refresh_token) and the per-PDF CAPTCHA (solve_pdf_download_captcha),
 #        and starts "a fresh session" after 25 PDFs because "after 25 downloads, need to solve captcha for every pdf link request".
-#   https://scr.sci.gov.in/robots.txt and https://judgments.ecourts.gov.in/robots.txt: HTTP 404 (none); the portals' terms were not read.
+#   https://scr.sci.gov.in/robots.txt and https://judgments.ecourts.gov.in/robots.txt: HTTP 404 (none).
+#   https://judgments.ecourts.gov.in/pdfsearch/ (200): the search form carries a CAPTCHA (a securimage image). Its Copyright Policy
+#        (https://judgments.ecourts.gov.in/pdfsearch/?p=pdf_search/footerlinks/cp&escr_flag=): "The contents on this website shall not
+#        be reproduced partially or fully, without duly & prominently acknowledging the source. The contents of this website cannot be
+#        used in any misleading or objectionable context or derogatory manner. However the permission to reproduce the material
+#        available on the e-Courts website shall not extend to any material which is identified as being copyright of a third party."
+#        Its Terms (.../footerlinks/tc): "The documents and information displayed in this website are for reference purposes only and
+#        do not purport to a legal document." (scr.sci.gov.in runs the same e-Committee platform; its own pages were not read.)
 #   The bucket is publicly listable and readable without an account (checked: a listing, two index files, one metadata JSON and one
 #        English PDF of the Supreme Court bucket over HTTPS; none of it is stored in this repository).
 # Decision: the CAPTCHA is the courts' own access control; the datasets exist only because it was defeated by software. ULIS does not
@@ -42,8 +49,9 @@ licence:
   url: https://creativecommons.org/licenses/by/4.0/
   review_status: rejected
   reviewed_by: >-
-    ULIS project (not counsel), 2026-10-16, from the pages listed in the header of this file. The courts' own terms were not read
-    (www.sci.gov.in answered HTTP 403 to the bot; the eCourts portals publish no robots.txt).
+    ULIS project (not counsel), 2026-10-16, from the pages listed in the header of this file. The Supreme Court's own terms were not read
+    (www.sci.gov.in answered HTTP 403 to the bot). The e-Committee's Copyright Policy and Terms for the High Court judgments portal were read
+    (quoted in the header of this file): reproduction with a prominent acknowledgement of the source is allowed.
   reviewed_on: '2026-10-16'
   redistribution: unknown
   bulk_download: unknown
