@@ -14,9 +14,13 @@ documents:
   title: Magyarország Alaptörvénye
   citation_name: Hungary Fundamental Law
   adopted_on: '2011-04-25'
-  edition_date: '2026-06-22'
-  edition_label: 'Magyar Közlöny 75. szám, 2026. június 22.: "Magyarország Alaptörvénye (egységes szerkezetben)"'
+  edition_date: '2026-06-20'
+  edition_label: 'Magyar Közlöny 75. szám, 2026. június 22.: "Magyarország Alaptörvénye (egységes szerkezetben)", footnote: "2026. június 20-án hatályos szövege"'
   authoritative: false
   text_origin: official_consolidation
   structure:
     unit_kind: article
+    style: blocks
+    start_regex: '^NEMZETI HITVALLÁS$'
+    drop_lines: ['^M A G Y A R K Ö Z L Ö N Y', '^[0-9]{4}$']
+    tail_regex: '^A Magyar Közlönyt az Igazságügyi'

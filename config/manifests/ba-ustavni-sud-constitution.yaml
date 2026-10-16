@@ -17,6 +17,8 @@ documents:
   text_origin: official_consolidation
   structure:
     unit_kind: article
+    style: blocks
+    first_page: 2
 - slug: ba-hr
   jurisdiction: BA
   url: https://www.ustavnisud.ba/uploads/documents/ustav-bih-hr_1611085312.pdf
@@ -28,6 +30,8 @@ documents:
   text_origin: official_consolidation
   structure:
     unit_kind: article
+    style: blocks
+    first_page: 2
 - slug: ba-sr
   jurisdiction: BA
   url: https://www.ustavnisud.ba/uploads/documents/ustav-sr_1611219965.pdf
@@ -39,3 +43,5 @@ documents:
   text_origin: official_consolidation
   structure:
     unit_kind: article
+    style: blocks
+    first_page: 2

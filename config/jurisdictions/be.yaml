@@ -1,0 +1,57 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Belgium: a minimal profile created for the deep constitutions sweep of Europe, the
+# Caucasus and the Middle East. Only the constitution is loaded; nothing else about the legal system is profiled.
+schema_version: 1
+id: BE
+profile_version: 0.1.0
+name: Belgium
+names:
+  nl: België
+  fr: Belgique
+  de: Belgien
+  en: Kingdom of Belgium
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages:
+- nl
+- fr
+- de
+legal_system:
+  families:
+  - civil_law
+  structure: federal
+  treaty_reception: unknown
+  notes: 'To verify - a federal state made up of communities and regions (Constitution art. 1-3); official languages Dutch, French
+    and German (art. 4: four linguistic regions). A civil-law system.'
+legislative_institutions: []
+instrument_types:
+- constitution
+norm_hierarchy:
+- constitution
+courts: []
+precedent:
+  doctrine: not_applicable
+  vertical_binding: false
+  notes: 'Not profiled: only the constitution is loaded, no court decisions. To verify - how precedent works in this jurisdiction.'
+citation:
+  module: constitution
+  notes: The constitution is cited as "Belgium Constitution art. N" (a label, with the article number as the document itself prints
+    it). To verify - the country's own citation convention.
+  examples:
+  - Belgium Constitution art. 1
+  - Belgium Constitution art. 2
+publication:
+  official_sources:
+  - be-senate-constitution
+coverage:
+  corpus_status: pilot
+  known_gaps:
+  - Only the constitution is loaded (the coordinated Constitution of 17 February 1994 in French, Dutch and German, from the Senate).
+    No legislation, regulations, treaties or case law of Belgium are ingested.
+  - The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since are
+    not applied, and no history is held (docs/constitutions-europe-me-deep.md).
+  - 'Courts, legislative institutions, legal families and treaty reception are not profiled: this is a minimal profile, not reviewed
+    by counsel.'

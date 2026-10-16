@@ -18,3 +18,4 @@ documents:
   text_origin: official_consolidation
   structure:
     unit_kind: article
+    interlude_regex: '^GEÇİCİ MADDE 1-'

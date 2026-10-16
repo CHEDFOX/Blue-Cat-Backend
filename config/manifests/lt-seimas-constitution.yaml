@@ -22,3 +22,5 @@ documents:
     unit_kind: article
     style: numword
     keywords_after: [straipsnis]
+    drop_lines: ['^Į turinį$']
+    tail_regex: '^LIETUVOS RESPUBLIKOS KONSTITUCINIS ĮSTATYMAS$'
