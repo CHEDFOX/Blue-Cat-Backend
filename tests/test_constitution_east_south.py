@@ -1,4 +1,4 @@
-"""Constitutions of East and Southern Africa (RW, MG, MU, DJ, AO, SO, TZ, NA, SC): manifests, hints and citations.
+"""Constitutions of East and Southern Africa (RW, MG, MU, DJ, AO, SO, TZ, NA, SC, LS, ZW): manifests, hints and citations.
 
 The fixtures (``tests/fixtures/constitution_east_south``) are the real text lines of pages of the publishers' PDFs and
 pages (``pdftotext``), written back into small PDFs by ``tests/constitution_pdf.py`` (and, for the documents printed in
@@ -39,6 +39,8 @@ SOURCES = {
     "tz-nao-constitution": ("www.nao.go.tz", {"tz-en": "en"}),
     "na-ombudsman-constitution": ("ombudsman.org.na", {"na-en": "en"}),
     "sc-ecs-constitution": ("ecs.sc", {"sc-en": "en"}),
+    "ls-gov-constitution": ("www.gov.ls", {"ls-en": "en"}),
+    "zw-youth-constitution": ("youth.gov.zw", {"zw-en": "en"}),
 }
 
 
@@ -299,6 +301,28 @@ def test_tanzania_english_margin_column_is_cut_off() -> None:
     assert (prov(doc, "art-1").text or "").startswith("Tanzania is one State and is a sovereign United Republic")
     assert cite(doc, "art-2-par1") == "Tanzania Constitution art. 2(1)"
     assert doc.version_date.isoformat() == "2005-12-31"
+
+
+def test_lesotho_sections_with_headings_and_a_note_on_the_orders_after_the_text() -> None:
+    doc = doc_from("ls-gov-constitution", "ls-en", fixture_pdf("ls-pages.json"))
+    assert eids(doc, "section")[:3] == ["sec-1", "sec-2", "sec-3"]
+    assert prov(doc, "sec-1").heading == "The Kingdom and its territory"
+    assert (prov(doc, "sec-1-par1").text or "").startswith("Lesotho shall be a sovereign democratic kingdom")
+    assert "CHAPTER II" in (prov(doc, "sec-4").context_heading or "")
+    assert cite(doc, "sec-1-par1") == "Lesotho Constitution s. 1(1)"
+    assert doc.version_date.isoformat() == "1993-04-02"  # the text is attested at its commencement, not today
+
+
+def test_zimbabwe_number_then_title_sections_and_an_unnumbered_first_section() -> None:
+    doc = doc_from("zw-youth-constitution", "zw-en", fixture_pdf("zw-pages.json"))
+    assert doc.provisions[0].eid == "preamble" and (doc.provisions[0].text or "").startswith("We the people of Zimbabwe")
+    # '2 Supremacy of Constitution', '3 Founding values ...': a number, a space and the title
+    assert eids(doc, "section")[:4] == ["sec-2", "sec-3", "sec-4", "sec-5"]
+    assert prov(doc, "sec-2").heading == "Supremacy of Constitution"
+    # section 1 prints no number: its title and sentence stay visible in the chapter heading shown with the sections
+    assert "Zimbabwe is a unitary, democratic and sovereign republic." in (prov(doc, "sec-2").context_heading or "")
+    assert cite(doc, "sec-2-par1") == "Zimbabwe Constitution s. 2(1)"
+    assert doc.version_date.isoformat() == "2013-12-31"
 
 
 def test_djibouti_page_articles_in_capitals() -> None:

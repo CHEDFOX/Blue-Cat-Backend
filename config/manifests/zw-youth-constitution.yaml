@@ -1,0 +1,29 @@
+# The Constitution of Zimbabwe (en): 1 document(s) on youth.gov.zw. See config/sources/zw-youth-constitution.yaml.
+schema_version: 1
+source_id: zw-youth-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- youth.gov.zw
+documents:
+- slug: zw-en
+  jurisdiction: ZW
+  url: https://youth.gov.zw/storage/01JP9R9JD7HC6DAH8M2589A97Y.pdf
+  format: pdf
+  language: en
+  title: The Constitution of Zimbabwe
+  citation_name: Zimbabwe Constitution
+  edition_date: '2013-12-31'
+  edition_label: 'Constitution of Zimbabwe Amendment (No. 20) Act, 2013, Schedule (only the year is printed: 31 December
+    2013 is used); no later amendment is included'
+  authoritative: false
+  text_origin: official_authentic
+  structure:
+    page_numbers: true
+    style: numspace
+    unit_kind: section
+    heading: same_line
+    start_regex: ^PREAMBLE$
+    chapter_regex: ^CHAPTER [0-9]+$
+    drop_lines:
+    - ^zowa@zol\.co\.zw$

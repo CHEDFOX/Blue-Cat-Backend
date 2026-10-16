@@ -259,6 +259,8 @@ NUMDOT = re.compile(
     r"(?P<suffix>[A-Za-z\u0995-\u099c]{1,2}(?![A-Za-z\u0995-\u099c])|-[0-9]{1,2})?"
     r"(?:\.(?P<t1>(?:\s.*)?)|\.-(?P<t3>\(.*)|\s?[\u0964\u09f7](?P<t2>.*))$"
 )
+# a number followed by a space and the section's title ("2 Supremacy of Constitution"): Zimbabwe's Schedule
+NUMSPACE = re.compile(r"^\s*(?P<base>\d{1,3})(?P<suffix>[A-Za-z](?![A-Za-z]))?\s+(?P<t1>[A-Z\u00c0-\u00de].{2,119})$")
 TOC_LEADER = re.compile(r"(\.{4,}|…{2,}|\s\.\s\.\s\.)\s*[0-9ivxlc]*\s*$")
 
 
@@ -279,6 +281,12 @@ def find_candidates(lines: list[str], style: str, keywords: list[str], words_aft
             parsed = parse_number(m.group("base"), m.group("suffix") or "")
             remainder = (m.group("t1") or m.group("t3") or m.group("t2") or "").strip()
             mark = m.group("mark") or ""
+        elif style == "numspace":
+            m = NUMSPACE.match(line)
+            if not m:
+                continue
+            parsed = parse_number(m.group("base"), m.group("suffix") or "")
+            remainder = m.group("t1").strip()
         elif style == "numword":
             if after is None:
                 continue

@@ -572,6 +572,115 @@ PUBLISHERS: list[dict[str, Any]] = [
         "licence_reading": "AMBER - the publisher states no restriction on reusing the text; no permission for automated retrieval is stated either",
         "text_note": "the Constitution of Seychelles (Laws of Seychelles, Chapter 42, consolidated to 1 June 2020), copy on the site of the Electoral Commission",
     },
+    {
+        "id": "ls-gov-constitution",
+        "cc": "LS",
+        "host": "www.gov.ls",
+        "short": "Government of Lesotho",
+        "publisher": "Government of Lesotho (www.gov.ls), Important Documents: Lesotho Constitution",
+        "licence_id": "LS-official-text-no-terms",
+        "licence_url": "https://www.gov.ls/",
+        "crawl": 5,
+        "findings": [
+            "robots.txt - www.gov.ls/robots.txt: an empty file (0 bytes): nothing is disallowed; no Crawl-delay",
+            "Terms - page footer: \"Copyright © 2026 | Government of Lesotho\" - a generic footer; no terms-of-use, licence or disclaimer page is linked from the pages read. The last line of the PDF reads \"Government of Lesotho©All Rights Reserved-2000\".",
+            "The document - the download page https://www.gov.ls/download/lesotho-constitution/ (\"Lesotho Constitution\", 747.80 KB, \"Published May 20, 2022\") serves, through ?wpdmdl=1329, a PDF of 103 pages (created 5 Sep 2006): \"Lesotho - Government Constitutional Matters - THE CONSTITUTION OF LESOTHO - Price: 16.00 Maluti\", the text of the Constitution as in the Government Gazette Extraordinary of 1993 followed by a NOTE on the Orders by which it came into operation \"on 2nd April 1993\".",
+        ],
+        "known": [
+            "The text is the original enactment of 1993 (the copy the Government posts as 'Lesotho Constitution'); it includes none of the amendments made since (for example the Eighth Amendment of 2018, according to search results, and the amendments of 2024 under discussion), so it is attested only at its commencement date (2 April 1993) and many provisions of the Constitution in force today differ.",
+            "The contents list is skipped; the Orders of 1993 that follow the text (NOTE) are stored as blocks of paragraphs. The running head and the page numbers are removed.",
+        ],
+        "documents": [
+            _doc(
+                slug="ls-en",
+                language="en",
+                title="The Constitution of Lesotho",
+                citation_name="Lesotho Constitution",
+                structure_extra={
+                    "style": "numdot",
+                    "unit_kind": "section",
+                    "heading": "same_line",
+                    "drop_lines": [
+                        "^Lesotho - Government Constitutional Matters$",
+                        "^Page [0-9]+$",
+                        "^LESOTHO$",
+                        "^Government Gazette$",
+                        "^EXTRAORDINARY$",
+                    ],
+                    "chapter_regex": "^CHAPTER [IVXL]+",
+                    "tail_regex": "^NOTE$",
+                    "start_regex": "^CHAPTER I THE KINGDOM AND ITS CONSTITUTION$",
+                },
+            )
+        ],
+        "url": "https://www.gov.ls/download/lesotho-constitution/?wpdmdl=1329",
+        "format": "pdf",
+        "common": {
+            "adopted_on": "1993-04-02",
+            "edition_date": "1993-04-02",
+            "edition_label": "text of the Government Gazette of 1993; the NOTE records that it came into operation as The Constitution of Lesotho on 2nd April 1993; no amendment is included",
+            "events": [
+                {
+                    "type": "commencement",
+                    "date": "1993-04-02",
+                    "description": "the draft constitution came into operation as The Constitution of Lesotho on 2nd April 1993",
+                    "locator": "NOTE",
+                }
+            ],
+            "authoritative": False,
+            "text_origin": "official_authentic",
+        },
+        "common_structure": {},
+        "licence_reading": "AMBER - the publisher states no restriction on reusing the text beyond a generic copyright footer; no permission for automated retrieval is stated either",
+        "text_note": "the Constitution of Lesotho in the text of 1993 (without later amendments), as posted by the Government of Lesotho",
+    },
+    {
+        "id": "zw-youth-constitution",
+        "cc": "ZW",
+        "host": "youth.gov.zw",
+        "short": "Ministry of Youth of Zimbabwe",
+        "publisher": "Ministry of Youth Empowerment, Development and Vocational Training of Zimbabwe (youth.gov.zw), Resources: Constitution of Zimbabwe",
+        "licence_id": "ZW-official-text-no-terms",
+        "licence_url": "https://youth.gov.zw/",
+        "crawl": 5,
+        "findings": [
+            "robots.txt - youth.gov.zw/robots.txt: \"User-agent: *\" \"Disallow:\" (24 bytes): nothing is disallowed; no Crawl-delay",
+            "Terms - page footer: \"Copyright © 2026 | Designed by Mugonat Systems\" - a generic footer; the home page lists \"Constitution of Zimbabwe\" among its Downloads; no terms-of-use, licence or disclaimer page is linked",
+            "The document - https://youth.gov.zw/storage/01JP9R9JD7HC6DAH8M2589A97Y.pdf (113 pages, 1,201,149 bytes, Last-Modified 1 Dec 2025), the Government Printer's text (page head \"zowa@zol.co.zw\"): \"ZIMBABWE - ACT - To repeal and substitute the Constitution of Zimbabwe. ENACTED by the President and the Parliament of Zimbabwe. ... This Act may be cited as the Constitution of Zimbabwe Amendment (No. 20) Act, 2013.\" followed by \"SCHEDULE (SECTION 2) CONSTITUTION OF ZIMBABWE\".",
+        ],
+        "known": [
+            "The text is the Constitution as enacted by the Constitution of Zimbabwe Amendment (No. 20) Act, 2013 (the Schedule of the Act); amendments made since (Amendment (No. 1) Act 2017 and later ones) are not applied. The Act prints only its year, so 31 December 2013 is used as the edition date. Other hosts of this text (the Parliament, the National Peace and Reconciliation Commission, the Electoral Commission) are blocked (zw-parlzim-constitution).",
+            "The number of section 1 is not printed in the text layer: its heading and sentence ('The Republic - Zimbabwe is a unitary, democratic and sovereign republic.') are carried in the chapter heading shown with sections 2 to 7, not as a provision of their own. A few other headings were not recognised (their text stays in the preceding section and the note says so). The Act's own sections 1 to 3 before the Schedule and the contents list are not stored.",
+            "The six Schedules of the Constitution are stored as blocks of paragraphs.",
+        ],
+        "documents": [
+            _doc(
+                slug="zw-en",
+                language="en",
+                title="The Constitution of Zimbabwe",
+                citation_name="Zimbabwe Constitution",
+                structure_extra={
+                    "style": "numspace",
+                    "unit_kind": "section",
+                    "heading": "same_line",
+                    "start_regex": "^PREAMBLE$",
+                    "chapter_regex": "^CHAPTER [0-9]+$",
+                    "drop_lines": ["^zowa@zol\\.co\\.zw$"],
+                },
+            )
+        ],
+        "url": "https://youth.gov.zw/storage/01JP9R9JD7HC6DAH8M2589A97Y.pdf",
+        "format": "pdf",
+        "common": {
+            "edition_date": "2013-12-31",
+            "edition_label": "Constitution of Zimbabwe Amendment (No. 20) Act, 2013, Schedule (only the year is printed: 31 December 2013 is used); no later amendment is included",
+            "authoritative": False,
+            "text_origin": "official_authentic",
+        },
+        "common_structure": {"page_numbers": True},
+        "licence_reading": "AMBER - the publisher states no restriction on reusing the text beyond a generic copyright footer; no permission for automated retrieval is stated either",
+        "text_note": "the Constitution of Zimbabwe as enacted in 2013 (the Schedule of the Amendment (No. 20) Act), as posted by the Ministry of Youth",
+    },
 ]
 
 # --------------------------------------------------------------------------- profiles of the new countries
@@ -648,6 +757,26 @@ PROFILES: dict[str, dict[str, Any]] = {
         "official_sources": ["na-ombudsman-constitution"],
         "examples": ["Namibia Constitution art. 10", "Namibia Constitution art. 1"],
         "gap": "the English text of the Constitution as compiled by the Office of the Ombudsman in February 2016",
+    },
+    "LS": {
+        "name": "Lesotho",
+        "names": {"en": "Kingdom of Lesotho", "st": "Mmuso oa Lesotho"},
+        "languages": ["en", "st"],
+        "families": ["mixed"],
+        "notes": "To verify - a unitary constitutional monarchy whose law is Roman-Dutch common law with statute and customary law (Basotho law); Sesotho and English are the official languages (Constitution s 3).",
+        "official_sources": ["ls-gov-constitution"],
+        "examples": ["Lesotho Constitution s. 4", "Lesotho Constitution s. 1"],
+        "gap": "the English text of the Constitution as enacted in 1993, without any later amendment",
+    },
+    "ZW": {
+        "name": "Zimbabwe",
+        "names": {"en": "Republic of Zimbabwe"},
+        "languages": ["en", "sn", "nd"],
+        "families": ["mixed"],
+        "notes": "To verify - a unitary republic whose law is Roman-Dutch common law with statute and customary law; English, Shona, Ndebele and thirteen other languages are official (Constitution s 6).",
+        "official_sources": ["zw-youth-constitution"],
+        "examples": ["Zimbabwe Constitution s. 56", "Zimbabwe Constitution s. 2"],
+        "gap": "the English text of the Constitution as enacted by the Amendment (No. 20) Act of 2013, without later amendments",
     },
     "SC": {
         "name": "Seychelles",
@@ -774,18 +903,6 @@ BLOCKED: list[dict[str, Any]] = [
         "doc": "Constitution of the Kingdom of Swaziland Act 2005",
     },
     {
-        "id": "ls-gov-constitution",
-        "status": "planned",
-        "cc": "LS",
-        "name": "Constitution of Lesotho (1993) - Government of Lesotho (www.gov.ls)",
-        "publisher": "Government of Lesotho (www.gov.ls), Important Documents",
-        "languages": ["en"],
-        "url": "https://www.gov.ls/download/lesotho-constitution/",
-        "finding": "robots.txt (www.gov.ls/robots.txt) is empty (0 bytes); page footer 'Copyright © 2026 | Government of Lesotho'. The download page lists 'Lesotho Constitution' (747.80 KB, 'Published May 20, 2022'); the PDF (via ?wpdmdl=1329; 103 pages; created 5 Sep 2006) is the original Government Gazette text of 1993 ('Lesotho - Government Constitutional Matters ... Government of Lesotho©All Rights Reserved-2000') with the notes on the Orders of 1993 and no later amendment, although the Constitution has been amended since (for example by the Eighth Amendment of 2018, according to search results).",
-        "limitation": "The only official copy is the 1993 enactment text without any of the later amendments; not loaded as it would present superseded provisions.",
-        "doc": "Constitution of Lesotho, 1993 (original text)",
-    },
-    {
         "id": "mw-justice-constitution",
         "status": "planned",
         "cc": "MW",
@@ -897,6 +1014,8 @@ def _country(cc: str) -> str:
         "TZ": "Tanzania",
         "NA": "Namibia",
         "SC": "Seychelles",
+        "LS": "Lesotho",
+        "ZW": "Zimbabwe",
     }[cc]
 
 

@@ -70,6 +70,8 @@ SOURCES = {
     "sc-ecs-constitution": [
         ("sc-en", bundle_for("sc-ecs-constitution", "sc-en", fixture_pdf("sc-pages.json"), drop=("last_page",)))
     ],
+    "ls-gov-constitution": [("ls-en", bundle_for("ls-gov-constitution", "ls-en", fixture_pdf("ls-pages.json")))],
+    "zw-youth-constitution": [("zw-en", bundle_for("zw-youth-constitution", "zw-en", fixture_pdf("zw-pages.json")))],
 }
 
 
@@ -118,6 +120,10 @@ def test_search_finds_the_article_with_its_citation_in_each_language(
     assert mu["results"][0]["citation"].startswith("Mauritius Constitution s. 2")
     ao = _search(session, catalog, "AO", "Estado Democrático de Direito")
     assert ao["results"][0]["citation"].startswith("Angola Constitution art. 2")
+    ls = _search(session, catalog, "LS", "Lesotho shall be a sovereign democratic kingdom")
+    assert ls["results"][0]["citation"].startswith("Lesotho Constitution s. 1")
+    zw = _search(session, catalog, "ZW", "This Constitution is the supreme law of Zimbabwe")
+    assert zw["results"][0]["citation"].startswith("Zimbabwe Constitution s. 2")
     mg = _search(session, catalog, "MG", "Le peuple Malagasy constitue une Nation")
     assert mg["results"][0]["citation"].startswith("Madagascar Constitution art. 1")
 
@@ -130,6 +136,10 @@ def test_the_edition_date_is_the_only_date_the_text_is_attested_at(
     assert got["provision"]["citation"] == "Seychelles Constitution art. 1"
     assert got["version"]["text"].startswith("Seychelles is a sovereign democratic Republic")
     assert got["status_on_date"] == "in_force_date_unverified"
+    ls = provision_at(session, catalog, "/ls/constitution/~sec-2", TODAY)
+    assert ls["status_on_date"] == "in_force_date_unverified"  # attested at 2 April 1993 only
+    attested = next(lim for lim in ls["limitations"] if lim["code"] == "ATTESTED_ONLY_AT")
+    assert "1993-04-02" in attested["message"]
     ao = provision_at(session, catalog, "/ao/constitution/~art-1", TODAY)
     assert ao["version"]["text"].startswith("Angola é uma República soberana e independente")
 

@@ -1,9 +1,17 @@
-# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
-# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+# Government of Lesotho (www.gov.ls), Important Documents: Lesotho Constitution. Read on 2026-10-15, before any document was fetched:
+#   robots.txt - www.gov.ls/robots.txt: an empty file (0 bytes): nothing is disallowed; no Crawl-delay
+#   Terms - page footer: "Copyright © 2026 | Government of Lesotho" - a generic footer; no terms-of-use, licence or
+#     disclaimer page is linked from the pages read. The last line of the PDF reads "Government of Lesotho©All Rights
+#     Reserved-2000".
+#   The document - the download page https://www.gov.ls/download/lesotho-constitution/ ("Lesotho Constitution", 747.80 KB,
+#     "Published May 20, 2022") serves, through ?wpdmdl=1329, a PDF of 103 pages (created 5 Sep 2006): "Lesotho - Government
+#     Constitutional Matters - THE CONSTITUTION OF LESOTHO - Price: 16.00 Maluti", the text of the Constitution as in the
+#     Government Gazette Extraordinary of 1993 followed by a NOTE on the Orders by which it came into operation "on 2nd
+#     April 1993".
 schema_version: 1
 id: ls-gov-constitution
-name: Constitution of Lesotho (1993) - Government of Lesotho (www.gov.ls)
-publisher: Government of Lesotho (www.gov.ls), Important Documents
+name: Constitution of Lesotho - Government of Lesotho (www.gov.ls)
+publisher: 'Government of Lesotho (www.gov.ls), Important Documents: Lesotho Constitution'
 kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions:
@@ -12,36 +20,53 @@ document_kinds:
 - constitution
 languages:
 - en
-coverage: The Constitution (Constitution of Lesotho, 1993 (original text)) on the publisher's site; not ingested.
+coverage: 'The Constitution of Lesotho in en as published by Government of Lesotho: 1 document(s). The Constitution of Lesotho
+  in the text of 1993 (without later amendments), as posted by the Government of Lesotho.'
 access:
   method: permitted_web_retrieval
-  endpoint: https://www.gov.ls/download/lesotho-constitution/
+  endpoint: config/manifests/ls-gov-constitution.yaml
   authentication: none
-update_frequency: unknown
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
 licence:
-  id: UNKNOWN
-  name: 'Not usable: The only official copy is the 1993 enactment text without any of the later amendments; not loaded as
-    it would present superseded provisions.'
-  url: https://www.gov.ls/download/lesotho-constitution/
-  review_status: pending_review
-  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: robots.txt
-    (www.gov.ls/robots.txt) is empty (0 bytes); page footer ''Copyright © 2026 | Government of Lesotho''. The download page
-    lists ''Lesotho Constitution'' (747.80 KB, ''Published May 20, 2022''); the PDF (via ?wpdmdl=1329; 103 pages; created
-    5 Sep 2006) is the original Government Gazette text of 1993 (''Lesotho - Government Constitutional Matters ... Government
-    of Lesotho©All Rights Reserved-2000'') with the notes on the Orders of 1993 and no later amendment, although the Constitution
-    has been amended since (for example by the Eighth Amendment of 2018, according to search results).'
+  id: LS-official-text-no-terms
+  name: Official legal text published by Government of Lesotho; no terms of reuse stated (AMBER)
+  url: https://www.gov.ls/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:
+    robots.txt - www.gov.ls/robots.txt: an empty file (0 bytes): nothing is disallowed; no Crawl-delay. Terms - page footer:
+    "Copyright © 2026 | Government of Lesotho" - a generic footer; no terms-of-use, licence or disclaimer page is linked
+    from the pages read. The last line of the PDF reads "Government of Lesotho©All Rights Reserved-2000". The document -
+    the download page https://www.gov.ls/download/lesotho-constitution/ ("Lesotho Constitution", 747.80 KB, "Published May
+    20, 2022") serves, through ?wpdmdl=1329, a PDF of 103 pages (created 5 Sep 2006): "Lesotho - Government Constitutional
+    Matters - THE CONSTITUTION OF LESOTHO - Price: 16.00 Maluti", the text of the Constitution as in the Government Gazette
+    Extraordinary of 1993 followed by a NOTE on the Orders by which it came into operation "on 2nd April 1993". Reading:
+    AMBER - the publisher states no restriction on reusing the text beyond a generic copyright footer; no permission for
+    automated retrieval is stated either. The text is an official legal text; the national copyright law is believed not
+    to protect official texts of this kind (to verify; not read on a publisher''s page).'
   reviewed_on: '2026-10-15'
-  redistribution: unknown
-  bulk_download: unknown
-  automated_processing: unknown
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
   commercial_use: unknown
-  attribution_required: null
-  attribution_text: null
-provenance: Evaluated and NOT ingested by the constitutions sweep of East and Southern Africa (no document was stored).
-  See the licence block and docs/constitutions-africa-east-south-deep.md.
+  attribution_required: true
+  attribution_text: Constitution of Lesotho, Government of Lesotho (www.gov.ls); retrieved {retrieved_date}. Structured
+    and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it (or, for Mauritius,
+    the State's copyright notice); there is no other licence. Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/ls-gov-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
 known_limitations:
-- The only official copy is the 1993 enactment text without any of the later amendments; not loaded as it would present
-  superseded provisions.
-status: planned
-connector: null
-parser: null
+- The text is the original enactment of 1993 (the copy the Government posts as 'Lesotho Constitution'); it includes none
+  of the amendments made since (for example the Eighth Amendment of 2018, according to search results, and the amendments
+  of 2024 under discussion), so it is attested only at its commencement date (2 April 1993) and many provisions of the Constitution
+  in force today differ.
+- The contents list is skipped; the Orders of 1993 that follow the text (NOTE) are stored as blocks of paragraphs. The running
+  head and the page numbers are removed.
+status: active
+connector: constitution_docs
+parser: constitution_text

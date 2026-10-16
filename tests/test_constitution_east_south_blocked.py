@@ -22,7 +22,6 @@ PLANNED = [
     "km-coursupreme-constitution",
     "ss-mojca-constitution",
     "sz-gov-constitution",
-    "ls-gov-constitution",
     "mw-justice-constitution",
 ]
 # the words of the publisher or of the failed request that decided the outcome
@@ -37,7 +36,6 @@ FINDINGS = {
     "km-coursupreme-constitution": "a scan with no text layer",
     "ss-mojca-constitution": "certificate has expired",
     "sz-gov-constitution": "Connection reset by peer",
-    "ls-gov-constitution": "Government of Lesotho©All Rights Reserved-2000",
     "mw-justice-constitution": "as amended up to Act No. 38 of 1998",
 }
 
