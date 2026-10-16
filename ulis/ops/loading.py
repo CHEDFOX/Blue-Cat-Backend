@@ -18,6 +18,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import yaml
 from sqlalchemy import Engine, text
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -62,6 +63,10 @@ class LoadOptions:
     include_fictional: bool = False
     # Also load the sources marked `load_by_default: false` (old editions, historical enactments).
     include_history: bool = False
+    # Court decisions (sources that hold nothing but judgments) are not loaded by default: the laws are the product.
+    include_case_law: bool = False
+    # Also load the sources of countries outside the launch markets (config/launch-markets.yaml).
+    all_markets: bool = False
     actor: str = "load-all"
     # Sources loaded at the same time. Never two on the same host (so the crawl delay each publisher asked for
     # holds), whatever this is set to; 1 = one source after the other.
@@ -102,6 +107,30 @@ class SourceResult:
         return self.status in ("failed", "errors", "refused")
 
 
+def launch_markets(base_dir: Path = REPO_ROOT) -> frozenset[str]:
+    """The jurisdictions in ``config/launch-markets.yaml``; empty (no restriction) when the file does not exist."""
+    path = base_dir / "config" / "launch-markets.yaml"
+    if not path.is_file():
+        return frozenset()
+    data = yaml.safe_load(path.read_text("utf-8")) or {}
+    return frozenset(str(item) for item in data.get("markets") or [])
+
+
+def in_markets(catalog: Catalog, source: SourceDescriptor, markets: frozenset[str]) -> bool:
+    """Whether the source covers a market, or a state, province or region below one."""
+    for jurisdiction in source.jurisdictions:
+        if jurisdiction in markets:
+            return True
+        if jurisdiction in catalog.jurisdictions and markets & set(catalog.jurisdictions.ancestors(jurisdiction)):
+            return True
+    return False
+
+
+def is_case_law(source: SourceDescriptor) -> bool:
+    """A source of court decisions only (a source that also holds laws or treaties is not)."""
+    return set(source.document_kinds) == {"judgment"}
+
+
 def select_sources(catalog: Catalog, options: LoadOptions, base_dir: Path = REPO_ROOT) -> Selection:
     """Choose and order the sources to load. Raises :class:`UnknownSource` for ids that do not exist."""
     known = catalog.sources.sources
@@ -109,6 +138,7 @@ def select_sources(catalog: Catalog, options: LoadOptions, base_dir: Path = REPO
     if unknown:
         raise UnknownSource(f"unknown source id(s): {', '.join(unknown)}. Known: {', '.join(sorted(known))}")
     selection = Selection()
+    markets = frozenset() if options.all_markets else launch_markets(base_dir)
     for source in known.values():
         named = source.id in options.only
         if options.only and not named:
@@ -121,6 +151,10 @@ def select_sources(catalog: Catalog, options: LoadOptions, base_dir: Path = REPO
                 reason = f"status {source.status}"
             elif source.authority == "fictional" and not options.include_fictional:
                 reason = "fictional sample: only with --include-fictional or --only"
+            elif is_case_law(source) and not options.include_case_law:
+                reason = "court decisions, not loaded by default: only with --include-case-law or --only"
+            elif markets and source.authority != "fictional" and not in_markets(catalog, source, markets):
+                reason = f"outside the launch markets ({', '.join(sorted(markets))}): only with --all-markets or --only"
             elif not source.load_by_default and not options.include_history:
                 reason = "history / old editions, not the law in force today: only with --include-history or --only"
             elif options.refresh and source.id in STATIC_PINS:

@@ -1,0 +1,5 @@
+# The markets ULIS builds out completely (every law ever written, with its history, and the laws in force). `load-all`
+# loads only the sources of these markets (and of their states, provinces and regions) unless `--all-markets` is given or a
+# source is named with `--only`. Every other country that earlier batches loaded (constitutions and statutes) stays in the
+# catalogue and loads on request. Court decisions are optional everywhere (`--include-case-law`).
+markets: [US, GB, EU, DE, FR, CA, AU, IN]

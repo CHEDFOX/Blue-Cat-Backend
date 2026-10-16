@@ -17,7 +17,15 @@ from ulis.catalog import Catalog
 from ulis.db import models as m
 from ulis.ingestion.pipeline import IngestionReport
 from ulis.ops import loading
-from ulis.ops.loading import LoadOptions, UnknownSource, evict_stale_cache, select_sources
+from ulis.ops.loading import (
+    LoadOptions,
+    UnknownSource,
+    evict_stale_cache,
+    in_markets,
+    is_case_law,
+    launch_markets,
+    select_sources,
+)
 from ulis.ops.sources import LOAD_AFTER, STATIC_PINS, apply_load_order, manifest_info
 from ulis.ops.text import format_table, human_duration
 from ulis.settings import REPO_ROOT
@@ -54,17 +62,36 @@ def ids(catalog: Catalog, **kw: Any) -> list[str]:
     return [item.source.id for item in select_sources(catalog, LoadOptions(**kw)).selected]
 
 
-def test_default_selection_is_every_active_source_except_the_fictional_sample(catalog: Catalog) -> None:
+def test_default_selection_is_the_laws_of_the_launch_markets(catalog: Catalog) -> None:
     selected = ids(catalog)
+    markets = launch_markets()
+    assert markets >= {"US", "GB", "EU", "DE", "FR", "CA", "AU", "IN"}
     active_real = {s.id for s in catalog.sources if s.status == "active" and s.authority != "fictional"}
     history = {s.id for s in catalog.sources if s.status == "active" and not s.load_by_default}
-    assert history >= {"us-govinfo-bulk-statutes", "us-govinfo-bulk-cfr-fr"}  # old editions: not the law in force today
-    assert set(selected) == active_real - history and SAMPLE not in selected
-    assert history <= set(ids(catalog, include_history=True))  # ... but available on request
-    assert ids(catalog, only=("us-govinfo-bulk-cfr-fr",)) == ["us-govinfo-bulk-cfr-fr"]
+    case_law = {i for i in active_real if is_case_law(catalog.sources.get(i))}
+    outside = {i for i in active_real if not in_markets(catalog, catalog.sources.get(i), markets)}
+    assert history >= {"us-govinfo-bulk-statutes", "us-govinfo-bulk-cfr-fr"}  # old editions: only on request
+    assert set(selected) == active_real - history - case_law - outside and SAMPLE not in selected
+    assert history & set(selected) == set() and history - outside <= set(ids(catalog, include_history=True))
     assert all(catalog.sources.get(i).status == "active" for i in selected)
+    # ... each kind of exclusion has its own switch, and naming a source overrides all of them
+    assert {"nl-bwb", "lu-legilux", "es-boe-consolidada"} <= outside  # countries outside the launch markets
+    assert {"nl-bwb", "lu-legilux"} <= set(ids(catalog, all_markets=True))
+    assert {"us-govinfo-usreports", "fr-dila-cass", "gb-uksc-judgments"} <= case_law  # court decisions
+    assert case_law - outside <= set(ids(catalog, include_case_law=True))
+    assert ids(catalog, only=("us-govinfo-bulk-cfr-fr",)) == ["us-govinfo-bulk-cfr-fr"]
+    assert ids(catalog, only=("nl-bwb",)) == ["nl-bwb"] and ids(catalog, only=("fr-dila-cass",)) == ["fr-dila-cass"]
     skipped = dict(select_sources(catalog, LoadOptions()).skipped)
     assert "fictional" in skipped[SAMPLE] and any("status planned" in why for why in skipped.values())
+    assert "court decisions" in skipped["fr-dila-cass"] and "launch markets" in skipped["nl-bwb"]
+
+
+def test_states_and_provinces_belong_to_their_market(catalog: Catalog) -> None:
+    markets = frozenset({"CA"})
+    assert in_markets(catalog, catalog.sources.get("ca-on-e-laws"), markets)  # Ontario is below Canada
+    assert not in_markets(catalog, catalog.sources.get("us-wa-rcw"), markets)
+    assert in_markets(catalog, catalog.sources.get("us-wa-rcw"), frozenset({"US"}))
+    assert launch_markets(Path("/nonexistent")) == frozenset()  # no file: no restriction
 
 
 def test_small_sources_come_first(catalog: Catalog) -> None:
@@ -108,7 +135,7 @@ def test_refresh_skips_static_pins_and_pins_name_real_sources(catalog: Catalog) 
     assert set(STATIC_PINS) <= set(catalog.sources.sources)
     refreshed = set(ids(catalog, refresh=True))
     assert refreshed and refreshed.isdisjoint(STATIC_PINS)
-    assert {"gb-legislation-gov-uk", "de-gesetze-im-internet", "nl-bwb"} <= refreshed
+    assert {"gb-legislation-gov-uk", "de-gesetze-im-internet", "fr-dila-legi"} <= refreshed
     assert {"ca-justice-laws-xml", "us-uscode-house", "us-gpo-uslm-samples"} <= set(STATIC_PINS)
     assert set(ids(catalog, refresh=True, only=("us-uscode-house",))) == {"us-uscode-house"}  # naming overrides
 

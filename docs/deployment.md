@@ -66,7 +66,12 @@ docker logs -f ulis-load                                            # progress; 
 docker compose --profile tools run --rm cli status                  # per-jurisdiction counts, last run, verification
 ```
 
-* Every `status: active` source is loaded, **smallest first**; each source is its own transaction, so a failing source
+* **What is loaded by default: the laws of the launch markets** (`config/launch-markets.yaml`: US, GB, EU, DE, FR, CA, AU,
+  IN, with their states, provinces and regions). Three switches widen it: `--include-case-law` (sources that hold only
+  court decisions), `--all-markets` (the countries outside the launch markets, mostly constitutions and statutes that earlier
+  batches loaded) and `--include-history` (old editions such as the annual CFR and the Statutes at Large). `--only SRC`
+  loads a named source whatever the defaults say. `load-all --dry-run` prints what each skipped group was skipped for.
+* Every selected `status: active` source is loaded, **smallest first**; each source is its own transaction, so a failing source
   (publisher down, refusal, parse error) is reported and the run **continues**. Exit code 1 if any source errored,
   2 usage, 3 another `load-all` is running, 130 interrupted. `--only SRC...`, `--skip SRC...`, `--dry-run`.
 * **Resumable**: downloads are cached under `/srv/ulis/sources` and ingestion is idempotent (documents are keyed by
