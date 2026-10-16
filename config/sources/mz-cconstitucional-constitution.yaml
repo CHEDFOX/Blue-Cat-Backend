@@ -1,0 +1,45 @@
+# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: mz-cconstitucional-constitution
+name: Constituição da República de Moçambique (2004, revista em 2018) - Conselho Constitucional (cconstitucional.org.mz)
+publisher: Conselho Constitucional de Moçambique (cconstitucional.org.mz); Assembleia da República (www.parlamento.mz)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- MZ
+document_kinds:
+- constitution
+languages:
+- pt
+coverage: The Constitution (Boletim da República of 22 June 2018 (scan)) on the publisher's site; not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://cconstitucional.org.mz/constituicao-da-republica/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: 'Not usable: The current text exists only as a scan; the text-layer copies are superseded. ULIS does no OCR.'
+  url: https://cconstitucional.org.mz/constituicao-da-republica/
+  review_status: pending_review
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: robots.txt
+    of cconstitucional.org.mz (''User-agent: *'' ''Disallow: /wp-admin/'') and of www.parlamento.mz (404, none) allow the
+    pages. The PDF of the text revised in 2018 (Boletim da República, I Série, 22 June 2018) on both hosts is the same file
+    (ConstituicaodaRepublicaMocambicana-BR2018.pdf, 14,139,003 bytes, 40 pages) and has no text layer (pdftotext returns
+    40 characters for 40 pages): it is a scan. The PDF with a text layer found on another official host (minec.gov.mz, 97
+    pages, file title ''Constituição de 2004, 19 de Nov.'') carries the text of 2004 without the revisions of 2007 and 2018.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep of East and Southern Africa (no document was stored).
+  See the licence block and docs/constitutions-africa-east-south-deep.md.
+known_limitations:
+- The current text exists only as a scan; the text-layer copies are superseded. ULIS does no OCR.
+status: planned
+connector: null
+parser: null

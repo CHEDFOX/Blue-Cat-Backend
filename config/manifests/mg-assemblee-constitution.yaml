@@ -1,0 +1,52 @@
+# The Constitution of Madagascar (fr, mg): 2 document(s) on www.assemblee-nationale.mg. See config/sources/mg-assemblee-constitution.yaml.
+schema_version: 1
+source_id: mg-assemblee-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.assemblee-nationale.mg
+documents:
+- slug: mg-fr
+  jurisdiction: MG
+  url: https://www.assemblee-nationale.mg/media/archives_textes/pl/sans-numero/Constitution-de-la-IV%C3%A8me-R%C3%A9publique.pdf
+  format: pdf
+  language: fr
+  title: Constitution de la Quatrième République de Madagascar
+  citation_name: Madagascar Constitution
+  adopted_on: '2010-11-17'
+  edition_label: text of the referendum of 17 November 2010 as published by the Presidency of the Republic; no edition date
+    printed
+  events: &id001
+  - type: adoption
+    date: '2010-11-17'
+    description: REFERENDUM LE 17 NOVEMBRE 2010
+    locator: title page
+  authoritative: false
+  text_origin: official_authentic
+  structure:
+    unit_kind: article
+    style: keyword
+    last_page: 33
+    keywords:
+    - Article
+    tail_regex: ^Antananarivo, le
+- slug: mg-mg
+  jurisdiction: MG
+  url: https://www.assemblee-nationale.mg/media/archives_textes/pl/sans-numero/Constitution-de-la-IV%C3%A8me-R%C3%A9publique.pdf
+  format: pdf
+  language: mg
+  title: Lalàmpanorenan'ny Repoblika Fahaefatra
+  citation_name: Madagascar Constitution
+  adopted_on: '2010-11-17'
+  edition_label: text of the referendum of 17 November 2010 as published by the Presidency of the Republic; no edition date
+    printed
+  events: *id001
+  authoritative: false
+  text_origin: official_authentic
+  structure:
+    unit_kind: article
+    style: keyword
+    first_page: 34
+    keywords:
+    - Andininy
+    preamble_regex: ^SAVARANONANDO

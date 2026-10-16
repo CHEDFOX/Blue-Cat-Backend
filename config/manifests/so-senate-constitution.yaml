@@ -1,0 +1,35 @@
+# The Constitution of Somalia (so): 1 document(s) on senate.gov.so. See config/sources/so-senate-constitution.yaml.
+schema_version: 1
+source_id: so-senate-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- senate.gov.so
+documents:
+- slug: so-so
+  jurisdiction: SO
+  url: https://senate.gov.so/wp-json/filedeck/v1/download/12129
+  format: pdf
+  language: so
+  title: Dastuurka Soomaaliya
+  citation_name: Somalia Constitution
+  adopted_on: '2026-03-04'
+  edition_label: '''Dastuurka Soomaaliya, Muqdisho, Soomaaliya, Maarso 4, 2026'' as published by the Upper House in September
+    2026'
+  events:
+  - type: adoption
+    date: '2026-03-04'
+    description: Muqdisho, Soomaaliya, Maarso 4, 2026
+    locator: title page
+  authoritative: false
+  text_origin: official_authentic
+  structure:
+    unit_kind: article
+    style: keyword
+    page_numbers: true
+    keywords:
+    - Qodobka
+    preamble_regex: ^ARAR$
+    tail_regex: ^JADWALKA KOOWAAD\s*\(A\)
+    chapter_regex: '^CUTUBKA '
+    heading: same_line

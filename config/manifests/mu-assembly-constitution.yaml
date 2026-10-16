@@ -1,0 +1,31 @@
+# The Constitution of Mauritius (en): 1 document(s) on assembly-rra.govmu.org. See config/sources/mu-assembly-constitution.yaml.
+schema_version: 1
+source_id: mu-assembly-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- assembly-rra.govmu.org
+documents:
+- slug: mu-en
+  jurisdiction: MU
+  url: https://assembly-rra.govmu.org/Documents/Legislations/constitution_1968_revised_updated2025.pdf
+  format: pdf
+  language: en
+  title: The Constitution of Mauritius
+  citation_name: Mauritius Constitution
+  adopted_on: '1968-03-12'
+  edition_label: file named 'constitution_1968_revised_updated2025' (HTTP Last-Modified 3 Sep 2025); no edition date printed
+  events:
+  - type: commencement
+    date: '1968-03-12'
+    description: THE CONSTITUTION GN 54/1968 12 March 1968 (Schedule to THE MAURITIUS INDEPENDENCE ORDER 1968)
+    locator: title
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    page_numbers: true
+    style: numdot
+    unit_kind: section
+    heading_lines: 1
+    chapter_regex: ^CHAPTER [IVX]+
+    start_regex: ^CHAPTER I - THE STATE AND THE CONSTITUTION$

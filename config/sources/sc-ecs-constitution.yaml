@@ -1,0 +1,73 @@
+# Electoral Commission of Seychelles (ecs.sc), Regulations: Constitution of the Republic of Seychelles (Laws of Seychelles, Chapter 42). Read on 2026-10-15, before any document was fetched:
+#   robots.txt - ecs.sc/robots.txt: "User-agent: *" "Crawl-delay: 10" "Disallow: /admin/" "Disallow: /includes/" "Disallow:
+#     /config/" "Disallow: /logs/" "Disallow: /backup/" "Disallow: /.env" "Disallow: /wp-admin/" "Disallow: /wp-includes/";
+#     the crawl delay of 10 s is honoured; /wp-content/uploads/ is not disallowed
+#   Terms - page footer: "Electoral Commission Seychelles © 2024. All Rights Reserved. Designed by Unified Technologies" - a
+#     generic footer; no terms-of-use, licence or disclaimer page was found on the pages read
+#   The document - https://ecs.sc/wp-content/uploads/2025/04/CAP42-Constituion.pdf (253 pages, Last-Modified 9 Apr 2025):
+#     "CONSOLIDATED TO 1 JUNE 2020 - LAWS OF SEYCHELLES - CHAPTER 42 - CONSTITUTION OF THE REPUBLIC OF SEYCHELLES [21st
+#     June, 1993]" with the list of the Acts and statutory instruments that amend it, followed (from page 148) by subsidiary
+#     legislation printed in the same chapter (court rules, standing orders), which is not stored.
+schema_version: 1
+id: sc-ecs-constitution
+name: Constitution of Seychelles - Electoral Commission of Seychelles (ecs.sc)
+publisher: 'Electoral Commission of Seychelles (ecs.sc), Regulations: Constitution of the Republic of Seychelles (Laws of
+  Seychelles, Chapter 42)'
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- SC
+document_kinds:
+- constitution
+languages:
+- en
+coverage: 'The Constitution of Seychelles in en as published by Electoral Commission of Seychelles: 1 document(s). The Constitution
+  of Seychelles (Laws of Seychelles, Chapter 42, consolidated to 1 June 2020), copy on the site of the Electoral Commission.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/sc-ecs-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 10 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: SC-official-text-no-terms
+  name: Official legal text published by Electoral Commission of Seychelles; no terms of reuse stated (AMBER)
+  url: https://ecs.sc/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:
+    robots.txt - ecs.sc/robots.txt: "User-agent: *" "Crawl-delay: 10" "Disallow: /admin/" "Disallow: /includes/" "Disallow:
+    /config/" "Disallow: /logs/" "Disallow: /backup/" "Disallow: /.env" "Disallow: /wp-admin/" "Disallow: /wp-includes/";
+    the crawl delay of 10 s is honoured; /wp-content/uploads/ is not disallowed. Terms - page footer: "Electoral Commission
+    Seychelles © 2024. All Rights Reserved. Designed by Unified Technologies" - a generic footer; no terms-of-use, licence
+    or disclaimer page was found on the pages read. The document - https://ecs.sc/wp-content/uploads/2025/04/CAP42-Constituion.pdf
+    (253 pages, Last-Modified 9 Apr 2025): "CONSOLIDATED TO 1 JUNE 2020 - LAWS OF SEYCHELLES - CHAPTER 42 - CONSTITUTION
+    OF THE REPUBLIC OF SEYCHELLES [21st June, 1993]" with the list of the Acts and statutory instruments that amend it,
+    followed (from page 148) by subsidiary legislation printed in the same chapter (court rules, standing orders), which
+    is not stored. Reading: AMBER - the publisher states no restriction on reusing the text; no permission for automated
+    retrieval is stated either. The text is an official legal text; the national copyright law is believed not to protect
+    official texts of this kind (to verify; not read on a publisher''s page).'
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Seychelles, Electoral Commission of Seychelles (ecs.sc); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 10 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it (or, for Mauritius,
+    the State's copyright notice); there is no other licence. Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/sc-ecs-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- The Laws of Seychelles consolidation to 1 June 2020; amendments after that date (for example the Eleventh Amendment (No.
+  2) Act 2024) are not applied. The host is the Electoral Commission, which is not the publisher of the text.
+- Only pages 1-147 (the Constitution and its Schedules) are read; the subsidiary legislation printed after them is not stored.
+  Amendment notes printed in the text (for example 'Art 112(3) am by s 2(e) of Act 7 of 2011 w.e.f. 12 July 2011') are part
+  of the stored text. Headings are the marginal headings printed above each article number.
+status: active
+connector: constitution_docs
+parser: constitution_text

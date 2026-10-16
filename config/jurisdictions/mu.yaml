@@ -1,4 +1,4 @@
-# REAL JURISDICTION - DRAFT, UNVERIFIED. Mauritius: profile only - nothing is ingested. The one source evaluated (the
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Mauritius: the Constitution is ingested (mu-assembly-constitution); no judgments. The one source evaluated (the
 # Supreme Court website's Judgment Search, mu-supreme-court-judgments) is planned because its robots.txt disallows all
 # robots. The island of Rodrigues (an autonomous region) and the outer islands are not modelled separately.
 schema_version: 1
@@ -72,12 +72,12 @@ citation:
     - "Turquoise Properties Ltd v Zoobair and Osman Properties Ltd [2026 INT 287], para 5"
     - "Mohammad Nowsad Noorbux v Police [2026 LPW 125], para 4"
 publication:
-  official_sources: [mu-supreme-court-judgments]
+  official_sources: [mu-supreme-court-judgments, mu-assembly-constitution]
 coverage:
-  corpus_status: none
+  corpus_status: pilot
   known_gaps:
-    - Nothing is ingested - the Judgment Search of the Supreme Court website is planned (robots.txt disallows all robots; the website terms allow reproduction of judgments). The connector and parser are written and tested on fixtures and wait for the court's written permission.
-    - No Mauritian legislation at all (Constitution, Acts, regulations, subsidiary legislation). The same website lists Acts as PDFs, but its terms grant reproduction of judgments only; MauritiusLII (Laws.Africa) forbids scraping and bulk download; the Attorney General's Office site was not evaluated further.
+    - Only the Constitution is ingested (English text, source mu-assembly-constitution; docs/constitutions-africa-east-south-deep.md). No judgments - the Judgment Search of the Supreme Court website is planned (robots.txt disallows all robots; the website terms allow reproduction of judgments). The connector and parser are written and tested on fixtures and wait for the court's written permission.
+    - No other Mauritian legislation (Acts, regulations, subsidiary legislation); the Constitution is cited as "Mauritius Constitution s. N". The same website lists Acts as PDFs, but its terms grant reproduction of judgments only; MauritiusLII (Laws.Africa) forbids scraping and bulk download; the Attorney General's Office site was not evaluated further.
     - Decisions of the Supreme Court (SCJ series, appeal courts) and the Privy Council appeals are not ingested - none were found in the Judgment Search database. The database holds subordinate-court decisions only, from 2020 (the database's earliest row is dated 2020-01-07).
     - If permission is given, the manifest lists the whole database (about 12,150 decisions on 2026-10-14) for the owner's server to run.
     - The text would be the PDFs' text layer, not authoritative (the court's own words - convenience of reference only; the official versions are the Mauritius Reports and the Supreme Court Judgments of Mauritius). Scanned PDFs are skipped; layout, tables and page numbers are not kept.

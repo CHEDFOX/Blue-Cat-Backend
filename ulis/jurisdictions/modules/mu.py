@@ -12,11 +12,12 @@ lower-court decisions in particular).
 
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import Any, ClassVar
 
 from pydantic import BaseModel, ConfigDict
 
-from ulis.jurisdictions.modules.base import JudgmentCitationInput, JurisdictionModule
+from ulis.jurisdictions.modules.base import JudgmentCitationInput, JurisdictionModule, ProvisionCitationInput
+from ulis.jurisdictions.modules.constitution import ConstitutionModule
 
 MONTHS = [
     "January",
@@ -48,10 +49,23 @@ class MuJudgmentExt(BaseModel):
     language_basis: str  # "word_count_heuristic": the language is not stated by the source
 
 
+_CONSTITUTION = ConstitutionModule()  # the Constitution is cited as 'Mauritius Constitution s. 4'
+
+
 class MuModule(JurisdictionModule):
     id: ClassVar[str] = "mu"
     version: ClassVar[str] = "1.0.0"
     ext_model: ClassVar[type[BaseModel]] = MuJudgmentExt
+
+    def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:
+        # judgments carry the extension below; the Constitution (legislation) carries none
+        return super().validate_ext(ext) if ext else {}
+
+    def pinpoint(self, c: ProvisionCitationInput) -> str:
+        return _CONSTITUTION.pinpoint(c)
+
+    def provision_citation(self, c: ProvisionCitationInput) -> str:
+        return _CONSTITUTION.provision_citation(c)
 
     def judgment_citation(self, c: JudgmentCitationInput) -> str:
         if c.neutral_citation:

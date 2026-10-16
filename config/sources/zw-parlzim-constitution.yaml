@@ -1,0 +1,47 @@
+# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: zw-parlzim-constitution
+name: Constitution of Zimbabwe (2013) - Parliament of Zimbabwe (www.parlzim.gov.zw)
+publisher: Parliament of Zimbabwe (www.parlzim.gov.zw); National Peace and Reconciliation Commission (www.nprc.org.zw);
+  Zimbabwe Electoral Commission (www.zec.org.zw)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- ZW
+document_kinds:
+- constitution
+languages:
+- en
+coverage: The Constitution (Constitution of Zimbabwe Amendment (No. 20) Act, 2013) on the publisher's site; not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.parlzim.gov.zw/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: 'Not usable: The hosts of the official copies refuse the agent or fail certificate verification; Veritas, ZimLII
+    (Laws.Africa) and Refworld copies are not official.'
+  url: https://www.parlzim.gov.zw/
+  review_status: pending_review
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: www.parlzim.gov.zw/robots.txt
+    answered with rules (a group disallowing /parlzim/ and a Yoast group with an empty Disallow), but the request for the
+    home page then answered HTTP 403 to the ULIS agent: the host refuses it and nothing more was requested. www.nprc.org.zw
+    (which hosts a PDF of the Constitution) failed TLS verification (''certificate verify failed: Hostname mismatch, certificate
+    is not valid for www.nprc.org.zw''); www.zec.org.zw answered ''Connection reset by peer''. No workaround was tried.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep of East and Southern Africa (no document was stored).
+  See the licence block and docs/constitutions-africa-east-south-deep.md.
+known_limitations:
+- The hosts of the official copies refuse the agent or fail certificate verification; Veritas, ZimLII (Laws.Africa) and
+  Refworld copies are not official.
+status: planned
+connector: null
+parser: null

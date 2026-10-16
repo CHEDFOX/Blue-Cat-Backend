@@ -1,0 +1,33 @@
+# The Constitution of Seychelles (en): 1 document(s) on ecs.sc. See config/sources/sc-ecs-constitution.yaml.
+schema_version: 1
+source_id: sc-ecs-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 10
+hosts:
+- ecs.sc
+documents:
+- slug: sc-en
+  jurisdiction: SC
+  url: https://ecs.sc/wp-content/uploads/2025/04/CAP42-Constituion.pdf
+  format: pdf
+  language: en
+  title: Constitution of the Republic of Seychelles
+  citation_name: Seychelles Constitution
+  adopted_on: '1993-06-21'
+  edition_date: '2020-06-01'
+  edition_label: Laws of Seychelles, Chapter 42, consolidated to 1 June 2020
+  events:
+  - type: commencement
+    date: '1993-06-21'
+    description: '[21st June, 1993]'
+    locator: heading
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    page_numbers: true
+    style: numdot
+    last_page: 147
+    heading_before: line
+    chapter_regex: ^CHAPTER [IVXL]+ -
+    start_regex: ^CHAPTER I - THE REPUBLIC$

@@ -1,0 +1,43 @@
+# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: bi-presidence-constitution
+name: Constitution de la République du Burundi (2018) - Présidence de la République (presidence.gov.bi)
+publisher: Présidence de la République du Burundi (presidence.gov.bi)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- BI
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: The Constitution (constitution promulguée le 7 juin 2018 (scan)) on the publisher's site; not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://presidence.gov.bi/le-burundi/constitution/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: 'Not usable: The official text of 7 June 2018 exists only as a scan; ULIS does no OCR.'
+  url: https://presidence.gov.bi/le-burundi/constitution/
+  review_status: pending_review
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: robots.txt
+    (presidence.gov.bi/robots.txt, Yoast: ''User-agent: *'' ''Disallow:'') allows everything; page footer ''© 2026 Ntare
+    House''; no terms page. The page embeds https://presidence.gov.bi/wp-content/uploads/2018/07/constitution-promulguee-le-7-juin-2018-1.pdf
+    (4,686,702 bytes, 59 pages), a scan with no text layer (pdftotext returns 59 characters for 59 pages).'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep of East and Southern Africa (no document was stored).
+  See the licence block and docs/constitutions-africa-east-south-deep.md.
+known_limitations:
+- The official text of 7 June 2018 exists only as a scan; ULIS does no OCR.
+status: planned
+connector: null
+parser: null

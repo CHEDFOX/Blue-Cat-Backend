@@ -1,0 +1,79 @@
+# Assemblée nationale de Madagascar (www.assemblee-nationale.mg), archive of texts. Read on 2026-10-15, before any document was fetched:
+#   robots.txt - www.assemblee-nationale.mg/robots.txt: "User-agent: *" "Allow: /" "Allow: /opendata/$" "Allow:
+#     /opendata/licence/$" "Disallow: /opendata/api/"; no Crawl-delay; /media/archives_textes/ is allowed
+#   Terms - page footer: "© 2025 Assemblée Nationale de Madagascar. Tous droits réservés." (links: Plan du site, Open Data,
+#     Politique de confidentialité, Politique de cookies). The Open Data page (https://www.assemblee-
+#     nationale.mg/opendata/licence/) says: "Les jeux de données publiés sur le portail Open Data de l'Assemblée Nationale
+#     de Madagascar sont mis à disposition sous la Licence Ouverte version 2.0" - that licence is stated for the datasets of
+#     the Open Data portal; the PDF of the Constitution is in the archive of texts (/media/archives_textes/) and is not said
+#     to be one of them, so it is not relied on here
+#   The document - the PDF is headed "PRESIDENCE DE LA REPUBLIQUE - CONSTITUTION DE LA QUATRIEME REPUBLIQUE DE MADAGASCAR -
+#     REFERENDUM LE 17 NOVEMBRE 2010": the French text (pages 1-33) is followed by the Malagasy text (pages 34-75, headed
+#     "LALAMPANORENAN'NY REPOBLIKA FAHAEFATRA - FITSAMPAN-KEVIBAHOAKA NY FAHA-17 NOVEMBRE 2010"). Last-Modified of the file:
+#     16 Mar 2026.
+schema_version: 1
+id: mg-assemblee-constitution
+name: Constitution of Madagascar - Assemblée nationale de Madagascar (www.assemblee-nationale.mg)
+publisher: Assemblée nationale de Madagascar (www.assemblee-nationale.mg), archive of texts
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- MG
+document_kinds:
+- constitution
+languages:
+- fr
+- mg
+coverage: 'The Constitution of Madagascar in fr, mg as published by Assemblée nationale de Madagascar: 2 document(s). The
+  Constitution of the Fourth Republic of Madagascar (referendum of 17 November 2010), French and Malagasy, as published
+  by the Presidency and kept in the archive of texts of the National Assembly.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/mg-assemblee-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 3 request(s) (robots.txt and 2 document(s)).
+licence:
+  id: MG-official-text-no-terms
+  name: Official legal text published by Assemblée nationale de Madagascar; no terms of reuse stated (AMBER)
+  url: https://www.assemblee-nationale.mg/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:
+    robots.txt - www.assemblee-nationale.mg/robots.txt: "User-agent: *" "Allow: /" "Allow: /opendata/$" "Allow: /opendata/licence/$"
+    "Disallow: /opendata/api/"; no Crawl-delay; /media/archives_textes/ is allowed. Terms - page footer: "© 2025 Assemblée
+    Nationale de Madagascar. Tous droits réservés." (links: Plan du site, Open Data, Politique de confidentialité, Politique
+    de cookies). The Open Data page (https://www.assemblee-nationale.mg/opendata/licence/) says: "Les jeux de données publiés
+    sur le portail Open Data de l''Assemblée Nationale de Madagascar sont mis à disposition sous la Licence Ouverte version
+    2.0" - that licence is stated for the datasets of the Open Data portal; the PDF of the Constitution is in the archive
+    of texts (/media/archives_textes/) and is not said to be one of them, so it is not relied on here. The document - the
+    PDF is headed "PRESIDENCE DE LA REPUBLIQUE - CONSTITUTION DE LA QUATRIEME REPUBLIQUE DE MADAGASCAR - REFERENDUM LE 17
+    NOVEMBRE 2010": the French text (pages 1-33) is followed by the Malagasy text (pages 34-75, headed "LALAMPANORENAN''NY
+    REPOBLIKA FAHAEFATRA - FITSAMPAN-KEVIBAHOAKA NY FAHA-17 NOVEMBRE 2010"). Last-Modified of the file: 16 Mar 2026. Reading:
+    AMBER - the publisher states no restriction on reusing the text beyond a generic ''tous droits réservés'' footer; no
+    permission for automated retrieval is stated either. The text is an official legal text; the national copyright law
+    is believed not to protect official texts of this kind (to verify; not read on a publisher''s page).'
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Madagascar, Assemblée nationale de Madagascar (www.assemblee-nationale.mg); retrieved
+    {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it (or, for Mauritius,
+    the State's copyright notice); there is no other licence. Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/mg-assemblee-constitution.yaml, stored byte for byte inside JSON
+  bundles with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- The PDF is the text of the referendum of 17 November 2010 as published by the Presidency; it prints no edition date and
+  amendments adopted since (if any) are not applied. The political transition of 2025 (to verify) is not reflected.
+- 'Both languages come from one PDF (French pages 1-33, Malagasy pages 34-75). The heading of article 164 is printed one
+  word per line in the French text, and three headings of the Malagasy text carry typing errors (''Adnininy 4'', ...): their
+  text stays in the preceding article and the note says so.'
+status: active
+connector: constitution_docs
+parser: constitution_text

@@ -1,0 +1,76 @@
+# Federal Parliament of Somalia, Upper House (senate.gov.so), Laws: Constitution of the Federal Republic of Somalia 2026. Read on 2026-10-15, before any document was fetched:
+#   robots.txt - senate.gov.so/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php" and two
+#     sitemap lines; no Crawl-delay; /wp-json/ is not disallowed
+#   Terms - page footer: "© 2026 Federal Parliament of Somalia - The Upper House. All Rights Reserved." - a generic footer;
+#     no terms-of-use, licence or disclaimer page was found on the pages read
+#   The document - the page https://senate.gov.so/document/constitution-of-the-federal-republic-of-somalia-2026/ (dated 7
+#     September 2026) offers 'CONSTITUTION OF THE FEDERAL REPUBLIC OF SOMALIA 2026, PDF 1.3 MB'; its download link (/wp-
+#     json/filedeck/v1/download/12129) leads to /wp-content/uploads/2026/09/DASTUURKA-RASMIGA-AH-EE-2026-1.pdf, 202 pages,
+#     in Somali, headed "DASTUURKA SOOMAALIYA - Muqdisho, Soomaaliya - Maarso 4, 2026". The Office of the President
+#     (villasomalia.gov.so/constitution-2/) says the Constitution was approved by the Federal Parliament on 4 March 2026 and
+#     signed into law on 8 March 2026; that page is a summary and holds no text.
+schema_version: 1
+id: so-senate-constitution
+name: Constitution of Somalia - Federal Parliament of Somalia, Upper House (senate.gov.so)
+publisher: 'Federal Parliament of Somalia, Upper House (senate.gov.so), Laws: Constitution of the Federal Republic of Somalia
+  2026'
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- SO
+document_kinds:
+- constitution
+languages:
+- so
+coverage: 'The Constitution of Somalia in so as published by Federal Parliament of Somalia, Upper House: 1 document(s).
+  The Constitution of the Federal Republic of Somalia of 2026 (Somali), as published by the Upper House of the Federal Parliament.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/so-senate-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: SO-official-text-no-terms
+  name: Official legal text published by Federal Parliament of Somalia, Upper House; no terms of reuse stated (AMBER)
+  url: https://senate.gov.so/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:
+    robots.txt - senate.gov.so/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php" and
+    two sitemap lines; no Crawl-delay; /wp-json/ is not disallowed. Terms - page footer: "© 2026 Federal Parliament of Somalia
+    - The Upper House. All Rights Reserved." - a generic footer; no terms-of-use, licence or disclaimer page was found on
+    the pages read. The document - the page https://senate.gov.so/document/constitution-of-the-federal-republic-of-somalia-2026/
+    (dated 7 September 2026) offers ''CONSTITUTION OF THE FEDERAL REPUBLIC OF SOMALIA 2026, PDF 1.3 MB''; its download link
+    (/wp-json/filedeck/v1/download/12129) leads to /wp-content/uploads/2026/09/DASTUURKA-RASMIGA-AH-EE-2026-1.pdf, 202 pages,
+    in Somali, headed "DASTUURKA SOOMAALIYA - Muqdisho, Soomaaliya - Maarso 4, 2026". The Office of the President (villasomalia.gov.so/constitution-2/)
+    says the Constitution was approved by the Federal Parliament on 4 March 2026 and signed into law on 8 March 2026; that
+    page is a summary and holds no text. Reading: AMBER - the publisher states no restriction on reusing the text; no permission
+    for automated retrieval is stated either. The text is an official legal text; the national copyright law is believed
+    not to protect official texts of this kind (to verify; not read on a publisher''s page).'
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Somalia, Federal Parliament of Somalia, Upper House (senate.gov.so); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it (or, for Mauritius,
+    the State's copyright notice); there is no other licence. Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/so-senate-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- Somali text only; no English or Arabic text of the 2026 Constitution was found on an official site. The Provisional Constitution
+  of 2012 (superseded, according to the Office of the President) is not loaded.
+- The PDF is described by the Upper House as the 2026 Constitution; the date on its title page (4 March 2026) is recorded
+  as the adoption date. The signing on 8 March 2026 is reported by the Office of the President, not by the document. Puntland
+  and Jubaland have not endorsed the text (press reports; to verify); whether it is final or subject to a referendum is
+  disputed in reports.
+- The schedules (JADWALKA) are stored as blocks of paragraphs.
+status: active
+connector: constitution_docs
+parser: constitution_text

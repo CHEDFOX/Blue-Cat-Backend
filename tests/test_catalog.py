@@ -114,6 +114,17 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "UZ",
         "VN",
         "ZA",
+        "RW",
+        "MG",
+        "DJ",
+        "AO",
+        "SO",
+        "TZ",
+        "NA",
+        "SC",
+        "LS",
+        "ZW",
+        "MZ",
     }
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"
@@ -259,6 +270,19 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "uz-constitution-site",
         "vn-chinhphu-constitution",
         "za-doj-constitution",
+        "rw-minijust-constitution",
+        "mg-assemblee-constitution",
+        "mu-assembly-constitution",
+        "dj-presidence-constitution",
+        "ao-tribunal-constitucional-constitution",
+        "so-senate-constitution",
+        "tz-mocla-constitution",
+        "tz-nao-constitution",
+        "na-ombudsman-constitution",
+        "sc-ecs-constitution",
+        "ls-gov-constitution",
+        "zw-youth-constitution",
+        "mz-minec-constitution",
     }
     for source_id in approved:
         licence_gate(catalog.sources.get(source_id))

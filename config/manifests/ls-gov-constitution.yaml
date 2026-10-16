@@ -1,0 +1,39 @@
+# The Constitution of Lesotho (en): 1 document(s) on www.gov.ls. See config/sources/ls-gov-constitution.yaml.
+schema_version: 1
+source_id: ls-gov-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.gov.ls
+documents:
+- slug: ls-en
+  jurisdiction: LS
+  url: https://www.gov.ls/download/lesotho-constitution/?wpdmdl=1329
+  format: pdf
+  language: en
+  title: The Constitution of Lesotho
+  citation_name: Lesotho Constitution
+  adopted_on: '1993-04-02'
+  edition_date: '1993-04-02'
+  edition_label: text of the Government Gazette of 1993; the NOTE records that it came into operation as The Constitution
+    of Lesotho on 2nd April 1993; no amendment is included
+  events:
+  - type: commencement
+    date: '1993-04-02'
+    description: the draft constitution came into operation as The Constitution of Lesotho on 2nd April 1993
+    locator: NOTE
+  authoritative: false
+  text_origin: official_authentic
+  structure:
+    style: numdot
+    unit_kind: section
+    heading: same_line
+    drop_lines:
+    - ^Lesotho - Government Constitutional Matters$
+    - ^Page [0-9]+$
+    - ^LESOTHO$
+    - ^Government Gazette$
+    - ^EXTRAORDINARY$
+    chapter_regex: ^CHAPTER [IVXL]+
+    tail_regex: ^NOTE$
+    start_regex: ^CHAPTER I THE KINGDOM AND ITS CONSTITUTION$

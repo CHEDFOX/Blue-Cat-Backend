@@ -1,0 +1,75 @@
+# Tribunal Constitucional de Angola (www.tribunalconstitucional.ao), Constituição. Read on 2026-10-15, before any document was fetched:
+#   robots.txt - www.tribunalconstitucional.ao/robots.txt: HTTP 404 (no robots.txt): no crawling rules to apply. The
+#     connector reads it anyway.
+#   Terms - page footer: "Copyright © 2026 - Tribunal Constitucional de Angola" - a generic footer; no terms-of-use, licence
+#     or disclaimer page was found on the pages read (home page). The imprint of the PDF (FICHA TÉCNICA) names the Tribunal
+#     Constitucional as owner (PROPRIEDADE), Lexdata - Sistemas e Edições Jurídicas, Lda. as publisher (EDITORA) and
+#     Imprensa Nacional - E.P. as printer, and prints no reproduction restriction. (The Assembleia Nacional's PDF of the
+#     same Constitution carries a prohibition in its imprint and is recorded as rejected in source ao-parlamento-
+#     constitution.)
+#   The document - "CONSTITUIÇÃO DA REPÚBLICA DE ANGOLA - EDIÇÃO ESPECIAL ACTUALIZADA 2022" (1ª Edição Fevereiro 2022, 130
+#     pages; Last-Modified 29 Aug 2025). Its introductory note says the Constitution of 2010 'sofreu alterações,
+#     introduzidas pela Lei n.º 18/21, de 16 de Agosto' and that this edition gathers the content in one text.
+schema_version: 1
+id: ao-tribunal-constitucional-constitution
+name: Constitution of Angola - Tribunal Constitucional de Angola (www.tribunalconstitucional.ao)
+publisher: Tribunal Constitucional de Angola (www.tribunalconstitucional.ao), Constituição
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- AO
+document_kinds:
+- constitution
+languages:
+- pt
+coverage: 'The Constitution of Angola in pt as published by Tribunal Constitucional de Angola: 1 document(s). The Constitution
+  of Angola, special updated edition of 2022 published by the Tribunal Constitucional.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ao-tribunal-constitucional-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: AO-official-text-no-terms
+  name: Official legal text published by Tribunal Constitucional de Angola; no terms of reuse stated (AMBER)
+  url: https://www.tribunalconstitucional.ao/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:
+    robots.txt - www.tribunalconstitucional.ao/robots.txt: HTTP 404 (no robots.txt): no crawling rules to apply. The connector
+    reads it anyway. Terms - page footer: "Copyright © 2026 - Tribunal Constitucional de Angola" - a generic footer; no
+    terms-of-use, licence or disclaimer page was found on the pages read (home page). The imprint of the PDF (FICHA TÉCNICA)
+    names the Tribunal Constitucional as owner (PROPRIEDADE), Lexdata - Sistemas e Edições Jurídicas, Lda. as publisher
+    (EDITORA) and Imprensa Nacional - E.P. as printer, and prints no reproduction restriction. (The Assembleia Nacional''s
+    PDF of the same Constitution carries a prohibition in its imprint and is recorded as rejected in source ao-parlamento-constitution.).
+    The document - "CONSTITUIÇÃO DA REPÚBLICA DE ANGOLA - EDIÇÃO ESPECIAL ACTUALIZADA 2022" (1ª Edição Fevereiro 2022, 130
+    pages; Last-Modified 29 Aug 2025). Its introductory note says the Constitution of 2010 ''sofreu alterações, introduzidas
+    pela Lei n.º 18/21, de 16 de Agosto'' and that this edition gathers the content in one text. Reading: AMBER - the publisher
+    states no restriction on reusing the text; no permission for automated retrieval is stated either. The text is an official
+    legal text; the national copyright law is believed not to protect official texts of this kind (to verify; not read on
+    a publisher''s page).'
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Angola, Tribunal Constitucional de Angola (www.tribunalconstitucional.ao); retrieved
+    {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it (or, for Mauritius,
+    the State's copyright notice); there is no other licence. Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/ao-tribunal-constitucional-constitution.yaml, stored byte for byte
+  inside JSON bundles with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer
+  (pdftotext).
+known_limitations:
+- The edition is of February 2022 (only the month is printed; the last day of the month is used as the edition date); amendments
+  after that date, if any, are not applied.
+- The introductory note, contents and the closing lists of signatories are not stored as articles; text after the last article
+  is kept in blocks. The headings of the articles are the parenthesised titles printed under each article number.
+status: active
+connector: constitution_docs
+parser: constitution_text

@@ -1,0 +1,35 @@
+# The Constitution of Mozambique (pt): 1 document(s) on minec.gov.mz. See config/sources/mz-minec-constitution.yaml.
+schema_version: 1
+source_id: mz-minec-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- minec.gov.mz
+documents:
+- slug: mz-pt
+  jurisdiction: MZ
+  url: https://minec.gov.mz/wp-content/uploads/2025/09/Constituicao-da-Republica-de-Mocambique.pdf
+  format: pdf
+  language: pt
+  title: Constituição da República de Moçambique
+  citation_name: Mozambique Constitution
+  adopted_on: '2004-11-16'
+  edition_date: '2004-11-16'
+  edition_label: the text approved by the Assembleia da República on 16 November 2004; no amendment is included
+  events:
+  - type: adoption
+    date: '2004-11-16'
+    description: Aprovada pela Assembleia da República, aos 16 de Novembro de 2004.
+    locator: closing formula
+  authoritative: false
+  text_origin: official_authentic
+  structure:
+    unit_kind: article
+    style: keyword
+    page_numbers: true
+    keywords:
+    - Artigo
+    heading_next: paren
+    paragraphs: dot
+    preamble_regex: ^Preâmbulo$
+    chapter_regex: '^(Título|TÍTULO|Capítulo|CAPÍTULO) '

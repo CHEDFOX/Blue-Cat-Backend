@@ -1,0 +1,80 @@
+# Wizara ya Katiba na Sheria (Ministry of Constitutional and Legal Affairs, MoCLA) of Tanzania (www.sheria.go.tz), Machapisho: Katiba. Read on 2026-10-15, before any document was fetched:
+#   robots.txt - www.sheria.go.tz/robots.txt: HTTP 404 (no robots.txt): no crawling rules to apply. The connector reads it
+#     anyway.
+#   Terms - https://www.sheria.go.tz/pages/terms-and-conditions ("Vigezo na Masharti"): the terms govern the use of the
+#     website, its systems and services ("Kanuni na Masharti yafuatayo yanasimamia matumizi yote ya Tovuti, tovuti za mifumo
+#     na huduma ..."); they say nothing about reusing the published texts. The Disclaimer ("Angalizo", /pages/disclaimer)
+#     concerns services provided through public and private facilities. Footer: "© 2026 MoCLA, Haki zote zimehifadhiwa."
+#     (all rights reserved). The footer's copyright link (/pages/copyright) answers 'Haipatikani' (not found).
+#   The document - the page https://www.sheria.go.tz/publications/constitution (Machapisho > Katiba) lists the Swahili text,
+#     a PDF of 113 pages (uploaded 31 Jan 2023) headed "KATIBA YA JAMHURI YA MUUNGANO WA TANZANIA YA MWAKA 1977 (Toleo hili
+#     ... limezingatia na kuweka pamoja mabadiliko yote yaliyofanywa katika Katiba ya Muungano tangu ilipotungwa mwaka 1977
+#     hadi tarehe 30 Aprili, 2000. Dar es Salaam, 1 Novemba, 2000 - CHENGE, A.J., Mwanasheria Mkuu ... KIMEPIGWA CHAPA NA
+#     MPIGACHAPA WA SERIKALI)".
+schema_version: 1
+id: tz-mocla-constitution
+name: Constitution of Tanzania - Ministry of Constitutional and Legal Affairs of Tanzania (www.sheria.go.tz)
+publisher: 'Wizara ya Katiba na Sheria (Ministry of Constitutional and Legal Affairs, MoCLA) of Tanzania (www.sheria.go.tz),
+  Machapisho: Katiba'
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- TZ
+document_kinds:
+- constitution
+languages:
+- sw
+coverage: 'The Constitution of Tanzania in sw as published by Ministry of Constitutional and Legal Affairs of Tanzania:
+  1 document(s). The Swahili text of the Constitution of the United Republic of Tanzania of 1977 consolidated to 30 April
+  2000, from the site of the Ministry of Constitutional and Legal Affairs.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/tz-mocla-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: TZ-official-text-no-terms
+  name: Official legal text published by Ministry of Constitutional and Legal Affairs of Tanzania; no terms of reuse stated
+    (AMBER)
+  url: https://www.sheria.go.tz/pages/terms-and-conditions
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:
+    robots.txt - www.sheria.go.tz/robots.txt: HTTP 404 (no robots.txt): no crawling rules to apply. The connector reads
+    it anyway. Terms - https://www.sheria.go.tz/pages/terms-and-conditions ("Vigezo na Masharti"): the terms govern the
+    use of the website, its systems and services ("Kanuni na Masharti yafuatayo yanasimamia matumizi yote ya Tovuti, tovuti
+    za mifumo na huduma ..."); they say nothing about reusing the published texts. The Disclaimer ("Angalizo", /pages/disclaimer)
+    concerns services provided through public and private facilities. Footer: "© 2026 MoCLA, Haki zote zimehifadhiwa." (all
+    rights reserved). The footer''s copyright link (/pages/copyright) answers ''Haipatikani'' (not found). The document
+    - the page https://www.sheria.go.tz/publications/constitution (Machapisho > Katiba) lists the Swahili text, a PDF of
+    113 pages (uploaded 31 Jan 2023) headed "KATIBA YA JAMHURI YA MUUNGANO WA TANZANIA YA MWAKA 1977 (Toleo hili ... limezingatia
+    na kuweka pamoja mabadiliko yote yaliyofanywa katika Katiba ya Muungano tangu ilipotungwa mwaka 1977 hadi tarehe 30
+    Aprili, 2000. Dar es Salaam, 1 Novemba, 2000 - CHENGE, A.J., Mwanasheria Mkuu ... KIMEPIGWA CHAPA NA MPIGACHAPA WA SERIKALI)".
+    Reading: AMBER - the terms concern the website''s services and say nothing about reusing the published texts; the footer
+    is a generic ''all rights reserved''. The text is an official legal text; the national copyright law is believed not
+    to protect official texts of this kind (to verify; not read on a publisher''s page).'
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Tanzania, Ministry of Constitutional and Legal Affairs of Tanzania (www.sheria.go.tz);
+    retrieved {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it (or, for Mauritius,
+    the State's copyright notice); there is no other licence. Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/tz-mocla-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- The Swahili text consolidated to 30 April 2000 (printed by the Government Printer, 1 November 2000), the latest Swahili
+  consolidation on the Ministry's site; the English revised edition of 2005 (source tz-nao-constitution) is later. Amendments
+  after the respective dates are not applied.
+- The table of contents is skipped (the text starts at article 1); the appendices (NYONGEZA) are stored as blocks of paragraphs.
+  Marginal notes of the print are part of the page text where the extractor places them.
+status: active
+connector: constitution_docs
+parser: constitution_text
