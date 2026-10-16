@@ -79,6 +79,8 @@ SPECIAL_APPEALS = {
     "armfor": ["scotus"],
     "cma": ["scotus"],
 }
+# The courts of Puerto Rico decide in Spanish; ULIS would label their text English, so they are not modelled.
+NOT_MODELLED = {"prsupreme", "prapp"}
 APPELLATE_NAME = re.compile(r"appeal|appellate|error", re.I)
 # Intermediate appellate courts whose names do not say so (the Pennsylvania Superior and Commonwealth Courts).
 ALSO_APPELLATE = {"pasuperct", "pacommwct"}
@@ -134,7 +136,7 @@ def build(courts: list[dict[str, str]], groups: tuple[str, ...]) -> list[dict[st
     for court in sorted(
         courts, key=lambda c: (groups.index(c["jurisdiction"]) if c["jurisdiction"] in groups else 99, c["id"])
     ):
-        if court["jurisdiction"] not in groups or court["id"] == "usdistct":
+        if court["jurisdiction"] not in groups or court["id"] == "usdistct" or court["id"] in NOT_MODELLED:
             continue
         name = " ".join((court["full_name"] or court["short_name"] or court["id"]).split())
         out.append(

@@ -33,7 +33,11 @@
 #     TS/TA territorial. Only the courts listed in ulis/sources/parsers/courtlistener_courts.py are modelled; to add groups (for
 #     example ST state trial courts) run `python scripts/build_us_courts.py --courts <courts file> --groups F,FD,...,ST` first.
 #   * Roughly, each million Published cases is 30 GB of text and 100 GB of database; the published counts per court, year and status
-#     are in docs/markets/us-cases.md and can be recomputed with scripts/courtlistener_scope_report.py.
+#     are in docs/markets/data/courtlistener-scope-2026-09-30.csv.gz (court, source code, year, status, cases) and can be recomputed with
+#     scripts/courtlistener_scope_report.py.
+#   * Everything modelled that is Published (about 330 GB of database): keep the supreme-court rule first and replace the others by
+#       - {name: all-published, groups: [F, FD, FB, FBP, FS, S, SA, MA, TS, TA]}
+#     (add `statuses: [Published, Unpublished, Unknown]` to a rule for the other statuses).
 #   * Run a part at a time: `only_rules: [rule name, ...]` (the index is built once for all rules, then reused).
 #   * A new quarterly generation: change `generation` and the five file names/sizes (list the bucket prefix bulk-data/); delete the
 #     index (var/sources/<bucket host>/index-*.sqlite) so it is rebuilt. A case already loaded whose text changed is reported as a

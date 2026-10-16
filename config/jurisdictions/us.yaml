@@ -2149,15 +2149,9 @@ courts:
   - id: US-CL-NMARIANA
     name: "Supreme Court of The Commonwealth of The Northern Mariana Islands"
     rank: 2
-  - id: US-CL-PRSUPREME
-    name: "Supreme Court of Puerto Rico"
-    rank: 2
   - id: US-CL-VIRGINISLANDS
     name: "Supreme Court of The Virgin Islands"
     rank: 2
-  - id: US-CL-PRAPP
-    name: "Tribunal De Apelaciones De Puerto Rico/Court of Appeals of Puerto Rico"
-    rank: 3
   - id: US-CL-SUPERCTGUAM
     name: "Superior Court of Guam"
     rank: 3

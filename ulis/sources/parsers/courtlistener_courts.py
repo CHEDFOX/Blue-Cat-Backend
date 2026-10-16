@@ -703,10 +703,6 @@ COURTS: dict[str, CourtInfo] = {
     "nmariana": CourtInfo(
         "US-CL-NMARIANA", "Supreme Court of The Commonwealth of The Northern Mariana Islands", "TS", ""
     ),
-    "prsupreme": CourtInfo("US-CL-PRSUPREME", "Supreme Court of Puerto Rico", "TS", ""),
     "virginislands": CourtInfo("US-CL-VIRGINISLANDS", "Supreme Court of The Virgin Islands", "TS", ""),
-    "prapp": CourtInfo(
-        "US-CL-PRAPP", "Tribunal De Apelaciones De Puerto Rico/Court of Appeals of Puerto Rico", "TA", ""
-    ),
     "superctguam": CourtInfo("US-CL-SUPERCTGUAM", "Superior Court of Guam", "TA", "Super. Ct. Guam"),
 }

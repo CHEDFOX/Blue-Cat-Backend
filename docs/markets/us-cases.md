@@ -1,7 +1,7 @@
 # United States, case law: the openly licensed body of judicial opinions
 
 Status 2026-10-16: **three sources active** (GovInfo's United States Reports and courts of appeals, and the Free Law Project's CourtListener
-bulk files), **five examined and not used**. Research aid, not legal advice. Legislation is in [../jurisdictions/us-code.md](../jurisdictions/us-code.md);
+bulk files), **six examined and not used**. Research aid, not legal advice. Legislation is in [../jurisdictions/us-code.md](../jurisdictions/us-code.md);
 the first sweep of this area is in [../jurisdictions/us-case-law.md](../jurisdictions/us-case-law.md).
 
 ## Inventory (what main had, why, what was done)
@@ -10,13 +10,14 @@ the first sweep of this area is in [../jurisdictions/us-case-law.md](../jurisdic
 |---|---|---|---|---|---|
 | Supreme Court, United States Reports 2-586 (GovInfo) | `us-govinfo-usreports` | active | 584 volumes listed; the parser cuts out about 4 cases in 5 (OCR layout) | no vol. 1, 465; nothing after 586 U.S. | kept; gaps and the overlap with CourtListener documented |
 | Courts of appeals (GovInfo USCOURTS) | `us-govinfo-uscourts` | active | 313 court-years of the 13 circuits listed (weeks of polite crawl) | 75 district courts, bankruptcy, special courts: 3,684 court-year sitemaps, no bulk file; `txsd` 2024 alone 1,317 packages = 3.7 h at 2 requests x 5 s | not widened (impractical); district courts come from CourtListener |
-| CourtListener bulk files (Free Law Project) | `us-courtlistener-bulk-s3` | **planned -> active** | default scope about 144,000 of 10,174,551 cases (see Scale) | all ten million cases, 3,400 courts, 18 million citations | built: connector, parser, 580 courts; licence read; sized |
+| CourtListener bulk files (Free Law Project) | `us-courtlistener-bulk-s3` | **planned -> active** | default scope about 144,000 of 10,174,551 cases (see Scale) | all ten million cases, 3,400 courts, 18 million citations | built: connector, parser, 578 courts; licence read; sized |
 | CourtListener website | `us-courtlistener-bulk` | planned | none | | HTTP 403 to the ULIS bot (kept as evidence); never contacted again |
 | Caselaw Access Project (static.case.law) | `us-caselaw-access-project` | planned | none | CC0 data, all reporters 1658-2020 | host's robots.txt still `Disallow: /` (re-tested 2026-10-16); the same cases come through CourtListener (`xml_harvard`) |
 | Supreme Court site | `us-supremecourt-gov-opinions` | planned | none | bound volumes 561-587 and preliminary prints 588-606 as PDF; older volumes as scans | open to robots; CourtListener has the same decisions; a parser for the preliminary prints is the only missing piece |
 | Justia | `us-justia-supreme-court` | planned | none | | terms page HTTP 403 again; nothing taken |
 | Cornell LII | `us-cornell-lii` | rejected | none | | CC BY-NC-SA compilation; not re-requested |
 | GovInfo "Supreme Court Decisions 1937-1975" (FLITE) | not a source | examined | none | 7,407 decisions of vols. 300-422, XML, bulk only, "not an official version" | duplicates vols. 300-422 and CourtListener; not added |
+| State court websites | none | examined (web search only) | none | no official State bulk feed found (an Arkansas workers' compensation CSV only); per-document crawling is impractical at 5 s a request | covered by CourtListener's State courts |
 
 ## What was added
 
@@ -24,8 +25,10 @@ the first sweep of this area is in [../jurisdictions/us-case-law.md](../jurisdic
   manifest), builds a SQLite index (clusters, dockets, citations, scope), streams the 55 GB opinions file through `lbzip2`/`bzip2` and a CSV
   reader and yields one bundle per case. Never contacts www.courtlistener.com. `ulis/sources/parsers/courtlistener_bulk.py`: Harvard XML and the
   HTML of the other collections to units; `scripts/courtlistener_scope_report.py` (counts by court and year), `scripts/build_us_courts.py`.
-* US profile 0.5.0: 562 more courts (580 listed) (district, bankruptcy, special federal; State highest and appellate), generated from CourtListener's
-  court table; US module 1.4.0 (citations of these cases).
+* US profile 0.5.0: 560 more courts (578 listed: district, bankruptcy, special federal; State highest and appellate), generated from CourtListener's
+  court table; US module 1.4.0 (citations: `Name, 523 U.S. 751, 118 S. Ct. 1700, 1703 (1998)`, a pinpoint only for a printed page of a cited reporter).
+* One core change, explained: `JurisdictionRegistry.courts()` is built once (578 courts made each appeal-chain lookup of a search hit cost 0.09 s; now 0.001 s).
+* Manifest options: per-rule `statuses`, `from_year`, `to_year`, `min_chars` (leaves out orders), `exclude_courts`, `only_rules`; a late opinion of a case is a second version.
 
 ## Scale (measured 2026-10-16; the sandbox was shared, load 8-14 on 4 cores, so times are upper bounds)
 
@@ -53,6 +56,8 @@ All of it is more than the 100 GB server and about 70 hours of ingestion; **the 
 opinions of 1,000 characters or more in every year, the 13 circuits from 2015, the 55 State courts of last resort from 2021 and district courts from 2021:
 about 144,000 cases, 4.1 GB of text, 2.2 million units, **about 14.5 GB of database** (1.1 h of ingestion; the whole opinions file must still be read to find them).
 
+Counts per court, source code, year and status: `docs/markets/data/courtlistener-scope-2026-09-30.csv.gz`.
+
 **Widen** by editing the rules (year, courts or groups, `statuses`, `min_chars`); `only_rules` runs one rule at a time from the same index; roughly 100 GB of database
 per million Published cases. A new quarter: change `generation` and the five file names and sizes. Court groups beyond those modelled: `scripts/build_us_courts.py --groups`.
 
@@ -74,7 +79,7 @@ per million Published cases. A new quarter: change `generation` and the five fil
 
 ## Remaining gaps
 
-* Trial courts of the States (2,600 courts, mostly historical), tribal courts and administrative bodies are not modelled; unpublished and
+* Trial courts of the States (2,600 courts, mostly historical), tribal courts, administrative bodies and the Spanish-language courts of Puerto Rico are not modelled; unpublished and
   "unknown"-status opinions are outside the default scope (a rule's `statuses` takes them).
 * Text is the publisher's aggregation, not authentic (OCR errors stay). Pinpoint pages only where the text carries the reporter's page breaks
   and the first one fits a citation of the case; other units are blocks (no pinpoint). No judicial treatment is inferred.
