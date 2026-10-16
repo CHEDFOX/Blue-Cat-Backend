@@ -1,0 +1,47 @@
+# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: ls-gov-constitution
+name: Constitution of Lesotho (1993) - Government of Lesotho (www.gov.ls)
+publisher: Government of Lesotho (www.gov.ls), Important Documents
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- LS
+document_kinds:
+- constitution
+languages:
+- en
+coverage: The Constitution (Constitution of Lesotho, 1993 (original text)) on the publisher's site; not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.gov.ls/download/lesotho-constitution/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: 'Not usable: The only official copy is the 1993 enactment text without any of the later amendments; not loaded as
+    it would present superseded provisions.'
+  url: https://www.gov.ls/download/lesotho-constitution/
+  review_status: pending_review
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: robots.txt
+    (www.gov.ls/robots.txt) is empty (0 bytes); page footer ''Copyright © 2026 | Government of Lesotho''. The download page
+    lists ''Lesotho Constitution'' (747.80 KB, ''Published May 20, 2022''); the PDF (via ?wpdmdl=1329; 103 pages; created
+    5 Sep 2006) is the original Government Gazette text of 1993 (''Lesotho - Government Constitutional Matters ... Government
+    of Lesotho©All Rights Reserved-2000'') with the notes on the Orders of 1993 and no later amendment, although the Constitution
+    has been amended since (for example by the Eighth Amendment of 2018, according to search results).'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep of East and Southern Africa (no document was stored).
+  See the licence block and docs/constitutions-africa-east-south-deep.md.
+known_limitations:
+- The only official copy is the 1993 enactment text without any of the later amendments; not loaded as it would present
+  superseded provisions.
+status: planned
+connector: null
+parser: null

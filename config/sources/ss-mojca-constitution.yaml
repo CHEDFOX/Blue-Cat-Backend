@@ -1,0 +1,46 @@
+# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: ss-mojca-constitution
+name: Transitional Constitution of South Sudan (2011) - Ministry of Justice and Constitutional Affairs (mojca.gov.ss)
+publisher: Ministry of Justice and Constitutional Affairs (mojca.gov.ss); Ministry of Foreign Affairs (mofaic.gov.ss); National
+  Elections Commission (nec.gov.ss)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- SS
+document_kinds:
+- constitution
+languages:
+- en
+coverage: The Constitution (Transitional Constitution 2011 (amended 2013)) on the publisher's site; not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://mojca.gov.ss/laws-of-the-republic-of-south-sudan/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: 'Not usable: The official hosts have an expired certificate; the only reachable copy is a third-party compilation.'
+  url: https://mojca.gov.ss/laws-of-the-republic-of-south-sudan/
+  review_status: pending_review
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: The requests
+    for robots.txt of mojca.gov.ss and mofaic.gov.ss failed TLS verification (''certificate verify failed: certificate has
+    expired''); certificate verification is never disabled. The National Elections Commission (nec.gov.ss; robots.txt allows
+    everything but /wp-admin/) offers ''Constitution 2011 with 2013 amendments'', a 69-page PDF that is the Constitute Project
+    compilation (''PDF generated: 27 Apr 2022 ... constituteproject.org ... Subsequently amended''); Constitute Project
+    is a rejected source (constitute-project) and its file is not used.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep of East and Southern Africa (no document was stored).
+  See the licence block and docs/constitutions-africa-east-south-deep.md.
+known_limitations:
+- The official hosts have an expired certificate; the only reachable copy is a third-party compilation.
+status: planned
+connector: null
+parser: null

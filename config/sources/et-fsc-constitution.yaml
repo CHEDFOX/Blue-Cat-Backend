@@ -1,0 +1,52 @@
+# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: et-fsc-constitution
+name: Constitution of Ethiopia (1995) - Federal Supreme Court of Ethiopia (www.fsc.gov.et)
+publisher: Federal Supreme Court of Ethiopia (www.fsc.gov.et), Digital Law Library
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- ET
+document_kinds:
+- constitution
+languages:
+- am
+- en
+coverage: The Constitution (Federal Negarit Gazeta No. 1 of 21 August 1995 (scan)) on the publisher's site; not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.fsc.gov.et/Digital-Law-Library/Federal-Laws/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: 'Not usable: Scan with an OCR text layer (errors in the English column, garbage in the Amharic column); ULIS does
+    no OCR and does not store text it cannot show exactly.'
+  url: https://www.fsc.gov.et/Digital-Law-Library/Federal-Laws/
+  review_status: pending_review
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: robots.txt
+    (www.fsc.gov.et/robots.txt) disallows only technical paths (/admin/, /bin/, /Config/, /Documentation/ ...) and sets
+    no Crawl-delay. Terms (https://www.fsc.gov.et/Terms): ''COPYRIGHT AND TRADEMARK NOTICES: All contents of the Federal
+    Supreme Court of Ethiopia Web Site are: Copyright © The Federal Supreme Court of Ethiopia- All rights reserved and/or
+    its suppliers. ... Any rights not expressly granted herein are reserved.'' The Constitution page of the Digital Law
+    Library offers DocumentDownload.ashx?portalid=0&moduleid=1179&articleid=152&documentid=103: a 38-page PDF of the Federal
+    Negarit Gazeta No. 1 of 21 August 1995 (Proclamation No. 1/1995) that is a scan with an OCR text layer: the Amharic
+    columns come out as garbage and the English column has recognition errors and run-together headings (''FUNDAMENTALPIDNCWLESOFTHE''),
+    so the exact text cannot be stored. The Ministry of Justice (justice.gov.et) did not answer: the request for its robots.txt
+    timed out; ethiopia.gov.et answered ''Tunnel connection failed: 502 Bad Gateway''.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep of East and Southern Africa (no document was stored).
+  See the licence block and docs/constitutions-africa-east-south-deep.md.
+known_limitations:
+- Scan with an OCR text layer (errors in the English column, garbage in the Amharic column); ULIS does no OCR and does not
+  store text it cannot show exactly.
+status: planned
+connector: null
+parser: null

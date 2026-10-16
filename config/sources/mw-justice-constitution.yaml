@@ -1,0 +1,46 @@
+# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: mw-justice-constitution
+name: Constitution of Malawi (1994) - Ministry of Justice (www.justice.gov.mw)
+publisher: Ministry of Justice of Malawi (www.justice.gov.mw)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- MW
+document_kinds:
+- constitution
+languages:
+- en
+coverage: The Constitution (Constitution of the Republic of Malawi (as amended up to Act No. 38 of 1998)) on the publisher's
+  site; not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.justice.gov.mw/sites/default/files/2021-06/Malawi%20Constitution.pdf
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: 'Not usable: Consolidated only to 1998 and with the section numbers missing from the text layer.'
+  url: https://www.justice.gov.mw/sites/default/files/2021-06/Malawi%20Constitution.pdf
+  review_status: pending_review
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: robots.txt
+    (www.justice.gov.mw/robots.txt: ''User-agent: *'' ''Allow: /'') allows everything; the Disclaimer (/index.php/ministry/disclaimer)
+    says the information is provided ''as is'' and says nothing about reuse; footer ''© Ministry of Justice''. The PDF (93
+    pages, uploaded 25 Jun 2021) has the file title ''Constitution of the Republic of Malawi (as amended up to Act No. 38
+    of 1998)'' and its text layer lacks the section numbers (the first subsection of every section comes out as ''1.''),
+    so the structure cannot be recognised; amendments after 1998 are not in it.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep of East and Southern Africa (no document was stored).
+  See the licence block and docs/constitutions-africa-east-south-deep.md.
+known_limitations:
+- Consolidated only to 1998 and with the section numbers missing from the text layer.
+status: planned
+connector: null
+parser: null

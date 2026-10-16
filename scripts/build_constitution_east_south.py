@@ -662,6 +662,155 @@ PROFILES: dict[str, dict[str, Any]] = {
 }
 
 
+# --------------------------------------------------------------------------- publishers that could not be loaded
+
+BLOCKED: list[dict[str, Any]] = [
+    {
+        "id": "et-fsc-constitution",
+        "status": "planned",
+        "cc": "ET",
+        "name": "Constitution of Ethiopia (1995) - Federal Supreme Court of Ethiopia (www.fsc.gov.et)",
+        "publisher": "Federal Supreme Court of Ethiopia (www.fsc.gov.et), Digital Law Library",
+        "languages": ["am", "en"],
+        "url": "https://www.fsc.gov.et/Digital-Law-Library/Federal-Laws/",
+        "finding": "robots.txt (www.fsc.gov.et/robots.txt) disallows only technical paths (/admin/, /bin/, /Config/, /Documentation/ ...) and sets no Crawl-delay. Terms (https://www.fsc.gov.et/Terms): 'COPYRIGHT AND TRADEMARK NOTICES: All contents of the Federal Supreme Court of Ethiopia Web Site are: Copyright © The Federal Supreme Court of Ethiopia- All rights reserved and/or its suppliers. ... Any rights not expressly granted herein are reserved.' The Constitution page of the Digital Law Library offers DocumentDownload.ashx?portalid=0&moduleid=1179&articleid=152&documentid=103: a 38-page PDF of the Federal Negarit Gazeta No. 1 of 21 August 1995 (Proclamation No. 1/1995) that is a scan with an OCR text layer: the Amharic columns come out as garbage and the English column has recognition errors and run-together headings ('FUNDAMENTALPIDNCWLESOFTHE'), so the exact text cannot be stored. The Ministry of Justice (justice.gov.et) did not answer: the request for its robots.txt timed out; ethiopia.gov.et answered 'Tunnel connection failed: 502 Bad Gateway'.",
+        "limitation": "Scan with an OCR text layer (errors in the English column, garbage in the Amharic column); ULIS does no OCR and does not store text it cannot show exactly.",
+        "doc": "Federal Negarit Gazeta No. 1 of 21 August 1995 (scan)",
+    },
+    {
+        "id": "ug-parliament-constitution",
+        "status": "planned",
+        "cc": "UG",
+        "name": "Constitution of Uganda (1995) - Parliament of Uganda (www.parliament.go.ug)",
+        "publisher": "Parliament of Uganda (www.parliament.go.ug)",
+        "languages": ["en"],
+        "url": "https://www.parliament.go.ug/page/constitution",
+        "finding": "robots.txt (www.parliament.go.ug/robots.txt) is the standard Drupal file and the page /page/constitution (HTTP 200) lists the Constitution among its documents (/documents/1240/constitution). The earlier sweep (docs/constitutions-africa-asia-oceania.md) found that PDF to be a 2007 print of the 1995 text (192 pages), not the consolidated text with the amendments of 2005 and 2017; it was not fetched again. The 7th Revised Edition of the Laws of Uganda (Volume I holds the Constitution) is announced by the Uganda Law Reform Commission, whose host does not verify (ulrc.go.ug: 'unable to get local issuer certificate'); the State House page (statehouse.go.ug/the-constitution/) only links to the Parliament's document. Verification of TLS certificates is never disabled.",
+        "limitation": "The only openly reachable official copy predates the amendments of 2005 and 2017; the current consolidation sits on a host whose TLS certificate cannot be verified.",
+        "doc": "2007 print of the 1995 text",
+    },
+    {
+        "id": "zm-parliament-constitution",
+        "status": "planned",
+        "cc": "ZM",
+        "name": "Constitution of Zambia - National Assembly of Zambia (www.parliament.gov.zm)",
+        "publisher": "National Assembly of Zambia (www.parliament.gov.zm); constitution website of the Government (www.constitution.gov.zm)",
+        "languages": ["en"],
+        "url": "https://www.parliament.gov.zm/",
+        "finding": "The request for robots.txt of www.parliament.gov.zm failed TLS verification ('certificate verify failed: unable to get local issuer certificate'); www.constitution.gov.zm (which publishes the Constitution of Zambia (Amendment) Act No. 13 of 2025) answered the request for robots.txt with 'Connection reset by peer'. Nothing else was requested and certificate verification is never disabled.",
+        "limitation": "Both official hosts are unreachable for a client that verifies certificates; the copies on other hosts are Laws.Africa/ZambiaLII (rejected), a Constitute Project compilation (rejected) and ministry copies of the amending Acts only.",
+        "doc": "Constitution of Zambia Act, 2016 and its amendments",
+    },
+    {
+        "id": "zw-parlzim-constitution",
+        "status": "planned",
+        "cc": "ZW",
+        "name": "Constitution of Zimbabwe (2013) - Parliament of Zimbabwe (www.parlzim.gov.zw)",
+        "publisher": "Parliament of Zimbabwe (www.parlzim.gov.zw); National Peace and Reconciliation Commission (www.nprc.org.zw); Zimbabwe Electoral Commission (www.zec.org.zw)",
+        "languages": ["en"],
+        "url": "https://www.parlzim.gov.zw/",
+        "finding": "www.parlzim.gov.zw/robots.txt answered with rules (a group disallowing /parlzim/ and a Yoast group with an empty Disallow), but the request for the home page then answered HTTP 403 to the ULIS agent: the host refuses it and nothing more was requested. www.nprc.org.zw (which hosts a PDF of the Constitution) failed TLS verification ('certificate verify failed: Hostname mismatch, certificate is not valid for www.nprc.org.zw'); www.zec.org.zw answered 'Connection reset by peer'. No workaround was tried.",
+        "limitation": "The hosts of the official copies refuse the agent or fail certificate verification; Veritas, ZimLII (Laws.Africa) and Refworld copies are not official.",
+        "doc": "Constitution of Zimbabwe Amendment (No. 20) Act, 2013",
+    },
+    {
+        "id": "mz-cconstitucional-constitution",
+        "status": "planned",
+        "cc": "MZ",
+        "name": "Constituição da República de Moçambique (2004, revista em 2018) - Conselho Constitucional (cconstitucional.org.mz)",
+        "publisher": "Conselho Constitucional de Moçambique (cconstitucional.org.mz); Assembleia da República (www.parlamento.mz)",
+        "languages": ["pt"],
+        "url": "https://cconstitucional.org.mz/constituicao-da-republica/",
+        "finding": "robots.txt of cconstitucional.org.mz ('User-agent: *' 'Disallow: /wp-admin/') and of www.parlamento.mz (404, none) allow the pages. The PDF of the text revised in 2018 (Boletim da República, I Série, 22 June 2018) on both hosts is the same file (ConstituicaodaRepublicaMocambicana-BR2018.pdf, 14,139,003 bytes, 40 pages) and has no text layer (pdftotext returns 40 characters for 40 pages): it is a scan. The PDF with a text layer found on another official host (minec.gov.mz, 97 pages, file title 'Constituição de 2004, 19 de Nov.') carries the text of 2004 without the revisions of 2007 and 2018.",
+        "limitation": "The current text exists only as a scan; the text-layer copies are superseded. ULIS does no OCR.",
+        "doc": "Boletim da República of 22 June 2018 (scan)",
+    },
+    {
+        "id": "bi-presidence-constitution",
+        "status": "planned",
+        "cc": "BI",
+        "name": "Constitution de la République du Burundi (2018) - Présidence de la République (presidence.gov.bi)",
+        "publisher": "Présidence de la République du Burundi (presidence.gov.bi)",
+        "languages": ["fr"],
+        "url": "https://presidence.gov.bi/le-burundi/constitution/",
+        "finding": "robots.txt (presidence.gov.bi/robots.txt, Yoast: 'User-agent: *' 'Disallow:') allows everything; page footer '© 2026 Ntare House'; no terms page. The page embeds https://presidence.gov.bi/wp-content/uploads/2018/07/constitution-promulguee-le-7-juin-2018-1.pdf (4,686,702 bytes, 59 pages), a scan with no text layer (pdftotext returns 59 characters for 59 pages).",
+        "limitation": "The official text of 7 June 2018 exists only as a scan; ULIS does no OCR.",
+        "doc": "constitution promulguée le 7 juin 2018 (scan)",
+    },
+    {
+        "id": "km-coursupreme-constitution",
+        "status": "planned",
+        "cc": "KM",
+        "name": "Constitution de l'Union des Comores - Cour suprême (www.coursupremecomores.km)",
+        "publisher": "Cour suprême de l'Union des Comores (www.coursupremecomores.km); Cour constitutionnelle (ccuc.km)",
+        "languages": ["fr"],
+        "url": "https://www.coursupremecomores.km/telecharge/constitution-des-comores/",
+        "finding": "robots.txt (www.coursupremecomores.km/robots.txt) disallows only /wp-admin/, /wp-includes/ (except js and images), /trackback/ and the login pages; footer 'Cour suprême de l'Union des Comores © 2025 | Designed By CBon Business Solutions'. The download of 'Constitution 2021' (/wp-content/uploads/2025/08/Constitution-2021-.pdf, 24,087,180 bytes, 36 pages) is a scan with no text layer (36 characters for 36 pages). The Constitutional Court's host (ccuc.km) answered 'Tunnel connection failed: 502 Bad Gateway'.",
+        "limitation": "The only official copy found is a scan; ULIS does no OCR.",
+        "doc": "Constitution 2021 (scan)",
+    },
+    {
+        "id": "ss-mojca-constitution",
+        "status": "planned",
+        "cc": "SS",
+        "name": "Transitional Constitution of South Sudan (2011) - Ministry of Justice and Constitutional Affairs (mojca.gov.ss)",
+        "publisher": "Ministry of Justice and Constitutional Affairs (mojca.gov.ss); Ministry of Foreign Affairs (mofaic.gov.ss); National Elections Commission (nec.gov.ss)",
+        "languages": ["en"],
+        "url": "https://mojca.gov.ss/laws-of-the-republic-of-south-sudan/",
+        "finding": "The requests for robots.txt of mojca.gov.ss and mofaic.gov.ss failed TLS verification ('certificate verify failed: certificate has expired'); certificate verification is never disabled. The National Elections Commission (nec.gov.ss; robots.txt allows everything but /wp-admin/) offers 'Constitution 2011 with 2013 amendments', a 69-page PDF that is the Constitute Project compilation ('PDF generated: 27 Apr 2022 ... constituteproject.org ... Subsequently amended'); Constitute Project is a rejected source (constitute-project) and its file is not used.",
+        "limitation": "The official hosts have an expired certificate; the only reachable copy is a third-party compilation.",
+        "doc": "Transitional Constitution 2011 (amended 2013)",
+    },
+    {
+        "id": "sz-gov-constitution",
+        "status": "planned",
+        "cc": "SZ",
+        "name": "Constitution of the Kingdom of Eswatini (2005) - Government of Eswatini (www.gov.sz)",
+        "publisher": "Government of the Kingdom of Eswatini (www.gov.sz); Parliament of Eswatini (parliament.gov.sz)",
+        "languages": ["en"],
+        "url": "https://www.gov.sz/index.php/resources/constitution",
+        "finding": "The requests for robots.txt of www.gov.sz (which hosts /images/Media/constitution.pdf, the Constitution of the Kingdom of Swaziland Act 2005) and of parliament.gov.sz both ended in 'Connection reset by peer'; nothing else was requested.",
+        "limitation": "Both official hosts reset the connection; copies on other hosts are Laws.Africa and Constitute Project compilations (rejected).",
+        "doc": "Constitution of the Kingdom of Swaziland Act 2005",
+    },
+    {
+        "id": "ls-gov-constitution",
+        "status": "planned",
+        "cc": "LS",
+        "name": "Constitution of Lesotho (1993) - Government of Lesotho (www.gov.ls)",
+        "publisher": "Government of Lesotho (www.gov.ls), Important Documents",
+        "languages": ["en"],
+        "url": "https://www.gov.ls/download/lesotho-constitution/",
+        "finding": "robots.txt (www.gov.ls/robots.txt) is empty (0 bytes); page footer 'Copyright © 2026 | Government of Lesotho'. The download page lists 'Lesotho Constitution' (747.80 KB, 'Published May 20, 2022'); the PDF (via ?wpdmdl=1329; 103 pages; created 5 Sep 2006) is the original Government Gazette text of 1993 ('Lesotho - Government Constitutional Matters ... Government of Lesotho©All Rights Reserved-2000') with the notes on the Orders of 1993 and no later amendment, although the Constitution has been amended since (for example by the Eighth Amendment of 2018, according to search results).",
+        "limitation": "The only official copy is the 1993 enactment text without any of the later amendments; not loaded as it would present superseded provisions.",
+        "doc": "Constitution of Lesotho, 1993 (original text)",
+    },
+    {
+        "id": "mw-justice-constitution",
+        "status": "planned",
+        "cc": "MW",
+        "name": "Constitution of Malawi (1994) - Ministry of Justice (www.justice.gov.mw)",
+        "publisher": "Ministry of Justice of Malawi (www.justice.gov.mw)",
+        "languages": ["en"],
+        "url": "https://www.justice.gov.mw/sites/default/files/2021-06/Malawi%20Constitution.pdf",
+        "finding": "robots.txt (www.justice.gov.mw/robots.txt: 'User-agent: *' 'Allow: /') allows everything; the Disclaimer (/index.php/ministry/disclaimer) says the information is provided 'as is' and says nothing about reuse; footer '© Ministry of Justice'. The PDF (93 pages, uploaded 25 Jun 2021) has the file title 'Constitution of the Republic of Malawi (as amended up to Act No. 38 of 1998)' and its text layer lacks the section numbers (the first subsection of every section comes out as '1.'), so the structure cannot be recognised; amendments after 1998 are not in it.",
+        "limitation": "Consolidated only to 1998 and with the section numbers missing from the text layer.",
+        "doc": "Constitution of the Republic of Malawi (as amended up to Act No. 38 of 1998)",
+    },
+    {
+        "id": "bw-parliament-constitution",
+        "status": "rejected",
+        "cc": "BW",
+        "name": "Constitution of Botswana - Parliament of Botswana (www.parliament.gov.bw)",
+        "publisher": "Parliament of Botswana (www.parliament.gov.bw)",
+        "languages": ["en"],
+        "url": "https://www.parliament.gov.bw/images/constitution.pdf",
+        "finding": "robots.txt (www.parliament.gov.bw/robots.txt, Joomla) does not disallow /images/. The PDF (59 pages, Last-Modified 14 Nov 2022, created 11 Jun 2008) prints the line 'Copyright Government of Botswana' on every page (59 times) and states no licence or permission; the Botswana e-Laws host (elaws.gov.bw) answered 'Tunnel connection failed: 502 Bad Gateway'.",
+        "limitation": "A copyright notice on every page of the text with no permission; the copy is also of 2008.",
+        "doc": "CONSTITUTION OF BOTSWANA (PDF of 2008)",
+    },
+]
+
 # --------------------------------------------------------------------------- writers
 
 
@@ -833,13 +982,61 @@ def profile_yaml(cc: str, spec: dict[str, Any]) -> str:
     return head + _dump(data)
 
 
+def blocked_yaml(b: dict[str, Any]) -> str:
+    status = b["status"]
+    rejected = status == "rejected"
+    head = (
+        f"# {status.upper()} - evaluated {READ_ON}, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).\n"
+        f"# Identifying User-Agent used for every request: {UA}\n"
+    )
+    data: dict[str, Any] = {
+        "schema_version": 1,
+        "id": b["id"],
+        "name": b["name"],
+        "publisher": b["publisher"],
+        "kind": "official_legislation_portal",
+        "authority": "official_non_authentic",
+        "jurisdictions": [b["cc"]],
+        "document_kinds": ["constitution"],
+        "languages": b["languages"],
+        "coverage": f"The Constitution ({b['doc']}) on the publisher's site; not ingested.",
+        "access": {"method": "permitted_web_retrieval", "endpoint": b["url"], "authentication": "none"},
+        "update_frequency": "unknown",
+        "licence": {
+            "id": "UNKNOWN",
+            "name": "Not usable: " + b["limitation"],
+            "url": b["url"],
+            "review_status": "rejected" if rejected else "pending_review",
+            "reviewed_by": f"ULIS project (not counsel), {READ_ON}, from the publisher's own pages and robots.txt. Findings: "
+            + b["finding"],
+            "reviewed_on": READ_ON,
+            "redistribution": "not_allowed" if rejected else "unknown",
+            "bulk_download": "not_allowed" if rejected else "unknown",
+            "automated_processing": "not_allowed" if rejected else "unknown",
+            "commercial_use": "not_allowed" if rejected else "unknown",
+            "attribution_required": None,
+            "attribution_text": None,
+        },
+        "provenance": "Evaluated and NOT ingested by the constitutions sweep of East and Southern Africa (no document was stored). See the licence block and docs/constitutions-africa-east-south-deep.md.",
+        "known_limitations": [b["limitation"]],
+        "status": status,
+        "connector": None,
+        "parser": None,
+    }
+    return head + _dump(data)
+
+
 def main() -> None:
     for p in PUBLISHERS:
         (ROOT / "config/sources" / f"{p['id']}.yaml").write_text(source_yaml(p), encoding="utf-8")
         (ROOT / "config/manifests" / f"{p['id']}.yaml").write_text(manifest_yaml(p), encoding="utf-8")
+    for b in BLOCKED:
+        (ROOT / "config/sources" / f"{b['id']}.yaml").write_text(blocked_yaml(b), encoding="utf-8")
     for cc, spec in PROFILES.items():
         (ROOT / "config/jurisdictions" / f"{cc.lower()}.yaml").write_text(profile_yaml(cc, spec), encoding="utf-8")
-    print(f"wrote {len(PUBLISHERS)} sources, manifests and {len(PROFILES)} profiles")
+    print(
+        f"wrote {len(PUBLISHERS)} sources and manifests, {len(BLOCKED)} blocked descriptors, {len(PROFILES)} profiles"
+    )
 
 
 if __name__ == "__main__":

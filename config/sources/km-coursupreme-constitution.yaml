@@ -1,0 +1,45 @@
+# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: km-coursupreme-constitution
+name: Constitution de l'Union des Comores - Cour suprême (www.coursupremecomores.km)
+publisher: Cour suprême de l'Union des Comores (www.coursupremecomores.km); Cour constitutionnelle (ccuc.km)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- KM
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: The Constitution (Constitution 2021 (scan)) on the publisher's site; not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.coursupremecomores.km/telecharge/constitution-des-comores/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: 'Not usable: The only official copy found is a scan; ULIS does no OCR.'
+  url: https://www.coursupremecomores.km/telecharge/constitution-des-comores/
+  review_status: pending_review
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: robots.txt
+    (www.coursupremecomores.km/robots.txt) disallows only /wp-admin/, /wp-includes/ (except js and images), /trackback/
+    and the login pages; footer ''Cour suprême de l''Union des Comores © 2025 | Designed By CBon Business Solutions''. The
+    download of ''Constitution 2021'' (/wp-content/uploads/2025/08/Constitution-2021-.pdf, 24,087,180 bytes, 36 pages) is
+    a scan with no text layer (36 characters for 36 pages). The Constitutional Court''s host (ccuc.km) answered ''Tunnel
+    connection failed: 502 Bad Gateway''.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep of East and Southern Africa (no document was stored).
+  See the licence block and docs/constitutions-africa-east-south-deep.md.
+known_limitations:
+- The only official copy found is a scan; ULIS does no OCR.
+status: planned
+connector: null
+parser: null

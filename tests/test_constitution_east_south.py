@@ -102,27 +102,32 @@ def columns_pdf(pages: list[tuple[tuple[int, int], list[tuple[int, list[str]]]]]
     return bytes(out)
 
 
-def doc_from(
+def bundle_for(
     source_id: str, slug: str, body: bytes, media: str = "pdf", *, drop: tuple[str, ...] = (), **structure: Any
-) -> ParsedDocument:
-    """Parse a fixture with the committed manifest's entry (hints, title, languages); ``drop`` names hints that only
-    make sense for the whole publisher file (page ranges, the start of the body), ``structure`` overrides hints."""
+) -> bytes:
+    """The bundle the connector would build for a fixture, with the committed manifest's entry (hints, title,
+    language, dates); ``drop`` names hints that only make sense for the whole publisher file (page ranges, the start
+    of the body), ``structure`` overrides hints."""
     entry = _entry(source_id, slug)
     hints = {k: v for k, v in entry["structure"].items() if k not in drop}
     hints.update(structure)
     meta = {k: entry[k] for k in ("adopted_on", "edition_date", "edition_label", "events") if k in entry}
-    return parse(
-        bundle(
-            body,
-            media,
-            cc=entry["jurisdiction"],
-            language=entry["language"],
-            structure=hints,
-            title=entry["title"],
-            citation_name=entry["citation_name"],
-            **meta,
-        )
+    return bundle(
+        body,
+        media,
+        cc=entry["jurisdiction"],
+        language=entry["language"],
+        structure=hints,
+        title=entry["title"],
+        citation_name=entry["citation_name"],
+        **meta,
     )
+
+
+def doc_from(
+    source_id: str, slug: str, body: bytes, media: str = "pdf", *, drop: tuple[str, ...] = (), **structure: Any
+) -> ParsedDocument:
+    return parse(bundle_for(source_id, slug, body, media, drop=drop, **structure))
 
 
 def prov(doc: ParsedDocument, eid: str) -> ParsedProvision:

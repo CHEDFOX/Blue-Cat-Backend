@@ -1,0 +1,47 @@
+# PLANNED - evaluated 2026-10-15, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: zm-parliament-constitution
+name: Constitution of Zambia - National Assembly of Zambia (www.parliament.gov.zm)
+publisher: National Assembly of Zambia (www.parliament.gov.zm); constitution website of the Government (www.constitution.gov.zm)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- ZM
+document_kinds:
+- constitution
+languages:
+- en
+coverage: The Constitution (Constitution of Zambia Act, 2016 and its amendments) on the publisher's site; not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.parliament.gov.zm/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: 'Not usable: Both official hosts are unreachable for a client that verifies certificates; the copies on other hosts
+    are Laws.Africa/ZambiaLII (rejected), a Constitute Project compilation (rejected) and ministry copies of the amending
+    Acts only.'
+  url: https://www.parliament.gov.zm/
+  review_status: pending_review
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: The request
+    for robots.txt of www.parliament.gov.zm failed TLS verification (''certificate verify failed: unable to get local issuer
+    certificate''); www.constitution.gov.zm (which publishes the Constitution of Zambia (Amendment) Act No. 13 of 2025)
+    answered the request for robots.txt with ''Connection reset by peer''. Nothing else was requested and certificate verification
+    is never disabled.'
+  reviewed_on: '2026-10-15'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: Evaluated and NOT ingested by the constitutions sweep of East and Southern Africa (no document was stored).
+  See the licence block and docs/constitutions-africa-east-south-deep.md.
+known_limitations:
+- Both official hosts are unreachable for a client that verifies certificates; the copies on other hosts are Laws.Africa/ZambiaLII
+  (rejected), a Constitute Project compilation (rejected) and ministry copies of the amending Acts only.
+status: planned
+connector: null
+parser: null
