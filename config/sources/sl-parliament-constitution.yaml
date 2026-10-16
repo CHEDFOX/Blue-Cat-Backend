@@ -1,0 +1,52 @@
+# PLANNED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: sl-parliament-constitution
+name: >-
+  Constitution of Sierra Leone - Parliament of Sierra Leone (parliament.gov.sl); Electoral Commission (ec.gov.sl)
+publisher: Parliament of Sierra Leone (parliament.gov.sl); Electoral Commission (ec.gov.sl)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- SL
+document_kinds:
+- constitution
+languages:
+- en
+coverage: The Constitution of Sierra Leone (https://www.parliament.gov.sl/); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.parliament.gov.sl/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: >-
+    TLS verification of https://www.parliament.gov.sl/robots.txt failed ('self-signed certificate'); verification is never
+    disabled, so nothing was read there. The Electoral Commission (ec.gov.sl, Crawl-delay 30) prints only
+  url: https://www.parliament.gov.sl/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: www.parliament.gov.sl/robots.txt
+    - TLS certificate verification failed (self-signed certificate). TLS verification of https://www.parliament.gov.sl/robots.txt
+    failed ('self-signed certificate'); verification is never disabled, so nothing was read there. The Electoral Commission
+    (ec.gov.sl, Crawl-delay 30) prints only the sections of the 1991 Constitution that concern the Commission (about 7,300
+    characters), not the Constitution. The Judiciary (judiciary.gov.sl) offers 'Constitution of Sierra Leone Act No. 6 1991'
+    as a download from its Rules and Procedures page; that file was not located. Nothing further is requested; no workaround
+    was tried.
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- "TLS verification of https://www.parliament.gov.sl/robots.txt failed ('self-signed certificate'); verification is never\
+  \ disabled, so nothing was read there. The Electoral Commission (ec.gov.sl, Crawl-delay 30) prints only the sections of\
+  \ the 1991 Constitution that concern the Commission (about 7,300 "
+status: planned
+connector: null
+parser: null

@@ -125,8 +125,8 @@ SUFFIX = (
     r"(?:\s?-\s?[A-Za-z](?![A-Za-z])|\s?[-.]\s?[0-9]{1,2}(?![0-9])|"
     r"\s?(?:bis|ter|quater|quinquies)\b|[A-Za-z](?![A-Za-z]))"
 )
-NUMBER = r"(?P<base>" + BASE + r")(?P<ord>\.?[º°ᵒ]|(?<=[0-9])(?:er|ère)(?![A-Za-zÀ-ÿ]))?(?P<suffix>" + SUFFIX + r")?"
-ORDINAL_SIGNS = "º°ᵒ"
+NUMBER = r"(?P<base>" + BASE + r")(?P<ord>\.?[º°ᵒª]|(?<=[0-9])(?:er|ère)(?![A-Za-zÀ-ÿ]))?(?P<suffix>" + SUFFIX + r")?"
+ORDINAL_SIGNS = "º°ᵒª"
 
 
 def cjk_to_int(text: str) -> int | None:

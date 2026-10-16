@@ -1,0 +1,37 @@
+# The Constitution of Algeria (fr): 1 document(s) on www.joradp.dz. See config/sources/dz-joradp-constitution.yaml.
+schema_version: 1
+source_id: dz-joradp-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.joradp.dz
+documents:
+- slug: dz-fr
+  jurisdiction: DZ
+  url: https://www.joradp.dz/FTP/JO-FRANCAIS/2020/F2020082.pdf
+  format: pdf
+  language: fr
+  title: Constitution de la République algérienne démocratique et populaire
+  citation_name: Algeria Constitution
+  adopted_on: '2020-11-01'
+  edition_label: Journal officiel n° 82 of 30 December 2020 (French translation edition)
+  events:
+  - type: adoption
+    date: '2020-11-01'
+    description: révision constitutionnelle adoptée par référendum du 1er novembre 2020
+    locator: décret présidentiel n° 20-442, article 1
+  - type: promulgation
+    date: '2020-12-30'
+    description: décret présidentiel n° 20-442 du 15 Joumada El Oula 1442 correspondant au 30 décembre 2020
+    locator: Journal officiel n° 82
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    start_regex: ^PREAMBULE$
+    page_numbers: true
+    drop_lines:
+    - ^[0-9]{1,2} Joum[a-z]+ El Oula 1442$
+    - ^30 décembre 2020$
+    - ^JOURNAL OFFICIEL DE LA REPUBLIQUE ALGERIENNE N° 82$
+    - ^Imprimerie Officielle
+    tail_regex: ^Traduction des termes du serment

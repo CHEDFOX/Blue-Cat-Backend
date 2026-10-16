@@ -1,0 +1,60 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Algeria: a minimal profile created for the constitutions sweep of North, West and
+# Central Africa. Only the constitution is loaded; nothing else about the legal system is profiled.
+schema_version: 1
+id: DZ
+profile_version: 0.1.0
+name: Algeria
+names:
+  fr: République algérienne démocratique et populaire
+  ar: الجمهورية الجزائرية الديمقراطية الشعبية
+  en: People's Democratic Republic of Algeria
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages:
+- fr
+legal_system:
+  families: []
+  structure: unitary
+  treaty_reception: unknown
+  notes: >-
+    To verify - not profiled: this is a minimal profile created for the constitutions sweep of North, West and Central Africa.
+    The official languages listed are those of the text loaded.
+legislative_institutions: []
+instrument_types:
+- constitution
+norm_hierarchy:
+- constitution
+courts: []
+precedent:
+  doctrine: not_applicable
+  vertical_binding: false
+  notes: >-
+    Not profiled: only the constitution is loaded, no court decisions. To verify - how precedent works in this jurisdiction.
+citation:
+  module: constitution
+  notes: >-
+    The constitution is cited as "Algeria Constitution art. N" (a label, with the article number as the document itself prints
+    it). To verify - the country's own citation convention.
+  examples:
+  - Algeria Constitution art. 1
+  - Algeria Constitution art. 10
+publication:
+  official_sources:
+  - dz-joradp-constitution
+coverage:
+  corpus_status: pilot
+  known_gaps:
+  - >-
+    Only the constitution is loaded (Preamble and 225 articles of the Constitution as promulgated in the Journal officiel
+    n° 82 of 30 December 2020 (French edition), with the translated oaths as a trailing block.) No legislation, regulations,
+    treaties or case law of Algeria are ingested.
+  - >-
+    The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since
+    are not applied, and no history is held (docs/constitutions-africa-west-deep.md).
+  - >-
+    Courts, legislative institutions, legal families and treaty reception are not profiled: this is a minimal profile, not
+    reviewed by counsel.

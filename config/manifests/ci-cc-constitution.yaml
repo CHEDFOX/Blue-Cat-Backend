@@ -1,0 +1,24 @@
+# The Constitution of Cote d'Ivoire (fr): 1 document(s) on www.conseil-constitutionnel.ci. See config/sources/ci-cc-constitution.yaml.
+schema_version: 1
+source_id: ci-cc-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 10
+hosts:
+- www.conseil-constitutionnel.ci
+documents:
+- slug: ci-fr
+  jurisdiction: CI
+  url: https://www.conseil-constitutionnel.ci/sites/default/files/constitution_2016.pdf
+  format: pdf
+  language: fr
+  title: Constitution de la République de Côte d'Ivoire
+  citation_name: Cote d'Ivoire Constitution
+  edition_label: the Council's PDF headed "LA TROISIEME CONSTITUTION DU 8 NOVEMBRE 2016" (no edition date printed)
+  events:
+  - type: promulgation
+    date: '2016-11-08'
+    description: the heading of the PDF dates the third constitution 8 November 2016
+    locator: heading of the PDF
+  authoritative: false
+  text_origin: official_consolidation
+  structure: {}

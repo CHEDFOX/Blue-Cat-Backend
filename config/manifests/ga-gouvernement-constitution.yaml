@@ -1,0 +1,31 @@
+# The Constitution of Gabon (fr): 1 document(s) on gouvernement.ga. See config/sources/ga-gouvernement-constitution.yaml.
+schema_version: 1
+source_id: ga-gouvernement-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- gouvernement.ga
+documents:
+- slug: ga-fr
+  jurisdiction: GA
+  url: >-
+    https://gouvernement.ga/wp-content/uploads/2025/11/Constitution-du-19-decembre-2024-de-la-Republique-Gabonaise_BON.pdf
+  format: pdf
+  language: fr
+  title: Constitution de la République gabonaise
+  citation_name: Gabon Constitution
+  edition_label: Journal officiel n° 47 Bis of 19 December 2024 (loi référendaire n° 002-R/2024)
+  events:
+  - type: promulgation
+    date: '2024-12-19'
+    description: loi référendaire n° 002-R/2024 du 19 décembre 2024 portant Constitution de la République Gabonaise
+    locator: Journal officiel n° 47 Bis
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    columns: 2
+    start_regex: ^PREAMBULE$
+    drop_lines:
+    - ^JOURNAL OFFICIEL DE LA REPUBLIQUE GABONAISE$
+    - ^[0-9]{1,2} DECEMBRE 2024 - N°47 Bis$
+    - ^[0-9]{1,2}$

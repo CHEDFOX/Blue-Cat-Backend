@@ -1,0 +1,50 @@
+# PLANNED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: tn-legislation-constitution
+name: Constitution of Tunisia - legislation.tn (Tunisian legislation portal)
+publisher: legislation.tn (Tunisian legislation portal)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- TN
+document_kinds:
+- constitution
+languages:
+- ar
+coverage: The Constitution of Tunisia (http://www.legislation.tn/); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: http://www.legislation.tn/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: >-
+    robots.txt of www.legislation.tn could not be read (connection reset by peer, two attempts); nothing was requested. A
+    search engine lists the Constitution of 2022 on that site article by article (about 142 pages). The Pr
+  url: http://www.legislation.tn/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: www.legislation.tn/robots.txt
+    - connection reset by peer (twice). robots.txt of www.legislation.tn could not be read (connection reset by peer, two
+    attempts); nothing was requested. A search engine lists the Constitution of 2022 on that site article by article (about
+    142 pages). The Prime Ministry's PDF (pm.gov.tn) has an out-of-order text layer (earlier sweep). Nothing further is requested;
+    no workaround was tried.
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  robots.txt of www.legislation.tn could not be read (connection reset by peer, two attempts); nothing was requested. A search
+  engine lists the Constitution of 2022 on that site article by article (about 142 pages). The Prime Ministry's PDF (pm.gov.tn)
+  has an out-of-order text layer (earlier sweep).
+status: planned
+connector: null
+parser: null

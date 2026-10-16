@@ -1,0 +1,39 @@
+# The Constitution of Democratic Republic of the Congo (fr): 1 document(s) on medd.gouv.cd. See config/sources/cd-medd-constitution.yaml.
+schema_version: 1
+source_id: cd-medd-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- medd.gouv.cd
+documents:
+- slug: cd-fr
+  jurisdiction: CD
+  url: https://medd.gouv.cd/wp-content/uploads/2020/07/DR-Congo-Constitution-Revised-2011.pdf
+  format: pdf
+  language: fr
+  title: >-
+    Constitution de la République Démocratique du Congo du 18 février 2006, modifiée par la loi n° 11/002 du 20 janvier 2011
+    (textes coordonnés)
+  citation_name: Democratic Republic of the Congo Constitution
+  adopted_on: '2006-02-18'
+  edition_label: Journal officiel, numéro spécial of 5 February 2011 (textes coordonnés)
+  events:
+  - type: promulgation
+    date: '2006-02-18'
+    description: Constitution de la République Démocratique du Congo du 18 février 2006
+    locator: title of the document
+  - type: amendment
+    date: '2011-01-20'
+    description: loi n° 11/002 du 20 janvier 2011 portant révision de certains articles de la Constitution
+    locator: title of the document
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    page_numbers: true
+    drop_lines:
+    - ^Journal Officiel Numéro spécial 5 février 2011 – Constitution de la République Démocratique du Congo$
+    - ^[0-9]{1,3}$
+    tail_regex: ^EXPOSE DES MOTIFS DE LA CONSTITUTION
+    keywords:
+    - Article
+    - Articles

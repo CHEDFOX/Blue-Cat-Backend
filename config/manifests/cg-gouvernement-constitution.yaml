@@ -1,0 +1,26 @@
+# The Constitution of Congo (fr): 1 document(s) on www.gouvernement.cg. See config/sources/cg-gouvernement-constitution.yaml.
+schema_version: 1
+source_id: cg-gouvernement-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.gouvernement.cg
+documents:
+- slug: cg-fr
+  jurisdiction: CG
+  url: https://www.gouvernement.cg/wp-content/uploads/2022/07/constitution_25_10_2015-1.pdf
+  format: pdf
+  language: fr
+  title: Constitution de la République du Congo
+  citation_name: Congo Constitution
+  adopted_on: '2015-10-25'
+  edition_label: Journal officiel text 'adoptée par référendum le 25 octobre 2015' (no edition date printed)
+  events:
+  - type: adoption
+    date: '2015-10-25'
+    description: Constitution adoptée par référendum le 25 octobre 2015
+    locator: heading of the PDF
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    columns: 2

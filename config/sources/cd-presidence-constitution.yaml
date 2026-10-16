@@ -1,0 +1,57 @@
+# PLANNED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: cd-presidence-constitution
+name: >-
+  Constitution of Democratic Republic of the Congo - Présidence de la République démocratique du Congo (presidence.cd)
+publisher: Présidence de la République démocratique du Congo (presidence.cd)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- CD
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: >-
+  The Constitution of Democratic Republic of the Congo (https://presidence.cd/ressources/constitutions); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://presidence.cd/ressources/constitutions
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: >-
+    The "Mentions légales" (https://presidence.cd/mentions_legales), section "Droits d'auteurs", say: "Les documents 'publics'
+    ou 'officiels' peuvent donc être reproduits librement ... Les informations utilisées ne doivent l
+  url: https://presidence.cd/ressources/constitutions
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: presidence.cd/robots.txt
+    - "User-agent: *" "Disallow:" (nothing disallowed). The "Mentions légales" (https://presidence.cd/mentions_legales), section
+    "Droits d'auteurs", say: "Les documents 'publics' ou 'officiels' peuvent donc être reproduits librement ... Les informations
+    utilisées ne doivent l'être qu'à des fins personnelles, associatives ou professionnelles. Toute utilisation à des fins
+    commerciales ou publicitaires est formellement interdite." with the conditions "gratuité de la diffusion ; respect de
+    l'intégrité des documents reproduits ; citation explicite du site presidence.cd comme source". That is a non-commercial
+    permission, but the Presidency's PDF of the Constitution ("Constitution de la 3me Republique. 18 Fev 2006.pdf", 36 pages)
+    is a page of the printed compilation "LES CONSTITUTIONS DE LA RDC DE 1908 À 2011" in two columns whose text layer is out
+    of reading order (article 2 before the heading of section 1), so it is not stored; the same text is loaded from the Ministry
+    of the Environment (cd-medd-constitution). Nothing further is requested; no workaround was tried.
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  The "Mentions légales" (https://presidence.cd/mentions_legales), section "Droits d'auteurs", say: "Les documents 'publics'
+  ou 'officiels' peuvent donc être reproduits librement ... Les informations utilisées ne doivent l'être qu'à des fins personnelles,
+  associatives ou professionnelles. Toute utilis
+status: planned
+connector: null
+parser: null

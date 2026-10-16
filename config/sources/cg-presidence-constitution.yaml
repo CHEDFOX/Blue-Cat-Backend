@@ -1,0 +1,53 @@
+# REJECTED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: cg-presidence-constitution
+name: Constitution of Congo - Présidence de la République du Congo (presidence.cg)
+publisher: Présidence de la République du Congo (presidence.cg)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- CG
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: The Constitution of Congo (https://presidence.cg/la-constitution/); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://presidence.cg/la-constitution/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: NOT-GRANTED
+  name: >-
+    The page "Mentions légales" (https://presidence.cg/mentions-legales/), section "5 - Propriété intellectuelle et contrefaçons",
+    says: "https://presidence.cg/ est propriétaire des droits de propriété intellectuelle et déti
+  url: https://presidence.cg/la-constitution/
+  review_status: rejected
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: presidence.cg/robots.txt
+    - "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php". The page "Mentions légales" (https://presidence.cg/mentions-legales/),
+    section "5 - Propriété intellectuelle et contrefaçons", says: "https://presidence.cg/ est propriétaire des droits de propriété
+    intellectuelle et détient les droits d'usage sur tous les éléments accessibles sur le site internet, notamment les textes
+    ... Toute reproduction, représentation, modification, publication ..." and "Toute exploitation non autorisée du site ou
+    de l'un quelconque des éléments qu'il contient sera considérée comme constitutive d'une contrefaçon et poursuivie." The
+    page offers the PDF "Republique-du-Congo-Constitution-2015.pdf" (499 Ko). It grants no licence to copy, store or republish
+    the text: REJECTED.
+  reviewed_on: '2026-10-16'
+  redistribution: not_allowed
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: not_allowed
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  The page "Mentions légales" (https://presidence.cg/mentions-legales/), section "5 - Propriété intellectuelle et contrefaçons",
+  says: "https://presidence.cg/ est propriétaire des droits de propriété intellectuelle et détient les droits d'usage sur
+  tous les éléments accessibles sur le site internet, n
+status: rejected
+connector: null
+parser: null

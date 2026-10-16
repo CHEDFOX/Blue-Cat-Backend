@@ -1,0 +1,79 @@
+# Constitution of Benin from Cour constitutionnelle du Bénin (courconstitutionnelle.bj). Read on 2026-10-15/16, before any document was
+#        fetched:
+#   robots.txt - courconstitutionnelle.bj/robots.txt - "User-agent: *" "Disallow:" (nothing disallowed); no Crawl-delay
+#   Terms - no terms-of-use, licence or copyright page was found on the pages read (home page and its footer "© Cour Constitutionnelle du
+#        Bénin - 2023")
+#   The document - The Court publishes a PDF of the Constitution headed "Loi n° 90-32 du 11 décembre 1990 (à jour de sa révision par la loi N°
+#        2019-40 du 07 Novembre 2019 portant révision de la loi n°90-32 du 11 décembre 1990 portant Constitution de la République du Bénin)"
+#        (35 pages, text layer): preamble and articles 1 to 160 with the articles added by the revision (157-1 ...).
+schema_version: 1
+id: bj-courconst-constitution
+name: Constitution of Benin - Cour constitutionnelle du Bénin (courconstitutionnelle.bj)
+publisher: Cour constitutionnelle du Bénin (courconstitutionnelle.bj)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- BJ
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: >-
+  The Constitution of Benin in fr as published by Cour constitutionnelle du Bénin (courconstitutionnelle.bj): 1 document(s).
+  Preamble and 160 articles (with the articles numbered 157-1 to 157-3) as updated by the loi n° 2019-40 of 7 November 2019,
+  as the Court's PDF prints them.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/bj-courconst-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests (the Crawl-delay when it is longer),
+  identifies itself, caches every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: BJ-official-text-no-terms
+  name: >-
+    Official legal text published by Cour constitutionnelle du Bénin (courconstitutionnelle.bj); no terms of reuse found (no
+    terms-of-use, licence or copyright page was found on the pages read (home page and its footer "© Cour Constitutionnelle
+    du Bénin - 2023"))
+  url: https://courconstitutionnelle.bj/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages quoted in the header of this file: robots.txt (courconstitutionnelle.bj/robots.txt
+    - "User-agent: *" "Disallow:" (nothing disallowed); no Crawl-delay) and the terms (no terms-of-use, licence or copyright
+    page was found on the pages read (home page and its footer "© Cour Constitutionnelle du Bénin - 2023")). The Court publishes
+    a PDF of the Constitution headed "Loi n° 90-32 du 11 décembre 1990 (à jour de sa révision par la loi N° 2019-40 du 07
+    Novembre 2019 portant révision de la loi n°90-32 du 11 décembre 1990 portant Constitution de la République du Bénin)"
+    (35 pages, text layer): preamble and articles 1 to 160 with the articles added by the revision (157-1 ...). The Constitution
+    is an official legal text; no statute excluding official texts from copyright was read on the publisher's pages (to verify).
+    Reading: AMBER - the publisher states no restriction on reusing the text beyond a generic notice; no permission for automated
+    retrieval is stated either.
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Benin, Cour constitutionnelle du Bénin (courconstitutionnelle.bj); retrieved {retrieved_date}. Structured
+    and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (fr), not the authentic publication; amendments after the edition date are not applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests or the Crawl-delay, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/bj-courconst-constitution.yaml, stored byte for byte inside JSON bundles with
+  the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- Revisions of the Constitution after the law of 7 November 2019, if any, are not applied.
+status: active
+connector: constitution_docs
+parser: constitution_text

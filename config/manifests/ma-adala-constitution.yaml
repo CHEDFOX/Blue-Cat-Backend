@@ -1,0 +1,34 @@
+# The Constitution of Morocco (fr): 1 document(s) on adala.justice.gov.ma. See config/sources/ma-adala-constitution.yaml.
+schema_version: 1
+source_id: ma-adala-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- adala.justice.gov.ma
+documents:
+- slug: ma-fr
+  jurisdiction: MA
+  url: https://adala.justice.gov.ma/api/uploads/2024/02/28/costitution-1709118294788.pdf
+  format: pdf
+  language: fr
+  title: La Constitution du Royaume du Maroc
+  citation_name: Morocco Constitution
+  adopted_on: '2011-07-01'
+  edition_label: >-
+    text promulgated by the dahir n° 1-11-91 of 29 July 2011 (Bulletin officiel n° 5964 bis of 30 July 2011), as the Ministry's
+    PDF of 2024-02-28 prints it
+  events:
+  - type: adoption
+    date: '2011-07-01'
+    description: texte adopté par voie de référendum le vendredi 28 rejeb 1432 (1er juillet 2011)
+    locator: dahir n° 1-11-91
+  - type: promulgation
+    date: '2011-07-29'
+    description: dahir n° 1-11-91 du 27 chaabane 1432 (29 juillet 2011) portant promulgation du texte de la constitution
+    locator: dahir n° 1-11-91
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    start_regex: ^PREAMBULE$
+    drop_lines:
+    - ^- ?[0-9]+ ?-$

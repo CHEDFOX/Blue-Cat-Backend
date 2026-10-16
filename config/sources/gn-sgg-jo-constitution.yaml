@@ -1,0 +1,55 @@
+# REJECTED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: gn-sgg-jo-constitution
+name: >-
+  Constitution of Guinea - Secrétariat Général du Gouvernement de la République de Guinée, Journal officiel (journal-officiel.sgg.gov.gn)
+publisher: Secrétariat Général du Gouvernement de la République de Guinée, Journal officiel (journal-officiel.sgg.gov.gn)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- GN
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: >-
+  The Constitution of Guinea (https://journal-officiel.sgg.gov.gn/fr/textes-officiels/constitution.html); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://journal-officiel.sgg.gov.gn/fr/textes-officiels/constitution.html
+  authentication: none
+update_frequency: unknown
+licence:
+  id: NOT-GRANTED
+  name: >-
+    The page "Mentions légales" (https://journal-officiel.sgg.gov.gn/fr/mentions-legales.html) says: "Le site internet du
+    Journal officiel est édité par le Secrétariat Général du Gouvernement de la République de Guinée. Tout
+  url: https://journal-officiel.sgg.gov.gn/fr/textes-officiels/constitution.html
+  review_status: rejected
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: journal-officiel.sgg.gov.gn/robots.txt
+    - "User-agent: *" "Allow: /". The page "Mentions légales" (https://journal-officiel.sgg.gov.gn/fr/mentions-legales.html)
+    says: "Le site internet du Journal officiel est édité par le Secrétariat Général du Gouvernement de la République de Guinée.
+    Toute représentation totale ou partielle de ce site ou de son contenu (structure générale, textes, sons, logos, images
+    animées ou non), par quelques procédés que ce soient, sans autorisation préalable et expresse du Secrétariat Général du
+    Gouvernement est interdite et constituerait une contrefaçon sanctionnée par le code de la Propriété Intellectuelle." The
+    page "Constitution" of the site was requested in the same call as the legal notice (before the notice was read); it is
+    not stored and not used. It grants no licence to copy, store or republish the text: REJECTED.
+  reviewed_on: '2026-10-16'
+  redistribution: not_allowed
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: not_allowed
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  The page "Mentions légales" (https://journal-officiel.sgg.gov.gn/fr/mentions-legales.html) says: "Le site internet du Journal
+  officiel est édité par le Secrétariat Général du Gouvernement de la République de Guinée. Toute représentation totale ou
+  partielle de ce site ou de son contenu (structure gén
+status: rejected
+connector: null
+parser: null

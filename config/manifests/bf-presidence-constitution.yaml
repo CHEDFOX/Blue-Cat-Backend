@@ -1,0 +1,53 @@
+# The Constitution of Burkina Faso (fr): 1 document(s) on presidencedufaso.bf. See config/sources/bf-presidence-constitution.yaml.
+schema_version: 1
+source_id: bf-presidence-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 10
+hosts:
+- presidencedufaso.bf
+documents:
+- slug: bf-fr
+  jurisdiction: BF
+  url: https://presidencedufaso.bf/wp-content/uploads/2019/04/La-constitution-du-Burkina-Faso.pdf
+  format: pdf
+  language: fr
+  title: Constitution du Burkina Faso
+  citation_name: Burkina Faso Constitution
+  adopted_on: '1991-06-02'
+  edition_label: as amended up to November 2015, as the Présidence du Faso's page and PDF present it
+  events:
+  - type: adoption
+    date: '1991-06-02'
+    description: Constitution de la IVème République adoptée par référendum le 2 juin 1991
+    locator: Avant-propos
+  - type: promulgation
+    date: '1991-06-11'
+    description: Kiti n° AN-VIII-330/FP/PRES du 11 juin 1991
+    locator: Avant-propos
+  - type: amendment
+    date: '1997-01-27'
+    description: loi n° 002/97/ADP du 27 janvier 1997
+    locator: Avant-propos
+  - type: amendment
+    date: '2000-04-11'
+    description: loi n° 003-2000/AN du 11 avril 2000
+    locator: Avant-propos
+  - type: amendment
+    date: '2002-01-22'
+    description: loi n° 001-2002/AN du 22 janvier 2002
+    locator: Avant-propos
+  - type: amendment
+    date: '2009-04-30'
+    description: loi n° 015-2009/AN du 30 avril 2009
+    locator: Avant-propos
+  - type: amendment
+    date: '2012-05-18'
+    description: loi n° 023-2012/AN du 18 mai 2012
+    locator: Avant-propos
+  - type: amendment
+    date: '2012-06-11'
+    description: loi n° 033-2012/AN du 11 juin 2012
+    locator: Avant-propos
+  authoritative: false
+  text_origin: official_consolidation
+  structure: {}

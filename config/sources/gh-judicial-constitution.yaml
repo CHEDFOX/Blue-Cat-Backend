@@ -1,0 +1,55 @@
+# PLANNED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: gh-judicial-constitution
+name: Constitution of Ghana - Judicial Service of Ghana (judicial.gov.gh)
+publisher: Judicial Service of Ghana (judicial.gov.gh)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- GH
+document_kinds:
+- constitution
+languages:
+- en
+coverage: The Constitution of Ghana (https://judicial.gov.gh/index.php/the-constitution); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://judicial.gov.gh/index.php/the-constitution
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: >-
+    The Constitution is published chapter by chapter (Chapter 001 ...); the pages print the clauses '(1) The Sovereignty of
+    Ghana ...' without the article numbers (the list numbers are lost in the HTML), and some clauses app
+  url: https://judicial.gov.gh/index.php/the-constitution
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: judicial.gov.gh/robots.txt
+    - "User-agent: *" with the Joomla rules (Disallow /administrator/, /cache/, /images/, /includes/ ...); the chapter pages
+    are not disallowed. The Constitution is published chapter by chapter (Chapter 001 ...); the pages print the clauses '(1)
+    The Sovereignty of Ghana ...' without the article numbers (the list numbers are lost in the HTML), and some clauses appear
+    twice, so the articles cannot be recognised and the text cannot be stored faithfully. Other official copies were examined:
+    ohcs.gov.gh PDF (Act 527 of 1996 with the Constitution, 110 pages) has an OCR text layer with errors ('THE FI VI:' HUNDRED
+    AND TWENTY -SEVENTH'); audit.gov.gh PDF (a print of the audit service's web pages, 215 pages) has articles out of order
+    after chapter 14; osp.gov.gh PDF reproduces a commercial compilation ('Constitutional documents available for the Republic
+    of Ghana', with an editor's note) and is not an official text. Footer of judicial.gov.gh: 'Copyright © 2026 Judicial Service
+    of Ghana. All Rights Reserved'. Nothing further is requested; no workaround was tried.
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  The Constitution is published chapter by chapter (Chapter 001 ...); the pages print the clauses '(1) The Sovereignty of
+  Ghana ...' without the article numbers (the list numbers are lost in the HTML), and some clauses appear twice, so the articles
+  cannot be recognised and the text cannot be stored fa
+status: planned
+connector: null
+parser: null
