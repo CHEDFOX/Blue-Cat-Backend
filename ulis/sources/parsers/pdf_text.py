@@ -39,13 +39,20 @@ def normalise_glyphs(text: str) -> str:
     return LIGATURE.sub(lambda m: LIGATURES[m.group()], text)
 
 
-def pdf_pages(pdf: bytes, *, layout: bool = False, soft_hyphen: str = "drop") -> list[str]:
+def pdf_pages(
+    pdf: bytes,
+    *,
+    layout: bool = False,
+    soft_hyphen: str = "drop",
+    crop: tuple[int, int, int, int] | None = None,
+) -> list[str]:
     """The text of each PDF page, as ``pdftotext`` extracts it (reading order), glyph forms normalised.
 
     ``layout=True`` asks for ``pdftotext -layout`` (physical layout kept: numbers printed in a margin column stay on
     the line of their text). ``soft_hyphen="hyphen"`` reads U+00AD as the visible hyphen it is in some fonts
     ("undang-undang" printed with a soft-hyphen glyph) instead of dropping it. The defaults leave the text every
-    existing caller gets unchanged."""
+    existing caller gets unchanged. ``crop=(x, y, width, height)`` (PDF points, origin top left) reads only that
+    rectangle of every page, for a document printed in parallel columns of several languages."""
     exe = shutil.which("pdftotext")
     if exe is None:
         raise PdfTextError("pdftotext (poppler-utils) is not installed; it is needed to read PDF files")
@@ -56,7 +63,16 @@ def pdf_pages(pdf: bytes, *, layout: bool = False, soft_hyphen: str = "drop") ->
         source.write_bytes(pdf)
         try:
             done = subprocess.run(  # noqa: S603 - fixed argument list, no shell, own temporary directory
-                [exe, "-q", *(["-layout"] if layout else []), "-enc", "UTF-8", str(source), "-"],
+                [
+                    exe,
+                    "-q",
+                    *(["-layout"] if layout else []),
+                    *(["-x", str(crop[0]), "-y", str(crop[1]), "-W", str(crop[2]), "-H", str(crop[3])] if crop else []),
+                    "-enc",
+                    "UTF-8",
+                    str(source),
+                    "-",
+                ],
                 capture_output=True,
                 timeout=PDFTOTEXT_TIMEOUT,
                 cwd=tmp,
