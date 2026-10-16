@@ -160,7 +160,8 @@ def test_smoke_real_us_statute_is_found_with_its_exact_citation(us_box: ToolBox)
     result = search(us_box, "women STEM disciplines", "US", "2018-01-01")
     hit = next(r for r in result["results"] if r["uri"].startswith("/us/pl/115/6"))
     assert hit["citation"].startswith("Promoting Women in Entrepreneurship Act, Pub. L. No. 115-6")
-    assert hit["kind"] == "provision" and "Binding" in hit["authority"]
+    # a public law is held as enacted: in force at the source date, later amendments not applied (applicability unverified)
+    assert hit["kind"] == "provision" and "applicability on the requested date unverified" in hit["authority"]
 
 
 def test_smoke_statute_is_not_returned_before_it_existed(us_box: ToolBox) -> None:
