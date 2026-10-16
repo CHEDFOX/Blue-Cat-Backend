@@ -1,3 +1,12 @@
+coverage: >-
+  Retsinformation holds Danish laws and regulations in force in 1985 or issued since (current and
+  historic), Folketing documents, Ombudsman opinions and administrative decisions; Lex Dania XML
+  with content exists for documents published after 24 September 2007. ULIS ingests the official
+  consolidations (lovbekendtgørelser, LBK H) in force: the six pilot Acts (with earlier consolidations
+  for Forvaltningsloven and Funktionærloven) and the other lovbekendtgørelser that the ELI metadata
+  marks as in force among the Lovtidende A documents classified so far, newest first (the header of
+  the manifest says how many of the 34,435 candidates since 2007 that is). The classified part is a
+  fraction of the whole: the manifest is widened with scripts/build_dk_manifest.py.
 # Retsinformation (Civilstyrelsen): Danish legislation as Lex Dania XML by ELI. Terms, access rules
 # and documentation read on 2026-10-14 from the publisher's own pages (cached under var/sources/):
 #   https://www.retsinformation.dk/api (content: /static/api.html) - "Betingelser for anvendelse af
@@ -23,6 +32,15 @@
 #   ELI documentation (/static/eli-parameters-documentation.json): XML "Lex Dania XML ... content and metadata in
 #        Lex Dania XML only exists for documents published after the date 24-09-2007". ELI metadata of each document
 #        gives legal_value "official" for the xml/html formats and "definitive" for the signed PDF (Lovtidende A).
+#   https://www.retsinformation.dk/sitemap.xml (declared in robots.txt; 21 files of 10,000 addresses, 200,007 documents
+#        of every kind, 62,213 of them Lovtidende A "/eli/lta/<year>/<number>", read 2026-10-15) - the ELI sitemap lists
+#        the ELI of each document and its last-modified date but NOT its type. Retsinformation has no public list of the
+#        lovbekendtgørelser (the website's search is a JavaScript application; the harvest API only serves the last 10 days).
+#   https://www.retsinformation.dk/eli/lta/<year>/<number>.json (FAQ: "Dokumenters ELI-metadata er tilgængelige i formaterne
+#        ttl, rdf og json") - the ELI metadata of a document, about 50 kB: type_document (".../type_document#LBKH" for a
+#        lovbekendtgørelse), in_force ("InForce-inForce" / "InForce-notInForce"), the date and titles, and the links
+#        consolidates / consolidated_by / changed_by. scripts/build_dk_manifest.py asks for it once for each candidate,
+#        one request per 10 s, and keeps the LBKH that are in force.
 #   robots.txt (read first): www.retsinformation.dk/robots.txt -> only "Sitemap: https://retsinformation.dk/sitemap.xml"
 #        (no Disallow, no Crawl-delay); api.retsinformation.dk/robots.txt -> 404.
 schema_version: 1
@@ -50,7 +68,9 @@ update_frequency: at least daily ("opdateres mindst én gang i døgnet", https:/
 rate_limits: >-
   No crawl delay in robots.txt. The harvest API allows one call per 10 s between 03:00 and 23:45;
   ULIS keeps one request per 10 s for documents too (the connector refuses a smaller delay),
-  identifies itself, caches every response and stops on any refusal.
+  identifies itself, caches every response and stops on any refusal. Making the manifest costs 22 sitemap requests and
+  one metadata request for each Lovtidende A document classified (34,435 since 2007: about 96 hours at 10 s;
+  about 4.8 hours for each year of candidates); each lovbekendtgørelse found costs one more request for its XML.
 licence:
   id: DK-RETSINFORMATION-OPEN-DATA
   name: Civilstyrelsen - betingelser for anvendelse af åbne data (free, non-exclusive, unrestricted right of use); Acts not protected by copyright (ophavsretsloven § 9)
@@ -73,7 +93,7 @@ licence:
     Lex Dania XML; den autentiske tekst er offentliggjort i Lovtidende. Struktur normaliseret af ULIS.
   conditions:
     - Do not use the data so that Civilstyrelsen appears to support, recommend or market ULIS or its users (terms, "Vilkår").
-    - Do not burden the data interface inappropriately or disproportionately - one request per 10 s, cached, only the documents in the manifest.
+    - Do not burden the data interface inappropriately or disproportionately - one request per 10 s, cached; the sitemap, the ELI metadata of the candidates and the XML of the documents in the manifest.
     - Do not present the consolidation as the authentic text; Lovtidende is authentic and the enacted acts prevail (stated on every result).
   notes: >-
     The terms require no attribution; ULIS attributes anyway. Works such as photographs reproduced in a
@@ -92,6 +112,8 @@ known_limitations:
   - Retsinformation's current/historic marking is indicative and has no legal effect (FAQ).
   - No structured XML content for documents before 24 September 2007 (e.g. Danmarks Riges Grundlov of 1953).
   - Documents' XML changes when their metadata changes (e.g. when marked historic); a re-fetched document is then refused as a conflict with the version already recorded.
+  - PARTIAL. There is no public list of lovbekendtgørelser, and the ELI sitemap has no document types, so the type of each Lovtidende A document is found one metadata request at a time. The manifest holds the lovbekendtgørelser in force among the documents classified so far (newest first); a law whose current consolidation is older is missing until the manifest is widened (scripts/build_dk_manifest.py --from-year, resumable).
+  - Lovbekendtgørelser marked in force but whose XML has no structured content, or a structure the parser does not know, are reported as ingest errors and skipped. A law without a popular title is named by its consolidation's title ("lov om fleksydelse"); preambles and annexes are not ingested.
 status: active
 connector: retsinformation
 parser: retsinformation_lexdania

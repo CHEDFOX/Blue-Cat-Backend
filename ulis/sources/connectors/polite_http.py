@@ -14,6 +14,7 @@ Rules built in (see docs/onboarding-a-jurisdiction.md):
 from __future__ import annotations
 
 import hashlib
+import http.client
 import http.cookiejar
 import json
 import re
@@ -132,7 +133,7 @@ class PoliteHttp:
                     self._sleep(pause)
                     continue
                 raise FetchError(f"{url}: HTTP {exc.code} (not retried: a refusal is respected)") from exc
-            except (urllib.error.URLError, TimeoutError) as exc:
+            except (urllib.error.URLError, TimeoutError, ConnectionError, http.client.HTTPException) as exc:
                 if attempt < 4:
                     self._sleep(self.crawl_delay * 2**attempt)
                     continue

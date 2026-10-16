@@ -115,7 +115,7 @@ def _parts(num_path: list[str]) -> dict[str, str]:
 
 class SeModule(JurisdictionModule):
     id: ClassVar[str] = "se"
-    version: ClassVar[str] = "1.1.0"
+    version: ClassVar[str] = "1.2.0"
     ext_model: ClassVar[type[BaseModel]] = SeExt
 
     def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:
@@ -129,6 +129,8 @@ class SeModule(JurisdictionModule):
         if "tr" in parts:
             head = f"övergångsbestämmelserna till SFS {parts['tr']}" if parts["tr"] else "övergångsbestämmelserna"
             return f"{head} punkt {parts['p']}" if "p" in parts else head
+        if "bil" in parts:  # an annex: "bilaga 2", or "bilagan" when the statute has one unnumbered annex
+            return f"bilaga {parts['bil']}" if parts["bil"] else "bilagan"
         out: list[str] = []
         if "ch" in parts and c.ext.get("sections_per_chapter"):
             out.append(f"{parts['ch']} kap.")
@@ -149,6 +151,8 @@ class SeModule(JurisdictionModule):
         pin = self.pinpoint(c)
         if not pin:
             return name
+        if pin.startswith("bilaga"):
+            return f"{pin} till {name}"
         if pin.startswith("övergångsbestämmelserna"):
             return f"{name}, {pin}"
         return f"{pin} {name}"

@@ -5,7 +5,10 @@ it as Lex Dania XML at ``https://www.retsinformation.dk/eli/<pubMedia>/<year>/<n
 (documented in the FAQ "Hvordan får jeg adgang til data ..." and the ELI documentation). The
 manifest lists, per law, the consolidations (lovbekendtgørelser) to fetch, oldest first; the
 connector fetches exactly those and yields them in that order (snapshots are recorded oldest
-first, see ``ulis.ingestion.snapshots``). Nothing is discovered or inferred.
+first, see ``ulis.ingestion.snapshots``). Nothing is discovered or inferred at run time: the committed manifest
+is generated from the publisher's ELI sitemap and ELI metadata by ``scripts/build_dk_manifest.py`` (one current
+consolidation for each law in force, the full series for two pilot Acts). A consolidation that is not served (404) or
+has no Lex Dania XML (the website's HTML shell) is reported in ``fetch_errors`` and the run goes on; a refusal stops it.
 
 Rules built in through :class:`PoliteHttp`: an identifying User-Agent, HTTPS only to
 ``www.retsinformation.dk``, a pause between requests (robots.txt states no crawl delay; the
@@ -56,6 +59,7 @@ class RetsinformationConnector:
         self.cache_dir = cache_dir
         self.offline = offline
         self._sleep = sleep
+        self.fetch_errors: list[str] = []
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -67,14 +71,20 @@ class RetsinformationConnector:
             raise ManifestError(f"base_url must be {BASE}")
         if float(manifest.get("crawl_delay_seconds", 10)) < 10:
             raise ManifestError("crawl_delay_seconds must be at least 10 (the publisher's one call per 10 s)")
+        seen: set[str] = set()
         for work in manifest["works"]:
             elis = work.get("consolidations") or []
             if not work.get("name") or not elis or not all(ELI_PATH.match(str(e)) for e in elis):
                 raise ManifestError(f"invalid work {work!r}")
+            for eli in elis:
+                if eli in seen:
+                    raise ManifestError(f"{eli} is listed twice")
+                seen.add(eli)
         return manifest
 
     def fetch(self) -> Iterator[RawDocument]:
         manifest = self._manifest()
+        self.fetch_errors = []
         http = PoliteHttp(
             self.cache_dir,
             manifest["user_agent"],
@@ -88,11 +98,13 @@ class RetsinformationConnector:
                 url = xml_url(eli)
                 got = http.get(url, cache_key=f"eli/{eli}/xml", headers={"Accept": "application/xml"})
                 if got is None:
-                    raise FetchError(f"{work['name']}: {url} not found")
+                    self.fetch_errors.append(f"retsinformation:{eli}: {work['name']}: {url} not found (404); skipped")
+                    continue
                 data, meta = got
                 # Unknown paths are answered with the website's HTML shell (status 200): never pass it on.
                 if b"<Dokument" not in data[:1000]:
-                    raise FetchError(f"{url}: not a Lex Dania XML document")
+                    self.fetch_errors.append(f"retsinformation:{eli}: {url}: not a Lex Dania XML document; skipped")
+                    continue
                 yield RawDocument(
                     external_id=f"retsinformation:{eli}",
                     uri=url,

@@ -24,7 +24,7 @@ from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.riksdagen import FetchError, RiksdagenSfsConnector, document_id
-from ulis.sources.normalized import ParsedDocument, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkipped
 from ulis.sources.parsers.riksdagen_sfs import SfsParseError, citation_name, parse_riksdagen_sfs
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
@@ -133,6 +133,18 @@ def test_citations() -> None:
     )
     assert citation_name("2017:900", "Förvaltningslag (2017:900)") == ("förvaltningslagen (2017:900)", "title")
     assert citation_name("1942:740", "Rättegångsbalk (1942:740)") == ("rättegångsbalken", "title")
+    # The four fundamental laws named in regeringsformen 1 kap. 3 § are cited by name (the successionsordning's record
+    # prints its number as 1810:0926).
+    assert citation_name("1949:105", "Tryckfrihetsförordning (1949:105)") == (
+        "tryckfrihetsförordningen",
+        "fundamental_law",
+    )
+    assert citation_name("1991:1469", "Yttrandefrihetsgrundlag (1991:1469)") == (
+        "yttrandefrihetsgrundlagen",
+        "fundamental_law",
+    )
+    assert citation_name("1810:0926", "Successionsordning (1810:0926);") == ("successionsordningen", "fundamental_law")
+    assert document_id("1810:0926") == "sfs-1810-0926" and document_id("1982:80") == "sfs-1982-80"
 
 
 def test_pending_wordings_are_dated_as_the_source_states() -> None:
@@ -216,13 +228,95 @@ def test_repealed_renumbered_and_list_structure() -> None:
     assert "fri- och rättigheterna" in _one(rf, "chapter-2-section-20-paragraph-2").text
 
 
+def test_statute_without_numbered_sections_is_one_provision() -> None:
+    # "Regeringen föreskriver att följande uppräkningsfaktorer ska användas ..." has no "1 §": cited as the statute.
+    doc = _doc("sfs-2014-1308")
+    assert [p.eid for p in doc.provisions] == ["main-text", "main-text-paragraph-1", "main-text-paragraph-2"]
+    assert _one(doc, "main-text").text.startswith(
+        "Regeringen föreskriver att följande uppräkningsfaktorer ska användas"
+    )
+    # the table that follows is part of the text (a line like "Inkomstår Uppräkningsfaktor" is not taken for a heading)
+    assert _one(doc, "main-text-paragraph-2").text == "Inkomstår Uppräkningsfaktor\n2014 1,033\n2015 1,046"
+    assert _cite(doc, "main-text-paragraph-1").startswith(
+        "första stycket förordningen (2014:1308) om uppräkningsfaktorer"
+    )
+    assert doc.instrument_type == "ordinance" and _one(doc, "main-text").status == "in_force"
+
+
+def _with_text(text: str) -> bytes:
+    """The record of 2014:1308 with another text (for layouts absent from the fixtures)."""
+    raw = json.loads(_read("sfs-2014-1308"))
+    raw["dokumentstatus"]["dokument"]["text"] = text
+    return json.dumps(raw).encode()
+
+
+def test_an_announcement_of_one_sentence_is_not_taken_for_a_heading() -> None:
+    # Tillkännagivande (2000:162): one line without closing punctuation ("... 2,5 procent.2", a footnote mark), nothing
+    # else; with no section or chapter in the record there is nothing for a heading to head.
+    doc = _doc("sfs-2000-162")
+    assert [p.eid for p in doc.provisions] == ["main-text", "main-text-paragraph-1"]
+    assert _one(doc, "main-text").text.startswith("Riksbanken ger till känna att Riksbankens diskonto")
+
+
+def test_division_headings_and_headings_ending_in_m_m() -> None:
+    text = (
+        "AVDELNING I. INLEDANDE BESTÄMMELSER\r\n\r\n1 kap. Innehåll och tillämpningsområde\r\n\r\n"
+        "1 § Denna lag innehåller bestämmelser om tillämpningsområdet.\r\n\r\n"
+        "Ansvarsbestämmelser m. m.\r\n\r\n2 § Den som bryter mot lagen döms till böter.\r\n"
+    )
+    (doc,) = parse_riksdagen_sfs(_with_text(text))
+    assert [p.eid for p in doc.provisions if p.kind == "section"] == ["section-1", "section-2"]
+    assert _one(doc, "section-2").heading == "Ansvarsbestämmelser m. m."
+    assert _one(doc, "section-1").context_heading == "1 kap. Innehåll och tillämpningsområde"
+
+
+def test_old_statutes_print_a_full_stop_after_the_section_sign() -> None:
+    doc = _doc("sfs-1959-82")
+    assert [p.eid for p in doc.provisions][:4] == [
+        "section-1",
+        "section-1-paragraph-1",
+        "section-2",
+        "section-2-paragraph-1",
+    ]
+    assert _one(doc, "section-1").text.startswith("Bestämmelserna i denna kungörelse skola äga tillämpning")
+    assert _cite(doc, "section-1-paragraph-1").startswith("1 § första stycket kungörelsen (1959:82) om skattefrihet")
+
+
+def test_an_annex_is_its_own_provision_not_part_of_the_transitional_provisions() -> None:
+    doc = _doc(
+        "sfs-2013-125"
+    )  # an agreement approved by Act: the agreement is the annex, printed after the transitional provisions
+    annex = _one(doc, "annex-1")
+    assert (
+        annex.top_kind == "annex"
+        and annex.heading == "Bilaga"
+        and annex.text.startswith("AGREEMENT BETWEEN THE GOVERNMENT OF SWEDEN")
+    )
+    assert len(annex.text) > 30000
+    transitional = [p for p in doc.provisions if p.top_kind == "transitional"]
+    assert transitional and all("AGREEMENT BETWEEN" not in p.text for p in transitional)
+    assert _cite(doc, "annex-1").startswith(
+        "bilagan till lagen (2013:125) om avtal mellan Sverige och Antigua och Barbuda"
+    )
+    assert _one(doc, "transitional-2013-125-point-2").text.startswith("Denna lag ska tillämpas för beskattningsår")
+
+
+def test_a_repealed_statute_or_one_without_text_is_skipped_not_an_error() -> None:
+    with pytest.raises(ParseSkipped, match="repealed"):
+        parse_riksdagen_sfs(_read("sfs-2005-676"))
+    empty = json.loads(_read("sfs-2014-1308"))
+    empty["dokumentstatus"]["dokument"]["text"] = ""  # e.g. sfs-2013-984: no text and not flagged as repealed
+    with pytest.raises(ParseSkipped, match="no text"):
+        parse_riksdagen_sfs(json.dumps(empty).encode())
+
+
 def test_rejects_unsupported_documents() -> None:
     raw = json.loads(_read(AVTL))
     repealed = json.loads(json.dumps(raw))
     repealed["dokumentstatus"]["dokumentuppgift"]["uppgift"].append(
         {"kod": "upphavd", "namn": "upphavd", "text": "2018-07-01 00:00:00"}
     )
-    with pytest.raises(SfsParseError, match="repealed"):
+    with pytest.raises(ParseSkipped, match="repealed"):  # skipped, not an error: the whole list is ingested
         parse_riksdagen_sfs(json.dumps(repealed).encode())
     other = json.loads(json.dumps(raw))
     other["dokumentstatus"]["dokument"]["subtyp"] = "sfsr"
@@ -271,6 +365,43 @@ def test_connector_reads_the_cache_offline(tmp_path: Path) -> None:
         list(RiksdagenSfsConnector(missing, "se-riksdagen-sfs", tmp_path / "cache", offline=True).fetch())
 
 
+def test_connector_reports_a_missing_statute_and_goes_on(tmp_path: Path) -> None:
+    cache = tmp_path / "cache" / "data.riksdagen.se" / "dokument"
+    cache.mkdir(parents=True)
+    (cache / "sfs-1999-1.json").write_bytes(b"")  # a 404 recorded by the shared fetcher
+    (cache / "sfs-1999-1.json.meta.json").write_text(
+        json.dumps({"url": "https://data.riksdagen.se/dokument/sfs-1999-1.json", "status": 404})
+    )
+    (cache / f"{DSL}.json").write_bytes(_read(DSL))
+    (cache / f"{DSL}.json.meta.json").write_bytes((FIXTURES / f"{DSL}.json.meta.json").read_bytes())
+    path = _manifest(tmp_path, [{"sfs": "1999:1", "title": "Gone"}, {"sfs": "2018:218", "title": "Dataskyddslagen"}])
+    connector = RiksdagenSfsConnector(path, "se-riksdagen-sfs", tmp_path / "cache", offline=True)
+    docs = list(connector.fetch())
+    assert [d.external_id for d in docs] == ["riksdagen:sfs-2018-218"]
+    assert len(connector.fetch_errors) == 1 and "sfs-1999-1" in connector.fetch_errors[0]
+    twice = _manifest(tmp_path, [{"sfs": "1982:80"}, {"sfs": "1982:80"}])
+    with pytest.raises(ManifestError, match="listed twice"):
+        list(RiksdagenSfsConnector(twice, "se-riksdagen-sfs", tmp_path / "cache", offline=True).fetch())
+
+
+def test_committed_manifest_lists_the_publishers_statutes_in_force(catalog: Catalog) -> None:
+    path = REPO_ROOT / catalog.sources.get("se-riksdagen-sfs").access.endpoint  # type: ignore[operator]
+    manifest = RiksdagenSfsConnector(path, "se-riksdagen-sfs", Path("/nonexistent"))._manifest()
+    works = manifest["works"]
+    assert [w["sfs"] for w in works[:8]] == [
+        "1974:152",
+        "1962:700",
+        "1915:218",
+        "1958:637",
+        "1982:80",
+        "2017:900",
+        "2018:218",
+        "1942:740",
+    ]
+    assert len(works) > 5000 and all(w["title"] for w in works)
+    assert len({w["sfs"] for w in works}) == len(works)
+
+
 def test_connector_validates_the_manifest(tmp_path: Path) -> None:
     assert document_id("1982:80") == "sfs-1982-80"
     with pytest.raises(ManifestError, match="user_agent"):
@@ -291,7 +422,8 @@ def test_connector_validates_the_manifest(tmp_path: Path) -> None:
 
 # --------------------------------------------------------------------------- PostgreSQL
 
-FIXTURE_ORDER = [RF, AVTL, DSL, LAS, AB, BRB]
+# The six pilot statutes, then three from the whole collection: no numbered section, "1 §." style, and an annex.
+FIXTURE_ORDER = [RF, AVTL, DSL, LAS, AB, BRB, "sfs-2014-1308", "sfs-1959-82", "sfs-2013-125"]
 
 
 class _Fixtures:
@@ -340,6 +472,16 @@ def test_search_citations_and_limitations(session: Session, catalog: Catalog, se
     assert jamkning["results"][0]["citation"] == "36 § första stycket avtalslagen"
     mord = _search(session, catalog, q="berövar annan livet döms för mord", query_language="sv")
     assert mord["results"][0]["citation"] == "3 kap. 1 § första stycket brottsbalken"
+    # Statutes of the whole collection: one without numbered sections, an old "1 §." one and one with an annex.
+    index = _search(session, catalog, q="uppräkningsfaktorer preliminära kommunalskattemedel 2015", query_language="sv")
+    assert index["results"][0]["citation"].startswith("första stycket förordningen (2014:1308) om uppräkningsfaktorer")
+    old = _search(session, catalog, q="skattefrihet anslag lågkonjunkturfond kungörelse", query_language="sv")
+    assert old["results"][0]["citation"].startswith("1 § första stycket kungörelsen (1959:82) om skattefrihet")
+    annex = _search(
+        session, catalog, q="Antigua och Barbuda utbyte av upplysningar i skatteärenden", query_language="sv"
+    )
+    cites = [r["citation"] for r in annex["results"]]
+    assert any(c.startswith("bilagan till lagen (2013:125) om avtal mellan Sverige och Antigua") for c in cites), cites
     # A provision with a pending new wording carries the outstanding change.
     dsl = _search(session, catalog, q="Säkerhetspolisens behandling av personuppgifter", query_language="sv")
     top = next(r for r in dsl["results"] if r["citation"].startswith("1 kap. 3 §"))

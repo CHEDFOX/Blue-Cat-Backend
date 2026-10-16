@@ -1,9 +1,17 @@
 # Danish lovbekendtgørelser (official consolidations published in Lovtidende A) fetched as Lex Dania
 # XML from Retsinformation by ELI (https://www.retsinformation.dk/eli/lta/<year>/<number>/xml).
 # Terms: free, non-exclusive, unrestricted right of use (https://www.retsinformation.dk/api).
-# Each work lists its consolidations OLDEST FIRST (whole-law snapshots); the last one is the
-# consolidation Retsinformation marked as current ("gældende") on 2026-10-14, found by following
-# the ELI metadata (consolidates / consolidated_by).
+# The first six works are the pilot Acts: each lists its consolidations OLDEST FIRST (whole-law snapshots); the last
+# one is the consolidation Retsinformation marked as current ("gældende") on 2026-10-14, found by following the ELI
+# metadata (consolidates / consolidated_by). Every other work is ONE lovbekendtgørelse that Retsinformation's ELI
+# metadata marks as in force (type_document LBKH, in_force inForce), found by scripts/build_dk_manifest.py.
+# Scale: 34435 Lovtidende A documents are listed in the ELI sitemap (200007 documents in all, read on
+# 2026-10-15); the sitemap does not give the type, so each candidate costs one metadata request (10 s). This manifest
+# is the result of classifying 1501 of them (newest first, from lta/2026/892 down to lta/2025/1224); 107 lovbekendtgørelser in force were found. To
+# widen: python scripts/build_dk_manifest.py --from-year <oldest year wanted> [--max-requests N]; it goes on where
+# the last run stopped (documents already classified are listed in
+# config/manifests/dk-retsinformation.classified.tsv) and takes about 4.8 hours for each year of
+# candidates.
 schema_version: 1
 source_id: dk-retsinformation
 base_url: https://www.retsinformation.dk/eli
@@ -22,3 +30,109 @@ works:
     consolidations: [lta/2021/1347]
   - name: Databeskyttelsesloven    # LBK 289/2024 (current; consolidates lov 502/2018, 1783/2023, 1784/2023)
     consolidations: [lta/2024/289]
+  - {name: "Skatteforvaltningsloven", consolidations: [lta/2025/1228]}
+  - {name: "lov om kommuners afståelse af vandselskaber", consolidations: [lta/2025/1242]}
+  - {name: "Betalingsloven", consolidations: [lta/2025/1243]}
+  - {name: "lov om klage- og erstatningsadgang inden for sundhedsvæsenet", consolidations: [lta/2025/1250]}
+  - {name: "lov om fremme af energibesparelser i bygninger", consolidations: [lta/2025/1253]}
+  - {name: "Friplejeboligloven", consolidations: [lta/2025/1254]}
+  - {name: "EUDP-loven", consolidations: [lta/2025/1269]}
+  - {name: "Gasforsyningsloven", consolidations: [lta/2025/1286]}
+  - {name: "lov om mægling i arbejdsstridigheder", consolidations: [lta/2025/1290]}
+  - {name: "Retsplejeloven", consolidations: [lta/2025/1298]}
+  - {name: "Etableringskontoloven", consolidations: [lta/2025/1307]}
+  - {name: "Offererstatningsloven", consolidations: [lta/2025/1400]}
+  - {name: "lov om kreditservicevirksomheder og kreditkøbere", consolidations: [lta/2025/1439]}
+  - {name: "lov om betalingskonti og basale erhvervskonti", consolidations: [lta/2025/1462]}
+  - {name: "Ligningsloven", consolidations: [lta/2025/1500]}
+  - {name: "lov om investeringsrådgivere og boligkreditformidlere", consolidations: [lta/2025/1537]}
+  - {name: "lov om Kreditforeningen af kommuner og regioner i Danmark", consolidations: [lta/2025/1538]}
+  - {name: "lov om ejendomskreditselskaber", consolidations: [lta/2025/1539]}
+  - {name: "lov om en terrorforsikringsordning på skadesforsikringsområdet", consolidations: [lta/2025/1540]}
+  - {name: "lov om realkreditlån og realkreditobligationer m.v.", consolidations: [lta/2025/1541]}
+  - {name: "lov om et skibsfinansieringsinstitut", consolidations: [lta/2025/1542]}
+  - {name: "lov om forsikringsformidling", consolidations: [lta/2025/1543]}
+  - {name: "lov om forbrugslånsvirksomheder", consolidations: [lta/2025/1545]}
+  - {name: "lov om deling af fordele ved udnyttelse m.v. af genetiske ressourcer", consolidations: [lta/2025/1730]}
+  - {name: "Beredskabsloven", consolidations: [lta/2025/1741]}
+  - {name: "Kommunestyrelsesloven", consolidations: [lta/2026/13]}
+  - {name: "lov om produkter og markedsovervågning", consolidations: [lta/2026/22]}
+  - {name: "Fyrværkeriloven", consolidations: [lta/2026/23]}
+  - {name: "Virksomhedsomdannelsesloven", consolidations: [lta/2026/24]}
+  - {name: "Overgangsloven", consolidations: [lta/2026/56]}
+  - {name: "Elsikkerhedsloven", consolidations: [lta/2026/57]}
+  - {name: "Færdselsloven", consolidations: [lta/2026/118]}
+  - {name: "Frekvensloven", consolidations: [lta/2026/119]}
+  - {name: "Barselsloven", consolidations: [lta/2026/206]}
+  - {name: "Almenboligloven", consolidations: [lta/2026/207]}
+  - {name: "Socialtilsynsloven", consolidations: [lta/2026/242]}
+  - {name: "CVR-loven", consolidations: [lta/2026/246]}
+  - {name: "Gassikkerhedsloven", consolidations: [lta/2026/257]}
+  - {name: "Lattergasloven", consolidations: [lta/2026/264]}
+  - {name: "Tinglysningsloven", consolidations: [lta/2026/285]}
+  - {name: "Trossamfundsloven", consolidations: [lta/2026/338]}
+  - {name: "lov om arbejdsmarkedsuddannelser m.v.", consolidations: [lta/2026/364]}
+  - {name: "lov om institutioner for almengymnasiale uddannelser og almen voksenuddannelse m.v.", consolidations: [lta/2026/366]}
+  - {name: "lov om befordringsrabat til uddannelsessøgende i ungdomsuddannelser m.v.", consolidations: [lta/2026/379]}
+  - {name: "lov om betaling for visse uddannelsesaktiviteter i forbindelse med lov om en aktiv beskæftigelsesindsats m.m.", consolidations: [lta/2026/380]}
+  - {name: "Erhvervsuddannelsesloven", consolidations: [lta/2026/381]}
+  - {name: "lov om forberedende voksenundervisning og ordblindeundervisning for voksne og Ordblindetesten", consolidations: [lta/2026/382]}
+  - {name: "ÅU-loven", consolidations: [lta/2026/383]}
+  - {name: "lov om kommunal indsats for unge under 25 år", consolidations: [lta/2026/387]}
+  - {name: "lov om private institutioner for gymnasiale uddannelser", consolidations: [lta/2026/388]}
+  - {name: "lov om supplerende bestemmelser til forordning om reduktion af metanemissioner i energisektoren", consolidations: [lta/2026/390]}
+  - {name: "årsregnskabsloven", consolidations: [lta/2026/402]}
+  - {name: "lov om forberedende grunduddannelse", consolidations: [lta/2026/420]}
+  - {name: "lov om firmapensionskasser", consolidations: [lta/2026/427]}
+  - {name: "Fjernkølingsloven", consolidations: [lta/2026/428]}
+  - {name: "lov om finansiel virksomhed", consolidations: [lta/2026/432]}
+  - {name: "Hvidvaskloven", consolidations: [lta/2026/433]}
+  - {name: "lov om CO2-fangstaktiviteter i forsyningssektoren", consolidations: [lta/2026/434]}
+  - {name: "lov om reduktion af drivhusgasser fra transportsektoren m.v.", consolidations: [lta/2026/438]}
+  - {name: "lov om institutioner for erhvervsrettet uddannelse", consolidations: [lta/2026/440]}
+  - {name: "Ungdomsskoleloven", consolidations: [lta/2026/441]}
+  - {name: "Arbejdsmiljøloven", consolidations: [lta/2026/442]}
+  - {name: "lov om investeringsforeninger m.v.", consolidations: [lta/2026/445]}
+  - {name: "Danskuddannelsesloven", consolidations: [lta/2026/448]}
+  - {name: "Integrationsloven", consolidations: [lta/2026/453]}
+  - {name: "lov om forsikringsvirksomhed i tværgående pensionskasser, livsforsikringsselskaber og skadesforsikringsselskaber m.v. (lov om forsikringsvirksomhed)", consolidations: [lta/2026/461]}
+  - {name: "lov om betalinger", consolidations: [lta/2026/463]}
+  - {name: "lov om kapitalmarkeder", consolidations: [lta/2026/464]}
+  - {name: "Varmeforsyningsloven", consolidations: [lta/2026/465]}
+  - {name: "lov om integrationsgrunduddannelse (igu)", consolidations: [lta/2026/466]}
+  - {name: "lov om fondsmæglerselskaber og investeringsservice og -aktiviteter", consolidations: [lta/2026/467]}
+  - {name: "lov om forvaltere af alternative investeringsfonde m.v.", consolidations: [lta/2026/468]}
+  - {name: "lov om efterskoler og frie fagskoler", consolidations: [lta/2026/470]}
+  - {name: "lov om behandlings- og specialundervisningstilbud til børn og unge", consolidations: [lta/2026/535]}
+  - {name: "Elforsyningsloven", consolidations: [lta/2026/544]}
+  - {name: "lov om kommunale internationale grundskoler", consolidations: [lta/2026/587]}
+  - {name: "lov om de gymnasiale uddannelser", consolidations: [lta/2026/624]}
+  - {name: "Avu-loven", consolidations: [lta/2026/629]}
+  - {name: "Erhvervsvirksomhedsloven", consolidations: [lta/2026/639]}
+  - {name: "Serviceloven", consolidations: [lta/2026/641]}
+  - {name: "barnets lov", consolidations: [lta/2026/642]}
+  - {name: "lov om arbejdsskadesikring i Grønland", consolidations: [lta/2026/644]}
+  - {name: "DSI-loven", consolidations: [lta/2026/656]}
+  - {name: "lov om institutioner for forberedende grunduddannelse", consolidations: [lta/2026/658]}
+  - {name: "forældreansvarsloven", consolidations: [lta/2026/662]}
+  - {name: "Ægteskabsloven", consolidations: [lta/2026/663]}
+  - {name: "Arbejdsskadesikringsloven", consolidations: [lta/2026/667]}
+  - {name: "lov om den selvejende institution Arbejdsmarkedets Erhvervssikring", consolidations: [lta/2026/668]}
+  - {name: "Adoptionsloven", consolidations: [lta/2026/669]}
+  - {name: "lov om menighedsråd", consolidations: [lta/2026/675]}
+  - {name: "lov om ansættelse i stillinger i folkekirken m.v.", consolidations: [lta/2026/676]}
+  - {name: "Retssikkerhedsloven", consolidations: [lta/2026/680]}
+  - {name: "lov om udstationering af lønmodtagere m.v.", consolidations: [lta/2026/681]}
+  - {name: "Friskoleloven", consolidations: [lta/2026/700]}
+  - {name: "lov om Arbejdsretten og faglige voldgiftsretter", consolidations: [lta/2026/705]}
+  - {name: "Akkrediteringsloven", consolidations: [lta/2026/730]}
+  - {name: "Undervisningsmiljøloven", consolidations: [lta/2026/747]}
+  - {name: "Aktivloven", consolidations: [lta/2026/793]}
+  - {name: "Offshoresikkerhedsloven", consolidations: [lta/2026/794]}
+  - {name: "Folketingsvalgloven", consolidations: [lta/2026/805]}
+  - {name: "lov om fleksydelse", consolidations: [lta/2026/807]}
+  - {name: "lov om arbejdsløshedsforsikring m.v.", consolidations: [lta/2026/808]}
+  - {name: "Miljøbeskyttelsesloven", consolidations: [lta/2026/842]}
+  - {name: "Aktieavancebeskatningsloven", consolidations: [lta/2026/849]}
+  - {name: "Indsamlingsloven", consolidations: [lta/2026/867]}
+  - {name: "Folkeskoleloven", consolidations: [lta/2026/870]}

@@ -50,11 +50,13 @@ from ulis.ingestion.snapshots import SNAPSHOT_BASIS
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
 
 PARSER_ID = "retsinformation_lexdania"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.2.0"
 JURISDICTION = "DK"
 ELI = "https://www.retsinformation.dk/eli"
 REPEALED = re.compile(r"^\(Ophævet\)\.?$")
-PARAGRAPH = re.compile(r"^§§?\s*(\d+(?:\s*[a-zæøå])?(?:\s*-\s*\d+(?:\s*[a-zæøå])?)?)\s*\.?$")
+_NUMBER = r"\d+(?:\s*[a-zæøåA-ZÆØÅ]{1,2})?"
+# "§ 9", "§ 4 A", "§§ 28-30", "§§ 9-9 b" (also with an en dash), "§§ 96 k-o", "§§ 26 og 27" (a repealed range or pair)
+PARAGRAPH = re.compile(rf"^§§?\s*({_NUMBER}(?:\s*(?:[-\u2013]|og)\s*(?:{_NUMBER}|[a-zæøåA-ZÆØÅ]))?)\s*\.?$")
 STK = re.compile(r"^Stk\.\s*(\d+)\s*\.?$")
 ITEM = {"Nummer": ("nr", re.compile(r"^(\d+(?:\s*[a-z])?)\)$")), "Litra": ("litra", re.compile(r"^([a-zæøå]{1,2})\)$"))}
 AMENDING_ACT = re.compile(r"^Lov nr\. (\d+) af (\d{1,2})\. (\w+) (\d{4})")
@@ -217,7 +219,7 @@ def _paragraph_number(par: Element) -> str:
     match = PARAGRAPH.match(printed)
     if match is None:
         raise RetsinformationParseError(f"unexpected paragraph label {printed!r}")
-    return re.sub(r"\s*-\s*", "-", _ws(match.group(1)))
+    return re.sub(r"\s*[-\u2013]\s*", "-", _ws(match.group(1)))
 
 
 def _paragraph(par: Element, eid: str, kind: str = "paragraph") -> _Unit:
@@ -290,10 +292,18 @@ def parse_lbk(root: Element) -> ParsedDocument:
     if m("AnnouncedIn") != "Lovtidende A":
         raise RetsinformationParseError(f"unexpected publication medium {m('AnnouncedIn')!r}")
     year, number, popular = m("Year"), m("Number"), m("PopularTitle")
+    title_derived = False
+    if not popular:
+        # Many laws have no popular title (e.g. "Bekendtgørelse af lov om arbejdsløshedsforsikring m.v."): the law is
+        # then named by the title of its consolidation without "Bekendtgørelse af", which later consolidations repeat.
+        popular = re.sub(r"^Bekendtgørelse af\s+", "", m("DocumentTitle"), flags=re.IGNORECASE).strip()
+        title_derived = bool(popular)
     signed = _date(m("DiesSigni"))
     status = m("Status")
     if not (year.isdigit() and number.isdigit() and popular and signed) or status not in ("Valid", "Historic"):
-        raise RetsinformationParseError("incomplete metadata (Year, Number, PopularTitle, DiesSigni, Status)")
+        raise RetsinformationParseError(
+            "incomplete metadata (Year, Number, PopularTitle or DocumentTitle, DiesSigni, Status)"
+        )
     eli = f"{ELI}/lta/{year}/{number}"
     label = f"LBK nr {number} af {signed.strftime('%d/%m/%Y')}"
     body = root.find("DokumentIndhold")
@@ -344,7 +354,7 @@ def parse_lbk(root: Element) -> ParsedDocument:
         for child in el:
             if child.tag in STRUCTURE:
                 walk(child, [*outline, outline_of(child)])
-            elif child.tag == "Paragraf":
+            elif child.tag in ("Paragraf", "AendringCentreretParagraf"):
                 unit = _paragraph(child, f"par-{_num_slug(_paragraph_number(child))}")
                 emit(unit, None, [], "paragraph", None, " – ".join(h for h in outline if h) or None)
             elif child.tag in ("Explicatus", "Rubrica"):
@@ -377,8 +387,8 @@ def parse_lbk(root: Element) -> ParsedDocument:
                     act_line or None,
                     "Ikrafttrædelsesbestemmelser",
                 )
-        elif part.tag in ("Indledning",):
-            continue
+        elif part.tag in ("Indledning", "Praeambel"):
+            continue  # introductory formula and preamble are not provisions
         else:
             raise RetsinformationParseError(f"{label}: unexpected <{part.tag}> in <DokumentIndhold>")
     if not provisions:
@@ -410,6 +420,8 @@ def parse_lbk(root: Element) -> ParsedDocument:
         if c.dated is not None
     ]
     ext: dict[str, object] = {"popular_title": popular, "document_type": doc_type}
+    if title_derived:
+        ext["title_derived"] = True  # no Retsinformation PopularTitle: the title of the consolidation names the law
     return ParsedDocument(
         doc_kind="legislation",
         instrument_type="act",

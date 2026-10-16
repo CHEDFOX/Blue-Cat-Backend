@@ -4,7 +4,10 @@ Each statute in Svensk författningssamling has a document id ``sfs-<year>-<numb
 (documented at https://www.riksdagen.se/sv/dokument-och-lagar/riksdagens-oppna-data/anvandarstod/sa-fungerar-dokument-id/);
 ``https://data.riksdagen.se/dokument/sfs-1974-152.json`` returns the document as JSON with its
 metadata, the consolidated text and an HTML rendering. The connector fetches exactly the
-statutes the manifest lists, one request each, and yields the JSON exactly as received.
+statutes the manifest lists, one request each, and yields the JSON exactly as received. The committed
+manifest lists every consolidated statute of the Riksdag's own document list (about 11,200; see
+``scripts/build_sfs_manifest.py``), so one statute that is no longer served (404) is reported in
+``fetch_errors`` and the run goes on; any other refusal stops it.
 
 Rules built in through :class:`PoliteHttp`: an identifying User-Agent, HTTPS only to
 ``data.riksdagen.se``, a pause between requests (data.riksdagen.se publishes no robots.txt, and
@@ -40,7 +43,8 @@ def document_id(sfs: str) -> str:
     m = _SFS.match(sfs.strip())
     if not m:
         raise ManifestError(f"invalid SFS number {sfs!r} (expected YYYY:N)")
-    return f"sfs-{m.group(1)}-{int(m.group(2))}"
+    # The number is kept as printed: a few statutes of the 1700s and 1800s have ids with a leading zero (sfs-1810-0926).
+    return f"sfs-{m.group(1)}-{m.group(2)}"
 
 
 class RiksdagenSfsConnector:
@@ -59,6 +63,7 @@ class RiksdagenSfsConnector:
         self.offline = offline
         self._sleep = sleep
         self.http: PoliteHttp | None = None
+        self.fetch_errors: list[str] = []
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -68,12 +73,17 @@ class RiksdagenSfsConnector:
             raise ManifestError("an identifying user_agent with contact details is required")
         if manifest.get("base_url", BASE) != BASE:
             raise ManifestError(f"base_url must be {BASE}")
+        seen: set[str] = set()
         for work in manifest.get("works") or []:
-            document_id(str(work.get("sfs", "")))
+            doc_id = document_id(str(work.get("sfs", "")))
+            if doc_id in seen:
+                raise ManifestError(f"{work.get('sfs')} is listed twice")
+            seen.add(doc_id)
         return manifest
 
     def fetch(self) -> Iterator[RawDocument]:
         manifest = self._manifest()
+        self.fetch_errors = []
         self.http = PoliteHttp(
             self.cache_dir,
             manifest["user_agent"],
@@ -87,7 +97,8 @@ class RiksdagenSfsConnector:
             url = f"{BASE}/{doc_id}.json"
             got = self.http.get(url, headers={"Accept": "application/json"})
             if got is None:
-                raise FetchError(f"{url}: not found")
+                self.fetch_errors.append(f"riksdagen:{doc_id}: {url}: not found (404); skipped")
+                continue
             content, meta = got
             yield RawDocument(
                 external_id=f"riksdagen:{doc_id}",

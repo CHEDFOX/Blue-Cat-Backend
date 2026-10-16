@@ -31,6 +31,9 @@ class DkExt(BaseModel):
     model_config = ConfigDict(extra="forbid")
     popular_title: str  # Retsinformation PopularTitle, e.g. "Forvaltningsloven"
     document_type: str  # Retsinformation document type of the consolidations, "LBK H"
+    title_derived: bool = (
+        False  # no PopularTitle: popular_title is the consolidation's title without "Bekendtgørelse af"
+    )
 
 
 def law_name(title: str) -> str:
@@ -39,7 +42,7 @@ def law_name(title: str) -> str:
 
 class DkModule(JurisdictionModule):
     id: ClassVar[str] = "dk"
-    version: ClassVar[str] = "1.0.0"
+    version: ClassVar[str] = "1.2.0"
     ext_model: ClassVar[type[BaseModel]] = DkExt
 
     def pinpoint(self, c: ProvisionCitationInput) -> str:
@@ -47,7 +50,7 @@ class DkModule(JurisdictionModule):
         for part in c.num_path:
             kind, _, label = part.partition(":")
             if kind == "p":
-                out.append(f"§§ {label}" if "-" in label else f"§ {label}")
+                out.append(f"§§ {label}" if "-" in label or " og " in label else f"§ {label}")
             elif kind in ("stk", "nr", "litra"):
                 out.append(f"{kind}. {label}" if kind != "litra" else f"litra {label}")
         return ", ".join(out)

@@ -20,12 +20,19 @@ from ulis.ingestion.pipeline import IngestionReport, Ingestor, build_connector
 from ulis.jurisdictions.modules import ProvisionCitationInput, get_module
 from ulis.retrieval.lookup import provision_at
 from ulis.retrieval.search import SearchRequest, search
+from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
 from ulis.sources.connectors.retsinformation import RetsinformationConnector
 from ulis.sources.normalized import ParsedDocument, ParsedProvision
-from ulis.sources.parsers.retsinformation import RetsinformationParseError, parse_retsinformation
+from ulis.sources.parsers.retsinformation import (
+    RetsinformationParseError,
+    _num_slug,
+    _paragraph_number,
+    parse_retsinformation,
+    parse_xml,
+)
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
 
@@ -33,8 +40,9 @@ FIX = Path(__file__).parent / "fixtures" / "retsinformation"
 SOURCE = "dk-retsinformation"
 HOST = "www.retsinformation.dk"
 FVL = "/dk/lov/forvaltningsloven"
-# Forvaltningsloven: three consolidations, oldest first; Aftaleloven: the current one.
-INGESTED = ["lbk-2007-1365", "lbk-2012-988", "lbk-2014-433", "lbk-2016-193"]
+# Forvaltningsloven: three consolidations, oldest first; Aftaleloven: the current one; the last file
+# stands for the lovbekendtgørelser found through the ELI metadata (LBK 807/2026, a law without a popular title).
+INGESTED = ["lbk-2007-1365", "lbk-2012-988", "lbk-2014-433", "lbk-2016-193", "lbk-2026-807"]
 
 
 def _raw(name: str) -> bytes:
@@ -156,6 +164,47 @@ def test_citations() -> None:
     assert module.provision_citation(span) == "§§ 28-30 i straffeloven"
 
 
+def test_a_law_without_a_popular_title_is_named_by_its_consolidation_title() -> None:
+    # LBK 807/2026 has no PopularTitle in its metadata: the law is named "lov om fleksydelse" (title without
+    # "Bekendtgørelse af"), which later consolidations repeat.
+    doc = _doc("lbk-2026-807")
+    assert doc.work_uri == "/dk/lov/lovomfleksydelse" and doc.short_title == "lov om fleksydelse"
+    assert doc.title == "Bekendtgørelse af lov om fleksydelse"
+    assert doc.ext == {"popular_title": "lov om fleksydelse", "document_type": "LBK H", "title_derived": True}
+    assert _cite(doc, "par-1") == "§ 1 i lov om fleksydelse"
+    assert _cite(doc, "par-4a") == "§ 4 a i lov om fleksydelse"
+
+
+def test_uppercase_paragraph_suffix_and_a_preamble() -> None:
+    tax = _doc("lbk-2026-849")  # "§ 4 A." (an upper-case letter), as the Aktieavancebeskatningsloven prints it
+    assert _cite(tax, "par-4a") == "§ 4 A i aktieavancebeskatningsloven"
+    assert tax.ext == {"popular_title": "Aktieavancebeskatningsloven", "document_type": "LBK H"}
+    school = _doc("lbk-2026-870")  # a <Praeambel> before the text: not a provision
+    assert school.provisions[0].eid == "par-1" and _cite(school, "par-1") == "§ 1 i folkeskoleloven"
+
+
+def test_amending_paragraph_and_labels_of_repealed_ranges() -> None:
+    # LBK 466/2026 ends with an <AendringCentreretParagraf> ("§ 20. Loven gælder ikke for Færøerne og Grønland.")
+    igu = _doc("lbk-2026-466")
+    assert _p(igu, "par-20").text == "Loven gælder ikke for Færøerne og Grønland."
+    assert _cite(igu, "par-20") == "§ 20 i lov om integrationsgrunduddannelse (igu)"
+    # a repealed pair or range is printed "§§ 26 og 27." or "§§ 96 k-o." and must not fail the whole law
+    for printed, number, eid in [
+        ("§§ 26 og 27.", "26 og 27", "26og27"),
+        ("§§ 8 b og 8 c.", "8 b og 8 c", "8bog8c"),
+        ("§§ 96 k-o.", "96 k-o", "96k-o"),
+        ("§§ 9\u20139 b.", "9-9 b", "9-9b"),
+        ("§§ 28-30.", "28-30", "28-30"),
+        ("§ 343 ab.", "343 ab", "343ab"),
+        ("§ 4 A.", "4 A", "4a"),
+    ]:
+        par = parse_xml(f"<Paragraf><Explicatus>{printed}</Explicatus></Paragraf>".encode())
+        assert _paragraph_number(par) == number
+        assert _num_slug(number) == eid
+    pair = ProvisionCitationInput("lov om x", "act", "DK", "paragraph", ["p:26 og 27"], "da", ext={})
+    assert get_module("dk").pinpoint(pair) == "§§ 26 og 27"
+
+
 # --------------------------------------------------------------------------- connector
 
 
@@ -212,13 +261,50 @@ def test_connector_refuses_bad_manifests_and_html(tmp_path: Path) -> None:
     ):
         with pytest.raises(ManifestError, match=message):
             list(RetsinformationConnector(_manifest(tmp_path, works, **extra), SOURCE, tmp_path).fetch())
-    cache = _cache(tmp_path / "cache", {"lta/1999/1": ""})  # the website's HTML shell, served for unknown paths
-    with pytest.raises(FetchError, match="not a Lex Dania XML document"):
+    with pytest.raises(ManifestError, match="listed twice"):
         list(
             RetsinformationConnector(
-                _manifest(tmp_path, [{"name": "X", "consolidations": ["lta/1999/1"]}]), SOURCE, cache, offline=True
+                _manifest(
+                    tmp_path,
+                    [
+                        {"name": "X", "consolidations": ["lta/2014/433"]},
+                        {"name": "Y", "consolidations": ["lta/2014/433"]},
+                    ],
+                ),
+                SOURCE,
+                tmp_path,
             ).fetch()
         )
+
+
+def test_html_shell_and_missing_documents_are_reported_and_the_run_goes_on(tmp_path: Path) -> None:
+    # the website's HTML shell is served for unknown paths: never passed on, reported, and the next work is still read
+    cache = _cache(tmp_path / "cache", {"lta/1999/1": "", "lta/2016/193": "lbk-2016-193"})
+    works = [
+        {"name": "X", "consolidations": ["lta/1999/1"]},
+        {"name": "Aftaleloven", "consolidations": ["lta/2016/193"]},
+    ]
+    connector = RetsinformationConnector(_manifest(tmp_path, works), SOURCE, cache, offline=True)
+    docs = list(connector.fetch())
+    assert [d.external_id for d in docs] == ["retsinformation:lta/2016/193"]
+    assert len(connector.fetch_errors) == 1 and "not a Lex Dania XML document" in connector.fetch_errors[0]
+
+
+def test_committed_manifest_passes_the_connectors_validation(catalog: Catalog) -> None:
+    path = REPO_ROOT / catalog.sources.get(SOURCE).access.endpoint  # type: ignore[operator]
+    manifest = RetsinformationConnector(path, SOURCE, Path("/nonexistent"))._manifest()
+    works = manifest["works"]
+    assert [w["name"] for w in works[:6]] == [
+        "Forvaltningsloven",
+        "Funktionærloven",
+        "Straffeloven",
+        "Aftaleloven",
+        "Arveloven",
+        "Databeskyttelsesloven",
+    ]
+    assert len(works[0]["consolidations"]) == 3 and len(works[1]["consolidations"]) == 2
+    assert all(len(w["consolidations"]) == 1 for w in works[2:])
+    assert len(works) > 6  # the lovbekendtgørelser in force found through the ELI metadata, one consolidation each
 
 
 def test_source_uses_this_connector(catalog: Catalog) -> None:
@@ -261,7 +347,7 @@ def test_search_finds_exact_text_with_citation_and_limitations(
     session: Session, catalog: Catalog, dk_ingested: IngestionReport
 ) -> None:
     assert dk_ingested.errors == [] and dk_ingested.conflicts == []
-    assert dk_ingested.instruments_created == 2 and dk_ingested.instrument_versions_created == 4
+    assert dk_ingested.instruments_created == 3 and dk_ingested.instrument_versions_created == 5
     res = _search(session, catalog, q="aftale tilsidesættes urimeligt redelig handlemåde", as_of=date(2026, 10, 1))
     hit = res["results"][0]
     assert hit["citation"] == "§ 36, stk. 1, i aftaleloven"
@@ -276,6 +362,8 @@ def test_search_finds_exact_text_with_citation_and_limitations(
         "AS_OF_AFTER_CURRENCY",
     } <= codes
     assert hit["source"]["attribution"].startswith("Kilde: Retsinformation")
+    flex = _search(session, catalog, q="fleksydelse formålet med loven visiteret", as_of=date(2026, 10, 1))
+    assert flex["results"][0]["citation"] == "§ 1 i lov om fleksydelse"
     fvl = _search(session, catalog, q="selvejende institutioner oprettet ved lov", as_of=date(2026, 10, 1))
     # The stykke (its own text plus its items) and the item itself are both found.
     assert {"§ 1, stk. 2, i forvaltningsloven", "§ 1, stk. 2, nr. 1, i forvaltningsloven"} <= {
