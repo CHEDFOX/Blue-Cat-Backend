@@ -99,7 +99,7 @@ class InModule(JurisdictionModule):
 
     def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:
         if "layout" in ext:
-            return InJudgmentExt.model_validate(ext).model_dump(exclude_none=True)
+            return InJudgmentExt.model_validate(ext).model_dump(exclude_defaults=True)
         return super().validate_ext(ext)
 
     def pinpoint(self, c: ProvisionCitationInput) -> str:

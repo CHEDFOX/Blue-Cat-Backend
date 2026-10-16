@@ -2,8 +2,13 @@
 # The Court publishes no list on a host that lets the bot in, so every number in the range is asked for. Probes on 2026-10-16: numbers
 # up to 44900 hold judgments (about 1950 to April 2017), numbers from 45000 up to 99999999 are all empty (checked: 45000, 45100,
 # 45500, 46500, 47000, 52000, 60000, 70000, 99999999); the range stops at the first number known to be empty.
-# SCALE (to be completed from the slice run, see docs/markets/india.md): 45,100 requests at 5 s = about 62.7 hours; about 70% of the
-# numbers hold a PDF; see the market document for documents, passages and database size.
+# SCALE (slice of 100 numbers, 10 runs of ten, ingested 2026-10-16 into PostgreSQL 16; see docs/markets/india.md):
+#   requests: 45,100 numbers = 62.7 hours at the 5 s crawl delay; the slice took 588 s for 100 numbers (5.9 s each with transfer, parsing
+#   and database writes), so about 74 hours for the whole range.
+#   documents: 89 of 100 numbers held a PDF (11% empty; 6 of 22 single probes were empty), so about 30,000 to 40,000 judgments.
+#   per judgment: 96 KB PDF, 25 KB of text, 17.8 passages, about 128 KB of database (passages 98 KB incl. index, paragraphs 25 KB).
+#   whole range (35,000 judgments): about 3.4 GB of raw PDFs (object store / cache, twice if the cache is kept), 4.5 GB of database,
+#   about 620,000 paragraphs/passages. Far below the 15 GB limit: the default manifest is the whole range.
 # A slice for testing is a copy of this file with a few short ranges, kept outside the repository.
 schema_version: 1
 source_id: in-sci-judis

@@ -33,13 +33,114 @@ courts:
   - id: IN-SC
     name: Supreme Court of India
     rank: 1
+  - id: IN-HC-ALL
+    name: Allahabad High Court
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-AP
+    name: High Court of Andhra Pradesh
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-BOM
+    name: Bombay High Court
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-CAL
+    name: Calcutta High Court
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-CG
+    name: High Court of Chhattisgarh
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-DEL
+    name: High Court of Delhi
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-GAU
+    name: Gauhati High Court
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-GUJ
+    name: High Court of Gujarat
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-HP
+    name: High Court of Himachal Pradesh
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-JK
+    name: High Court of Jammu & Kashmir and Ladakh
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-JH
+    name: High Court of Jharkhand
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-KAR
+    name: High Court of Karnataka
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-KER
+    name: High Court of Kerala
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-MP
+    name: High Court of Madhya Pradesh
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-MAN
+    name: High Court of Manipur
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-MEG
+    name: High Court of Meghalaya
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-ORI
+    name: High Court of Orissa
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-PAT
+    name: Patna High Court
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-PH
+    name: High Court of Punjab and Haryana
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-RAJ
+    name: High Court of Rajasthan
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-SIK
+    name: High Court of Sikkim
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-TEL
+    name: High Court for the State of Telangana
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-TRI
+    name: High Court of Tripura
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-UTT
+    name: High Court of Uttarakhand
+    rank: 2
+    appeals_to: [IN-SC]
+  - id: IN-HC-MAD
+    name: Madras High Court
+    rank: 2
+    appeals_to: [IN-SC]
 precedent:
   doctrine: stare_decisis
   vertical_binding: true
   notes: >-
     To verify - Article 141 of the Constitution: law declared by the Supreme Court is binding on
-    all courts within the territory of India. High Courts, tribunals and bench-strength rules
-    still have to be modelled.
+    all courts within the territory of India. The 25 High Courts are listed only so that a forum
+    court can be named (their judgments are not ingested); the High Courts' own precedent rules,
+    tribunals, subordinate courts and bench-strength rules are not modelled.
 citation:
   module: in
 publication:
@@ -54,4 +155,4 @@ coverage:
     - "Judgments are the Court's website PDFs converted to text, not the signed originals; headnotes and catchwords printed with older judgments are editorial matter of the Court's reporters."
     - "No High Court, tribunal or district court judgments: the eCourts portals sit behind a CAPTCHA, and the only bulk copies (AWS Open Data: Dattam Labs) were produced by solving it, so they are rejected (see in-dattam-court-judgments)."
     - "No neutral citations (the Court's \"INSC\" neutral citation starts in 2023, after the ingested range), no citator or subsequent-history tracking, no links between judgments."
-    - "States, Union Territories, High Courts and tribunals are not yet modelled."
+    - "States, Union Territories, tribunals, subordinate courts and High Court benches are not modelled."

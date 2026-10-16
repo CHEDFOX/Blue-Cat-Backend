@@ -83,8 +83,8 @@ JURISDICTION = re.compile(
 )
 CASE_NO = re.compile(
     r"\b((?:Civil|Criminal|Special Leave|Writ|Transfer|Review|Contempt|Original|Miscellaneous|Election|"
-    r"Arbitration|Curative|Death Reference|Tax Reference|Reference)[A-Za-z ()\[\].-]{0,45}?"
-    r"(?:Appeals?|Petitions?|Suits?|Cases?|Applications?|Reference)(?:\s*\([A-Za-z]+\))?\s+"
+    r"Arbitration|Curative|Death Reference|Tax Reference|Reference)[A-Za-z ().\[\]-]{0,45}?"
+    r"(?:Appeals?|Petitions?|Suits?|Cases?|Applications?|Reference)(?:\s*\([A-Za-z.]+\))?\s+"
     r"N[Oo]s?\.?\s*[\w()/\-,&. ]{1,60}?\s+(?:of|OF)\s+\d{4})",
     re.I,
 )
@@ -420,8 +420,10 @@ def parse_sci_judis(content: bytes) -> list[ParsedDocument]:
         ext["bench"] = [
             m.group(1)
             for i, ln in enumerate(tail)
-            if (m := SIGNED_NAME.search(ln)) and i and re.search(r"\bJJ?\.?$", tail[i - 1])
+            if (m := SIGNED_NAME.search(ln)) and i and re.search(r"\b(?:CJI|C\.J\.I|JJ?)\.?$", tail[i - 1])
         ]
+    elif any(re.match(r"(?i)^record of proceedings$", ln) for ln in head[:8]):
+        raise ParseSkipped("a Record of Proceedings (the order of a hearing), not a judgment")
     else:
         raise SciJudisParseError("neither a JUDIS header block nor a signed judgment's cause title")
 

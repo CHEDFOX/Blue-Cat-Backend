@@ -41,7 +41,8 @@ HOST = "api.sci.gov.in"
 UA = "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
 FIX = REPO_ROOT / "tests" / "fixtures" / "sci_judis"
 NATHMAL, MORCHA, GANGADEVI, DEEPA, VIMALESHWAR, PREETAM = 100, 5000, 15000, 30000, 38000, 42000
-ALL = [NATHMAL, MORCHA, GANGADEVI, DEEPA, VIMALESHWAR, PREETAM]
+TRANSFER, RECORD = 33827, 33824
+ALL = [NATHMAL, MORCHA, GANGADEVI, DEEPA, VIMALESHWAR, PREETAM, TRANSFER]
 BLANK_PDF = (
     b"\x00\x00\x00\x00%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n"
     b"2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n"
@@ -194,6 +195,21 @@ def test_signed_judgment_followed_by_a_record_of_proceedings() -> None:
     judgment = " ".join(p.text for p in doc.paragraphs if p.part != "record")
     assert "RECORD OF PROCEEDINGS" not in judgment and "Court Master" not in judgment
     assert doc.paragraphs[-1].part == "record"
+
+
+def test_transfer_petition_order_of_2009_closed_by_a_date_with_an_ordinal() -> None:
+    doc = _doc(TRANSFER)
+    assert doc.judgment is not None
+    assert doc.judgment.case_name == "STATE OF U.P. v. SHIV SINGH YADAV & ORS."
+    assert doc.judgment.docket == "TRANSFER PETITION (C.) NOS.821-825 OF 2007"
+    assert doc.judgment.decision_date == date(2009, 2, 16)  # "16TH FEBRUARY, 2009."
+    assert doc.ext["bench"] == ["K.G. BALAKRISHNAN", "P. SATHASIVAM"]  # the Chief Justice's line ends in "CJI."
+    assert doc.ext.get("reportable") is None and _parts(doc) == {"text": 1}
+
+
+def test_a_record_of_proceedings_alone_is_not_a_judgment() -> None:
+    with pytest.raises(ParseSkipped, match="Record of Proceedings"):
+        parse_sci_judis(_raw(RECORD))
 
 
 # --------------------------------------------------------------------------- parser: helpers and refusals
@@ -489,7 +505,7 @@ def _search(session: Session, catalog: Catalog, **kw: Any) -> dict[str, Any]:
 @pytest.mark.db
 def test_ingest_report(judgments: IngestionReport) -> None:
     assert judgments.errors == [] and judgments.conflicts == []
-    assert judgments.documents_new == 6 and judgments.judgments_created == 6
+    assert judgments.documents_new == 7 and judgments.judgments_created == 7
     expected = sum(len(_doc(n).paragraphs) for n in ALL)
     assert judgments.paragraphs_created == judgments.passages_indexed == expected
     assert judgments.instruments_created == 0 and judgments.citation_links_created == 0
@@ -534,6 +550,18 @@ def test_search_finds_a_numbered_paragraph_with_its_number(
 
 
 @pytest.mark.db
+def test_a_high_court_as_forum_is_bound_by_the_supreme_court(
+    session: Session, catalog: Catalog, judgments: IngestionReport
+) -> None:
+    q = "requisitioned vehicle election duty compensation"
+    hit = _search(session, catalog, q=q)["results"][0]
+    assert hit["document"]["court_id"] == "IN-SC" and hit["authority"]["category"] == "precedent_vertical"
+    bound = _search(session, catalog, q=q, forum_court="IN-HC-DEL")["results"][0]
+    assert bound["authority"]["category"] == "binding_precedent"
+    assert catalog.jurisdictions.get("IN").courts[0].id == "IN-SC" and len(catalog.jurisdictions.get("IN").courts) == 26
+
+
+@pytest.mark.db
 def test_rows_verification_and_reingest(
     session_factory: sessionmaker[Session], catalog: Catalog, store: LocalObjectStore, judgments: IngestionReport
 ) -> None:
@@ -546,6 +574,7 @@ def test_rows_verification_and_reingest(
             date(2007, 12, 11),
             date(2011, 5, 11),
             date(2014, 9, 23),
+            date(2009, 2, 16),
         }
         preetam = rows[date(2014, 9, 23)]
         assert preetam.docket == "CIVIL APPEAL NO. 6307 OF 2010" and preetam.neutral_citation is None
@@ -554,8 +583,8 @@ def test_rows_verification_and_reingest(
             "ARUN MISHRA",
         ]
         again = Ingestor(session, catalog, store).ingest_source(SOURCE, actor="pytest", connector=_Judgments())
-        assert again.documents_unchanged == 6 and again.judgments_created == 0 and again.paragraphs_created == 0
+        assert again.documents_unchanged == 7 and again.judgments_created == 0 and again.paragraphs_created == 0
         ids = session.scalars(select(m.SourceDocument.id).where(m.SourceDocument.source_id == SOURCE)).all()
         results = [verify_source_document(session, catalog, store, i, checker="pytest") for i in ids]
-        assert len(results) == 6 and all(r["result"] == "pass" for r in results)
+        assert len(results) == 7 and all(r["result"] == "pass" for r in results)
         session.rollback()
