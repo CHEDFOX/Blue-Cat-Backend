@@ -1,7 +1,7 @@
 # Constitution of Vanuatu from Office of the Ombudsman of Vanuatu (ombudsman.gov.vu) - a government office's copy of the Constitution. Read on 2026-10-16, before any document was fetched:
 #   robots.txt - https://ombudsman.gov.vu/robots.txt: "User-agent: *" "Allow: /" and a Sitemap line (three lines); no Crawl-delay
 #   Terms - Footer of the home page: "Copyright © 2026 Office of the Ombudsman of Vanuatu. All Rights Reserved."; no terms-of-use or licence page is linked
-#   The document - PDF (234 KB, file last modified 8 Oct 2018) headed "LAWS OF THE REPUBLIC OF VANUATU Consolidated Edition 2006 CONSTITUTION OF THE REPUBLIC OF VANUATU Commencement: 30 July 1980 except Articles 87 and 93 which commenced 23 October 1979": preamble ("WE, the people of Vanuatu,"), 95 articles in chapters 1 - 17, and two Schedules
+#   The document - PDF (234 KB, file last modified 8 Oct 2018) headed "LAWS OF THE REPUBLIC OF VANUATU Consolidated Edition 2006 CONSTITUTION OF THE REPUBLIC OF VANUATU Commencement: 30 July 1980 except Articles 87 and 93 which commenced 23 October 1979": preamble ("WE, the people of Vanuatu,"), 95 articles in chapters 1 - 15, and two Schedules
 schema_version: 1
 id: vu-ombudsman-constitution
 name: Constitution of Vanuatu - the Office of the Ombudsman of Vanuatu (ombudsman.gov.vu)
@@ -33,7 +33,7 @@ licence:
     and the terms (Footer of the home page: "Copyright © 2026 Office of the Ombudsman of Vanuatu. All Rights Reserved."; no
     terms-of-use or licence page is linked). PDF (234 KB, file last modified 8 Oct 2018) headed "LAWS OF THE REPUBLIC OF VANUATU
     Consolidated Edition 2006 CONSTITUTION OF THE REPUBLIC OF VANUATU Commencement: 30 July 1980 except Articles 87 and 93
-    which commenced 23 October 1979": preamble ("WE, the people of Vanuatu,"), 95 articles in chapters 1 - 17, and two Schedules.
+    which commenced 23 October 1979": preamble ("WE, the people of Vanuatu,"), 95 articles in chapters 1 - 15, and two Schedules.
     No statute was read; the basis is the official status of the text and the absence of any stated restriction on it. Reading:
     AMBER - the publisher states no restriction on reusing the text beyond a generic copyright footer (if any); no permission
     for automated retrieval is stated either.'

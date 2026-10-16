@@ -1,7 +1,7 @@
 # Constitution of Fiji from Parliament of the Republic of Fiji (parliament.gov.fj). Read on 2026-10-16, before any document was fetched:
 #   robots.txt - https://www.parliament.gov.fj/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php" and a Sitemap line; no Crawl-delay. The Fiji Law Reform Commission (flrc.gov.fj) answered robots.txt with HTTP 403 and was not used
 #   Terms - Footer: "© 2025 Parliament of the Republic of Fiji. All Rights reserved." with a "Terms of Use" page whose static HTML holds only the site menu (no terms text)
-#   The document - PDF of 94 pages (509 KB, file last modified 17 Feb 2017) linked as "Constitution" from the home page: the Government of Fiji Gazette (Extraordinary) of 6 September 2013, "CONSTITUTION OF THE REPUBLIC OF FIJI (PROMULGATION) DECREE 2013 (DECREE NO 24. OF 2013)", whose Schedule is the Constitution: preamble ("WE, THE PEOPLE OF FIJI,"), Chapters 1 - 12 and 173 sections. Decree section 2(2): "The Constitution as set out in the Schedule to this Decree shall come into force on the 7th day of September 2013."
+#   The document - PDF of 94 pages (509 KB, file last modified 17 Feb 2017) linked as "Constitution" from the home page: the Government of Fiji Gazette (Extraordinary) of 6 September 2013, "CONSTITUTION OF THE REPUBLIC OF FIJI (PROMULGATION) DECREE 2013 (DECREE NO 24. OF 2013)", whose Schedule is the Constitution: preamble ("WE, THE PEOPLE OF FIJI,"), Chapters 1 - 12 and 174 sections. Decree section 2(2): "The Constitution as set out in the Schedule to this Decree shall come into force on the 7th day of September 2013."
 schema_version: 1
 id: fj-parliament-constitution
 name: Constitution of Fiji - the Parliament of Fiji (www.parliament.gov.fj)
@@ -35,7 +35,7 @@ licence:
     Use" page whose static HTML holds only the site menu (no terms text)). PDF of 94 pages (509 KB, file last modified 17
     Feb 2017) linked as "Constitution" from the home page: the Government of Fiji Gazette (Extraordinary) of 6 September 2013,
     "CONSTITUTION OF THE REPUBLIC OF FIJI (PROMULGATION) DECREE 2013 (DECREE NO 24. OF 2013)", whose Schedule is the Constitution:
-    preamble ("WE, THE PEOPLE OF FIJI,"), Chapters 1 - 12 and 173 sections. Decree section 2(2): "The Constitution as set
+    preamble ("WE, THE PEOPLE OF FIJI,"), Chapters 1 - 12 and 174 sections. Decree section 2(2): "The Constitution as set
     out in the Schedule to this Decree shall come into force on the 7th day of September 2013.". No statute was read; the
     basis is the official status of the text (the Government Gazette) and the absence of any stated restriction on it. Reading:
     AMBER - the publisher states no restriction on reusing the text beyond a generic copyright footer (if any); no permission
