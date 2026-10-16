@@ -211,6 +211,9 @@ def test_a_case_whose_first_break_fits_its_citation_is_paged_and_cited_with_pinp
     ]
     assert doc.ext["unit_scheme"] == "page" and doc.ext["page_citation"] == "99 Wash. 2d 101"
     assert (
+        doc.judgment.neutral_citation == doc.ext["page_citation"]
+    )  # one citation here: the page citation is the one cited
+    assert (
         doc.ext["citation_kind"] == "reporter" and doc.ext["text_columns"] == ["xml_harvard"] and doc.ext["ocr"] is True
     )
     assert doc.authoritative is False and doc.text_origin == "unofficial_compilation"

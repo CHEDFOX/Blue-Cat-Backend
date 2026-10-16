@@ -110,6 +110,9 @@ class Rule:
     from_year: int | None
     to_year: int | None
     statuses: frozenset[str] | None
+    # A case whose opinions together hold fewer characters of text (mark-up included) is left out: CourtListener files
+    # orders such as "Certiorari denied" as cases of the Supreme Court, about 97% of its 499,000 "cases".
+    min_chars: int = 0
 
     def matches(self, court_id: str, group: str, year: int, status: str, default_statuses: frozenset[str]) -> bool:
         if court_id not in self.courts and group not in self.groups:
@@ -163,6 +166,7 @@ def _scope_from(manifest: dict[str, Any]) -> Scope:
                 _year(entry.get("from_year")),
                 _year(entry.get("to_year")),
                 frozenset(statuses) if statuses else None,
+                _min_chars(entry.get("min_chars")),
             )
         )
     statuses = frozenset(raw.get("statuses") or ["Published"])
@@ -183,6 +187,14 @@ def _scope_from(manifest: dict[str, Any]) -> Scope:
         date(max_year, 12, 31) if max_year else None,
         candidate_statuses=statuses.union(*(r.statuses or frozenset() for r in rules)),
     )
+
+
+def _min_chars(value: Any) -> int:
+    if value is None:
+        return 0
+    if not isinstance(value, int) or not 0 <= value <= 10_000_000:
+        raise ManifestError(f"min_chars must be a non-negative integer, got {value!r}")
+    return value
 
 
 def _year(value: Any) -> int | None:
@@ -654,6 +666,7 @@ class CourtListenerBulkConnector:
         self._sleep = sleep
         self.local_dir = local_dir
         self.fetch_errors: list[str] = []
+        self.skipped_small = 0  # cases left out by a rule's min_chars (not errors)
         self.index_stats: IndexStats | None = None
         self.progress: Any = lambda message: print(f"courtlistener: {message}", file=sys.stderr)  # noqa: T201
 
@@ -671,7 +684,11 @@ class CourtListenerBulkConnector:
             manifest, self.cache_dir, local_dir=self.local_dir, offline=self.offline, sleep=self._sleep
         )
         files.ensure_all()
-        digest = hashlib.sha256(json.dumps(manifest["scope"], sort_keys=True, default=str).encode()).hexdigest()[:12]
+        indexed = {
+            **manifest["scope"],
+            "rules": [{k: v for k, v in r.items() if k != "min_chars"} for r in manifest["scope"]["rules"]],
+        }
+        digest = hashlib.sha256(json.dumps(indexed, sort_keys=True, default=str).encode()).hexdigest()[:12]
         index_path = self.cache_dir / HOST / f"index-{generation}-{digest}.sqlite"
         if index_path.exists():
             self.index_stats = IndexStats(**json.loads(_meta(index_path, "stats")))
@@ -690,10 +707,13 @@ class CourtListenerBulkConnector:
         else:
             in_scope = _bitmap(row[0] for row in db.execute("SELECT id FROM scope"))
         emitted = bytearray(len(in_scope))
+        min_chars = {r.name: r.min_chars for r in scope.rules if r.min_chars}
         count = 0
         try:
             for cluster_id, rows in self._grouped(files.path("opinions"), in_scope, scope):
-                document = self._bundle(db, courts, cluster_id, rows, emitted, generation, opinions_url, retrieved)
+                document = self._bundle(
+                    db, courts, cluster_id, rows, emitted, generation, opinions_url, retrieved, min_chars
+                )
                 if document is None:
                     continue
                 yield document
@@ -704,6 +724,8 @@ class CourtListenerBulkConnector:
                     return
         finally:
             db.close()
+            if self.skipped_small:
+                self.progress(f"cases below their rule's min_chars, left out: {self.skipped_small:,}")
 
     # ---- grouping
     def _grouped(self, path: Path, in_scope: bytearray, scope: Scope) -> Iterator[tuple[int, list[dict[str, str]]]]:
@@ -742,6 +764,7 @@ class CourtListenerBulkConnector:
         generation: str,
         opinions_url: str,
         retrieved: datetime,
+        min_chars: dict[str, int],
     ) -> RawDocument | None:
         cluster = db.execute("SELECT * FROM clusters WHERE id = ?", (cluster_id,)).fetchone()
         docket = (
@@ -758,6 +781,11 @@ class CourtListenerBulkConnector:
             return None
         rows = sorted(rows, key=lambda r: (OPINION_TYPE_ORDER.get(r["type"], 99), int(r["id"])))
         continuation = bool(emitted[cluster_id >> 3] & (1 << (cluster_id & 7)))
+        if min_chars and not continuation:
+            row = db.execute("SELECT rule FROM scope WHERE id = ?", (cluster_id,)).fetchone()
+            if row is not None and sum(len(r["text"]) for r in rows) < min_chars.get(row[0], 0):
+                self.skipped_small += 1
+                return None
         emitted[cluster_id >> 3] |= 1 << (cluster_id & 7)
         citations = [
             {"volume": c["volume"], "reporter": c["reporter"], "page": c["page"], "type": c["type"]}

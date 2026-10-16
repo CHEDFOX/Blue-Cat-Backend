@@ -307,6 +307,18 @@ def test_only_rules_runs_one_part_of_the_scope_from_the_same_index(tmp_path: Pat
     assert connector.index_stats.clusters_in_scope == 3  # the index itself covers every rule
 
 
+def test_min_chars_leaves_out_stubs_such_as_orders_and_counts_them(tmp_path: Path, local_dir: Path) -> None:
+    rules = [{"name": "supreme-court", "courts": ["scotus"], "min_chars": 100_000}, RULES[1]]
+    docs, connector = run(tmp_path, local_dir, rules)
+    assert sorted(d["_id"] for d in docs) == ["cl:cluster:2", "cl:cluster:3"]
+    assert connector.skipped_small == 1 and connector.fetch_errors == []
+    # the threshold does not change which cases the index holds, so the index is reused
+    docs, _ = run(tmp_path, local_dir, [{**rules[0], "min_chars": 1}, RULES[1]])
+    assert "cl:cluster:1" in [d["_id"] for d in docs]
+    with pytest.raises(ManifestError, match="min_chars"):
+        run(tmp_path / "bad", local_dir, [{**rules[0], "min_chars": -5}, RULES[1]])
+
+
 def test_limit_stops_after_that_many_documents(tmp_path: Path, local_dir: Path) -> None:
     docs, _ = run(tmp_path, local_dir, RULES, limit=2)
     assert len(docs) == 2

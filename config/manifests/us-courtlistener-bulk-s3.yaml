@@ -1,4 +1,46 @@
-# CourtListener bulk case-law files (Free Law Project), generation 2026-09-30. PROVISIONAL scope; see the header below once sized.
+# United States case law from the Free Law Project's CourtListener bulk files (public S3 bucket), generation 2026-09-30.
+# Documented in docs/markets/us-cases.md; licence and access facts in config/sources/us-courtlistener-bulk-s3.yaml.
+#
+# THE PUBLICATION (measured 2026-10-16 by scripts/courtlistener_scope_report.py over the clusters and dockets files):
+#   10,174,551 cases ("opinion clusters") in 3,361 courts; 923,861 of them are blocked by the publisher or have no filing date and
+#   are never taken; 9,250,686 remain, of which 8,101,735 have the status "Published", 830,181 "Unknown", 316,275 "Unpublished".
+#   Published cases by court group: state appellate (SA) 3,172,136; state courts of last resort (S) 2,422,157; federal courts of appeals
+#   (13 circuits) 884,870; Supreme Court 498,910; district courts (FD) 467,851; state trial (ST) 250,201; special federal (FS) 139,709;
+#   state special (SS) 64,650; the rest (military, bankruptcy, territories, tribal, attorneys general) under 200,000.
+#   The "Supreme Court" figure is mostly orders ("Certiorari denied"): 97% of a sample are under 500 characters; the real opinions
+#   are about 30,000 (source codes LRU/R/L/RU in the cluster table, 1760-2026). Hence min_chars below.
+#   The opinions file is 55.25 GB compressed (about 350 GB of CSV, about 12 million opinions); the text a case carries averages
+#   9.5 KB over the whole file (sample of 19,059 rows at six places) and is longer in modern opinions (courts of appeals 30 KB since
+#   2010, State supreme courts 27 KB since 2010; State appellate 9-13 KB).
+#
+# SCALE (each case = one judgment; units = printed pages or blocks of about 1.9 KB; database bytes measured on 15,364 real cases through the
+# pipeline: 3.4 bytes of database per byte of text (3.55 on a first run of 3,000), 31 KB per case, plus 10 KB of raw bundle on disk; 40 cases per
+# second, bound by one database round trip per unit; reading the CSV 16-68 MB/s, downloading 6-40 MB/s, on a shared 4-core sandbox):
+#   all Published cases (7.6 million, Supreme Court counted as 30,000): about 94 GB of text, 50 million units, about 330 GB of database
+#   (more than the planned 100 GB server) and, at 30-40 cases per second, 55-70 hours of ingestion. The default scope below is therefore a
+#   part of it, chosen to stay near 15 GB of database:
+#     supreme-court       all years, only cases of 1,000 characters or more        ~30,000 cases   0.75 GB text   2.7 GB database
+#     courts-of-appeals   13 circuits, 2015 and later                               ~60,800 cases  1.84 GB text   6.5 GB database
+#     state-high-courts   the 55 courts of last resort (group S), 2021 and later    ~44,500 cases  1.22 GB text   4.3 GB database
+#     district-courts     federal district courts (group FD), 2021 and later        ~ 8,700 cases  0.27 GB text   1.0 GB database
+#   total about 144,000 cases, 4.1 GB of text, 2.2 million units, about 14.5 GB of database, about 1.1 hours of ingestion after the 63 GB
+#   download and the pass over the 350 GB of CSV that finds them (estimates from the counts and the sample).
+#
+# HOW TO WIDEN. Add or change rules in `scope.rules` (a case is taken when one rule matches its court or court group, its year and its
+# status; `statuses` on a rule overrides the default ["Published"]; `min_chars` leaves out stubs; `exclude_courts` removes courts):
+#   * `courts:` CourtListener court ids (scotus, ca9, wash, nysd ...), `groups:` CourtListener jurisdiction codes: F federal appellate,
+#     FD district, FB bankruptcy, FBP bankruptcy appellate panel, FS special federal, S state highest, SA state appellate, MA military,
+#     TS/TA territorial. Only the courts listed in ulis/sources/parsers/courtlistener_courts.py are modelled; to add groups (for
+#     example ST state trial courts) run `python scripts/build_us_courts.py --courts <courts file> --groups F,FD,...,ST` first.
+#   * Roughly, each million Published cases is 30 GB of text and 100 GB of database; the published counts per court, year and status
+#     are in docs/markets/us-cases.md and can be recomputed with scripts/courtlistener_scope_report.py.
+#   * Run a part at a time: `only_rules: [rule name, ...]` (the index is built once for all rules, then reused).
+#   * A new quarterly generation: change `generation` and the five file names/sizes (list the bucket prefix bulk-data/); delete the
+#     index (var/sources/<bucket host>/index-*.sqlite) so it is rebuilt. A case already loaded whose text changed is reported as a
+#     conflict and not overwritten.
+# Requirements of a full run: about 63 GB for the five downloaded files, 3-4 GB for the index, `bzip2` (and `lbzip2` is 3-4x faster
+# on several cores: apt install lbzip2). Everything is resumable except the ingestion run itself, which is one database transaction:
+# run the rules one at a time (only_rules) on a server that cannot be interrupted for hours.
 schema_version: 1
 source_id: us-courtlistener-bulk-s3
 base_url: https://com-courtlistener-storage.s3-us-west-2.amazonaws.com
@@ -15,4 +57,7 @@ scope:
   statuses: [Published]
   text_columns: [html_columbia, html_lawbox, xml_harvard, html, plain_text]
   rules:
-    - {name: supreme-court, courts: [scotus]}
+    - {name: supreme-court, courts: [scotus], min_chars: 1000}
+    - {name: courts-of-appeals, courts: [ca1, ca2, ca3, ca4, ca5, ca6, ca7, ca8, ca9, ca10, ca11, cadc, cafc], from_year: 2015}
+    - {name: state-high-courts, groups: [S], from_year: 2021}
+    - {name: district-courts, groups: [FD], from_year: 2021}

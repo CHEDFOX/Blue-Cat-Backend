@@ -1975,9 +1975,11 @@ courts:
   - id: US-CL-PACOMMWCT
     name: "Commonwealth Court of Pennsylvania"
     rank: 3
+    appeals_to: [US-CL-PA]
   - id: US-CL-PASUPERCT
     name: "Superior Court of Pennsylvania"
     rank: 3
+    appeals_to: [US-CL-PA]
   - id: US-CL-RISUPERCT
     name: "Superior Court of Rhode Island"
     rank: 3

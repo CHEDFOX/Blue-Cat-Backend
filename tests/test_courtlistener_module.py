@@ -53,7 +53,9 @@ def test_state_case_has_the_court_and_year_and_a_pinpoint_only_for_the_cited_rep
     pages = state | {"unit_scheme": "page", "page_citation": "945 P.2d 52"}
     assert cite(neutral_citation="945 P.2d 52", paragraph="53", ext=pages) == "Doe v. Roe, 945 P.2d 52, 53 (Mont. 1997)"
     other = state | {"unit_scheme": "page", "page_citation": "283 Mont. 1"}  # the pages belong to another citation
-    assert cite(neutral_citation="945 P.2d 52", paragraph="53", ext=other) == "Doe v. Roe, 945 P.2d 52 (Mont. 1997)"
+    assert cite(neutral_citation="945 P.2d 52", paragraph="53", ext=other) == (
+        "Doe v. Roe, 945 P.2d 52, 283 Mont. 1, 53 (Mont. 1997)"
+    )
     blocks = state | {"unit_scheme": "block"}  # a running number of the unit is not a page
     assert cite(neutral_citation="945 P.2d 52", paragraph="2", ext=blocks) == "Doe v. Roe, 945 P.2d 52 (Mont. 1997)"
 

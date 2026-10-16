@@ -9,7 +9,7 @@ from dataclasses import dataclass
 class CourtInfo:
     ulis_id: str
     name: str
-    group: str  # CourtListener's jurisdiction code: F federal appellate, FD district, FB bankruptcy, S/SA state ...
+    group: str  # CourtListener jurisdiction code: F appellate, FD district, FB bankruptcy, S/SA state ...
     citation: str  # CourtListener's citation_string, the court's form in a Bluebook parenthetical
 
 

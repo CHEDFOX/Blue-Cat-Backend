@@ -285,16 +285,19 @@ class UsModule(JurisdictionModule):
         year = c.decision_date.year
         court = ext.get("court_citation") or COURT_ABBREVIATIONS.get(c.court_id) or c.court_name
         kind = ext.get("citation_kind")
-        # A pinpoint is given only when the unit is a printed page of the very citation that is cited.
-        pin = ""
-        if c.paragraph and ext.get("unit_scheme") == "page" and ext.get("page_citation") == c.neutral_citation:
-            pin = f", {c.paragraph}"
-        if kind == "neutral" and c.neutral_citation:
-            return f"{c.case_name}, {c.neutral_citation}{pin}"
-        if kind == "reporter" and c.neutral_citation:
-            if c.court_id == "US-SC" and c.neutral_citation.split()[1:2] == ["U.S."]:
-                return f"{c.case_name}, {c.neutral_citation}{pin} ({year})"
-            return f"{c.case_name}, {c.neutral_citation}{pin} ({court} {year})"
+        # A pinpoint is given only when the unit is a printed page, and then of the reporter whose pages they are: when
+        # that is not the citation the case is filed under, it follows as a parallel citation
+        # ("523 U.S. 751, 118 S. Ct. 1700, 1703").
+        cite = c.neutral_citation
+        page_cite = ext.get("page_citation")
+        if cite and c.paragraph and ext.get("unit_scheme") == "page" and page_cite:
+            cite = f"{cite}, {c.paragraph}" if page_cite == cite else f"{cite}, {page_cite}, {c.paragraph}"
+        if kind == "neutral" and cite:
+            return f"{c.case_name}, {cite}"
+        if kind == "reporter" and cite:
+            if c.court_id == "US-SC" and (c.neutral_citation or "").split()[1:2] == ["U.S."]:
+                return f"{c.case_name}, {cite} ({year})"
+            return f"{c.case_name}, {cite} ({court} {year})"
         d = c.decision_date
         dated = f"{court} {MONTHS[d.month - 1]} {d.day}, {year}"
         if kind == "database" and c.neutral_citation:  # a Westlaw or Lexis number: the full date, as the Bluebook asks

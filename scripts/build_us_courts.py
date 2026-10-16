@@ -27,6 +27,7 @@ from __future__ import annotations
 import argparse
 import bz2
 import csv
+import gzip
 import json
 import re
 import sys
@@ -79,11 +80,13 @@ SPECIAL_APPEALS = {
     "cma": ["scotus"],
 }
 APPELLATE_NAME = re.compile(r"appeal|appellate|error", re.I)
+# Intermediate appellate courts whose names do not say so (the Pennsylvania Superior and Commonwealth Courts).
+ALSO_APPELLATE = {"pasuperct", "pacommwct"}
 RANK = {"F": 2, "FD": 3, "FB": 4, "FBP": 3, "FS": 3, "S": 2, "SA": 3, "MA": 3, "TS": 2, "TA": 3}
 
 
 def read_courts(path: Path) -> list[dict[str, str]]:
-    opener = bz2.open if path.suffix == ".bz2" else open
+    opener = {".bz2": bz2.open, ".gz": gzip.open}.get(path.suffix, open)
     with opener(path, "rt", encoding="utf-8", newline="") as handle:  # type: ignore[operator]
         return list(csv.DictReader(handle))
 
@@ -114,7 +117,7 @@ def appeals(court: dict[str, str], by_id: dict[str, dict[str, str]], supreme: li
         return [state] if state in by_id else []
     if group == "S":
         return ["scotus"]
-    if group == "SA" and APPELLATE_NAME.search(court["full_name"]):
+    if group == "SA" and (APPELLATE_NAME.search(court["full_name"]) or clid in ALSO_APPELLATE):
         if clid.startswith("txctapp"):
             return [c for c in ("tex", "texcrimapp") if c in by_id]
         match = next((s for s in supreme if clid.startswith(s) and s != clid), None)

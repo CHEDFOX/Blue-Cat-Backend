@@ -521,7 +521,7 @@ def parse(raw: bytes) -> list[ParsedDocument]:
                 block_no += 1
                 p.num = f"syllabus {block_no}"
 
-    primary = page_cite or primary_citation(cites)
+    primary = primary_citation(cites)  # the page citation, if different, is in ext.page_citation and used for pinpoints
     kind = "docket"
     if primary is not None:
         kind = "neutral" if primary.type == NEUTRAL else "database" if primary.type in (LEXIS, WEST) else "reporter"

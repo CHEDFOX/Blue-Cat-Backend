@@ -21,8 +21,8 @@
 #   The U.S. Reports listing now links: bound volumes 561-587 (boundvolumes/<n>BV.pdf, typeset), preliminary prints 588-606
 #        (preliminaryprint/<n>US<part>PP_*.pdf), and the older volumes 2-501 as scans (/pdfs/USReports/USREPORTS-<n>_PDFA.pdf, 4-50 MB each).
 #        Volumes 2-586 are GovInfo's too; 587 and later are the new part. Still no HTML or text form of any opinion.
-#   Why still planned: the Court's decisions from 587 U.S. to the 2026 term are already in the bulk files of us-courtlistener-bulk-s3 (which
-#        reads the Court's slip opinions), and a parser for typeset preliminary prints (case boundaries without a MODS list) would be new
+#   Why still planned: the Court's decisions from 587 U.S. to the 2026 term are already in the bulk files of us-courtlistener-bulk-s3 (its scope
+#        report of 2026-10-16 counts 103, 83, 125, 152, 139 and 80 Supreme Court cases dated 2021 to 2026), and a parser for typeset preliminary prints (case boundaries without a MODS list) would be new
 #        work for the same text. Taking it up later needs only that parser; access is open.
 schema_version: 1
 id: us-supremecourt-gov-opinions
