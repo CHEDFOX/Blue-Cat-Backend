@@ -24,3 +24,13 @@ Consolidation cut-off date (法規整編資料截止日) on every page: 民國 1
 | `LawClass/LawAll/I0050021.html` | 個人資料保護法 (Personal Data Protection Act), 修正日期 2025-11-11; 26 articles not yet in force |
 | `LawClass/LawAll/N0030001.html` | 勞動基準法 (Labor Standards Act), 修正日期 2024-07-31; sub-items (目) in art 59 |
 | `robots.txt` | `Disallow: /` with `Allow: /LawClass/LawAll.aspx` (and two other paths) |
+
+Added with the widened manifest (retrieved 2026-10-15, same layout, unmodified; consolidation cut-off 民國 115 年 10 月 08 日 = 2026-10-08):
+
+| File | Content |
+|---|---|
+| `LawClass/LawAll/M0140056.html` | 植物診療機構開業登記及管理辦法 (an order, never amended: 發布日期 2025-08-12) |
+| `LawClass/LawAll/N0030028.html` | 最低工資法（112.12.27制定） (a law whose name carries a note in brackets; 公布日期 2023-12-27) |
+| `LawClass/LawAll/J0130056.html` | 天然氣事業輸儲設備防災相關設施裝置維修辦法 (an order; art 3 has numbered lists 1. 2. 3. below the 目 level) |
+| `LawClass/LawAll/D0000248.html` | 廢 太魯閣國家公園管理處編制表 (repealed: 廢止日期 2024-05-03) |
+| `LawClass/LawAll/G0300098.html` | 財政部關務署臺中關編制表 (a chart published as an attachment only: no article text) |

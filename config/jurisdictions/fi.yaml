@@ -3,7 +3,7 @@
 # separately, with the EU profile.
 schema_version: 1
 id: FI
-profile_version: 0.2.0
+profile_version: 0.3.0
 name: Finland
 names: {fi: Suomi, sv: Finland, en: Finland}
 kind: sovereign_state
@@ -30,7 +30,9 @@ legislative_institutions:
   - id: FI-VN
     name: Valtioneuvosto / Statsrådet (Government) and ministries
     instrument_types: [decree]
-instrument_types: [act, decree]
+instrument_types:
+  [act, decree, announcement, budget, confirmation, decision, declaration, instructions, letter, list, notice,
+   official_regulation, order, rules_of_procedure, statement]
 norm_hierarchy: [act, decree]
 courts:
   - id: FI-KKO

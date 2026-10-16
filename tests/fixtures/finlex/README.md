@@ -14,3 +14,11 @@ The API serves them gzip-encoded; they are stored exactly as received.
 Licence: Creative Commons Attribution 4.0 (Finlex FAQ, https://www.finlex.fi/en/faq). Statutes
 are not protected by copyright in Finland (Copyright Act 404/1961, 9 §). The consolidated texts
 are not authentic; see `docs/jurisdictions/fi.md`.
+
+Added with the widened manifest (retrieved 2026-10-15, same layout and encoding):
+
+| File (under `.../statute-consolidated/`) | Statute |
+|---|---|
+| `2024/718/{fin,swe}@latest` | Verohallinnon päätös autoveroilmoituksella ilmoitettavista tiedoista / Skatteförvaltningens beslut om uppgifter som ska lämnas i bilskattedeklarationen (718/2024): a decision, not an Act or decree |
+| `1932/246/fin@latest` | Asetus eräiden rahalaitosten oikeudesta pitää shekkitiliä (246/1932): in force, but the source holds no text (`contentAbsent`, 3.7 KB) |
+| `2020/1175/fin@latest` | A statute with text whose `isInForce` is false |

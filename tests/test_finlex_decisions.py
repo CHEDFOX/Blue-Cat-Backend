@@ -194,7 +194,7 @@ def test_profile_has_the_ombudsman_as_a_body_that_is_not_a_court(catalog: Catalo
     assert reg.court_jurisdiction("FI-TSV") == "FI"
     body = reg.courts()["FI-TSV"]
     assert body.kind == "administrative_body" and body.appeals_to == []
-    assert reg.get("FI").profile_version == "0.2.0"
+    assert reg.get("FI").profile_version == "0.3.0"
     assert reg.courts()["FI-KKO"].kind == "court"
 
 

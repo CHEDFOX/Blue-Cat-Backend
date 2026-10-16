@@ -30,7 +30,8 @@ from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.moj_laws import FetchError, MojLawsConnector, robots_allows, tls_context
 from ulis.sources.connectors.polite_http import PoliteHttp
-from ulis.sources.parsers.moj_law import MojParseError, not_in_force, numeral, parse_moj_law, roc_date
+from ulis.sources.normalized import ParseSkipped
+from ulis.sources.parsers.moj_law import MojParseError, instrument_type, not_in_force, numeral, parse_moj_law, roc_date
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
 
@@ -38,6 +39,9 @@ SOURCE = "tw-moj-laws"
 FIX = REPO_ROOT / "tests" / "fixtures" / "moj_laws" / "cache"
 HOST = FIX / "law.moj.gov.tw"
 PCODES = ["A0000001", "A0000002", "B0000001", "C0000001", "I0050021", "N0030001"]
+# Pages of the widened manifest (the sitemap lists every law and regulation, repealed ones included):
+ORDERS = ["M0140056", "N0030028"]  # an order never amended (發布日期); an act with a note in its name
+SKIPPED = ["G0300098", "D0000248"]  # a chart published as an attachment only; a repealed order (廢止日期)
 UA = "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
 # The 2023 and 2025 amendments of the Personal Data Protection Act, not yet in force (生效狀態 memo).
 PDPA_PENDING = {
@@ -202,9 +206,9 @@ def test_parser_refuses_what_it_cannot_date_or_read() -> None:
     page = _page("I0050021")
     with pytest.raises(MojParseError, match="not a law full-text page"):
         parse_moj_law(b"<html><body>Service unavailable</body></html>")
-    repealed = page.replace("<th>修正日期：</th>".encode(), "<th>廢止日期：</th>".encode())
-    with pytest.raises(MojParseError, match="repealed laws"):
-        parse_moj_law(repealed)
+    none_of_the_dates = page.replace("<th>修正日期：</th>".encode(), "<th>施行日期：</th>".encode())
+    with pytest.raises(MojParseError, match="none of 修正日期"):
+        parse_moj_law(none_of_the_dates)
     # A 生效狀態 memo that names no article: refuse rather than present unknown text as in force.
     vague = page.replace("修正第&nbsp;1-1、12、18".encode(), "修正本法".encode()).replace(
         "增訂之第&nbsp;1-1&nbsp;&nbsp;條條文".encode(), "增訂條文".encode()
@@ -214,6 +218,57 @@ def test_parser_refuses_what_it_cannot_date_or_read() -> None:
     no_cutoff = page.replace("法規整編資料截止日".encode(), "更新日".encode())
     with pytest.raises(MojParseError, match="cut-off"):
         parse_moj_law(no_cutoff)
+
+
+def test_order_never_amended_is_dated_by_its_date_of_issue() -> None:
+    doc = _doc("M0140056")  # 植物診療機構開業登記及管理辦法: the page shows 發布日期, as laws show 公布日期
+    assert (doc.instrument_type, doc.work_uri) == ("regulation", "/tw/regulation/M0140056")
+    assert (doc.work_date, doc.version_date) == (date(2025, 8, 12), date(2026, 10, 8))
+    assert doc.text_origin == "official_conversion"
+    assert [(e.event_type, e.date.isoformat(), e.description) for e in doc.events] == [
+        ("promulgation", "2025-08-12", "發布日期"),
+        ("version_change", "2026-10-08", "法規整編資料截止日 (consolidation cut-off date)"),
+    ]
+    assert _cite(doc, "article-2-paragraph-2-item-1") == "植物診療機構開業登記及管理辦法第2條第2項第1款"
+    assert _by_eid(doc)["article-1"].text.startswith("本辦法依植物診療師法")
+
+
+def test_a_note_in_brackets_is_not_part_of_the_name() -> None:
+    doc = _doc("N0030028")  # 最低工資法（112.12.27制定）: a law enacted 2023-12-27, named as the database names it
+    assert doc.title == "最低工資法（112.12.27制定）" and doc.instrument_type == "act"
+    assert _cite(doc, "article-2").startswith("最低工資法（112.12.27制定）第2條")
+    assert instrument_type("最低工資法（112.12.27制定）") == "act"
+    assert instrument_type("勞動基準法施行細則") == "regulation"
+    # Not a statute name (中央法規標準法 art 2): an agency order or rule, whatever it is called.
+    assert instrument_type("公務人員特種考試要點") == "regulation"
+    assert instrument_type("中華民國憲法增修條文") == "constitution"
+
+
+def test_lists_below_the_sub_item_level_stay_in_the_text_of_the_sub_item() -> None:
+    doc = _doc("J0130056")  # 天然氣事業輸儲設備防災相關設施裝置維修辦法: art 3 has 1. 2. 3. under a 目
+    eid = "article-3-paragraph-1-item-1-subitem-3"
+    assert _by_eid(doc)[eid].text == (
+        "公用天然氣事業：\n1.應於儲氣設備及連接交貨口整壓站設置之。\n"
+        "2.未連接交貨口整壓站及除整壓站外之相關整壓設備，依附表一設置之。\n"
+        "3.於同一供氣區域內，應設置監控系統之場所逾一處者，得僅擇一場所設置具備地震偵測功能之監測設備。"
+    )
+    assert _cite(doc, eid) == "天然氣事業輸儲設備防災相關設施裝置維修辦法第3條第1項第1款第3目"
+    assert "article-3-paragraph-1-item-1-subitem-3-item-1" not in _by_eid(doc)  # not addressable on its own
+    # The next 目 and 款 are unaffected, and the 款's text (with its 目) still reads as printed.
+    assert _by_eid(doc)["article-3-paragraph-1-item-2"].text.startswith("遮斷裝置：\n（一）附掛於橋樑")
+    # A numbered list with nothing above it to attach to is refused, not guessed.
+    with pytest.raises(MojParseError, match="unsupported list level"):
+        parse_moj_law(
+            _page("J0130056").replace(
+                "天然氣事業應分別依下列規定，設置防災相關設施：".encode(), "1.天然氣事業".encode()
+            )
+        )
+
+
+def test_repealed_laws_and_attachment_only_pages_are_skipped_not_errors() -> None:
+    for pcode, reason in (("D0000248", "repealed"), ("G0300098", "attachment only")):
+        with pytest.raises(ParseSkipped, match=reason):
+            parse_moj_law(_page(pcode))
 
 
 # --------------------------------------------------------------------------- connector
@@ -269,8 +324,79 @@ def test_connector_offline_from_cache(tmp_path: Path) -> None:
     assert docs[0].media_type == "text/html" and docs[0].content == _page("A0000001")
     meta = json.loads((cache / "law.moj.gov.tw/LawClass/LawAll/A0000001.html.meta.json").read_text())
     assert docs[0].retrieved_at.isoformat() == meta["retrieved_at"]
-    real = MojLawsConnector(REPO_ROOT / "config/manifests/tw-moj-laws.yaml", SOURCE, cache, offline=True)
-    assert len(real._manifest()["laws"]) == 8
+
+
+def test_committed_manifest_lists_every_page_of_the_sitemap(tmp_path: Path) -> None:
+    """config/manifests/tw-moj-laws.yaml is generated from /SearchEngineSitemap.aspx (scripts/build_moj_manifest.py)."""
+    connector = MojLawsConnector(REPO_ROOT / "config/manifests/tw-moj-laws.yaml", SOURCE, tmp_path)
+    laws = connector._manifest()["laws"]  # also checks every PCode's shape and that none is listed twice
+    pcodes = [law["pcode"] for law in laws]
+    assert len(pcodes) > 11_000
+    assert pcodes[:8] == [
+        "A0000001",
+        "A0000002",
+        "B0000001",
+        "C0000001",
+        "B0010001",
+        "A0030055",
+        "I0050021",
+        "N0030001",
+    ]
+    assert {"A0000001", "N0030028", "M0140056", "G0300098", "D0000248"} <= set(pcodes)
+    robots = gzip.decompress((HOST / "robots.txt.gz").read_bytes()).decode()
+    assert all(robots_allows(robots, UA, f"https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode={p}") for p in pcodes)
+    with pytest.raises(ManifestError, match="listed twice"):
+        dup = _manifest(tmp_path, [{"pcode": "A0000001"}, {"pcode": "A0000001"}])
+        MojLawsConnector(dup, SOURCE, tmp_path)._manifest()
+
+
+class _FakeHttp:
+    """PoliteHttp stand-in: robots.txt and one law page from the fixtures; the PCode decides the answer."""
+
+    gone, refused, not_a_law = "Z0000404", "Z0000403", "Z0000200"
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        pass
+
+    def cache_path(self, url: str, cache_key: str | None = None) -> Path:
+        return Path("/nonexistent") / (cache_key or "x")
+
+    def get(self, url: str, cache_key: str | None = None, headers: Any = None) -> tuple[bytes, dict[str, Any]] | None:
+        meta = {"url": url, "retrieved_at": "2026-10-15T00:00:00+00:00", "status": 200, "content_type": "text/html"}
+        if url.endswith("/robots.txt"):
+            return gzip.decompress((HOST / "robots.txt.gz").read_bytes()), meta
+        if self.gone in url:
+            return None
+        if self.refused in url:
+            raise FetchError(f"{url}: HTTP 403 (not retried: a refusal is respected)")
+        if self.not_a_law in url:
+            return b"<html><body>Service unavailable</body></html>", meta
+        return _page("B0000001"), meta
+
+
+def test_one_bad_page_does_not_abort_the_run_but_a_refusal_does(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr("ulis.sources.connectors.moj_laws.PoliteHttp", _FakeHttp)
+    laws = [{"pcode": "B0000001"}, {"pcode": _FakeHttp.gone}, {"pcode": _FakeHttp.not_a_law}, {"pcode": "C0000001"}]
+    connector = MojLawsConnector(_manifest(tmp_path, laws), SOURCE, tmp_path)
+    assert [d.external_id for d in connector.fetch()] == ["moj-law:B0000001", "moj-law:C0000001"]
+    assert len(connector.fetch_errors) == 2
+    assert "not found (404)" in connector.fetch_errors[0] and _FakeHttp.gone in connector.fetch_errors[0]
+    assert "not a law page" in connector.fetch_errors[1]
+    refused = [{"pcode": "B0000001"}, {"pcode": _FakeHttp.refused}, {"pcode": "C0000001"}]
+    connector = MojLawsConnector(_manifest(tmp_path, refused), SOURCE, tmp_path)
+    got: list[str] = []
+    with pytest.raises(FetchError, match="HTTP 403"):
+        for doc in connector.fetch():
+            got.append(doc.external_id)
+    assert got == ["moj-law:B0000001"]
+    many = [{"pcode": f"Z{i:07d}"} for i in range(405, 405 + 25)]
+    monkeypatch.setattr(_FakeHttp, "gone", "Z00")  # every one of these pages answers 404
+    connector = MojLawsConnector(_manifest(tmp_path, many), SOURCE, tmp_path)
+    with pytest.raises(FetchError, match="20 pages failed in a row"):
+        list(connector.fetch())
+    assert len(connector.fetch_errors) == 20
 
 
 def test_connector_respects_robots_and_validates_manifest(tmp_path: Path) -> None:
@@ -339,7 +465,7 @@ def test_registered_connector(catalog: Catalog) -> None:
 
 class _Fixtures:
     def fetch(self) -> Iterator[RawDocument]:
-        for pcode in PCODES:
+        for pcode in [*PCODES, *ORDERS, *SKIPPED]:
             meta = json.loads((HOST / "LawClass" / "LawAll" / f"{pcode}.html.meta.json").read_text())
             yield RawDocument(
                 f"moj-law:{pcode}",
@@ -370,7 +496,8 @@ def test_chinese_search_finds_provisions_with_citations_and_limitations(
     session: Session, catalog: Catalog, tw_ingested: IngestionReport
 ) -> None:
     assert tw_ingested.errors == [] and tw_ingested.conflicts == []
-    assert (tw_ingested.instruments_created, tw_ingested.instrument_versions_created) == (6, 6)
+    assert (tw_ingested.instruments_created, tw_ingested.instrument_versions_created) == (8, 8)
+    assert tw_ingested.documents_skipped == 2  # the repealed order and the chart without article text
     res = _search(
         session, catalog, q="因故意或過失，不法侵害他人之權利", as_of=date(2026, 10, 2), query_language="zh-Hant"
     )
@@ -393,6 +520,24 @@ def test_chinese_search_finds_provisions_with_citations_and_limitations(
     assert "個人資料保護法第6條第1項第2款" in {h["citation"] for h in pdpa["results"]}
     sub = _search(session, catalog, q="配偶及子女", limit=50)
     assert "勞動基準法第59條第4款第1目" in {h["citation"] for h in sub["results"]}
+
+
+@pytest.mark.db
+def test_search_finds_an_order_and_dates_it_by_its_date_of_issue(
+    session: Session, catalog: Catalog, tw_ingested: IngestionReport
+) -> None:
+    res = _search(
+        session, catalog, q="植物診療機構無本法第二十二條所定不得發給開業執照之情形者，始得申請開業登記", limit=5
+    )
+    hit = res["results"][0]
+    assert hit["citation"] == "植物診療機構開業登記及管理辦法第2條第1項"
+    assert hit["text"].startswith("植物診療機構無本法第二十二條所定不得發給開業執照之情形者")
+    codes = {lim["code"] for lim in hit["limitations"]}
+    assert {"ATTESTED_ONLY_AT", "SOURCE_NOT_AUTHENTIC", "PROFILE_UNVERIFIED"} <= codes
+    pit = provision_at(session, catalog, "/tw/regulation/M0140056/~article-1", date(2026, 10, 8))
+    assert pit["status_on_date"] == "in_force_date_unverified" and pit["version"]["currency_date"] == "2026-10-08"
+    # The repealed order and the chart without article text left no trace.
+    assert _search(session, catalog, q="太魯閣國家公園管理處編制表", limit=5)["results"] == []
 
 
 @pytest.mark.db
@@ -435,9 +580,10 @@ def test_reingest_is_idempotent_and_sources_verify(
 ) -> None:
     with session_factory() as session:
         again = Ingestor(session, catalog, store).ingest_source(SOURCE, actor="pytest", connector=_Fixtures())
-        assert again.documents_unchanged == len(PCODES) and again.provision_versions_created == 0
+        assert again.documents_unchanged == len(PCODES) + len(ORDERS) and again.provision_versions_created == 0
+        assert again.documents_skipped == len(SKIPPED)
         ids = session.scalars(select(m.SourceDocument.id).where(m.SourceDocument.source_id == SOURCE)).all()
         results = [verify_source_document(session, catalog, store, i, checker="pytest") for i in ids]
-        assert len(results) == len(PCODES) and all(r["result"] == "pass" for r in results)
+        assert len(results) == len(PCODES) + len(ORDERS) and all(r["result"] == "pass" for r in results)
         assert sum(r["checked_units"] for r in results) == tw_ingested.provision_versions_created
         session.rollback()

@@ -15,6 +15,11 @@ Requests use ``PoliteHttp`` (identifying User-Agent, a delay between requests, b
 refusals respected, HTTPS to laws.e-gov.go.jp only, local cache, offline mode). The site has
 no robots.txt, so the default 5-second delay applies. Responses are cached forever: delete
 ``<cache>/laws.e-gov.go.jp/api2/law_revisions`` to pick up new revisions.
+
+The manifest may list every law in force (``scripts/build_egov_manifest.py``: about 9,000 laws, two requests
+each), so one law that cannot be fetched (404, a revision list without a revision in force, a server error that
+outlasts the back-off) is reported in ``fetch_errors`` and the run goes on. A refusal (401, 403, 429, 451)
+stops the run, and so do ``MAX_CONSECUTIVE_ERRORS`` laws failing in a row.
 """
 
 from __future__ import annotations
@@ -39,6 +44,8 @@ BASE_URL = "https://laws.e-gov.go.jp/api/2"
 _LAW_ID = re.compile(r"^[0-9]{3}[0-9A-Z]+$")
 _DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 IN_FORCE = ("CurrentEnforced", "PreviousEnforced")
+_REFUSAL = re.compile(r"HTTP (?:401|403|429|451)\b")
+MAX_CONSECUTIVE_ERRORS = 20
 
 __all__ = ["EgovLawsConnector", "FetchError", "Revision", "revisions_to_fetch"]
 
@@ -99,6 +106,7 @@ class EgovLawsConnector:
         self.offline = offline
         self._sleep = sleep
         self.http: PoliteHttp | None = None
+        self.fetch_errors: list[str] = []
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -108,9 +116,14 @@ class EgovLawsConnector:
             raise ManifestError("an identifying user_agent with contact details is required")
         if manifest.get("base_url", BASE_URL).rstrip("/") != BASE_URL:
             raise ManifestError(f"base_url must be {BASE_URL}")
+        seen: set[str] = set()
         for law in manifest.get("laws") or []:
-            if not _LAW_ID.match(str(law.get("law_id", ""))):
+            law_id = str(law.get("law_id", ""))
+            if not _LAW_ID.match(law_id):
                 raise ManifestError(f"invalid law_id {law.get('law_id')!r}")
+            if law_id in seen:
+                raise ManifestError(f"{law_id} is listed twice")
+            seen.add(law_id)
         return manifest
 
     def _get(self, url: str, cache_key: str) -> tuple[bytes, dict[str, Any]]:
@@ -120,8 +133,27 @@ class EgovLawsConnector:
             raise FetchError(f"{url}: not found")
         return got
 
+    def _law(self, law: dict[str, Any]) -> list[RawDocument]:
+        """All documents of one law: the texts of its revisions, oldest first, then the revision list.
+        Nothing is yielded unless every request for the law succeeded, so a failed law leaves no partial history."""
+        law_id = str(law["law_id"])
+        list_url = f"{BASE_URL}/law_revisions/{law_id}?response_format=xml"
+        listing, list_meta = self._get(list_url, f"api2/law_revisions/{law_id}.xml")
+        wanted = law.get("history_dates")
+        documents = []
+        for rev in revisions_to_fetch(
+            listing, bool(law.get("history", False)), {str(d) for d in wanted} if wanted is not None else None
+        ):
+            url = f"{BASE_URL}/law_data/{rev.law_revision_id}?response_format=xml"
+            data, meta = self._get(url, f"api2/law_data/{rev.law_revision_id}.xml")
+            documents.append(self._raw(f"e-gov:{rev.law_revision_id}", data, meta, law_id, rev))
+        # After the texts: the list reports amendments not yet in force for the current revision.
+        documents.append(self._raw(f"e-gov:{law_id}:law_revisions", listing, list_meta, law_id, None))
+        return documents
+
     def fetch(self) -> Iterator[RawDocument]:
         manifest = self._manifest()
+        self.fetch_errors = []
         host = urllib.parse.urlsplit(BASE_URL).netloc
         self.http = PoliteHttp(
             self.cache_dir,
@@ -131,19 +163,20 @@ class EgovLawsConnector:
             offline=self.offline,
             sleep=self._sleep,
         )
+        failed_in_a_row = 0
         for law in manifest["laws"]:
-            law_id = str(law["law_id"])
-            list_url = f"{BASE_URL}/law_revisions/{law_id}?response_format=xml"
-            listing, list_meta = self._get(list_url, f"api2/law_revisions/{law_id}.xml")
-            wanted = law.get("history_dates")
-            for rev in revisions_to_fetch(
-                listing, bool(law.get("history", False)), {str(d) for d in wanted} if wanted is not None else None
-            ):
-                url = f"{BASE_URL}/law_data/{rev.law_revision_id}?response_format=xml"
-                data, meta = self._get(url, f"api2/law_data/{rev.law_revision_id}.xml")
-                yield self._raw(f"e-gov:{rev.law_revision_id}", data, meta, law_id, rev)
-            # After the texts: the list reports amendments not yet in force for the current revision.
-            yield self._raw(f"e-gov:{law_id}:law_revisions", listing, list_meta, law_id, None)
+            try:
+                documents = self._law(law)
+            except FetchError as exc:
+                if _REFUSAL.search(str(exc)) or self.offline:
+                    raise  # a refusal stops the run; so does a missing cache entry when offline
+                self.fetch_errors.append(f"e-gov:{law['law_id']}: {exc}; skipped")
+                failed_in_a_row += 1
+                if failed_in_a_row >= MAX_CONSECUTIVE_ERRORS:
+                    raise FetchError(f"{failed_in_a_row} laws failed in a row (last: {exc}); stopping") from exc
+                continue
+            failed_in_a_row = 0
+            yield from documents
 
     @staticmethod
     def _raw(external_id: str, data: bytes, meta: dict[str, Any], law_id: str, rev: Revision | None) -> RawDocument:

@@ -44,10 +44,10 @@ from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing use
 
 from defusedxml.ElementTree import fromstring
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "egov_law_xml"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 SITE = "https://laws.e-gov.go.jp"
 JURISDICTION = "JP"
 
@@ -59,6 +59,13 @@ INSTRUMENT_TYPES = {
     "ImperialOrder": "imperial_ordinance",
     "MinisterialOrdinance": "ministerial_ordinance",
     "Rule": "rule",
+    # e-Gov's list and revision-list endpoints give 21 laws two types ("Act,ImperialOrder", "Act,CabinetOrder",
+    # "Act,MinisterialOrdinance": post-war orders that have the force of an Act) while its text endpoint types
+    # them "Act". The text endpoint's classification is the one used for the instrument type, so a text and
+    # its revision list agree; each response's own value is kept unchanged in ext.law_type.
+    "Act,ImperialOrder": "act",
+    "Act,CabinetOrder": "act",
+    "Act,MinisterialOrdinance": "act",
 }
 IN_FORCE = {"CurrentEnforced", "PreviousEnforced"}
 CONTAINERS = {"Part", "Chapter", "Section", "Subsection", "Division"}
@@ -155,6 +162,12 @@ class LawInfo:
             return INSTRUMENT_TYPES[self.law_type]
         except KeyError as exc:
             raise EgovParseError(f"unsupported law_type {self.law_type!r}") from exc
+
+    @property
+    def number(self) -> str | None:
+        """The law number (法令番号) for the instruments table, whose column holds 40 characters; a longer one
+        (a joint order of eight ministries) is only in ``ext.law_num``, never shortened."""
+        return self.law_num if len(self.law_num) <= 40 else None
 
     @property
     def work_uri(self) -> str:
@@ -489,7 +502,7 @@ def _parse_law_data(root: Element) -> ParsedDocument:
             "amendments not yet in force are reported from the revision list"
         )
     if (rev.findtext("repeal_status") or "None").strip() != "None":
-        raise EgovParseError(f"revision {revision_id}: repealed or expired laws are not supported")
+        raise ParseSkipped(f"revision {revision_id}: repealed or expired (廃止・失効); such laws are not ingested")
     if (rev.findtext("amendment_scheduled_enforcement_date") or "").strip():
         # A placeholder date ("not necessarily the actual enforcement date"): never used as a date of law.
         raise EgovParseError(f"revision {revision_id}: enforcement date is a placeholder")
@@ -518,7 +531,10 @@ def _parse_law_data(root: Element) -> ParsedDocument:
     for index, table in enumerate(body.findall("AppdxTable"), start=1):
         builder.appendix_table(table, index)
     if not builder.provisions:
-        raise EgovParseError("no provisions found")
+        parts = [*body.findall("MainProvision"), *body.findall("SupplProvision"), *body.findall("AppdxTable")]
+        if any("".join(p.itertext()).strip() for p in parts):
+            raise EgovParseError(f"revision {revision_id}: no provisions found in a law that has text")
+        raise ParseSkipped(f"revision {revision_id}: the law has no text to index")
 
     original = (rev.findtext("amendment_type") or "").strip() == "1"
     by_uri, by_label = _amendment(rev)
@@ -532,7 +548,7 @@ def _parse_law_data(root: Element) -> ParsedDocument:
         work_title=title,
         title=title,
         short_title=title,
-        number=info.law_num,
+        number=info.number,
         work_date=info.promulgation_date,
         language="ja",
         # The Official Gazette (官報) is authentic; e-Gov data is a revised text that yields to it.
@@ -638,7 +654,7 @@ def _parse_revisions(root: Element) -> ParsedDocument:
         work_title=title,
         title=title,
         short_title=title,
-        number=info.law_num,
+        number=info.number,
         work_date=info.promulgation_date,
         language="ja",
         authoritative=False,

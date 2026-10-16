@@ -1,8 +1,9 @@
 # Finland - `FI`
 
-Status: **pilot sample**, profile `draft_unverified` (0.1.0). Seven Acts from Finlex open data,
-consolidated text in Finnish and Swedish; two of them with every earlier temporal version the API
-holds.
+Status: profile `draft_unverified` (0.3.0). The committed manifest lists **every consolidated statute in
+force that has text** in Finlex open data (5,579 works, Finnish and Swedish; see "Widened to every statute in
+force"); the real runs in "Results" cover the original seven Acts (two with every earlier temporal version the
+API holds) and a 40-work slice of the widened manifest. The full download has not been run here.
 
 ## Source
 
@@ -76,6 +77,41 @@ version of 228/1929 answers 404, and so did the one version of 731/1999 tried (2
 Administrative Procedure Act lacks the versions before 2015 (20030434, 20091408, 20100581,
 20140368: 404). Version ids are the amending statutes' numbers (`20260380` = statute 380/2026),
 taken from each latest version's `finlex:amendedBy` list.
+
+## Widened to every statute in force (2026-10-16)
+
+- **What the two indexes say.** The download package `statute-consolidated.zip` (4.1 GB; central directory read with
+  2 Range requests, never downloaded) has 348,144 members: 56,478 statutes, each in Finnish and Swedish, 1.17 temporal
+  versions per language on average. The API's list (`GET /akn/fi/act/statute-consolidated/list?isInForce=true&
+  langAndVersion=fin@latest`, at most 10 per page, no total) names **38,585 statutes in force** (3,885 pages). But
+  **33,006 of them are shells**: `<hcontainer name="contentAbsent"/>`, a title and metadata, 3-5 KB, no text and no
+  dates (older statutes whose consolidation Finlex has not made). A random draw of 40 statutes from the package gave 12
+  with text, of which 5 in force; the in-force list gave 5,579 with text.
+- **Manifest** `config/manifests/fi-finlex.yaml`, written by `python -m scripts.build_finlex_manifest`: the in-force
+  list intersected with the statutes whose latest document in the package index is at least 5,500 bytes (shells are
+  3.3-6.3 KB, the smallest document with text seen is 5.5 KB, so the cut is not clean: about 1 listed work in 7
+  is a shell that is skipped at ingest, and a text document smaller than 5.5 KB would be missed), per language
+  (`languages: [fin]` for the 50 works with text in one language only). 5,579 works: the seven above + 5,572; by
+  decade 2020s 1,435, 2010s 1,276, 2000s 1,410, 1990s 728, earlier 730. The list's pages overlap slightly (about
+  0.7 % duplicate entries), so a few statutes in force may be missing; a later run of the script fills them.
+- **Parser** 1.1.0: a statute no longer in force (`isInForce` false) and a shell raise `ParseSkipped` (counted as
+  skipped documents); all fifteen Finlex statute types are kept as instrument types (`act`, `decree`, and e.g.
+  `decision` for Verohallinnon päätös 718/2024, `announcement`); the FI profile is **0.3.0** because its
+  `instrument_types` list grew (one pinned test updated). **Connector:** a statute that cannot be fetched (404, 5xx)
+  goes to `fetch_errors` and the run continues; a refusal (401/403/429/451) or 20 failures in a row stops it; a work
+  may carry its own `languages`.
+- **Cost of the full run:** 11,108 documents = about 11,100 requests = **15.4 hours** at 5 s; XML about **0.5 GB**
+  (494 MB for the latest documents; 44 KB each). Database about **2-3 GB**: 13 works loaded alone took 30.5 MB for
+  7.6 MB of XML (4.0x), the 40-work slice 19.6 MB for 3.8 MB (5.1x, shells included); 199 provision versions per
+  work in the slice, so about 0.9 million provision versions.
+- **Slice run** (40 works drawn at random from the manifest, seeded; 80 requests, 7 min): 80 documents, **68
+  ingested** (34 works: decree 46 documents, act 16, decision 6), 12 skipped (6 shells above the size cut), **0
+  errors**, 6,752 provision versions, 5,426 passages, `verify-sources` **68/68 pass** (6,752 units). Searches
+  (`ulis.cli search … --jurisdiction FI`): `tupakkatuote` → Tupakkalaki (549/2016) 2 § 1 mom., 11 § 1 mom.;
+  `elintarvikevalvonta` → Maa- ja metsätalousministeriön asetus elintarvikevalvonnasta (315/2021) 15 § 1 mom. 4 kohta;
+  `kreditinstitut` → Lag om resolution av kreditinstitut och värdepappersföretag (1194/2014) 1 kap. 3 § 1 mom.
+- Not used: the 4.1 GB package itself (one file with every temporal version, faster for the owner than 11,100
+  requests, but it needs a streaming zip reader and a rule for the latest version of each statute).
 
 ## How dates and versions work
 
@@ -160,12 +196,15 @@ formally binding; KKO/KHO precedents are followed in practice (marked "to verify
 reception: dualist (to verify). No memberships are recorded here (EU membership is added with the EU
 profile).
 
+Tests after widening (2026-10-16, own test database): full suite **1,291 passed**; `tests/test_finlex.py` 18 tests (committed manifest, shell / repealed / decision fixtures, connector robustness, PostgreSQL search of a decision in both languages). ruff, ruff format, mypy pass.
+
 ## Known gaps
 
-- Seven Acts only; consolidated (non-authentic) text only; no original Statute Book texts, decrees,
-  translations, case law (KKO/KHO precedents are on Finlex but not ingested) or treaties.
-- Full history only for the Data Protection Act; the Administrative Procedure Act from 2015; the
-  others in their latest version.
+- Consolidated (non-authentic) text only; no original Statute Book texts, translations, case law (KKO/KHO
+  precedents are on Finlex but not ingested) or treaties. The 33,006 in-force statutes without text are not ingested.
+  The full 5,579-work download has not been run (a slice of 40 has); the size figures are estimates.
+- Full history only for the Data Protection Act; the Administrative Procedure Act from 2015; every other
+  statute in its latest version (add `history: true` per work, in a fresh database).
 - Start dates are those the source records for the statute that gave each wording; where an amending
   statute commenced in stages (stated only in its text, e.g. 1010/1995 for one subsection of the
   Criminal Code), a date can be wrong for some provisions.

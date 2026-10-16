@@ -29,7 +29,18 @@ class JpExt(BaseModel):
     model_config = ConfigDict(extra="forbid")
     law_id: str  # e-Gov 法令ID, e.g. 129AC0000000089
     law_num: str  # 法令番号, e.g. 明治二十九年法律第八十九号
-    law_type: Literal["Constitution", "Act", "CabinetOrder", "ImperialOrder", "MinisterialOrdinance", "Rule", "Misc"]
+    law_type: Literal[
+        "Constitution",
+        "Act",
+        "CabinetOrder",
+        "ImperialOrder",
+        "MinisterialOrdinance",
+        "Rule",
+        "Misc",
+        "Act,ImperialOrder",
+        "Act,CabinetOrder",
+        "Act,MinisterialOrdinance",
+    ]
     abbrev: str | None = None  # e-Gov 法令略称 (comma-separated)
 
 

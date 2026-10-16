@@ -46,14 +46,22 @@ from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing use
 
 from defusedxml.ElementTree import fromstring
 
-from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef
+from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParsedRef, ParseSkipped
 
 AKN = "http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
 FINLEX = "http://data.finlex.fi/schema/finlex"
 PARSER_ID = "finlex_akn"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 LANGUAGES = {"fin": "fi", "swe": "sv"}
-INSTRUMENT_TYPES = {"type-statute.act": "act", "type-statute.decree": "decree"}
+# Finlex's statute types (typeStatute, "type-statute.<name>") are kept as instrument types: the API lists these
+# fifteen (an Act and a decree are the two big ones; the others are e.g. an authority's decision or announcement).
+INSTRUMENT_TYPES = {
+    f"type-statute.{name}": name.replace("-", "_")
+    for name in (
+        "act", "announcement", "budget", "confirmation", "decision", "declaration", "decree", "instructions",
+        "letter", "list", "notice", "official-regulation", "order", "rules-of-procedure", "statement",
+    )
+}  # fmt: skip
 
 PROVISIONS = ("section", "subsection", "paragraph", "subparagraph")
 STRUCTURE = ("part", "chapter")
@@ -496,7 +504,10 @@ def parse_finlex(content: bytes) -> list[ParsedDocument]:
         raise FinlexParseError(f"missing or invalid FRBRversionNumber {version!r}")
     in_force_flag = prop.find(_f("isInForce"))
     if in_force_flag is not None and in_force_flag.get("value") == "false":
-        raise FinlexParseError("the statute is no longer in force (repealed statutes are not supported)")
+        raise ParseSkipped("the statute is no longer in force (repealed statutes are not ingested)")
+    if any(_local(h.tag) == "hcontainer" and h.get("name") == "contentAbsent" for h in body):
+        # Most statutes in force are shells: a title and metadata, no text, no dates (3-5 KB). Nothing to store.
+        raise ParseSkipped("the source holds no text for this statute (contentAbsent)")
     act_start_el = prop.find(f"{_f('inForce')}/{_f('dateEntryIntoForce')}")
     act_start = _date(act_start_el.get("date")) if act_start_el is not None else None
 
