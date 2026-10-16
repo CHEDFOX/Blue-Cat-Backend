@@ -53,6 +53,7 @@ from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.govinfo_bulk import GovInfoCfrFrConnector, GovInfoStatutesConnector
 from ulis.sources.connectors.govinfo_uscourts import UsCourtsGovInfoConnector
 from ulis.sources.connectors.govinfo_usreports import UsReportsGovInfoConnector
+from ulis.sources.connectors.govuk_decisions import GovUkDecisionsConnector
 from ulis.sources.connectors.impo_uy import ImpoUyConnector
 from ulis.sources.connectors.infoleg_ar import InfolegArConnector
 from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
@@ -112,6 +113,7 @@ from ulis.sources.parsers import (
     govinfo_cfr_fr,
     govinfo_uscourts,
     govinfo_usreports,
+    govuk_decisions,
     impo_uy,
     infoleg_ar,
     irish_statute_book,
@@ -175,6 +177,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "rechtspraak_xml": rechtspraak.parse_rechtspraak,
     "stj_integras": stj_integras.parse_stj_integra,
     "rattspraxis_se_json": rattspraxis_se.parse_rattspraxis,
+    "govuk_decisions": govuk_decisions.parse_govuk_decision,
     "uksc_html": uksc_html.parse_uksc,
     "uksc_pdf": uksc_pdf.parse_uksc_pdf,
     "moj_law_html": moj_law.parse_moj_law,
@@ -231,6 +234,7 @@ PARSER_VERSIONS = {
     "rechtspraak_xml": rechtspraak.PARSER_VERSION,
     "stj_integras": stj_integras.PARSER_VERSION,
     "rattspraxis_se_json": rattspraxis_se.PARSER_VERSION,
+    "govuk_decisions": govuk_decisions.PARSER_VERSION,
     "uksc_html": uksc_html.PARSER_VERSION,
     "uksc_pdf": uksc_pdf.PARSER_VERSION,
     "moj_law_html": moj_law.PARSER_VERSION,
@@ -316,6 +320,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "rechtspraak": RechtspraakConnector,
     "stj_dados_abertos": StjConnector,
     "rattspraxis_se": RattspraxisConnector,
+    "govuk_decisions": GovUkDecisionsConnector,
     "jcpc": JcpcConnector,
     "jcpc_pdf": JcpcPdfConnector,
     "uksc": UkscConnector,

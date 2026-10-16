@@ -35,6 +35,16 @@ courts:
   - id: GB-JCPC
     name: Judicial Committee of the Privy Council
     rank: 1
+  # Tribunals whose decisions GOV.UK publishes. Appeals from them go to the Court of Appeal (or, in Scotland, the Court of Session),
+  # which this profile does not model, so they are listed without a place in the hierarchy.
+  - id: GB-EAT
+    name: Employment Appeal Tribunal
+    kind: tribunal
+    rank: 2
+  - id: GB-UTAAC
+    name: Upper Tribunal (Administrative Appeals Chamber)
+    kind: tribunal
+    rank: 2
 precedent:
   doctrine: stare_decisis
   vertical_binding: true
@@ -50,7 +60,7 @@ citation:
     - "Data Protection (Charges and Information) Regulations 2018, SI 2018/480, reg 2(1)"
 publication:
   official_sources:
-    [gb-legislation-gov-uk, gb-uksc-judgments, gb-uksc-judgments-pdf, gb-jcpc-judgments, gb-jcpc-judgments-pdf]
+    [gb-legislation-gov-uk, gb-uksc-judgments, gb-uksc-judgments-pdf, gb-jcpc-judgments, gb-jcpc-judgments-pdf, gb-govuk-tribunal-decisions]
   commencement: Acts commence on Royal Assent or as provided, often by commencement regulations.
   amendment: Textual amendment by later Acts and statutory instruments; legislation.gov.uk publishes revised versions.
   repeal: Express repeal; repealed text is shown as dots with an annotation.

@@ -1,0 +1,92 @@
+# Decisions of the Employment Appeal Tribunal and of the Upper Tribunal (Administrative Appeals Chamber) published on GOV.UK. Terms and
+# access rules read on 2026-10-16 from the publisher's own pages (cached under var/sources/):
+#   https://www.gov.uk/robots.txt (200) - "User-agent: *" / "Disallow: /*/print$" / "Disallow: /search/all*"; crawl-delay only for named
+#        bots (AhrefsBot); the Search API (/api/search.json) and the Content API (/api/content/...) are not disallowed.
+#   https://www.gov.uk/help/terms-conditions (last updated 3 September 2024) - "Most content on GOV.UK is subject to Crown copyright
+#        protection and is published under the Open Government Licence (OGL) ... You can reproduce content published on GOV.UK under the
+#        OGL as long as you follow the licence's conditions." and "We make most of the content on GOV.UK available through feeds for
+#        other websites and applications to use." Content is removed on request where it breaches data protection law.
+#   https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/ - OGL v3.0 (copy, publish, distribute, adapt, exploit
+#        commercially; attribution; excludes personal data and third-party rights).
+#   https://www.gov.uk/api/search.json?filter_document_type=employment_appeal_tribunal_decision (2,634 decisions) and
+#        ...=utaac_decision (2,093) list the pages; https://www.gov.uk/api/content/<page> returns each page as JSON with the neutral
+#        citation in the title, the decision date, the PDF attachment and the PDF's text in details.metadata.hidden_indexable_content.
+#   Not listed: employment_tribunal_decision (134,808 decisions on private individuals), residential_property_tribunal_decision
+#        (18,331, with addresses in the titles), asylum_support_decision (101, asylum seekers) - personal data, which the OGL excludes -
+#        and tax_tribunal_decision (1,451 Upper Tribunal Tax and Chancery decisions; the Content API has no text for them, PDF only).
+#   Not used: the National Archives' Find Case Law, which holds the same tribunals' newer decisions (computational analysis needs a
+#        licence, see gb-find-case-law), and BAILII (robots disallow).
+schema_version: 1
+id: gb-govuk-tribunal-decisions
+name: Tribunal decisions on GOV.UK (Employment Appeal Tribunal, Upper Tribunal AAC)
+publisher: HM Courts & Tribunals Service (published on GOV.UK by the Government Digital Service)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [GB]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  4,727 decisions: 2,634 of the Employment Appeal Tribunal (recent ones with a neutral citation "[2025] EAT 88", earlier ones cited by
+  their UKEAT appeal numbers) and 2,093 of the Upper Tribunal Administrative Appeals Chamber ("[2023] UKUT 149 (AAC)"; social security,
+  child support, war pensions and similar appeals), each with the text of the decision as GOV.UK extracts it from the tribunal's PDF. Employment
+  Tribunal, property tribunal and asylum support decisions are not included (personal data), nor Upper Tribunal Tax and Chancery
+  decisions (PDF only).
+access:
+  method: api
+  endpoint: config/manifests/gb-govuk-tribunal-decisions.yaml
+  authentication: none
+update_frequency: >-
+  When a tribunal's decision is published; ULIS re-reads the Search API (scripts/build_govuk_decisions_manifest.py) and extends the
+  manifest (a decision is fetched again only with an empty cache).
+rate_limits: >-
+  None published for the Content API. ULIS makes one request at a time, 5 s apart (4,727 decisions: 6.6 hours), with an identifying
+  User-Agent, and caches every response under var/sources/www.gov.uk/.
+licence:
+  id: OGL-UK-3.0
+  name: Open Government Licence v3.0 (GOV.UK content)
+  url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the GOV.UK terms and conditions, robots.txt and the licence text (read 2026-10-16). Tribunal decisions are
+    Crown copyright material published by HM Courts & Tribunals Service (to verify); the OGL does not cover personal data in the
+    information, which is why the collections of private individuals are left out. Not reviewed by counsel.
+  reviewed_on: 2026-10-16
+  redistribution: allowed
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: true
+  attribution_text: >-
+    Contains public sector information licensed under the Open Government Licence v3.0. Source: HM Courts & Tribunals Service, published on
+    GOV.UK. Decision text as extracted by GOV.UK from the tribunal's PDF; not the signed decision. Structure normalised by ULIS.
+  conditions:
+    - Acknowledge the source with the OGL attribution statement and a link to the licence.
+    - The licence does not cover personal data in the information or third-party rights; anonymisation orders and reporting restrictions (initials, "XYZ") are left as published.
+    - No endorsement by the tribunal or the Crown may be suggested.
+    - A modest request rate (5 s apart); a refusal (401/403/429) stops the run.
+  notes: >-
+    GOV.UK states that most of its content is available under the OGL and offers its content through feeds for other applications; no
+    restriction on automated access or computational analysis is stated on GOV.UK or in robots.txt. Counsel review recommended before
+    production use.
+provenance: >-
+  https://www.gov.uk/api/content/<collection>/<page> fetched with an identifying User-Agent; every response is cached byte for byte with
+  its URL and retrieval time under var/sources/www.gov.uk/ and stored unchanged.
+known_limitations:
+  - >-
+    The text is GOV.UK's extraction of the tribunal's PDF for its search index (a decision whose PDF is a scan has no text and is
+    skipped, no OCR); line breaks inside paragraphs, tables and footnotes follow the extraction and are not rebuilt.
+  - >-
+    Numbered paragraphs are recognised by the sequence 1, 2, 3 ... at the start of a line (a gap of one or two is tolerated; a quoted
+    passage numbered from 1 stays in its paragraph); headings are recognised as short single-line blocks without a final full stop, so
+    a few headings are plain text and a few short lines are taken for headings. A decision without numbered paragraphs is kept as
+    unnumbered text.
+  - >-
+    Decisions without a neutral citation (the older Employment Appeal Tribunal decisions) are works named after their GOV.UK page and
+    are cited by case name, tribunal and date. The tribunals' newer decisions are also in Find Case Law (not used).
+  - >-
+    No hyperlinks; links to the Supreme Court's and the Privy Council's judgments are by the pattern "[yyyy] UKSC n" or "[yyyy] UKPC n"
+    only. Later treatment of a decision is not recorded. The tribunals are listed in the GB profile without a place in the court
+    hierarchy (appeals to the Court of Appeal are not modelled).
+status: active
+connector: govuk_decisions
+parser: govuk_decisions
