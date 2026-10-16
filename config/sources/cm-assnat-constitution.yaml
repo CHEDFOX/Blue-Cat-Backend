@@ -1,0 +1,87 @@
+# Constitution of Cameroon from Assemblée nationale du Cameroun (assnat.cm). Read on 2026-10-15/16, before any document was fetched:
+#   robots.txt - www.assnat.cm/robots.txt - "User-agent: *" with the Joomla rules (Disallow /administrator/, /bin/, /cache/, /components/,
+#        /includes/, /installation/, /language/, /layouts/, /libraries/, /logs/, /modules/, /plugins/ ...); /images/ is not disallowed; no
+#        Crawl-delay
+#   Terms - the home page has no footer text and no terms-of-use or licence page was found on the pages read
+#   The document - The Assembly's site hosts two PDFs of the Constitution (30 pages each, text layer):
+#        https://www.assnat.cm/images/La_Constitution.pdf headed "Loi n°96/06 du 18 janvier 1996 Portant révision de la Constitution du 02
+#        juin 1972, modifiée et complétée par la loi n°2008/001 du 14 avril 2008" and https://www.assnat.cm/images/The_constitution.pdf headed
+#        "Law No. 96-6 of 18 January 1996 to amend the Constitution of 2 June, 1972" (English): preamble and articles 1 to 69. The French text
+#        prints "ARICLE 48" (a misprint), which the keywords hint of the manifest reads. Both languages are official in Cameroon.
+schema_version: 1
+id: cm-assnat-constitution
+name: Constitution of Cameroon - Assemblée nationale du Cameroun (assnat.cm)
+publisher: Assemblée nationale du Cameroun (assnat.cm)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- CM
+document_kinds:
+- constitution
+languages:
+- fr
+- en
+coverage: >-
+  The Constitution of Cameroon in fr, en as published by Assemblée nationale du Cameroun (assnat.cm): 2 document(s). Preamble
+  and 69 articles of the Constitution of 1996, in French (as modified and completed by the law of 14 April 2008, per its heading)
+  and in English, as the National Assembly's PDFs print them.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/cm-assnat-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests (the Crawl-delay when it is longer),
+  identifies itself, caches every download and makes 3 request(s) (robots.txt and 2 document(s)).
+licence:
+  id: CM-official-text-no-terms
+  name: >-
+    Official legal text published by Assemblée nationale du Cameroun (assnat.cm); no terms of reuse found (the home page has
+    no footer text and no terms-of-use or licence page was found on the pages read)
+  url: https://www.assnat.cm/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages quoted in the header of this file: robots.txt (www.assnat.cm/robots.txt
+    - "User-agent: *" with the Joomla rules (Disallow /administrator/, /bin/, /cache/, /components/, /includes/, /installation/,
+    /language/, /layouts/, /libraries/, /logs/, /modules/, /plugins/ ...); /images/ is not disallowed; no Crawl-delay) and
+    the terms (the home page has no footer text and no terms-of-use or licence page was found on the pages read). The Assembly's
+    site hosts two PDFs of the Constitution (30 pages each, text layer): https://www.assnat.cm/images/La_Constitution.pdf
+    headed "Loi n°96/06 du 18 janvier 1996 Portant révision de la Constitution du 02 juin 1972, modifiée et complétée par
+    la loi n°2008/001 du 14 avril 2008" and https://www.assnat.cm/images/The_constitution.pdf headed "Law No. 96-6 of 18 January
+    1996 to amend the Constitution of 2 June, 1972" (English): preamble and articles 1 to 69. The French text prints "ARICLE
+    48" (a misprint), which the keywords hint of the manifest reads. Both languages are official in Cameroon. The Constitution
+    is an official legal text; no statute excluding official texts from copyright was read on the publisher's pages (to verify).
+    Reading: AMBER - the publisher states no restriction on reusing the text beyond a generic notice; no permission for automated
+    retrieval is stated either.
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Cameroon, Assemblée nationale du Cameroun (assnat.cm); retrieved {retrieved_date}. Structured and indexed
+    by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (fr, en), not the authentic publication; amendments after the edition date are not applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests or the Crawl-delay, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/cm-assnat-constitution.yaml, stored byte for byte inside JSON bundles with the
+  URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- >-
+  The French PDF misprints the heading of article 48 ('ARICLE 48'); the manifest's keywords hint reads that spelling too.
+  The page numbers printed on their own line are dropped.
+- Whether the English PDF includes the amendments of 2008 is not stated in its heading.
+status: active
+connector: constitution_docs
+parser: constitution_text

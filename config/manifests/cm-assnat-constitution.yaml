@@ -1,0 +1,56 @@
+# The Constitution of Cameroon (fr, en): 2 document(s) on www.assnat.cm. See config/sources/cm-assnat-constitution.yaml.
+schema_version: 1
+source_id: cm-assnat-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.assnat.cm
+documents:
+- slug: cm-fr
+  jurisdiction: CM
+  url: https://www.assnat.cm/images/La_Constitution.pdf
+  format: pdf
+  language: fr
+  title: La Constitution de la République du Cameroun
+  citation_name: Cameroon Constitution
+  adopted_on: '1996-01-18'
+  edition_label: >-
+    loi n° 96/06 du 18 janvier 1996, modifiée et complétée par la loi n° 2008/001 du 14 avril 2008, as the Assembly's PDF
+    is headed
+  events:
+  - type: promulgation
+    date: '1996-01-18'
+    description: loi n° 96/06 du 18 janvier 1996 portant révision de la Constitution du 02 juin 1972
+    locator: heading of the PDF
+  - type: amendment
+    date: '2008-04-14'
+    description: loi n° 2008/001 du 14 avril 2008
+    locator: heading of the PDF
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    drop_lines:
+    - ^[0-9]{1,3}$
+    keywords:
+    - Article
+    - ARICLE
+- slug: cm-en
+  jurisdiction: CM
+  url: https://www.assnat.cm/images/The_constitution.pdf
+  format: pdf
+  language: en
+  title: Constitution of the Republic of Cameroon
+  citation_name: Cameroon Constitution
+  adopted_on: '1996-01-18'
+  edition_label: Law No. 96-6 of 18 January 1996 to amend the Constitution of 2 June 1972, as the Assembly's PDF is headed
+  events:
+  - type: promulgation
+    date: '1996-01-18'
+    description: Law No. 96-6 of 18 January 1996 to amend the Constitution of 2 June, 1972
+    locator: heading of the PDF
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    drop_lines:
+    - ^[0-9]{1,3}$

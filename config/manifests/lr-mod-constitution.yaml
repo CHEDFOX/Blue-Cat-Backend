@@ -1,0 +1,20 @@
+# The Constitution of Liberia (en): 1 document(s) on mod.gov.lr. See config/sources/lr-mod-constitution.yaml.
+schema_version: 1
+source_id: lr-mod-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- mod.gov.lr
+documents:
+- slug: lr-en
+  jurisdiction: LR
+  url: https://mod.gov.lr/wp-content/uploads/2022/06/THE-1986-CONSTITUTION-OF-THE-REPUBLIC-OF-LIBERIA.pdf
+  format: pdf
+  language: en
+  title: Constitution of the Republic of Liberia
+  citation_name: Liberia Constitution
+  edition_label: >-
+    the Ministry of National Defense's PDF titled '1986 Constitution of the Republic of Liberia' (no edition date printed)
+  authoritative: false
+  text_origin: official_consolidation
+  structure: {}

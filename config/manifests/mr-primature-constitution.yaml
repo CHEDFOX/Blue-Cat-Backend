@@ -1,0 +1,41 @@
+# The Constitution of Mauritania (fr): 1 document(s) on www.primature.gov.mr. See config/sources/mr-primature-constitution.yaml.
+schema_version: 1
+source_id: mr-primature-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.primature.gov.mr
+documents:
+- slug: mr-fr
+  jurisdiction: MR
+  url: https://www.primature.gov.mr/sites/default/files/2021-05/Constitution_consolidefr.pdf
+  format: pdf
+  language: fr
+  title: Constitution de la République Islamique de Mauritanie
+  citation_name: Mauritania Constitution
+  adopted_on: '1991-07-20'
+  edition_label: >-
+    consolidated by the Secrétariat Général du Gouvernement up to the referendum laws of 15 August 2017 (no edition date printed;
+    file dated 2021-05 in its path)
+  events:
+  - type: promulgation
+    date: '1991-07-20'
+    description: ordonnance n° 91-022 du 20 juillet 1991
+    locator: heading of the PDF
+  - type: amendment
+    date: '2006-07-12'
+    description: loi constitutionnelle n° 2006-014 du 12 juillet 2006
+    locator: heading of the PDF
+  - type: amendment
+    date: '2012-03-20'
+    description: loi constitutionnelle n° 2012-015 du 20 mars 2012
+    locator: heading of the PDF
+  - type: amendment
+    date: '2017-08-15'
+    description: lois constitutionnelles référendaires n° 2017-021 et n° 2017-022 du 15 août 2017
+    locator: heading of the PDF
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    drop_lines:
+    - ^Page [0-9]+ sur [0-9]+$

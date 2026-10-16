@@ -1,0 +1,53 @@
+# PLANNED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: gn-coursupreme-constitution
+name: Constitution of Guinea - Cour suprême de Guinée (coursupreme.org.gn)
+publisher: Cour suprême de Guinée (coursupreme.org.gn)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- GN
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: >-
+  The Constitution of Guinea (https://coursupreme.org.gn/en/constitution-du-26-09-2025-de-la-republique-de-guinee/); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://coursupreme.org.gn/en/constitution-du-26-09-2025-de-la-republique-de-guinee/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: >-
+    The page 'CONSTITUTION DU 26 09 2025 DE LA REPUBLIQUE DE GUINEE' (footer '© Supreme Court of Guinea 2024. All rights reserved.')
+    links the PDF 'CONSTITUTION-DU-26-09-2025-RG.pdf' (21.8 MB, 72 pages) which has no text ...
+  url: https://coursupreme.org.gn/en/constitution-du-26-09-2025-de-la-republique-de-guinee/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: coursupreme.org.gn/robots.txt
+    - a long list of named crawlers (search engines, AI crawlers, archive.org_bot, Wget, curl, HTTrack ...) are disallowed
+    ("Disallow: /"); "User-agent: *" "Allow: /" - the ULIS bot is not named, so it is allowed. The page 'CONSTITUTION DU 26
+    09 2025 DE LA REPUBLIQUE DE GUINEE' (footer '© Supreme Court of Guinea 2024. All rights reserved.') links the PDF 'CONSTITUTION-DU-26-09-2025-RG.pdf'
+    (21.8 MB, 72 pages) which has no text layer (72 characters in all); ULIS does no OCR. The Government's Journal officiel
+    site (gn-sgg-jo-constitution) forbids reproduction; robots.txt of www.sgg.gov.gn and of presidence.gov.gn answered HTTP
+    403 to the ULIS bot (nothing further requested there). Nothing further is requested; no workaround was tried.
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  The page 'CONSTITUTION DU 26 09 2025 DE LA REPUBLIQUE DE GUINEE' (footer '© Supreme Court of Guinea 2024. All rights reserved.')
+  links the PDF 'CONSTITUTION-DU-26-09-2025-RG.pdf' (21.8 MB, 72 pages) which has no text layer (72 characters in all); ULIS
+  does no OCR. The Government's Journal officiel ...
+status: planned
+connector: null
+parser: null

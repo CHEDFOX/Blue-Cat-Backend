@@ -1,0 +1,28 @@
+# The Constitution of Niger (fr): 1 document(s) on www.gouv.ne. See config/sources/ne-gouv-constitution.yaml.
+schema_version: 1
+source_id: ne-gouv-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.gouv.ne
+documents:
+- slug: ne-fr
+  jurisdiction: NE
+  url: https://www.gouv.ne/images/textes-fondamentaux/constitution.pdf
+  format: pdf
+  language: fr
+  title: Constitution de la VIIème République
+  citation_name: Niger Constitution
+  edition_label: >-
+    as promulgated by decree n° 2010-754/PCSRD of 25 November 2010 (JORN special issue n° 19 of 29 November 2010), as the
+    PDF is headed
+  events:
+  - type: promulgation
+    date: '2010-11-25'
+    description: décret n° 2010-754/PCSRD du 25 novembre 2010 (JORN n° spécial 19 du 29 novembre 2010)
+    locator: heading of the PDF
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    drop_lines:
+    - ^[0-9]{1,3}$

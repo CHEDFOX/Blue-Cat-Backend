@@ -1,0 +1,84 @@
+# Constitution of Algeria from Secrétariat Général du Gouvernement, Journal officiel de la République algérienne (joradp.dz). Read on
+#        2026-10-15/16, before any document was fetched:
+#   robots.txt - www.joradp.dz/robots.txt - HTTP 404 (no robots.txt): no crawling rules to apply. The connector reads it anyway. joradp.dz/
+#        answers with a page that redirects to www.joradp.dz
+#   Terms - no terms-of-use, licence or copyright page was found on the pages read (the portal's entry page, titled "SGG Algérie", has no
+#        footer); the file is the Imprimerie Officielle's Journal officiel
+#   The document - The Journal officiel n° 82 of 30 December 2020 (French translation edition, 49 pages, text layer) prints the presidential
+#        decree n° 20-442 promulgating the constitutional revision "adoptée par référendum du 1er novembre 2020" and, as its annex,
+#        "CONSTITUTION DE LA REPUBLIQUE ALGERIENNE DEMOCRATIQUE ET POPULAIRE": preamble, articles 1 to 225 and, after them, the translated
+#        oaths of articles 90 and 186 (kept as a block).
+schema_version: 1
+id: dz-joradp-constitution
+name: >-
+  Constitution of Algeria - Secrétariat Général du Gouvernement, Journal officiel de la République algérienne (joradp.dz)
+publisher: Secrétariat Général du Gouvernement, Journal officiel de la République algérienne (joradp.dz)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- DZ
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: >-
+  The Constitution of Algeria in fr as published by Secrétariat Général du Gouvernement, Journal officiel de la République
+  algérienne (joradp.dz): 1 document(s). Preamble and 225 articles of the Constitution as promulgated in the Journal officiel
+  n° 82 of 30 December 2020 (French edition), with the translated oaths as a trailing block.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/dz-joradp-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests (the Crawl-delay when it is longer),
+  identifies itself, caches every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: DZ-official-text-no-terms
+  name: >-
+    Official legal text published by Secrétariat Général du Gouvernement, Journal officiel de la République algérienne (joradp.dz);
+    no terms of reuse found (no terms-of-use, licence or copyright page was found on the pages read (the ...
+  url: https://www.joradp.dz/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages quoted in the header of this file: robots.txt (www.joradp.dz/robots.txt
+    - HTTP 404 (no robots.txt): no crawling rules to apply. The connector reads it anyway. joradp.dz/ answers with a page
+    that redirects to www.joradp.dz) and the terms (no terms-of-use, licence or copyright page was found on the pages read
+    (the portal's entry page, titled "SGG Algérie", has no footer); the file is the Imprimerie Officielle's Journal officiel).
+    The Journal officiel n° 82 of 30 December 2020 (French translation edition, 49 pages, text layer) prints the presidential
+    decree n° 20-442 promulgating the constitutional revision "adoptée par référendum du 1er novembre 2020" and, as its annex,
+    "CONSTITUTION DE LA REPUBLIQUE ALGERIENNE DEMOCRATIQUE ET POPULAIRE": preamble, articles 1 to 225 and, after them, the
+    translated oaths of articles 90 and 186 (kept as a block). The Constitution is an official legal text; no statute excluding
+    official texts from copyright was read on the publisher's pages (to verify). Reading: AMBER - the publisher states no
+    restriction on reusing the text beyond a generic notice; no permission for automated retrieval is stated either.
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Algeria, Secrétariat Général du Gouvernement, Journal officiel de la République algérienne (joradp.dz);
+    retrieved {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (fr), not the authentic publication; amendments after the edition date are not applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests or the Crawl-delay, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/dz-joradp-constitution.yaml, stored byte for byte inside JSON bundles with the
+  URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- >-
+  The French text is the translation edition of the Journal officiel; the Arabic edition is the original. Revisions after
+  30 December 2020, if any, are not applied.
+status: active
+connector: constitution_docs
+parser: constitution_text

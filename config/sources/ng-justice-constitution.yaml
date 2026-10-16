@@ -1,0 +1,51 @@
+# PLANNED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: ng-justice-constitution
+name: Constitution of Nigeria - Federal Ministry of Justice of Nigeria (justice.gov.ng)
+publisher: Federal Ministry of Justice of Nigeria (justice.gov.ng)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- NG
+document_kinds:
+- constitution
+languages:
+- en
+coverage: >-
+  The Constitution of Nigeria (https://justice.gov.ng/wp-content/uploads/2020/09/Nigerian-Constitution.pdf); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://justice.gov.ng/wp-content/uploads/2020/09/Nigerian-Constitution.pdf
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: >-
+    The PDF 'Nigerian-Constitution.pdf' (672 KB) has no text layer (pdftotext returns no text; it is a scan or an image PDF);
+    ULIS does no OCR. The National Assembly's site (nass.gov.ng) has no robots.txt (an HTML page ...
+  url: https://justice.gov.ng/wp-content/uploads/2020/09/Nigerian-Constitution.pdf
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: justice.gov.ng/robots.txt
+    - "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php". The PDF 'Nigerian-Constitution.pdf' (672 KB)
+    has no text layer (pdftotext returns no text; it is a scan or an image PDF); ULIS does no OCR. The National Assembly's
+    site (nass.gov.ng) has no robots.txt (an HTML page answers) and no Constitution link was found on its home page. Nothing
+    further is requested; no workaround was tried.
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  The PDF 'Nigerian-Constitution.pdf' (672 KB) has no text layer (pdftotext returns no text; it is a scan or an image PDF);
+  ULIS does no OCR. The National Assembly's site (nass.gov.ng) has no robots.txt (an HTML page answers) and no Constitution
+  link was found on its home page.
+status: planned
+connector: null
+parser: null

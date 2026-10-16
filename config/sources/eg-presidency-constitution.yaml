@@ -1,0 +1,56 @@
+# PLANNED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: eg-presidency-constitution
+name: Constitution of Egypt - Presidency of the Arab Republic of Egypt (presidency.eg)
+publisher: Presidency of the Arab Republic of Egypt (presidency.eg)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- EG
+document_kinds:
+- constitution
+languages:
+- ar
+coverage: >-
+  The Constitution of Egypt (https://www.presidency.eg/ar/%D9%85%D8%B5%D8%B1/%D8%A7%D9%84%D8%AF%D8%B3%D8%AA%D9%88%D8%B1/);
+  not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.presidency.eg/ar/%D9%85%D8%B5%D8%B1/%D8%A7%D9%84%D8%AF%D8%B3%D8%AA%D9%88%D8%B1/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: >-
+    The page 'الدستور' (footer 'الحقوق جميعها محفوظة لرئاسة الجمهورية © ٢٠٢٠', i.e. all rights reserved to the Presidency,
+    a generic footer) offers the PDF 'دستور-جمهورية-مصر-العربية-2019.pdf' (114 pages, 2 MB): the House ...
+  url: https://www.presidency.eg/ar/%D9%85%D8%B5%D8%B1/%D8%A7%D9%84%D8%AF%D8%B3%D8%AA%D9%88%D8%B1/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: www.presidency.eg/robots.txt
+    - "User-agent: *" "Disallow: /_rf4JJ2R5cnYY_3HrSJ1GhxQcghpy4lFLgVzFRKmbDk=.html" "Crawl-delay: 20" and "Allow: /" (the
+    PDF is allowed). The page 'الدستور' (footer 'الحقوق جميعها محفوظة لرئاسة الجمهورية © ٢٠٢٠', i.e. all rights reserved to
+    the Presidency, a generic footer) offers the PDF 'دستور-جمهورية-مصر-العربية-2019.pdf' (114 pages, 2 MB): the House of
+    Representatives' General Secretariat edition of April 2019 of the Constitution 'معدّل طبقاً للاستفتاء على تعديل الدستور'
+    of 20-22 April 2019. It was fetched; its Arabic text layer extracts every lam-alef ligature in reverse order and the page
+    marks are mixed into the lines (for example 'الانتخابات' comes out as 'االنتخابات'), so the words are not the words of
+    the text, and no article heading is recognised. ULIS does not repair a text layer. The same PDF is not stored. Nothing
+    further is requested; no workaround was tried.
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  The page 'الدستور' (footer 'الحقوق جميعها محفوظة لرئاسة الجمهورية © ٢٠٢٠', i.e. all rights reserved to the Presidency, a
+  generic footer) offers the PDF 'دستور-جمهورية-مصر-العربية-2019.pdf' (114 pages, 2 MB): the House of Representatives' General
+  Secretariat edition of April 2019 of the Constitution ...
+status: planned
+connector: null
+parser: null

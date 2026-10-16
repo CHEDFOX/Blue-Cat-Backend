@@ -1,0 +1,55 @@
+# REJECTED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: ml-sgg-constitution
+name: Constitution of Mali - Secrétariat Général du Gouvernement du Mali (sgg-mali.ml)
+publisher: Secrétariat Général du Gouvernement du Mali (sgg-mali.ml)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- ML
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: The Constitution of Mali (https://sgg-mali.ml/JO/2023/); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://sgg-mali.ml/JO/2023/
+  authentication: none
+update_frequency: unknown
+licence:
+  id: NOT-GRANTED
+  name: >-
+    The page "Mentions légales" (https://sgg-mali.ml/fr/mentions-legales.html) says: "Ce site internet est édité par le Secrétariat
+    Général du Gouvernement du Mali ... Toute représentation totale ou partielle de ce site ou ...
+  url: https://sgg-mali.ml/JO/2023/
+  review_status: rejected
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: sgg-mali.ml/robots.txt
+    - "User-agent: *" and a Sitemap line only (nothing disallowed). The page "Mentions légales" (https://sgg-mali.ml/fr/mentions-legales.html)
+    says: "Ce site internet est édité par le Secrétariat Général du Gouvernement du Mali ... Toute représentation totale ou
+    partielle de ce site ou de son contenu (structure générale, textes, sons, logos, images animées ou non), par quelques
+    procédés que ce soient, sans autorisation préalable et expresse du Secrétariat Général du Gouvernement du Mali est interdite
+    et constituerait une contrefaçon sanctionnée par le code de la Propriété Intellectuelle." The site publishes the Journal
+    officiel by year (https://sgg-mali.ml/JO/2023/). Seven issues of 2023 (n° 17-2, 19, 20, 21, 22, 23, 26) were downloaded
+    while looking for the issue with the Constitution, BEFORE this notice was read; they are not stored in the repository
+    and not used. The Constitution is loaded from the Presidency (ml-koulouba-constitution). It grants no licence to copy,
+    store or republish the text: REJECTED.
+  reviewed_on: '2026-10-16'
+  redistribution: not_allowed
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: not_allowed
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  The page "Mentions légales" (https://sgg-mali.ml/fr/mentions-legales.html) says: "Ce site internet est édité par le Secrétariat
+  Général du Gouvernement du Mali ... Toute représentation totale ou partielle de ce site ou de son contenu (structure générale,
+  textes, sons, logos, images animées ou non) ...
+status: rejected
+connector: null
+parser: null

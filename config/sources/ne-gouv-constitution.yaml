@@ -1,0 +1,83 @@
+# Constitution of Niger from Portail officiel du Gouvernement du Niger (gouv.ne). Read on 2026-10-15/16, before any document was fetched:
+#   robots.txt - www.gouv.ne/robots.txt - "User-agent: *" with the Joomla rules (Disallow /administrator/, /bin/, /cache/, /components/,
+#        /includes/, /language/, /layouts/, /libraries/, /logs/, /modules/, /plugins/, /tmp/ ...); /images/ is not disallowed; no Crawl-delay
+#   Terms - page footer: "Copyright © 2021 - 2024 – PORTAIL OFFICIEL DU GOUVERNEMENT DU NIGER ** Tous droits réservés | Conditions
+#        d'utilisation" - the "Conditions d'utilisation" are plain text, not a link, and no terms page was found
+#   The document - The page "Constitution de la 7ème République" (https://www.gouv.ne/index.php/textes-fondamentaux/constitution-de-la-7eme-
+#        republique, section "Textes fondamentaux") links the PDF "constitution.pdf" (46 pages, text layer) headed "CONSTITUTION DE LA VIIème
+#        REPUBLIQUE (Promulguée par décret n°2010-754/PCSRD du 25 novembre 2010) JORN n° spécial 19 du 29 novembre 2010": preamble and
+#        articles 1 to 185.
+schema_version: 1
+id: ne-gouv-constitution
+name: Constitution of Niger - Portail officiel du Gouvernement du Niger (gouv.ne)
+publisher: Portail officiel du Gouvernement du Niger (gouv.ne)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- NE
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: >-
+  The Constitution of Niger in fr as published by Portail officiel du Gouvernement du Niger (gouv.ne): 1 document(s). Preamble
+  and 185 articles of the Constitution of the 7th Republic as the Government portal's PDF prints them.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ne-gouv-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests (the Crawl-delay when it is longer),
+  identifies itself, caches every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: NE-official-text-no-terms
+  name: >-
+    Official legal text published by Portail officiel du Gouvernement du Niger (gouv.ne); no terms of reuse found (page footer:
+    "Copyright © 2021 - 2024 – PORTAIL OFFICIEL DU GOUVERNEMENT DU NIGER ** Tous droits réservés | Conditions ...
+  url: https://www.gouv.ne/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages quoted in the header of this file: robots.txt (www.gouv.ne/robots.txt
+    - "User-agent: *" with the Joomla rules (Disallow /administrator/, /bin/, /cache/, /components/, /includes/, /language/,
+    /layouts/, /libraries/, /logs/, /modules/, /plugins/, /tmp/ ...); /images/ is not disallowed; no Crawl-delay) and the
+    terms (page footer: "Copyright © 2021 - 2024 – PORTAIL OFFICIEL DU GOUVERNEMENT DU NIGER ** Tous droits réservés | Conditions
+    d'utilisation" - the "Conditions d'utilisation" are plain text, not a link, and no terms page was found). The page "Constitution
+    de la 7ème République" (https://www.gouv.ne/index.php/textes-fondamentaux/constitution-de-la-7eme-republique, section
+    "Textes fondamentaux") links the PDF "constitution.pdf" (46 pages, text layer) headed "CONSTITUTION DE LA VIIème REPUBLIQUE
+    (Promulguée par décret n°2010-754/PCSRD du 25 novembre 2010) JORN n° spécial 19 du 29 novembre 2010": preamble and articles
+    1 to 185. The Constitution is an official legal text; no statute excluding official texts from copyright was read on the
+    publisher's pages (to verify). Reading: AMBER - the publisher states no restriction on reusing the text beyond a generic
+    notice; no permission for automated retrieval is stated either.
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Niger, Portail officiel du Gouvernement du Niger (gouv.ne); retrieved {retrieved_date}. Structured and
+    indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (fr), not the authentic publication; amendments after the edition date are not applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests or the Crawl-delay, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/ne-gouv-constitution.yaml, stored byte for byte inside JSON bundles with the
+  URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- >-
+  The text is the 2010 Constitution as the Government portal presents it. Press reports (not the publisher) say it was suspended
+  after the coup of 26 July 2023 and replaced by the Charte de la Refondation (decree n° 2025-160/P/CNSP of 26 March 2025);
+  this source does not establish what is in force.
+status: active
+connector: constitution_docs
+parser: constitution_text

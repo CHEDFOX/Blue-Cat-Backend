@@ -1,0 +1,20 @@
+# The Constitution of Guinea-Bissau (pt): 1 document(s) on anp.gw. See config/sources/gw-anp-constitution.yaml.
+schema_version: 1
+source_id: gw-anp-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- anp.gw
+documents:
+- slug: gw-pt
+  jurisdiction: GW
+  url: https://anp.gw/index.php/constituicao/
+  format: html
+  language: pt
+  title: Constituição da República da Guiné-Bissau
+  citation_name: Guinea-Bissau Constitution
+  edition_label: the Assembly's page (no edition date and no amendments listed)
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    preamble_regex: ^Constituição de República da Guiné-Bissau$

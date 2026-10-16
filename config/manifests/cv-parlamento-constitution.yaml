@@ -1,0 +1,20 @@
+# The Constitution of Cabo Verde (pt): 1 document(s) on www.parlamento.cv. See config/sources/cv-parlamento-constitution.yaml.
+schema_version: 1
+source_id: cv-parlamento-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.parlamento.cv
+documents:
+- slug: cv-pt
+  jurisdiction: CV
+  url: https://www.parlamento.cv/Constituicao/
+  format: html
+  language: pt
+  title: Constituição da República de Cabo Verde
+  citation_name: Cabo Verde Constitution
+  edition_label: 2ª Revisão Ordinária - 2010, as the page titles it (no edition date printed)
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    start_regex: ^PREÂMBULO$

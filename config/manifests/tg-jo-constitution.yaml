@@ -1,0 +1,30 @@
+# The Constitution of Togo (fr): 1 document(s) on jo.gouv.tg. See config/sources/tg-jo-constitution.yaml.
+schema_version: 1
+source_id: tg-jo-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 10
+hosts:
+- jo.gouv.tg
+documents:
+- slug: tg-fr
+  jurisdiction: TG
+  url: https://jo.gouv.tg/sites/default/files/JO/JOS_06_05_2024%20-%2069%20E%20ANNEE%20N%C2%B042%20BIS%20.pdf
+  format: pdf
+  language: fr
+  title: Constitution de la République togolaise
+  citation_name: Togo Constitution
+  edition_label: Journal officiel n° 42 Bis (special issue) of 6 May 2024 (loi n° 2024-005)
+  events:
+  - type: promulgation
+    date: '2024-05-06'
+    description: >-
+      loi n° 2024-005 du 6 mai 2024 portant Constitution de la République togolaise (Journal officiel, numéro spécial du 6
+      mai 2024)
+    locator: Journal officiel, special issue
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    columns: 2
+    columns_top: 90
+    drop_lines:
+    - ^[0-9]{1,3}$

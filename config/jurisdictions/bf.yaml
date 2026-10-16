@@ -1,0 +1,59 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Burkina Faso: a minimal profile created for the constitutions sweep of North, West and
+# Central Africa. Only the constitution is loaded; nothing else about the legal system is profiled.
+schema_version: 1
+id: BF
+profile_version: 0.1.0
+name: Burkina Faso
+names:
+  fr: Burkina Faso
+  en: Burkina Faso
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages:
+- fr
+legal_system:
+  families: []
+  structure: unitary
+  treaty_reception: unknown
+  notes: >-
+    To verify - not profiled: this is a minimal profile created for the constitutions sweep of North, West and Central Africa.
+    French is the official language in the text loaded (article 35, as amended up to 2015); later changes to the languages,
+    if any, are not applied.
+legislative_institutions: []
+instrument_types:
+- constitution
+norm_hierarchy:
+- constitution
+courts: []
+precedent:
+  doctrine: not_applicable
+  vertical_binding: false
+  notes: >-
+    Not profiled: only the constitution is loaded, no court decisions. To verify - how precedent works in this jurisdiction.
+citation:
+  module: constitution
+  notes: >-
+    The constitution is cited as "Burkina Faso Constitution art. N" (a label, with the article number as the document itself
+    prints it). To verify - the country's own citation convention.
+  examples:
+  - Burkina Faso Constitution art. 1
+  - Burkina Faso Constitution art. 10
+publication:
+  official_sources:
+  - bf-presidence-constitution
+coverage:
+  corpus_status: pilot
+  known_gaps:
+  - >-
+    Only the constitution is loaded (Preamble and 173 articles of the Constitution of 1991 as amended up to November 2015,
+    as the Présidence du Faso's PDF prints them.) No legislation, regulations, treaties or case law of Burkina Faso are ingested.
+  - >-
+    The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since
+    are not applied, and no history is held (docs/constitutions-africa-west-deep.md).
+  - >-
+    Courts, legislative institutions, legal families and treaty reception are not profiled: this is a minimal profile, not
+    reviewed by counsel.

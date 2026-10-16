@@ -1,0 +1,51 @@
+# PLANNED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: td-presidence-constitution
+name: Constitution of Chad - Présidence de la République du Tchad (presidence.td)
+publisher: Présidence de la République du Tchad (presidence.td)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- TD
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: The Constitution of Chad (https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: >-
+    robots.txt (https://presidence.td/robots.txt) answered HTTP 403 to the ULIS bot: the host refuses automated clients; nothing
+    further was requested and no workaround was tried. A search engine lists the PDF of the ...
+  url: https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: presidence.td/robots.txt
+    answered HTTP 403 to the ULIS bot. robots.txt (https://presidence.td/robots.txt) answered HTTP 403 to the ULIS bot: the
+    host refuses automated clients; nothing further was requested and no workaround was tried. A search engine lists the PDF
+    of the Constitution at https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf. The Constitutional Council's
+    site (conseil-constitutionnel.td) and the National Assembly's site (www.assemblee-nationale.td) could not be reached through
+    the proxy ('Tunnel connection failed: 502 Bad Gateway'). Nothing further is requested; no workaround was tried.
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  robots.txt (https://presidence.td/robots.txt) answered HTTP 403 to the ULIS bot: the host refuses automated clients; nothing
+  further was requested and no workaround was tried. A search engine lists the PDF of the Constitution at https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf.
+  The ...
+status: planned
+connector: null
+parser: null

@@ -1,0 +1,79 @@
+# Constitution of Guinea-Bissau from Assembleia Nacional Popular da Guiné-Bissau (anp.gw). Read on 2026-10-15/16, before any document was
+#        fetched:
+#   robots.txt - anp.gw/robots.txt - "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php"; no Crawl-delay;
+#        /index.php/constituicao/ is not disallowed
+#   Terms - page footer: "© 2026 Assembleia Nacional Popular | Todos os Direitos Reservados" - a generic footer; no terms-of-use or licence
+#        page was found
+#   The document - The page "Constituição de República da Guiné-Bissau" (https://anp.gw/index.php/constituicao/) prints the text: a preamble
+#        ("O PAIGC, fundado em 19 de Setembro de 1956 ...") and articles 1 to 133 in titles. The page shows no edition date or list of
+#        amendments.
+schema_version: 1
+id: gw-anp-constitution
+name: Constitution of Guinea-Bissau - Assembleia Nacional Popular da Guiné-Bissau (anp.gw)
+publisher: Assembleia Nacional Popular da Guiné-Bissau (anp.gw)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- GW
+document_kinds:
+- constitution
+languages:
+- pt
+coverage: >-
+  The Constitution of Guinea-Bissau in pt as published by Assembleia Nacional Popular da Guiné-Bissau (anp.gw): 1 document(s).
+  Preamble and 133 articles of the Constitution as the National People's Assembly's page prints them.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/gw-anp-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: >-
+  As recorded under robots.txt in the header; ULIS waits at least 5 s between requests (the Crawl-delay when it is longer),
+  identifies itself, caches every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: GW-official-text-no-terms
+  name: >-
+    Official legal text published by Assembleia Nacional Popular da Guiné-Bissau (anp.gw); no terms of reuse found (page footer:
+    "© 2026 Assembleia Nacional Popular | Todos os Direitos Reservados" - a generic footer; no terms-of-use ...
+  url: https://anp.gw/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages quoted in the header of this file: robots.txt (anp.gw/robots.txt
+    - "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php"; no Crawl-delay; /index.php/constituicao/ is
+    not disallowed) and the terms (page footer: "© 2026 Assembleia Nacional Popular | Todos os Direitos Reservados" - a generic
+    footer; no terms-of-use or licence page was found). The page "Constituição de República da Guiné-Bissau" (https://anp.gw/index.php/constituicao/)
+    prints the text: a preamble ("O PAIGC, fundado em 19 de Setembro de 1956 ...") and articles 1 to 133 in titles. The page
+    shows no edition date or list of amendments. The Constitution is an official legal text; no statute excluding official
+    texts from copyright was read on the publisher's pages (to verify). Reading: AMBER - the publisher states no restriction
+    on reusing the text beyond a generic notice; no permission for automated retrieval is stated either.
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Constitution of Guinea-Bissau, Assembleia Nacional Popular da Guiné-Bissau (anp.gw); retrieved {retrieved_date}. Structured
+    and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - >-
+    The text is the publisher's copy (pt), not the authentic publication; amendments after the edition date are not applied.
+  - >-
+    Polite retrieval (identifying User-Agent, 5 s between requests or the Crawl-delay, cached downloads); stop on any refusal.
+  notes: >-
+    The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: >-
+  The document(s) listed in config/manifests/gw-anp-constitution.yaml, stored byte for byte inside JSON bundles with the URL
+  and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- >-
+  A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- >-
+  The page lists no edition date and no amendments: which revisions it includes is not stated (the Assembly's home page lists
+  a 'Constituição da república de 1996').
+status: active
+connector: constitution_docs
+parser: constitution_text

@@ -1,0 +1,35 @@
+# The Constitution of Mali (fr): 1 document(s) on koulouba.ml. See config/sources/ml-koulouba-constitution.yaml.
+schema_version: 1
+source_id: ml-koulouba-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- koulouba.ml
+documents:
+- slug: ml-fr
+  jurisdiction: ML
+  url: https://koulouba.ml/wp-content/uploads/2023/12/Constitution-promulguee.pdf
+  format: pdf
+  language: fr
+  title: Constitution de la République du Mali
+  citation_name: Mali Constitution
+  adopted_on: '2023-06-18'
+  edition_label: Journal officiel, special issue n° 13 of 22 July 2023 (décret n° 2023-0401/PT-RM)
+  events:
+  - type: adoption
+    date: '2023-06-18'
+    description: référendum constitutionnel (scrutin du 18 juin 2023)
+    locator: décret n° 2023-0401/PT-RM, visas
+  - type: promulgation
+    date: '2023-07-22'
+    description: décret n° 2023-0401/PT-RM du 22 juillet 2023 portant promulgation de la Constitution
+    locator: Journal officiel, special issue n° 13
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    columns: 2
+    columns_top: 55
+    start_regex: ^PREAMBULE :$
+    preamble_regex: ^PREAMBULE :$
+    drop_lines:
+    - ^[0-9]{1,3}$

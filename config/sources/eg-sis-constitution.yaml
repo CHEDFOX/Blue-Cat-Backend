@@ -1,0 +1,54 @@
+# PLANNED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: eg-sis-constitution
+name: Constitution of Egypt - State Information Service of Egypt (sis.gov.eg)
+publisher: State Information Service of Egypt (sis.gov.eg)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- EG
+document_kinds:
+- constitution
+languages:
+- en
+coverage: The Constitution of Egypt (https://sis.gov.eg/media/67726/dustor-eng.pdf); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://sis.gov.eg/media/67726/dustor-eng.pdf
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: >-
+    TLS verification of https://sis.gov.eg/robots.txt failed ('unable to get local issuer certificate'); verification is never
+    disabled, so nothing was read. A search engine lists the English PDF 'Constitution of The Arab ...
+  url: https://sis.gov.eg/media/67726/dustor-eng.pdf
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: sis.gov.eg/robots.txt
+    - TLS certificate verification failed (unable to get local issuer certificate). TLS verification of https://sis.gov.eg/robots.txt
+    failed ('unable to get local issuer certificate'); verification is never disabled, so nothing was read. A search engine
+    lists the English PDF 'Constitution of The Arab Republic of Egypt' at https://sis.gov.eg/media/67726/dustor-eng.pdf. An
+    earlier sweep also found the host unreachable. The Government Services Portal (www.egypt.gov.eg, which lists the Constitution
+    in Arabic and, in part, in English) answered a connection reset to robots.txt, so nothing was requested there. The Supreme
+    Constitutional Court's host (www.sccourt.gov.eg) failed the TLS handshake and the House of Representatives' host (www.parliament.gov.eg)
+    failed certificate verification (unable to get local issuer certificate). Nothing further is requested; no workaround
+    was tried.
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  TLS verification of https://sis.gov.eg/robots.txt failed ('unable to get local issuer certificate'); verification is never
+  disabled, so nothing was read. A search engine lists the English PDF 'Constitution of The Arab Republic of Egypt' at https://sis.gov.eg/media/67726/dustor-eng.pdf.
+  An earlier ...
+status: planned
+connector: null
+parser: null

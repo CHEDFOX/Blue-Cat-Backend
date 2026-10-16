@@ -1,0 +1,31 @@
+# The Constitution of Benin (fr): 1 document(s) on courconstitutionnelle.bj. See config/sources/bj-courconst-constitution.yaml.
+schema_version: 1
+source_id: bj-courconst-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- courconstitutionnelle.bj
+documents:
+- slug: bj-fr
+  jurisdiction: BJ
+  url: https://courconstitutionnelle.bj/files/documents/1677952525_constitution_de_.pdf
+  format: pdf
+  language: fr
+  title: Constitution de la République du Bénin
+  citation_name: Benin Constitution
+  adopted_on: '1990-12-11'
+  edition_label: >-
+    as the Court's PDF is headed: Loi n° 90-32 du 11 décembre 1990, à jour de sa révision par la loi n° 2019-40 du 07 novembre
+    2019 (no edition date printed)
+  events:
+  - type: promulgation
+    date: '1990-12-11'
+    description: Loi n° 90-32 du 11 décembre 1990 portant Constitution de la République du Bénin
+    locator: heading of the PDF
+  - type: amendment
+    date: '2019-11-07'
+    description: loi n° 2019-40 portant révision de la loi n° 90-32 du 11 décembre 1990
+    locator: heading of the PDF
+  authoritative: false
+  text_origin: official_consolidation
+  structure: {}
