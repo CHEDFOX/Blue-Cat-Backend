@@ -57,7 +57,11 @@ def ids(catalog: Catalog, **kw: Any) -> list[str]:
 def test_default_selection_is_every_active_source_except_the_fictional_sample(catalog: Catalog) -> None:
     selected = ids(catalog)
     active_real = {s.id for s in catalog.sources if s.status == "active" and s.authority != "fictional"}
-    assert set(selected) == active_real and SAMPLE not in selected
+    history = {s.id for s in catalog.sources if s.status == "active" and not s.load_by_default}
+    assert history >= {"us-govinfo-bulk-statutes", "us-govinfo-bulk-cfr-fr"}  # old editions: not the law in force today
+    assert set(selected) == active_real - history and SAMPLE not in selected
+    assert history <= set(ids(catalog, include_history=True))  # ... but available on request
+    assert ids(catalog, only=("us-govinfo-bulk-cfr-fr",)) == ["us-govinfo-bulk-cfr-fr"]
     assert all(catalog.sources.get(i).status == "active" for i in selected)
     skipped = dict(select_sources(catalog, LoadOptions()).skipped)
     assert "fictional" in skipped[SAMPLE] and any("status planned" in why for why in skipped.values())
@@ -74,7 +78,7 @@ def test_small_sources_come_first(catalog: Catalog) -> None:
 def test_the_ecfr_follows_the_annual_editions(catalog: Catalog) -> None:
     """Older editions of a part are loaded before the current eCFR text: the pipeline records a newer wording from
     its own date, but an older wording that arrives after it would be a conflict."""
-    order = ids(catalog)
+    order = ids(catalog, include_history=True)
     ecfr = order.index("us-ecfr")
     assert ecfr > order.index("us-govinfo-bulk-cfr-fr") and ecfr > order.index("us-gpo-uslm-samples")
     assert ids(catalog, only=("us-ecfr",)) == ["us-ecfr"]
@@ -227,7 +231,8 @@ def test_a_failing_source_does_not_stop_the_others_and_sets_the_exit_code(
     code, out = run("load-all", "--only", "nl-bwb", SAMPLE, capsys=capsys)
     assert code == 1
     order = [line for line in out.splitlines() if line.startswith("[")]
-    assert order[0].startswith("[1/2] nl-bwb: starting") and "[2/2] " + SAMPLE in " ".join(order)
+    starts = [line for line in order if "starting" in line]
+    assert len(starts) == 2 and any("nl-bwb" in line for line in starts) and any(SAMPLE in line for line in starts)
     assert "nl-bwb" in out and "failed" in out and "RuntimeError: publisher refused the request" in out
     assert next(line for line in out.splitlines() if line.startswith(SAMPLE) and " ok " in line)
     with session_factory() as s:

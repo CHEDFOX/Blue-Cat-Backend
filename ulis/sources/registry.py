@@ -80,6 +80,9 @@ class SourceDescriptor(_Strict):
     status: Literal["active", "planned", "suspended", "rejected"]
     connector: str | None = None
     parser: str | None = None
+    # False: superseded editions, historical enactments or other material that is not the law actively serving today.
+    # `load-all` leaves such a source out unless asked (`--include-history`, or the source named with `--only`).
+    load_by_default: bool = True
 
 
 class LicenceNotApproved(PermissionError):

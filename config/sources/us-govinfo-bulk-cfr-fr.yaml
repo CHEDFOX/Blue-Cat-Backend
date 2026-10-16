@@ -121,3 +121,4 @@ known_limitations:
 status: active
 connector: govinfo_bulk_cfr_fr
 parser: govinfo_cfr_fr
+load_by_default: false

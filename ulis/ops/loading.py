@@ -60,6 +60,8 @@ class LoadOptions:
     max_cache_age_days: float = 7.0
     # The fictional sample is invented law; it is only loaded when asked for.
     include_fictional: bool = False
+    # Also load the sources marked `load_by_default: false` (old editions, historical enactments).
+    include_history: bool = False
     actor: str = "load-all"
     # Sources loaded at the same time. Never two on the same host (so the crawl delay each publisher asked for
     # holds), whatever this is set to; 1 = one source after the other.
@@ -119,6 +121,8 @@ def select_sources(catalog: Catalog, options: LoadOptions, base_dir: Path = REPO
                 reason = f"status {source.status}"
             elif source.authority == "fictional" and not options.include_fictional:
                 reason = "fictional sample: only with --include-fictional or --only"
+            elif not source.load_by_default and not options.include_history:
+                reason = "history / old editions, not the law in force today: only with --include-history or --only"
             elif options.refresh and source.id in STATIC_PINS:
                 reason = "static pin: nothing new until its manifest changes"
         if reason:

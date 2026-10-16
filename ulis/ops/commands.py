@@ -40,6 +40,11 @@ def add_ops_parsers(sub: argparse._SubParsersAction) -> None:  # type: ignore[ty
     load.add_argument("--max-cache-age-days", type=float, default=7.0, metavar="DAYS")
     load.add_argument("--include-fictional", action="store_true", help="also load the fictional sample corpus")
     load.add_argument(
+        "--include-history",
+        action="store_true",
+        help="also load sources marked as history (old editions, historical enactments): not the law in force today",
+    )
+    load.add_argument(
         "--jobs",
         type=int,
         default=1,
@@ -72,6 +77,7 @@ def _run(args: argparse.Namespace, settings: Settings, catalog: Catalog, engine:
             refresh=args.refresh,
             max_cache_age_days=args.max_cache_age_days,
             include_fictional=args.include_fictional,
+            include_history=args.include_history,
             jobs=max(1, min(args.jobs, 8)),
         )
         return loading.run_load_all(settings, catalog, engine, options)

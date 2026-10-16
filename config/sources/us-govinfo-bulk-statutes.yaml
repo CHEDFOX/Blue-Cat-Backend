@@ -103,3 +103,4 @@ known_limitations:
 status: active
 connector: govinfo_bulk_statutes
 parser: uslm
+load_by_default: false
