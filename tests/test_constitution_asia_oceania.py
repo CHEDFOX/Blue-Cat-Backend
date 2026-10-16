@@ -152,6 +152,30 @@ def test_scope_and_part_headings_are_recognised_apart_from_the_sections() -> Non
     assert found[0].scope_rank < found[2].scope_rank
 
 
+def test_marshallese_sections_read_with_the_page_layout() -> None:
+    doc = parse(
+        bundle(
+            make_pdf(_pages("mh-en-pages.json")),
+            "pdf",
+            cc="MH",
+            structure=hints("mh-rmicourts-constitution", "mh-en"),
+            title="Constitution of the Republic of the Marshall Islands",
+            citation_name="Marshall Islands Constitution",
+        )
+    )
+    tops = [p.eid for p in doc.provisions if p.parent_eid is None]
+    assert tops[0] == "preamble" and tops[1:5] == ["sec-i_1", "sec-i_2", "sec-i_3", "sec-i_4"]
+    assert "sec-ii_1" in tops and "sec-ii_4" in tops
+    assert prov(doc, "sec-i_1").heading == "This Constitution to be Supreme Law"
+    assert prov(doc, "sec-i_1-par1").text.startswith("This Constitution shall be the supreme law of the Republic")
+    assert prov(doc, "sec-ii_1").context_heading == "ARTICLE II - BILL OF RIGHTS"
+    # the running heads and page numbers of the PDF are not text
+    assert not any("Page" in p.text.splitlines()[-1] for p in doc.provisions if p.text)
+    assert cite("sec-ii_1-par2", "section", ["sec:ii_1", "par:2"], "MH", "Marshall Islands Constitution") == (
+        "Marshall Islands Constitution art. II, s. 1(2)"
+    )
+
+
 # ----------------------------------------------------------------- "N.-(1)" headings and headings above the number
 
 

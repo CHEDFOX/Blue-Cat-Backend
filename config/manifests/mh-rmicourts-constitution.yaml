@@ -15,14 +15,20 @@ documents:
   authoritative: false
   text_origin: official_consolidation
   structure:
-    style: blocks
+    layout: true
+    style: keyword
+    keywords:
+    - §
+    unit_kind: section
     start_regex: ^WE, THE PEOPLE OF THE REPUBLIC OF THE MARSHALL ISLANDS, trusting$
-    page_numbers: true
+    preamble_regex: ^WE, THE PEOPLE OF THE REPUBLIC OF THE MARSHALL ISLANDS, trusting$
+    scope_regex: ^ARTICLE (?P<scope>[IVXLC]+) - 
+    chapter_regex: ^ARTICLE [IVXLC]+ - 
+    heading: same_line
     drop_lines:
-    - ^Page[0-9]+$
+    - ^Page ?[0-9]+( [a-z])?$
+    - ^[a-z] Page ?[0-9]+$
+    - ^ARTICLE [IVXLC]+§[0-9]+ Constitution of the Republic of the Marshall Islands$
+    - ^Constitution of the Republic of the Marshall Islands ARTICLE [IVXLC]+§[0-9]+$
     - ^Constitution of the Republic of the Marshall Islands$
-    - ^ARTICLE [IVXLC]+§[0-9]+$
-  note: >-
-    The PDF prints the section labels ('§2.', '§3.') apart from the section headings and texts on many pages, and an index of
-    the whole Constitution before the text; the index is not stored and the structure is not recognised, so the text is
-    stored in blocks of paragraphs in the order of the PDF.
+    - ^[a-z]$

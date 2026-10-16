@@ -38,15 +38,16 @@ citation:
   notes: The constitution is cited as "Marshall Islands Constitution" followed by the number the document itself gives the
     provision (a label, not the country's own convention). To verify - the country's own citation convention.
   examples:
-  - Marshall Islands Constitution, text block 3
+  - Marshall Islands Constitution art. II, s. 1
+  - Marshall Islands Constitution art. XIV, s. 6
 publication:
   official_sources:
   - mh-rmicourts-constitution
 coverage:
   corpus_status: pilot
   known_gaps:
-  - Only the constitution is loaded (the English text of the Constitution (2025 file), from the website of the Judiciary,
-    stored in blocks of paragraphs). No legislation, regulations, treaties or case law of Marshall Islands are ingested.
+  - Only the constitution is loaded (the English text of the Constitution (2025 file), from the website of the Judiciary).
+    No legislation, regulations, treaties or case law of Marshall Islands are ingested.
   - The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since
     are not applied, and no history is held (docs/constitutions-asia-oceania-deep.md).
   - 'Courts, legislative institutions, legal families and treaty reception are not profiled: this is a minimal profile, not
