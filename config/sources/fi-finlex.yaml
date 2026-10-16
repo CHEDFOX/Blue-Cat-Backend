@@ -8,16 +8,18 @@ kind: official_legislation_portal
 # published in the Statute Book of Finland (Act on the Statute Book of Finland 188/2000, ss 12-13).
 authority: official_non_authentic
 jurisdictions: [FI]
-document_kinds: [act]
+document_kinds: [act, decree, decision, announcement]
 languages: [fi, sv]
 coverage: >-
   Finlex open data serves the consolidated statutes ("ajantasainen lainsäädäntö" /
   "uppdaterad lagstiftning") as Akoma Ntoso XML, one document per language (Finnish, Swedish)
   and per temporal version (the text as amended by each amending statute), through a REST API.
-  ULIS ingests the selected Acts listed in the manifest, in both languages, with every earlier
-  temporal version for the Acts marked history: true. Original statutes as published in the
-  Statute Book (FRBR subtype "statute"), translations, decrees, case law and treaties are not
-  ingested.
+  ULIS ingests every statute in force that has text (5,579 on 2026-10-16: Acts, decrees and
+  the decisions and announcements Finlex lists with them), in the languages that have text,
+  in the latest consolidated version, with every earlier temporal version for two Acts
+  (history: true). The API's in-force list names 38,585 statutes, but 33,006 are empty shells
+  (title and metadata, no text) and are not ingested. Original statutes as published in the
+  Statute Book (FRBR subtype "statute"), translations, case law and treaties are not ingested.
 access:
   method: api
   endpoint: config/manifests/fi-finlex.yaml
@@ -31,7 +33,10 @@ rate_limits: >-
   error code 429 Too Many Requests" (https://www.finlex.fi/en/open-data/integration-quick-guide).
   opendata.finlex.fi has no robots.txt (404 on 2026-10-14); www.finlex.fi/robots.txt disallows
   only /_next/image. ULIS sends one request per 5 s with an identifying User-Agent and backs
-  off on 429/5xx.
+  off on 429/5xx. The widened manifest needs about 11,100 requests (15 hours at 5 s); building it
+  took about 3,900 list requests (the list endpoint returns at most 10 entries a page) and 2
+  Range requests to the download package https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip
+  (robots.txt of www.finlex.fi allows it; only its central directory was read, not the 4.1 GB file).
 licence:
   id: CC-BY-4.0
   name: Creative Commons Attribution 4.0 International (Finlex open data)
@@ -81,7 +86,9 @@ known_limitations:
   - The consolidation lags publication; the source's consolidation date (dateConsolidated) is reported as the currency date.
   - Per-provision start dates are the entry-into-force dates the source records for the statute that gave each wording; where an amending statute commenced in stages (stated only in its text), a date can be wrong for some provisions.
   - The Finnish and Swedish versions occasionally differ in structure or in amendment markers; each is recorded as published.
-  - Earlier temporal versions are not available from the API for every Act (e.g. the Constitution's earlier versions answer 404).
+  - Earlier temporal versions are not available from the API for every Act (e.g. the Constitution's earlier versions answer 404). Only two Acts are ingested with their history; the others are the latest consolidated version.
+  - Most statutes in force (33,006 of 38,585) are shells without text and are not ingested; a size threshold on the download package's index separates them, so a text document under 5.5 KB would be missed and about one listed statute in seven turns out to be a shell (skipped at ingest).
+  - The list endpoint's pages overlap slightly (about 0.7 % duplicate entries), so a few statutes in force may be missing from the manifest; re-running scripts/build_finlex_manifest.py with a warm cache adds none without new list requests, so a later run is needed to fill gaps.
 status: active
 connector: finlex
 parser: finlex_akn
