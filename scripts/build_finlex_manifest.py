@@ -117,7 +117,15 @@ def list_in_force(http: PoliteHttp, max_pages: int | None) -> tuple[set[tuple[in
     page = 1
     while max_pages is None or page <= max_pages:
         url = f"{LIST}?format=json&page={page}&limit={PAGE}&sortBy=number&isInForce=true&langAndVersion=fin%40latest"
-        got = http.get(url, cache_key=f"list/statute-consolidated/inforce-fin-p{page:05d}.json")
+        for attempt in range(6):  # a connection reset mid-response is not retried by PoliteHttp
+            try:
+                got = http.get(url, cache_key=f"list/statute-consolidated/inforce-fin-p{page:05d}.json")
+                break
+            except (ConnectionError, TimeoutError) as exc:
+                if attempt == 5:
+                    raise
+                print(f"page {page}: {exc!r}; retrying", flush=True)
+                time.sleep(30 * (attempt + 1))
         if got is None:
             raise SystemExit(f"{url}: not found")
         entries = json.loads(got[0])
