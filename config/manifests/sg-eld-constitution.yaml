@@ -1,0 +1,19 @@
+schema_version: 1
+source_id: sg-eld-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.eld.gov.sg
+documents:
+- slug: sg-en
+  jurisdiction: SG
+  url: https://www.eld.gov.sg/Resources/Constitution%20of%20the%20Republic%20of%20Singapore.pdf
+  format: pdf
+  language: en
+  title: Constitution of the Republic of Singapore
+  citation_name: Singapore Constitution
+  edition_date: '2023-04-24'
+  edition_label: 2020 Revised Edition, informal consolidation, version in force from 24/4/2023 (as printed on the cover page and in the running foot)
+  authoritative: false
+  text_origin: official_consolidation
+  structure: {}

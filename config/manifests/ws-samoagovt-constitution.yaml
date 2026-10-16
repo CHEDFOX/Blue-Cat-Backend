@@ -1,0 +1,35 @@
+schema_version: 1
+source_id: ws-samoagovt-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.samoagovt.ws
+documents:
+- slug: ws-en
+  jurisdiction: WS
+  url: https://www.samoagovt.ws/wp-content/uploads/2014/07/Constitution-of-the-Independent-State-of-Samoa-1960.pdf
+  format: pdf
+  language: en
+  title: Constitution of the Independent State of Samoa
+  citation_name: Samoa Constitution
+  adopted_on: '1960-10-28'
+  edition_label: text on the Government of Samoa's website (file uploaded 2014, last modified 2020); no edition date printed
+  events:
+  - type: adoption
+    date: '1960-10-28'
+    description: '''NOW THEREFORE, we the people of Samoa in our Constitutional Convention, this 28th day of October 1960, do hereby adopt, enact and give to ourselves this Constitution.'''
+    locator: preamble
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    style: numdot
+    unit_kind: article
+    page_numbers: true
+    drop_lines:
+    - ^Constitution of the Independent$
+    - ^State of Samoa$
+    preamble_regex: ^IN THE HOLY NAME OF GOD, THE ALMIGHTY, THE$
+    tail_regex: ^SCHEDULES$
+  note: >-
+    The preamble is followed in the PDF by the names of the members of the Constitutional Convention who signed it; those
+    lines are part of the stored preamble text.
