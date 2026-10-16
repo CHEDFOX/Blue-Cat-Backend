@@ -1,0 +1,17 @@
+schema_version: 1
+source_id: mh-rmicourts-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- rmicourts.org
+documents:
+- slug: mh-en
+  jurisdiction: MH
+  url: https://rmicourts.org/wp-content/uploads/2025-Const.pdf
+  format: pdf
+  language: en
+  title: Constitution of the Republic of the Marshall Islands
+  citation_name: Marshall Islands Constitution
+  authoritative: false
+  text_origin: official_consolidation
+  structure: {}
