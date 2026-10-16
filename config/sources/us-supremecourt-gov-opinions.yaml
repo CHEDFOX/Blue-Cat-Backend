@@ -14,6 +14,16 @@
 #   No opinion PDF was fetched.
 # Why it matters: GovInfo's USREPORTS collection ends with volume 586 (2018 Term). The Court's site is the free source of
 # the later volumes (587 as a bound volume; 588-606 as preliminary prints) and of the current term's slip opinions.
+# RE-TESTED 2026-10-16 (fixture tests/fixtures/us_case_law_sources/retest-2026-10-16/supremecourt.gov.robots.txt, two requests: robots.txt and
+#   /opinions/USReports.aspx):
+#   robots.txt is unchanged ("Crawl-delay:1" for all agents; /images/, /rss/ and /cdn/ disallowed, discobot and SOTScraper barred by name);
+#        /opinions/ and /pdfs/ are not disallowed. The terms page was not read again (it had no reuse statement on 2026-10-14).
+#   The U.S. Reports listing now links: bound volumes 561-587 (boundvolumes/<n>BV.pdf, typeset), preliminary prints 588-606
+#        (preliminaryprint/<n>US<part>PP_*.pdf), and the older volumes 2-501 as scans (/pdfs/USReports/USREPORTS-<n>_PDFA.pdf, 4-50 MB each).
+#        Volumes 2-586 are GovInfo's too; 587 and later are the new part. Still no HTML or text form of any opinion.
+#   Why still planned: the Court's decisions from 587 U.S. to the 2026 term are already in the bulk files of us-courtlistener-bulk-s3 (its scope
+#        report of 2026-10-16 counts 103, 83, 125, 152, 139 and 80 Supreme Court cases dated 2021 to 2026), and a parser for typeset preliminary prints (case boundaries without a MODS list) would be new
+#        work for the same text. Taking it up later needs only that parser; access is open.
 schema_version: 1
 id: us-supremecourt-gov-opinions
 name: Supreme Court of the United States, opinions (supremecourt.gov)
@@ -57,7 +67,7 @@ licence:
     reports.
 provenance: Not retrieved.
 known_limitations:
-  - Not ingested - PDF only; no text extraction or parser exists; volumes 587 and later are therefore not in ULIS.
+  - Not ingested - PDF only; no parser for the preliminary prints exists. Volumes 587 and later are covered by us-courtlistener-bulk-s3 (its default scope takes the Supreme Court in every year), without the Court's own page numbers where CourtListener lacks them.
   - The listing pages are HTML tables whose layout was not mapped to fields.
 status: planned
 connector: null

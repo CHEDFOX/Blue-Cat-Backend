@@ -1,6 +1,6 @@
 # United States (federal): case law from GovInfo
 
-Status: **two sources active (pilot, draft unverified profile 0.3.0), five examined and not used.** Supreme Court
+Status: **three sources active (pilot, draft unverified profile 0.5.0), four examined and not used.** Since 2026-10-16 a third source, CourtListener's public bulk files (`us-courtlistener-bulk-s3`), adds the courts of every level: see [../markets/us-cases.md](../markets/us-cases.md) for the inventory, licence facts, scale and scoping. Supreme Court
 decisions (United States Reports, volumes 2-586) and opinions of the thirteen courts of appeals, from GovInfo, the
 U.S. Government Publishing Office. Research aid, not legal advice. Legislation: [us-code.md](us-code.md).
 
@@ -17,10 +17,10 @@ U.S. Government Publishing Office. Research aid, not legal advice. Legislation: 
 |---|---|---|
 | **GovInfo** (www.govinfo.gov) | robots: no Crawl-delay, only /core/, /profiles/, search and admin paths disallowed, a sitemap per collection. `/about/policies`: 17 U.S.C. 105, "all work of the United States Government" in the public domain, though "publications may contain copyrighted material". `/sitemaps`: "can be used by systems to crawl and harvest content". The JSON API needs an api.data.gov key (not used); USREPORTS and USCOURTS are not in the Bulk Data Repository. | **Ingested** by the keyless route: sitemap, `/metadata/pkg/<pkg>/mods.xml`, `/content/pkg/...` |
 | Supreme Court (supremecourt.gov) | robots: /images/, /rss/, /cdn/ disallowed, Crawl-delay 1, two named crawlers barred; policies page has no reuse terms. Opinions only as PDF (slip opinions, preliminary prints 588-606, bound volumes 502-587). | `planned` (`us-supremecourt-gov-opinions`): open to robots, not built (PDF layout) |
-| CourtListener / Free Law Project | `robots.txt` answered **HTTP 403** (CloudFront "Request blocked") twice. Bulk-data page, licence and S3 files not read or fetched. | `planned` (`us-courtlistener-bulk`), no workaround |
+| CourtListener / Free Law Project | `robots.txt` of the website answered **HTTP 403** (CloudFront "Request blocked") twice. Its documentation on `wiki.free.law` (robots allow `/c/`) names the public S3 bucket of the bulk files (no robots.txt there) and says they are "free of known copyright restrictions". | website `planned` (`us-courtlistener-bulk`, never contacted again); bucket **ingested** (`us-courtlistener-bulk-s3`, 2026-10-16) |
 | Cornell LII | robots: Crawl-delay 10. Terms: compilation and markup CC BY-NC-SA 2.5, commercial redistribution not consented; no explicit bot permission. | `rejected` (`us-cornell-lii`) |
 | Justia | robots allow all; terms of service **HTTP 403**. | `planned` (`us-justia-supreme-court`) |
-| Caselaw Access Project | CC0 data, host robots.txt disallows all (previous worker). | `planned` (`us-caselaw-access-project`) |
+| Caselaw Access Project | CC0 data, host robots.txt disallows all (re-tested 2026-10-16: unchanged). Harvard LIL (2024-03-26): limits expired; Free Law Project includes all CAP cases. | `planned` (`us-caselaw-access-project`); the cases arrive through CourtListener's files |
 
 ## What is ingested
 

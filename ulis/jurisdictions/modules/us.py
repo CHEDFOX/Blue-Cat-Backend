@@ -26,6 +26,12 @@ Citation forms follow common US practice (Bluebook-style) for the document types
   ``Kolenc v. HHS, No. 23-1808 (Fed. Cir. Jan. 3, 2024)``; no pinpoint, because the PDF page is not the slip opinion's
   own page number
 
+* judgment from CourtListener's bulk files (any court): the reporter citation the source gives, the court and the
+  year in the parenthetical, a pinpoint only when the units are the printed pages of that very citation:
+  ``State v. Reams, 945 P.2d 52, 53 (Mont. 1997)``; a neutral citation stands alone (``State v. Doe, 2019 ND 15``); a
+  Westlaw or Lexis number takes the full date (``Doe v. Roe, 2019 WL 5 (9th Cir. Sept. 22, 2019)``); with no citation at
+  all the docket number and the date (``Doe v. Roe, No. 99-1234 (9th Cir. Sept. 22, 1997)``)
+
 They are formatting conventions for research output, reviewed by no one yet; a reviewer
 sign-off is required before the US profile can be marked "reviewed".
 """
@@ -117,6 +123,31 @@ class UsJudgmentExt(BaseModel):
     parties: list[UsParty] | None = None
     docket_text: str | None = None
     pdf_pages: int | None = None
+    # CourtListener bulk data (case law of all courts the source covers); see parsers/courtlistener_bulk.py
+    courtlistener_cluster: int | None = None
+    courtlistener_docket: int | None = None
+    courtlistener_court: str | None = None
+    court_name: str | None = None
+    court_citation: str | None = None  # the court's form in a citation parenthetical, as CourtListener gives it
+    citations: list[str] | None = None  # every reporter citation of the case, in the publisher's order
+    citation_kind: str | None = None  # "reporter", "neutral" or "docket": what judgments.neutral_citation holds
+    unit_scheme: str | None = None  # "page": units are printed pages of page_citation; "block": numbered text blocks
+    page_citation: str | None = None
+    text_columns: list[str] | None = None
+    source_codes: str | None = None
+    precedential_status: str | None = None
+    date_filed_is_approximate: bool | None = None
+    judges: str | None = None
+    authors: list[str] | None = (
+        None  # "Opinion concurring in part: <author>" where the part label had no room for the name
+    )
+    disposition: str | None = None
+    scdb_id: str | None = None
+    harvard_path: str | None = None
+    opinion_ids: list[int] | None = None
+    ocr: bool | None = None
+    continuation: bool | None = None
+    download_urls: list[str] | None = None
 
 
 COURT_ABBREVIATIONS = {
@@ -168,12 +199,12 @@ def ordinal(n: int) -> str:
 
 class UsModule(JurisdictionModule):
     id: ClassVar[str] = "us"
-    version: ClassVar[str] = "1.3.0"
+    version: ClassVar[str] = "1.4.0"
     ext_model: ClassVar[type[BaseModel]] = UsExt
 
     def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:
         # A judgment's ext is recognised by its GovInfo package; legislation's by its own keys.
-        if "govinfo_package" in ext:
+        if "govinfo_package" in ext or "courtlistener_cluster" in ext:
             return UsJudgmentExt.model_validate(ext).model_dump(exclude_none=True)
         return super().validate_ext(ext)
 
@@ -248,7 +279,35 @@ class UsModule(JurisdictionModule):
                 return ", ".join(p for p in parts if p) + enacted_year
         return f"{c.instrument_title}{', ' + pin if pin else ''}"
 
+    def courtlistener_citation(self, c: JudgmentCitationInput, ext: dict[str, Any]) -> str:
+        """``Roe v. Wade, 410 U.S. 113, 153 (1973)``; a state case ``State v. Reams, 945 P.2d 52, 53 (Mont. 1997)``;
+        a neutral citation stands alone (``State v. X, 2019 ND 15``); with no citation, the docket number and date."""
+        year = c.decision_date.year
+        court = ext.get("court_citation") or COURT_ABBREVIATIONS.get(c.court_id) or c.court_name
+        kind = ext.get("citation_kind")
+        # A pinpoint is given only when the unit is a printed page, and then of the reporter whose pages they are: when
+        # that is not the citation the case is filed under, it follows as a parallel citation
+        # ("523 U.S. 751, 118 S. Ct. 1700, 1703").
+        cite = c.neutral_citation
+        page_cite = ext.get("page_citation")
+        if cite and c.paragraph and ext.get("unit_scheme") == "page" and page_cite:
+            cite = f"{cite}, {c.paragraph}" if page_cite == cite else f"{cite}, {page_cite}, {c.paragraph}"
+        if kind == "neutral" and cite:
+            return f"{c.case_name}, {cite}"
+        if kind == "reporter" and cite:
+            if c.court_id == "US-SC" and (c.neutral_citation or "").split()[1:2] == ["U.S."]:
+                return f"{c.case_name}, {cite} ({year})"
+            return f"{c.case_name}, {cite} ({court} {year})"
+        d = c.decision_date
+        dated = f"{court} {MONTHS[d.month - 1]} {d.day}, {year}"
+        if kind == "database" and c.neutral_citation:  # a Westlaw or Lexis number: the full date, as the Bluebook asks
+            return f"{c.case_name}, {c.neutral_citation} ({dated})"
+        docket = f", No. {c.docket}" if c.docket else ""
+        return f"{c.case_name}{docket} ({dated})"
+
     def judgment_citation(self, c: JudgmentCitationInput) -> str:
+        if c.ext and "courtlistener_cluster" in c.ext:
+            return self.courtlistener_citation(c, c.ext)
         year = c.decision_date.year
         if c.court_id == "US-SC":
             if not c.neutral_citation:
@@ -263,6 +322,10 @@ class UsModule(JurisdictionModule):
         return f"{c.case_name}{docket} ({court} {MONTHS[d.month - 1]} {d.day}, {year})"
 
     def judgment_unit_label(self, num: str | None, part: str, ext: dict[str, Any] | None) -> str:
+        if ext and "courtlistener_cluster" in ext:
+            if ext.get("unit_scheme") == "page":
+                return f"p. {num}" if num and not num.startswith("syllabus") else part
+            return f"{part}, text block {num}"  # a running number of the unit, not a page or paragraph of the source
         if ext and ext.get("reporter"):
             return f"p. {num}"  # the units of the United States Reports are its printed pages
         if ext and ext.get("case_number"):

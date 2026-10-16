@@ -1,0 +1,51 @@
+User-agent: *
+Allow: /
+Allow: /c/
+Allow: /llms.txt
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /u/
+Disallow: /search/
+Disallow: /files/
+Disallow: /unsubscribe/
+Disallow: /subscriptions/
+Disallow: /activity/
+
+Disallow: /c/*/edit/
+Disallow: /c/*/move/
+Disallow: /c/*/delete/
+Disallow: /c/*/history/
+Disallow: /c/*/backlinks/
+Disallow: /c/*/diff/
+Disallow: /c/*/revert/
+Disallow: /c/*/permissions/
+Disallow: /c/*/subscribe/
+Disallow: /c/*/pin/
+
+Disallow: /c/*/new/
+Disallow: /c/*/new-dir/
+Disallow: /c/*/edit-dir/
+Disallow: /c/*/move-dir/
+Disallow: /c/*/delete-dir/
+Disallow: /c/*/history-dir/
+Disallow: /c/*/diff-dir/
+Disallow: /c/*/revert-dir/
+Disallow: /c/*/permissions-dir/
+Disallow: /c/*/apply-permissions-dir/
+Disallow: /c/*/subscribe-dir/
+
+Disallow: /c/new/
+Disallow: /c/new-dir/
+Disallow: /c/edit-dir/
+Disallow: /c/history-dir/
+Disallow: /c/diff-dir/
+Disallow: /c/permissions-dir/
+Disallow: /c/apply-permissions-dir/
+Disallow: /c/subscribe-dir/
+
+Disallow: /c/*/comments/
+Disallow: /c/*/proposals/
+Disallow: /c/*/feedback/
+
+Sitemap: https://wiki.free.law/sitemap.xml

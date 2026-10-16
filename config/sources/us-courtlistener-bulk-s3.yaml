@@ -1,74 +1,132 @@
-# PLANNED - NOT INGESTED. Found by the bulk-datasets survey (docs/bulk-datasets-survey.md, 2026-10-15). Candidate to replace the
-# refused website route recorded in us-courtlistener-bulk.yaml (which stays as the record of the refusal).
-#   https://www.courtlistener.com/robots.txt - HTTP 403 (CloudFront "Request blocked") to the ULIS bot, 2026-10-15 again. ULIS stopped
-#        on that host: nothing was requested from www.courtlistener.com after it, and ULIS must never fetch from it.
-#   https://free.law/robots.txt - "User-agent: *" / "Disallow:" (everything allowed). https://wiki.free.law/robots.txt - "Allow: /c/".
-#   https://wiki.free.law/c/courtlistener/help/api/bulk-data/bulk-legal-data (Free Law Project's own documentation of the bulk files):
-#        "On a quarterly basis, we generate huge data files for many of the data types in our system."; "As they are generated,
-#        bulk data files are streamed to an AWS S3 bucket."; "Files are snapshots, not deltas, meaning each file contains everything in
-#        our database at the time of generation."; under "Copyright": "Our bulk data files are free of known copyright restrictions."
-#        with the Creative Commons Public Domain Mark (https://creativecommons.org/publicdomain/mark/1.0/). Format: PostgreSQL
-#        COPY CSV, UTF-8, header row, bz2; schema.sql and load-bulk-data-*.sh are published with each generation.
-#   https://com-courtlistener-storage.s3-us-west-2.amazonaws.com/?list-type=2&prefix=bulk-data/ - bucket listing only (metadata, no file
-#        downloaded). Latest generation 2026-09-30: opinions-2026-09-30.csv.bz2 55,252,643,429 bytes; opinion-clusters 2,467,613,433;
-#        dockets 5,144,011,100; citation-map 533,110,848; courts 81,226; also parentheticals, oral arguments, people-db.
-#   https://huggingface.co/datasets/harvard-lil/cold-cases (Harvard LIL with Free Law Project, CC0 on its card): "COLD Cases is a dataset
-#        of 8.3 million United States legal decisions with text and metadata"; it "reformats CourtListener's bulk data" and says "we have
-#        filtered out cases blocked or deindexed by CourtListener" - so ULIS must honour any such flags itself where the raw files carry them.
-#   Not checked: CourtListener's website terms (host refused); which text column holds the court's own text for each opinion.
+# CourtListener bulk case-law files (Free Law Project), public S3 bucket. ACTIVE since 2026-10-16 (it was planned from 2026-10-15,
+# when the bulk-datasets survey found it). Terms and access rules, read in this order on 2026-10-15/16 (details and the numbers
+# of the sizing run in docs/markets/us-cases.md):
+#   https://com-courtlistener-storage.s3-us-west-2.amazonaws.com/robots.txt - HTTP 404 (S3: no such key): the bucket publishes no
+#        robots.txt, which means no restrictions (RFC 9309). The bucket is the host of the files; ULIS contacts no other
+#        CourtListener host.
+#   https://free.law/robots.txt - "User-agent: *" / "Disallow:" (everything allowed). https://wiki.free.law/robots.txt - "Allow: /",
+#        "Allow: /c/" (the help pages), with /api/, /search/ and the edit/history pages disallowed.
+#   https://wiki.free.law/c/courtlistener/help/api/bulk-data/bulk-legal-data (Free Law Project's own documentation, an allowed path):
+#        "For developers, legal researchers, journalists, and the public, we provide bulk files containing many types of data."; "As
+#        they are generated, bulk data files are streamed to an AWS S3 bucket."; "Files are snapshots, not deltas, meaning each file
+#        contains everything in our database at the time of generation."; the bucket is linked as "Browse Bulk Data" and the page shows
+#        `aws s3 sync s3://com-courtlistener-storage/... --no-sign-request` for the embeddings, i.e. anonymous access is intended;
+#        "bulk data files are regenerated quarterly on the last day of March, June, September, and December"; the files are
+#        PostgreSQL `COPY TO` CSV (UTF-8, header row), a `schema-<date>.sql` and `load-bulk-data-<date>.sh` come with each generation;
+#        under "Copyright": "Our bulk data files are free of known copyright restrictions." with the Creative Commons Public Domain
+#        Mark 1.0 (https://creativecommons.org/publicdomain/mark/1.0/). No attribution, rate or use condition is stated there.
+#   https://com-courtlistener-storage.s3-us-west-2.amazonaws.com/?list-type=2&prefix=bulk-data/ - the bucket listing (metadata only;
+#        read twice): generation 2026-09-30 is the latest (last-modified 2026-09-30): courts 81,226 bytes; dockets 5,144,011,100;
+#        opinion-clusters 2,467,613,433; citations 127,468,518; opinions 55,252,643,429 (bz2 CSV). The manifest pins these sizes.
+#   https://lil.law.harvard.edu/blog/2024/03/26/transitions-for-the-caselaw-access-project (Harvard Library Innovation Lab, robots.txt
+#        Crawl-delay 10, one request): "the original limitations on the data available for the Caselaw Access Project expired this
+#        month, and that data can now be fully released without restriction on access or use"; "The Free Law Project already includes all
+#        CAP cases, as well as cases scraped from court websites, in its CourtListener search engine." So the Caselaw Access Project
+#        (us-caselaw-access-project, whose own host still disallows robots) reaches ULIS through this source (opinions.xml_harvard).
+#   NOT used and never contacted: https://www.courtlistener.com/ (robots.txt answered HTTP 403 "Request blocked" to the ULIS bot on
+#        2026-10-14 and 2026-10-15: recorded in us-courtlistener-bulk) and its REST API (needs a token). The refusal concerns the
+#        website, not this bucket: the files are the publisher's documented way to bulk download, on a host with no restriction.
+#   Request history: the listing and the files below, a handful of ranged GETs (Range: bytes=...) of the first 25 MB of the opinions
+#        file and 12 MB at five other offsets to measure it, then the complete clusters, dockets and courts files for the sizing run
+#        (7.6 GB, one connection) and the citations file (127 MB). The 55 GB opinions file is NOT downloaded in the sandbox.
 schema_version: 1
 id: us-courtlistener-bulk-s3
-name: CourtListener bulk data files (Free Law Project), public S3 bucket
-publisher: Free Law Project (CourtListener). Not an official court publication.
+name: CourtListener bulk case-law files (Free Law Project), public S3 bucket
+publisher: >-
+  Free Law Project (CourtListener), a non-profit. Not an official court publication: an aggregation of opinions from court
+  websites, the Harvard Law School Library Innovation Lab's Caselaw Access Project, public.resource.org, Lawbox, Columbia University
+  and other public sources, kept as one database (clusters of opinions, dockets, courts, citations).
 kind: open_data_repository
 authority: unofficial
 jurisdictions: [US]
 document_kinds: [judgment]
 languages: [en]
 coverage: >-
-  United States federal and state case law aggregated by CourtListener: dockets, opinion clusters, opinions (full text in several
-  columns), citation map, courts, parentheticals. Millions of opinions (COLD Cases, built from these files, states 8.3 million);
-  the opinions file of 2026-09-30 is 55 GB compressed. Nothing is ingested.
+  United States case law of the federal and state courts, from the 18th century to the quarter's snapshot: about 10 million cases
+  (opinion clusters) in about 3,400 courts. ULIS reads five of the publisher's tables - courts, dockets, opinion clusters,
+  citations and opinions - and loads the cases that the manifest's scope selects (court rules with a first year, the
+  precedential status "Published", clusters that CourtListener does not mark as blocked). The default scope is described in the
+  manifest header and docs/markets/us-cases.md; the rest of the publication is reachable by widening the scope, nothing else.
 access:
   method: bulk_download
-  endpoint: https://com-courtlistener-storage.s3-us-west-2.amazonaws.com/list.html?prefix=bulk-data/
-  authentication: none (public bucket named by the publisher's documentation); the website's API needs a token and is not used
-update_frequency: quarterly (last day of March, June, September and December), full snapshots
+  endpoint: config/manifests/us-courtlistener-bulk-s3.yaml
+  authentication: none
+update_frequency: >-
+  Quarterly full snapshots (last day of March, June, September, December). ULIS pins one generation in the manifest; a newer one
+  is taken by changing the manifest (names, sizes). Cases already loaded keep their rows: a case whose text CourtListener corrected
+  is reported as a conflict by the pipeline and not overwritten.
 rate_limits: >-
-  None stated for the bucket. Download once per generation, sequentially. Never contact www.courtlistener.com (HTTP 403 to the ULIS bot).
+  None stated for the bucket. ULIS downloads the five files once per generation, one connection at a time, resumable (Range),
+  5 s between requests, identifying User-Agent, sizes checked against the manifest. The opinions file alone is 55 GB.
 licence:
   id: PDM-1.0
   name: >-
-    Free Law Project bulk data page, "Copyright": "Our bulk data files are free of known copyright restrictions."
-    (Creative Commons Public Domain Mark 1.0)
+    Free Law Project bulk data page, "Copyright": "Our bulk data files are free of known copyright restrictions." (Creative Commons
+    Public Domain Mark 1.0)
   url: https://wiki.free.law/c/courtlistener/help/api/bulk-data/bulk-legal-data
-  review_status: pending_review
+  review_status: approved
   reviewed_by: >-
-    ULIS bulk-datasets survey (read the wiki page above and the bucket listing on 2026-10-15). Not reviewed by counsel; the
-    publisher's website terms were not readable.
-  reviewed_on: 2026-10-15
+    ULIS project, 2026-10-16: the publisher's bulk data page, robots.txt of free.law, wiki.free.law and the bucket (none restricts),
+    the bucket listing, and the Harvard LIL notice that the CAP data is released without restriction. Not reviewed by counsel. AMBER
+    in the licence review: a Public Domain Mark says "no known copyright restriction", it grants nothing; the rows are court
+    opinions (17 U.S.C. 105 for federal judges; state-court opinions are treated alike by the publisher), but some columns hold
+    third-party material, which the connector and parser leave out (see conditions).
+  reviewed_on: 2026-10-16
   redistribution: allowed_with_conditions
   bulk_download: allowed_with_conditions
-  automated_processing: allowed_with_conditions
+  automated_processing: allowed
   commercial_use: allowed_with_conditions
-  attribution_required: null
+  attribution_required: false
   attribution_text: >-
-    Free Law Project, CourtListener bulk data (https://free.law/). (Wording is ULIS's; the publisher states no attribution
-    condition.)
+    Free Law Project, CourtListener bulk data (https://free.law/, https://www.courtlistener.com/), retrieved {retrieved_date}; includes
+    data of the Harvard Law School Library Innovation Lab's Caselaw Access Project. Text as published; ULIS removes mark-up only.
   conditions:
-    - The Public Domain Mark says "free of known copyright restrictions", not "no restrictions", so some documents may carry third-party rights or court-ordered restrictions; keep per-document origin fields where the files have them and honour the removal flags the schema carries (the COLD card says CourtListener blocks or deindexes some cases).
-    - Because the website host refused the ULIS bot, ask Free Law Project in writing (contact form on free.law) to confirm that an identified research bot may download the bucket files before the first download.
-    - Use the columns that hold the court's own text (to be identified in the published schema.sql), not any column with publisher-added citation mark-up.
+    - >-
+      Only the columns that carry the court's own text are read: html_columbia, html_lawbox, xml_harvard, html and plain_text, in that
+      order (CourtListener's own order of preference). Never html_with_citations (CourtListener's own citation links), html_anon_2020 (a
+      third-party database whose HTML carries editorial case summaries, "courtsummary") or xml_scan. Headnotes, summaries, counsel
+      lists and the other head matter that the Harvard XML places inside an opinion are left out of the searchable text (they stay in
+      the stored bundle).
+    - >-
+      Clusters with blocked = true or a date_blocked, and clusters whose docket is blocked, are never taken: that is CourtListener's
+      own removal flag (the COLD Cases dataset filters them too). Re-run the load after a new generation to drop newly blocked cases.
+    - >-
+      Be gentle with the publisher's storage: one download per generation, resumable, never in parallel (Free Law Project pays the
+      transfer; its wiki asks for donations for the 2 TB embeddings and states about $200 in fees for them).
+    - >-
+      The Public Domain Mark is not a warranty: opinions can quote copyrighted works, and court-ordered sealing or correction can
+      post-date a snapshot. Counsel review before a commercial launch (commercial_use is 'allowed_with_conditions' for that reason).
   notes: >-
-    Replaces nothing yet: us-courtlistener-bulk stays as the record of the refusal. Most opinions are also in the Caselaw Access
-    Project (whose static host disallows robots) and, for the federal courts of appeals, in GovInfo.
+    Supersedes the planned record of 2026-10-15. The website host's refusal (us-courtlistener-bulk) stays on file. The Free Law Project
+    wrote no condition about bots, and the bucket is documented for anonymous download, so ULIS does not wait for a permission that
+    it cannot ask for; if the publisher closes the bucket to the ULIS User-Agent, the connector stops (a refusal ends the run).
+    Third-party mirrors (Hugging Face copies of CAP/COLD, Common Pile) are not used: this source is the publisher's own file.
 provenance: >-
-  Aggregated by Free Law Project from court websites and other public sources, including Harvard's Caselaw Access Project (per the
-  COLD Cases and Common Pile cards); whether each cluster record carries a source code and each opinion a download URL is to be
-  confirmed on first read (schema.sql is published with each generation). Not retrieved.
+  Aggregated by Free Law Project from court websites (scrapers), the Harvard Caselaw Access Project (xml_harvard, and the pdf and json
+  paths in filepath_json_harvard), public.resource.org (html), Lawbox (html_lawbox), Columbia University (html_columbia) and others;
+  the cluster's `source` code says which. ULIS stores, per case, one JSON bundle holding the rows of the court, docket and cluster
+  tables and the citations, and for each opinion the verbatim value of the ONE text column it uses (with its name), so the stored
+  bytes are the publisher's. Text extraction removes mark-up and collapses white space inside a paragraph; spelling and OCR errors
+  stay as they are.
 known_limitations:
-  - Not ingested - survey result only; the website host refused the ULIS bot and the bucket was only listed, never downloaded.
-  - Unofficial aggregation; text may be OCR or converted from third-party HTML; judicial treatment is not inferred.
-status: planned
-connector: null
-parser: null
+  - >-
+    Unofficial and unauthentic: the text is the publisher's aggregation (OCR of printed reporters for the Harvard data, scraped HTML or
+    PDF-to-text for court websites). OCR errors (for example "tiibunal", "th.eir") are kept; exact-phrase searches can miss.
+  - >-
+    The default scope is a part of the publication (see the manifest header): the rest is a manifest change away. Unpublished and
+    unknown-status opinions, trial courts, tribal courts, administrative bodies and cases before the rules' first years are not loaded.
+  - >-
+    Units are printed pages (pinpoint cites) only when the text carries the reporter's page breaks and the first break fits one of the
+    case's citations; otherwise they are blocks of paragraphs of about 2,400 characters that are not pages (no pinpoint is cited).
+  - >-
+    A case's opinions (lead, concurrences, dissents) come as separate rows that are grouped in a bounded buffer; a row that arrives
+    after its cluster was emitted becomes a second document of the same case (ext.continuation), which is rare and counted.
+  - >-
+    Supreme Court decisions before volume 587 U.S. are ALSO in us-govinfo-usreports (official bound-volume OCR): the two sources
+    have different work URIs, so such a case appears twice; this one is complete (the GovInfo parser finds about 80% of the cases).
+  - >-
+    Judicial treatment (overruled, distinguished) is in no column ULIS reads and is never inferred; CourtListener's citation map and
+    parentheticals are not loaded.
+status: active
+connector: courtlistener_bulk
+parser: courtlistener_bulk

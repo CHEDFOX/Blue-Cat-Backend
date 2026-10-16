@@ -37,6 +37,7 @@ from ulis.sources.connectors.boe_consolidada import BoeConsolidadaConnector
 from ulis.sources.connectors.bwb import BwbConnector
 from ulis.sources.connectors.constitution_docs import ConstitutionDocsConnector
 from ulis.sources.connectors.constitution_pages_b import ConstitutionPagesBConnector
+from ulis.sources.connectors.courtlistener_bulk import CourtListenerBulkConnector
 from ulis.sources.connectors.dila_case_law import DilaCaseLawConnector
 from ulis.sources.connectors.dila_legi import DilaLegiConnector
 from ulis.sources.connectors.ecfr import EcfrConnector
@@ -99,6 +100,7 @@ from ulis.sources.parsers import (
     bwb,
     constitution_pages_b,
     constitution_text,
+    courtlistener_bulk,
     dila_juri,
     dila_legi,
     ecfr,
@@ -201,6 +203,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "slovlex_static_html": slovlex_static.parse_slovlex_static,
     "govinfo_usreports": govinfo_usreports.parse_govinfo_usreports,
     "govinfo_uscourts": govinfo_uscourts.parse_govinfo_uscourts,
+    "courtlistener_bulk": courtlistener_bulk.parse,
     "us_wa_rcw_html": us_wa_rcw.parse_wa_rcw,
     "us_tx_statutes_zip": us_tx_statutes.parse_tx_statutes,
     "us_or_ors_html": us_or_ors.parse_or_ors,
@@ -260,6 +263,7 @@ PARSER_VERSIONS = {
     "slovlex_static_html": slovlex_static.PARSER_VERSION,
     "govinfo_usreports": govinfo_usreports.PARSER_VERSION,
     "govinfo_uscourts": govinfo_uscourts.PARSER_VERSION,
+    "courtlistener_bulk": courtlistener_bulk.PARSER_VERSION,
     "us_wa_rcw_html": us_wa_rcw.PARSER_VERSION,
     "us_tx_statutes_zip": us_tx_statutes.PARSER_VERSION,
     "us_or_ors_html": us_or_ors.PARSER_VERSION,
@@ -354,6 +358,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "govinfo_bulk_statutes": GovInfoStatutesConnector,
     "govinfo_bulk_cfr_fr": GovInfoCfrFrConnector,
     "govinfo_uscourts": UsCourtsGovInfoConnector,
+    "courtlistener_bulk": CourtListenerBulkConnector,
     "us_wa_rcw": WaRcwConnector,
     "us_tx_statutes": TxStatutesConnector,
     "us_or_ors": OrOrsConnector,

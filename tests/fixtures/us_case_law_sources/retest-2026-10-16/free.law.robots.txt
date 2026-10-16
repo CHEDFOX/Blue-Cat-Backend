@@ -1,0 +1,6 @@
+# Allow everything by everything
+User-agent: *
+Disallow:
+
+# Doing this with nextjs is a pain and the site is really crawlable. No sitemap.
+# Sitemap: https://free.law/sitemap.xml

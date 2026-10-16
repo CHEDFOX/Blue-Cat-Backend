@@ -59,14 +59,15 @@ def test_recorded_robots_txt_disallows_the_ulis_bot_on_the_data_host() -> None:
 def test_supreme_court_ranks_above_the_courts_of_appeals(catalog: Catalog) -> None:
     reg = catalog.jurisdictions
     profile = reg.get("US")
-    assert [c.id for c in profile.courts] == ["US-SC", *CIRCUITS]
+    # the hand-written courts come first; the CourtListener courts (US-CL-*) follow, generated from its court table
+    assert [c.id for c in profile.courts][:14] == ["US-SC", *CIRCUITS]
     assert min(c.rank for c in profile.courts) == 1
     assert [c.id for c in profile.courts if c.rank == 1] == ["US-SC"]
     assert reg.courts_above("US-CA9") == ["US-SC"]
     below = reg.courts_below("US-SC")
     assert set(CIRCUITS) <= set(below)  # the state profiles also model their apex court's appeal to US-SC
     assert {c for c in below if c not in CIRCUITS} <= {
-        c.id for p in reg.profiles.values() for c in p.courts if p.id.startswith("US-")
+        c.id for p in reg.profiles.values() for c in p.courts if p.id == "US" or p.id.startswith("US-")
     }
     assert "ULIS" not in profile.coverage.known_gaps  # sanity: gaps are prose about sources, not the project
     gaps = " ".join(profile.coverage.known_gaps)

@@ -365,8 +365,10 @@ def test_search_finds_the_opinion_with_citation_and_court_dependent_authority(
     assert hit["unit"]["label"] == "PDF p. 2" and hit["unit"]["heading"] == "opinion"
     assert hit["document"]["court_id"] == "US-CAFC" and hit["document"]["neutral_citation"] is None
     assert hit["document"]["decision_date"] == "2024-01-03" and hit["version"]["authoritative"] is False
-    # no forum court: no court below the Federal Circuit is modelled, so nothing is bound by it without a forum
-    assert hit["authority"]["category"] == "persuasive_precedent"
+    # no forum court: the courts that appeal to the Federal Circuit (Federal Claims, International Trade, Veterans
+    # Claims, the boards) are modelled since the CourtListener source, so it binds courts below it; a forum court is
+    # needed for a definite answer
+    assert hit["authority"]["category"] == "precedent_vertical"
     same = _search(session, catalog, q=q, forum_court="US-CAFC")["results"][0]
     other = _search(session, catalog, q=q, forum_court="US-CA9")["results"][0]
     assert same["authority"]["category"] == "binding_precedent"  # a court of appeals binds itself

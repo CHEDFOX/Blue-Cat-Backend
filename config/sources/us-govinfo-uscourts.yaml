@@ -15,6 +15,12 @@
 #   https://www.govinfo.gov/metadata/pkg/USCOURTS-ca13-23-01808/mods.xml (and ca1-00-01824) - MODS: publisher Administrative
 #        Office of the United States Courts, GPO as distributor, court code/type/circuit, case number, nature of suit, parties,
 #        title, the opinion's date and the clerk's docket text; only a PDF rendition is linked (no text or HTML form).
+# DISTRICT COURTS CHECKED 2026-10-16 (market sweep; robots.txt and the USCOURTS sitemap index re-read, three sitemaps fetched): the index lists 3,684
+#   court-year sitemaps for 168 courts; 75 are district courts (first years from 1970, mostly the late 1990s on). One district court-year is large:
+#   USCOURTS_txsd_2024 lists 1,317 packages (nysd and cacd 2024 are not published, HTTP 404). With two requests per opinion at 5 s apart, one such
+#   court-year is about 3.7 hours, so the whole district collection (tens of thousands of opinions per year over 75 courts) is out of reach of a polite
+#   crawl; GovInfo has no bulk file for USCOURTS. The district courts' opinions are loaded instead from the Free Law Project's bulk files
+#   (us-courtlistener-bulk-s3, court group FD). This source is not widened beyond the courts of appeals.
 schema_version: 1
 id: us-govinfo-uscourts
 name: United States Courts Opinions on GovInfo (USCOURTS), courts of appeals
@@ -75,7 +81,7 @@ provenance: >-
   inside one JSON bundle (SHA-256 per opinion) with the URLs and retrieval times; the text is extracted from the PDF's
   text layer with pdftotext at parse time.
 known_limitations:
-  - Only the courts of appeals; no district, bankruptcy or specialised federal court and no state court.
+  - Only the courts of appeals; no district, bankruptcy or specialised federal court and no state court (district opinions come from us-courtlistener-bulk-s3; the note at the top says why GovInfo's own district collections are not crawled).
   - GovInfo holds the opinions the courts transmit, not every opinion of each court (the sitemaps list, for example, 436 Ninth Circuit packages for 2024). Published and unpublished (nonprecedential) opinions are mixed; the only marker is the clerk's docket text (ext.docket_text, stored as given and never interpreted), so ULIS does not know which opinions are precedential.
   - PDF files without a text layer (older opinions are scans, for example the First Circuit's of 2001) are skipped, because ULIS does no OCR; they are reported as skipped documents.
   - The MODS carries no reporter citation, so citations are "Name, No. docket (Cir. date)". Units are PDF pages; the PDF page index is not necessarily the slip opinion's own page number, so there are no pinpoint citations. The courts' e-filing banners ("Case 23-1808 Document 21 Page 2 Filed ...") stay in the text, and pdftotext reading order can split columns and footnotes.
