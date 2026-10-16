@@ -1,4 +1,21 @@
-# PLANNED - licence status unknown. Preliminary research notes, to be confirmed by counsel.
+# PLANNED - not ingested. India Code refuses the bot (HTTP 403); no terms could be read. Findings of 2026-10-16.
+#
+# Read with the identifying User-Agent (nothing else was requested from the host):
+#   https://www.indiacode.nic.in/robots.txt -> HTTP 403 "Access Denied" (an Akamai edge error page, "You don't have permission to
+#        access ... on this server", reference #18.8ae84217...); https://www.indiacode.nic.in/ (home page) -> the same HTTP 403.
+#   The site's terms, copyright policy and any bulk-download page could therefore not be read. Not retried with another
+#   identity, host name, proxy or browser.
+# Third-party copies of India Code examined and NOT used:
+#   Hugging Face dataset RUDXLABS/india-central-state-acts (34,729 PDFs, ~48 GB, hosted on the Internet Archive; card:
+#        "license: other", "license_name: indian-copyright-act-52-1-q", "These are public-domain government legal texts under
+#        §52(1)(q) of the Indian Copyright Act. They were obtained from the official Government of India portal ... in mid-2024").
+#        Rejected: that is the uploader's own reading, not an open licence; as the Act reads, section 52(1)(q)(ii) frees the
+#        reproduction of an Act of a Legislature only "together with any commentary thereon or any other original matter"
+#        (to verify; not read on a publisher's page); the PDFs are named by SHA-256 and about a third of the records have none;
+#        the copy was scraped from a site that refuses automated clients.
+#   GitHub anoopdixith/TheConstitutionOfIndia (the Constitution and each amendment as text): no licence file (LICENSE -> 404),
+#        amendments applied by hand by a private person.
+#   Wikisource transcriptions of Indian Acts: volunteer text of mixed provenance and currency (earlier sweeps: not used).
 schema_version: 1
 id: in-india-code
 name: India Code
@@ -8,27 +25,43 @@ authority: official_non_authentic
 jurisdictions: [IN]
 document_kinds: [act, regulation, rule, notification]
 languages: [en, hi]
-coverage: Central and State Acts with subordinate legislation (coverage and currency to be measured).
+coverage: >-
+  Central and State Acts with subordinate legislation, as the publisher describes it (coverage and currency not measured: the
+  site could not be read). Nothing is ingested.
 access:
   method: permitted_web_retrieval
   endpoint: https://www.indiacode.nic.in/
 update_frequency: unknown
+rate_limits: >-
+  https://www.indiacode.nic.in/robots.txt and the home page answered HTTP 403 to the bot on 2026-10-16; no rules could be read.
 licence:
-  id: UNKNOWN
-  name: Terms of use to be reviewed
+  id: UNVERIFIED
+  name: Access refused (HTTP 403) - terms never read - not ingested
+  url: https://www.indiacode.nic.in/
   review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16. READ: only the two pages listed in the header of this file, both HTTP 403. The
+    section 52(1)(q) Copyright Act 1957 reading below is from search-engine excerpts, not from a publisher's page.
+  reviewed_on: '2026-10-16'
   redistribution: unknown
   bulk_download: unknown
   automated_processing: unknown
   commercial_use: unknown
+  conditions:
+    - >-
+      Not ingested. Activate only if the host answers the bot AND its own terms (or a statute read and quoted) allow storing and
+      showing the text. Section 52(1)(q) of the Copyright Act 1957: as we read it (to verify), (i) matter published in an Official
+      Gazette, except an Act of a Legislature, and (iv) a judgment or order of a court, tribunal or other judicial authority (unless
+      the court prohibits it) may be reproduced, while (ii) an Act of a Legislature may be reproduced only together with commentary
+      or other original matter.
   notes: >-
-    Review needed: the site's terms of use, and section 52(1)(q) of the Copyright Act 1957, which
-    (as we read it, subject to counsel) permits reproduction of an Act of a Legislature only
-    together with commentary or other original matter. Judgments and orders are treated
-    differently under the same clause.
-provenance: Official government portal (authenticity status of the online text to be confirmed).
+    Central Acts (as enacted and amended), State Acts and subordinate legislation are all on this one portal, so nothing of
+    India's legislation can be loaded until it is reachable. The other official hosts also refused or did not answer on
+    2026-10-16 (see in-legislative-constitution, in-egazette, in-lawcommission).
+provenance: No document was stored. The pages read are listed in the header of this file.
 known_limitations:
-  - Currency, amendment incorporation and Hindi coverage not yet measured.
+  - Nothing is ingested.
+  - Currency, amendment incorporation and Hindi coverage were not measured; the site could not be read.
 status: planned
 connector: null
 parser: null

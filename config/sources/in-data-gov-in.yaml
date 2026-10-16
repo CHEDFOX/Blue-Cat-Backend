@@ -1,0 +1,41 @@
+# PLANNED - not ingested. The Open Government Data Platform host did not answer the bot on 2026-10-16.
+#   https://data.gov.in/robots.txt -> the TLS connection was closed by the server right after the handshake ("Connection reset by
+#   peer"); no page was served, so no catalogue entry for legislation or judgments could be looked at and the Government Open Data
+#   Licence - India (GODL) text was not read. A search engine found no data.gov.in dataset holding the text of Indian Acts; the Open
+#   Knowledge Index (2015) listed only the Lok Sabha / Rajya Sabha bill metadata there. Not retried with another identity or proxy.
+schema_version: 1
+id: in-data-gov-in
+name: Open Government Data (OGD) Platform India
+publisher: National Informatics Centre, Government of India (data.gov.in)
+kind: open_data_repository
+authority: official_non_authentic
+jurisdictions: [IN]
+document_kinds: [act]
+languages: [en, hi]
+coverage: Catalogue of Government of India open datasets; no dataset holding the text of laws or judgments was found. Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://data.gov.in/
+update_frequency: unknown
+rate_limits: >-
+  https://data.gov.in/robots.txt: connection reset by peer on 2026-10-16; no rules could be read.
+licence:
+  id: UNVERIFIED
+  name: Host unreachable (connection reset); GODL-India text never read - not ingested
+  url: https://data.gov.in/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16. READ: nothing (robots.txt only, connection reset).
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  conditions:
+    - Not ingested. Activate only for a dataset whose own page states GODL-India or another open licence, from a host that answers the bot.
+provenance: No document was stored.
+known_limitations:
+  - Nothing is ingested.
+status: planned
+connector: null
+parser: null

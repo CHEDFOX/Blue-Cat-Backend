@@ -388,7 +388,13 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
             continue
         with pytest.raises(LicenceNotApproved) as exc:
             licence_gate(source)
-        reasons = ("pending_review", "not_allowed", "status is 'planned'", "status is 'suspended'")
+        reasons = (
+            "pending_review",
+            "not_allowed",
+            "status is 'planned'",
+            "status is 'suspended'",
+            "status is 'rejected'",
+        )
         assert any(r in str(exc.value) for r in reasons)
 
 

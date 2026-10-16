@@ -1,0 +1,42 @@
+# PLANNED - not ingested. The Law Commission's host did not answer the bot on 2026-10-16.
+#   https://lawcommissionofindia.nic.in/robots.txt -> the TLS connection was closed by the server after the handshake ("Connection
+#   reset by peer"); no page was served. Not retried with another identity, host name or proxy.
+#   Reports of a Commission laid before the Legislature may be reproduced under section 52(1)(q)(iii) Copyright Act 1957 unless the
+#   Government prohibits it (as we read it; to verify, not read on a publisher's page).
+schema_version: 1
+id: in-lawcommission
+name: Law Commission of India reports
+publisher: Law Commission of India, Ministry of Law and Justice, Government of India
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [IN]
+document_kinds: [report]
+languages: [en]
+coverage: >-
+  Reports of the Law Commission of India (number and years not measured, because the host could not be read). Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://lawcommissionofindia.nic.in/
+update_frequency: unknown
+rate_limits: >-
+  https://lawcommissionofindia.nic.in/robots.txt: connection reset by peer on 2026-10-16; no rules could be read.
+licence:
+  id: UNVERIFIED
+  name: Host unreachable (connection reset) - terms never read - not ingested
+  url: https://lawcommissionofindia.nic.in/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16. READ: nothing (robots.txt only, connection reset).
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  conditions:
+    - Not ingested. Activate only when the host answers the bot and its own terms allow storing and showing the text.
+provenance: No document was stored.
+known_limitations:
+  - Nothing is ingested. Reports are commentary, not legislation, and are outside the law-text core of the market.
+status: planned
+connector: null
+parser: null

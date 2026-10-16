@@ -1,0 +1,64 @@
+# REJECTED - the two Indian court-judgment datasets of the AWS Open Data Registry were produced by solving the courts' CAPTCHAs.
+# Read 2026-10-16 (registry pages, the uploader's repositories and the bucket's public listing):
+#   https://registry.opendata.aws/indian-high-court-judgments/ and https://registry.opendata.aws/indian-supreme-court-judgments/ (200):
+#        "License CC-BY-4.0"; "Managed By ... Dattam Labs"; "AWS CLI Access (No AWS account required) aws s3 ls --no-sign-request
+#        s3://indian-high-court-judgments/" (and ...supreme-court...); High Courts: "judgments of 25 high courts, along with raw
+#        metadata (in json format) and structured metadata (in parquet format) ... downloaded from ecourts website ... Update
+#        Frequency Quarterly"; Supreme Court: "judgements from 1950 to 2025 ... Update Frequency Bi-monthly". The registry site has
+#        no robots.txt (404 with the site page).
+#   https://raw.githubusercontent.com/vanga/indian-high-court-judgments/main/README.md: "17.8M judgments, ~1.25 TiB of S3 tar
+#        archives"; "scraped from the eCourts judgments portal (judgments.ecourts.gov.in)"; "Solves the eCourts arithmetic CAPTCHA
+#        automatically with an ONNX model."; part of the corpus is "backfilled from the eCourts mobile API".
+#   https://raw.githubusercontent.com/vanga/indian-supreme-court-judgments/main/README.md: "~35K judgments ... ~52.24GB", from the
+#        Digital Supreme Court Reports portal scr.sci.gov.in; its download.py imports a CAPTCHA solver ("from src.captcha_solver.main
+#        import get_text"), solves the search-session CAPTCHA (refresh_token) and the per-PDF CAPTCHA (solve_pdf_download_captcha),
+#        and starts "a fresh session" after 25 PDFs because "after 25 downloads, need to solve captcha for every pdf link request".
+#   https://scr.sci.gov.in/robots.txt and https://judgments.ecourts.gov.in/robots.txt: HTTP 404 (none); the portals' terms were not read.
+#   The bucket is publicly listable and readable without an account (checked: a listing, two index files, one metadata JSON and one
+#        English PDF of the Supreme Court bucket over HTTPS; none of it is stored in this repository).
+# Decision: the CAPTCHA is the courts' own access control; the datasets exist only because it was defeated by software. ULIS does not
+# use anything obtained by defeating a CAPTCHA (docs/bulk-datasets-survey.md, "Never"), and a CC-BY licence on the uploader's compilation
+# does not change how the files were obtained. Recorded with the facts so the decision can be revisited by the owner; the technical
+# route (S3 tar archives + parquet, SCR PDFs with neutral citations "2023 INSC 1043") is documented in docs/markets/india.md.
+schema_version: 1
+id: in-dattam-court-judgments
+name: Indian Supreme Court Judgments and Indian High Court Judgments (Dattam Labs, AWS Open Data Registry)
+publisher: Dattam Labs (private lab); bucket storage sponsored by AWS
+kind: open_data_repository
+authority: unofficial
+jurisdictions: [IN]
+document_kinds: [judgment]
+languages: [en, hi]
+coverage: >-
+  Supreme Court (Digital Supreme Court Reports, about 35,000 judgments, 1950 to 2025, English and regional languages) and 25 High
+  Courts (about 17.8 million judgments, 1.25 TiB) as PDF with parquet/JSON metadata. Nothing is ingested.
+access:
+  method: bulk_download
+  endpoint: s3://indian-supreme-court-judgments and s3://indian-high-court-judgments (public, no account)
+update_frequency: bi-monthly (Supreme Court), quarterly (High Courts) per the registry
+licence:
+  id: CC-BY-4.0
+  name: Creative Commons Attribution 4.0 (the uploader's licence on its compilation) - source REJECTED, see the header
+  url: https://creativecommons.org/licenses/by/4.0/
+  review_status: rejected
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the pages listed in the header of this file. The courts' own terms were not read
+    (www.sci.gov.in answered HTTP 403 to the bot; the eCourts portals publish no robots.txt).
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  conditions:
+    - Not ingested. The dataset is a re-upload of files obtained by solving the courts' CAPTCHAs.
+  notes: >-
+    Judgments themselves can be reproduced freely in India (section 52(1)(q)(iv) Copyright Act 1957, to verify; Eastern Book Co. v
+    D.B. Modak (2008) 1 SCC 1 as summarised by law blogs: no copyright in the raw text of judgments, editorial headnotes of private
+    reporters are protected), so the licence is not the obstacle; the way the files were obtained is.
+provenance: No document was stored. The objects read are listed in the header of this file.
+known_limitations:
+  - Nothing is ingested.
+  - The High Court set is 1.25 TiB / 17.8 million judgments; even if it were accepted it would need a scoped manifest (courts and years).
+status: rejected
+connector: null
+parser: null

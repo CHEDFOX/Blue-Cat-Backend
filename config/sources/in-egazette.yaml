@@ -1,0 +1,43 @@
+# PLANNED - not ingested. The eGazette host did not answer the bot on 2026-10-16.
+#   https://egazette.gov.in/robots.txt -> the TLS connection was closed by the server right after the handshake ("Connection reset by
+#   peer"); no page was served. The Gazette of India (Extraordinary, Part II Sec 1 holds the Acts as assented) is published only there.
+#   Section 52(1)(q)(i) Copyright Act 1957 frees "any matter which has been published in any Official Gazette except an Act of a
+#   Legislature" (as we read it; to verify, not read on a publisher's page). Not retried with another identity, host name or proxy.
+schema_version: 1
+id: in-egazette
+name: The Gazette of India (eGazette)
+publisher: Department of Publication, Ministry of Housing and Urban Affairs, Government of India (egazette.gov.in)
+kind: official_gazette
+authority: official_authentic
+jurisdictions: [IN]
+document_kinds: [act, notification, rule, regulation]
+languages: [en, hi]
+coverage: >-
+  The Gazette of India and the state gazettes as the publisher describes them: Acts as assented, ordinances, rules, regulations and
+  notifications (extent and back-file years not measured: the host could not be read). Nothing is ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://egazette.gov.in/
+update_frequency: daily
+rate_limits: >-
+  https://egazette.gov.in/robots.txt: connection reset by peer on 2026-10-16; no rules could be read.
+licence:
+  id: UNVERIFIED
+  name: Host unreachable (connection reset) - terms never read - not ingested
+  url: https://egazette.gov.in/
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16. READ: nothing (robots.txt only, connection reset).
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  conditions:
+    - Not ingested. Activate only when the host answers the bot and its own terms allow storing and showing the text.
+provenance: No document was stored.
+known_limitations:
+  - Nothing is ingested; as-enacted Acts, amending Acts and subordinate legislation of India would come from here once reachable.
+status: planned
+connector: null
+parser: null
