@@ -25,12 +25,12 @@ licence:
   url: https://www.parliament.go.ug/page/constitution
   review_status: pending_review
   reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages and robots.txt. Findings: robots.txt
-    (www.parliament.go.ug/robots.txt) is the standard Drupal file and the page /page/constitution (HTTP 200) lists the Constitution
-    among its documents (/documents/1240/constitution, a link found through a search engine, which now answers HTTP 404).
-    The earlier sweep (docs/constitutions-africa-asia-oceania.md) found that PDF to be a 2007 print of the 1995 text (192
-    pages), not the consolidated text with the amendments of 2005 and 2017; it was not fetched again. The 7th Revised Edition
-    of the Laws of Uganda (Volume I holds the Constitution) is announced by the Uganda Law Reform Commission, whose host
-    does not verify (ulrc.go.ug: ''unable to get local issuer certificate''); the State House page (statehouse.go.ug/the-constitution/)
+    (www.parliament.go.ug/robots.txt) is the standard Drupal file and the page /page/constitution answers HTTP 200 but links
+    no constitution document; the document URL a search engine gave (/documents/1240/constitution) answers HTTP 404. The
+    earlier sweep (docs/constitutions-africa-asia-oceania.md) found that PDF to be a 2007 print of the 1995 text (192 pages),
+    not the consolidated text with the amendments of 2005 and 2017; it was not fetched again. The 7th Revised Edition of
+    the Laws of Uganda (Volume I holds the Constitution) is announced by the Uganda Law Reform Commission, whose host does
+    not verify (ulrc.go.ug: ''unable to get local issuer certificate''); the State House page (statehouse.go.ug/the-constitution/)
     only links to the Parliament''s document. Verification of TLS certificates is never disabled.'
   reviewed_on: '2026-10-15'
   redistribution: unknown

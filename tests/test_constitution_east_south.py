@@ -1,4 +1,4 @@
-"""Constitutions of East and Southern Africa (RW, MG, MU, DJ, AO, SO, TZ, NA, SC, LS, ZW, MZ): manifests, hints and citations.
+"""Constitutions of East and Southern Africa (RW MG MU DJ AO SO TZ NA SC LS ZW MZ): manifests, hints, citations.
 
 The fixtures (``tests/fixtures/constitution_east_south``) are the real text lines of pages of the publishers' PDFs and
 pages (``pdftotext``), written back into small PDFs by ``tests/constitution_pdf.py`` (and, for the documents printed in
@@ -60,7 +60,9 @@ def _entry(source_id: str, slug: str) -> dict[str, Any]:
     return next(d for d in manifest["documents"] if d["slug"] == slug)
 
 
-def columns_pdf(pages: list[tuple[tuple[int, int], list[tuple[int, list[str]]]]], size: int = 9, leading: int = 11) -> bytes:
+def columns_pdf(
+    pages: list[tuple[tuple[int, int], list[tuple[int, list[str]]]]], size: int = 9, leading: int = 11
+) -> bytes:
     """A PDF whose pages have text in columns: ``(width, height), [(x, lines), ...]``, every column from the top."""
     objects: list[bytes] = []
 
@@ -164,9 +166,13 @@ def test_committed_manifest_is_valid_and_names_its_host(source_id: str, tmp_path
 
 
 @pytest.mark.parametrize("source_id", sorted(SOURCES))
-def test_descriptor_is_active_with_the_publishers_words_and_the_gate_lets_it_in(catalog: Catalog, source_id: str) -> None:
+def test_descriptor_is_active_with_the_publishers_words_and_the_gate_lets_it_in(
+    catalog: Catalog, source_id: str
+) -> None:
     source = catalog.sources.get(source_id)
-    assert source.status == "active" and source.connector == "constitution_docs" and source.parser == "constitution_text"
+    assert (
+        source.status == "active" and source.connector == "constitution_docs" and source.parser == "constitution_text"
+    )
     assert source.document_kinds == ["constitution"] and source.authority == "official_non_authentic"
     licence_gate(source)
     assert source.licence.commercial_use == "unknown"
@@ -182,7 +188,9 @@ def test_descriptor_is_active_with_the_publishers_words_and_the_gate_lets_it_in(
 def test_somalia_ordinal_numbers_preamble_and_chapter_context() -> None:
     doc = doc_from("so-senate-constitution", "so-so", fixture_pdf("so-pages.json"))
     assert doc.provisions[0].eid == "preamble" and "Annaga oo ah dadka Soomaaliyeed" in (doc.provisions[0].text or "")
-    assert eids(doc)[:5] == [f"art-{n}" for n in range(1, 6)]  # 'Qodobka 1aad', 'Qodobka 2aad' ... (contents page skipped)
+    assert eids(doc)[:5] == [
+        f"art-{n}" for n in range(1, 6)
+    ]  # 'Qodobka 1aad', 'Qodobka 2aad' ... (contents page skipped)
     first = prov(doc, "art-1")
     assert first.heading == "Jamhuuriyadda Federaalka Soomaaliya"
     assert (first.text or "").startswith("(1) Soomaaliya waa Jamhuuriyad federaal ah")
@@ -230,7 +238,9 @@ def test_rwanda_three_languages_are_read_from_their_columns_of_one_gazette() -> 
     assert prov(en, "art-2").heading == "Suffrage"
     assert (prov(en, "art-2").text or "").startswith("(1) Suffrage is universal and equal for")
     assert prov(fr, "art-2").heading == "Suffrage"
-    assert "Article" not in "".join(p.text or "" for p in rw.provisions if p.kind == "article")  # no other column leaks in
+    assert "Article" not in "".join(
+        p.text or "" for p in rw.provisions if p.kind == "article"
+    )  # no other column leaks in
     assert "Ingingo" not in "".join(p.text or "" for p in en.provisions)
     assert "Tout pouvoir émane du peuple" in (prov(fr, "art-1").text or "")  # 'Article premier' is article 1
     assert "All power emanates from the people" in (prov(en, "art-1").text or "")  # 'Article One' is article 1
@@ -294,11 +304,15 @@ def test_tanzania_swahili_section_numbers_with_a_dash_before_the_subsection() ->
 
 
 def test_tanzania_english_margin_column_is_cut_off() -> None:
-    pdf = columns_pdf([((595, 842), [(88, page["margin"]), (190, page["body"])]) for page in _json("tz-en-columns.json")])
+    pdf = columns_pdf(
+        [((595, 842), [(88, page["margin"]), (190, page["body"])]) for page in _json("tz-en-columns.json")]
+    )
     doc = doc_from("tz-nao-constitution", "tz-en", pdf, drop=())
     assert eids(doc)[:3] == ["art-1", "art-2", "art-3"]
     text = " ".join(p.text or "" for p in doc.provisions)
-    assert "Act No.15" not in text and "of 1984" not in text  # the notes of the amending Acts are not text of the articles
+    assert (
+        "Act No.15" not in text and "of 1984" not in text
+    )  # the notes of the amending Acts are not text of the articles
     assert (prov(doc, "art-1").text or "").startswith("Tanzania is one State and is a sovereign United Republic")
     assert cite(doc, "art-2-par1") == "Tanzania Constitution art. 2(1)"
     assert doc.version_date.isoformat() == "2005-12-31"
@@ -316,7 +330,9 @@ def test_lesotho_sections_with_headings_and_a_note_on_the_orders_after_the_text(
 
 def test_zimbabwe_number_then_title_sections_and_an_unnumbered_first_section() -> None:
     doc = doc_from("zw-youth-constitution", "zw-en", fixture_pdf("zw-pages.json"))
-    assert doc.provisions[0].eid == "preamble" and (doc.provisions[0].text or "").startswith("We the people of Zimbabwe")
+    assert doc.provisions[0].eid == "preamble" and (doc.provisions[0].text or "").startswith(
+        "We the people of Zimbabwe"
+    )
     # '2 Supremacy of Constitution', '3 Founding values ...': a number, a space and the title
     assert eids(doc, "section")[:4] == ["sec-2", "sec-3", "sec-4", "sec-5"]
     assert prov(doc, "sec-2").heading == "Supremacy of Constitution"
@@ -338,7 +354,10 @@ def test_mozambique_article_number_then_parenthesised_title_on_the_next_line() -
 
 def test_djibouti_page_articles_in_capitals() -> None:
     doc = doc_from(
-        "dj-presidence-constitution", "dj-fr", ("<html><body>" + "".join(f"<p>{x}</p>" for x in _json("dj-lines.json")) + "</body></html>").encode(), "html"
+        "dj-presidence-constitution",
+        "dj-fr",
+        ("<html><body>" + "".join(f"<p>{x}</p>" for x in _json("dj-lines.json")) + "</body></html>").encode(),
+        "html",
     )
     assert doc.provisions[0].eid == "preamble"
     arts = eids(doc)
@@ -350,7 +369,7 @@ def test_djibouti_page_articles_in_capitals() -> None:
 
 
 def test_new_number_forms_do_not_change_other_headings() -> None:
-    # 'Article One', 'Ingingo ya mbere', 'Andininy voalohany' and '1aad' are first/ordinal forms; ordinary headings stay as they were
+    # 'Article One' is a first-article form; ordinary headings stay as they were
     lines = []
     for n in range(1, 8):
         lines += [f"Article {n}", f"Words of article {n}, long enough to count as text."]
@@ -368,6 +387,16 @@ def test_new_number_forms_do_not_change_other_headings() -> None:
 
 def test_consolidated_dates_and_the_not_loaded_sources_are_recorded_in_the_doc() -> None:
     text = (REPO_ROOT / "docs" / "constitutions-africa-east-south-deep.md").read_text(encoding="utf-8")
-    for country in ("Ethiopia", "Eritrea", "Uganda", "Zambia", "Zimbabwe", "Mozambique", "Botswana", "Lesotho", "Malawi"):
+    for country in (
+        "Ethiopia",
+        "Eritrea",
+        "Uganda",
+        "Zambia",
+        "Zimbabwe",
+        "Mozambique",
+        "Botswana",
+        "Lesotho",
+        "Malawi",
+    ):
         assert country in text, country
     assert LicenceNotApproved  # the gate test of the planned descriptors is in test_constitution_east_south_blocked.py

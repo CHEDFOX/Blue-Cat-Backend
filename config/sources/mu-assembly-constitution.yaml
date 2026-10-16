@@ -39,8 +39,9 @@ rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s
   every download and makes 2 request(s) (robots.txt and 1 document(s)).
 licence:
   id: MU-govmu-copyright-notice
-  name: Official legal text published by Rodrigues Regional Assembly (Mauritius); no terms of reuse stated (AMBER, leaning
-    GREEN)
+  name: 'Government of Mauritius Copyright Notice: State material may be downloaded without specific permission, reproduced
+    accurately and not in a misleading context, with the source (URL) and copyright status acknowledged; any other use subject
+    to approval'
   url: https://assembly-rra.govmu.org/Pages/CopyrightNotice.aspx
   review_status: approved
   reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:

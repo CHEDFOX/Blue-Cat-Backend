@@ -1,3 +1,4 @@
+# ruff: noqa: E501 - the findings are the publishers' own words, kept on one line each
 """Writes the source descriptors, manifests and minimal profiles of the East and Southern Africa constitutions sweep.
 
     python scripts/build_constitution_east_south.py
@@ -48,9 +49,9 @@ PUBLISHERS: list[dict[str, Any]] = [
         "licence_url": "https://www.minijust.gov.rw/",
         "crawl": 5,
         "findings": [
-            "robots.txt - www.minijust.gov.rw/robots.txt: a TYPO3 file; the \"User-agent: *\" group disallows URLs with query ids, /typo3temp/ (except css, js and images), /fileadmin/templates/html/*, *.sql and a few technical paths; further groups disallow named crawlers (none is the ULIS agent); no Crawl-delay; /fileadmin/user_upload/Minijust/Publications/Laws/ is not disallowed",
-            "Terms - page footer: \"© 2026 Government of the Republic of Rwanda\" - a generic footer; no terms-of-use, licence or disclaimer page is linked from the home page",
-            "The document - the PDF is the Official Gazette n° Special of 04/08/2023 (\"Umwaka wa 62 / Year 62 / 62ème Année\"), 149 pages: the Constitution of the Republic of Rwanda in three parallel columns, Kinyarwanda | English | French, on landscape pages. The connector fetches the file once per language and the parser reads one column (crop) of every page. Last-Modified of the file: 8 Sep 2023.",
+            'robots.txt - www.minijust.gov.rw/robots.txt: a TYPO3 file; the "User-agent: *" group disallows URLs with query ids, /typo3temp/ (except css, js and images), /fileadmin/templates/html/*, *.sql and a few technical paths; further groups disallow named crawlers (none is the ULIS agent); no Crawl-delay; /fileadmin/user_upload/Minijust/Publications/Laws/ is not disallowed',
+            'Terms - page footer: "© 2026 Government of the Republic of Rwanda" - a generic footer; no terms-of-use, licence or disclaimer page is linked from the home page',
+            'The document - the PDF is the Official Gazette n° Special of 04/08/2023 ("Umwaka wa 62 / Year 62 / 62ème Année"), 149 pages: the Constitution of the Republic of Rwanda in three parallel columns, Kinyarwanda | English | French, on landscape pages. The connector fetches the file once per language and the parser reads one column (crop) of every page. Last-Modified of the file: 8 Sep 2023.',
         ],
         "known": [
             "The Official Gazette is printed in three parallel columns; the parser cuts out the column of the language by its position on the page. Justified lines are broken into words in places, so a few headings come out garbled or out of order (for example article 1 in English, and the headings of articles 16, 132 and 169 in English, 48, 59, 115 and 117 in French, several in Kinyarwanda): the text of such an article stays in the preceding article and its note names the missing numbers.",
@@ -116,9 +117,9 @@ PUBLISHERS: list[dict[str, Any]] = [
         "licence_url": "https://www.assemblee-nationale.mg/",
         "crawl": 5,
         "findings": [
-            "robots.txt - www.assemblee-nationale.mg/robots.txt: \"User-agent: *\" \"Allow: /\" \"Allow: /opendata/$\" \"Allow: /opendata/licence/$\" \"Disallow: /opendata/api/\"; no Crawl-delay; /media/archives_textes/ is allowed",
-            "Terms - page footer: \"© 2025 Assemblée Nationale de Madagascar. Tous droits réservés.\" (links: Plan du site, Open Data, Politique de confidentialité, Politique de cookies). The Open Data page (https://www.assemblee-nationale.mg/opendata/licence/) says: \"Les jeux de données publiés sur le portail Open Data de l'Assemblée Nationale de Madagascar sont mis à disposition sous la Licence Ouverte version 2.0\" - that licence is stated for the datasets of the Open Data portal; the PDF of the Constitution is in the archive of texts (/media/archives_textes/) and is not said to be one of them, so it is not relied on here",
-            "The document - the PDF is headed \"PRESIDENCE DE LA REPUBLIQUE - CONSTITUTION DE LA QUATRIEME REPUBLIQUE DE MADAGASCAR - REFERENDUM LE 17 NOVEMBRE 2010\": the French text (pages 1-33) is followed by the Malagasy text (pages 34-75, headed \"LALAMPANORENAN'NY REPOBLIKA FAHAEFATRA - FITSAMPAN-KEVIBAHOAKA NY FAHA-17 NOVEMBRE 2010\"). Last-Modified of the file: 16 Mar 2026.",
+            'robots.txt - www.assemblee-nationale.mg/robots.txt: "User-agent: *" "Allow: /" "Allow: /opendata/$" "Allow: /opendata/licence/$" "Disallow: /opendata/api/"; no Crawl-delay; /media/archives_textes/ is allowed',
+            'Terms - page footer: "© 2025 Assemblée Nationale de Madagascar. Tous droits réservés." (links: Plan du site, Open Data, Politique de confidentialité, Politique de cookies). The Open Data page (https://www.assemblee-nationale.mg/opendata/licence/) says: "Les jeux de données publiés sur le portail Open Data de l\'Assemblée Nationale de Madagascar sont mis à disposition sous la Licence Ouverte version 2.0" - that licence is stated for the datasets of the Open Data portal; the PDF of the Constitution is in the archive of texts (/media/archives_textes/) and is not said to be one of them, so it is not relied on here',
+            'The document - the PDF is headed "PRESIDENCE DE LA REPUBLIQUE - CONSTITUTION DE LA QUATRIEME REPUBLIQUE DE MADAGASCAR - REFERENDUM LE 17 NOVEMBRE 2010": the French text (pages 1-33) is followed by the Malagasy text (pages 34-75, headed "LALAMPANORENAN\'NY REPOBLIKA FAHAEFATRA - FITSAMPAN-KEVIBAHOAKA NY FAHA-17 NOVEMBRE 2010"). Last-Modified of the file: 16 Mar 2026.',
         ],
         "known": [
             "The PDF is the text of the referendum of 17 November 2010 as published by the Presidency; it prints no edition date and amendments adopted since (if any) are not applied. The political transition of 2025 (to verify) is not reflected.",
@@ -167,12 +168,13 @@ PUBLISHERS: list[dict[str, Any]] = [
         "short": "Rodrigues Regional Assembly (Mauritius)",
         "publisher": "Rodrigues Regional Assembly, Government of Mauritius (assembly-rra.govmu.org), Legislations: The Constitution",
         "licence_id": "MU-govmu-copyright-notice",
+        "licence_name": "Government of Mauritius Copyright Notice: State material may be downloaded without specific permission, reproduced accurately and not in a misleading context, with the source (URL) and copyright status acknowledged; any other use subject to approval",
         "licence_url": "https://assembly-rra.govmu.org/Pages/CopyrightNotice.aspx",
         "crawl": 5,
         "findings": [
             "robots.txt - assembly-rra.govmu.org/robots.txt: HTTP 404 (no robots.txt): no crawling rules to apply. The connector reads it anyway.",
-            "Terms - https://assembly-rra.govmu.org/Pages/CopyrightNotice.aspx: \"The Government of Mauritius (the “State”) encourages public access to government information on this website and other government websites. However, all material published on this website is protected so far as is possible by the provisions of the Copyright Act in favour of the State. Apart from any use permitted by the Copyright Act, the State copyright protected material may be downloaded free of charge to file or printer without requiring specific permission, provided that any such State owned material being reproduced accurately and not being used in a derogated manner or in a misleading context. Where this material is being issued to others, the source (including the URL) and copyright status must be acknowledged. The permission to reproduced State copyright protected material does not extend to any material on this website that is identified as being the Copyright of a third party. Any other proposed use of any State protected material is subject to approval.\" Page footer: \"© Government of Mauritius 2020. All rights reserved.\" The Disclaimer page (/Pages/Disclaimer.aspx) disclaims accuracy and completeness.",
-            "The document - the PDF (131 pages, Last-Modified 3 Sep 2025, file name constitution_1968_revised_updated2025.pdf) is headed \"THE CONSTITUTION GN 54/1968 12 March 1968 (Schedule to THE MAURITIUS INDEPENDENCE ORDER 1968)\". It prints no edition date. The host is the site of the Rodrigues Regional Assembly, an organ of the Government of Mauritius; the National Assembly's site (mauritiusassembly.govmu.org) carries an older upload.",
+            'Terms - https://assembly-rra.govmu.org/Pages/CopyrightNotice.aspx: "The Government of Mauritius (the “State”) encourages public access to government information on this website and other government websites. However, all material published on this website is protected so far as is possible by the provisions of the Copyright Act in favour of the State. Apart from any use permitted by the Copyright Act, the State copyright protected material may be downloaded free of charge to file or printer without requiring specific permission, provided that any such State owned material being reproduced accurately and not being used in a derogated manner or in a misleading context. Where this material is being issued to others, the source (including the URL) and copyright status must be acknowledged. The permission to reproduced State copyright protected material does not extend to any material on this website that is identified as being the Copyright of a third party. Any other proposed use of any State protected material is subject to approval." Page footer: "© Government of Mauritius 2020. All rights reserved." The Disclaimer page (/Pages/Disclaimer.aspx) disclaims accuracy and completeness.',
+            'The document - the PDF (131 pages, Last-Modified 3 Sep 2025, file name constitution_1968_revised_updated2025.pdf) is headed "THE CONSTITUTION GN 54/1968 12 March 1968 (Schedule to THE MAURITIUS INDEPENDENCE ORDER 1968)". It prints no edition date. The host is the site of the Rodrigues Regional Assembly, an organ of the Government of Mauritius; the National Assembly\'s site (mauritiusassembly.govmu.org) carries an older upload.',
         ],
         "known": [
             "The copy on the Rodrigues Regional Assembly's site, not the Attorney General's Revised Laws; it prints no edition date (the file name says 'revised updated 2025'), so the retrieval date is the edition date.",
@@ -224,9 +226,9 @@ PUBLISHERS: list[dict[str, Any]] = [
         "licence_url": "https://www.presidence.dj/",
         "crawl": 10,
         "findings": [
-            "robots.txt - www.presidence.dj/robots.txt: \"User-agent: *\" \"Disallow:\" \"Crawl-delay: 10\" \"Disallow: /admin/\" (58 bytes); the crawl delay of 10 s is honoured; /page/ is not disallowed",
-            "Terms - page footer: \"Copyright © 2026 Présidence de la République - tout droit reservé. Réalisé par l' ANSIE\" - a generic footer; no terms-of-use, licence or disclaimer page is linked",
-            "The document - https://www.presidence.dj/page/la-constitution-de-la-republique-de-djibouti, an HTML page headed \"LA CONSTITUTION DE LA RÉPUBLIQUE DE DJIBOUTI - version 2010\" that prints the preamble and the articles of Titles I to XII in French. It prints no edition date or adoption date.",
+            'robots.txt - www.presidence.dj/robots.txt: "User-agent: *" "Disallow:" "Crawl-delay: 10" "Disallow: /admin/" (58 bytes); the crawl delay of 10 s is honoured; /page/ is not disallowed',
+            'Terms - page footer: "Copyright © 2026 Présidence de la République - tout droit reservé. Réalisé par l\' ANSIE" - a generic footer; no terms-of-use, licence or disclaimer page is linked',
+            'The document - https://www.presidence.dj/page/la-constitution-de-la-republique-de-djibouti, an HTML page headed "LA CONSTITUTION DE LA RÉPUBLIQUE DE DJIBOUTI - version 2010" that prints the preamble and the articles of Titles I to XII in French. It prints no edition date or adoption date.',
         ],
         "known": [
             "The page is headed 'version 2010' and is a web page of the Presidency, not the Journal officiel. A later revision exists (loi n° 192/AN/25/9ème L portant révision de la Constitution, listed on journalofficiel.dj, which rewrites articles 93, 94 and 96); it is not applied here, and the page's own currency is not stated.",
@@ -263,7 +265,7 @@ PUBLISHERS: list[dict[str, Any]] = [
         "crawl": 5,
         "findings": [
             "robots.txt - www.tribunalconstitucional.ao/robots.txt: HTTP 404 (no robots.txt): no crawling rules to apply. The connector reads it anyway.",
-            "Terms - page footer: \"Copyright © 2026 - Tribunal Constitucional de Angola\" - a generic footer; no terms-of-use, licence or disclaimer page was found on the pages read (home page). The imprint of the PDF (FICHA TÉCNICA) names the Tribunal Constitucional as owner (PROPRIEDADE), Lexdata - Sistemas e Edições Jurídicas, Lda. as publisher (EDITORA) and Imprensa Nacional - E.P. as printer, and prints no reproduction restriction. (The Assembleia Nacional's PDF of the same Constitution carries a prohibition in its imprint and is recorded as rejected in source ao-parlamento-constitution.)",
+            'Terms - page footer: "Copyright © 2026 - Tribunal Constitucional de Angola" - a generic footer; no terms-of-use, licence or disclaimer page was found on the pages read (home page). The imprint of the PDF (FICHA TÉCNICA) names the Tribunal Constitucional as owner (PROPRIEDADE), Lexdata - Sistemas e Edições Jurídicas, Lda. as publisher (EDITORA) and Imprensa Nacional - E.P. as printer, and prints no reproduction restriction. (The Assembleia Nacional\'s PDF of the same Constitution carries a prohibition in its imprint and is recorded as rejected in source ao-parlamento-constitution.)',
             "The document - \"CONSTITUIÇÃO DA REPÚBLICA DE ANGOLA - EDIÇÃO ESPECIAL ACTUALIZADA 2022\" (1ª Edição Fevereiro 2022, 130 pages; Last-Modified 29 Aug 2025). Its introductory note says the Constitution of 2010 'sofreu alterações, introduzidas pela Lei n.º 18/21, de 16 de Agosto' and that this edition gathers the content in one text.",
         ],
         "known": [
@@ -327,8 +329,8 @@ PUBLISHERS: list[dict[str, Any]] = [
         "licence_url": "https://senate.gov.so/",
         "crawl": 5,
         "findings": [
-            "robots.txt - senate.gov.so/robots.txt: \"User-agent: *\" \"Disallow: /wp-admin/\" \"Allow: /wp-admin/admin-ajax.php\" and two sitemap lines; no Crawl-delay; /wp-json/ is not disallowed",
-            "Terms - page footer: \"© 2026 Federal Parliament of Somalia - The Upper House. All Rights Reserved.\" - a generic footer; no terms-of-use, licence or disclaimer page was found on the pages read",
+            'robots.txt - senate.gov.so/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php" and two sitemap lines; no Crawl-delay; /wp-json/ is not disallowed',
+            'Terms - page footer: "© 2026 Federal Parliament of Somalia - The Upper House. All Rights Reserved." - a generic footer; no terms-of-use, licence or disclaimer page was found on the pages read',
             "The document - the page https://senate.gov.so/document/constitution-of-the-federal-republic-of-somalia-2026/ (dated 7 September 2026) offers 'CONSTITUTION OF THE FEDERAL REPUBLIC OF SOMALIA 2026, PDF 1.3 MB'; its download link (/wp-json/filedeck/v1/download/12129) leads to /wp-content/uploads/2026/09/DASTUURKA-RASMIGA-AH-EE-2026-1.pdf, 202 pages, in Somali, headed \"DASTUURKA SOOMAALIYA - Muqdisho, Soomaaliya - Maarso 4, 2026\". The Office of the President (villasomalia.gov.so/constitution-2/) says the Constitution was approved by the Federal Parliament on 4 March 2026 and signed into law on 8 March 2026; that page is a summary and holds no text.",
         ],
         "known": [
@@ -382,8 +384,8 @@ PUBLISHERS: list[dict[str, Any]] = [
         "crawl": 5,
         "findings": [
             "robots.txt - www.sheria.go.tz/robots.txt: HTTP 404 (no robots.txt): no crawling rules to apply. The connector reads it anyway.",
-            "Terms - https://www.sheria.go.tz/pages/terms-and-conditions (\"Vigezo na Masharti\"): the terms govern the use of the website, its systems and services (\"Kanuni na Masharti yafuatayo yanasimamia matumizi yote ya Tovuti, tovuti za mifumo na huduma ...\"); they say nothing about reusing the published texts. The Disclaimer (\"Angalizo\", /pages/disclaimer) concerns services provided through public and private facilities. Footer: \"© 2026 MoCLA, Haki zote zimehifadhiwa.\" (all rights reserved). The footer's copyright link (/pages/copyright) answers 'Haipatikani' (not found).",
-            "The document - the page https://www.sheria.go.tz/publications/constitution (Machapisho > Katiba) lists the Swahili text, a PDF of 113 pages (uploaded 31 Jan 2023) headed \"KATIBA YA JAMHURI YA MUUNGANO WA TANZANIA YA MWAKA 1977 (Toleo hili ... limezingatia na kuweka pamoja mabadiliko yote yaliyofanywa katika Katiba ya Muungano tangu ilipotungwa mwaka 1977 hadi tarehe 30 Aprili, 2000. Dar es Salaam, 1 Novemba, 2000 - CHENGE, A.J., Mwanasheria Mkuu ... KIMEPIGWA CHAPA NA MPIGACHAPA WA SERIKALI)\".",
+            'Terms - https://www.sheria.go.tz/pages/terms-and-conditions ("Vigezo na Masharti"): the terms govern the use of the website, its systems and services ("Kanuni na Masharti yafuatayo yanasimamia matumizi yote ya Tovuti, tovuti za mifumo na huduma ..."); they say nothing about reusing the published texts. The Disclaimer ("Angalizo", /pages/disclaimer) concerns services provided through public and private facilities. Footer: "© 2026 MoCLA, Haki zote zimehifadhiwa." (all rights reserved). The footer\'s copyright link (/pages/copyright) answers \'Haipatikani\' (not found).',
+            'The document - the page https://www.sheria.go.tz/publications/constitution (Machapisho > Katiba) lists the Swahili text, a PDF of 113 pages (uploaded 31 Jan 2023) headed "KATIBA YA JAMHURI YA MUUNGANO WA TANZANIA YA MWAKA 1977 (Toleo hili ... limezingatia na kuweka pamoja mabadiliko yote yaliyofanywa katika Katiba ya Muungano tangu ilipotungwa mwaka 1977 hadi tarehe 30 Aprili, 2000. Dar es Salaam, 1 Novemba, 2000 - CHENGE, A.J., Mwanasheria Mkuu ... KIMEPIGWA CHAPA NA MPIGACHAPA WA SERIKALI)".',
         ],
         "known": [
             "The Swahili text consolidated to 30 April 2000 (printed by the Government Printer, 1 November 2000), the latest Swahili consolidation on the Ministry's site; the English revised edition of 2005 (source tz-nao-constitution) is later. Amendments after the respective dates are not applied.",
@@ -435,8 +437,8 @@ PUBLISHERS: list[dict[str, Any]] = [
         "licence_url": "https://www.nao.go.tz/",
         "crawl": 5,
         "findings": [
-            "robots.txt - www.nao.go.tz/robots.txt: \"User-agent: *\" with an empty rule list (14 bytes): nothing is disallowed; no Crawl-delay",
-            "Terms - page footer: \"© Copyright 2026 - OFISI YA TAIFA YA UKAGUZI\" (links: Mwanzo, Sera ya Faragha, Intranet, Barua Pepe, Maoni na Maulizo, Ripoti Ubadhirifu) - a generic footer; no terms-of-use or licence page about texts",
+            'robots.txt - www.nao.go.tz/robots.txt: "User-agent: *" with an empty rule list (14 bytes): nothing is disallowed; no Crawl-delay',
+            'Terms - page footer: "© Copyright 2026 - OFISI YA TAIFA YA UKAGUZI" (links: Mwanzo, Sera ya Faragha, Intranet, Barua Pepe, Maoni na Maulizo, Ripoti Ubadhirifu) - a generic footer; no terms-of-use or licence page about texts',
             "The document - https://www.nao.go.tz/uploads/Constitution_of_the_United_Republic_of_Tanzania_en.pdf (91 pages, Last-Modified 13 Mar 2020): \"THE CONSTITUTION OF THE UNITED REPUBLIC OF TANZANIA OF 1977 - CHAPTER 2 OF THE LAWS - 2005. The following is the official Revised version in English of 'KATIBA YA JAMHURI YA MUUNGANO WA TANZANIA YA MWAKA 1977'. This revised edition of the Constitution of the United Republic of Tanzania incorporates and consolidates all amendments made therein by the Constituent Assembly in 1977 up to the 14th Amendment of 2005 and it is printed and published under section 4 of the Laws Revision Act Chapter 4.\"",
         ],
         "known": [
@@ -449,7 +451,11 @@ PUBLISHERS: list[dict[str, Any]] = [
                 language="en",
                 title="The Constitution of the United Republic of Tanzania of 1977",
                 citation_name="Tanzania Constitution",
-                structure_extra={"style": "numdot", "crop": [140, 0, 455, 842], "chapter_regex": "^(CHAPTER|PART) [A-Z]+"},
+                structure_extra={
+                    "style": "numdot",
+                    "crop": [140, 0, 455, 842],
+                    "chapter_regex": "^(CHAPTER|PART) [A-Z]+",
+                },
             )
         ],
         "url": "https://www.nao.go.tz/uploads/Constitution_of_the_United_Republic_of_Tanzania_en.pdf",
@@ -483,9 +489,9 @@ PUBLISHERS: list[dict[str, Any]] = [
         "licence_url": "https://ombudsman.org.na/",
         "crawl": 5,
         "findings": [
-            "robots.txt - ombudsman.org.na/robots.txt: \"User-agent: *\" \"Disallow: /wp-admin/\" \"Allow: /wp-admin/admin-ajax.php\" \"Disallow: /wp-content/uploads/wpo/wpo-plugins-tables-list.json\" and two sitemap lines; no Crawl-delay; /download/ is not disallowed",
+            'robots.txt - ombudsman.org.na/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php" "Disallow: /wp-content/uploads/wpo/wpo-plugins-tables-list.json" and two sitemap lines; no Crawl-delay; /download/ is not disallowed',
             "Terms - the page https://ombudsman.org.na/download/the-constitution-of-namibia/ (14 October 2022) shows a cookie notice and a link to the Privacy Policy; no copyright, terms-of-use or licence statement was found on the pages read",
-            "The document - the download link of that page leads to /wp-content/uploads/2022/09/The-Constitution-of-Namibia.pdf (96 pages, Last-Modified 8 Sep 2022): \"The Constitution of the Republic of Namibia has been amended three times; firstly by Act No. 34 of 1998, known as the Namibian Constitution First Amendment Act 1998; secondly by Act No. 7 of 2010, known as the Namibian Constitution Second Amendment Act, 2010; and thirdly by Act No. 8 of 2014, known as the Namibian Constitution Third Amendment Act, 2014. This printed version of the Constitution incorporates all the amendments to facilitate easy reading thereof. Compiled by: The Office of the Ombudsman, February 2016\".",
+            'The document - the download link of that page leads to /wp-content/uploads/2022/09/The-Constitution-of-Namibia.pdf (96 pages, Last-Modified 8 Sep 2022): "The Constitution of the Republic of Namibia has been amended three times; firstly by Act No. 34 of 1998, known as the Namibian Constitution First Amendment Act 1998; secondly by Act No. 7 of 2010, known as the Namibian Constitution Second Amendment Act, 2010; and thirdly by Act No. 8 of 2014, known as the Namibian Constitution Third Amendment Act, 2014. This printed version of the Constitution incorporates all the amendments to facilitate easy reading thereof. Compiled by: The Office of the Ombudsman, February 2016".',
         ],
         "known": [
             "A compilation by the Office of the Ombudsman (February 2016; only the month is printed, so the last day of the month is used as the edition date), not the Government Printer's text; amendments after 2016, if any, are not applied.",
@@ -528,9 +534,9 @@ PUBLISHERS: list[dict[str, Any]] = [
         "licence_url": "https://ecs.sc/",
         "crawl": 10,
         "findings": [
-            "robots.txt - ecs.sc/robots.txt: \"User-agent: *\" \"Crawl-delay: 10\" \"Disallow: /admin/\" \"Disallow: /includes/\" \"Disallow: /config/\" \"Disallow: /logs/\" \"Disallow: /backup/\" \"Disallow: /.env\" \"Disallow: /wp-admin/\" \"Disallow: /wp-includes/\"; the crawl delay of 10 s is honoured; /wp-content/uploads/ is not disallowed",
-            "Terms - page footer: \"Electoral Commission Seychelles © 2024. All Rights Reserved. Designed by Unified Technologies\" - a generic footer; no terms-of-use, licence or disclaimer page was found on the pages read",
-            "The document - https://ecs.sc/wp-content/uploads/2025/04/CAP42-Constituion.pdf (253 pages, Last-Modified 9 Apr 2025): \"CONSOLIDATED TO 1 JUNE 2020 - LAWS OF SEYCHELLES - CHAPTER 42 - CONSTITUTION OF THE REPUBLIC OF SEYCHELLES [21st June, 1993]\" with the list of the Acts and statutory instruments that amend it, followed (from page 148) by subsidiary legislation printed in the same chapter (court rules, standing orders), which is not stored.",
+            'robots.txt - ecs.sc/robots.txt: "User-agent: *" "Crawl-delay: 10" "Disallow: /admin/" "Disallow: /includes/" "Disallow: /config/" "Disallow: /logs/" "Disallow: /backup/" "Disallow: /.env" "Disallow: /wp-admin/" "Disallow: /wp-includes/"; the crawl delay of 10 s is honoured; /wp-content/uploads/ is not disallowed',
+            'Terms - page footer: "Electoral Commission Seychelles © 2024. All Rights Reserved. Designed by Unified Technologies" - a generic footer; no terms-of-use, licence or disclaimer page was found on the pages read',
+            'The document - https://ecs.sc/wp-content/uploads/2025/04/CAP42-Constituion.pdf (253 pages, Last-Modified 9 Apr 2025): "CONSOLIDATED TO 1 JUNE 2020 - LAWS OF SEYCHELLES - CHAPTER 42 - CONSTITUTION OF THE REPUBLIC OF SEYCHELLES [21st June, 1993]" with the list of the Acts and statutory instruments that amend it, followed (from page 148) by subsidiary legislation printed in the same chapter (court rules, standing orders), which is not stored.',
         ],
         "known": [
             "The Laws of Seychelles consolidation to 1 June 2020; amendments after that date (for example the Eleventh Amendment (No. 2) Act 2024) are not applied. The host is the Electoral Commission, which is not the publisher of the text.",
@@ -583,8 +589,8 @@ PUBLISHERS: list[dict[str, Any]] = [
         "crawl": 5,
         "findings": [
             "robots.txt - www.gov.ls/robots.txt: an empty file (0 bytes): nothing is disallowed; no Crawl-delay",
-            "Terms - page footer: \"Copyright © 2026 | Government of Lesotho\" - a generic footer; no terms-of-use, licence or disclaimer page is linked from the pages read. The last line of the PDF reads \"Government of Lesotho©All Rights Reserved-2000\".",
-            "The document - the download page https://www.gov.ls/download/lesotho-constitution/ (\"Lesotho Constitution\", 747.80 KB, \"Published May 20, 2022\") serves, through ?wpdmdl=1329, a PDF of 103 pages (created 5 Sep 2006): \"Lesotho - Government Constitutional Matters - THE CONSTITUTION OF LESOTHO - Price: 16.00 Maluti\", the text of the Constitution as in the Government Gazette Extraordinary of 1993 followed by a NOTE on the Orders by which it came into operation \"on 2nd April 1993\".",
+            'Terms - page footer: "Copyright © 2026 | Government of Lesotho" - a generic footer; no terms-of-use, licence or disclaimer page is linked from the pages read. The last line of the PDF reads "Government of Lesotho©All Rights Reserved-2000".',
+            'The document - the download page https://www.gov.ls/download/lesotho-constitution/ ("Lesotho Constitution", 747.80 KB, "Published May 20, 2022") serves, through ?wpdmdl=1329, a PDF of 103 pages (created 5 Sep 2006): "Lesotho - Government Constitutional Matters - THE CONSTITUTION OF LESOTHO - Price: 16.00 Maluti", the text of the Constitution as in the Government Gazette Extraordinary of 1993 followed by a NOTE on the Orders by which it came into operation "on 2nd April 1993".',
         ],
         "known": [
             "The text is the original enactment of 1993 (the copy the Government posts as 'Lesotho Constitution'); it includes none of the amendments made since (for example the Eighth Amendment of 2018, according to search results, and the amendments of 2024 under discussion), so it is attested only at its commencement date (2 April 1993) and many provisions of the Constitution in force today differ.",
@@ -644,9 +650,9 @@ PUBLISHERS: list[dict[str, Any]] = [
         "licence_url": "https://youth.gov.zw/",
         "crawl": 5,
         "findings": [
-            "robots.txt - youth.gov.zw/robots.txt: \"User-agent: *\" \"Disallow:\" (24 bytes): nothing is disallowed; no Crawl-delay",
-            "Terms - page footer: \"Copyright © 2026 | Designed by Mugonat Systems\" - a generic footer; the home page lists \"Constitution of Zimbabwe\" among its Downloads; no terms-of-use, licence or disclaimer page is linked",
-            "The document - https://youth.gov.zw/storage/01JP9R9JD7HC6DAH8M2589A97Y.pdf (113 pages, 1,201,149 bytes, Last-Modified 1 Dec 2025), the Government Printer's text (page head \"zowa@zol.co.zw\"): \"ZIMBABWE - ACT - To repeal and substitute the Constitution of Zimbabwe. ENACTED by the President and the Parliament of Zimbabwe. ... This Act may be cited as the Constitution of Zimbabwe Amendment (No. 20) Act, 2013.\" followed by \"SCHEDULE (SECTION 2) CONSTITUTION OF ZIMBABWE\".",
+            'robots.txt - youth.gov.zw/robots.txt: "User-agent: *" "Disallow:" (24 bytes): nothing is disallowed; no Crawl-delay',
+            'Terms - page footer: "Copyright © 2026 | Designed by Mugonat Systems" - a generic footer; the home page lists "Constitution of Zimbabwe" among its Downloads; no terms-of-use, licence or disclaimer page is linked',
+            'The document - https://youth.gov.zw/storage/01JP9R9JD7HC6DAH8M2589A97Y.pdf (113 pages, 1,201,149 bytes, Last-Modified 1 Dec 2025), the Government Printer\'s text (page head "zowa@zol.co.zw"): "ZIMBABWE - ACT - To repeal and substitute the Constitution of Zimbabwe. ENACTED by the President and the Parliament of Zimbabwe. ... This Act may be cited as the Constitution of Zimbabwe Amendment (No. 20) Act, 2013." followed by "SCHEDULE (SECTION 2) CONSTITUTION OF ZIMBABWE".',
         ],
         "known": [
             "The text is the Constitution as enacted by the Constitution of Zimbabwe Amendment (No. 20) Act, 2013 (the Schedule of the Act); amendments made since (Amendment (No. 1) Act 2017 and later ones) are not applied. The Act prints only its year, so 31 December 2013 is used as the edition date. Other hosts of this text (the Parliament, the National Peace and Reconciliation Commission, the Electoral Commission) are blocked (zw-parlzim-constitution).",
@@ -691,9 +697,9 @@ PUBLISHERS: list[dict[str, Any]] = [
         "licence_url": "https://minec.gov.mz/",
         "crawl": 5,
         "findings": [
-            "robots.txt - minec.gov.mz/robots.txt: \"User-agent: *\" \"Disallow: /wp-admin/\" \"Allow: /wp-admin/admin-ajax.php\" and a sitemap line; no Crawl-delay; /wp-content/uploads/ is not disallowed",
-            "Terms - page footer: \"©2026. MINEC – Ministério dos Negocios Estrangeiros e Cooperação Implementado por DotCom\" - a generic footer; no terms-of-use, licence or disclaimer page is linked",
-            "The document - https://minec.gov.mz/wp-content/uploads/2025/09/Constituicao-da-Republica-de-Mocambique.pdf (97 pages, 209,326 bytes, Last-Modified 15 Feb 2026; the file's title is \"Constituição de 2004, 19 de Nov..doc\"): \"CONSTITUIÇÃO DA REPÚBLICA - Preâmbulo\" ... \"Artigo 306 (Entrada em vigor) A Constituição entra em vigor no dia imediato ao da validação e proclamação dos resultados eleitorais das Eleições Gerais de 2004. Aprovada pela Assembleia da República, aos 16 de Novembro de 2004.\" The Constitutional Council's page (cconstitucional.org.mz/constituicao-da-republica/) lists the later texts: \"Lei 26/2007 de 16 de Novembro (altera o artigo 304 da Constituição da República)\" and \"Constituição da República Mocambicana - BR 2018\" (a scan; source mz-cconstitucional-constitution).",
+            'robots.txt - minec.gov.mz/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php" and a sitemap line; no Crawl-delay; /wp-content/uploads/ is not disallowed',
+            'Terms - page footer: "©2026. MINEC – Ministério dos Negocios Estrangeiros e Cooperação Implementado por DotCom" - a generic footer; no terms-of-use, licence or disclaimer page is linked',
+            'The document - https://minec.gov.mz/wp-content/uploads/2025/09/Constituicao-da-Republica-de-Mocambique.pdf (97 pages, 209,326 bytes, Last-Modified 15 Feb 2026; the file\'s title is "Constituição de 2004, 19 de Nov..doc"): "CONSTITUIÇÃO DA REPÚBLICA - Preâmbulo" ... "Artigo 306 (Entrada em vigor) A Constituição entra em vigor no dia imediato ao da validação e proclamação dos resultados eleitorais das Eleições Gerais de 2004. Aprovada pela Assembleia da República, aos 16 de Novembro de 2004." The Constitutional Council\'s page (cconstitucional.org.mz/constituicao-da-republica/) lists the later texts: "Lei 26/2007 de 16 de Novembro (altera o artigo 304 da Constituição da República)" and "Constituição da República Mocambicana - BR 2018" (a scan; source mz-cconstitucional-constitution).',
         ],
         "known": [
             "The text is the Constitution as approved on 16 November 2004; it includes neither the amendment of article 304 by Lei 26/2007 nor the revision of 2018 (Boletim da República, 22 June 2018), whose text is published only as a scan (mz-cconstitucional-constitution). The 16 November 2004 is used as the edition date, so the text is attested only at that date; many provisions in force today differ.",
@@ -878,7 +884,7 @@ BLOCKED: list[dict[str, Any]] = [
         "publisher": "Parliament of Uganda (www.parliament.go.ug)",
         "languages": ["en"],
         "url": "https://www.parliament.go.ug/page/constitution",
-        "finding": "robots.txt (www.parliament.go.ug/robots.txt) is the standard Drupal file and the page /page/constitution (HTTP 200) lists the Constitution among its documents (/documents/1240/constitution, a link found through a search engine, which now answers HTTP 404). The earlier sweep (docs/constitutions-africa-asia-oceania.md) found that PDF to be a 2007 print of the 1995 text (192 pages), not the consolidated text with the amendments of 2005 and 2017; it was not fetched again. The 7th Revised Edition of the Laws of Uganda (Volume I holds the Constitution) is announced by the Uganda Law Reform Commission, whose host does not verify (ulrc.go.ug: 'unable to get local issuer certificate'); the State House page (statehouse.go.ug/the-constitution/) only links to the Parliament's document. Verification of TLS certificates is never disabled.",
+        "finding": "robots.txt (www.parliament.go.ug/robots.txt) is the standard Drupal file and the page /page/constitution answers HTTP 200 but links no constitution document; the document URL a search engine gave (/documents/1240/constitution) answers HTTP 404. The earlier sweep (docs/constitutions-africa-asia-oceania.md) found that PDF to be a 2007 print of the 1995 text (192 pages), not the consolidated text with the amendments of 2005 and 2017; it was not fetched again. The 7th Revised Edition of the Laws of Uganda (Volume I holds the Constitution) is announced by the Uganda Law Reform Commission, whose host does not verify (ulrc.go.ug: 'unable to get local issuer certificate'); the State House page (statehouse.go.ug/the-constitution/) only links to the Parliament's document. Verification of TLS certificates is never disabled.",
         "limitation": "The only openly reachable official copy predates the amendments of 2005 and 2017; the current consolidation sits on a host whose TLS certificate cannot be verified.",
         "doc": "2007 print of the 1995 text",
     },
@@ -1017,7 +1023,10 @@ def source_yaml(p: dict[str, Any]) -> str:
         + f" Reading: {p['licence_reading']}. The text is an official legal text; the national copyright law is believed not to protect "
         "official texts of this kind (to verify; not read on a publisher's page)."
     )
-    licence_name = f"Official legal text published by {p['short']}; no terms of reuse stated ({p['licence_reading'].split(' - ')[0]})"
+    licence_name = p.get(
+        "licence_name",
+        f"Official legal text published by {p['short']}; no terms of reuse stated ({p['licence_reading'].split(' - ')[0]})",
+    )
     data: dict[str, Any] = {
         "schema_version": 1,
         "id": p["id"],
@@ -1146,7 +1155,7 @@ def profile_yaml(cc: str, spec: dict[str, Any]) -> str:
         },
         "citation": {
             "module": "constitution",
-            "notes": f"The constitution is cited as \"{spec['name']} Constitution art. N\" (a label, with the article number as the document itself prints it). To verify - the country's own citation convention.",
+            "notes": f'The constitution is cited as "{spec["name"]} Constitution art. N" (a label, with the article number as the document itself prints it). To verify - the country\'s own citation convention.',
             "examples": spec["examples"],
         },
         "publication": {"official_sources": sources},

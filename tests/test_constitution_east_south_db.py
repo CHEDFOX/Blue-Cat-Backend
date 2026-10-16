@@ -55,7 +55,10 @@ SOURCES = {
     "rw-minijust-constitution": _rwanda(),
     "so-senate-constitution": [("so-so", bundle_for("so-senate-constitution", "so-so", fixture_pdf("so-pages.json")))],
     "mg-assemblee-constitution": [
-        ("mg-mg", bundle_for("mg-assemblee-constitution", "mg-mg", fixture_pdf("mg-mg-pages.json"), drop=("first_page",))),
+        (
+            "mg-mg",
+            bundle_for("mg-assemblee-constitution", "mg-mg", fixture_pdf("mg-mg-pages.json"), drop=("first_page",)),
+        ),
         (
             "mg-fr",
             bundle_for(
@@ -63,7 +66,9 @@ SOURCES = {
             ),
         ),
     ],
-    "mu-assembly-constitution": [("mu-en", bundle_for("mu-assembly-constitution", "mu-en", fixture_pdf("mu-pages.json")))],
+    "mu-assembly-constitution": [
+        ("mu-en", bundle_for("mu-assembly-constitution", "mu-en", fixture_pdf("mu-pages.json")))
+    ],
     "ao-tribunal-constitucional-constitution": [
         ("ao-pt", bundle_for("ao-tribunal-constitucional-constitution", "ao-pt", fixture_pdf("ao-pages.json")))
     ],
