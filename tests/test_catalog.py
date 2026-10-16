@@ -250,6 +250,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "us-ecfr",
         "gb-legislation-gov-uk",
         "gb-uksc-judgments",
+        "gb-uksc-judgments-pdf",
         "ca-justice-laws-xml",
         "au-qld-legislation",
         "au-tas-legislation",

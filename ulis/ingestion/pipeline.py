@@ -80,6 +80,7 @@ from ulis.sources.connectors.subnational_http import (
     TasmanianLegislationConnector,
 )
 from ulis.sources.connectors.uksc import UkscConnector
+from ulis.sources.connectors.uksc_pdf import UkscPdfConnector
 from ulis.sources.connectors.uradni_list import UradniListConnector
 from ulis.sources.connectors.us_or_ors import OrOrsConnector
 from ulis.sources.connectors.us_tx_statutes import TxStatutesConnector
@@ -135,6 +136,7 @@ from ulis.sources.parsers import (
     stj_integras,
     tas_legislation,
     uksc_html,
+    uksc_pdf,
     uradni_list,
     us_or_ors,
     us_tx_statutes,
@@ -173,6 +175,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "stj_integras": stj_integras.parse_stj_integra,
     "rattspraxis_se_json": rattspraxis_se.parse_rattspraxis,
     "uksc_html": uksc_html.parse_uksc,
+    "uksc_pdf": uksc_pdf.parse_uksc_pdf,
     "moj_law_html": moj_law.parse_moj_law,
     "riksdagen_sfs_json": riksdagen_sfs.parse_riksdagen_sfs,
     "retsinformation_lexdania": retsinformation.parse_retsinformation,
@@ -228,6 +231,7 @@ PARSER_VERSIONS = {
     "stj_integras": stj_integras.PARSER_VERSION,
     "rattspraxis_se_json": rattspraxis_se.PARSER_VERSION,
     "uksc_html": uksc_html.PARSER_VERSION,
+    "uksc_pdf": uksc_pdf.PARSER_VERSION,
     "moj_law_html": moj_law.PARSER_VERSION,
     "riksdagen_sfs_json": riksdagen_sfs.PARSER_VERSION,
     "retsinformation_lexdania": retsinformation.PARSER_VERSION,
@@ -312,6 +316,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "stj_dados_abertos": StjConnector,
     "rattspraxis_se": RattspraxisConnector,
     "uksc": UkscConnector,
+    "uksc_pdf": UkscPdfConnector,
     "moj_laws": MojLawsConnector,
     "riksdagen_sfs": RiksdagenSfsConnector,
     "retsinformation": RetsinformationConnector,
