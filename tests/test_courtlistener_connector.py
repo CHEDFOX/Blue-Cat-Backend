@@ -192,6 +192,7 @@ def test_committed_manifest_loads_and_names_one_generation_of_five_files() -> No
         ({"limit": 0}, "limit"),
         ({"files": {"courts": {"name": "courts-2026-09-30.csv.bz2", "bytes": 1}}}, "files must list"),
         ({"source_id": "other"}, "mismatch"),
+        ({"only_rules": ["no-such-rule"]}, "only_rules"),
     ],
 )
 def test_manifest_validation(tmp_path: Path, change: dict[str, Any], message: str) -> None:
@@ -298,6 +299,12 @@ def test_year_range_and_status_per_rule(tmp_path: Path, local_dir: Path) -> None
     assert sorted(d["_id"] for d in docs) == ["cl:cluster:1", "cl:cluster:4"]
     docs, _ = run(tmp_path / "x", local_dir, RULES, scope={"exclude_courts": ["wash"]})
     assert sorted(d["_id"] for d in docs) == ["cl:cluster:1", "cl:cluster:2"]
+
+
+def test_only_rules_runs_one_part_of_the_scope_from_the_same_index(tmp_path: Path, local_dir: Path) -> None:
+    docs, connector = run(tmp_path, local_dir, RULES, only_rules=["appeals-and-state-high"])
+    assert sorted(d["_id"] for d in docs) == ["cl:cluster:2", "cl:cluster:3"]
+    assert connector.index_stats.clusters_in_scope == 3  # the index itself covers every rule
 
 
 def test_limit_stops_after_that_many_documents(tmp_path: Path, local_dir: Path) -> None:

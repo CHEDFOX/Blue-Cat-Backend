@@ -225,7 +225,12 @@ def load_manifest(path: Path, expected_source_id: str) -> dict[str, Any]:
     limit = manifest.get("limit")
     if limit is not None and (not isinstance(limit, int) or limit < 1):
         raise ManifestError("limit must be a positive integer")
-    _scope_from(manifest)
+    scope = _scope_from(manifest)
+    only = manifest.get("only_rules")
+    if only is not None:
+        known = {r.name for r in scope.rules}
+        if not isinstance(only, list) or not only or not set(only) <= known:
+            raise ManifestError(f"only_rules must be a non-empty list of rule names among {sorted(known)}")
     return manifest
 
 
@@ -327,20 +332,6 @@ class CourtListenerFiles:
             raise FetchError(f"{url}: could not download all {size} bytes")
         part.rename(path)
         self.downloads.append(path.name)
-
-    def sha256(self, key: str) -> str:
-        """SHA-256 of a file, kept in a sidecar so it is computed once."""
-        path = self.path(key)
-        sidecar = path.with_name(path.name + ".sha256")
-        if sidecar.exists():
-            return sidecar.read_text().strip()
-        digest = hashlib.sha256()
-        with path.open("rb") as handle:
-            while chunk := handle.read(CHUNK):
-                digest.update(chunk)
-        if self.local_dir is None:
-            sidecar.write_text(digest.hexdigest())
-        return digest.hexdigest()
 
 
 # --------------------------------------------------------------------------- CSV reading
@@ -692,7 +683,12 @@ class CourtListenerBulkConnector:
         opinions_url = files.url("opinions")
         db = sqlite3.connect(f"file:{index_path}?mode=ro", uri=True)
         db.row_factory = sqlite3.Row
-        in_scope = _bitmap(row[0] for row in db.execute("SELECT id FROM scope"))
+        only = manifest.get("only_rules")
+        if only:
+            marks = ",".join("?" for _ in only)
+            in_scope = _bitmap(row[0] for row in db.execute(f"SELECT id FROM scope WHERE rule IN ({marks})", only))
+        else:
+            in_scope = _bitmap(row[0] for row in db.execute("SELECT id FROM scope"))
         emitted = bytearray(len(in_scope))
         count = 0
         try:
@@ -702,6 +698,8 @@ class CourtListenerBulkConnector:
                     continue
                 yield document
                 count += 1
+                if count % 25_000 == 0:
+                    self.progress(f"cases handed to the pipeline: {count:,}")
                 if limit is not None and count >= limit:
                     return
         finally:

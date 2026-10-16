@@ -90,9 +90,12 @@ NEUTRAL, FEDERAL, STATE, REGIONAL, SPECIALTY, SCOTUS_EARLY, LEXIS, WEST = 8, 1, 
 CITATION_PRIORITY = {NEUTRAL: 0, FEDERAL: 1, STATE: 2, REGIONAL: 3, SPECIALTY: 4, SCOTUS_EARLY: 5, WEST: 6, LEXIS: 7}
 
 WORK_PREFIX = "/us/case/cl"
+US_REPORTS = re.compile(r"\d+ U\.S\. \d+")
 TARGET_UNIT = 2400  # characters: a block unit closes once it has reached this
 MIN_UNIT = 700
 MAX_UNIT = 8000  # a single paragraph longer than this is cut at sentence ends
+PART_MAX = 32  # width of judgment_paragraphs.part
+NUM_MAX = 20  # width of judgment_paragraphs.num
 PAGE_FIT = 60  # the first page break of a case must lie within this many pages after a citation's first page
 
 SKIP_TAGS = frozenset(
@@ -110,7 +113,6 @@ SKIP_TAGS = frozenset(
         "docketnumber",
         "footnotemark",
         "nav",
-        "form",
     }
 )
 BLOCK_TAGS = frozenset(
@@ -245,7 +247,12 @@ class _Extractor(HTMLParser):
                 self._skip.pop("page-number", None)
                 label = self._star_label or "".join(self._star_text)
                 m = re.search(r"\d+", label)
-                if self._star_index == "1" and m and re.fullmatch(r"\*?\s*\d+\s*", label.strip() or "x"):
+                if (
+                    self._star_index == "1"
+                    and m
+                    and len(m.group(0)) <= 6
+                    and re.fullmatch(r"\*?\s*\d+\s*", label.strip() or "x")
+                ):
                     self.atoms.append(Atom("page", m.group(0)))
             elif tag == "span":
                 self._star_depth -= 1
@@ -384,12 +391,23 @@ def clean_citations(raw: list[dict[str, Any]]) -> list[Cite]:
         if text in seen:
             continue
         seen.add(text)
-        out.append(Cite(text, int(c.get("type") or 0), int(page) if page.isdigit() else None))
+        kind = int(c.get("type") or 0)
+        # The publisher files some database citations under the type of the court's own reporters (for example
+        # "N.Y. App. Div. LEXIS"); a citation of a commercial database is never a reporter citation.
+        if "LEXIS" in reporter.upper():
+            kind = LEXIS
+        elif reporter.upper() in ("WL", "WL (BNA)"):
+            kind = WEST
+        out.append(Cite(text, kind, int(page) if page.isdigit() else None))
     return out
 
 
 def primary_citation(cites: list[Cite]) -> Cite | None:
-    ranked = sorted(enumerate(cites), key=lambda ic: (CITATION_PRIORITY.get(ic[1].type, 9), ic[0]))
+    """By type, then the official United States Reports before the other federal reporters, then publisher order."""
+    ranked = sorted(
+        enumerate(cites),
+        key=lambda ic: (CITATION_PRIORITY.get(ic[1].type, 9), not US_REPORTS.fullmatch(ic[1].text), ic[0]),
+    )
     return ranked[0][1] if ranked else None
 
 
@@ -406,7 +424,7 @@ def _date(value: str, what: str) -> date:
 def _part(label: str, author: str) -> str:
     author = author.strip()
     text = f"{label} ({author})" if author else label
-    return text if len(text) <= 80 else label
+    return text if len(text) <= PART_MAX else label
 
 
 def parse(raw: bytes) -> list[ParsedDocument]:
@@ -429,6 +447,7 @@ def parse(raw: bytes) -> list[ParsedDocument]:
     # --- text of every opinion
     parts: list[tuple[str, list[Atom]]] = []  # (part label, atoms)
     columns_used: list[str] = []
+    long_authors: list[str] = []  # authors whose name did not fit the width of the part label
     ocr = False
     syllabus = (cluster.get("syllabus") or "").strip()
     if syllabus:
@@ -446,7 +465,10 @@ def parse(raw: bytes) -> list[ParsedDocument]:
             columns_used.append(column)
         ocr = ocr or bool(op.get("extracted_by_ocr"))
         label = OPINION_LABELS.get(op["type"], "Opinion")
-        parts.append((_part(label, op.get("author_str") or ""), atoms))
+        part = _part(label, op.get("author_str") or "")
+        if (op.get("author_str") or "").strip() and part == label:
+            long_authors.append(f"{label}: {op['author_str'].strip()}")
+        parts.append((part, atoms))
     if not any(label != "Syllabus" for label, _ in parts):
         raise ParseSkipped(f"cluster {cluster_id}: no opinion text")
 
@@ -502,7 +524,7 @@ def parse(raw: bytes) -> list[ParsedDocument]:
     primary = page_cite or primary_citation(cites)
     kind = "docket"
     if primary is not None:
-        kind = "neutral" if primary.type == NEUTRAL else "reporter"
+        kind = "neutral" if primary.type == NEUTRAL else "database" if primary.type in (LEXIS, WEST) else "reporter"
     work_uri = work_uri_for(cluster_id)
     opinion_ids = [int(o["id"]) for o in bundle["opinions"]]
     continuation = bool(bundle.get("continuation"))
@@ -522,6 +544,7 @@ def parse(raw: bytes) -> list[ParsedDocument]:
         "precedential_status": cluster.get("precedential_status") or None,
         "date_filed_is_approximate": True if cluster.get("date_filed_is_approximate") else None,
         "judges": (cluster.get("judges") or "").strip() or None,
+        "authors": long_authors or None,
         "disposition": (cluster.get("disposition") or "").strip() or None,
         "scdb_id": cluster.get("scdb_id") or None,
         "harvard_path": cluster.get("filepath_json_harvard") or None,

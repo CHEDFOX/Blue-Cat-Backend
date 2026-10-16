@@ -132,6 +132,9 @@ class UsJudgmentExt(BaseModel):
     precedential_status: str | None = None
     date_filed_is_approximate: bool | None = None
     judges: str | None = None
+    authors: list[str] | None = (
+        None  # "Opinion concurring in part: <author>" where the part label had no room for the name
+    )
     disposition: str | None = None
     scdb_id: str | None = None
     harvard_path: str | None = None
@@ -287,8 +290,11 @@ class UsModule(JurisdictionModule):
                 return f"{c.case_name}, {c.neutral_citation}{pin} ({year})"
             return f"{c.case_name}, {c.neutral_citation}{pin} ({court} {year})"
         d = c.decision_date
+        dated = f"{court} {MONTHS[d.month - 1]} {d.day}, {year}"
+        if kind == "database" and c.neutral_citation:  # a Westlaw or Lexis number: the full date, as the Bluebook asks
+            return f"{c.case_name}, {c.neutral_citation} ({dated})"
         docket = f", No. {c.docket}" if c.docket else ""
-        return f"{c.case_name}{docket} ({court} {MONTHS[d.month - 1]} {d.day}, {year})"
+        return f"{c.case_name}{docket} ({dated})"
 
     def judgment_citation(self, c: JudgmentCitationInput) -> str:
         if c.ext and "courtlistener_cluster" in c.ext:
