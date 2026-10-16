@@ -85,9 +85,12 @@ class LegislationGovUkConnector:
             raise ManifestError("an identifying user_agent with contact details is required (fair-use policy)")
         seen: set[str] = set()
         default_history = bool(manifest.get("history_default", False))
+        current_only = bool(manifest.get("current_only", False))  # the current text of each work, no earlier versions
         works: list[dict[str, Any]] = []
         for entry in manifest["works"]:
             work = self._work(entry, default_history)
+            if current_only:
+                work["history"] = False
             if not _PATH.match(work["path"]):
                 raise ManifestError(f"invalid work path {work['path']!r}")
             if work["path"] in seen:

@@ -21,6 +21,10 @@ base_url: https://www.legislation.gov.uk
 user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
 crawl_delay_seconds: 5
 history_default: true
+# GO-LIVE: only the current text of each work is fetched (`current_only`), one request per work. Delete this line to fetch every
+# earlier version as well (about four times the requests: 68 hours for this source); older versions added later are dated correctly
+# and do not conflict with the current text (tests/test_legislation_gov_uk.py).
+current_only: true
 works:
   - "uksi/2026/1007"
   - "uksi/2026/856"

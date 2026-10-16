@@ -148,6 +148,21 @@ def test_connector_uses_cache_offline_and_yields_history(tmp_path: Path) -> None
     assert docs[-1].retrieved_at.isoformat() == meta["retrieved_at"]
 
 
+def test_current_only_manifest_fetches_the_current_text_alone(tmp_path: Path) -> None:
+    cache = tmp_path / "cache"
+    _cache_copy(cache)
+    works = [{"path": "ukpga/1968/60", "history": True, "history_dates": ["2001-10-01"]}]
+    path = tmp_path / "manifest.yaml"
+    manifest = yaml.safe_load(_connector(cache, tmp_path, works, offline=True).manifest_path.read_text())
+    path.write_text(yaml.safe_dump({**manifest, "current_only": True}))
+    conn = LegislationGovUkConnector(path, "gb-legislation-gov-uk", cache, offline=True)
+    docs = list(conn.fetch())
+    assert len(docs) == 1 and conn._manifest()["works"][0]["history"] is False  # noqa: SLF001
+    for name in ("gb-legislation-gov-uk", "gb-legislation-gov-uk-secondary"):  # the go-live manifests
+        committed = yaml.safe_load((REPO_ROOT / "config" / "manifests" / f"{name}.yaml").read_text())
+        assert committed["current_only"] is True
+
+
 def test_connector_requires_identification_and_https(tmp_path: Path) -> None:
     conn = _connector(tmp_path, tmp_path, [{"path": "ukpga/1968/60"}], offline=True)
     with pytest.raises(FetchError, match="offline and not cached"):
@@ -277,3 +292,37 @@ def test_restated_wording_is_dated_from_when_it_was_first_seen(
     assert "property of another" in after["version"]["text"]
     assert after["version"]["valid_from"] == "2001-11-15" and after["version"]["valid_from_basis"] == "observed"
     assert "START_DATE_OBSERVED" in {lim["code"] for lim in after["limitations"]}
+
+
+@pytest.mark.db
+def test_history_loaded_after_the_current_text_gives_the_same_answers(
+    session_factory: sessionmaker[Session], catalog: Catalog, store: LocalObjectStore, ingested: IngestionReport
+) -> None:
+    """The go-live load fetches the current text of each work only; the earlier versions are added by a later run.
+    The late arrival of the older versions must neither conflict with the current text nor change its answers."""
+    now = datetime(2026, 10, 14, tzinfo=UTC)
+    versions = FIX / "versions"
+
+    def doc(day: str) -> RawDocument:
+        raw = gzip.decompress((versions / f"ukpga_1990_26_{day}.akn.gz").read_bytes())
+        return RawDocument(
+            f"test:ukpga-1990-26@{day}", f"https://example.org/{day}", "application/akn+xml", raw, now, {}
+        )
+
+    reports = []
+    for docs in ([doc("2007-09-01")], [doc("1991-02-01"), doc("2007-09-01")]):
+        with session_factory() as session:
+            reports.append(
+                Ingestor(session, catalog, store).ingest_source(
+                    "gb-legislation-gov-uk", actor="pytest", connector=_Docs(docs)
+                )
+            )
+            session.commit()
+    first, second = reports
+    assert first.errors == [] and second.errors == []
+    assert first.conflicts == [] and second.conflicts == [], second.conflicts
+    with session_factory() as session:
+        old = provision_at(session, catalog, "/gb/ukpga/1990/26/~section-1", date(1995, 1, 1))
+        new = provision_at(session, catalog, "/gb/ukpga/1990/26/~section-1", date(2010, 1, 1))
+    assert old["version"]["valid_from"] == "1991-02-01" and new["version"]["valid_from"] == "2007-09-01"
+    assert old["version"]["text"] != new["version"]["text"]

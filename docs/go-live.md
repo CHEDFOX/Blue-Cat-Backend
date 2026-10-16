@@ -16,23 +16,25 @@ date it was checked against; a date before the data starts is reported as "canno
 | `se-riksdagen-sfs` | Sweden | 5,336 | 7 h 25 min |
 | `de-gesetze-im-internet` | Germany | 6,139 federal laws | 8 h 30 min |
 | `es-boe-consolidada` | Spain | 6,826 State norms in force | 9 h 30 min |
-| `gb-legislation-gov-uk` | UK | 7,178 Acts and similar, every version, repealed ones included (28,200 requests, one per version) | **39 h** |
+| `gb-legislation-gov-uk` | UK | 7,178 Acts and similar, every version, repealed ones included (current text of each work: 7,178 requests) | 10 h |
 | `jp-egov-laws` | Japan | 8,989 | 12 h 30 min |
 | `fi-finlex` | Finland | 11,158 requests | 15 h 30 min |
-| `gb-legislation-gov-uk-secondary` | UK | 17,878 revised statutory instruments (48,700 requests) | **68 h** |
+| `gb-legislation-gov-uk-secondary` | UK | 17,878 revised statutory instruments (current text: 17,878 requests) | 25 h |
 
-The `dry-run` column counts one request per document; the UK sources fetch every version of a law, so their real figures (39 h and
-68 h, from the slice runs in `docs/markets/uk.md`) are about four times the dry-run's 10 h and 25 h. Sequentially the nine countries
-take about 160 hours of waiting. `--jobs 6` loads several at once, never two from the same website: everything except the UK is
-done within about 16 hours (the longest single source is Finland), and the two UK sources share one website, so they run one after
-the other: **39 h for the Acts, then 68 h for the instruments, about 4.5 days in all**. Parsing and indexing come on top.
-Go live as soon as the Acts have loaded (about 2 days in) and let the statutory instruments finish in the background: each source
-is its own transaction and searchable as soon as it commits. After the first fill, `load-all --refresh` (weekly timer) fetches only
-what changed.
+The UK manifests are set to `current_only`: one request per law, the text in force today. With every earlier version as well, the
+UK needs 28,200 and 48,700 requests (39 h and 68 h, `docs/markets/uk.md`); delete the `current_only` line of a manifest to load
+them. Older versions added to a database that already holds the current text are dated correctly and do not conflict (tested).
+
+Sequentially the nine countries take about 90 hours of waiting. `--jobs 6` loads several at once, never two from the same website:
+everything except the UK is done within about 16 hours (the longest single source is Finland), and the two UK sources share one
+website (robots.txt `Crawl-delay: 5`, which we obey), so they run one after the other: **10 h for the Acts, then 25 h for the
+instruments, about 1.5 days in all**, parsing and indexing on top. Go live when the Acts have loaded; each source is its own
+transaction and searchable as soon as it commits. After the first fill, `load-all --refresh` (weekly timer) fetches only what
+changed. **Start the load on the server as soon as it is up** (it runs in the background while the rest of the product is built).
 
 ## Size (estimates from slices, plus or minus 50 percent; not measured on a full load)
 
-Database about **40-60 GB** (UK about 15, Japan 4-8, Spain 8-12, Finland 2-3, Australia 2, Sweden 0.5, the rest a few GB each);
+Database about **30-45 GB** with the current text only (the UK about 5, with all versions 15; Japan 4-8, Spain 8-12, Finland 2-3, Australia 2, Sweden 0.5, the rest a few GB each);
 raw downloads and cache about the same again. Provide **200 GB** of disk, 8 vCPU and 16 GB of RAM (the bulk-load row of `docs/deployment.md` section 1); raise `PG_SHARED_BUFFERS` to 25% of RAM.
 
 ## Steps on the server
