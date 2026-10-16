@@ -12,7 +12,7 @@ lower-court decisions in particular).
 
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import Any, ClassVar
 
 from pydantic import BaseModel, ConfigDict
 
@@ -56,6 +56,10 @@ class MuModule(JurisdictionModule):
     id: ClassVar[str] = "mu"
     version: ClassVar[str] = "1.0.0"
     ext_model: ClassVar[type[BaseModel]] = MuJudgmentExt
+
+    def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:
+        # judgments carry the extension below; the Constitution (legislation) carries none
+        return super().validate_ext(ext) if ext else {}
 
     def pinpoint(self, c: ProvisionCitationInput) -> str:
         return _CONSTITUTION.pinpoint(c)
