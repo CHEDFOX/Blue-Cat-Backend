@@ -22,5 +22,8 @@ documents:
     unit_kind: article
     style: numword
     keywords_after: [straipsnis]
+    start_regex: '^LIETUVIŲ TAUTA$'
+    preamble_regex: '^LIETUVIŲ TAUTA$'
+    chapter_regex: '^[IVXL]+ SKIRSNIS$'
     drop_lines: ['^Į turinį$']
     tail_regex: '^LIETUVOS RESPUBLIKOS KONSTITUCINIS ĮSTATYMAS$'

@@ -18,3 +18,6 @@ documents:
   text_origin: official_consolidation
   structure:
     unit_kind: article
+    start_regex: '^Chiamato ad esercitare'
+    preamble_regex: '^Chiamato ad esercitare'
+    chapter_regex: '^TITOLO [IVX]+$'

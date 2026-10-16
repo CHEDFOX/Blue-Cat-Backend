@@ -58,6 +58,7 @@ BUNDLE_SCHEMA = "ulis-constitution-bundle/1"
 MIN_UNITS = 5  # fewer consecutive numbered units than this: the structure is not recognised, store blocks
 MAX_GAP = 4  # the largest jump in numbering tolerated inside the body chain (missing or unnumbered headings)
 BLOCK_CHARS = 2000
+TEXT_MARKER_CHARS = 40  # a preamble marker line longer than this is the text of the preamble, not its heading
 CHAPTER_TRAIL = 3  # a chapter heading is recognised among the last this-many text lines before the next article
 TEXT_ORIGINS = {
     "official_authentic",
@@ -711,8 +712,13 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
             )
             pending = found_heading
             body = [x for x in _nonblank(region) if not any(p.search(x) for p in note_re)]
-            if body:
-                unit = Unit("preamble", "", "preamble", heading=lines[markers[-1]])
+            marker_line = lines[markers[-1]]
+            # a marker that is a whole sentence (a preamble whose first line the manifest names) is text, not a heading
+            text_marker = len(marker_line) > TEXT_MARKER_CHARS
+            if body or text_marker:
+                unit = Unit("preamble", "", "preamble", heading=None if text_marker else marker_line)
+                if text_marker:
+                    unit.content.append(marker_line)
                 unit.content.extend(body)
                 unit.notes.extend(x for x in _nonblank(region) if any(p.search(x) for p in note_re))
                 tops.append((unit, None))

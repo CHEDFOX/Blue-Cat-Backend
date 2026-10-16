@@ -1,0 +1,42 @@
+# The Constitution of Kazakhstan (ru, kk): 2 document(s) on akorda.kz. See config/sources/kz-akorda-constitution.yaml.
+schema_version: 1
+source_id: kz-akorda-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- akorda.kz
+documents:
+- slug: kz-ru
+  jurisdiction: KZ
+  url: https://akorda.kz/ru/konstituciya-respubliki-kazahstan-3053339
+  format: html
+  language: ru
+  title: Конституция Республики Казахстан
+  citation_name: Kazakhstan Constitution
+  edition_label: page of the Official Website of the President, no edition date on the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    html_select:
+      tag: article
+    chapter_regex: '^Раздел '
+    preamble_regex: '^Мы, единый народ Казахстана,$'
+- slug: kz-kk
+  jurisdiction: KZ
+  url: https://akorda.kz/kz/kazakstan-respublikasynyn-konstituciyasy-3053334
+  format: html
+  language: kk
+  title: Қазақстан Республикасының Конституциясы
+  citation_name: Kazakhstan Constitution
+  edition_label: page of the Official Website of the President, no edition date on the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    html_select:
+      tag: article
+    style: numword
+    keywords_after: [бап]
+    chapter_regex: '^[IVXLCІ]+ бөлім$'
+    preamble_regex: '^Біз, біртұтас Қазақстан халқы,$'

@@ -1,0 +1,41 @@
+# The Constitution of Georgia (en, ka): 2 document(s) on www.constcourt.ge. See config/sources/ge-constitutional-court-constitution.yaml.
+schema_version: 1
+source_id: ge-constitutional-court-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.constcourt.ge
+documents:
+- slug: ge-en
+  jurisdiction: GE
+  url: https://www.constcourt.ge/en/court/legislation/constitution-text
+  format: html
+  language: en
+  title: Constitution of Georgia
+  citation_name: Georgia Constitution
+  edition_label: page of the Constitutional Court, no edition date on the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    start_regex: '^We, the citizens of Georgia'
+    preamble_regex: '^We, the citizens of Georgia'
+    note_lines: ['^Constitutional Law of Georgia No']
+    chapter_regex: '^Chapter '
+- slug: ge-ka
+  jurisdiction: GE
+  url: https://www.constcourt.ge/ka/court/legislation/constitution-text
+  format: html
+  language: ka
+  title: საქართველოს კონსტიტუცია
+  citation_name: Georgia Constitution
+  edition_label: page of the Constitutional Court, no edition date on the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    start_regex: '^ჩვენ, საქართველოს მოქალაქენი'
+    preamble_regex: '^ჩვენ, საქართველოს მოქალაქენი'
+    keywords: [მუხლი]
+    note_lines: ['^საქართველოს [0-9]{4} წლის']
+    chapter_regex: '^თავი '

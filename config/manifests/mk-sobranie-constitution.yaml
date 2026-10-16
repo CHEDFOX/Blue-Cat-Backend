@@ -18,4 +18,6 @@ documents:
   structure:
     unit_kind: article
     keywords: [Член]
+    preamble_regex: '^Врз основа на член 443'
+    chapter_regex: '^[IVX]+\. [А-ЯЃЅЈЉЊЌЏ ,]+$'
     tail_regex: '^АМАНДМАНИ I И II$'

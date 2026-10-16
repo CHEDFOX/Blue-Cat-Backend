@@ -1,0 +1,20 @@
+# The Constitution of Iceland (is): 1 document(s) on stjornarradid.is. See config/sources/is-stjornarradid-constitution.yaml.
+schema_version: 1
+source_id: is-stjornarradid-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- stjornarradid.is
+documents:
+- slug: is-is
+  jurisdiction: IS
+  url: https://stjornarradid.is/media/forsaetisraduneyti-media/media/stjornarskra/2013_svo_breytt.pdf
+  format: pdf
+  language: is
+  title: Stjórnarskrá lýðveldisins Íslands
+  citation_name: Iceland Constitution
+  edition_label: 'cover of the PDF: "uppfærð með öllum breytingum til og með 2013" (updated with all amendments up to and including 2013)'
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article

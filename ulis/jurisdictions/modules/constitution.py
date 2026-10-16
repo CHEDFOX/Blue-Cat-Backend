@@ -31,7 +31,8 @@ ARTICLE_MARK = {"zh": "条", "zh-Hant": "條"}  # simplified and traditional cha
 
 
 def _number(m: re.Match[str]) -> str:
-    return m.group("num") + m.group("letters").upper() + (f"-{m.group('branch')}" if m.group("branch") else "")
+    letters = m.group("letters")  # 107-A: one letter is capitalised; 7bis, 22ter, 3quater stay as the text prints them
+    return m.group("num") + (letters.upper() if len(letters) == 1 else letters) + (f"-{m.group('branch')}" if m.group("branch") else "")
 
 
 class ConstitutionModule(JurisdictionModule):

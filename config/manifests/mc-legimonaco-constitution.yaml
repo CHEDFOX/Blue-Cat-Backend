@@ -1,0 +1,26 @@
+# The Constitution of Monaco (fr): 1 document(s) on legimonaco.mc. See config/sources/mc-legimonaco-constitution.yaml.
+schema_version: 1
+source_id: mc-legimonaco-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- legimonaco.mc
+documents:
+- slug: mc-fr
+  jurisdiction: MC
+  url: https://legimonaco.mc/constitution/
+  format: html
+  language: fr
+  title: Constitution du 17 décembre 1962 de la Principauté
+  citation_name: Monaco Constitution
+  adopted_on: '1962-12-17'
+  edition_date: '2002-04-06'
+  edition_label: 'page of Legimonaco: "Dernière révision 6 avril 2002"'
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    html_skip_classes: [title_tools]
+    start_regex: '^Considérant que les institutions'
+    preamble_regex: '^Considérant que les institutions'
+    chapter_regex: '^Titre [IVX]+ - '

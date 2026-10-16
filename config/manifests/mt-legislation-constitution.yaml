@@ -1,0 +1,32 @@
+# The Constitution of Malta (en, mt): 2 document(s) on legislation.mt. See config/sources/mt-legislation-constitution.yaml.
+schema_version: 1
+source_id: mt-legislation-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- legislation.mt
+documents:
+- slug: mt-en
+  jurisdiction: MT
+  url: https://legislation.mt/eli/const/eng/pdf
+  format: pdf
+  language: en
+  title: Constitution of Malta
+  citation_name: Malta Constitution
+  edition_label: PDF of Legislation Malta (ELI eli/const), no edition date in the text layer
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+- slug: mt-mt
+  jurisdiction: MT
+  url: https://legislation.mt/eli/const/mlt/pdf
+  format: pdf
+  language: mt
+  title: Kostituzzjoni ta' Malta
+  citation_name: Malta Constitution
+  edition_label: PDF of Legislation Malta (ELI eli/const), no edition date in the text layer
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article

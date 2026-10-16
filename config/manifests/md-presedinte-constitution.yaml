@@ -21,6 +21,7 @@ documents:
     unit_kind: article
     keywords: [Articolul, Artcolul]
     start_regex: '^NOI, reprezentanții'
+    preamble_regex: '^NOI, reprezentanții'
     drop_lines: ['^CONSTITUŢIA REPUBLICII MOLDOVA$']
     page_numbers: true
     tail_regex: '^CUPRINS$'
