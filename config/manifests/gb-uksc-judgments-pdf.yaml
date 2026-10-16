@@ -1,5 +1,5 @@
-# Judgments of the UK Supreme Court that the Court publishes as PDF: the case pages
-# https://supremecourt.uk/cases/uksc-<year>-<number> listed in the Court's sitemap
+# Judgments of the UK Supreme Court that the court publishes as PDF: the case pages
+# https://supremecourt.uk/cases/uksc-<year>-<number> listed in the court's sitemap
 # (https://supremecourt.uk/sitemap.xml, read 2026-10-16) that have no HTML judgment page
 # (/cases/judgments/uksc-<year>-<number>; those are the source gb-uksc-judgments).
 # Appeals without a judgment yet and joined appeals (one page per case number, the same judgment)

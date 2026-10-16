@@ -48,21 +48,24 @@ BASE_URL = f"https://{HOST}"
 ROBOTS_URL = f"{BASE_URL}/robots.txt"
 MIN_DELAY = 5.0
 MAX_PDF_BYTES = 40_000_000
-CASE_ID = re.compile(r"^UKSC/(\d{4})/(\d{4})$")
-CITATION = re.compile(rb'<p[^>]*\bid="neutral-citation-number"[^>]*>\s*(\[\d{4}\] UKSC \d{1,3})\s*</p>')
-PDF_LINK = re.compile(rb'\bid="judgment-pdf"[^>]*\bhref="(https://supremecourt\.uk/uploads/[A-Za-z0-9_.-]+\.pdf)"')
+CASE_ID = re.compile(r"^(UKSC|JCPC)/(\d{4})/(\d{4})$")
+CITATION = re.compile(rb'<p[^>]*\bid="neutral-citation-number"[^>]*>\s*(\[\d{4}\] (?:UKSC|UKPC) \d{1,3})\s*</p>')
 
 __all__ = ["FetchError", "UkscPdfConnector", "case_url"]
 
 
-def case_url(case_id: str) -> str:
+def case_url(case_id: str, *, host: str = HOST, prefix: str = "UKSC") -> str:
     m = CASE_ID.match(case_id)
-    if not m:
-        raise ManifestError(f"invalid case id {case_id!r} (expected UKSC/yyyy/nnnn)")
-    return f"{BASE_URL}/cases/uksc-{m.group(1)}-{m.group(2)}"
+    if not m or m.group(1) != prefix:
+        raise ManifestError(f"invalid case id {case_id!r} (expected {prefix}/yyyy/nnnn)")
+    return f"https://{host}/cases/{prefix.lower()}-{m.group(2)}-{m.group(3)}"
 
 
 class UkscPdfConnector:
+    # The Judicial Committee of the Privy Council (jcpc.uk) is the same site design: see connectors/jcpc.py.
+    host = HOST
+    prefix = "UKSC"
+
     def __init__(
         self,
         manifest_path: Path,
@@ -85,8 +88,8 @@ class UkscPdfConnector:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
         if manifest.get("schema_version") != 1 or manifest.get("source_id") != self.expected_source_id:
             raise ManifestError("manifest schema or source_id mismatch")
-        if str(manifest.get("base_url", "")).rstrip("/") != BASE_URL:
-            raise ManifestError(f"base_url must be {BASE_URL}")
+        if str(manifest.get("base_url", "")).rstrip("/") != f"https://{self.host}":
+            raise ManifestError(f"base_url must be https://{self.host}")
         if not manifest.get("user_agent") or "(" not in manifest["user_agent"]:
             raise ManifestError("an identifying user_agent with contact details is required")
         if float(manifest.get("crawl_delay_seconds", MIN_DELAY)) < MIN_DELAY:
@@ -96,7 +99,7 @@ class UkscPdfConnector:
             raise ManifestError("the manifest lists no cases")
         seen: set[str] = set()
         for case_id in cases:
-            case_url(str(case_id))  # validates the pattern
+            case_url(str(case_id), host=self.host, prefix=self.prefix)  # validates the pattern
             if case_id in seen:
                 raise ManifestError(f"{case_id} is listed twice")
             seen.add(case_id)
@@ -107,19 +110,25 @@ class UkscPdfConnector:
         self.http = PoliteHttp(
             self.cache_dir,
             manifest["user_agent"],
-            allowed_hosts={HOST},
+            allowed_hosts={self.host},
             crawl_delay=float(manifest.get("crawl_delay_seconds", MIN_DELAY)),
             offline=self.offline,
             sleep=self._sleep,
         )
         # No robots.txt (404) means no restrictions (RFC 9309, 2.3.1.3); any other failure stops the run.
-        got = self.http.get(ROBOTS_URL, cache_key="robots.txt")
+        robots_url = f"https://{self.host}/robots.txt"
+        got = self.http.get(robots_url, cache_key="robots.txt")
         robots = got[0].decode("utf-8", "replace") if got is not None else ""
+        pdf_link = re.compile(
+            rb'\bid="judgment-pdf"[^>]*\bhref="(https://'
+            + re.escape(self.host.encode())
+            + rb'/uploads/[A-Za-z0-9_.-]+\.pdf)"'
+        )
         citations: dict[bytes, str] = {}
         for case_id in manifest["cases"]:
-            url = case_url(case_id)
+            url = case_url(case_id, host=self.host, prefix=self.prefix)
             if not robots_allows(robots, self.http.user_agent, url):
-                raise FetchError(f"{url}: disallowed by {ROBOTS_URL}; not fetched")
+                raise FetchError(f"{url}: disallowed by {robots_url}; not fetched")
             got = self.http.get(url, cache_key="cases/" + url.rsplit("/", 1)[1] + ".html")
             if got is None:
                 self.fetch_errors.append(f"{url}: not found (404); skipped")
@@ -128,7 +137,7 @@ class UkscPdfConnector:
             if "html" not in str(meta.get("content_type") or "").lower() or case_id.encode() not in page:
                 self.fetch_errors.append(f"{url}: not the case page of {case_id}; skipped")
                 continue
-            found, link = CITATION.search(page), PDF_LINK.search(page)
+            found, link = CITATION.search(page), pdf_link.search(page)
             if not found or not link:
                 self.not_yet_judged.append(case_id)  # an appeal without a judgment (yet)
                 continue
@@ -139,7 +148,7 @@ class UkscPdfConnector:
                 continue
             pdf_url = link.group(1).decode()
             if not robots_allows(robots, self.http.user_agent, pdf_url):
-                raise FetchError(f"{pdf_url}: disallowed by {ROBOTS_URL}; not fetched")
+                raise FetchError(f"{pdf_url}: disallowed by {robots_url}; not fetched")
             pdf = self.http.get(pdf_url, cache_key="uploads/" + pdf_url.rsplit("/", 1)[1])
             if pdf is None:
                 self.fetch_errors.append(f"{pdf_url}: judgment PDF not found (404); {case_id} skipped")
@@ -161,7 +170,7 @@ class UkscPdfConnector:
                 }
             )
             yield RawDocument(
-                external_id=f"uksc-pdf:{case_id}",
+                external_id=f"{self.prefix.lower()}-pdf:{case_id}",
                 uri=pdf_url,
                 media_type="application/json",
                 content=content,

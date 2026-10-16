@@ -56,6 +56,7 @@ from ulis.sources.connectors.govinfo_usreports import UsReportsGovInfoConnector
 from ulis.sources.connectors.impo_uy import ImpoUyConnector
 from ulis.sources.connectors.infoleg_ar import InfolegArConnector
 from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
+from ulis.sources.connectors.jcpc import JcpcConnector, JcpcPdfConnector
 from ulis.sources.connectors.legilux import LegiluxConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.likumi_lv import LikumiLvConnector
@@ -315,6 +316,8 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "rechtspraak": RechtspraakConnector,
     "stj_dados_abertos": StjConnector,
     "rattspraxis_se": RattspraxisConnector,
+    "jcpc": JcpcConnector,
+    "jcpc_pdf": JcpcPdfConnector,
     "uksc": UkscConnector,
     "uksc_pdf": UkscPdfConnector,
     "moj_laws": MojLawsConnector,

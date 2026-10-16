@@ -251,6 +251,8 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "gb-legislation-gov-uk",
         "gb-uksc-judgments",
         "gb-uksc-judgments-pdf",
+        "gb-jcpc-judgments",
+        "gb-jcpc-judgments-pdf",
         "ca-justice-laws-xml",
         "au-qld-legislation",
         "au-tas-legislation",

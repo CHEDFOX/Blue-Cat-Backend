@@ -1,0 +1,76 @@
+# Judgments of the Judicial Committee of the Privy Council published as PDF on the Committee's own website (jcpc.uk): the judgments of 2009
+# to 2025 without an HTML page. Terms and access rules are those of gb-jcpc-judgments (read 2026-10-16): robots.txt "User-agent: *" /
+# "Disallow: /contact-us/book-room-hearing"; https://jcpc.uk/about/terms-and-conditions grants the Open Government Licence for Crown
+# copyright material on the site. https://jcpc.uk/sitemap.xml lists 1,002 case pages /cases/jcpc-<year>-<number>; each has the case id,
+# title, judgment date, neutral citation, the justices and the link to the judgment PDF (/uploads/jcpc_<year>_<number>_judgment_<hash>.pdf).
+#   Not used: the National Archives' Find Case Law (computational analysis needs a licence, see gb-find-case-law) and BAILII (robots
+#        disallow).
+schema_version: 1
+id: gb-jcpc-judgments-pdf
+name: Privy Council judgments (jcpc.uk, PDF)
+publisher: The Judicial Committee of the Privy Council (UK)
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [GB]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  The judgments of the Judicial Committee of the Privy Council from 2009 (neutral citations [2009] UKPC 1 on) that the Committee publishes as
+  PDF on its website: the case page (case id, title, date, neutral citation, justices) and the judgment text, with its numbered
+  paragraphs. About 860 case pages are listed; appeals without a judgment yet and joined appeals (the same judgment) are skipped. The
+  judgments that the Committee also publishes as HTML are in gb-jcpc-judgments.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/gb-jcpc-judgments-pdf.yaml
+  authentication: none
+update_frequency: >-
+  When the Committee hands down a judgment; ULIS re-reads the sitemap (scripts/build_uksc_pdf_manifest.py --court jcpc) and extends the
+  manifest. A case page is fetched again only with an empty cache (a page cached before its judgment was given must be removed from the
+  cache).
+rate_limits: >-
+  None published. ULIS makes one request at a time, 5 s apart (about 860 case pages and about 600 PDFs: 2 hours), with an identifying
+  User-Agent, and caches every page and PDF under var/sources/jcpc.uk/.
+licence:
+  id: OGL-UK-3.0
+  name: Open Government Licence v3.0 (Crown copyright material on the Privy Council's website)
+  url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the Committee's terms and conditions page, its robots.txt and the licence text (read 2026-10-16). Its
+    statement covers "Crown copyright material from this website"; judgments are Crown copyright (to verify). Not reviewed by counsel.
+  reviewed_on: 2026-10-16
+  redistribution: allowed
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: true
+  attribution_text: >-
+    Contains public sector information licensed under the Open Government Licence v3.0. Source: The Judicial Committee of the Privy
+    Council (jcpc.uk). Judgment text as published on the Committee's website (PDF text layer); not the signed judgment.
+    Paragraphs recovered from the PDF by ULIS.
+  conditions:
+    - Acknowledge the source with the OGL attribution statement and a link to the licence; reproduce the text accurately and not in a misleading context (the Committee's condition).
+    - The licence does not cover personal data in the Information or third-party rights; some judgments carry reporting restrictions (anonymity orders), which ULIS leaves as published.
+    - No endorsement by the Court or the Crown may be suggested.
+  notes: >-
+    The Committee's terms grant OGL for its website content; no restriction on automated access or computational analysis is stated
+    on the Committee's site or in robots.txt. The Find Case Law licence question concerns the National Archives' own service.
+    Counsel review recommended before production use.
+provenance: >-
+  https://jcpc.uk/cases/jcpc-<year>-<number> and the judgment PDF it links, fetched with an identifying User-Agent; both are cached byte for
+  byte with their URL and retrieval time under var/sources/jcpc.uk/ and stored unchanged in one JSON bundle.
+known_limitations:
+  - >-
+    The text is the text layer of the Committee's PDF, read with pdftotext. Page footers are removed and the lines of a paragraph are
+    joined; footnotes stay where the PDF puts them (the end of the paragraph that ends the page); tables and quotations in another
+    layout may be joined into their paragraph; headings are recognised by a heuristic (a short line after a finished sentence). A PDF
+    without a text layer is skipped (no OCR).
+  - Numbered paragraphs are read from the text (1., 2., 3. ...); a quoted numbered passage stays unnumbered. The paragraph numbers of
+    a judgment with several opinions that restart at 1 are kept, with a suffix on the identifier.
+  - >-
+    There are no hyperlinks in the PDF, so legislation is not linked; links to other judgments are by the pattern "[yyyy] UKSC n" or "[yyyy] UKPC n"
+    only. Later treatment of a judgment is not recorded.
+  - Website version of the judgment, not the signed judgment. Joined appeals have one page per case number; only the first is read. The Committee is not part of the UK court hierarchy (see gb-jcpc-judgments).
+status: active
+connector: jcpc_pdf
+parser: uksc_pdf

@@ -40,13 +40,13 @@ from typing import Any
 
 from ulis.sources.normalized import ParsedDocument, ParsedJudgmentMeta, ParsedParagraph, ParsedRef, ParseSkipped
 from ulis.sources.parsers.pdf_text import PdfTextError, pdf_pages
-from ulis.sources.parsers.uksc_html import SPACE, UkscParseError, _by_id, _date
+from ulis.sources.parsers.uksc_html import COURTS, SPACE, UkscParseError, _by_id, _date
 
 PARSER_VERSION = "1.0.0"
 BUNDLE_SCHEMA = "ulis.uksc-pdf-bundle.v1"
-NEUTRAL = re.compile(r"^\[(\d{4})\] UKSC (\d{1,3})$")
-OWN_COURT_CITATION = re.compile(r"\[(\d{4})\] UKSC (\d{1,3})(?!\d)")
-CASE_ID = re.compile(r"^UKSC/(\d{4})/(\d{4})$")
+NEUTRAL = re.compile(r"^\[(\d{4})\] (UKSC|UKPC) (\d{1,3})$")
+OWN_COURT_CITATION = re.compile(r"\[(\d{4})\] (UKSC|UKPC) (\d{1,3})(?!\d)")
+CASE_ID = re.compile(r"^(UKSC|JCPC)/(\d{4})/(\d{4})$")
 FOOTER = re.compile(r"^Page \d+$")
 NUM_ALONE = re.compile(r"^(\d{1,4})\.$")
 NUM_INLINE = re.compile(r"^(\d{1,4})\.\s+(\S.*)$")
@@ -143,10 +143,11 @@ def parse_uksc_pdf(content: bytes) -> list[ParsedDocument]:
     m = CASE_ID.match(case_id or "")
     if not m:
         raise UkscPdfParseError(f"no case id (UKSC/yyyy/nnnn) on the case page: {case_id!r}")
+    court_id, series = COURTS[m.group(1)]
     title = html_lib.unescape(_by_id(html, "h1", "case-title") or "")
     citation = _by_id(html, "p", "neutral-citation-number")
     nc = NEUTRAL.match(citation or "")
-    if not title or not nc:
+    if not title or not nc or nc.group(2) != series:
         raise UkscPdfParseError(f"{case_id}: no case title or no neutral citation ({citation!r})")
     try:
         decision_date = _date(_by_id(html, "p", "judgment-date"), "judgment date")
@@ -165,9 +166,9 @@ def parse_uksc_pdf(content: bytes) -> list[ParsedDocument]:
     if sum(len(ln) for ln in lines) < MIN_TEXT_CHARS:
         raise ParseSkipped(f"{case_id}: the PDF has no text layer (a scan); ULIS does no OCR")
 
-    year, number = nc.group(1), nc.group(2)
-    own = f"[{year}] UKSC {number}"
-    appealed = re.search(r"On appeal from:\s*(.+)", "\n".join(pages[:2]))
+    year, number = nc.group(1), nc.group(3)
+    own = f"[{year}] {series} {number}"
+    appealed = re.search(r"On appeals? from:\s*(.+)", "\n".join(pages[:2]))
 
     def number_at(i: int) -> tuple[int, str | None] | None:
         a, b = NUM_ALONE.match(lines[i]), NUM_INLINE.match(lines[i])
@@ -186,7 +187,7 @@ def parse_uksc_pdf(content: bytes) -> list[ParsedDocument]:
 
     units: list[tuple[str, str | None, str]] = []  # (kind, number, text)
     buf: list[str] = []
-    current: str | None = None  # the number of the paragraph being collected, None before paragraph 1
+    current: int | None = None  # the number of the paragraph being collected, None before paragraph 1
     expected = 1
 
     def flush_text_block(block: list[str]) -> None:
@@ -244,8 +245,8 @@ def parse_uksc_pdf(content: bytes) -> list[ParsedDocument]:
         refs: list[ParsedRef] = []
         seen: set[str] = set()
         for cited in OWN_COURT_CITATION.finditer(text):
-            target = f"[{cited.group(1)}] UKSC {cited.group(2)}"
-            href = f"/gb/uksc/{cited.group(1)}/{int(cited.group(2))}"
+            target = f"[{cited.group(1)}] {cited.group(2)} {cited.group(3)}"
+            href = f"/gb/{cited.group(2).lower()}/{cited.group(1)}/{int(cited.group(3))}"
             if target != own and href not in seen:
                 seen.add(href)
                 refs.append(ParsedRef(href, target, "cites", extraction_method="pattern"))
@@ -255,7 +256,7 @@ def parse_uksc_pdf(content: bytes) -> list[ParsedDocument]:
             )
         )
 
-    work_uri = f"/gb/uksc/{year}/{int(number)}"
+    work_uri = f"/gb/{series.lower()}/{year}/{int(number)}"
     ext: dict[str, Any] = {
         "case_id": case_id,
         "judgment_appealed": appealed.group(1).strip() if appealed else None,
@@ -283,7 +284,7 @@ def parse_uksc_pdf(content: bytes) -> list[ParsedDocument]:
             ext_module="gb",
             ext={k: v for k, v in ext.items() if v not in (None, [], "")},
             judgment=ParsedJudgmentMeta(
-                court_id="GB-UKSC",
+                court_id=court_id,
                 case_name=title,
                 neutral_citation=own,
                 decision_date=decision_date,
