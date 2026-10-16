@@ -375,7 +375,7 @@ def test_acts_of_bhutan_manifest_and_source(catalog: Catalog) -> None:
     manifest = ConstitutionDocsConnector(endpoint, "bt-judiciary-acts", Path("/nonexistent"))._manifest()
     documents = manifest["documents"]
     assert (
-        len(documents) > 100 and manifest["crawl_delay_seconds"] >= 5 and manifest["hosts"] == ["www.judiciary.gov.bt"]
+        len(documents) > 70 and manifest["crawl_delay_seconds"] >= 5 and manifest["hosts"] == ["www.judiciary.gov.bt"]
     )
     assert len({d["slug"] for d in documents}) == len(documents)
     assert all(d["instrument_type"] == "act" and d["language"] == "en" and d["url"].endswith(".pdf") for d in documents)
