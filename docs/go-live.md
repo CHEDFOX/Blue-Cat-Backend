@@ -16,14 +16,19 @@ date it was checked against; a date before the data starts is reported as "canno
 | `se-riksdagen-sfs` | Sweden | 5,336 | 7 h 25 min |
 | `de-gesetze-im-internet` | Germany | 6,139 federal laws | 8 h 30 min |
 | `es-boe-consolidada` | Spain | 6,826 State norms in force | 9 h 30 min |
-| `gb-legislation-gov-uk` | UK | 7,178 Acts and similar, every version, repealed ones included | 10 h |
+| `gb-legislation-gov-uk` | UK | 7,178 Acts and similar, every version, repealed ones included (28,200 requests, one per version) | **39 h** |
 | `jp-egov-laws` | Japan | 8,989 | 12 h 30 min |
 | `fi-finlex` | Finland | 11,158 requests | 15 h 30 min |
-| `gb-legislation-gov-uk-secondary` | UK | 17,878 revised statutory instruments | 25 h |
+| `gb-legislation-gov-uk-secondary` | UK | 17,878 revised statutory instruments (48,700 requests) | **68 h** |
 
-About 90 hours of waiting one source after the other. `--jobs 6` loads several at once, never two from the same website, so the
-UK pair (same host) is the longest path at about 35 hours; allow **two days** for the first fill including parsing and indexing.
-After that, `load-all --refresh` (weekly timer) fetches only what changed.
+The `dry-run` column counts one request per document; the UK sources fetch every version of a law, so their real figures (39 h and
+68 h, from the slice runs in `docs/markets/uk.md`) are about four times the dry-run's 10 h and 25 h. Sequentially the nine countries
+take about 160 hours of waiting. `--jobs 6` loads several at once, never two from the same website: everything except the UK is
+done within about 16 hours (the longest single source is Finland), and the two UK sources share one website, so they run one after
+the other: **39 h for the Acts, then 68 h for the instruments, about 4.5 days in all**. Parsing and indexing come on top.
+Go live as soon as the Acts have loaded (about 2 days in) and let the statutory instruments finish in the background: each source
+is its own transaction and searchable as soon as it commits. After the first fill, `load-all --refresh` (weekly timer) fetches only
+what changed.
 
 ## Size (estimates from slices, plus or minus 50 percent; not measured on a full load)
 
