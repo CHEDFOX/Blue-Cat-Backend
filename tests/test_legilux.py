@@ -251,7 +251,9 @@ def test_file_url_and_committed_manifest() -> None:
     paths = {w["path"] for w in data["works"]}
     assert len(paths) > 1000 and {"code/civil", "code/penal", "code/travail", CONSTITUTION, LOI} <= paths
     assert not any(p.startswith(("recueil/", "adm/")) for p in paths)
-    assert next(w for w in data["works"] if w["path"] == "code/civil")["consolidations"][0] == "2016-09-01"
+    # Only the latest consolidation of each work is listed (`--history` on the script lists them all).
+    assert all(len(w["consolidations"]) == 1 for w in data["works"])
+    assert next(w for w in data["works"] if w["path"] == "code/civil")["consolidations"] == ["2025-12-26"]
 
 
 def _put(cache: Path, url: str, data: bytes, content_type: str = "application/xml") -> None:

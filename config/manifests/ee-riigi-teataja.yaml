@@ -35,9 +35,9 @@
 # with some 1 000 provisions each, its regulations 2 000-6 000 with some 70 (not measured: the first part, 30/100, chooses
 # winners among the texts it holds, so it overstates). Estimated: 16 000-21 000 documents, about 2 million provision
 # versions, a database of 4-6 GB (below the 15 GB limit, so nothing is left out by default) and 7-8 GB of raw XML in the
-# object store (stored uncompressed). To leave the municipalities out (volikogu and valitsus: about two thirds of the
-# documents, a quarter of the database) add to `select` the line
-#   exclude_issuers: "(Vallavolikogu|Vallavalitsus|Linnavolikogu|Linnavalitsus)$"
+# object store (stored uncompressed). The municipalities (volikogu and valitsus: about two thirds of the documents, a
+# quarter of the database; ULIS has no profile for the local governments, so their rules would be filed as national
+# law) are left out by `exclude_issuers` below; delete that line to load them too.
 schema_version: 1
 source_id: ee-riigi-teataja
 base_url: https://www.riigiteataja.ee
@@ -84,4 +84,5 @@ works:
 select:
   document_types: [seadus, määrus]
   as_of: archive
+  exclude_issuers: "(Vallavolikogu|Vallavalitsus|Linnavolikogu|Linnavalitsus)$"
   max_member_bytes: 50000000

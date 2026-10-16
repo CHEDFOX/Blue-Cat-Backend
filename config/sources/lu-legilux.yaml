@@ -13,7 +13,9 @@ coverage: >-
   (codes, the Constitution, laws, grand-ducal and ministerial regulations) and legislative drafts, with linked
   data (JOLux and ELI) on a SPARQL endpoint. ULIS ingests the French Akoma Ntoso XML of the consolidations under
   /eli/etat/leg/ that have an XML file: the Constitution, 10 codes (some codes exist only as HTML, PDF and Word
-  files), consolidated laws and regulations, in every consolidation date listed in config/manifests/lu-legilux.yaml.
+  files), consolidated laws and regulations: the LATEST consolidation of each work (the text in force today; 1,214
+  works), as listed in config/manifests/lu-legilux.yaml. The 1,691 earlier consolidations are left out unless the
+  manifest is rebuilt with `--history`.
 access:
   method: api
   endpoint: config/manifests/lu-legilux.yaml
@@ -87,6 +89,7 @@ provenance: >-
   the Akoma Ntoso XML file of each consolidation.
 known_limitations:
   - Consolidations have no legal value; the Mémorial A prevails.
+  - Only the latest consolidation of each work is loaded, so a question about a date before that consolidation finds nothing for the work; the manifest can be rebuilt with `--history` to load the earlier ones.
   - Only consolidations with an XML file are ingested; 1,018 consolidations (for example the Code de l'environnement, the Code de la sécurité sociale and most of the Code de la santé) exist only as HTML, PDF and Word files and are not ingested.
   - Recueils (thematic compilations), administrative acts, texts of the Mémorial B and C, legislative drafts, EU texts, treaties and case law are not ingested.
   - Annexes, the subject index of codes and unnumbered content directly under a chapter are not read; acts that are a single unnumbered text (decisions, statutes) are skipped.

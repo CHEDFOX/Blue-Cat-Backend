@@ -52,9 +52,9 @@ coverage: >-
   consolidated texts of six acts pinned in the manifest with their history - the Constitution (four versions, 2011-2026),
   the Personal Data Protection Act (three), the Employment Contracts Act (two), the Penal Code, the Law of Obligations Act
   and the Administrative Procedure Act - and (b) the text in force on the archive's date (2026-10-11) of every act (seadus)
-  and regulation (määrus) of the state and of the local governments, found by reading the archive: an estimated 16 000-21 000
-  acts and regulations (3 000-8 000 of the state, about 13 000 of the local governments; the count is known only after the scan),
-  in Estonian. The local governments' regulations can be left out with `exclude_issuers` in the manifest.
+  and regulation (määrus) of the state, found by reading the archive: an estimated 3 000-8 000 acts and regulations (the
+  count is known only after the scan), in Estonian. The about 13 000 regulations of the local governments (volikogu,
+  valitsus) are left out by `exclude_issuers` in the manifest (delete that line to load them).
 access:
   method: bulk_download
   endpoint: config/manifests/ee-riigi-teataja.yaml
@@ -108,7 +108,7 @@ known_limitations:
   - XML dates may carry a time-zone offset (e.g. 2019-01-15+02:00); ULIS uses the calendar date as written. Riigi Teataja's web pages may display some dates one day earlier.
   - History only for the six pinned works (for Isikuandmete kaitse seadus without 2023-11-01 to 2026-03-15); every other act has the one text in force on 2026-10-11, and texts that start later (published in advance) are not ingested.
   - The text in force is the group's latest consolidated text up to the archive's date, because the XML does not always give the end of a superseded text (so the end date is not used). Acts whose newest text is an empty tombstone (repealed), an old HTML fragment, larger than 50 MB or disallowed by robots.txt (5 647 ids) are not ingested, and no older text of them is.
-  - Only acts (seadus) and regulations (määrus), of the state and of the local governments; decisions, orders (korraldus, käskkiri, otsus), treaties and drafts (eelnõu, the publisher's schema examples) are not.
+  - Only acts (seadus) and regulations (määrus), of the state (the local governments are left out by default); decisions, orders (korraldus, käskkiri, otsus), treaties and drafts (eelnõu, the publisher's schema examples) are not.
   - Annexes, the introductory formula, tables other than as text, and cross-reference links are not ingested.
   - The archive is regenerated; members may be added or corrected after retrieval. A re-fetched member whose bytes differ is refused as a conflict with the version already recorded.
   - The publisher's terms for the open data could not be read (JavaScript application); see licence notes.

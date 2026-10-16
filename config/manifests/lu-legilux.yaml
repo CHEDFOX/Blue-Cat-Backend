@@ -5,9 +5,11 @@
 # filestore of the Legilux website, legilux.public.lu/filestore/ (see config/sources/lu-legilux.yaml).
 # Consolidated texts have no legal value: the authentic text is the one published in the Mémorial A.
 # Licence: CC BY 4.0, attribution to the Ministère d'Etat - Service central de législation.
+# Only the latest consolidation of each work (the text in force today) is listed; the 1,691 earlier
+# consolidations of the same works are left out. `--history` lists them all.
 schema_version: 1
 source_id: lu-legilux
-built_on: '2026-10-14'
+built_on: '2026-10-16'
 sparql_endpoint: https://data.legilux.public.lu/sparqlendpoint
 user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
 crawl_delay_seconds: 5
@@ -31,26 +33,18 @@ works:
   - '2022-05-22'
 - path: agd/1923/06/29/n1/consolide
   consolidations:
-  - '1924-08-01'
-  - '1943-01-20'
-  - '1960-07-09'
-  - '2018-05-22'
   - '2023-10-09'
 - path: agd/1927/05/04/n1/consolide
   consolidations:
-  - '1929-01-23'
   - '1930-01-29'
 - path: agd/1945/09/24/n11/consolide
   consolidations:
   - '1985-03-16'
 - path: agd/1946/03/30/n9/consolide
   consolidations:
-  - '1967-06-05'
   - '2004-01-04'
 - path: agd/1960/08/20/n1/consolide
   consolidations:
-  - '1960-08-24'
-  - '1965-08-25'
   - '1986-11-10'
 - path: agd/1961/03/08/n1/consolide
   consolidations:
@@ -66,7 +60,6 @@ works:
   - '2017-10-09'
 - path: agd/2020/10/09/a817/consolide
   consolidations:
-  - '2022-04-04'
   - '2026-08-31'
 - path: agd/2022/03/14/a133/consolide
   consolidations:
@@ -76,7 +69,6 @@ works:
   - '2023-11-20'
 - path: agd/2023/11/17/a743/consolide
   consolidations:
-  - '2023-12-18'
   - '2025-12-11'
 - path: agd/2026/02/05/a80/consolide
   consolidations:
@@ -86,19 +78,12 @@ works:
   - '2010-07-03'
 - path: amin/2020/03/16/a149/consolide
   consolidations:
-  - '2020-03-23'
   - '2020-05-04'
 - path: amin/2020/04/21/a317/consolide
   consolidations:
   - '2020-11-22'
 - path: amin/2021/04/06/a270/consolide
   consolidations:
-  - '2021-04-23'
-  - '2021-05-19'
-  - '2021-06-03'
-  - '2021-06-09'
-  - '2021-06-16'
-  - '2021-06-30'
   - '2021-12-21'
 - path: amin/2021/12/07/a840/consolide
   consolidations:
@@ -114,252 +99,39 @@ works:
   - '1961-07-11'
 - path: code/civil
   consolidations:
-  - '2016-09-01'
-  - '2017-04-01'
-  - '2018-04-01'
-  - '2018-07-09'
-  - '2018-09-16'
-  - '2018-11-01'
-  - '2019-04-28'
-  - '2020-01-01'
-  - '2021-12-26'
-  - '2022-01-01'
-  - '2022-07-01'
-  - '2023-02-01'
-  - '2023-08-01'
-  - '2023-08-22'
-  - '2023-09-23'
-  - '2024-08-01'
-  - '2024-12-24'
-  - '2025-04-20'
   - '2025-12-26'
 - path: code/commerce
   consolidations:
-  - '2010-12-21'
-  - '2015-08-01'
-  - '2016-01-01'
-  - '2023-02-01'
-  - '2023-11-01'
-  - '2025-12-23'
   - '2026-08-03'
 - path: code/consommation
   consolidations:
-  - '2018-07-01'
-  - '2021-03-01'
-  - '2021-07-30'
-  - '2021-12-06'
-  - '2022-01-01'
-  - '2022-05-28'
-  - '2022-11-25'
-  - '2022-12-04'
-  - '2024-07-22'
-  - '2024-09-10'
-  - '2024-12-31'
-  - '2025-10-19'
-  - '2025-11-25'
-  - '2026-05-15'
   - '2026-09-27'
 - path: code/fonction_publique
   consolidations:
-  - '2024-08-04'
-  - '2024-08-06'
-  - '2024-09-16'
-  - '2024-12-15'
-  - '2025-01-01'
-  - '2025-04-01'
-  - '2025-04-29'
-  - '2025-09-01'
-  - '2025-12-01'
-  - '2025-12-15'
-  - '2026-01-01'
-  - '2026-02-01'
-  - '2026-05-01'
-  - '2026-06-01'
-  - '2026-06-12'
-  - '2026-07-01'
-  - '2026-07-17'
-  - '2026-08-29'
-  - '2026-09-01'
-  - '2026-09-15'
   - '2026-10-11'
 - path: code/instruction_criminelle
   consolidations:
   - '2016-10-01'
 - path: code/penal
   consolidations:
-  - '2016-07-10'
-  - '2017-04-01'
-  - '2017-09-05'
-  - '2018-03-13'
-  - '2018-06-01'
-  - '2018-07-09'
-  - '2018-08-03'
-  - '2018-09-15'
-  - '2018-09-16'
-  - '2018-11-01'
-  - '2019-04-02'
-  - '2019-06-16'
-  - '2020-03-13'
-  - '2020-03-20'
-  - '2021-04-30'
-  - '2021-07-30'
-  - '2021-12-24'
-  - '2021-12-26'
-  - '2022-04-12'
-  - '2022-05-01'
-  - '2022-07-04'
-  - '2022-07-05'
-  - '2022-07-24'
-  - '2022-08-12'
-  - '2023-01-01'
-  - '2023-03-07'
-  - '2023-04-07'
-  - '2023-07-01'
-  - '2023-08-22'
-  - '2023-09-05'
-  - '2023-11-01'
-  - '2024-03-08'
-  - '2024-12-28'
-  - '2025-03-11'
-  - '2025-08-04'
   - '2025-12-19'
 - path: code/procedure_civile
   consolidations:
-  - '2015-09-01'
-  - '2017-05-27'
-  - '2018-05-22'
-  - '2018-08-04'
-  - '2018-09-15'
-  - '2019-01-01'
-  - '2019-08-24'
-  - '2021-07-23'
-  - '2021-09-16'
-  - '2021-12-26'
-  - '2023-02-01'
-  - '2023-04-25'
-  - '2023-07-24'
-  - '2023-08-22'
-  - '2023-09-16'
-  - '2023-11-01'
   - '2025-12-19'
 - path: code/procedure_penale
   consolidations:
-  - '2017-04-01'
-  - '2017-05-27'
-  - '2017-07-03'
-  - '2017-09-05'
-  - '2018-04-01'
-  - '2018-07-09'
-  - '2018-08-01'
-  - '2018-08-03'
-  - '2018-09-15'
-  - '2018-09-16'
-  - '2018-11-01'
-  - '2019-08-24'
-  - '2020-03-13'
-  - '2020-03-20'
-  - '2020-12-21'
-  - '2021-12-14'
-  - '2021-12-24'
-  - '2021-12-26'
-  - '2022-07-05'
-  - '2022-08-09'
-  - '2022-08-12'
-  - '2022-10-01'
-  - '2023-01-01'
-  - '2023-02-10'
-  - '2023-07-01'
-  - '2023-07-24'
-  - '2023-08-22'
-  - '2024-12-24'
-  - '2025-01-31'
-  - '2025-07-28'
-  - '2025-08-04'
-  - '2025-12-19'
-  - '2025-12-26'
-  - '2026-03-07'
-  - '2026-03-17'
   - '2026-06-07'
 - path: code/sante
   consolidations:
-  - '2026-05-12'
-  - '2026-07-13'
   - '2026-08-10'
 - path: code/travail
   consolidations:
-  - '2020-11-01'
-  - '2020-12-22'
-  - '2021-01-01'
-  - '2021-01-21'
-  - '2021-01-26'
-  - '2021-04-23'
-  - '2021-09-16'
-  - '2021-11-29'
-  - '2022-04-16'
-  - '2022-12-08'
-  - '2022-12-27'
-  - '2023-01-01'
-  - '2023-02-01'
-  - '2023-04-09'
-  - '2023-07-04'
-  - '2023-08-20'
-  - '2023-08-21'
-  - '2023-08-22'
-  - '2023-09-01'
-  - '2023-09-15'
-  - '2024-02-27'
-  - '2024-08-04'
-  - '2025-01-01'
-  - '2025-04-01'
-  - '2025-06-28'
-  - '2026-01-01'
-  - '2026-03-10'
-  - '2026-07-01'
   - '2026-07-26'
 - path: constitution/1868/10/17/n1/consolide
   consolidations:
-  - '1919-05-20'
-  - '1948-05-02'
-  - '1948-05-14'
-  - '1948-05-23'
-  - '1948-06-02'
-  - '1956-08-24'
-  - '1956-11-07'
-  - '1972-02-01'
-  - '1979-07-13'
-  - '1983-12-05'
-  - '1988-12-25'
-  - '1989-04-18'
-  - '1989-05-15'
-  - '1989-07-14'
-  - '1994-12-28'
-  - '1997-01-01'
-  - '1998-01-24'
-  - '1999-05-09'
-  - '1999-06-12'
-  - '2000-08-29'
-  - '2003-02-25'
-  - '2004-01-04'
-  - '2004-06-11'
-  - '2004-11-29'
-  - '2005-06-28'
-  - '2006-06-18'
-  - '2006-07-23'
-  - '2007-04-03'
-  - '2007-11-02'
-  - '2008-04-06'
-  - '2009-01-01'
-  - '2009-03-16'
-  - '2016-10-24'
-  - '2017-10-20'
-  - '2019-12-14'
-  - '2020-05-19'
-  - '2023-07-01'
   - '2026-08-29'
 - path: conv/2016/12/21/n1/consolide
   consolidations:
-  - '2019-01-01'
-  - '2021-02-11'
   - '2022-01-01'
 - path: conv/2020/11/25/a1029/consolide
   consolidations:
@@ -372,35 +144,27 @@ works:
   - '2024-06-17'
 - path: loi/1802/04/08/n1/consolide
   consolidations:
-  - '1998-08-24'
   - '2018-05-01'
 - path: loi/1807/09/05/n2/consolide
   consolidations:
-  - '2018-04-24'
   - '2022-07-05'
 - path: loi/1817/12/27/n1/consolide
   consolidations:
-  - '2018-01-01'
   - '2022-07-24'
 - path: loi/1843/01/13/n1/consolide
   consolidations:
-  - '1910-05-25'
-  - '1958-03-18'
   - '1973-03-16'
 - path: loi/1844/07/12/n1/consolide
   consolidations:
   - '1863-02-13'
 - path: loi/1859/12/17/n4/consolide
   consolidations:
-  - '2002-07-16'
   - '2009-07-07'
 - path: loi/1862/12/09/n1/consolide
   consolidations:
-  - '1939-02-01'
   - '1976-12-27'
 - path: loi/1873/04/30/n1/consolide
   consolidations:
-  - '1991-02-04'
   - '2016-09-01'
 - path: loi/1873/12/18/n3/consolide
   consolidations:
@@ -410,20 +174,12 @@ works:
   - '2002-01-01'
 - path: loi/1882/05/17/n1/consolide
   consolidations:
-  - '1884-01-02'
-  - '2008-06-01'
-  - '2014-08-01'
   - '2022-12-27'
 - path: loi/1883/12/28/n3/consolide
   consolidations:
   - '2015-10-03'
 - path: loi/1885/02/18/n3/consolide
   consolidations:
-  - '1989-04-14'
-  - '2004-07-19'
-  - '2010-08-16'
-  - '2021-09-16'
-  - '2023-07-01'
   - '2023-09-16'
 - path: loi/1885/03/25/n2/consolide
   consolidations:
@@ -436,32 +192,15 @@ works:
   - '2022-11-01'
 - path: loi/1906/05/29/n4/consolide
   consolidations:
-  - '1914-12-21'
-  - '1975-05-27'
-  - '1983-08-01'
   - '2002-08-05'
 - path: loi/1906/06/27/n3/consolide
   consolidations:
-  - '1977-03-12'
-  - '1993-09-10'
   - '2017-04-03'
 - path: loi/1912/07/27/n1/consolide
   consolidations:
-  - '1920-03-31'
-  - '1920-07-04'
-  - '1921-02-16'
-  - '1921-03-23'
-  - '1924-07-16'
   - '1927-08-24'
 - path: loi/1915/08/10/n1/consolide
   consolidations:
-  - '2017-12-19'
-  - '2021-08-16'
-  - '2023-08-01'
-  - '2023-08-22'
-  - '2023-11-01'
-  - '2024-06-22'
-  - '2025-03-02'
   - '2026-06-02'
 - path: loi/1919/10/15/n1/consolide
   consolidations:
@@ -471,13 +210,9 @@ works:
   - '2022-12-27'
 - path: loi/1922/05/24/n3/consolide
   consolidations:
-  - '1997-01-01'
   - '2023-07-01'
 - path: loi/1924/04/04/n1/consolide
   consolidations:
-  - '2021-10-30'
-  - '2023-08-20'
-  - '2024-04-02'
   - '2024-08-06'
 - path: loi/1936/12/01/n1/consolide
   consolidations:
@@ -487,28 +222,15 @@ works:
   - '2019-05-01'
 - path: loi/1948/01/31/n1/consolide
   consolidations:
-  - '2024-12-23'
-  - '2025-12-22'
-  - '2025-12-26'
   - '2026-05-01'
 - path: loi/1950/02/25/n1/consolide
   consolidations:
   - '2022-12-27'
 - path: loi/1952/03/01/n1/consolide
   consolidations:
-  - '1952-03-05'
-  - '1967-12-19'
-  - '1969-01-01'
-  - '1992-01-01'
-  - '1993-01-01'
-  - '1997-01-01'
-  - '1999-09-16'
-  - '2003-01-01'
-  - '2008-01-01'
   - '2017-01-01'
 - path: loi/1952/07/23/n1/consolide
   consolidations:
-  - '2021-06-07'
   - '2023-03-31'
 - path: loi/1953/06/26/n1/consolide
   consolidations:
@@ -527,25 +249,18 @@ works:
   - '1982-12-07'
 - path: loi/1960/07/30/n2/consolide
   consolidations:
-  - '2022-12-08'
   - '2025-06-01'
 - path: loi/1961/08/07/n1/consolide
   consolidations:
-  - '2019-12-14'
   - '2026-04-21'
 - path: loi/1962/01/08/n2/consolide
   consolidations:
-  - '1963-01-02'
   - '2023-11-01'
 - path: loi/1962/07/31/n2/consolide
   consolidations:
-  - '2016-07-15'
   - '2026-03-03'
 - path: loi/1963/06/22/n1/consolide
   consolidations:
-  - '2009-07-31'
-  - '2016-09-01'
-  - '2020-09-15'
   - '2021-01-01'
 - path: loi/1963/08/05/n1/consolide
   consolidations:
@@ -558,8 +273,6 @@ works:
   - '2018-05-27'
 - path: loi/1965/03/06/n1/consolide
   consolidations:
-  - '2007-10-01'
-  - '2015-06-01'
   - '2023-10-24'
 - path: loi/1966/03/21/n2/consolide
   consolidations:
@@ -569,32 +282,9 @@ works:
   - '2015-10-01'
 - path: loi/1967/02/25/n1/consolide
   consolidations:
-  - '1973-01-01'
-  - '1981-07-01'
-  - '2003-01-04'
   - '2016-07-01'
 - path: loi/1967/08/16/n1/consolide
   consolidations:
-  - '1972-09-24'
-  - '1979-08-13'
-  - '1980-12-31'
-  - '1986-09-10'
-  - '1995-09-12'
-  - '1997-08-22'
-  - '1998-06-13'
-  - '1999-01-01'
-  - '2002-07-16'
-  - '2004-01-04'
-  - '2006-01-01'
-  - '2007-04-01'
-  - '2008-04-21'
-  - '2009-06-08'
-  - '2010-01-01'
-  - '2013-09-10'
-  - '2017-12-22'
-  - '2018-04-24'
-  - '2018-09-21'
-  - '2021-12-21'
   - '2026-09-04'
 - path: loi/1969/03/10/n1/consolide
   consolidations:
@@ -613,14 +303,9 @@ works:
   - '1979-03-18'
 - path: loi/1971/07/07/n2/consolide
   consolidations:
-  - '2017-04-03'
-  - '2023-08-22'
   - '2023-11-01'
 - path: loi/1971/08/09/n2/consolide
   consolidations:
-  - '1971-09-10'
-  - '1975-12-07'
-  - '1980-12-23'
   - '2002-01-01'
 - path: loi/1972/06/23/n1/consolide
   consolidations:
@@ -630,8 +315,6 @@ works:
   - '2002-01-01'
 - path: loi/1973/02/19/n1/consolide
   consolidations:
-  - '2018-09-15'
-  - '2023-02-10'
   - '2023-07-21'
 - path: loi/1973/07/04/n2/consolide
   consolidations:
@@ -641,31 +324,24 @@ works:
   - '2022-01-17'
 - path: loi/1973/07/28/n3/consolide
   consolidations:
-  - '1973-08-21'
   - '2008-01-01'
 - path: loi/1973/10/04/n1/consolide
   consolidations:
   - '2008-01-01'
 - path: loi/1973/11/27/n1/consolide
   consolidations:
-  - '2003-01-01'
   - '2004-07-02'
 - path: loi/1974/03/26/n1/consolide
   consolidations:
   - '2007-01-01'
 - path: loi/1975/05/16/n1/consolide
   consolidations:
-  - '1985-05-13'
-  - '2017-04-08'
-  - '2022-10-01'
-  - '2023-08-01'
   - '2024-03-01'
 - path: loi/1975/08/04/n4/consolide
   consolidations:
   - '2017-06-23'
 - path: loi/1975/11/25/n1/consolide
   consolidations:
-  - '2021-07-16'
   - '2026-02-01'
 - path: loi/1975/12/10/n1/consolide
   consolidations:
@@ -675,61 +351,33 @@ works:
   - '2011-05-14'
 - path: loi/1976/06/21/n2/consolide
   consolidations:
-  - '2013-01-04'
   - '2023-09-04'
 - path: loi/1976/06/30/n1/consolide
   consolidations:
-  - '2017-01-01'
   - '2024-01-01'
 - path: loi/1976/07/21/n2/consolide
   consolidations:
-  - '2000-10-01'
   - '2021-08-09'
 - path: loi/1976/11/30/n3/consolide
   consolidations:
   - '2015-10-01'
 - path: loi/1976/12/09/n1/consolide
   consolidations:
-  - '1977-02-01'
-  - '1984-11-30'
-  - '1991-04-15'
-  - '1991-06-04'
-  - '1995-04-07'
-  - '1998-09-14'
-  - '2003-09-19'
-  - '2004-11-23'
-  - '2008-07-27'
-  - '2009-03-24'
-  - '2010-11-07'
-  - '2011-12-31'
-  - '2018-02-18'
-  - '2020-03-30'
-  - '2021-08-22'
-  - '2023-08-01'
   - '2023-08-22'
 - path: loi/1977/03/17/n1/consolide
   consolidations:
   - '2021-03-22'
 - path: loi/1977/04/20/n7/consolide
   consolidations:
-  - '1998-09-14'
-  - '2002-01-01'
-  - '2004-11-23'
-  - '2009-06-06'
-  - '2010-11-07'
-  - '2021-03-02'
-  - '2021-07-30'
   - '2023-08-22'
 - path: loi/1977/05/27/n2/consolide
   consolidations:
-  - '1988-10-01'
   - '1992-07-24'
 - path: loi/1977/08/02/n1/consolide
   consolidations:
   - '2007-01-01'
 - path: loi/1977/08/27/n1/consolide
   consolidations:
-  - '2008-12-28'
   - '2023-07-01'
 - path: loi/1977/10/31/n1/consolide
   consolidations:
@@ -739,7 +387,6 @@ works:
   - '2005-10-09'
 - path: loi/1978/11/15/n1/consolide
   consolidations:
-  - '2014-12-26'
   - '2025-08-04'
 - path: loi/1978/12/23/n6/consolide
   consolidations:
@@ -758,75 +405,42 @@ works:
   - '1979-03-18'
 - path: loi/1979/03/15/n3/consolide
   consolidations:
-  - '2004-07-19'
-  - '2013-09-10'
   - '2018-04-24'
 - path: loi/1979/03/15/n4/consolide
   consolidations:
   - '2017-04-03'
 - path: loi/1979/03/30/n1/consolide
   consolidations:
-  - '2003-12-01'
   - '2014-07-01'
 - path: loi/1979/04/13/n2/consolide
   consolidations:
   - '1979-08-01'
 - path: loi/1979/04/16/n1/consolide
   consolidations:
-  - '2022-07-15'
-  - '2022-12-27'
-  - '2023-02-01'
-  - '2023-07-01'
-  - '2023-08-21'
-  - '2023-08-22'
-  - '2024-02-27'
-  - '2024-08-04'
-  - '2024-12-15'
-  - '2025-12-15'
   - '2026-06-01'
 - path: loi/1979/04/16/n2/consolide
   consolidations:
-  - '2015-10-01'
   - '2018-07-01'
 - path: loi/1979/12/20/n2/consolide
   consolidations:
-  - '1998-09-23'
   - '2004-06-12'
 - path: loi/1980/03/07/n1/consolide
   consolidations:
-  - '2022-07-05'
-  - '2023-02-01'
-  - '2023-03-07'
-  - '2023-07-01'
-  - '2023-08-12'
-  - '2023-08-22'
-  - '2024-08-05'
-  - '2024-09-16'
-  - '2025-03-11'
-  - '2025-07-28'
-  - '2025-09-16'
-  - '2026-07-05'
-  - '2026-08-08'
   - '2026-09-16'
 - path: loi/1980/06/10/n1/consolide
   consolidations:
   - '2019-09-15'
 - path: loi/1980/07/26/n2/consolide
   consolidations:
-  - '1986-11-01'
-  - '2015-01-01'
   - '2019-01-01'
 - path: loi/1980/11/21/n1/consolide
   consolidations:
   - '2022-12-19'
 - path: loi/1981/03/11/n1/consolide
   consolidations:
-  - '1995-11-10'
   - '2001-04-03'
 - path: loi/1981/12/08/n2/consolide
   consolidations:
-  - '2015-10-03'
-  - '2016-09-01'
   - '2018-07-01'
 - path: loi/1981/12/30/n1/consolide
   consolidations:
@@ -839,9 +453,6 @@ works:
   - '2002-01-01'
 - path: loi/1982/06/18/n1/consolide
   consolidations:
-  - '1982-06-25'
-  - '1983-12-25'
-  - '2006-11-01'
   - '2018-07-09'
 - path: loi/1982/11/25/n2/consolide
   consolidations:
@@ -851,47 +462,30 @@ works:
   - '2011-11-01'
 - path: loi/1983/04/11/n4/consolide
   consolidations:
-  - '2021-12-06'
-  - '2025-11-25'
   - '2026-02-01'
 - path: loi/1983/04/29/n1/consolide
   consolidations:
-  - '2010-07-23'
-  - '2014-08-01'
-  - '2015-01-01'
-  - '2016-11-18'
-  - '2018-08-25'
-  - '2020-08-09'
   - '2023-08-03'
 - path: loi/1983/05/19/n1/consolide
   consolidations:
-  - '1993-08-01'
-  - '2022-10-03'
   - '2026-04-11'
 - path: loi/1983/07/18/n1/consolide
   consolidations:
   - '2017-04-01'
 - path: loi/1984/02/24/n1/consolide
   consolidations:
-  - '2018-10-01'
   - '2020-09-01'
 - path: loi/1984/03/20/n1/consolide
   consolidations:
   - '2015-10-01'
 - path: loi/1984/07/16/n1/consolide
   consolidations:
-  - '2011-03-20'
-  - '2013-01-01'
-  - '2014-05-04'
-  - '2018-04-01'
   - '2018-08-25'
 - path: loi/1985/12/18/n1/consolide
   consolidations:
-  - '2002-01-01'
   - '2017-04-03'
 - path: loi/1985/12/24/n3/consolide
   consolidations:
-  - '2023-08-21'
   - '2024-08-04'
 - path: loi/1985/12/24/n4/consolide
   consolidations:
@@ -904,29 +498,21 @@ works:
   - '2010-08-15'
 - path: loi/1987/12/02/n1/consolide
   consolidations:
-  - '2010-06-12'
   - '2017-07-03'
 - path: loi/1987/12/18/n1/consolide
   consolidations:
-  - '1994-01-01'
-  - '2010-02-23'
   - '2018-09-10'
 - path: loi/1988/03/19/n1/consolide
   consolidations:
-  - '1994-07-05'
   - '2025-01-01'
 - path: loi/1988/03/19/n2/consolide
   consolidations:
-  - '1999-03-30'
-  - '2004-04-01'
-  - '2014-04-01'
   - '2024-04-02'
 - path: loi/1988/09/01/n1/consolide
   consolidations:
   - '1994-09-16'
 - path: loi/1988/12/13/n1/consolide
   consolidations:
-  - '2011-02-20'
   - '2023-08-14'
 - path: loi/1988/12/13/n2/consolide
   consolidations:
@@ -936,8 +522,6 @@ works:
   - '2017-04-03'
 - path: loi/1989/03/24/n1/consolide
   consolidations:
-  - '2025-11-29'
-  - '2026-06-01'
   - '2026-07-01'
 - path: loi/1989/06/29/n1/consolide
   consolidations:
@@ -947,8 +531,6 @@ works:
   - '2010-02-23'
 - path: loi/1990/01/16/n1/consolide
   consolidations:
-  - '2001-07-10'
-  - '2014-08-01'
   - '2018-08-25'
 - path: loi/1990/01/24/n1/consolide
   consolidations:
@@ -964,26 +546,12 @@ works:
   - '2023-09-15'
 - path: loi/1990/11/09/n1/consolide
   consolidations:
-  - '1992-06-01'
-  - '1994-07-17'
-  - '2006-01-01'
-  - '2007-01-01'
-  - '2017-10-10'
   - '2024-12-31'
 - path: loi/1990/12/04/n3/consolide
   consolidations:
-  - '1993-09-19'
-  - '1995-04-07'
-  - '2003-09-19'
-  - '2018-02-18'
-  - '2020-03-30'
-  - '2020-04-07'
-  - '2023-07-03'
   - '2023-08-22'
 - path: loi/1991/03/25/n1/consolide
   consolidations:
-  - '1991-05-27'
-  - '2003-02-01'
   - '2016-06-01'
 - path: loi/1991/03/25/n2/consolide
   consolidations:
@@ -993,61 +561,36 @@ works:
   - '2023-11-01'
 - path: loi/1991/07/27/n1/consolide
   consolidations:
-  - '2022-08-21'
-  - '2024-08-05'
   - '2025-11-25'
 - path: loi/1991/07/31/n3/consolide
   consolidations:
-  - '2010-07-23'
-  - '2014-08-01'
-  - '2015-01-01'
   - '2016-11-18'
 - path: loi/1991/08/10/n3/consolide
   consolidations:
-  - '2021-08-22'
-  - '2023-01-01'
-  - '2023-07-03'
-  - '2023-09-16'
   - '2024-02-01'
 - path: loi/1992/03/17/n1/consolide
   consolidations:
   - '2021-12-24'
 - path: loi/1992/03/26/n1/consolide
   consolidations:
-  - '2010-08-03'
-  - '2023-06-30'
-  - '2025-12-22'
   - '2026-08-10'
 - path: loi/1992/06/17/n1/consolide
   consolidations:
-  - '1994-05-28'
-  - '2005-01-01'
-  - '2006-04-01'
   - '2009-06-16'
 - path: loi/1992/07/20/n1/consolide
   consolidations:
-  - '1998-06-21'
-  - '2001-09-04'
-  - '2004-05-03'
-  - '2006-04-23'
-  - '2008-05-03'
-  - '2009-06-01'
   - '2010-01-04'
 - path: loi/1992/07/27/n5/consolide
   consolidations:
-  - '2008-01-01'
   - '2021-06-07'
 - path: loi/1992/08/10/n1/consolide
   consolidations:
-  - '2011-07-21'
   - '2025-11-29'
 - path: loi/1992/12/01/n2/consolide
   consolidations:
-  - '2016-12-25'
   - '2024-05-10'
 - path: loi/1993/07/27/n2/consolide
   consolidations:
-  - '2013-01-04'
   - '2018-10-05'
 - path: loi/1993/07/27/n3/consolide
   consolidations:
@@ -1057,129 +600,78 @@ works:
   - '2016-07-10'
 - path: loi/1993/08/10/n1/consolide
   consolidations:
-  - '2013-09-10'
   - '2015-10-03'
 - path: loi/1993/10/07/n1/consolide
   consolidations:
   - '2022-07-15'
 - path: loi/1994/06/17/n1/consolide
   consolidations:
-  - '1994-07-01'
   - '2017-03-24'
 - path: loi/1994/06/17/n2/consolide
   consolidations:
-  - '2002-03-01'
-  - '2006-06-04'
   - '2006-09-01'
 - path: loi/1994/12/08/n2/consolide
   consolidations:
-  - '2017-01-01'
   - '2026-04-03'
 - path: loi/1995/01/06/n4/consolide
   consolidations:
-  - '2012-08-03'
-  - '2015-01-01'
-  - '2021-09-15'
-  - '2021-12-17'
   - '2026-02-01'
 - path: loi/1995/01/11/n1/consolide
   consolidations:
-  - '2010-07-23'
-  - '2010-08-03'
   - '2016-11-18'
 - path: loi/1995/05/10/n1/consolide
   consolidations:
-  - '2013-09-13'
   - '2014-09-05'
 - path: loi/1996/01/06/n1/consolide
   consolidations:
-  - '2004-11-01'
-  - '2012-06-05'
-  - '2017-12-22'
   - '2018-09-18'
 - path: loi/1996/01/08/n1/consolide
   consolidations:
   - '1998-01-01'
 - path: loi/1996/07/11/n2/consolide
   consolidations:
-  - '2010-09-15'
   - '2015-01-01'
 - path: loi/1996/11/07/n1/consolide
   consolidations:
-  - '2021-07-23'
-  - '2022-01-01'
-  - '2023-01-01'
-  - '2023-02-01'
-  - '2023-07-01'
-  - '2023-08-22'
-  - '2023-09-16'
-  - '2024-09-16'
   - '2025-09-16'
 - path: loi/1997/01/13/n1/consolide
   consolidations:
-  - '1997-01-28'
-  - '2004-01-27'
-  - '2013-01-01'
   - '2017-04-03'
 - path: loi/1997/07/27/n10/consolide
   consolidations:
-  - '2006-12-25'
-  - '2007-12-21'
-  - '2011-04-16'
-  - '2013-03-01'
-  - '2015-04-20'
-  - '2016-01-01'
-  - '2018-11-01'
-  - '2020-01-01'
-  - '2021-01-01'
   - '2025-11-25'
 - path: loi/1997/07/27/n6/consolide
   consolidations:
-  - '2019-12-14'
-  - '2022-01-01'
-  - '2023-07-01'
-  - '2023-07-03'
   - '2025-07-28'
 - path: loi/1998/01/31/n1/consolide
   consolidations:
   - '2023-08-22'
 - path: loi/1998/04/17/n1/consolide
   consolidations:
-  - '2005-05-10'
-  - '2010-02-23'
-  - '2018-09-15'
   - '2026-03-17'
 - path: loi/1998/06/19/n1/consolide
   consolidations:
-  - '1999-01-01'
-  - '2000-01-01'
   - '2007-01-01'
 - path: loi/1998/07/10/n6/consolide
   consolidations:
   - '2017-07-13'
 - path: loi/1998/08/03/n10/consolide
   consolidations:
-  - '2018-09-15'
-  - '2024-03-09'
   - '2026-01-01'
 - path: loi/1998/08/03/n13/consolide
   consolidations:
   - '2010-05-04'
 - path: loi/1998/08/28/n1/consolide
   consolidations:
-  - '2011-05-17'
   - '2011-05-28'
 - path: loi/1998/09/08/n4/consolide
   consolidations:
-  - '1998-09-28'
-  - '2011-08-09'
   - '2024-03-01'
 - path: loi/1998/12/23/n2/consolide
   consolidations:
   - '2025-02-10'
 - path: loi/1999/05/31/n6/consolide
   consolidations:
-  - '2002-01-01'
   - '2017-04-03'
 - path: loi/1999/05/31/n7/consolide
   consolidations:
@@ -1189,83 +681,45 @@ works:
   - '2018-09-18'
 - path: loi/1999/06/08/n2/consolide
   consolidations:
-  - '2023-09-02'
-  - '2023-11-01'
-  - '2025-01-01'
-  - '2026-01-01'
   - '2026-07-27'
 - path: loi/1999/06/08/n8/consolide
   consolidations:
-  - '2015-07-25'
   - '2018-08-25'
 - path: loi/1999/06/10/n5/consolide
   consolidations:
-  - '2011-11-04'
   - '2021-06-06'
 - path: loi/1999/06/15/n1/consolide
   consolidations:
-  - '2020-04-01'
   - '2026-09-15'
 - path: loi/1999/06/21/n1/consolide
   consolidations:
   - '2009-04-10'
 - path: loi/1999/06/21/n2/consolide
   consolidations:
-  - '2000-08-13'
-  - '2023-01-01'
   - '2023-09-16'
 - path: loi/1999/06/22/n1/consolide
   consolidations:
-  - '2000-01-01'
-  - '2002-07-05'
   - '2006-09-01'
 - path: loi/2000/06/29/n2/consolide
   consolidations:
-  - '2001-01-01'
   - '2005-01-01'
 - path: loi/2000/07/28/n2/consolide
   consolidations:
-  - '2015-10-01'
-  - '2022-09-01'
   - '2022-12-08'
 - path: loi/2000/08/08/n4/consolide
   consolidations:
-  - '2010-11-07'
-  - '2021-08-09'
   - '2022-08-12'
 - path: loi/2000/08/14/n8/consolide
   consolidations:
-  - '2004-01-04'
-  - '2004-07-20'
-  - '2006-12-25'
-  - '2008-01-01'
-  - '2008-05-03'
-  - '2008-06-01'
-  - '2009-11-01'
-  - '2011-04-16'
-  - '2014-04-26'
-  - '2020-08-01'
-  - '2021-12-06'
-  - '2025-04-11'
-  - '2025-11-25'
   - '2026-05-10'
 - path: loi/2001/02/23/n2/consolide
   consolidations:
-  - '2015-10-03'
-  - '2017-09-05'
   - '2023-02-01'
 - path: loi/2001/04/18/n2/consolide
   consolidations:
-  - '2004-05-03'
-  - '2009-06-01'
-  - '2015-02-17'
-  - '2018-04-29'
-  - '2020-04-07'
   - '2022-04-09'
 - path: loi/2001/07/24/n7/consolide
   consolidations:
-  - '2003-05-18'
-  - '2010-02-23'
   - '2022-12-23'
 - path: loi/2001/08/01/n16/consolide
   consolidations:
@@ -1278,8 +732,6 @@ works:
   - '2017-04-03'
 - path: loi/2002/06/28/n2/consolide
   consolidations:
-  - '2006-07-01'
-  - '2008-12-28'
   - '2011-01-01'
 - path: loi/2002/07/25/n2/consolide
   consolidations:
@@ -1289,24 +741,15 @@ works:
   - '2022-11-01'
 - path: loi/2002/07/30/n1/consolide
   consolidations:
-  - '2005-01-01'
-  - '2008-11-01'
-  - '2013-01-01'
-  - '2023-03-07'
   - '2025-07-01'
 - path: loi/2002/11/12/n1/consolide
   consolidations:
-  - '2014-09-01'
-  - '2021-07-30'
   - '2023-08-22'
   scheduled:
   - '2026-11-01'
   - '2027-02-01'
 - path: loi/2002/11/13/n1/consolide
   consolidations:
-  - '2007-06-30'
-  - '2008-12-26'
-  - '2015-04-07'
   - '2021-08-22'
 - path: loi/2002/12/19/n1/consolide
   consolidations:
@@ -1319,36 +762,21 @@ works:
   - '2024-04-26'
 - path: loi/2003/04/16/n2/consolide
   consolidations:
-  - '2007-06-17'
-  - '2007-10-01'
-  - '2013-01-01'
-  - '2023-10-24'
-  - '2024-04-06'
   - '2024-12-28'
 - path: loi/2003/05/19/n1/consolide
   consolidations:
-  - '2006-01-01'
-  - '2008-07-01'
-  - '2009-01-01'
   - '2021-12-21'
 - path: loi/2003/08/12/n9/consolide
   consolidations:
   - '2015-10-01'
 - path: loi/2003/08/22/n2/consolide
   consolidations:
-  - '2015-10-01'
   - '2023-07-01'
 - path: loi/2003/09/08/n1/consolide
   consolidations:
-  - '2013-09-01'
   - '2018-08-03'
 - path: loi/2003/09/12/n1/consolide
   consolidations:
-  - '2022-06-30'
-  - '2022-12-08'
-  - '2023-01-01'
-  - '2023-07-10'
-  - '2023-07-24'
   - '2025-01-01'
 - path: loi/2003/12/19/n14/consolide
   consolidations:
@@ -1358,46 +786,27 @@ works:
   - '2026-01-01'
 - path: loi/2004/03/17/n1/consolide
   consolidations:
-  - '2010-11-07'
-  - '2011-08-16'
-  - '2015-04-21'
-  - '2017-04-03'
-  - '2023-08-22'
   - '2024-03-08'
 - path: loi/2004/03/22/n1/consolide
   consolidations:
-  - '2009-01-01'
-  - '2010-02-23'
-  - '2013-01-01'
-  - '2013-04-19'
-  - '2016-01-01'
-  - '2016-06-01'
-  - '2021-07-30'
-  - '2022-03-08'
   - '2024-07-22'
 - path: loi/2004/04/18/n8/consolide
   consolidations:
-  - '2005-07-05'
   - '2013-04-15'
 - path: loi/2004/04/30/n1/consolide
   consolidations:
-  - '2015-01-01'
-  - '2019-01-01'
   - '2022-12-08'
 - path: loi/2004/05/26/n5/consolide
   consolidations:
   - '2022-12-23'
 - path: loi/2004/06/08/n4/consolide
   consolidations:
-  - '2010-05-04'
-  - '2024-07-26'
   - '2026-08-02'
 - path: loi/2004/06/15/n1/consolide
   consolidations:
   - '2023-07-28'
 - path: loi/2004/06/15/n2/consolide
   consolidations:
-  - '2017-04-09'
   - '2026-03-28'
 - path: loi/2004/06/25/n7/consolide
   consolidations:
@@ -1407,99 +816,63 @@ works:
   - '2025-02-23'
 - path: loi/2004/06/30/n6/consolide
   consolidations:
-  - '2009-06-19'
-  - '2013-01-04'
-  - '2017-06-06'
-  - '2018-10-05'
   - '2026-09-15'
 - path: loi/2004/07/09/n3/consolide
   consolidations:
-  - '2010-11-01'
   - '2018-11-01'
 - path: loi/2004/07/19/n1/consolide
   consolidations:
-  - '2021-01-01'
-  - '2023-10-01'
-  - '2024-11-11'
   - '2025-07-22'
 - path: loi/2004/11/12/n1/consolide
   consolidations:
-  - '2025-02-10'
-  - '2026-07-27'
   - '2026-08-08'
 - path: loi/2004/12/21/n4/consolide
   consolidations:
-  - '2007-01-01'
-  - '2010-04-13'
   - '2021-12-27'
 - path: loi/2005/02/04/n1/consolide
   consolidations:
-  - '2008-12-24'
-  - '2015-02-17'
-  - '2015-12-21'
-  - '2017-04-01'
   - '2018-03-16'
 - path: loi/2005/03/21/n1/consolide
   consolidations:
   - '2018-08-14'
 - path: loi/2005/05/30/n2/consolide
   consolidations:
-  - '2011-03-12'
   - '2024-07-27'
 - path: loi/2005/05/30/n3/consolide
   consolidations:
   - '2021-12-26'
 - path: loi/2005/05/30/n4/consolide
   consolidations:
-  - '2011-09-01'
   - '2020-12-25'
 - path: loi/2005/06/29/n1/consolide
   consolidations:
   - '2022-04-01'
 - path: loi/2005/07/13/n3/consolide
   consolidations:
-  - '2025-01-17'
   - '2026-04-03'
 - path: loi/2005/07/25/n2/consolide
   consolidations:
-  - '2009-05-24'
   - '2019-09-16'
 - path: loi/2005/08/03/n2/consolide
   consolidations:
-  - '2006-12-09'
-  - '2023-08-04'
   - '2024-01-01'
 - path: loi/2005/08/03/n3/consolide
   consolidations:
-  - '2009-01-03'
   - '2018-09-09'
 - path: loi/2005/08/05/n1/consolide
   consolidations:
-  - '2011-05-28'
-  - '2014-08-18'
-  - '2015-12-28'
-  - '2018-03-05'
-  - '2018-06-04'
-  - '2022-07-24'
-  - '2023-03-21'
-  - '2023-11-01'
   - '2024-07-22'
 - path: loi/2005/08/10/n2/consolide
   consolidations:
   - '2015-01-01'
 - path: loi/2005/12/09/n1/consolide
   consolidations:
-  - '2018-09-01'
-  - '2018-09-04'
-  - '2022-07-03'
   - '2024-12-15'
 - path: loi/2006/03/21/n1/consolide
   consolidations:
   - '2023-07-29'
 - path: loi/2006/05/19/n1/consolide
   consolidations:
-  - '2015-12-28'
-  - '2022-07-24'
   - '2026-04-03'
 - path: loi/2006/07/13/n2/consolide
   consolidations:
@@ -1509,42 +882,21 @@ works:
   - '2010-01-04'
 - path: loi/2006/08/11/n1/consolide
   consolidations:
-  - '2018-09-10'
   - '2026-01-01'
 - path: loi/2006/09/21/n1/consolide
   consolidations:
-  - '2008-11-01'
-  - '2015-10-03'
-  - '2015-11-01'
-  - '2017-01-01'
-  - '2017-09-01'
-  - '2018-09-18'
-  - '2020-01-01'
-  - '2024-08-01'
   - '2026-10-02'
 - path: loi/2006/11/28/n1/consolide
   consolidations:
-  - '2008-05-30'
-  - '2016-06-18'
   - '2018-01-01'
 - path: loi/2007/02/13/n1/consolide
   consolidations:
   - '2023-07-28'
 - path: loi/2007/05/11/n1/consolide
   consolidations:
-  - '2012-01-01'
-  - '2021-07-01'
-  - '2025-01-01'
   - '2025-12-23'
 - path: loi/2007/08/01/n13/consolide
   consolidations:
-  - '2009-12-28'
-  - '2011-01-01'
-  - '2012-08-26'
-  - '2015-07-04'
-  - '2021-02-09'
-  - '2021-06-08'
-  - '2022-08-01'
   - '2022-12-23'
 - path: loi/2007/08/01/n14/consolide
   consolidations:
@@ -1557,23 +909,18 @@ works:
   - '2022-01-01'
 - path: loi/2007/12/21/n1/consolide
   consolidations:
-  - '2012-07-09'
   - '2015-04-20'
 - path: loi/2007/12/21/n3/consolide
   consolidations:
   - '2021-06-07'
 - path: loi/2007/12/21/n8/consolide
   consolidations:
-  - '2012-01-01'
-  - '2016-12-25'
-  - '2020-01-01'
   - '2020-12-20'
 - path: loi/2008/01/11/n1/consolide
   consolidations:
   - '2025-07-10'
 - path: loi/2008/05/09/n2/consolide
   consolidations:
-  - '2011-11-21'
   - '2023-01-01'
 - path: loi/2008/05/13/n1/consolide
   consolidations:
@@ -1592,41 +939,15 @@ works:
   - '2026-01-01'
 - path: loi/2008/07/22/n3/consolide
   consolidations:
-  - '2018-09-17'
   - '2021-09-15'
 - path: loi/2008/08/29/n1/consolide
   consolidations:
-  - '2009-06-02'
-  - '2011-07-29'
-  - '2012-01-29'
-  - '2012-02-07'
-  - '2012-07-31'
-  - '2013-01-04'
-  - '2013-03-15'
-  - '2014-04-18'
-  - '2014-07-05'
-  - '2016-01-01'
-  - '2017-03-24'
-  - '2018-08-03'
-  - '2018-09-21'
-  - '2019-12-27'
-  - '2020-02-01'
-  - '2021-07-05'
-  - '2023-05-12'
-  - '2023-09-01'
-  - '2024-07-01'
-  - '2024-09-08'
-  - '2024-12-24'
   - '2026-06-12'
 - path: loi/2008/10/22/n1/consolide
   consolidations:
-  - '2017-04-01'
   - '2021-01-01'
 - path: loi/2008/12/16/n5/consolide
   consolidations:
-  - '2015-10-01'
-  - '2020-01-01'
-  - '2021-01-01'
   - '2022-12-27'
 - path: loi/2008/12/19/n12/consolide
   consolidations:
@@ -1636,26 +957,15 @@ works:
   - '2015-10-01'
 - path: loi/2008/12/19/n17/consolide
   consolidations:
-  - '2023-08-05'
-  - '2025-01-01'
   - '2026-01-01'
 - path: loi/2008/12/19/n18/consolide
   consolidations:
   - '2014-12-14'
 - path: loi/2008/12/19/n6/consolide
   consolidations:
-  - '2017-01-01'
-  - '2018-04-24'
-  - '2020-12-22'
-  - '2022-07-05'
-  - '2022-07-24'
-  - '2023-02-01'
-  - '2023-06-01'
   - '2024-12-27'
 - path: loi/2009/02/06/n3/consolide
   consolidations:
-  - '2013-09-16'
-  - '2023-07-31'
   - '2026-09-15'
   scheduled:
   - '2027-09-15'
@@ -1664,7 +974,6 @@ works:
   - '2030-09-15'
 - path: loi/2009/02/06/n4/consolide
   consolidations:
-  - '2013-09-16'
   - '2024-09-16'
 - path: loi/2009/03/16/n2/consolide
   consolidations:
@@ -1680,26 +989,18 @@ works:
   - '2022-11-04'
 - path: loi/2009/05/28/n1/consolide
   consolidations:
-  - '2015-10-01'
-  - '2016-01-01'
-  - '2017-03-24'
   - '2026-06-12'
 - path: loi/2009/05/28/n3/consolide
   consolidations:
   - '2011-06-03'
 - path: loi/2009/06/05/n10/consolide
   consolidations:
-  - '2012-04-28'
-  - '2020-09-08'
   - '2023-10-24'
 - path: loi/2009/06/19/n1/consolide
   consolidations:
   - '2016-09-15'
 - path: loi/2009/07/22/n1/consolide
   consolidations:
-  - '2011-12-31'
-  - '2012-10-18'
-  - '2015-10-01'
   - '2016-12-31'
 - path: loi/2009/11/10/n1/consolide
   consolidations:
@@ -1709,104 +1010,63 @@ works:
   - '2011-12-24'
 - path: loi/2009/12/10/n1/consolide
   consolidations:
-  - '2020-11-26'
   - '2022-08-07'
 - path: loi/2009/12/18/n14/consolide
   consolidations:
-  - '2013-08-25'
-  - '2015-10-03'
-  - '2019-01-01'
   - '2023-01-01'
 - path: loi/2009/12/21/n1/consolide
   consolidations:
-  - '2019-12-27'
   - '2026-09-04'
 - path: loi/2010/02/23/n1/consolide
   consolidations:
-  - '2015-04-21'
   - '2018-04-24'
 - path: loi/2010/05/27/n2/consolide
   consolidations:
-  - '2011-12-23'
   - '2014-08-01'
 - path: loi/2010/07/09/n1/consolide
   consolidations:
-  - '2011-09-29'
   - '2012-07-09'
 - path: loi/2010/07/26/n4/consolide
   consolidations:
   - '2015-01-01'
 - path: loi/2010/08/03/n8/consolide
   consolidations:
-  - '2011-09-08'
-  - '2012-10-18'
-  - '2013-08-06'
-  - '2014-09-22'
-  - '2015-10-01'
   - '2026-03-28'
 - path: loi/2010/10/26/n1/consolide
   consolidations:
-  - '2011-09-30'
-  - '2018-03-17'
-  - '2021-10-30'
-  - '2023-06-13'
   - '2024-04-02'
 - path: loi/2010/11/10/n1/consolide
   consolidations:
-  - '2013-01-01'
   - '2018-07-09'
 - path: loi/2010/12/15/n1/consolide
   consolidations:
-  - '2013-07-19'
-  - '2014-08-01'
-  - '2014-08-05'
   - '2016-04-20'
 - path: loi/2010/12/17/n9/consolide
   consolidations:
-  - '2025-01-17'
   - '2026-04-16'
 - path: loi/2011/02/27/n3/consolide
   consolidations:
-  - '2014-12-13'
   - '2023-07-03'
 - path: loi/2011/05/24/n1/consolide
   consolidations:
-  - '2012-04-01'
-  - '2021-12-06'
   - '2025-11-25'
 - path: loi/2011/05/24/n2/consolide
   consolidations:
-  - '2015-12-28'
-  - '2019-08-24'
-  - '2022-07-24'
-  - '2023-08-22'
   - '2026-04-03'
 - path: loi/2011/05/25/n1/consolide
   consolidations:
-  - '2015-10-03'
   - '2020-04-07'
 - path: loi/2011/07/10/n5/consolide
   consolidations:
-  - '2012-10-18'
-  - '2013-08-06'
-  - '2014-09-22'
-  - '2015-10-01'
   - '2022-07-31'
 - path: loi/2011/08/11/n2/consolide
   consolidations:
   - '2016-07-05'
 - path: loi/2011/09/02/n1/consolide
   consolidations:
-  - '2016-11-18'
-  - '2017-03-24'
-  - '2018-07-01'
-  - '2018-07-30'
   - '2023-09-01'
 - path: loi/2011/09/02/n2/consolide
   consolidations:
-  - '2020-06-02'
-  - '2021-10-30'
-  - '2024-04-02'
   - '2026-07-13'
 - path: loi/2011/12/16/n13/consolide
   consolidations:
@@ -1816,23 +1076,9 @@ works:
   - '2019-05-25'
 - path: loi/2012/03/21/n1/consolide
   consolidations:
-  - '2014-12-14'
-  - '2015-04-04'
-  - '2015-12-11'
-  - '2016-01-01'
-  - '2022-06-14'
   - '2023-01-01'
 - path: loi/2012/06/07/n1/consolide
   consolidations:
-  - '2014-04-01'
-  - '2015-05-30'
-  - '2016-07-12'
-  - '2019-08-24'
-  - '2022-01-01'
-  - '2023-02-01'
-  - '2023-07-01'
-  - '2023-08-22'
-  - '2024-08-05'
   - '2025-04-06'
 - path: loi/2012/07/21/n1/consolide
   consolidations:
@@ -1842,8 +1088,6 @@ works:
   - '2017-07-03'
 - path: loi/2012/08/07/n1/consolide
   consolidations:
-  - '2017-11-13'
-  - '2018-04-01'
   - '2021-03-07'
 - path: loi/2012/09/10/n1/consolide
   consolidations:
@@ -1856,44 +1100,21 @@ works:
   - '2019-08-10'
 - path: loi/2013/03/29/n10/consolide
   consolidations:
-  - '2017-02-01'
-  - '2018-08-20'
-  - '2025-09-23'
   - '2026-03-17'
 - path: loi/2013/03/29/n2/consolide
   consolidations:
-  - '2014-04-04'
-  - '2016-01-01'
-  - '2017-01-01'
-  - '2018-08-10'
-  - '2023-06-01'
-  - '2024-01-01'
   - '2026-01-01'
 - path: loi/2013/04/06/n1/consolide
   consolidations:
-  - '2021-01-26'
   - '2024-12-31'
 - path: loi/2013/06/13/n4/consolide
   consolidations:
-  - '2016-12-31'
-  - '2018-09-17'
   - '2021-09-15'
 - path: loi/2013/06/19/n3/consolide
   consolidations:
   - '2022-07-31'
 - path: loi/2013/07/12/n1/consolide
   consolidations:
-  - '2015-08-04'
-  - '2016-03-21'
-  - '2016-06-01'
-  - '2018-03-05'
-  - '2018-06-12'
-  - '2021-07-31'
-  - '2021-08-02'
-  - '2023-07-28'
-  - '2025-01-17'
-  - '2026-01-01'
-  - '2026-04-03'
   - '2026-04-16'
 - path: loi/2013/07/18/n3/consolide
   consolidations:
@@ -1903,29 +1124,17 @@ works:
   - '2013-12-01'
 - path: loi/2014/04/29/n1/consolide
   consolidations:
-  - '2016-01-01'
-  - '2020-01-01'
   - '2025-01-01'
 - path: loi/2014/05/20/n1/consolide
   consolidations:
-  - '2019-03-17'
   - '2022-08-16'
 - path: loi/2014/07/04/n2/consolide
   consolidations:
-  - '2015-10-01'
-  - '2016-12-31'
-  - '2017-03-05'
-  - '2017-05-16'
-  - '2021-12-19'
-  - '2022-12-27'
-  - '2024-12-13'
   - '2024-12-31'
   scheduled:
   - '2026-10-20'
 - path: loi/2014/07/12/n2/consolide
   consolidations:
-  - '2017-01-01'
-  - '2018-01-01'
   - '2026-01-01'
 - path: loi/2014/07/24/n1/consolide
   consolidations:
@@ -1941,140 +1150,87 @@ works:
   - '2026-01-01'
 - path: loi/2014/11/25/n2/consolide
   consolidations:
-  - '2019-03-09'
   - '2025-12-23'
 - path: loi/2014/12/03/n2/consolide
   consolidations:
   - '2023-07-01'
 - path: loi/2014/12/19/n1/consolide
   consolidations:
-  - '2014-12-27'
   - '2026-09-14'
 - path: loi/2014/12/19/n10/consolide
   consolidations:
-  - '2016-12-17'
-  - '2020-01-01'
-  - '2023-03-01'
-  - '2023-06-01'
   - '2025-01-01'
 - path: loi/2014/12/19/n11/consolide
   consolidations:
-  - '2015-01-01'
   - '2016-01-01'
 - path: loi/2014/12/19/n13/consolide
   consolidations:
   - '2024-12-28'
 - path: loi/2014/12/19/n7/consolide
   consolidations:
-  - '2016-03-01'
-  - '2018-08-20'
   - '2023-10-24'
 - path: loi/2014/12/23/n1/consolide
   consolidations:
-  - '2015-01-02'
   - '2022-08-02'
 - path: loi/2015/02/10/n3/consolide
   consolidations:
-  - '2019-12-10'
-  - '2023-01-01'
   - '2024-10-01'
 - path: loi/2015/03/25/n3/consolide
   consolidations:
-  - '2023-02-01'
-  - '2023-07-01'
-  - '2023-08-22'
-  - '2024-09-16'
-  - '2024-12-15'
-  - '2025-01-01'
-  - '2025-09-01'
-  - '2025-12-01'
-  - '2026-01-01'
-  - '2026-03-17'
   - '2026-09-15'
 - path: loi/2015/03/25/n5/consolide
   consolidations:
   - '2018-09-15'
 - path: loi/2015/03/25/n6/consolide
   consolidations:
-  - '2018-05-15'
-  - '2022-07-01'
   - '2026-06-01'
 - path: loi/2015/03/25/n7/consolide
   consolidations:
-  - '2018-09-01'
   - '2025-12-15'
 - path: loi/2015/03/25/n8/consolide
   consolidations:
-  - '2016-03-22'
-  - '2018-01-01'
-  - '2020-01-01'
-  - '2023-07-01'
-  - '2024-12-15'
-  - '2025-01-01'
-  - '2025-09-01'
   - '2026-06-01'
 - path: loi/2015/04/28/n1/consolide
   consolidations:
   - '2019-12-27'
 - path: loi/2015/07/14/n1/consolide
   consolidations:
-  - '2016-11-18'
-  - '2018-07-15'
   - '2018-09-10'
 - path: loi/2015/07/24/n1/consolide
   consolidations:
-  - '2016-01-01'
   - '2020-06-30'
 - path: loi/2015/07/25/n1/consolide
   consolidations:
   - '2025-06-17'
 - path: loi/2015/07/25/n2/consolide
   consolidations:
-  - '2016-04-04'
-  - '2018-04-24'
-  - '2018-08-20'
-  - '2021-04-26'
   - '2023-10-24'
 - path: loi/2015/07/30/n2/consolide
   consolidations:
   - '2024-09-16'
 - path: loi/2015/09/04/n1/consolide
   consolidations:
-  - '2016-07-30'
   - '2019-05-25'
 - path: loi/2015/12/03/n1/consolide
   consolidations:
   - '2022-04-09'
 - path: loi/2015/12/07/n1/consolide
   consolidations:
-  - '2025-02-14'
   - '2026-04-03'
 - path: loi/2015/12/18/n11/consolide
   consolidations:
   - '2025-08-05'
 - path: loi/2015/12/18/n15/consolide
   consolidations:
-  - '2021-07-05'
-  - '2023-07-29'
-  - '2024-12-24'
   - '2026-06-12'
 - path: loi/2015/12/18/n16/consolide
   consolidations:
-  - '2018-08-01'
-  - '2020-01-01'
   - '2023-09-01'
 - path: loi/2015/12/18/n4/consolide
   consolidations:
-  - '2016-01-01'
-  - '2018-08-10'
-  - '2020-06-30'
-  - '2021-01-01'
-  - '2023-06-01'
   - '2026-01-01'
 - path: loi/2015/12/18/n7/consolide
   consolidations:
-  - '2025-01-17'
-  - '2026-04-03'
   - '2026-05-10'
 - path: loi/2016/02/26/n1/consolide
   consolidations:
@@ -2083,9 +1239,6 @@ works:
   - '2027-09-15'
 - path: loi/2016/03/15/n3/consolide
   consolidations:
-  - '2018-06-04'
-  - '2022-07-24'
-  - '2024-04-06'
   - '2026-05-10'
 - path: loi/2016/05/27/n4/consolide
   consolidations:
@@ -2095,16 +1248,9 @@ works:
   - '2019-12-27'
 - path: loi/2016/06/27/n6/consolide
   consolidations:
-  - '2019-12-27'
-  - '2024-03-23'
   - '2026-03-07'
 - path: loi/2016/06/27/n7/consolide
   consolidations:
-  - '2014-07-01'
-  - '2017-01-01'
-  - '2018-01-01'
-  - '2018-08-06'
-  - '2021-01-01'
   - '2023-01-01'
 - path: loi/2016/07/05/n1/consolide
   consolidations:
@@ -2117,127 +1263,75 @@ works:
   - '2021-06-21'
 - path: loi/2016/07/05/n8/consolide
   consolidations:
-  - '2018-08-20'
-  - '2018-08-25'
-  - '2020-03-30'
-  - '2023-09-05'
-  - '2024-12-24'
   - '2025-09-01'
 - path: loi/2016/07/23/n1/consolide
   consolidations:
-  - '2019-07-01'
-  - '2022-07-03'
   - '2026-05-10'
 - path: loi/2016/07/23/n15/consolide
   consolidations:
   - '2016-09-01'
 - path: loi/2016/07/23/n2/consolide
   consolidations:
-  - '2016-08-01'
-  - '2021-10-01'
   - '2022-06-30'
 - path: loi/2016/07/23/n21/consolide
   consolidations:
   - '2018-08-20'
 - path: loi/2016/07/23/n22/consolide
   consolidations:
-  - '2019-08-24'
-  - '2020-10-29'
-  - '2021-07-15'
-  - '2021-09-15'
-  - '2021-12-20'
   - '2022-04-01'
 - path: loi/2016/07/23/n7/consolide
   consolidations:
-  - '2019-07-22'
   - '2023-07-28'
 - path: loi/2016/07/23/n8/consolide
   consolidations:
-  - '2018-02-18'
-  - '2020-03-30'
-  - '2023-01-01'
   - '2026-04-03'
 - path: loi/2016/08/24/n4/consolide
   consolidations:
   - '2017-09-15'
 - path: loi/2016/10/28/n2/consolide
   consolidations:
-  - '2020-08-09'
-  - '2023-09-15'
-  - '2024-08-02'
-  - '2025-04-29'
-  - '2026-06-12'
   - '2026-07-17'
 - path: loi/2016/12/14/n1/consolide
   consolidations:
-  - '2018-01-01'
-  - '2019-05-01'
-  - '2024-05-01'
   - '2025-01-01'
 - path: loi/2016/12/23/n1/consolide
   consolidations:
-  - '2018-07-30'
-  - '2021-12-06'
   - '2025-11-25'
 - path: loi/2016/12/23/n15/consolide
   consolidations:
-  - '2018-03-05'
   - '2026-04-03'
 - path: loi/2016/12/23/n16/consolide
   consolidations:
-  - '2018-08-10'
-  - '2023-06-01'
   - '2026-01-01'
 - path: loi/2016/12/23/n20/consolide
   consolidations:
-  - '2020-04-20'
-  - '2021-01-01'
-  - '2022-01-01'
-  - '2022-11-01'
-  - '2024-01-01'
-  - '2024-07-01'
   - '2026-01-04'
 - path: loi/2016/12/23/n22/consolide
   consolidations:
   - '2021-04-01'
 - path: loi/2017/03/08/a289/consolide
   consolidations:
-  - '2018-09-01'
-  - '2020-06-25'
-  - '2021-01-01'
-  - '2021-08-22'
-  - '2022-01-01'
-  - '2023-03-25'
-  - '2024-01-01'
   - '2024-12-24'
 - path: loi/2017/03/21/a330/consolide
   consolidations:
   - '2022-06-14'
 - path: loi/2017/04/24/a479/consolide
   consolidations:
-  - '2022-01-01'
-  - '2024-06-01'
-  - '2026-01-01'
   - '2026-10-02'
 - path: loi/2017/05/05/a484/consolide
   consolidations:
   - '2021-12-19'
 - path: loi/2017/05/17/a544/consolide
   consolidations:
-  - '2017-12-25'
   - '2020-12-21'
 - path: loi/2017/06/16/a592/consolide
   consolidations:
-  - '2023-07-01'
   - '2024-04-26'
 - path: loi/2017/06/22/a605/consolide
   consolidations:
-  - '2017-09-15'
   - '2018-09-24'
 - path: loi/2017/07/20/a665/consolide
   consolidations:
-  - '2017-12-25'
-  - '2020-12-21'
   - '2026-01-04'
 - path: loi/2017/12/15/a1079/consolide
   consolidations:
@@ -2247,135 +1341,72 @@ works:
   - '2020-12-21'
 - path: loi/2018/02/22/a154/consolide
   consolidations:
-  - '2018-08-20'
   - '2025-12-06'
 - path: loi/2018/03/08/a222/consolide
   consolidations:
-  - '2020-10-30'
-  - '2021-03-07'
-  - '2021-10-19'
-  - '2023-08-03'
-  - '2024-01-01'
-  - '2026-01-01'
   - '2026-02-01'
 - path: loi/2018/03/13/a183/consolide
   consolidations:
   - '2022-03-29'
 - path: loi/2018/03/27/a221/consolide
   consolidations:
-  - '2018-07-01'
-  - '2022-12-27'
-  - '2023-01-01'
   - '2025-01-01'
 - path: loi/2018/04/08/a243/consolide
   consolidations:
-  - '2018-07-09'
-  - '2023-02-01'
-  - '2023-06-01'
   - '2023-08-20'
 - path: loi/2018/04/17/a256/consolide
   consolidations:
-  - '2019-12-23'
-  - '2022-01-01'
   - '2026-04-03'
 - path: loi/2018/04/17/a257/consolide
   consolidations:
-  - '2022-01-01'
   - '2022-03-08'
 - path: loi/2018/04/17/a271/consolide
   consolidations:
-  - '2021-01-01'
-  - '2021-02-08'
   - '2025-07-22'
 - path: loi/2018/04/25/a307/consolide
   consolidations:
   - '2022-04-09'
 - path: loi/2018/05/15/a398/consolide
   consolidations:
-  - '2021-06-06'
   - '2023-06-25'
 - path: loi/2018/05/24/a442/consolide
   consolidations:
   - '2018-08-25'
 - path: loi/2018/05/30/a446/consolide
   consolidations:
-  - '2020-03-26'
-  - '2021-07-30'
-  - '2021-07-31'
-  - '2022-01-01'
-  - '2023-03-23'
-  - '2025-01-17'
-  - '2025-07-12'
-  - '2025-09-29'
   - '2026-04-03'
 - path: loi/2018/06/27/a587/consolide
   consolidations:
-  - '2018-08-01'
   - '2023-09-15'
 - path: loi/2018/07/13/a652/consolide
   consolidations:
   - '2021-09-15'
 - path: loi/2018/07/18/a621/consolide
   consolidations:
-  - '2018-08-20'
-  - '2020-01-01'
-  - '2020-08-04'
-  - '2021-07-19'
-  - '2022-08-29'
-  - '2023-01-01'
-  - '2023-02-10'
-  - '2023-06-13'
-  - '2023-08-20'
-  - '2023-09-05'
-  - '2024-03-01'
-  - '2024-12-15'
-  - '2024-12-24'
-  - '2025-08-01'
-  - '2025-09-01'
-  - '2025-12-01'
-  - '2025-12-06'
-  - '2026-07-24'
   - '2026-07-25'
 - path: loi/2018/07/18/a623/consolide
   consolidations:
-  - '2018-08-20'
-  - '2023-09-05'
   - '2024-12-15'
 - path: loi/2018/07/18/a771/consolide
   consolidations:
-  - '2021-06-06'
-  - '2022-03-03'
-  - '2022-03-18'
-  - '2023-09-12'
-  - '2023-10-01'
   - '2025-07-21'
 - path: loi/2018/07/20/a626/consolide
   consolidations:
-  - '2025-04-12'
   - '2026-03-17'
 - path: loi/2018/07/20/a664/consolide
   consolidations:
-  - '2023-07-16'
   - '2023-08-01'
 - path: loi/2018/07/25/a620/consolide
   consolidations:
   - '2026-09-15'
 - path: loi/2018/07/28/a630/consolide
   consolidations:
-  - '2019-01-01'
-  - '2019-04-15'
-  - '2021-01-01'
-  - '2022-06-30'
-  - '2023-01-01'
-  - '2023-07-10'
-  - '2025-01-01'
   - '2026-06-12'
 - path: loi/2018/07/28/a675/consolide
   consolidations:
   - '2022-10-03'
 - path: loi/2018/08/01/a681/consolide
   consolidations:
-  - '2019-03-12'
   - '2024-12-15'
 - path: loi/2018/08/01/a686/consolide
   consolidations:
@@ -2394,12 +1425,9 @@ works:
   - '2018-08-01'
 - path: loi/2018/08/09/a882/consolide
   consolidations:
-  - '2020-12-21'
   - '2026-09-15'
 - path: loi/2018/08/10/a701/consolide
   consolidations:
-  - '2020-01-01'
-  - '2024-07-21'
   - '2025-12-23'
 - path: loi/2018/08/14/a792/consolide
   consolidations:
@@ -2412,37 +1440,27 @@ works:
   - '2023-07-14'
 - path: loi/2018/09/14/a883/consolide
   consolidations:
-  - '2019-06-08'
   - '2026-08-02'
 - path: loi/2019/01/13/a15/consolide
   consolidations:
-  - '2020-03-30'
   - '2025-02-01'
 - path: loi/2019/05/16/a345/consolide
   consolidations:
   - '2021-12-18'
 - path: loi/2019/06/06/a390/consolide
   consolidations:
-  - '2022-03-29'
-  - '2022-11-19'
-  - '2023-07-17'
-  - '2025-12-05'
-  - '2026-01-01'
   - '2026-04-21'
 - path: loi/2019/06/26/a445/consolide
   consolidations:
   - '2025-11-25'
 - path: loi/2019/07/16/a514/consolide
   consolidations:
-  - '2022-03-08'
-  - '2025-02-10'
   - '2026-04-03'
 - path: loi/2019/08/01/a530/consolide
   consolidations:
   - '2022-01-01'
 - path: loi/2019/12/04/a839/consolide
   consolidations:
-  - '2020-06-25'
   - '2021-01-01'
 - path: loi/2019/12/04/a907/consolide
   consolidations:
@@ -2452,33 +1470,21 @@ works:
   - '2020-01-01'
 - path: loi/2020/03/25/a188/consolide
   consolidations:
-  - '2021-01-01'
-  - '2023-01-01'
-  - '2023-10-01'
   - '2024-05-01'
 - path: loi/2020/03/25/a192/consolide
   consolidations:
-  - '2020-07-01'
-  - '2023-06-01'
   - '2026-01-01'
 - path: loi/2020/03/25/a193/consolide
   consolidations:
-  - '2021-03-02'
-  - '2022-07-05'
-  - '2023-02-01'
   - '2023-06-01'
 - path: loi/2020/04/03/a230/consolide
   consolidations:
-  - '2020-01-01'
-  - '2020-12-21'
   - '2021-06-01'
 - path: loi/2020/04/18/a307/consolide
   consolidations:
-  - '2021-01-01'
   - '2021-06-01'
 - path: loi/2020/05/12/a385/consolide
   consolidations:
-  - '2020-07-25'
   - '2021-02-26'
 - path: loi/2020/06/20/a508/consolide
   consolidations:
@@ -2491,103 +1497,42 @@ works:
   - '2020-11-25'
 - path: loi/2020/06/20/a533/consolide
   consolidations:
-  - '2020-11-25'
   - '2021-05-25'
 - path: loi/2020/06/20/a536/consolide
   consolidations:
-  - '2020-12-21'
-  - '2021-12-22'
   - '2022-06-30'
 - path: loi/2020/06/20/a538/consolide
   consolidations:
-  - '2020-12-21'
-  - '2021-07-01'
-  - '2022-01-01'
-  - '2022-07-01'
   - '2023-01-01'
 - path: loi/2020/06/20/a542/consolide
   consolidations:
-  - '2020-07-28'
-  - '2020-12-22'
-  - '2021-08-18'
   - '2021-12-20'
 - path: loi/2020/06/24/a526/consolide
   consolidations:
-  - '2020-07-24'
-  - '2020-09-23'
-  - '2020-12-22'
-  - '2021-06-30'
   - '2021-12-17'
 - path: loi/2020/06/24/a531/consolide
   consolidations:
-  - '2020-07-24'
-  - '2020-09-23'
-  - '2020-12-21'
-  - '2021-07-16'
-  - '2021-12-17'
-  - '2022-07-01'
-  - '2022-12-23'
   - '2023-02-01'
 - path: loi/2020/06/24/a532/consolide
   consolidations:
-  - '2020-07-24'
-  - '2020-09-23'
-  - '2020-12-21'
-  - '2021-07-16'
   - '2021-12-17'
 - path: loi/2020/07/10/a580/consolide
   consolidations:
-  - '2020-12-20'
   - '2021-07-01'
 - path: loi/2020/07/10/a581/consolide
   consolidations:
-  - '2021-03-02'
   - '2022-08-12'
 - path: loi/2020/07/17/a624/consolide
   consolidations:
-  - '2020-07-25'
-  - '2020-09-23'
-  - '2020-10-30'
-  - '2020-11-26'
-  - '2020-12-16'
-  - '2020-12-26'
-  - '2021-01-11'
-  - '2021-02-01'
-  - '2021-02-22'
-  - '2021-03-15'
-  - '2021-04-03'
-  - '2021-04-07'
-  - '2021-04-26'
-  - '2021-05-16'
-  - '2021-05-31'
-  - '2021-06-13'
-  - '2021-07-16'
-  - '2021-09-15'
-  - '2021-10-19'
-  - '2021-11-01'
-  - '2021-12-17'
-  - '2021-12-25'
-  - '2022-01-12'
-  - '2022-01-15'
-  - '2022-02-11'
-  - '2022-03-11'
-  - '2022-06-14'
-  - '2022-07-01'
-  - '2022-10-27'
-  - '2023-04-01'
-  - '2023-07-01'
   - '2024-07-01'
 - path: loi/2020/07/24/a639/consolide
   consolidations:
   - '2022-01-01'
 - path: loi/2020/07/24/a640/consolide
   consolidations:
-  - '2020-12-01'
   - '2021-06-01'
 - path: loi/2020/07/24/a641/consolide
   consolidations:
-  - '2020-07-24'
-  - '2020-12-21'
   - '2021-03-23'
 - path: loi/2020/07/24/a642/consolide
   consolidations:
@@ -2597,14 +1542,9 @@ works:
   - '2023-09-15'
 - path: loi/2020/09/23/a785/consolide
   consolidations:
-  - '2020-10-30'
-  - '2020-11-25'
-  - '2021-06-30'
   - '2021-12-24'
 - path: loi/2020/10/29/a869/consolide
   consolidations:
-  - '2021-07-15'
-  - '2021-12-20'
   - '2022-04-01'
 - path: loi/2020/11/25/a932/consolide
   consolidations:
@@ -2614,39 +1554,18 @@ works:
   - '2023-01-01'
 - path: loi/2020/12/15/a994/consolide
   consolidations:
-  - '2021-01-01'
-  - '2022-07-05'
-  - '2024-01-01'
-  - '2024-06-08'
-  - '2024-10-01'
   - '2025-07-26'
 - path: loi/2020/12/19/a1035/consolide
   consolidations:
-  - '2021-03-23'
-  - '2021-07-16'
-  - '2021-12-17'
-  - '2021-12-25'
-  - '2022-02-15'
   - '2022-05-14'
 - path: loi/2020/12/19/a1036/consolide
   consolidations:
-  - '2020-12-26'
-  - '2021-02-01'
-  - '2021-03-23'
-  - '2021-05-16'
-  - '2021-07-16'
-  - '2021-12-17'
-  - '2021-12-25'
-  - '2022-02-15'
   - '2022-05-14'
 - path: loi/2020/12/19/a1039/consolide
   consolidations:
-  - '2021-07-01'
   - '2022-01-01'
 - path: loi/2020/12/19/a1056/consolide
   consolidations:
-  - '2021-06-30'
-  - '2021-08-22'
   - '2021-12-24'
 - path: loi/2020/12/19/a1061/consolide
   consolidations:
@@ -2656,18 +1575,12 @@ works:
   - '2022-07-24'
 - path: loi/2021/01/22/a45/consolide
   consolidations:
-  - '2021-04-03'
-  - '2021-07-16'
-  - '2021-09-15'
-  - '2021-10-19'
-  - '2021-12-17'
   - '2022-03-01'
 - path: loi/2021/02/05/a106/consolide
   consolidations:
   - '2021-03-01'
 - path: loi/2021/03/05/a185/consolide
   consolidations:
-  - '2021-03-14'
   - '2023-01-01'
 - path: loi/2021/05/31/a412/consolide
   consolidations:
@@ -2680,20 +1593,15 @@ works:
   - '2026-08-02'
 - path: loi/2021/07/30/a624/consolide
   consolidations:
-  - '2021-01-01'
-  - '2023-01-01'
   - '2023-10-01'
 - path: loi/2021/11/02/a763/consolide
   consolidations:
   - '2023-07-28'
 - path: loi/2021/12/08/a845/consolide
   consolidations:
-  - '2024-12-28'
   - '2026-04-03'
 - path: loi/2021/12/17/a906/consolide
   consolidations:
-  - '2022-04-01'
-  - '2022-09-12'
   - '2022-09-15'
 - path: loi/2021/12/17/a927/consolide
   consolidations:
@@ -2703,17 +1611,12 @@ works:
   - '2023-10-24'
 - path: loi/2022/02/25/a80/consolide
   consolidations:
-  - '2025-01-01'
   - '2025-04-29'
 - path: loi/2022/05/12/a230/consolide
   consolidations:
-  - '2022-08-01'
-  - '2022-10-31'
-  - '2023-07-07'
   - '2026-07-21'
 - path: loi/2022/05/17/a237/consolide
   consolidations:
-  - '2022-10-01'
   - '2023-07-24'
 - path: loi/2022/05/27/a250/consolide
   consolidations:
@@ -2732,9 +1635,6 @@ works:
   - '2023-01-01'
 - path: loi/2022/07/15/a412/consolide
   consolidations:
-  - '2022-08-02'
-  - '2023-01-01'
-  - '2023-07-19'
   - '2024-03-20'
 - path: loi/2022/07/20/a371/consolide
   consolidations:
@@ -2753,16 +1653,12 @@ works:
   - '2025-02-01'
 - path: loi/2022/11/30/a588/consolide
   consolidations:
-  - '2023-03-21'
-  - '2023-04-04'
-  - '2024-04-02'
   - '2025-04-11'
 - path: loi/2022/12/02/a597/consolide
   consolidations:
   - '2023-07-24'
 - path: loi/2022/12/16/a638/consolide
   consolidations:
-  - '2023-07-10'
   - '2024-12-20'
 - path: loi/2022/12/23/a671/consolide
   consolidations:
@@ -2814,11 +1710,9 @@ works:
   - '2024-12-31'
 - path: loi/2023/08/02/a489/consolide
   consolidations:
-  - '2023-01-01'
   - '2024-01-01'
 - path: loi/2023/08/07/a502/consolide
   consolidations:
-  - '2025-06-29'
   - '2026-04-18'
 - path: loi/2023/08/07/a521/consolide
   consolidations:
@@ -2828,25 +1722,18 @@ works:
   - '2026-06-12'
 - path: loi/2023/08/07/a554/consolide
   consolidations:
-  - '2023-10-01'
-  - '2024-06-01'
-  - '2026-01-01'
   - '2026-01-04'
 - path: loi/2023/08/07/a592/consolide
   consolidations:
-  - '2023-09-23'
   - '2024-12-13'
 - path: loi/2023/08/07/a611/consolide
   consolidations:
-  - '2024-06-01'
-  - '2025-01-01'
   - '2026-01-01'
 - path: loi/2023/12/22/a864/consolide
   consolidations:
   - '2023-12-31'
 - path: loi/2024/05/22/a219/consolide
   consolidations:
-  - '2025-01-01'
   - '2025-07-01'
 - path: loi/2024/06/04/a261/consolide
   consolidations:
@@ -2859,7 +1746,6 @@ works:
   - '2025-08-01'
 - path: loi/2025/07/18/a336/consolide
   consolidations:
-  - '2026-01-01'
   - '2026-06-12'
 - path: loi/2025/07/24/a346/consolide
   consolidations:
@@ -2890,7 +1776,6 @@ works:
   - '1849-03-14'
 - path: rgc/1974/11/15/n2/consolide
   consolidations:
-  - '1977-12-01'
   - '1982-04-01'
 - path: rgc/1987/05/08/n6/consolide
   consolidations:
@@ -2903,7 +1788,6 @@ works:
   - '2016-06-13'
 - path: rgc/2021/11/19/a828/consolide
   consolidations:
-  - '2022-03-23'
   - '2022-09-12'
 - path: rgc/2022/12/02/a619/consolide
   consolidations:
@@ -2916,12 +1800,9 @@ works:
   - '2025-10-10'
 - path: rgd/1962/04/20/n1/consolide
   consolidations:
-  - '1962-05-16'
   - '2017-01-01'
 - path: rgd/1963/06/20/n1/consolide
   consolidations:
-  - '2013-07-01'
-  - '2020-06-01'
   - '2022-05-22'
 - path: rgd/1963/09/14/n1/consolide
   consolidations:
@@ -2937,69 +1818,54 @@ works:
   - '2018-06-02'
 - path: rgd/1968/12/28/n1/consolide
   consolidations:
-  - '1999-01-01'
-  - '2002-01-01'
-  - '2008-01-01'
   - '2021-01-01'
 - path: rgd/1969/07/15/n4/consolide
   consolidations:
-  - '1970-11-01'
-  - '2017-03-10'
   - '2022-06-12'
 - path: rgd/1970/12/18/n1/consolide
   consolidations:
-  - '1971-12-28'
   - '1977-05-29'
 - path: rgd/1971/04/29/n1/consolide
   consolidations:
   - '2015-01-01'
 - path: rgd/1971/07/14/n7/consolide
   consolidations:
-  - '1975-08-29'
-  - '1989-01-30'
-  - '1992-10-27'
   - '1996-06-25'
 - path: rgd/1971/09/23/n3/consolide
   consolidations:
   - '1971-10-12'
 - path: rgd/1974/02/19/n1/consolide
   consolidations:
-  - '2023-12-18'
   - '2025-08-08'
 - path: rgd/1974/03/04/n1/consolide
   consolidations:
   - '2024-09-29'
 - path: rgd/1974/03/20/n1/consolide
   consolidations:
-  - '2023-08-06'
   - '2026-07-13'
 - path: rgd/1974/03/21/n2/consolide
   consolidations:
   - '2002-01-01'
 - path: rgd/1974/03/26/n1/consolide
   consolidations:
-  - '2023-07-21'
   - '2025-12-12'
 - path: rgd/1974/12/23/n9/consolide
   consolidations:
   - '2016-09-02'
 - path: rgd/1975/06/13/n1/consolide
   consolidations:
-  - '2023-08-01'
   - '2024-12-06'
 - path: rgd/1975/09/15/n1/consolide
   consolidations:
   - '2009-07-06'
 - path: rgd/1976/07/08/n1/consolide
   consolidations:
-  - '1981-12-28'
   - '1993-08-14'
 - path: rgd/1977/08/27/n4/consolide
   consolidations:
   - '1983-06-10'
 - path: rgd/1977/12/08/n2/consolide
   consolidations:
-  - '1978-04-01'
   - '1987-10-07'
 - path: rgd/1977/12/08/n3/consolide
   consolidations:
@@ -3009,7 +1875,6 @@ works:
   - '1986-11-01'
 - path: rgd/1979/01/09/n2/consolide
   consolidations:
-  - '1996-08-24'
   - '2021-01-29'
 - path: rgd/1979/06/13/n1/consolide
   consolidations:
@@ -3019,13 +1884,9 @@ works:
   - '1980-12-10'
 - path: rgd/1979/10/22/n10/consolide
   consolidations:
-  - '1979-11-04'
-  - '1993-01-01'
   - '2025-01-01'
 - path: rgd/1980/03/07/n3/consolide
   consolidations:
-  - '2002-01-01'
-  - '2013-04-08'
   - '2025-01-01'
 - path: rgd/1982/03/12/n5/consolide
   consolidations:
@@ -3041,10 +1902,6 @@ works:
   - '2003-01-01'
 - path: rgd/1984/01/17/n3/consolide
   consolidations:
-  - '1985-02-11'
-  - '1989-06-17'
-  - '2007-11-19'
-  - '2014-09-01'
   - '2019-12-02'
 - path: rgd/1984/01/24/n4/consolide
   consolidations:
@@ -3057,14 +1914,12 @@ works:
   - '2004-03-15'
 - path: rgd/1984/04/13/n7/consolide
   consolidations:
-  - '2019-01-01'
   - '2020-09-08'
 - path: rgd/1984/12/20/n6/consolide
   consolidations:
   - '2002-06-15'
 - path: rgd/1985/02/22/n2/consolide
   consolidations:
-  - '2006-10-08'
   - '2026-05-29'
 - path: rgd/1985/04/30/n2/consolide
   consolidations:
@@ -3074,7 +1929,6 @@ works:
   - '1990-01-27'
 - path: rgd/1987/02/17/n7/consolide
   consolidations:
-  - '1997-12-27'
   - '2012-04-14'
 - path: rgd/1987/04/01/n1/consolide
   consolidations:
@@ -3093,7 +1947,6 @@ works:
   - '2024-01-01'
 - path: rgd/1987/12/21/n1/consolide
   consolidations:
-  - '1994-04-30'
   - '2013-12-07'
 - path: rgd/1988/01/11/n1/consolide
   consolidations:
@@ -3103,8 +1956,6 @@ works:
   - '2018-10-01'
 - path: rgd/1988/07/15/n3/consolide
   consolidations:
-  - '1993-05-18'
-  - '2007-09-24'
   - '2026-05-20'
   scheduled:
   - '2026-11-01'
@@ -3122,10 +1973,6 @@ works:
   - '2014-05-27'
 - path: rgd/1989/12/06/n3/consolide
   consolidations:
-  - '2012-05-07'
-  - '2015-01-02'
-  - '2023-03-13'
-  - '2023-04-01'
   - '2024-08-01'
 - path: rgd/1990/01/16/n3/consolide
   consolidations:
@@ -3138,31 +1985,18 @@ works:
   - '1998-09-16'
 - path: rgd/1990/10/25/n1/consolide
   consolidations:
-  - '2018-10-01'
   - '2023-01-01'
 - path: rgd/1990/12/24/n7/consolide
   consolidations:
-  - '1994-10-31'
-  - '2002-01-01'
-  - '2006-01-03'
   - '2025-01-01'
 - path: rgd/1990/12/28/n21/consolide
   consolidations:
-  - '1996-10-22'
-  - '2008-01-01'
-  - '2011-01-01'
-  - '2013-01-01'
   - '2025-01-01'
 - path: rgd/1990/12/28/n23/consolide
   consolidations:
   - '2024-01-01'
 - path: rgd/1991/01/24/n2/consolide
   consolidations:
-  - '1996-07-01'
-  - '2001-06-01'
-  - '2008-11-01'
-  - '2021-10-02'
-  - '2023-07-10'
   - '2025-04-13'
 - path: rgd/1991/04/30/n1/consolide
   consolidations:
@@ -3178,8 +2012,6 @@ works:
   - '1993-03-28'
 - path: rgd/1991/08/10/n1/consolide
   consolidations:
-  - '2006-10-09'
-  - '2015-01-01'
   - '2021-06-01'
 - path: rgd/1992/02/13/n1/consolide
   consolidations:
@@ -3189,35 +2021,21 @@ works:
   - '2016-08-09'
 - path: rgd/1992/10/15/n1/consolide
   consolidations:
-  - '2010-03-14'
-  - '2017-07-28'
-  - '2022-07-24'
   - '2026-08-04'
 - path: rgd/1992/10/15/n2/consolide
   consolidations:
-  - '2010-03-14'
-  - '2017-07-28'
-  - '2022-07-24'
   - '2026-08-04'
 - path: rgd/1992/10/15/n3/consolide
   consolidations:
   - '2010-12-28'
 - path: rgd/1992/12/15/n1/consolide
   consolidations:
-  - '2019-02-05'
   - '2025-07-05'
 - path: rgd/1992/12/18/n1/consolide
   consolidations:
-  - '2013-04-08'
-  - '2018-04-01'
-  - '2021-10-26'
   - '2024-05-01'
 - path: rgd/1993/01/15/n1/consolide
   consolidations:
-  - '1996-07-02'
-  - '1996-08-27'
-  - '2001-12-31'
-  - '2006-10-21'
   - '2023-01-01'
 - path: rgd/1993/01/21/n1/consolide
   consolidations:
@@ -3227,12 +2045,9 @@ works:
   - '2010-12-28'
 - path: rgd/1993/02/04/n4/consolide
   consolidations:
-  - '2012-09-09'
   - '2024-12-14'
 - path: rgd/1993/02/05/n1/consolide
   consolidations:
-  - '1994-11-29'
-  - '1996-09-09'
   - '2009-03-23'
 - path: rgd/1993/03/17/n2/consolide
   consolidations:
@@ -3242,7 +2057,6 @@ works:
   - '2010-12-28'
 - path: rgd/1993/04/21/n2/consolide
   consolidations:
-  - '1995-05-27'
   - '1999-11-16'
 - path: rgd/1993/04/24/n2/consolide
   consolidations:
@@ -3252,33 +2066,27 @@ works:
   - '2017-04-03'
 - path: rgd/1993/06/21/n2/consolide
   consolidations:
-  - '2011-08-02'
   - '2024-01-01'
 - path: rgd/1993/12/24/n1/consolide
   consolidations:
   - '2013-07-02'
 - path: rgd/1993/12/24/n2/consolide
   consolidations:
-  - '2000-01-01'
-  - '2009-02-21'
   - '2017-03-26'
 - path: rgd/1994/02/02/n1/consolide
   consolidations:
   - '1994-02-25'
 - path: rgd/1994/11/04/n2/consolide
   consolidations:
-  - '1998-12-05'
   - '2004-03-29'
 - path: rgd/1994/11/04/n3/consolide
   consolidations:
   - '2021-03-29'
 - path: rgd/1994/11/04/n7/consolide
   consolidations:
-  - '1999-06-26'
   - '2021-03-29'
 - path: rgd/1995/03/29/n1/consolide
   consolidations:
-  - '2004-07-11'
   - '2007-07-02'
 - path: rgd/1995/07/12/n1/consolide
   consolidations:
@@ -3294,8 +2102,6 @@ works:
   - '2007-03-06'
 - path: rgd/1996/05/30/n4/consolide
   consolidations:
-  - '2003-02-04'
-  - '2005-08-30'
   - '2017-03-10'
 - path: rgd/1996/06/19/n1/consolide
   consolidations:
@@ -3305,21 +2111,15 @@ works:
   - '2009-03-23'
 - path: rgd/1997/02/06/n1/consolide
   consolidations:
-  - '2003-08-26'
-  - '2004-10-25'
-  - '2020-12-08'
-  - '2021-08-15'
   - '2025-12-12'
 - path: rgd/1997/05/27/n1/consolide
   consolidations:
   - '2013-10-28'
 - path: rgd/1997/06/17/n1/consolide
   consolidations:
-  - '2007-03-06'
   - '2011-02-12'
 - path: rgd/1997/07/19/n2/consolide
   consolidations:
-  - '2020-03-20'
   - '2024-12-23'
 - path: rgd/1997/07/27/n5/consolide
   consolidations:
@@ -3335,11 +2135,9 @@ works:
   - '2021-03-14'
 - path: rgd/1998/04/17/n1/consolide
   consolidations:
-  - '2004-05-01'
   - '2020-05-01'
 - path: rgd/1998/05/24/n4/consolide
   consolidations:
-  - '2004-04-24'
   - '2022-12-12'
 - path: rgd/1998/09/25/n4/consolide
   consolidations:
@@ -3349,10 +2147,6 @@ works:
   - '2013-11-08'
 - path: rgd/1998/12/10/n4/consolide
   consolidations:
-  - '2000-10-13'
-  - '2002-01-04'
-  - '2003-08-16'
-  - '2015-12-28'
   - '2022-12-25'
 - path: rgd/1998/12/18/n8/consolide
   consolidations:
@@ -3362,58 +2156,36 @@ works:
   - '2014-10-11'
 - path: rgd/1999/04/06/n7/consolide
   consolidations:
-  - '2010-03-19'
   - '2016-03-27'
 - path: rgd/1999/05/10/n1/consolide
   consolidations:
-  - '2020-03-14'
   - '2020-09-25'
 - path: rgd/1999/07/20/n1/consolide
   consolidations:
-  - '2010-10-10'
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/1999/10/25/n1/consolide
   consolidations:
-  - '2011-08-02'
-  - '2013-01-04'
-  - '2013-07-01'
-  - '2013-07-08'
   - '2024-01-01'
 - path: rgd/1999/11/19/n1/consolide
   consolidations:
-  - '1999-12-14'
-  - '2002-01-01'
-  - '2021-01-01'
-  - '2023-01-01'
-  - '2024-01-01'
-  - '2025-01-01'
-  - '2025-07-01'
   - '2026-01-01'
 - path: rgd/1999/11/19/n2/consolide
   consolidations:
-  - '2009-01-01'
   - '2025-01-01'
 - path: rgd/1999/12/06/n1/consolide
   consolidations:
   - '2002-11-04'
 - path: rgd/1999/12/08/n1/consolide
   consolidations:
-  - '2009-12-25'
   - '2020-04-15'
 - path: rgd/2000/04/08/n2/consolide
   consolidations:
   - '2017-03-10'
 - path: rgd/2000/05/12/n1/consolide
   consolidations:
-  - '2002-03-24'
-  - '2009-01-04'
-  - '2017-03-10'
-  - '2019-08-16'
   - '2023-07-17'
 - path: rgd/2000/06/22/n3/consolide
   consolidations:
-  - '2021-11-20'
   - '2022-08-14'
 - path: rgd/2000/07/17/n2/consolide
   consolidations:
@@ -3426,69 +2198,42 @@ works:
   - '2015-10-01'
 - path: rgd/2000/10/27/n1/consolide
   consolidations:
-  - '2008-02-23'
-  - '2009-01-01'
-  - '2009-08-01'
-  - '2019-01-01'
   - '2021-05-07'
 - path: rgd/2000/10/27/n3/consolide
   consolidations:
-  - '2015-10-01'
   - '2025-09-01'
 - path: rgd/2000/10/27/n4/consolide
   consolidations:
-  - '2011-01-01'
   - '2021-05-07'
 - path: rgd/2000/10/27/n5/consolide
   consolidations:
-  - '2004-03-31'
   - '2009-08-01'
 - path: rgd/2001/04/05/n1/consolide
   consolidations:
-  - '2010-12-28'
-  - '2021-03-12'
   - '2021-07-27'
 - path: rgd/2001/04/05/n2/consolide
   consolidations:
-  - '2008-07-06'
-  - '2010-12-28'
-  - '2019-11-17'
   - '2021-03-12'
 - path: rgd/2001/04/18/n4/consolide
   consolidations:
   - '2002-01-01'
 - path: rgd/2001/04/25/n1/consolide
   consolidations:
-  - '2019-04-21'
   - '2021-11-19'
 - path: rgd/2001/07/24/n1/consolide
   consolidations:
   - '2012-07-01'
 - path: rgd/2001/10/12/n5/consolide
   consolidations:
-  - '2009-01-01'
-  - '2012-01-01'
   - '2026-01-01'
 - path: rgd/2001/10/18/n3/consolide
   consolidations:
-  - '2003-03-31'
-  - '2005-05-02'
-  - '2007-02-16'
-  - '2008-07-29'
-  - '2009-06-06'
-  - '2009-10-27'
-  - '2019-10-19'
-  - '2020-12-18'
-  - '2022-08-01'
-  - '2022-11-29'
-  - '2025-02-22'
   - '2026-02-24'
 - path: rgd/2001/11/15/n1/consolide
   consolidations:
   - '2011-03-27'
 - path: rgd/2001/11/15/n2/consolide
   consolidations:
-  - '2006-10-09'
   - '2011-03-27'
 - path: rgd/2001/11/23/n3/consolide
   consolidations:
@@ -3498,52 +2243,39 @@ works:
   - '2004-06-28'
 - path: rgd/2001/12/21/n5/consolide
   consolidations:
-  - '2004-04-05'
-  - '2007-01-01'
   - '2025-01-01'
 - path: rgd/2001/12/21/n7/consolide
   consolidations:
-  - '2006-04-30'
   - '2025-11-29'
 - path: rgd/2002/01/30/n1/consolide
   consolidations:
-  - '2005-02-18'
-  - '2016-03-29'
   - '2023-12-18'
 - path: rgd/2002/03/01/n4/consolide
   consolidations:
-  - '2009-09-26'
   - '2013-07-22'
 - path: rgd/2002/03/26/n1/consolide
   consolidations:
   - '2022-06-07'
 - path: rgd/2002/04/29/n5/consolide
   consolidations:
-  - '2014-11-07'
   - '2024-05-28'
 - path: rgd/2002/04/29/n6/consolide
   consolidations:
   - '2009-08-07'
 - path: rgd/2002/06/26/n4/consolide
   consolidations:
-  - '2004-03-29'
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2002/07/08/n1/consolide
   consolidations:
-  - '2007-11-10'
-  - '2013-01-01'
   - '2022-01-01'
 - path: rgd/2002/07/25/n1/consolide
   consolidations:
   - '2022-01-01'
 - path: rgd/2002/07/30/n8/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2002/08/13/n2/consolide
   consolidations:
-  - '2008-02-23'
   - '2021-05-07'
 - path: rgd/2002/09/20/n6/consolide
   consolidations:
@@ -3565,16 +2297,12 @@ works:
   - '2014-09-01'
 - path: rgd/2003/08/29/n1/consolide
   consolidations:
-  - '2017-11-25'
   - '2023-09-23'
 - path: rgd/2003/12/11/n1/consolide
   consolidations:
-  - '2007-05-12'
-  - '2013-12-14'
   - '2026-08-11'
 - path: rgd/2003/12/23/n3/consolide
   consolidations:
-  - '2004-05-21'
   - '2005-08-01'
 - path: rgd/2004/01/30/n3/consolide
   consolidations:
@@ -3587,7 +2315,6 @@ works:
   - '2009-02-03'
 - path: rgd/2004/03/05/n15/consolide
   consolidations:
-  - '2018-07-02'
   - '2026-10-11'
 - path: rgd/2004/03/05/n5/consolide
   consolidations:
@@ -3597,77 +2324,51 @@ works:
   - '2004-03-15'
 - path: rgd/2004/03/19/n2/consolide
   consolidations:
-  - '2005-10-04'
-  - '2015-03-08'
   - '2024-03-15'
 - path: rgd/2004/03/22/n2/consolide
   consolidations:
   - '2005-10-25'
 - path: rgd/2004/04/23/n1/consolide
   consolidations:
-  - '2009-01-01'
   - '2020-04-15'
 - path: rgd/2004/05/06/n4/consolide
   consolidations:
-  - '2011-01-01'
   - '2013-01-01'
 - path: rgd/2004/09/17/n1/consolide
   consolidations:
-  - '2007-01-02'
-  - '2010-05-29'
-  - '2012-10-19'
   - '2024-11-16'
 - path: rgd/2004/09/27/n3/consolide
   consolidations:
-  - '2011-01-03'
-  - '2013-12-07'
   - '2019-01-01'
 - path: rgd/2004/10/07/n1/consolide
   consolidations:
-  - '2013-07-01'
-  - '2014-02-02'
-  - '2019-01-01'
   - '2026-07-31'
 - path: rgd/2004/11/19/n4/consolide
   consolidations:
-  - '2006-10-21'
   - '2019-02-05'
 - path: rgd/2004/12/23/n1/consolide
   consolidations:
-  - '2006-12-01'
-  - '2018-06-02'
-  - '2021-02-21'
   - '2025-06-02'
 - path: rgd/2005/01/18/n3/consolide
   consolidations:
-  - '2016-03-29'
-  - '2018-09-28'
   - '2023-02-17'
 - path: rgd/2005/01/26/n1/consolide
   consolidations:
-  - '2006-08-14'
-  - '2008-02-01'
-  - '2013-01-01'
-  - '2013-06-29'
   - '2015-02-16'
 - path: rgd/2005/02/16/n9/consolide
   consolidations:
-  - '2005-09-24'
   - '2025-02-11'
 - path: rgd/2005/04/29/n1/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2005/05/30/n5/consolide
   consolidations:
-  - '2007-02-16'
   - '2019-07-06'
 - path: rgd/2005/06/09/n1/consolide
   consolidations:
   - '2016-03-27'
 - path: rgd/2005/07/14/n2/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2005/07/14/n6/consolide
   consolidations:
@@ -3677,14 +2378,9 @@ works:
   - '2007-09-07'
 - path: rgd/2006/01/25/n8/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2006/02/03/n3/consolide
   consolidations:
-  - '2007-03-06'
-  - '2008-01-01'
-  - '2011-05-01'
-  - '2022-02-01'
   - '2022-12-27'
 - path: rgd/2006/07/31/n11/consolide
   consolidations:
@@ -3697,72 +2393,48 @@ works:
   - '2017-03-10'
 - path: rgd/2006/10/27/n1/consolide
   consolidations:
-  - '2013-07-01'
-  - '2015-02-09'
-  - '2016-07-11'
   - '2024-01-01'
 - path: rgd/2006/11/10/n4/consolide
   consolidations:
   - '2011-09-03'
 - path: rgd/2006/12/22/n9/consolide
   consolidations:
-  - '2010-01-01'
-  - '2018-01-01'
   - '2024-02-05'
 - path: rgd/2007/02/13/n2/consolide
   consolidations:
   - '2017-04-03'
 - path: rgd/2007/03/14/n1/consolide
   consolidations:
-  - '2014-01-01'
   - '2017-08-01'
 - path: rgd/2007/06/07/n2/consolide
   consolidations:
   - '2023-07-17'
 - path: rgd/2007/07/24/n1/consolide
   consolidations:
-  - '2007-09-15'
-  - '2011-09-15'
-  - '2012-09-15'
-  - '2013-09-15'
-  - '2014-09-15'
-  - '2015-09-15'
-  - '2016-09-15'
-  - '2023-09-15'
   - '2025-09-15'
 - path: rgd/2007/08/30/n1/consolide
   consolidations:
-  - '2007-09-11'
   - '2017-03-31'
 - path: rgd/2007/08/30/n2/consolide
   consolidations:
-  - '2007-09-11'
   - '2013-02-16'
 - path: rgd/2007/10/15/n1/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2007/11/30/n6/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2007/12/07/n2/consolide
   consolidations:
   - '2014-11-07'
 - path: rgd/2007/12/21/n21/consolide
   consolidations:
-  - '2011-04-11'
-  - '2013-06-29'
-  - '2017-12-25'
   - '2023-01-23'
 - path: rgd/2008/01/25/n1/consolide
   consolidations:
   - '2013-01-01'
 - path: rgd/2008/02/19/n1/consolide
   consolidations:
-  - '2013-07-01'
-  - '2016-09-02'
-  - '2018-08-13'
   - '2024-01-01'
 - path: rgd/2008/05/09/n2/consolide
   consolidations:
@@ -3778,41 +2450,27 @@ works:
   - '2023-08-20'
 - path: rgd/2008/09/05/n1/consolide
   consolidations:
-  - '2012-02-06'
-  - '2018-09-21'
   - '2024-07-01'
 - path: rgd/2008/09/05/n2/consolide
   consolidations:
   - '2021-07-05'
 - path: rgd/2008/09/05/n3/consolide
   consolidations:
-  - '2012-07-08'
-  - '2013-06-29'
   - '2018-09-21'
 - path: rgd/2008/09/05/n5/consolide
   consolidations:
-  - '2022-06-06'
   - '2024-03-12'
 - path: rgd/2008/09/05/n6/consolide
   consolidations:
-  - '2011-05-24'
-  - '2013-06-29'
-  - '2015-03-17'
-  - '2020-06-29'
-  - '2021-07-05'
-  - '2023-04-15'
   - '2024-07-01'
 - path: rgd/2008/09/26/n1/consolide
   consolidations:
-  - '2008-10-03'
   - '2011-08-25'
 - path: rgd/2008/09/26/n3/consolide
   consolidations:
-  - '2012-02-07'
   - '2024-07-01'
 - path: rgd/2008/11/21/n1/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2008/12/09/n1/consolide
   consolidations:
@@ -3822,32 +2480,24 @@ works:
   - '2011-01-01'
 - path: rgd/2008/12/19/n9/consolide
   consolidations:
-  - '2013-01-01'
-  - '2017-01-01'
   - '2026-01-01'
 - path: rgd/2009/01/22/n3/consolide
   consolidations:
   - '2024-10-26'
 - path: rgd/2009/02/03/n1/consolide
   consolidations:
-  - '2022-05-03'
   - '2022-10-13'
 - path: rgd/2009/02/12/n5/consolide
   consolidations:
-  - '2018-06-25'
   - '2019-04-22'
 - path: rgd/2009/02/13/n4/consolide
   consolidations:
-  - '2011-11-20'
-  - '2015-01-02'
   - '2023-03-13'
 - path: rgd/2009/03/13/n3/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2009/03/23/n1/consolide
   consolidations:
-  - '2013-09-15'
   - '2025-09-15'
 - path: rgd/2009/04/28/n1/consolide
   consolidations:
@@ -3857,12 +2507,9 @@ works:
   - '2015-03-16'
 - path: rgd/2009/05/07/n2/consolide
   consolidations:
-  - '2021-02-21'
   - '2025-04-21'
 - path: rgd/2009/05/14/n2/consolide
   consolidations:
-  - '2009-09-15'
-  - '2017-08-13'
   - '2026-09-15'
   scheduled:
   - '2027-09-15'
@@ -3877,35 +2524,24 @@ works:
   - '2012-09-22'
 - path: rgd/2009/05/19/n2/consolide
   consolidations:
-  - '2010-01-01'
-  - '2013-07-01'
-  - '2018-12-08'
   - '2024-01-01'
 - path: rgd/2009/05/28/n3/consolide
   consolidations:
-  - '2009-09-14'
-  - '2013-07-01'
-  - '2014-09-15'
   - '2024-01-01'
 - path: rgd/2009/05/28/n5/consolide
   consolidations:
   - '2014-04-18'
 - path: rgd/2009/06/10/n1/consolide
   consolidations:
-  - '2012-04-24'
-  - '2013-03-22'
   - '2026-07-17'
 - path: rgd/2009/06/25/n4/consolide
   consolidations:
-  - '2020-01-01'
   - '2026-07-03'
 - path: rgd/2009/07/01/n1/consolide
   consolidations:
   - '2014-04-18'
 - path: rgd/2009/07/06/n2/consolide
   consolidations:
-  - '2011-12-23'
-  - '2024-05-29'
   - '2026-09-15'
   scheduled:
   - '2027-09-15'
@@ -3915,23 +2551,15 @@ works:
   - '2030-09-15'
 - path: rgd/2009/07/22/n1/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-09-15'
 - path: rgd/2009/10/06/n2/consolide
   consolidations:
   - '2014-04-18'
 - path: rgd/2009/10/22/n1/consolide
   consolidations:
-  - '2020-03-16'
-  - '2020-12-18'
   - '2021-05-18'
 - path: rgd/2009/11/06/n4/consolide
   consolidations:
-  - '2011-01-17'
-  - '2014-04-04'
-  - '2015-02-22'
-  - '2016-12-31'
-  - '2017-12-24'
   - '2021-12-25'
 - path: rgd/2009/11/06/n8/consolide
   consolidations:
@@ -3941,54 +2569,39 @@ works:
   - '2013-01-28'
 - path: rgd/2009/11/28/n5/consolide
   consolidations:
-  - '2012-01-17'
   - '2023-10-09'
 - path: rgd/2009/12/01/n7/consolide
   consolidations:
-  - '2012-01-01'
-  - '2013-04-08'
   - '2021-07-01'
 - path: rgd/2009/12/04/n1/consolide
   consolidations:
-  - '2012-08-07'
-  - '2018-05-27'
   - '2022-06-06'
 - path: rgd/2009/12/18/n17/consolide
   consolidations:
   - '2017-07-01'
 - path: rgd/2010/01/11/n1/consolide
   consolidations:
-  - '2010-01-23'
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2010/01/26/n9/consolide
   consolidations:
-  - '2013-09-07'
   - '2015-03-24'
 - path: rgd/2010/02/18/n9/consolide
   consolidations:
   - '2017-04-01'
 - path: rgd/2010/03/31/n2/consolide
   consolidations:
-  - '2014-01-01'
-  - '2016-08-02'
-  - '2017-05-15'
-  - '2022-11-11'
   - '2022-12-27'
 - path: rgd/2010/05/12/n2/consolide
   consolidations:
   - '2016-04-30'
 - path: rgd/2010/05/12/n6/consolide
   consolidations:
-  - '2017-04-25'
-  - '2025-09-01'
   - '2026-10-11'
 - path: rgd/2010/08/03/n20/consolide
   consolidations:
   - '2015-10-13'
 - path: rgd/2010/08/16/n2/consolide
   consolidations:
-  - '2012-08-18'
   - '2021-03-27'
 - path: rgd/2010/08/16/n7/consolide
   consolidations:
@@ -4004,19 +2617,6 @@ works:
   - '2023-04-01'
 - path: rgd/2010/12/17/n1/consolide
   consolidations:
-  - '2012-01-01'
-  - '2012-08-01'
-  - '2019-05-01'
-  - '2021-01-01'
-  - '2021-04-01'
-  - '2022-01-01'
-  - '2022-04-13'
-  - '2022-07-31'
-  - '2023-01-01'
-  - '2024-01-01'
-  - '2024-05-01'
-  - '2025-01-01'
-  - '2026-01-01'
   - '2026-07-01'
 - path: rgd/2010/12/17/n19/consolide
   consolidations:
@@ -4026,12 +2626,9 @@ works:
   - '2012-09-15'
 - path: rgd/2010/12/17/n3/consolide
   consolidations:
-  - '2010-07-01'
   - '2025-09-15'
 - path: rgd/2010/12/30/n13/consolide
   consolidations:
-  - '2011-01-17'
-  - '2012-01-01'
   - '2013-01-01'
 - path: rgd/2010/12/30/n8/consolide
   consolidations:
@@ -4041,17 +2638,12 @@ works:
   - '2021-07-01'
 - path: rgd/2011/02/27/n10/consolide
   consolidations:
-  - '2020-01-01'
-  - '2020-07-01'
-  - '2020-11-01'
   - '2026-10-11'
 - path: rgd/2011/02/27/n2/consolide
   consolidations:
-  - '2012-06-15'
   - '2026-02-23'
 - path: rgd/2011/02/27/n3/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2011/02/27/n9/consolide
   consolidations:
@@ -4061,48 +2653,36 @@ works:
   - '2015-06-09'
 - path: rgd/2011/04/07/n3/consolide
   consolidations:
-  - '2012-12-11'
   - '2019-09-01'
 - path: rgd/2011/04/28/n7/consolide
   consolidations:
   - '2015-06-02'
 - path: rgd/2011/04/29/n2/consolide
   consolidations:
-  - '2012-05-29'
   - '2017-02-19'
 - path: rgd/2011/05/05/n2/consolide
   consolidations:
   - '2022-07-01'
 - path: rgd/2011/06/16/n6/consolide
   consolidations:
-  - '2018-10-28'
   - '2023-10-24'
 - path: rgd/2011/07/10/n2/consolide
   consolidations:
-  - '2023-07-17'
   - '2025-07-22'
 - path: rgd/2011/07/15/n1/consolide
   consolidations:
-  - '2011-09-24'
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2011/07/28/n8/consolide
   consolidations:
   - '2022-02-01'
 - path: rgd/2011/07/30/n2/consolide
   consolidations:
-  - '2013-07-01'
-  - '2016-09-15'
   - '2024-01-01'
 - path: rgd/2011/07/30/n6/consolide
   consolidations:
-  - '2013-07-01'
-  - '2023-05-19'
   - '2024-01-01'
 - path: rgd/2011/08/11/n1/consolide
   consolidations:
-  - '2023-08-21'
-  - '2026-01-02'
   - '2026-09-15'
   scheduled:
   - '2027-09-15'
@@ -4115,21 +2695,9 @@ works:
   - '2019-09-13'
 - path: rgd/2011/08/17/n6/consolide
   consolidations:
-  - '2013-02-12'
-  - '2015-03-31'
-  - '2016-03-08'
-  - '2017-04-10'
-  - '2018-04-15'
-  - '2019-07-20'
-  - '2020-03-23'
-  - '2021-04-11'
-  - '2023-04-01'
-  - '2024-07-05'
-  - '2025-07-12'
   - '2026-04-13'
 - path: rgd/2011/08/17/n7/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2011/09/02/n3/consolide
   consolidations:
@@ -4148,7 +2716,6 @@ works:
   - '2011-11-15'
 - path: rgd/2011/09/13/n5/consolide
   consolidations:
-  - '2018-05-27'
   - '2024-06-01'
 - path: rgd/2011/09/30/n2/consolide
   consolidations:
@@ -4158,21 +2725,18 @@ works:
   - '2016-09-05'
 - path: rgd/2011/10/26/n1/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2011/11/12/n5/consolide
   consolidations:
   - '2012-02-16'
 - path: rgd/2011/11/15/n1/consolide
   consolidations:
-  - '2017-05-26'
   - '2020-01-01'
 - path: rgd/2011/11/15/n2/consolide
   consolidations:
   - '2020-01-01'
 - path: rgd/2011/11/15/n3/consolide
   consolidations:
-  - '2016-01-01'
   - '2020-01-01'
 - path: rgd/2011/11/25/n6/consolide
   consolidations:
@@ -4182,15 +2746,12 @@ works:
   - '2018-09-01'
 - path: rgd/2011/12/16/n2/consolide
   consolidations:
-  - '2017-12-11'
-  - '2024-06-29'
   - '2026-03-03'
 - path: rgd/2012/01/18/n1/consolide
   consolidations:
   - '2017-01-01'
 - path: rgd/2012/02/03/n1/consolide
   consolidations:
-  - '2018-07-30'
   - '2026-03-10'
 - path: rgd/2012/02/03/n2/consolide
   consolidations:
@@ -4200,22 +2761,18 @@ works:
   - '2012-04-14'
 - path: rgd/2012/08/07/n12/consolide
   consolidations:
-  - '2017-01-01'
   - '2022-12-01'
 - path: rgd/2012/09/18/n3/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2012/09/18/n4/consolide
   consolidations:
-  - '2013-07-01'
   - '2024-01-01'
 - path: rgd/2012/11/30/n10/consolide
   consolidations:
   - '2025-06-23'
 - path: rgd/2012/11/30/n9/consolide
   consolidations:
-  - '2018-04-01'
   - '2020-12-20'
 - path: rgd/2012/12/21/n10/consolide
   consolidations:
@@ -4225,9 +2782,6 @@ works:
   - '2023-10-30'
 - path: rgd/2012/12/26/n14/consolide
   consolidations:
-  - '2017-02-01'
-  - '2019-06-01'
-  - '2021-11-01'
   - '2023-05-01'
 - path: rgd/2012/12/26/n17/consolide
   consolidations:
@@ -4245,12 +2799,9 @@ works:
   - '2017-03-10'
 - path: rgd/2013/02/21/n1/consolide
   consolidations:
-  - '2016-12-05'
   - '2018-12-21'
 - path: rgd/2013/03/12/n2/consolide
   consolidations:
-  - '2018-07-29'
-  - '2024-09-10'
   - '2026-03-10'
 - path: rgd/2013/04/06/n1/consolide
   consolidations:
@@ -4272,12 +2823,9 @@ works:
   - '2013-12-14'
 - path: rgd/2013/07/30/n10/consolide
   consolidations:
-  - '2014-02-24'
   - '2025-12-01'
 - path: rgd/2013/07/30/n2/consolide
   consolidations:
-  - '2014-04-11'
-  - '2014-11-02'
   - '2020-05-08'
 - path: rgd/2013/08/27/n3/consolide
   consolidations:
@@ -4287,9 +2835,6 @@ works:
   - '2019-03-25'
 - path: rgd/2013/11/14/n2/consolide
   consolidations:
-  - '2015-08-14'
-  - '2018-07-01'
-  - '2018-09-16'
   - '2022-07-21'
 - path: rgd/2014/01/22/n1/consolide
   consolidations:
@@ -4302,17 +2847,9 @@ works:
   - '2020-08-25'
 - path: rgd/2014/03/26/n3/consolide
   consolidations:
-  - '2014-01-01'
-  - '2017-01-01'
-  - '2022-01-01'
-  - '2024-01-01'
-  - '2025-01-01'
   - '2026-01-01'
 - path: rgd/2014/06/18/n1/consolide
   consolidations:
-  - '2015-03-01'
-  - '2016-04-01'
-  - '2016-07-01'
   - '2022-03-11'
 - path: rgd/2014/07/28/n21/consolide
   consolidations:
@@ -4340,8 +2877,6 @@ works:
   - '2016-03-26'
 - path: rgd/2015/02/02/n5/consolide
   consolidations:
-  - '2021-01-01'
-  - '2022-01-01'
   - '2023-01-01'
 - path: rgd/2015/02/12/n1/consolide
   consolidations:
@@ -4357,18 +2892,15 @@ works:
   - '2020-04-06'
 - path: rgd/2015/06/17/n3/consolide
   consolidations:
-  - '2024-01-01'
   - '2024-10-01'
 - path: rgd/2015/07/31/n1/consolide
   consolidations:
   - '2017-03-10'
 - path: rgd/2015/08/05/n4/consolide
   consolidations:
-  - '2022-09-15'
   - '2024-11-22'
 - path: rgd/2015/08/07/n3/consolide
   consolidations:
-  - '2018-04-24'
   - '2023-10-24'
 - path: rgd/2015/08/25/n9/consolide
   consolidations:
@@ -4393,14 +2925,9 @@ works:
   - '2025-09-01'
 - path: rgd/2015/09/30/n3/consolide
   consolidations:
-  - '2018-06-09'
-  - '2020-07-10'
-  - '2020-08-04'
-  - '2021-07-11'
   - '2025-09-01'
 - path: rgd/2015/12/03/n2/consolide
   consolidations:
-  - '2018-11-23'
   - '2020-08-24'
 - path: rgd/2015/12/18/n12/consolide
   consolidations:
@@ -4410,15 +2937,9 @@ works:
   - '2024-02-17'
 - path: rgd/2016/01/15/n2/consolide
   consolidations:
-  - '2016-12-19'
   - '2020-12-14'
 - path: rgd/2016/01/26/n2/consolide
   consolidations:
-  - '2016-09-06'
-  - '2018-09-24'
-  - '2018-10-09'
-  - '2021-01-03'
-  - '2023-10-24'
   - '2025-08-09'
 - path: rgd/2016/01/26/n6/consolide
   consolidations:
@@ -4434,26 +2955,21 @@ works:
   - '2024-12-31'
 - path: rgd/2016/04/27/n4/consolide
   consolidations:
-  - '2017-05-16'
   - '2024-09-29'
 - path: rgd/2016/06/22/n3/consolide
   consolidations:
   - '2023-06-13'
 - path: rgd/2016/06/27/n1/consolide
   consolidations:
-  - '2017-08-13'
   - '2018-06-30'
 - path: rgd/2016/06/27/n5/consolide
   consolidations:
-  - '2018-01-01'
   - '2022-01-01'
 - path: rgd/2016/07/23/n9/consolide
   consolidations:
-  - '2018-08-06'
   - '2021-02-12'
 - path: rgd/2016/07/27/n1/consolide
   consolidations:
-  - '2019-01-01'
   - '2020-04-29'
 - path: rgd/2016/08/24/n4/consolide
   consolidations:
@@ -4463,33 +2979,18 @@ works:
   - '2021-09-11'
 - path: rgd/2016/08/24/n6/consolide
   consolidations:
-  - '2020-06-19'
   - '2025-12-22'
 - path: rgd/2016/08/24/n7/consolide
   consolidations:
-  - '2019-04-06'
   - '2021-09-11'
 - path: rgd/2016/09/03/n3/consolide
   consolidations:
-  - '2017-09-25'
-  - '2019-01-19'
-  - '2019-10-22'
-  - '2020-07-06'
-  - '2021-09-26'
-  - '2022-10-28'
-  - '2023-11-24'
-  - '2024-12-01'
   - '2025-11-17'
 - path: rgd/2016/11/14/n1/consolide
   consolidations:
-  - '2016-11-27'
-  - '2018-08-20'
-  - '2021-03-26'
   - '2026-07-24'
 - path: rgd/2016/11/14/n3/consolide
   consolidations:
-  - '2016-11-27'
-  - '2020-02-03'
   - '2021-03-23'
 - path: rgd/2016/11/17/n2/consolide
   consolidations:
@@ -4499,37 +3000,27 @@ works:
   - '2026-09-01'
 - path: rgd/2016/12/23/n16/consolide
   consolidations:
-  - '2022-01-01'
   - '2024-01-01'
 - path: rgd/2016/12/23/n17/consolide
   consolidations:
   - '2024-01-01'
 - path: rgd/2016/12/23/n32/consolide
   consolidations:
-  - '2020-04-28'
-  - '2021-10-18'
-  - '2024-01-01'
   - '2024-04-12'
 - path: rgd/2016/12/23/n33/consolide
   consolidations:
-  - '2020-02-11'
   - '2020-04-14'
 - path: rgd/2016/12/23/n40/consolide
   consolidations:
-  - '2019-04-23'
-  - '2020-04-20'
   - '2021-04-01'
 - path: rgd/2016/12/23/n41/consolide
   consolidations:
   - '2022-01-01'
 - path: rgd/2016/12/23/n7/consolide
   consolidations:
-  - '2020-01-01'
-  - '2022-01-01'
   - '2025-01-01'
 - path: rgd/2017/01/11/a127/consolide
   consolidations:
-  - '2018-06-12'
   - '2020-05-22'
 - path: rgd/2017/01/16/a81/consolide
   consolidations:
@@ -4539,7 +3030,6 @@ works:
   - '2018-06-03'
 - path: rgd/2017/03/08/a321/consolide
   consolidations:
-  - '2021-12-05'
   - '2026-03-14'
 - path: rgd/2017/03/08/a324/consolide
   consolidations:
@@ -4558,7 +3048,6 @@ works:
   - '2026-10-02'
 - path: rgd/2017/05/05/a485/consolide
   consolidations:
-  - '2018-04-24'
   - '2021-12-19'
 - path: rgd/2017/05/12/a492/consolide
   consolidations:
@@ -4574,23 +3063,9 @@ works:
   - '2020-12-13'
 - path: rgd/2017/07/28/a678/consolide
   consolidations:
-  - '2017-09-01'
-  - '2018-01-01'
-  - '2020-01-01'
-  - '2022-05-01'
-  - '2023-04-01'
-  - '2023-07-01'
-  - '2025-01-01'
-  - '2025-08-10'
   - '2026-08-01'
 - path: rgd/2017/07/28/a680/consolide
   consolidations:
-  - '2018-01-01'
-  - '2020-01-01'
-  - '2023-04-01'
-  - '2023-07-01'
-  - '2025-01-01'
-  - '2025-08-10'
   - '2026-08-01'
 - path: rgd/2017/07/28/a760/consolide
   consolidations:
@@ -4600,7 +3075,6 @@ works:
   - '2018-06-30'
 - path: rgd/2017/08/14/a767/consolide
   consolidations:
-  - '2018-10-01'
   - '2023-07-01'
 - path: rgd/2017/08/29/a797/consolide
   consolidations:
@@ -4610,7 +3084,6 @@ works:
   - '2019-05-24'
 - path: rgd/2017/09/26/a864/consolide
   consolidations:
-  - '2022-02-21'
   - '2025-12-22'
 - path: rgd/2017/10/09/a881/consolide
   consolidations:
@@ -4620,58 +3093,36 @@ works:
   - '2023-02-20'
 - path: rgd/2017/11/23/a1008/consolide
   consolidations:
-  - '2020-06-12'
   - '2021-04-12'
 - path: rgd/2017/11/30/a1010/consolide
   consolidations:
-  - '2018-09-01'
   - '2020-01-01'
 - path: rgd/2017/12/13/a1090/consolide
   consolidations:
-  - '2018-10-01'
-  - '2023-09-01'
-  - '2025-03-23'
   - '2026-02-15'
 - path: rgd/2018/02/13/a136/consolide
   consolidations:
-  - '2018-07-14'
-  - '2019-03-22'
-  - '2020-01-31'
-  - '2021-01-30'
-  - '2021-12-17'
-  - '2022-12-27'
-  - '2024-02-27'
-  - '2025-05-10'
   - '2026-03-20'
 - path: rgd/2018/03/18/a200/consolide
   consolidations:
   - '2019-03-11'
 - path: rgd/2018/04/08/a244/consolide
   consolidations:
-  - '2019-03-25'
-  - '2020-10-05'
-  - '2023-04-01'
   - '2024-06-11'
 - path: rgd/2018/04/10/a251/consolide
   consolidations:
   - '2020-05-08'
 - path: rgd/2018/04/24/a331/consolide
   consolidations:
-  - '2018-05-04'
   - '2024-06-08'
 - path: rgd/2018/04/25/a330/consolide
   consolidations:
   - '2023-09-09'
 - path: rgd/2018/05/01/a353/consolide
   consolidations:
-  - '2018-05-12'
   - '2019-11-08'
 - path: rgd/2018/05/15/a399/consolide
   consolidations:
-  - '2018-05-27'
-  - '2023-03-11'
-  - '2024-06-01'
-  - '2025-05-16'
   - '2025-08-04'
 - path: rgd/2018/05/24/a441/consolide
   consolidations:
@@ -4690,8 +3141,6 @@ works:
   - '2021-07-09'
 - path: rgd/2018/06/15/a551/consolide
   consolidations:
-  - '2022-03-24'
-  - '2025-08-10'
   - '2026-08-01'
 - path: rgd/2018/06/27/a545/consolide
   consolidations:
@@ -4707,7 +3156,6 @@ works:
   - '2023-06-13'
 - path: rgd/2018/08/01/a660/consolide
   consolidations:
-  - '2021-07-13'
   - '2022-12-11'
 - path: rgd/2018/08/01/a774/consolide
   consolidations:
@@ -4717,52 +3165,36 @@ works:
   - '2022-07-22'
 - path: rgd/2018/08/17/a732/consolide
   consolidations:
-  - '2020-01-01'
-  - '2020-11-17'
   - '2022-10-21'
 - path: rgd/2018/08/21/a868/consolide
   consolidations:
-  - '2018-10-16'
   - '2022-05-31'
 - path: rgd/2018/08/31/a816/consolide
   consolidations:
-  - '2019-05-21'
   - '2019-09-16'
 - path: rgd/2018/09/14/a856/consolide
   consolidations:
   - '2022-04-01'
 - path: rgd/2018/10/04/a923/consolide
   consolidations:
-  - '2019-10-19'
-  - '2020-11-08'
-  - '2020-12-25'
   - '2021-02-15'
 - path: rgd/2018/10/06/a947/consolide
   consolidations:
-  - '2021-06-01'
   - '2023-12-16'
 - path: rgd/2018/10/12/a953/consolide
   consolidations:
-  - '2019-11-08'
-  - '2021-05-25'
   - '2022-07-20'
 - path: rgd/2018/10/27/a1008/consolide
   consolidations:
-  - '2020-03-16'
-  - '2020-11-30'
-  - '2022-02-01'
   - '2026-09-01'
 - path: rgd/2018/10/31/a1199/consolide
   consolidations:
-  - '2020-01-01'
   - '2020-09-08'
 - path: rgd/2018/11/09/a1048/consolide
   consolidations:
   - '2022-06-12'
 - path: rgd/2018/12/05/a1107/consolide
   consolidations:
-  - '2022-07-29'
-  - '2024-07-21'
   - '2025-04-01'
 - path: rgd/2018/12/05/a1115/consolide
   consolidations:
@@ -4775,25 +3207,18 @@ works:
   - '2024-06-01'
 - path: rgd/2018/12/21/a6/consolide
   consolidations:
-  - '2019-11-26'
   - '2020-04-01'
 - path: rgd/2019/01/25/a53/consolide
   consolidations:
-  - '2023-12-26'
   - '2025-12-31'
 - path: rgd/2019/02/15/a104/consolide
   consolidations:
-  - '2021-01-15'
-  - '2021-06-12'
-  - '2022-06-07'
-  - '2022-07-22'
   - '2023-02-17'
 - path: rgd/2019/02/15/a73/consolide
   consolidations:
   - '2025-03-24'
 - path: rgd/2019/03/01/a106/consolide
   consolidations:
-  - '2024-01-01'
   - '2026-01-01'
 - path: rgd/2019/03/01/a108/consolide
   consolidations:
@@ -4806,15 +3231,9 @@ works:
   - '2020-03-13'
 - path: rgd/2019/03/07/a183/consolide
   consolidations:
-  - '2020-01-01'
-  - '2020-05-11'
-  - '2021-04-01'
-  - '2022-04-01'
-  - '2024-04-01'
   - '2025-07-26'
 - path: rgd/2019/04/26/a279/consolide
   consolidations:
-  - '2022-01-01'
   - '2023-01-01'
 - path: rgd/2019/05/21/a353/consolide
   consolidations:
@@ -4827,7 +3246,6 @@ works:
   - '2023-05-02'
 - path: rgd/2019/08/15/a571/consolide
   consolidations:
-  - '2020-01-20'
   - '2021-05-15'
 - path: rgd/2019/08/22/a578/consolide
   consolidations:
@@ -4852,27 +3270,12 @@ works:
   - '2021-08-20'
 - path: rgd/2020/03/18/a165/consolide
   consolidations:
-  - '2020-03-20'
-  - '2020-04-01'
-  - '2020-04-03'
-  - '2020-04-09'
-  - '2020-04-18'
-  - '2020-04-20'
-  - '2020-04-24'
-  - '2020-05-04'
-  - '2020-05-11'
-  - '2020-05-15'
-  - '2020-05-27'
-  - '2020-05-29'
-  - '2020-06-10'
   - '2020-06-12'
 - path: rgd/2020/03/20/a171/consolide
   consolidations:
   - '2020-05-29'
 - path: rgd/2020/03/25/a185/consolide
   consolidations:
-  - '2020-03-26'
-  - '2020-04-02'
   - '2020-04-17'
 - path: rgd/2020/03/25/a187/consolide
   consolidations:
@@ -4891,12 +3294,6 @@ works:
   - '2020-05-29'
 - path: rgd/2020/04/03/a232/consolide
   consolidations:
-  - '2020-05-26'
-  - '2020-06-24'
-  - '2020-11-26'
-  - '2020-12-30'
-  - '2021-03-01'
-  - '2021-05-04'
   - '2022-01-13'
 - path: rgd/2020/04/03/a237/consolide
   consolidations:
@@ -4915,7 +3312,6 @@ works:
   - '2020-04-17'
 - path: rgd/2020/04/10/a333/consolide
   consolidations:
-  - '2020-09-03'
   - '2021-08-31'
 - path: rgd/2020/04/15/a290/consolide
   consolidations:
@@ -4931,44 +3327,15 @@ works:
   - '2020-07-06'
 - path: rgd/2020/06/20/a537/consolide
   consolidations:
-  - '2020-07-01'
-  - '2020-07-17'
-  - '2020-08-07'
-  - '2020-08-14'
-  - '2020-08-21'
-  - '2020-09-11'
-  - '2020-11-09'
-  - '2020-12-21'
-  - '2021-01-11'
-  - '2021-01-29'
-  - '2021-02-08'
-  - '2021-03-29'
-  - '2021-06-13'
-  - '2021-06-28'
-  - '2021-07-12'
-  - '2021-07-26'
-  - '2021-09-22'
-  - '2021-10-11'
-  - '2021-10-29'
-  - '2021-11-22'
-  - '2021-12-06'
-  - '2021-12-22'
-  - '2022-01-31'
-  - '2022-02-28'
   - '2022-06-30'
 - path: rgd/2020/06/20/a539/consolide
   consolidations:
-  - '2020-12-22'
-  - '2021-07-01'
   - '2022-01-01'
 - path: rgd/2020/07/29/a656/consolide
   consolidations:
-  - '2020-08-04'
-  - '2021-11-13'
   - '2023-11-24'
 - path: rgd/2020/08/19/a702/consolide
   consolidations:
-  - '2023-01-01'
   - '2025-01-01'
 - path: rgd/2020/09/02/a734/consolide
   consolidations:
@@ -4990,8 +3357,6 @@ works:
   - '2022-08-27'
 - path: rgd/2020/11/17/a908/consolide
   consolidations:
-  - '2021-05-02'
-  - '2021-09-20'
   - '2022-06-12'
 - path: rgd/2020/12/08/a1006/consolide
   consolidations:
@@ -5001,7 +3366,6 @@ works:
   - '2026-01-01'
 - path: rgd/2021/01/22/a133/consolide
   consolidations:
-  - '2022-05-02'
   - '2022-08-13'
 - path: rgd/2021/02/10/a104/consolide
   consolidations:
@@ -5020,7 +3384,6 @@ works:
   - '2025-04-28'
 - path: rgd/2021/04/23/a337/consolide
   consolidations:
-  - '2022-03-24'
   - '2026-09-01'
 - path: rgd/2021/05/07/a358/consolide
   consolidations:
@@ -5036,7 +3399,6 @@ works:
   - '2023-10-01'
 - path: rgd/2021/06/09/a439/consolide
   consolidations:
-  - '2022-07-09'
   - '2024-06-01'
 - path: rgd/2021/06/25/a481/consolide
   consolidations:
@@ -5058,16 +3420,12 @@ works:
   - '2025-06-14'
 - path: rgd/2021/10/20/a770/consolide
   consolidations:
-  - '2022-05-07'
-  - '2022-05-09'
   - '2022-08-13'
 - path: rgd/2021/10/20/a792/consolide
   consolidations:
-  - '2022-08-13'
   - '2025-06-14'
 - path: rgd/2021/10/20/a803/consolide
   consolidations:
-  - '2022-08-13'
   - '2025-06-14'
 - path: rgd/2021/10/26/a754/consolide
   consolidations:
@@ -5083,11 +3441,9 @@ works:
   - '2025-01-01'
 - path: rgd/2022/02/25/a90/consolide
   consolidations:
-  - '2022-06-01'
   - '2023-04-02'
 - path: rgd/2022/03/09/a101/consolide
   consolidations:
-  - '2024-05-11'
   - '2025-04-28'
 - path: rgd/2022/03/11/a132/consolide
   consolidations:
@@ -5097,10 +3453,6 @@ works:
   - '2026-03-17'
 - path: rgd/2022/04/07/a180/consolide
   consolidations:
-  - '2022-01-01'
-  - '2022-11-01'
-  - '2024-01-01'
-  - '2024-07-01'
   - '2026-01-04'
 - path: rgd/2022/05/17/a238/consolide
   consolidations:
@@ -5116,9 +3468,6 @@ works:
   - '2022-06-14'
 - path: rgd/2022/06/16/a326/consolide
   consolidations:
-  - '2023-09-01'
-  - '2024-09-01'
-  - '2025-09-01'
   - '2026-09-01'
 - path: rgd/2022/06/20/a312/consolide
   consolidations:
@@ -5158,11 +3507,9 @@ works:
   - '2023-02-03'
 - path: rgd/2023/02/03/a83/consolide
   consolidations:
-  - '2025-05-21'
   - '2025-07-04'
 - path: rgd/2023/02/21/a95/consolide
   consolidations:
-  - '2025-07-02'
   - '2026-04-01'
 - path: rgd/2023/06/07/a287/consolide
   consolidations:
@@ -5181,7 +3528,6 @@ works:
   - '2023-09-15'
 - path: rgd/2023/08/07/a555/consolide
   consolidations:
-  - '2026-01-01'
   - '2026-01-04'
 - path: rgd/2023/08/30/a569/consolide
   consolidations:
@@ -5218,7 +3564,6 @@ works:
   - '2024-02-03'
 - path: rgd/2024/02/08/a50/consolide
   consolidations:
-  - '2024-11-16'
   - '2026-02-08'
 - path: rgd/2024/02/08/a69/consolide
   consolidations:
@@ -5261,7 +3606,6 @@ works:
   - '2024-11-16'
 - path: rgd/2024/11/21/a630/consolide
   consolidations:
-  - '2023-01-01'
   - '2024-11-01'
 - path: rgd/2024/12/13/a522/consolide
   consolidations:
@@ -5271,14 +3615,12 @@ works:
   - '2025-01-01'
 - path: rgd/2025/03/13/a93/consolide
   consolidations:
-  - '2025-03-21'
   - '2026-07-24'
 - path: rgd/2025/04/04/a133/consolide
   consolidations:
   - '2025-04-14'
 - path: rgd/2025/07/29/a355/consolide
   consolidations:
-  - '2025-07-16'
   - '2026-07-16'
 - path: rgd/2025/10/22/a465/consolide
   consolidations:
@@ -5294,29 +3636,12 @@ works:
   - '2026-09-15'
 - path: ri/2013/01/09/n1/consolide
   consolidations:
-  - '2016-09-14'
-  - '2017-09-20'
-  - '2017-12-06'
-  - '2018-03-21'
-  - '2018-05-16'
   - '2022-07-20'
 - path: ri/2023/10/24/a761/consolide
   consolidations:
-  - '2023-07-01'
-  - '2024-03-19'
-  - '2024-06-13'
-  - '2024-06-26'
-  - '2024-10-10'
-  - '2025-01-01'
-  - '2025-01-22'
-  - '2025-03-15'
-  - '2025-06-17'
-  - '2025-09-15'
-  - '2026-01-01'
   - '2026-01-21'
 - path: ri/2023/11/27/a779/consolide
   consolidations:
-  - '2024-11-01'
   - '2026-04-16'
 - path: rmin/1973/01/26/n1/consolide
   consolidations:
@@ -5329,13 +3654,9 @@ works:
   - '2013-03-13'
 - path: rmin/2006/02/14/n3/consolide
   consolidations:
-  - '2011-06-13'
   - '2015-07-28'
 - path: rmin/2016/05/27/n1/consolide
   consolidations:
-  - '2018-01-11'
-  - '2023-03-16'
-  - '2023-09-25'
   - '2023-11-30'
 - path: rmin/2018/08/07/a766/consolide
   consolidations:
@@ -5348,25 +3669,15 @@ works:
   - '2020-11-17'
 - path: rmin/2020/12/16/a1028/consolide
   consolidations:
-  - '2021-03-29'
-  - '2024-09-14'
-  - '2025-07-29'
-  - '2026-09-13'
   - '2026-09-30'
 - path: rmin/2023/07/03/a354/consolide
   consolidations:
-  - '2024-12-17'
-  - '2025-12-30'
-  - '2026-03-31'
-  - '2026-04-14'
-  - '2026-04-28'
   - '2026-05-19'
 - path: rmin/2024/07/18/a293/consolide
   consolidations:
   - '2024-10-29'
 - path: rmin/2024/11/26/a579/consolide
   consolidations:
-  - '2025-07-01'
   - '2026-01-01'
 - path: rmin/2026/05/06/a230/consolide
   consolidations:

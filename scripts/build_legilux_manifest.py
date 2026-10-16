@@ -15,7 +15,10 @@ checks the derivation against the file location the linked data states and stops
 
 Requests go through PoliteHttp (identifying User-Agent, 5 s between requests, cached); one SPARQL query.
 
-    python scripts/build_legilux_manifest.py [YYYY-MM-DD]
+    python scripts/build_legilux_manifest.py [YYYY-MM-DD] [--history]
+
+By default only the LATEST consolidation of each work is listed (the text in force today); ``--history`` lists every
+consolidation, for the earlier versions of each work (a larger load, for questions about past dates).
 """
 
 from __future__ import annotations
@@ -56,10 +59,15 @@ HEADER = """# Luxembourg consolidated legislation from Legilux (Akoma Ntoso XML,
 # Consolidated texts have no legal value: the authentic text is the one published in the Mémorial A.
 # Licence: CC BY 4.0, attribution to the Ministère d'Etat - Service central de législation.
 """
+HISTORY_NOTE = """# Only the latest consolidation of each work (the text in force today) is listed; the {n:,} earlier
+# consolidations of the same works are left out. `--history` lists them all.
+"""
 
 
 def main() -> None:
-    built_on = date.fromisoformat(sys.argv[1]) if len(sys.argv) > 1 else date.today()
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    history = "--history" in sys.argv
+    built_on = date.fromisoformat(args[0]) if args else date.today()
     http = PoliteHttp(
         ROOT / "var" / "sources",
         USER_AGENT,
@@ -96,6 +104,9 @@ def main() -> None:
             raise SystemExit(f"file location differs from the derived URL:\n  {row['x']['value']}\n  {expected}")
         (scheduled if day > built_on else works)[path].append(day)
 
+    all_consolidations = sum(len(set(days)) for days in works.values())
+    if not history:
+        works = {path: [max(days)] for path, days in works.items()}
     manifest = {
         "schema_version": 1,
         "source_id": "lu-legilux",
@@ -113,7 +124,8 @@ def main() -> None:
             for path, days in sorted(works.items())
         ],
     }
-    OUT.write_text(HEADER + yaml.safe_dump(manifest, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    note = "" if history else HISTORY_NOTE.format(n=all_consolidations - len(manifest["works"]))
+    OUT.write_text(HEADER + note + yaml.safe_dump(manifest, sort_keys=False, allow_unicode=True), encoding="utf-8")
     total = sum(len(w["consolidations"]) for w in manifest["works"])
     kinds = collections.Counter(w["path"].split("/")[0] for w in manifest["works"])
     print(f"{OUT}: {len(manifest['works'])} works, {total} consolidations; by kind {dict(kinds)}")

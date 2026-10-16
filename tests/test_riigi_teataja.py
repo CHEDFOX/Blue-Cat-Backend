@@ -710,10 +710,10 @@ def test_source_uses_this_connector(catalog: Catalog) -> None:
     assert isinstance(build_connector(catalog.sources.get(SOURCE)), RiigiTeatajaConnector)
     manifest = yaml.safe_load((Path(__file__).parents[1] / "config/manifests/ee-riigi-teataja.yaml").read_text())
     assert [w["abbreviation"] for w in manifest["works"]] == ["PS", "KarS", "VÕS", "IKS", "TLS", "HMS"]
-    # the acts in force: the whole archive, the acts and regulations of the state and of the local governments
+    # the acts in force: the whole archive, the acts and regulations of the state (the local governments are left out)
     select = manifest["select"]
     assert select["document_types"] == ["seadus", "määrus"] and select["as_of"] == "archive" and "part" not in select
-    assert "exclude_issuers" not in select
+    assert select["exclude_issuers"] == "(Vallavolikogu|Vallavalitsus|Linnavolikogu|Linnavalitsus)$"
     # the connector's own validation accepts the committed manifest
     connector = build_connector(catalog.sources.get(SOURCE))
     assert isinstance(connector, RiigiTeatajaConnector)
