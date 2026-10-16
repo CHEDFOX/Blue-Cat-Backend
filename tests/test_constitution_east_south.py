@@ -1,4 +1,4 @@
-"""Constitutions of East and Southern Africa (RW, MG, MU, DJ, AO, SO, TZ, NA, SC, LS, ZW): manifests, hints and citations.
+"""Constitutions of East and Southern Africa (RW, MG, MU, DJ, AO, SO, TZ, NA, SC, LS, ZW, MZ): manifests, hints and citations.
 
 The fixtures (``tests/fixtures/constitution_east_south``) are the real text lines of pages of the publishers' PDFs and
 pages (``pdftotext``), written back into small PDFs by ``tests/constitution_pdf.py`` (and, for the documents printed in
@@ -41,6 +41,7 @@ SOURCES = {
     "sc-ecs-constitution": ("ecs.sc", {"sc-en": "en"}),
     "ls-gov-constitution": ("www.gov.ls", {"ls-en": "en"}),
     "zw-youth-constitution": ("youth.gov.zw", {"zw-en": "en"}),
+    "mz-minec-constitution": ("minec.gov.mz", {"mz-pt": "pt"}),
 }
 
 
@@ -323,6 +324,16 @@ def test_zimbabwe_number_then_title_sections_and_an_unnumbered_first_section() -
     assert "Zimbabwe is a unitary, democratic and sovereign republic." in (prov(doc, "sec-2").context_heading or "")
     assert cite(doc, "sec-2-par1") == "Zimbabwe Constitution s. 2(1)"
     assert doc.version_date.isoformat() == "2013-12-31"
+
+
+def test_mozambique_article_number_then_parenthesised_title_on_the_next_line() -> None:
+    doc = doc_from("mz-minec-constitution", "mz-pt", fixture_pdf("mz-pages.json"))
+    assert doc.provisions[0].eid == "preamble"
+    assert eids(doc)[:3] == ["art-1", "art-2", "art-3"]
+    assert prov(doc, "art-1").heading == "República de Moçambique"
+    assert (prov(doc, "art-1").text or "").startswith("A República de Moçambique é um Estado independente")
+    assert cite(doc, "art-1") == "Mozambique Constitution art. 1"
+    assert doc.version_date.isoformat() == "2004-11-16"
 
 
 def test_djibouti_page_articles_in_capitals() -> None:

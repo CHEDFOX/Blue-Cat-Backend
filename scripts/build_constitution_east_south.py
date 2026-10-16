@@ -681,6 +681,60 @@ PUBLISHERS: list[dict[str, Any]] = [
         "licence_reading": "AMBER - the publisher states no restriction on reusing the text beyond a generic copyright footer; no permission for automated retrieval is stated either",
         "text_note": "the Constitution of Zimbabwe as enacted in 2013 (the Schedule of the Amendment (No. 20) Act), as posted by the Ministry of Youth",
     },
+    {
+        "id": "mz-minec-constitution",
+        "cc": "MZ",
+        "host": "minec.gov.mz",
+        "short": "Ministry of Foreign Affairs and Cooperation of Mozambique",
+        "publisher": "Ministério dos Negócios Estrangeiros e Cooperação de Moçambique (minec.gov.mz), Documentos: Legislação",
+        "licence_id": "MZ-official-text-no-terms",
+        "licence_url": "https://minec.gov.mz/",
+        "crawl": 5,
+        "findings": [
+            "robots.txt - minec.gov.mz/robots.txt: \"User-agent: *\" \"Disallow: /wp-admin/\" \"Allow: /wp-admin/admin-ajax.php\" and a sitemap line; no Crawl-delay; /wp-content/uploads/ is not disallowed",
+            "Terms - page footer: \"©2026. MINEC – Ministério dos Negocios Estrangeiros e Cooperação Implementado por DotCom\" - a generic footer; no terms-of-use, licence or disclaimer page is linked",
+            "The document - https://minec.gov.mz/wp-content/uploads/2025/09/Constituicao-da-Republica-de-Mocambique.pdf (97 pages, 209,326 bytes, Last-Modified 15 Feb 2026; the file's title is \"Constituição de 2004, 19 de Nov..doc\"): \"CONSTITUIÇÃO DA REPÚBLICA - Preâmbulo\" ... \"Artigo 306 (Entrada em vigor) A Constituição entra em vigor no dia imediato ao da validação e proclamação dos resultados eleitorais das Eleições Gerais de 2004. Aprovada pela Assembleia da República, aos 16 de Novembro de 2004.\" The Constitutional Council's page (cconstitucional.org.mz/constituicao-da-republica/) lists the later texts: \"Lei 26/2007 de 16 de Novembro (altera o artigo 304 da Constituição da República)\" and \"Constituição da República Mocambicana - BR 2018\" (a scan; source mz-cconstitucional-constitution).",
+        ],
+        "known": [
+            "The text is the Constitution as approved on 16 November 2004; it includes neither the amendment of article 304 by Lei 26/2007 nor the revision of 2018 (Boletim da República, 22 June 2018), whose text is published only as a scan (mz-cconstitucional-constitution). The 16 November 2004 is used as the edition date, so the text is attested only at that date; many provisions in force today differ.",
+            "The headings of the articles are the parenthesised titles printed under each article number; the running text is read without layout.",
+        ],
+        "documents": [
+            _doc(
+                slug="mz-pt",
+                language="pt",
+                title="Constituição da República de Moçambique",
+                citation_name="Mozambique Constitution",
+                structure_extra={
+                    "keywords": ["Artigo"],
+                    "heading_next": "paren",
+                    "paragraphs": "dot",
+                    "preamble_regex": "^Preâmbulo$",
+                    "chapter_regex": "^(Título|TÍTULO|Capítulo|CAPÍTULO) ",
+                },
+            )
+        ],
+        "url": "https://minec.gov.mz/wp-content/uploads/2025/09/Constituicao-da-Republica-de-Mocambique.pdf",
+        "format": "pdf",
+        "common": {
+            "adopted_on": "2004-11-16",
+            "edition_date": "2004-11-16",
+            "edition_label": "the text approved by the Assembleia da República on 16 November 2004; no amendment is included",
+            "events": [
+                {
+                    "type": "adoption",
+                    "date": "2004-11-16",
+                    "description": "Aprovada pela Assembleia da República, aos 16 de Novembro de 2004.",
+                    "locator": "closing formula",
+                }
+            ],
+            "authoritative": False,
+            "text_origin": "official_authentic",
+        },
+        "common_structure": {"unit_kind": "article", "style": "keyword", "page_numbers": True},
+        "licence_reading": "AMBER - the publisher states no restriction on reusing the text beyond a generic footer; no permission for automated retrieval is stated either",
+        "text_note": "the Constitution of Mozambique as approved in 2004 (without the later revisions), as posted by the Ministry of Foreign Affairs",
+    },
 ]
 
 # --------------------------------------------------------------------------- profiles of the new countries
@@ -778,6 +832,16 @@ PROFILES: dict[str, dict[str, Any]] = {
         "examples": ["Zimbabwe Constitution s. 56", "Zimbabwe Constitution s. 2"],
         "gap": "the English text of the Constitution as enacted by the Amendment (No. 20) Act of 2013, without later amendments",
     },
+    "MZ": {
+        "name": "Mozambique",
+        "names": {"pt": "República de Moçambique", "en": "Republic of Mozambique"},
+        "languages": ["pt"],
+        "families": ["civil_law"],
+        "notes": "To verify - a unitary republic with a Portuguese-derived civil-law system; Portuguese is the official language (Constitution art 10).",
+        "official_sources": ["mz-minec-constitution"],
+        "examples": ["Mozambique Constitution art. 1", "Mozambique Constitution art. 35"],
+        "gap": "the Portuguese text of the Constitution as approved in 2004, without the revisions of 2007 and 2018",
+    },
     "SC": {
         "name": "Seychelles",
         "names": {"en": "Republic of Seychelles", "fr": "République des Seychelles", "crs": "Repiblik Sesel"},
@@ -814,7 +878,7 @@ BLOCKED: list[dict[str, Any]] = [
         "publisher": "Parliament of Uganda (www.parliament.go.ug)",
         "languages": ["en"],
         "url": "https://www.parliament.go.ug/page/constitution",
-        "finding": "robots.txt (www.parliament.go.ug/robots.txt) is the standard Drupal file and the page /page/constitution (HTTP 200) lists the Constitution among its documents (/documents/1240/constitution). The earlier sweep (docs/constitutions-africa-asia-oceania.md) found that PDF to be a 2007 print of the 1995 text (192 pages), not the consolidated text with the amendments of 2005 and 2017; it was not fetched again. The 7th Revised Edition of the Laws of Uganda (Volume I holds the Constitution) is announced by the Uganda Law Reform Commission, whose host does not verify (ulrc.go.ug: 'unable to get local issuer certificate'); the State House page (statehouse.go.ug/the-constitution/) only links to the Parliament's document. Verification of TLS certificates is never disabled.",
+        "finding": "robots.txt (www.parliament.go.ug/robots.txt) is the standard Drupal file and the page /page/constitution (HTTP 200) lists the Constitution among its documents (/documents/1240/constitution, a link found through a search engine, which now answers HTTP 404). The earlier sweep (docs/constitutions-africa-asia-oceania.md) found that PDF to be a 2007 print of the 1995 text (192 pages), not the consolidated text with the amendments of 2005 and 2017; it was not fetched again. The 7th Revised Edition of the Laws of Uganda (Volume I holds the Constitution) is announced by the Uganda Law Reform Commission, whose host does not verify (ulrc.go.ug: 'unable to get local issuer certificate'); the State House page (statehouse.go.ug/the-constitution/) only links to the Parliament's document. Verification of TLS certificates is never disabled.",
         "limitation": "The only openly reachable official copy predates the amendments of 2005 and 2017; the current consolidation sits on a host whose TLS certificate cannot be verified.",
         "doc": "2007 print of the 1995 text",
     },
@@ -1016,6 +1080,7 @@ def _country(cc: str) -> str:
         "SC": "Seychelles",
         "LS": "Lesotho",
         "ZW": "Zimbabwe",
+        "MZ": "Mozambique",
     }[cc]
 
 

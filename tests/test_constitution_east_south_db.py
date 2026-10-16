@@ -72,6 +72,7 @@ SOURCES = {
     ],
     "ls-gov-constitution": [("ls-en", bundle_for("ls-gov-constitution", "ls-en", fixture_pdf("ls-pages.json")))],
     "zw-youth-constitution": [("zw-en", bundle_for("zw-youth-constitution", "zw-en", fixture_pdf("zw-pages.json")))],
+    "mz-minec-constitution": [("mz-pt", bundle_for("mz-minec-constitution", "mz-pt", fixture_pdf("mz-pages.json")))],
 }
 
 
