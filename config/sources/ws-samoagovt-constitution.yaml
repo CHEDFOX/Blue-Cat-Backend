@@ -1,0 +1,67 @@
+# Constitution of Samoa from Government of Samoa (samoagovt.ws). Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://www.samoagovt.ws/robots.txt: "User-agent: *" "Crawl-delay: 5" and eight Disallow rules (admin-ajax, search, feeds, authors) that do not touch the PDF; the manifest waits 5 s
+#   Terms - Footer of the home page: "Copyright © 2026" and a "Terms of Service" link that goes to policies.google.com/terms (the site's reCAPTCHA notice); no terms of use of the site's own were found
+#   The document - PDF (283 KB, uploaded 2014, file last modified 25 Feb 2020): "CONSTITUTION OF THE INDEPENDENT STATE OF SAMOA", the preamble ("IN THE HOLY NAME OF GOD, THE ALMIGHTY, THE EVER LOVING WHEREAS sovereignty over the Universe belongs to the Omnipresent God alone ... this 28th day of October 1960, do hereby adopt, enact and give to ourselves this Constitution"), the signatories, Parts I - XII with 124 articles and three Schedules
+schema_version: 1
+id: ws-samoagovt-constitution
+name: Constitution of Samoa - the Government of Samoa (www.samoagovt.ws)
+publisher: Government of Samoa (samoagovt.ws)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- WS
+document_kinds:
+- constitution
+languages:
+- en
+coverage: 'The Constitution of the Independent State of Samoa (1960, as on the Government''s website) in en: the preamble,
+  124 articles in 12 Parts and the Schedules (as blocks).'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ws-samoagovt-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: WS-official-text-no-terms
+  name: Official legal text published on the Government's website; a generic copyright footer, no terms of use or licence
+    found
+  url: https://www.samoagovt.ws/wp-content/uploads/2014/07/Constitution-of-the-Independent-State-of-Samoa-1960.pdf
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file:
+    robots.txt (https://www.samoagovt.ws/robots.txt: "User-agent: *" "Crawl-delay: 5" and eight Disallow rules (admin-ajax,
+    search, feeds, authors) that do not touch the PDF; the manifest waits 5 s) and the terms (Footer of the home page: "Copyright
+    © 2026" and a "Terms of Service" link that goes to policies.google.com/terms (the site''s reCAPTCHA notice); no terms
+    of use of the site''s own were found). PDF (283 KB, uploaded 2014, file last modified 25 Feb 2020): "CONSTITUTION OF THE
+    INDEPENDENT STATE OF SAMOA", the preamble ("IN THE HOLY NAME OF GOD, THE ALMIGHTY, THE EVER LOVING WHEREAS sovereignty
+    over the Universe belongs to the Omnipresent God alone ... this 28th day of October 1960, do hereby adopt, enact and give
+    to ourselves this Constitution"), the signatories, Parts I - XII with 124 articles and three Schedules. No statute was
+    read; the basis is the official status of the text and the absence of any stated restriction on it. Reading: AMBER - the
+    publisher states no restriction on reusing the text beyond a generic copyright footer (if any); no permission for automated
+    retrieval is stated either.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Samoa, the Government of Samoa (www.samoagovt.ws); retrieved {retrieved_date}. Structured
+    and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it; there is no licence.
+    Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/ws-samoagovt-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- The file prints no edition date; amendments adopted since it was published (2020 and later) are not applied.
+- 'Each article is printed as ''Name and description - (1) ...'': the article''s title stays in its first line of text. The
+  Samoan text is not ingested.'
+status: active
+connector: constitution_docs
+parser: constitution_text

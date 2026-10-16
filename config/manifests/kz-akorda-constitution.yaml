@@ -1,0 +1,51 @@
+schema_version: 1
+source_id: kz-akorda-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- akorda.kz
+documents:
+- slug: kz-ru
+  jurisdiction: KZ
+  url: https://akorda.kz/ru/official_documents/constitution
+  format: html
+  allow_redirect: true
+  language: ru
+  title: Конституция Республики Казахстан
+  citation_name: Kazakhstan Constitution
+  events:
+  - type: commencement
+    date: '2026-07-01'
+    description: '''Конституция Республики Казахстан, принятая на республиканском референдуме, вступает в силу с 1 июля 2026 года с одновременным прекращением действия ранее принятой Конституции Республики Казахстан.'''
+    locator: статья 94, пункт 1
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    start_regex: ^Мы, единый народ Казахстана,$
+    preamble_regex: ^Мы, единый народ Казахстана,$
+    html_select:
+      tag: article
+    unit_kind: article
+  note: >-
+    The page is the text of the Constitution adopted by republican referendum, which article 94 puts into force on 1 July
+    2026 and which ends the effect of the Constitution of 1995; the page prints no date of adoption.
+- slug: kz-kk
+  jurisdiction: KZ
+  url: https://akorda.kz/kz/official_documents/constitution
+  format: html
+  allow_redirect: true
+  language: kk
+  title: Қазақстан Республикасының Конституциясы
+  citation_name: Kazakhstan Constitution
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    html_select:
+      tag: article
+    style: numword
+    keywords_after:
+    - бап
+    unit_kind: article
+    start_regex: ^Біз, біртұтас Қазақстан халқы,$
+    preamble_regex: ^Біз, біртұтас Қазақстан халқы,$
+    chapter_regex: ^[IVXІ]+ бөлім$

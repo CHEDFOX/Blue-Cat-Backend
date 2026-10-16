@@ -1,0 +1,34 @@
+schema_version: 1
+source_id: vu-ombudsman-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- ombudsman.gov.vu
+documents:
+- slug: vu-en
+  jurisdiction: VU
+  url: https://ombudsman.gov.vu/images/docs/legislation/Constitution%20of%20the%20Republic%20of%20Vanuatu/Constitution%20of%20the%20Republic%20of%20Vanuatu.pdf
+  format: pdf
+  language: en
+  title: Constitution of the Republic of Vanuatu
+  citation_name: Vanuatu Constitution
+  edition_label: Laws of the Republic of Vanuatu, Consolidated Edition 2006 (as printed on the cover page)
+  events:
+  - type: commencement
+    date: '1980-07-30'
+    description: '''Commencement: 30 July 1980 except Articles 87 and 93 which commenced 23 October 1979'''
+    locator: cover page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    style: numdot
+    unit_kind: article
+    heading: same_line
+    page_numbers: true
+    start_regex: ^WE, the people of Vanuatu,$
+    preamble_regex: ^WE, the people of Vanuatu,$
+    drop_lines:
+    - ^LAWS OF THE REPUBLIC OF VANUATU$
+    - ^Consolidated Edition 2006$
+    - ^CONSTITUTION OF THE REPUBLIC OF VANUATU$
+    tail_regex: ^SCHEDULE 1$

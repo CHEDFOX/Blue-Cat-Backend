@@ -1,0 +1,35 @@
+schema_version: 1
+source_id: tl-parlamento-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.parlamento.tl
+documents:
+- slug: tl-pt
+  jurisdiction: TL
+  url: https://www.parlamento.tl/legislasaun
+  format: html
+  language: pt
+  title: Constituição da República Democrática de Timor-Leste
+  citation_name: Timor-Leste Constitution
+  authoritative: false
+  text_origin: official_consolidation
+  edition_label: edition published by the National Parliament with a foreword of 20 May 2017 (the page prints no later amendment)
+  adopted_on: '2002-03-22'
+  events:
+  - type: adoption
+    date: '2002-03-22'
+    description: '''A Assembleia Constituinte, reunida na sessão plenária de 22 de Março de 2002, aprova e decreta a seguinte Constituição da República Democrática de Timor-Leste'''
+    locator: preâmbulo
+  - type: entry_into_force_law
+    date: '2002-05-20'
+    description: '''A Constituição da República Democrática de Timor-Leste entra em vigor no dia 20 de Maio de 2002.'''
+    locator: artigo 170.º
+  structure:
+    style: keyword
+    keywords:
+    - Artigo
+    unit_kind: article
+    start_regex: ^PREÂMBULO$
+    html_select:
+      tag: article

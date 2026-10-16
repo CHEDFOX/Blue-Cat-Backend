@@ -1,0 +1,36 @@
+schema_version: 1
+source_id: bt-dlgdm-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.dlgdm.gov.bt
+documents:
+- slug: bt-en
+  jurisdiction: BT
+  url: https://www.dlgdm.gov.bt/storage/upload-documents/2021/9/20/Constitution-of-bhutan-2008.pdf
+  format: pdf
+  language: en
+  title: The Constitution of the Kingdom of Bhutan
+  citation_name: Bhutan Constitution
+  adopted_on: '2008-07-18'
+  edition_label: text as printed (ISBN 99936-754-0-7) and published as a file on the Department's website in 2021; no later amendment is printed
+  events:
+  - type: adoption
+    date: '2008-07-18'
+    description: '''DO HEREBY ordain and adopt this Constitution for the Kingdom of Bhutan on the Fifteenth Day of the Fifth Month of the Male Earth Rat Year corresponding to the Eighteenth Day of July, Two Thousand and Eight.'''
+    locator: Preamble
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    style: keyword
+    keywords:
+    - Article
+    unit_kind: article
+    heading_lines: 1
+    page_numbers: true
+    start_regex: ^Preamble$
+    tail_regex: ^First Schedule$
+  note: >-
+    The articles are headed 'Article N' and a title on the next line (kept as the article's heading); the numbered sections of
+    an article are printed as '1.' on a line of their own and are part of the article's text. The Schedules and the Glossary
+    that follow Article 35 are stored as blocks of paragraphs.

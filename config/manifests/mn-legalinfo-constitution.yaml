@@ -1,0 +1,48 @@
+schema_version: 1
+source_id: mn-legalinfo-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- legalinfo.mn
+documents:
+- slug: mn-mn
+  jurisdiction: MN
+  url: https://legalinfo.mn/api/front/cons-detail-1992.html
+  format: html
+  language: mn
+  title: Монгол Улсын Үндсэн хууль (1992)
+  citation_name: Mongolia Constitution
+  adopted_on: '1992-01-13'
+  edition_label: text with the amendments of 1999, 2019 and 2023, as annotated in the page (page last modified 2023-11-20)
+  events:
+  - type: adoption
+    date: '1992-01-13'
+    description: '''1992 оны 1 дүгээр сарын 13-ны өдөр'''
+    locator: heading of the text
+  - type: amendment
+    date: '1999-12-24'
+    description: '''Энэ хэсгийг 1999 оны 12 дугаар сарын 24-ний өдөр баталсан Монгол Улсын Үндсэн хуульд оруулсан нэмэлт, өөрчлөлтөөр ...'''
+    locator: annotations in the text (article 21 and others)
+  - type: amendment
+    date: '2019-11-14'
+    description: '''Энэ хэсгийг 2019 оны 11 дүгээр сарын 14-ний өдөр баталсан Монгол Улсын Үндсэн хуульд оруулсан нэмэлт, өөрчлөлтөөр ...'''
+    locator: annotations in the text
+  - type: amendment
+    date: '2023-05-31'
+    description: '''Энэ хэсгийг 2023 оны 05 дугаар сарын 31-ний өдөр баталсан Монгол Улсын Үндсэн хуульд оруулсан өөрчлөлтөөр ...'''
+    locator: annotation in the text
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    style: sequence
+    heading_regex: ^(?P<ordinal>[А-ЯӨҮа-яөүё ]+?) зүйл\.$
+    unit_kind: article
+    start_regex: ^Монголын ард түмэн бид:$
+    preamble_regex: ^Монголын ард түмэн бид:$
+    chapter_regex: ^[А-ЯӨҮ]+ БҮЛЭГ$
+    tail_regex: ^Мэдэгтүн, сахигтун!$
+  note: >-
+    The page prints the date of each amendment in a bracketed note after the amended passage (for example '/Энэ хэсгийг 2019
+    оны 11 дүгээр сарын 14-ний өдөр баталсан ... нэмэлт, өөрчлөлтөөр өөрчлөн найруулсан./'); the notes are part of the
+    stored text. The articles are headed by their ordinal in words ('Нэгдүгээр зүйл.') and are numbered 1, 2, 3 ... in the
+    order they appear.

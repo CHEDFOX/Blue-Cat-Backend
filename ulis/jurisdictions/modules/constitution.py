@@ -7,6 +7,8 @@ A constitution is cited by the country's name and the number the document itself
 * ``China Constitution`` in Chinese: ``中华人民共和国宪法第51条`` (title + 第N条), paragraph ``第2款``; in
   traditional characters (``zh-Hant``) ``澳門基本法第23條``,
 * ``Angola Constitution art. 107-A`` for an article added with a letter (the document's ``107.º-A``),
+* ``Philippines Constitution art. III, s. 4`` and ``art. IX-C, s. 2`` for documents whose sections restart in every
+  article (the article is the Roman numeral the document prints, a lettered part is added with a hyphen),
 * ``Angola Constitution, preamble`` and ``Angola Constitution, text block 3`` (a document whose structure was not
   recognised is stored in blocks; a block has no number of its own in the constitution).
 
@@ -24,6 +26,10 @@ from ulis.jurisdictions.modules.base import JurisdictionModule, ProvisionCitatio
 
 _EID = re.compile(
     r"^(?P<kind>art|sec)-(?P<num>[0-9]+)(?P<letters>[a-z]*)(?:_(?P<branch>[0-9]+))?(?:-par(?P<par>[0-9]+[a-z]?))?$"
+)
+_SCOPED = re.compile(
+    r"^(?P<kind>art|sec)-(?P<scope>[ivxlcdm]+)(?:_(?P<part>[a-z]))?_(?P<num>[0-9]+)(?P<letters>[a-z]*)"
+    r"(?:-par(?P<par>[0-9]+[a-z]?))?$"
 )
 _BLOCK = re.compile(r"^blk-(?P<n>[0-9]+)$")
 NO_SPACE = {"zh", "zh-Hant"}  # languages whose citations join title and pinpoint without a space
@@ -43,6 +49,11 @@ class ConstitutionModule(JurisdictionModule):
             return "preamble"
         if b := _BLOCK.match(c.eid):
             return f"text block {b.group('n')}"
+        if sc := _SCOPED.match(c.eid):
+            article = sc.group("scope").upper() + (f"-{sc.group('part').upper()}" if sc.group("part") else "")
+            return f"art. {article}, s. {sc.group('num')}{sc.group('letters').upper()}" + (
+                f"({sc.group('par')})" if sc.group("par") else ""
+            )
         m = _EID.match(c.eid)
         if not m:
             return super().pinpoint(c)

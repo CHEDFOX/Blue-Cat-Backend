@@ -142,6 +142,17 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "MR",
         "NE",
         "TG",
+        # deep constitutions sweep, Asia and Oceania
+        "BT",
+        "FJ",
+        "KZ",
+        "MH",
+        "MN",
+        "PH",
+        "TL",
+        "TM",
+        "VU",
+        "WS",
     }
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"
@@ -317,6 +328,18 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "mr-primature-constitution",
         "ne-gouv-constitution",
         "tg-jo-constitution",
+        # deep constitutions sweep, Asia and Oceania
+        "bt-dlgdm-constitution",
+        "bt-judiciary-acts",
+        "fj-parliament-constitution",
+        "kz-akorda-constitution",
+        "mh-rmicourts-constitution",
+        "mn-legalinfo-constitution",
+        "ph-dbm-constitution",
+        "tl-parlamento-constitution",
+        "tm-minjust-constitution",
+        "vu-ombudsman-constitution",
+        "ws-samoagovt-constitution",
     }
     for source_id in approved:
         licence_gate(catalog.sources.get(source_id))

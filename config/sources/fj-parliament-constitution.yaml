@@ -1,0 +1,66 @@
+# Constitution of Fiji from Parliament of the Republic of Fiji (parliament.gov.fj). Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://www.parliament.gov.fj/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php" and a Sitemap line; no Crawl-delay. The Fiji Law Reform Commission (flrc.gov.fj) answered robots.txt with HTTP 403 and was not used
+#   Terms - Footer: "© 2025 Parliament of the Republic of Fiji. All Rights reserved." with a "Terms of Use" page whose static HTML holds only the site menu (no terms text)
+#   The document - PDF of 94 pages (509 KB, file last modified 17 Feb 2017) linked as "Constitution" from the home page: the Government of Fiji Gazette (Extraordinary) of 6 September 2013, "CONSTITUTION OF THE REPUBLIC OF FIJI (PROMULGATION) DECREE 2013 (DECREE NO 24. OF 2013)", whose Schedule is the Constitution: preamble ("WE, THE PEOPLE OF FIJI,"), Chapters 1 - 12 and 174 sections. Decree section 2(2): "The Constitution as set out in the Schedule to this Decree shall come into force on the 7th day of September 2013."
+schema_version: 1
+id: fj-parliament-constitution
+name: Constitution of Fiji - the Parliament of Fiji (www.parliament.gov.fj)
+publisher: Parliament of the Republic of Fiji (parliament.gov.fj)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- FJ
+document_kinds:
+- constitution
+languages:
+- en
+coverage: 'The Constitution of Fiji as promulgated by Decree No. 24 of 2013 (Government Gazette of 6 September 2013) in en:
+  the preamble and 174 sections in 12 Chapters.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/fj-parliament-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: FJ-official-text-no-terms
+  name: Official legal text published by the Parliament; a generic copyright footer and an empty terms page, no licence found
+  url: https://www.parliament.gov.fj/wp-content/uploads/2017/02/Decree-24-Constitution-of-the-Republic-of-Fiji-Promulgation-Decree.pdf
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file:
+    robots.txt (https://www.parliament.gov.fj/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php"
+    and a Sitemap line; no Crawl-delay. The Fiji Law Reform Commission (flrc.gov.fj) answered robots.txt with HTTP 403 and
+    was not used) and the terms (Footer: "© 2025 Parliament of the Republic of Fiji. All Rights reserved." with a "Terms of
+    Use" page whose static HTML holds only the site menu (no terms text)). PDF of 94 pages (509 KB, file last modified 17
+    Feb 2017) linked as "Constitution" from the home page: the Government of Fiji Gazette (Extraordinary) of 6 September 2013,
+    "CONSTITUTION OF THE REPUBLIC OF FIJI (PROMULGATION) DECREE 2013 (DECREE NO 24. OF 2013)", whose Schedule is the Constitution:
+    preamble ("WE, THE PEOPLE OF FIJI,"), Chapters 1 - 12 and 174 sections. Decree section 2(2): "The Constitution as set
+    out in the Schedule to this Decree shall come into force on the 7th day of September 2013.". No statute was read; the
+    basis is the official status of the text (the Government Gazette) and the absence of any stated restriction on it. Reading:
+    AMBER - the publisher states no restriction on reusing the text beyond a generic copyright footer (if any); no permission
+    for automated retrieval is stated either.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Fiji, the Parliament of Fiji (www.parliament.gov.fj); retrieved {retrieved_date}. Structured
+    and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it; there is no licence.
+    Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/fj-parliament-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- The text is the Gazette original of 2013; amendments made since are not applied. The iTaukei and Hindi texts are not ingested.
+- Section headings are printed above the numbers in the Gazette; they are kept in the context heading of the section.
+status: active
+connector: constitution_docs
+parser: constitution_text

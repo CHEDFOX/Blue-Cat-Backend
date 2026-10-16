@@ -1,0 +1,65 @@
+# Constitution of Bhutan from Department of Local Governance and Disaster Management, Ministry of Home Affairs of Bhutan (dlgdm.gov.bt) - a government department's copy of the Constitution. Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://www.dlgdm.gov.bt/robots.txt: "User-agent: *" "Disallow:" (nothing). The National Assembly, the Government portal (gov.bt), the Office of the Attorney General (oag.gov.bt) and the Parliament CMS answered the bot with a connection reset; the Judiciary's link to its own file (judiciary.gov.bt/storage/files/1/constitutional_2015.pdf) answered HTTP 404
+#   Terms - Footer: "Copyright © 2021 Department of Local Governance. All rights reserved" with Privacy Policy and Disclaimer pages (about cookies, external links and privacy); no terms for the texts
+#   The document - PDF of 75 pages (2.3 MB, uploaded 20 Sep 2021): "The Constitution of The Kingdom of Bhutan", ISBN 99936-754-0-7, preamble ("WE, the people of Bhutan:" ... "DO HEREBY ordain and adopt this Constitution ... on the Eighteenth Day of July, Two Thousand and Eight"), Articles 1 - 35, First to Fourth Schedules and a Glossary
+schema_version: 1
+id: bt-dlgdm-constitution
+name: Constitution of Bhutan - the Department of Local Governance and Disaster Management of Bhutan (www.dlgdm.gov.bt)
+publisher: Department of Local Governance and Disaster Management, Ministry of Home Affairs of Bhutan (dlgdm.gov.bt) - a government
+  department's copy of the Constitution
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- BT
+document_kinds:
+- constitution
+languages:
+- en
+coverage: 'The Constitution of Bhutan (2008) in en: the preamble, 35 articles, the Schedules and the Glossary (as blocks).'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/bt-dlgdm-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: BT-official-text-no-terms
+  name: Official legal text hosted by a government department; a generic copyright footer, no terms for the text found
+  url: https://www.dlgdm.gov.bt/storage/upload-documents/2021/9/20/Constitution-of-bhutan-2008.pdf
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file:
+    robots.txt (https://www.dlgdm.gov.bt/robots.txt: "User-agent: *" "Disallow:" (nothing). The National Assembly, the Government
+    portal (gov.bt), the Office of the Attorney General (oag.gov.bt) and the Parliament CMS answered the bot with a connection
+    reset; the Judiciary''s link to its own file (judiciary.gov.bt/storage/files/1/constitutional_2015.pdf) answered HTTP
+    404) and the terms (Footer: "Copyright © 2021 Department of Local Governance. All rights reserved" with Privacy Policy
+    and Disclaimer pages (about cookies, external links and privacy); no terms for the texts). PDF of 75 pages (2.3 MB, uploaded
+    20 Sep 2021): "The Constitution of The Kingdom of Bhutan", ISBN 99936-754-0-7, preamble ("WE, the people of Bhutan:" ...
+    "DO HEREBY ordain and adopt this Constitution ... on the Eighteenth Day of July, Two Thousand and Eight"), Articles 1
+    - 35, First to Fourth Schedules and a Glossary. No statute was read; the basis is the official status of the text and
+    the absence of any stated restriction on it. Reading: AMBER - the publisher states no restriction on reusing the text
+    beyond a generic copyright footer (if any); no permission for automated retrieval is stated either.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Bhutan, the Department of Local Governance and Disaster Management of Bhutan (www.dlgdm.gov.bt);
+    retrieved {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it; there is no licence.
+    Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/bt-dlgdm-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- A copy held by a government department, not the National Assembly's publication; the Dzongkha text is not ingested.
+- Numbered sections of an article are printed as '1.' on a line of their own and stay in the article's text.
+status: active
+connector: constitution_docs
+parser: constitution_text

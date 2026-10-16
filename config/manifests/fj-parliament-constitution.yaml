@@ -1,0 +1,24 @@
+schema_version: 1
+source_id: fj-parliament-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.parliament.gov.fj
+documents:
+- slug: fj-en
+  jurisdiction: FJ
+  url: https://www.parliament.gov.fj/wp-content/uploads/2017/02/Decree-24-Constitution-of-the-Republic-of-Fiji-Promulgation-Decree.pdf
+  format: pdf
+  language: en
+  title: Constitution of the Republic of Fiji
+  citation_name: Fiji Constitution
+  authoritative: false
+  text_origin: official_authentic
+  structure:
+    style: numdot
+    unit_kind: section
+    heading_before: line
+    page_numbers: true
+    start_regex: ^WE, THE PEOPLE OF FIJI,$
+    preamble_regex: ^WE, THE PEOPLE OF FIJI,$
+    tail_regex: ^SCHEDULE$

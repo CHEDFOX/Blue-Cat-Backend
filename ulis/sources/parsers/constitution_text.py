@@ -26,6 +26,19 @@ What is kept and what is not:
   provision carries its own dates (``validity_basis = attested_at_edition``). Adoption and amendment dates are
   recorded as lifecycle events only when the manifest gives them (taken from the document's own text).
 
+Manifest hints beyond the common ones (all optional; see ``docs/constitutions-asia-oceania-deep.md``):
+
+* ``scope_regex`` (a pattern with a ``scope`` group, e.g. ``^ARTICLE (?P<scope>[IVXLC]+)$``) and ``part_regex`` (a
+  ``part`` group, e.g. the lettered parts of an Article): for texts whose *sections restart in every article*; a section
+  is then keyed by its article (``sec-iii_2``, cited ``art. III, s. 2``);
+* ``style: sequence`` with ``heading_regex``: headings that spell their number in words (Mongolian "Нэгдүгээр зүйл.");
+  the matching lines are numbered 1, 2, 3 ... in the order they appear;
+* the Commonwealth form ``2.—(1) text`` is read like ``2. (1) text``;
+* ``instrument_type: act`` on a manifest document: a publisher that lists other laws beside its constitution; the work
+  is ``/<cc>/act/<slug>`` instead of ``/<cc>/constitution``.
+
+A document whose text layer is private-use glyphs (a PDF font without a Unicode map) is skipped, not stored.
+
 Identifiers are language-neutral: the work is ``/<cc>/constitution``, an article ``art-12`` (``sec-12`` for
 documents that number *sections*), a numbered paragraph ``art-12-par1``, a block ``blk-1``, the preamble
 ``preamble``.
@@ -235,10 +248,12 @@ class Candidate:
     keyword: str = ""
     weight: int = 0
     mark: str = ""  # footnote reference printed before the number ("5[2A. ...")
+    scope: str = ""  # the article (and part) a section belongs to, for texts whose sections restart in every article
+    scope_rank: int = 0  # how many scope headings precede it: consecutive articles differ by 1
 
     @property
     def key(self) -> str:
-        return f"{self.base}{self.suffix}"
+        return f"{self.scope.lower()}_{self.base}{self.suffix}" if self.scope else f"{self.base}{self.suffix}"
 
 
 def keyword_regex(keywords: list[str]) -> re.Pattern[str]:
@@ -264,15 +279,62 @@ KOREAN_ARTICLE = re.compile(r"^\s*제\s?(?P<base>[0-9]{1,4})\s?조(?:의\s?(?P<b
 NUMDOT = re.compile(
     r"^\s*(?:(?P<mark>[0-9]{1,3})\s?\[\s*)?(?P<base>\d{1,3})"
     r"(?P<suffix>[A-Za-z\u0995-\u099c]{1,2}(?![A-Za-z\u0995-\u099c])|-[0-9]{1,2})?"
-    r"(?:\.(?P<t1>(?:\s.*)?)|\.-(?P<t3>\(.*)|\s?[\u0964\u09f7](?P<t2>.*))$"
+    r"(?:\.(?P<t1>(?:[\s\u2014\u2013].*)?)|\.-(?P<t3>\(.*)|\s?[\u0964\u09f7](?P<t2>.*))$"
 )
 # a number followed by a space and the section's title ("2 Supremacy of Constitution"): Zimbabwe's Schedule
 NUMSPACE = re.compile(r"^\s*(?P<base>\d{1,3})(?P<suffix>[A-Za-z](?![A-Za-z]))?\s+(?P<t1>[A-Z\u00c0-\u00de].{2,119})$")
 TOC_LEADER = re.compile(r"(\.{4,}|…{2,}|\s\.\s\.\s\.)\s*[0-9ivxlc]*\s*$")
 
 
-def find_candidates(lines: list[str], style: str, keywords: list[str], words_after: list[str]) -> list[Candidate]:
+def find_candidates(
+    lines: list[str],
+    style: str,
+    keywords: list[str],
+    words_after: list[str],
+    heading_re: re.Pattern[str] | None = None,
+    scope_re: re.Pattern[str] | None = None,
+    part_re: re.Pattern[str] | None = None,
+) -> list[Candidate]:
+    out = _candidates(lines, style, keywords, words_after, heading_re)
+    if scope_re is not None:
+        # (line, scope token): the article heading ("ARTICLE IX" -> "IX"), then its lettered parts ("B. The Civil
+        # Service Commission" -> "IX-B"); the sections of each restart at 1
+        scopes: list[tuple[int, str]] = []
+        top = ""
+        for i, x in enumerate(lines):
+            if TOC_LEADER.search(x):
+                continue
+            if m := scope_re.match(x):
+                top = m.group("scope")
+                scopes.append((i, top))
+            elif top and part_re is not None and (m := part_re.match(x)):
+                scopes.append((i, f"{top}-{m.group('part')}"))
+        for c in out:
+            before = [k for k, (i, _) in enumerate(scopes) if i < c.line]
+            if before:
+                c.scope, c.scope_rank = scopes[before[-1]][1], before[-1] + 1
+        out = [c for c in out if c.scope]  # a section printed before the first article heading is not one
+    return out
+
+
+def _candidates(
+    lines: list[str],
+    style: str,
+    keywords: list[str],
+    words_after: list[str],
+    heading_re: re.Pattern[str] | None = None,
+) -> list[Candidate]:
     out: list[Candidate] = []
+    if style == "sequence":
+        # headings that spell their number in words (Mongolian "Арван нэгдүгээр зүйл."): the manifest names the
+        # heading line by a pattern and the units are numbered 1, 2, 3 ... in the order they appear
+        if heading_re is None:
+            return out
+        for i, line in enumerate(lines):
+            m = heading_re.match(line)
+            if m and not TOC_LEADER.search(line):
+                out.append(Candidate(i, len(out) + 1, "", (m.groupdict().get("tail") or "").strip()))
+        return out
     pattern = keyword_regex(keywords) if style == "keyword" else None
     after = numword_regex(words_after) if style == "numword" and words_after else None
     for i, line in enumerate(lines):
@@ -286,7 +348,10 @@ def find_candidates(lines: list[str], style: str, keywords: list[str], words_aft
             if not m:
                 continue
             parsed = parse_number(m.group("base"), m.group("suffix") or "")
-            remainder = (m.group("t1") or m.group("t3") or m.group("t2") or "").strip()
+            tail = m.group("t1") or ""
+            if tail[:1] in ("\u2014", "\u2013"):  # "2.\u2014(1) ..." (Commonwealth drafting): the dash is not text
+                tail = tail[1:]
+            remainder = (tail or m.group("t3") or m.group("t2") or "").strip()
             mark = m.group("mark") or ""
         elif style == "numspace":
             m = NUMSPACE.match(line)
@@ -341,7 +406,12 @@ def body_chain(cands: list[Candidate], lines: list[str], max_gap: int = MAX_GAP,
         best[i] = c.weight if c.base <= max_first else 0
         for j in range(i):
             d = c.base - cands[j].base
-            follows = (1 <= d <= max_gap) or (d == 0 and c.suffix and c.suffix != cands[j].suffix)
+            if c.scope and c.scope != cands[j].scope:
+                # sections restart in every article: the next article's first section follows the last of the one before
+                step = c.scope_rank - cands[j].scope_rank
+                follows = 1 <= step <= 3 and c.base <= max_first
+            else:
+                follows = (1 <= d <= max_gap) or (d == 0 and bool(c.suffix) and c.suffix != cands[j].suffix)
             if best[j] and follows and best[j] + c.weight > best[i]:
                 best[i] = best[j] + c.weight
                 prev[i] = j
@@ -681,10 +751,13 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
     chosen = "blocks"
     if style != "blocks":
         words_after = list(hints.get("keywords_after") or [])
+        sequence_re = re.compile(hints["heading_regex"]) if hints.get("heading_regex") else None
+        scope_re = re.compile(hints["scope_regex"]) if hints.get("scope_regex") else None
+        part_re = re.compile(hints["part_regex"]) if hints.get("part_regex") else None
         order = ["keyword", "numdot", *(["numword"] if words_after else [])] if style == "auto" else [style]
         for name in order:
             found = body_chain(
-                find_candidates(lines, name, keywords, words_after),
+                find_candidates(lines, name, keywords, words_after, sequence_re, scope_re, part_re),
                 lines,
                 int(hints.get("max_gap", MAX_GAP)),
                 int(hints.get("max_first", 3)),
@@ -826,7 +899,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
         unit.content.extend(_paragraph_units(content, paragraph_style))
         if not last:
             following = chain[n + 1]
-            missing = [x for x in range(cand.base + 1, following.base)]
+            missing = [x for x in range(cand.base + 1, following.base)] if following.scope == cand.scope else []
             if missing:
                 unit.notes.append(
                     f"The heading of {word} {', '.join(str(x) for x in missing)} was not recognised: "
@@ -881,6 +954,10 @@ def parse_constitution(content: bytes) -> list[ParsedDocument]:
         raise ConstitutionParseError(f"unknown text_origin {text_origin!r}")
 
     lines = document_lines(bundle)
+    glyphs = [ch for line in lines for ch in line if not ch.isspace()]
+    if glyphs and sum(1 for ch in glyphs if unicodedata.category(ch) == "Co") > len(glyphs) // 2:
+        # a PDF whose font maps its letters to private-use code points: the text layer is not text
+        raise ParseSkipped("the text layer holds private-use glyphs, not readable text")
     tops, recognised = _structure(lines, document, str(bundle["media"]))
     if document.get("note") and tops:  # a statement of the manifest taken from the document (e.g. its heading line)
         tops[0][0].notes.append(str(document["note"]))
@@ -890,7 +967,12 @@ def parse_constitution(content: bytes) -> list[ParsedDocument]:
     if not any(p.text for p in provisions):
         raise ParseSkipped("the document has no text")
 
-    work = f"/{cc.lower()}/constitution"
+    instrument_type = str(document.get("instrument_type", "constitution"))
+    if instrument_type not in ("constitution", "act"):
+        raise ConstitutionParseError(f"unknown instrument_type {instrument_type!r}")
+    # other laws of a publisher that lists them beside its constitution (the Acts of Bhutan): one work per Act
+    own = str(document.get("slug", "")).removeprefix(f"{cc.lower()}-")
+    work = f"/{cc.lower()}/constitution" if instrument_type == "constitution" else f"/{cc.lower()}/act/{own}"
     events = [
         ParsedEvent(
             str(e["type"]), date.fromisoformat(str(e["date"])), None, e.get("description"), str(e.get("locator", ""))
@@ -900,7 +982,7 @@ def parse_constitution(content: bytes) -> list[ParsedDocument]:
     return [
         ParsedDocument(
             doc_kind="legislation",
-            instrument_type="constitution",
+            instrument_type=instrument_type,
             jurisdiction_id=cc,
             work_uri=work,
             expression_uri=f"{work}/{lang}@{version_date.isoformat()}",
@@ -912,7 +994,7 @@ def parse_constitution(content: bytes) -> list[ParsedDocument]:
             language=lang,
             authoritative=bool(document.get("authoritative", False)),
             text_origin=text_origin,
-            consolidation_kind="constitution_text" if recognised else "constitution_blocks",
+            consolidation_kind=f"{instrument_type}_text" if recognised else f"{instrument_type}_blocks",
             version_date=version_date,
             currency_date=version_date,
             extent=[cc],

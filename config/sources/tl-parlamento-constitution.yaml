@@ -1,0 +1,69 @@
+# Constitution of Timor-Leste from Parlamento Nacional de Timor-Leste (National Parliament of Timor-Leste), parlamento.tl. Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://www.parlamento.tl/robots.txt: "User-agent: *" "Disallow:" (nothing); no Crawl-delay
+#   Terms - Footer: "© 2026 Parlamento Nacional de Timor-Leste. Todos os direitos reservados." with links "Termos de Uso", "Política de Privacidade" and "Mapa do Site" whose targets are "#" (no terms page exists behind them)
+#   The document - The page https://www.parlamento.tl/legislasaun (menu entry "Constituição da República"; 1.4 MB, about 1,430 text lines) prints a table of contents, the foreword (Prefácio) of the President of the National Parliament dated 20 May 2017, the "PREÂMBULO" ("A Assembleia Constituinte, reunida na sessão plenária de 22 de Março de 2002, aprova e decreta a seguinte Constituição da República Democrática de Timor-Leste") and the Constitution in Portuguese, Partes I - VII, 170 articles ("Artigo 1.º — (A República)" ... "Artigo 170.º — (Entrada em vigor da Constituição)": "A Constituição da República Democrática de Timor-Leste entra em vigor no dia 20 de Maio de 2002.")
+schema_version: 1
+id: tl-parlamento-constitution
+name: Constitution of Timor-Leste - the National Parliament of Timor-Leste (www.parlamento.tl)
+publisher: Parlamento Nacional de Timor-Leste (National Parliament of Timor-Leste), parlamento.tl
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- TL
+document_kinds:
+- constitution
+languages:
+- pt
+coverage: 'The Constitution of Timor-Leste (2002, the Parliament''s edition with the 2017 foreword) in pt: the preamble and
+  170 articles in 7 Parts.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/tl-parlamento-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: TL-official-text-no-terms
+  name: Official legal text published by the National Parliament; a generic copyright footer and dead terms links, no terms
+    of use or licence found
+  url: https://www.parlamento.tl/legislasaun
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file:
+    robots.txt (https://www.parlamento.tl/robots.txt: "User-agent: *" "Disallow:" (nothing); no Crawl-delay) and the terms
+    (Footer: "© 2026 Parlamento Nacional de Timor-Leste. Todos os direitos reservados." with links "Termos de Uso", "Política
+    de Privacidade" and "Mapa do Site" whose targets are "#" (no terms page exists behind them)). The page https://www.parlamento.tl/legislasaun
+    (menu entry "Constituição da República"; 1.4 MB, about 1,430 text lines) prints a table of contents, the foreword (Prefácio)
+    of the President of the National Parliament dated 20 May 2017, the "PREÂMBULO" ("A Assembleia Constituinte, reunida na
+    sessão plenária de 22 de Março de 2002, aprova e decreta a seguinte Constituição da República Democrática de Timor-Leste")
+    and the Constitution in Portuguese, Partes I - VII, 170 articles ("Artigo 1.º — (A República)" ... "Artigo 170.º — (Entrada
+    em vigor da Constituição)": "A Constituição da República Democrática de Timor-Leste entra em vigor no dia 20 de Maio de
+    2002."). No statute was read; the basis is the official status of the text and the absence of any stated restriction on
+    it. Reading: AMBER - the publisher states no restriction on reusing the text beyond a generic copyright footer (if any);
+    no permission for automated retrieval is stated either.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Timor-Leste, the National Parliament of Timor-Leste (www.parlamento.tl); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it; there is no licence.
+    Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/tl-parlamento-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- The foreword of 20 May 2017 and the table of contents that precede the preamble on the page are not stored. The Tetum and
+  English texts are not ingested.
+- Articles 166 and 168 are printed with the number on one line and the heading ('(Hino Nacional)', '(II Governo Transitório)')
+  on the next; the heading stays in the article's text.
+status: active
+connector: constitution_docs
+parser: constitution_text

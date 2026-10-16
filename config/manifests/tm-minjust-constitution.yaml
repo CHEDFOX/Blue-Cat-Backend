@@ -1,0 +1,48 @@
+schema_version: 1
+source_id: tm-minjust-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- minjust.gov.tm
+documents:
+- slug: tm-tk
+  jurisdiction: TM
+  url: https://minjust.gov.tm/assets/files/law_documents/hukuknama_1_tm.pdf
+  format: pdf
+  language: tk
+  title: Türkmenistanyň Konstitusiýasy (rejelenen görnüşi)
+  citation_name: Turkmenistan Constitution
+  edition_label: revised text with the Constitutional laws of 09.10.2017, 25.09.2020 and 21.01.2023 (file last modified 2023-03-03)
+  events:
+  - type: promulgation
+    date: '2016-09-14'
+    description: '''Türkmenistanyň Konstitusion kanuny ... Aşgabat şäheri. 2016-njy ýylyň 14-nji sentýabry. № 448-V.'' (the law that approves the revised text; its three articles precede the text in the file)'
+    locator: first pages of the file
+  - type: amendment
+    date: '2017-10-09'
+    description: '''Türkmenistanyň 09.10.2017 ý. № 617-V ... Konstitusion kanunlary esasynda girizilen üýtgetmeler we goşmaçalar bilen'''
+    locator: sub-title of the revised text
+  - type: amendment
+    date: '2020-09-25'
+    description: '''25.09.2020 ý. № 297-VI ... Konstitusion kanunlary esasynda girizilen üýtgetmeler we goşmaçalar bilen'''
+    locator: sub-title of the revised text
+  - type: amendment
+    date: '2023-01-21'
+    description: '''21.01.2023 ý. № 531-VI Konstitusion kanunlary esasynda girizilen üýtgetmeler we goşmaçalar bilen'''
+    locator: sub-title of the revised text
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    style: numword
+    keywords_after:
+    - nji madda
+    - njy madda
+    unit_kind: article
+    page_numbers: true
+    start_regex: ^Biz, Türkmenistanyň halky,$
+    preamble_regex: ^Biz, Türkmenistanyň halky,$
+    chapter_regex: ^[IVX]+ BÖLÜM\.
+  note: >-
+    The file begins with the Constitutional law of 14 September 2016 (three articles) that approves the revised text; those
+    pages are not stored as articles. The sub-title of the revised text names the Constitutional laws of 09.10.2017,
+    25.09.2020 and 21.01.2023 whose amendments it contains.
