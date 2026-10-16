@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from ulis.catalog import Catalog
 from ulis.db import models as m
-from ulis.retrieval.authority import classify_provision
+from ulis.retrieval.authority import AS_ENACTED_KINDS, classify_provision
 from ulis.retrieval.details import (
     _source_info,
     cited_date,
@@ -73,7 +73,16 @@ def provision_at(
             passage_jurisdiction=instrument.jurisdiction_id,
             doc_type=instrument.instrument_type,
             status=data.version.status,
-            applies_on_date=None if pit.status == "in_force_date_unverified" else pit.status == "in_force",
+            applies_on_date=(
+                None
+                if pit.status == "in_force_date_unverified"
+                or (
+                    pit.status == "in_force"
+                    and data.version.valid_to is None
+                    and data.instrument_version.consolidation_kind in AS_ENACTED_KINDS
+                )
+                else pit.status == "in_force"
+            ),
             as_of=as_of,
         )
         limitations = provision_limitations(catalog, data, authority, as_of)

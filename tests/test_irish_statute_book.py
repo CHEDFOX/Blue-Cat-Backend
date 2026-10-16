@@ -695,7 +695,7 @@ def test_search_finds_exact_text_with_citation_and_limitations(
     assert hit["citation"] == "Data Protection Act 2018, s 60(3)(a)(i)"
     assert hit["text"].startswith("to safeguard cabinet confidentiality, parliamentary privilege, national security")
     assert hit["jurisdiction"]["id"] == "IE" and all(h["jurisdiction"]["id"] == "IE" for h in res["results"])
-    assert hit["authority"]["category"] == "binding_legislation"
+    assert hit["authority"]["category"] == "applicability_unverified"  # as enacted, nothing later applied
     codes = {lim["code"] for lim in hit["limitations"]}
     assert {
         "EFFECTIVE_DATE_PRESUMED",
@@ -777,3 +777,12 @@ def test_reingest_is_idempotent_and_sources_verify(
 def test_fixtures_readme_names_the_source_and_licence() -> None:
     text = (FIX / "README.md").read_text()
     assert "irishstatutebook.ie" in text and "Oireachtas (Open Data) PSI Licence" in text
+
+
+@pytest.mark.db
+def test_an_act_as_enacted_is_never_labelled_binding_in_lookups(
+    session: Session, catalog: Catalog, ie_ingested: IngestionReport
+) -> None:
+    got = provision_at(session, catalog, "/ie/act/2018/7/~section-60-3-a-i", date(2026, 10, 14))
+    assert got["status_on_date"] == "in_force"  # the text exists from its enactment ...
+    assert got["version"]["authority"]["category"] == "applicability_unverified"  # ... but nothing says it still applies

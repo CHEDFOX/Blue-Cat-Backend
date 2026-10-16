@@ -55,7 +55,9 @@ def test_public_law_citation_and_presumed_effective_date(us: Session, catalog: C
     )
     assert hit["citation"].startswith("Promoting Women in Entrepreneurship Act, Pub. L. No. 115-6, § 2")
     assert hit["citation"].endswith("131 Stat. 11 (2017)")
-    assert hit["authority"]["category"] == "binding_legislation"
+    assert (
+        hit["authority"]["category"] == "applicability_unverified"
+    )  # public law as enacted, no later version recorded: whether it still applies is unknown
     assert {"EFFECTIVE_DATE_PRESUMED", "NOT_AUTHENTICATED", "PROFILE_UNVERIFIED"} <= codes(hit)
     before = run(us, catalog, q="women STEM disciplines", as_of=date(2016, 1, 1))
     assert all(h["document"]["uri"] != "/us/pl/115/6" for h in before["results"])

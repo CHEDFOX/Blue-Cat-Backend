@@ -263,3 +263,12 @@ Still open (nothing was changed; these need a decision, a publisher or counsel):
 - **Dates**: Normattiva's one-off exports should be `attested_at_edition`; Poland and Denmark end an older snapshot's wording only when a later text starts, not at an intervening amendment; Ireland, Croatia and Slovenia label as-enacted or as-published acts `in_force` (the limitation text is shown, the label is not honest); Texas future-effective variants are attested as current. Treat date answers for these sources as indicative.
 - **C4** one standard for US states with no terms (Oregon and Texas are active on "no terms found"; Minnesota and Florida are not).
 - Counsel review of every `approved`, and reading the terms pages ULIS could not read (item 4).
+
+Update (2026-10-16): **as-enacted texts** (Ireland's Acts, the US public laws and Statutes at Large, Australian as-made Acts) whose
+latest recorded version is the enacted one now carry the authority category `applicability_unverified` in search and lookups: the
+text exists from its enactment, but nothing in the source says it still applies (later amendments and repeals are not applied). Dates
+before enactment still correctly return "not yet in force". Croatia and Slovenia (as published, no dates) already returned
+`in_force_date_unverified` and `applicability_unverified`; nothing changed there. KOOP (Netherlands): the widened manifest takes the
+list from the sitemap that `wetten.overheid.nl/robots.txt` declares and every text from the CC0 repository, which has no robots.txt
+and is the route the dataset page describes; the named AI-crawler rules on the website do not apply to that host, and ULIS is not one
+of the named crawlers; the project still cannot ask KOOP's view.

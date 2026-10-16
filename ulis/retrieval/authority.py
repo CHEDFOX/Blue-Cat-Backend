@@ -36,6 +36,9 @@ CATEGORIES: dict[str, tuple[str, float]] = {
 }
 
 
+# Consolidation kinds that show a text as passed, without later amendments or repeals.
+AS_ENACTED_KINDS = ("as_enacted", "as_made")
+
 # Instrument types of international organisations that do not bind by themselves.
 SOFT_LAW_TYPES = frozenset({"recommendation", "declaration", "arrangement", "decision_recommendation"})
 

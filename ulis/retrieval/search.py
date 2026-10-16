@@ -29,7 +29,13 @@ from ulis.catalog import Catalog
 from ulis.db import models as m
 from ulis.jurisdictions.modules import ProvisionCitationInput
 from ulis.languages import FALLBACK_CONFIG, all_search_configs, segment_for_search
-from ulis.retrieval.authority import Authority, TreatyStatus, classify_judgment, classify_provision
+from ulis.retrieval.authority import (
+    AS_ENACTED_KINDS,
+    Authority,
+    TreatyStatus,
+    classify_judgment,
+    classify_provision,
+)
 from ulis.retrieval.coverage import coverage_for
 from ulis.retrieval.details import load_judgment_paragraph, load_provision
 from ulis.verification.limitations import (
@@ -296,6 +302,18 @@ def _classify(
                 )
             )
         )
+    # Texts "as enacted" / "as made" show the Act as passed: later amendments and repeals are not applied, so whether
+    # such a text still applies is not known from the text itself (only the date it was enacted is).
+    as_enacted: set[Any] = set()
+    pv_ids = [c.provision_version_id for c in candidates if c.provision_version_id is not None]
+    if pv_ids:
+        as_enacted = set(
+            session.scalars(
+                select(m.ProvisionVersion.id)
+                .join(m.InstrumentVersion, m.InstrumentVersion.id == m.ProvisionVersion.instrument_version_id)
+                .where(m.ProvisionVersion.id.in_(pv_ids), m.InstrumentVersion.consolidation_kind.in_(AS_ENACTED_KINDS))
+            )
+        )
     judgment_ids = {c.judgment_id for c in candidates if c.judgment_id}
     courts: dict[Any, str] = {}
     overruled: dict[Any, str] = {}
@@ -352,6 +370,8 @@ def _classify(
             applies: bool | None
             if c.status == "in_force" and c.valid_from is None:
                 applies = None  # attested only at the source's edition date
+            elif c.status == "in_force" and c.valid_to is None and c.provision_version_id in as_enacted:
+                applies = None  # the Act as passed, no later version recorded: whether it still applies is unknown
             else:
                 applies = (
                     c.status == "in_force"
