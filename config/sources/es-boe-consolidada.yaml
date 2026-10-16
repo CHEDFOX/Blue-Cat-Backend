@@ -26,10 +26,11 @@ coverage: >-
   Consolidated texts of the norms of the Spanish legal order prepared by the AEBOE's documentation services, with
   every intermediate version since the original publication, served by the BOE open-data API
   (https://www.boe.es/datosabiertos/api/legislacion-consolidada). ULIS ingests every State (ambito "Estatal") norm
-  of the API's list - 8,814 on 2026-10-15: laws, royal decrees, orders, resolutions, circulars, instructions,
-  agreements, international agreements and the older decrees - in Castilian Spanish with their full version history
-  (see the manifest, generated from the list endpoint). The 3,620 norms of the autonomous communities that the same
-  list holds are not ingested.
+  of the API's list that is not repealed or spent in full - 6,826 on 2026-10-16: laws, royal decrees, orders,
+  resolutions, circulars, instructions, agreements, international agreements and the older decrees - in Castilian
+  Spanish with their full version history (see the manifest, generated from the list endpoint). The 1,988 norms marked
+  vigencia_agotada = S (repealed or spent in full: not the law in force today) and the 3,620 norms of the autonomous
+  communities that the same list holds are not ingested (`--include-spent` on the manifest script adds the former).
 access:
   method: api
   endpoint: config/manifests/es-boe-consolidada.yaml
@@ -40,8 +41,8 @@ rate_limits: >-
   No rate limit is published. https://www.boe.es/robots.txt (fetched 2026-10-15) has a single "User-agent: *" group,
   no Crawl-delay, and does not disallow /datosabiertos/ (it disallows about 12,300 per-document paths on other parts
   of the site - privacy de-indexing of documents of other sections; the connector reads robots.txt on every run and
-  skips a norm whose API path a rule names: none of the 8,814 does). The list endpoint (3 requests, 18 MB) and one
-  request per norm: ULIS waits 5 s between requests, so a full run is 8,815 requests = 12.2 h.
+  skips a norm whose API path a rule names: none of the 6,826 does). The list endpoint (3 requests, 18 MB) and one
+  request per norm: ULIS waits 5 s between requests, so a full run is 6,827 requests = 9.5 h.
 licence:
   id: AEBOE-reutilizacion-2024
   name: >-

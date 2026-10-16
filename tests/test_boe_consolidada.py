@@ -391,7 +391,7 @@ def test_the_committed_manifest_covers_the_state_list_and_passes_validation(tmp_
     ids = [d["id"] for d in manifest["documents"]]
     # The six pilot norms come first; the whole State list is far larger than the pilot.
     assert ids[:6] == [CE, "BOE-A-1889-4763", CP, LOPDGDD, "BOE-A-2015-10565", "BOE-A-2015-11430"]
-    assert len(ids) > 8000 and all(i.startswith("BOE-A-") for i in ids)
+    assert len(ids) > 6000 and all(i.startswith("BOE-A-") for i in ids)
     assert all(d.get("title") for d in manifest["documents"])
     assert manifest["crawl_delay_seconds"] >= 5
 
