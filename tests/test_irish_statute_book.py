@@ -785,4 +785,6 @@ def test_an_act_as_enacted_is_never_labelled_binding_in_lookups(
 ) -> None:
     got = provision_at(session, catalog, "/ie/act/2018/7/~section-60-3-a-i", date(2026, 10, 14))
     assert got["status_on_date"] == "in_force"  # the text exists from its enactment ...
-    assert got["version"]["authority"]["category"] == "applicability_unverified"  # ... but nothing says it still applies
+    assert (
+        got["version"]["authority"]["category"] == "applicability_unverified"
+    )  # ... but nothing says it still applies
