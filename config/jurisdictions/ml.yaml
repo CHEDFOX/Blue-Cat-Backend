@@ -21,7 +21,8 @@ legal_system:
   treaty_reception: unknown
   notes: >-
     To verify - not profiled: this is a minimal profile created for the constitutions sweep of North, West and Central Africa.
-    The official languages listed are those of the text loaded.
+    To verify - article 31 of the text loaded makes the national languages the official languages of Mali and French the working
+    language; French is the language of the text loaded.
 legislative_institutions: []
 instrument_types:
 - constitution

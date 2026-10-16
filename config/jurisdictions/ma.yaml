@@ -15,14 +15,15 @@ verification:
   status: draft_unverified
   notes: Research notes only. Not reviewed by counsel.
 official_languages:
-- fr
+- ar
 legal_system:
   families: []
   structure: unitary
   treaty_reception: unknown
   notes: >-
     To verify - not profiled: this is a minimal profile created for the constitutions sweep of North, West and Central Africa.
-    The official languages listed are those of the text loaded.
+    Arabic is the official language of the State, with Amazigh also an official language (article 5 of the text loaded); the
+    text loaded is the French text, the Arabic text being the authentic one.
 legislative_institutions: []
 instrument_types:
 - constitution

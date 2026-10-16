@@ -15,14 +15,15 @@ verification:
   status: draft_unverified
   notes: Research notes only. Not reviewed by counsel.
 official_languages:
-- fr
+- ar
 legal_system:
   families: []
   structure: unitary
   treaty_reception: unknown
   notes: >-
     To verify - not profiled: this is a minimal profile created for the constitutions sweep of North, West and Central Africa.
-    The official languages listed are those of the text loaded.
+    Arabic is the official language (article 6 of the text loaded); the text loaded is the French edition of the Government's
+    translation and Journal officiel directorate.
 legislative_institutions: []
 instrument_types:
 - constitution

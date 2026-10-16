@@ -16,13 +16,14 @@ verification:
   notes: Research notes only. Not reviewed by counsel.
 official_languages:
 - es
+- fr
 legal_system:
   families: []
   structure: unitary
   treaty_reception: unknown
   notes: >-
     To verify - not profiled: this is a minimal profile created for the constitutions sweep of North, West and Central Africa.
-    The official languages listed are those of the text loaded.
+    The official languages are Spanish, French and those the law determines (article 4 of the text loaded).
 legislative_institutions: []
 instrument_types:
 - constitution
@@ -50,8 +51,7 @@ coverage:
   known_gaps:
   - >-
     Only the constitution is loaded (Preamble and 134 articles of the Ley Fundamental as promulgated on 16 February 2012,
-    as the Government's PDF prints them (three headings not recognised).) No legislation, regulations, treaties or case law
-    of Equatorial Guinea are ingested.
+    as the Government's PDF prints them.) No legislation, regulations, treaties or case law of Equatorial Guinea are ingested.
   - >-
     The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since
     are not applied, and no history is held (docs/constitutions-africa-west-deep.md).

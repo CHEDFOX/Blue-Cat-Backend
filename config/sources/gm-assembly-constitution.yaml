@@ -22,7 +22,7 @@ licence:
   id: NOT-GRANTED
   name: >-
     The "Terms of Use" (https://assembly.gm/terms-of-use, last updated October 15, 2026) say: "Unless otherwise stated, the
-    National Assembly of The Gambia owns the intellectual property rights for all material on this websi
+    National Assembly of The Gambia owns the intellectual property rights for all material on this ...
   url: https://assembly.gm/
   review_status: rejected
   reviewed_by: >-
@@ -46,7 +46,7 @@ known_limitations:
 - >-
   The "Terms of Use" (https://assembly.gm/terms-of-use, last updated October 15, 2026) say: "Unless otherwise stated, the
   National Assembly of The Gambia owns the intellectual property rights for all material on this website. All intellectual
-  property rights are reserved." They allow only to "View and
+  property rights are reserved." They allow only to "View ...
 status: rejected
 connector: null
 parser: null

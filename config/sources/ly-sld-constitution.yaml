@@ -25,7 +25,7 @@ licence:
   id: UNKNOWN
   name: >-
     The PDF of the Constitutional Declaration of 2011 (30 pages) has a damaged Arabic text layer: letters are missing from
-    the words (for example 'ال ـي قادهـا ال ـع'), so the text cannot be stored exactly. Libya has no cons
+    the words (for example 'ال ـي قادهـا ال ـع'), so the text cannot be stored exactly. Libya has no ...
   url: >-
     https://sld.gov.ly/wp-content/uploads/2022/02/%D8%A7%D9%84%D8%A7%D8%B9%D9%84%D8%A7%D9%86-%D8%A7%D9%84%D8%AF%D8%B3%D8%AA%D9%88%D8%B1%D9%8A.pdf
   review_status: pending_review
@@ -48,7 +48,7 @@ known_limitations:
 - >-
   The PDF of the Constitutional Declaration of 2011 (30 pages) has a damaged Arabic text layer: letters are missing from the
   words (for example 'ال ـي قادهـا ال ـع'), so the text cannot be stored exactly. Libya has no consolidated text of the Declaration
-  with its 13 amendments on an official site that
+  with its 13 amendments on an official site ...
 status: planned
 connector: null
 parser: null

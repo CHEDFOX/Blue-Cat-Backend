@@ -21,7 +21,8 @@ legal_system:
   treaty_reception: unknown
   notes: >-
     To verify - not profiled: this is a minimal profile created for the constitutions sweep of North, West and Central Africa.
-    The official languages listed are those of the text loaded.
+    French is the official language in the text loaded (article 35, as amended up to 2015); later changes to the languages,
+    if any, are not applied.
 legislative_institutions: []
 instrument_types:
 - constitution

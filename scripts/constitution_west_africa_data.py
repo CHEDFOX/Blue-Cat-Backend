@@ -105,6 +105,8 @@ ACTIVE: list[dict[str, Any]] = [
             "en": "Islamic Republic of Mauritania",
         },
         langs=["fr"],
+        official_languages=["ar"],
+        language_note="Arabic is the official language (article 6 of the text loaded); the text loaded is the French edition of the Government's translation and Journal officiel directorate.",
         publisher="Premier Ministère, Secrétariat Général du Gouvernement, Direction Générale de la Législation, de la Traduction et de l'Edition du Journal Officiel (primature.gov.mr)",
         hosts=["www.primature.gov.mr"],
         robots='www.primature.gov.mr/robots.txt - "User-agent: *" with the standard Drupal rules (Disallow /core/, /profiles/, /admin/, /search/, /user/ ... ); /sites/default/files/ is not disallowed; no Crawl-delay',
@@ -150,7 +152,10 @@ ACTIVE: list[dict[str, Any]] = [
                 structure={"drop_lines": ["^Page [0-9]+ sur [0-9]+$"]},
             )
         ],
-        limitations=["Revisions after the referendum laws of 15 August 2017, if any, are not applied."],
+        limitations=[
+            "Revisions after the referendum laws of 15 August 2017, if any, are not applied.",
+            "The official language is Arabic (article 6); this is the French edition of the Government's Journal officiel directorate.",
+        ],
         coverage="Preamble and the articles of the Constitution as consolidated by the Government up to the laws of 15 August 2017.",
     ),
     dict(
@@ -195,6 +200,8 @@ ACTIVE: list[dict[str, Any]] = [
             "en": "People's Democratic Republic of Algeria",
         },
         langs=["fr"],
+        official_languages=["ar"],
+        language_note="Arabic is the national and official language and Tamazight is also national and official (articles 3 and 4 of the text loaded); the text loaded is the French translation edition of the Journal officiel.",
         publisher="Secrétariat Général du Gouvernement, Journal officiel de la République algérienne (joradp.dz)",
         hosts=["www.joradp.dz"],
         robots="www.joradp.dz/robots.txt - HTTP 404 (no robots.txt): no crawling rules to apply. The connector reads it anyway. joradp.dz/ answers with a page that redirects to www.joradp.dz",
@@ -250,6 +257,8 @@ ACTIVE: list[dict[str, Any]] = [
         country="Morocco",
         names={"fr": "Royaume du Maroc", "ar": "المملكة المغربية", "en": "Kingdom of Morocco"},
         langs=["fr"],
+        official_languages=["ar"],
+        language_note="Arabic is the official language of the State, with Amazigh also an official language (article 5 of the text loaded); the text loaded is the French text, the Arabic text being the authentic one.",
         publisher="Ministère de la Justice du Royaume du Maroc (portail Adala, adala.justice.gov.ma)",
         hosts=["adala.justice.gov.ma"],
         robots="adala.justice.gov.ma/robots.txt - HTTP 404 (no robots.txt): no crawling rules to apply. The connector reads it anyway",
@@ -332,6 +341,8 @@ ACTIVE: list[dict[str, Any]] = [
         country="Gabon",
         names={"fr": "République gabonaise", "en": "Gabonese Republic"},
         langs=["fr"],
+        official_languages=["fr"],
+        language_note="French is the official working language in the text loaded (article 1).",
         publisher="Communication Gouvernementale / Secrétariat Général du Gouvernement du Gabon (gouvernement.ga)",
         hosts=["gouvernement.ga"],
         robots='gouvernement.ga/robots.txt - "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php"; no Crawl-delay; /wp-content/uploads/ is not disallowed',
@@ -375,6 +386,8 @@ ACTIVE: list[dict[str, Any]] = [
         country="Burkina Faso",
         names={"fr": "Burkina Faso", "en": "Burkina Faso"},
         langs=["fr"],
+        official_languages=["fr"],
+        language_note="French is the official language in the text loaded (article 35, as amended up to 2015); later changes to the languages, if any, are not applied.",
         publisher="Présidence du Faso (presidencedufaso.bf)",
         hosts=["presidencedufaso.bf"],
         robots='presidencedufaso.bf/robots.txt and www.presidencedufaso.bf/robots.txt - "User-agent: *" "Crawl-delay: 10" and nothing else (nothing disallowed). The connector waits 10 s between requests',
@@ -580,8 +593,8 @@ ACTIVE: list[dict[str, Any]] = [
         publisher="Assemblée nationale du Cameroun (assnat.cm)",
         hosts=["www.assnat.cm"],
         robots='www.assnat.cm/robots.txt - "User-agent: *" with the Joomla rules (Disallow /administrator/, /bin/, /cache/, /components/, /includes/, /installation/, /language/, /layouts/, /libraries/, /logs/, /modules/, /plugins/ ...); /images/ is not disallowed; no Crawl-delay',
-        terms="the home page has no footer text, terms-of-use or licence page was found on the pages read",
-        document='The Assembly\'s site hosts two PDFs of the Constitution (30 pages each, text layer): https://www.assnat.cm/images/La_Constitution.pdf headed "Loi n°96/06 du 18 janvier 1996 Portant révision de la Constitution du 02 juin 1972, modifiée et complétée par la loi n°2008/001 du 14 avril 2008" and https://www.assnat.cm/images/The_constitution.pdf headed "Law No. 96-6 of 18 January 1996 to amend the Constitution of 2 June, 1972" (English): preamble and articles 1 to 69. The French text prints "ARICLE 48" (a misprint), so that heading is not recognised. Both languages are official in Cameroon.',
+        terms="the home page has no footer text and no terms-of-use or licence page was found on the pages read",
+        document='The Assembly\'s site hosts two PDFs of the Constitution (30 pages each, text layer): https://www.assnat.cm/images/La_Constitution.pdf headed "Loi n°96/06 du 18 janvier 1996 Portant révision de la Constitution du 02 juin 1972, modifiée et complétée par la loi n°2008/001 du 14 avril 2008" and https://www.assnat.cm/images/The_constitution.pdf headed "Law No. 96-6 of 18 January 1996 to amend the Constitution of 2 June, 1972" (English): preamble and articles 1 to 69. The French text prints "ARICLE 48" (a misprint), which the keywords hint of the manifest reads. Both languages are official in Cameroon.',
         statute=None,
         docs=[
             dict(
@@ -607,7 +620,7 @@ ACTIVE: list[dict[str, Any]] = [
                         locator="heading of the PDF",
                     ),
                 ],
-                structure={"drop_lines": ["^[0-9]{1,3}$"]},
+                structure={"drop_lines": ["^[0-9]{1,3}$"], "keywords": ["Article", "ARICLE"]},
             ),
             dict(
                 slug="cm-en",
@@ -630,7 +643,7 @@ ACTIVE: list[dict[str, Any]] = [
             ),
         ],
         limitations=[
-            "The French heading of article 48 is misprinted in the PDF ('ARICLE 48') and is not recognised: its text is kept in article 47, whose note says so.",
+            "The French PDF misprints the heading of article 48 ('ARICLE 48'); the manifest's keywords hint reads that spelling too. The page numbers printed on their own line are dropped.",
             "Whether the English PDF includes the amendments of 2008 is not stated in its heading.",
         ],
         coverage="Preamble and 69 articles of the Constitution of 1996, in French (as modified and completed by the law of 14 April 2008, per its heading) and in English, as the National Assembly's PDFs print them.",
@@ -641,6 +654,8 @@ ACTIVE: list[dict[str, Any]] = [
         country="Mali",
         names={"fr": "République du Mali", "en": "Republic of Mali"},
         langs=["fr"],
+        official_languages=["fr"],
+        language_note="To verify - article 31 of the text loaded makes the national languages the official languages of Mali and French the working language; French is the language of the text loaded.",
         publisher="Présidence de la République du Mali (koulouba.ml)",
         hosts=["koulouba.ml"],
         robots='koulouba.ml/robots.txt - "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php"; no Crawl-delay; /wp-content/uploads/ is not disallowed',
@@ -748,6 +763,8 @@ ACTIVE: list[dict[str, Any]] = [
             "en": "Republic of Equatorial Guinea",
         },
         langs=["es"],
+        official_languages=["es", "fr"],
+        language_note="The official languages are Spanish, French and those the law determines (article 4 of the text loaded).",
         publisher="Página Oficial del Gobierno de la República de Guinea Ecuatorial (guineaecuatorialpress.com)",
         hosts=["www.guineaecuatorialpress.com"],
         robots='www.guineaecuatorialpress.com/robots.txt - "User-agent: *" "Disallow:" (nothing disallowed); no Crawl-delay',
@@ -793,6 +810,8 @@ ACTIVE: list[dict[str, Any]] = [
         country="Liberia",
         names={"en": "Republic of Liberia"},
         langs=["en"],
+        official_languages=["en"],
+        language_note="To verify - English as the official language is not stated in an article that was read.",
         publisher="Ministry of National Defense of Liberia (mod.gov.lr)",
         hosts=["mod.gov.lr"],
         robots='mod.gov.lr/robots.txt - "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php"; no Crawl-delay; /wp-content/uploads/ is not disallowed',
@@ -892,7 +911,7 @@ BLOCKED: list[dict[str, Any]] = [
         url="https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf",
         langs=["fr"],
         robots="presidence.td/robots.txt answered HTTP 403 to the ULIS bot",
-        finding="robots.txt (https://presidence.td/robots.txt) answered HTTP 403 to the ULIS bot: the host refuses automated clients; nothing further was requested and no workaround was tried. A search engine lists the PDF of the Constitution at https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf.",
+        finding="robots.txt (https://presidence.td/robots.txt) answered HTTP 403 to the ULIS bot: the host refuses automated clients; nothing further was requested and no workaround was tried. A search engine lists the PDF of the Constitution at https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf. The Constitutional Council's site (conseil-constitutionnel.td) and the National Assembly's site (www.assemblee-nationale.td) could not be reached through the proxy ('Tunnel connection failed: 502 Bad Gateway').",
         phrase="HTTP 403",
     ),
     dict(
@@ -904,8 +923,20 @@ BLOCKED: list[dict[str, Any]] = [
         url="https://sis.gov.eg/media/67726/dustor-eng.pdf",
         langs=["en"],
         robots="sis.gov.eg/robots.txt - TLS certificate verification failed (unable to get local issuer certificate)",
-        finding="TLS verification of https://sis.gov.eg/robots.txt failed ('unable to get local issuer certificate'); verification is never disabled, so nothing was read. A search engine lists the English PDF 'Constitution of The Arab Republic of Egypt' at https://sis.gov.eg/media/67726/dustor-eng.pdf. An earlier sweep also found the host unreachable.",
+        finding="TLS verification of https://sis.gov.eg/robots.txt failed ('unable to get local issuer certificate'); verification is never disabled, so nothing was read. A search engine lists the English PDF 'Constitution of The Arab Republic of Egypt' at https://sis.gov.eg/media/67726/dustor-eng.pdf. An earlier sweep also found the host unreachable. The Government Services Portal (www.egypt.gov.eg, which lists the Constitution in Arabic and, in part, in English) answered a connection reset to robots.txt, so nothing was requested there. The Supreme Constitutional Court's host (www.sccourt.gov.eg) failed the TLS handshake and the House of Representatives' host (www.parliament.gov.eg) failed certificate verification (unable to get local issuer certificate).",
         phrase="certificate verification failed",
+    ),
+    dict(
+        id="eg-presidency-constitution",
+        status="planned",
+        cc="EG",
+        country="Egypt",
+        publisher="Presidency of the Arab Republic of Egypt (presidency.eg)",
+        url="https://www.presidency.eg/ar/%D9%85%D8%B5%D8%B1/%D8%A7%D9%84%D8%AF%D8%B3%D8%AA%D9%88%D8%B1/",
+        langs=["ar"],
+        robots='www.presidency.eg/robots.txt - "User-agent: *" "Disallow: /_rf4JJ2R5cnYY_3HrSJ1GhxQcghpy4lFLgVzFRKmbDk=.html" "Crawl-delay: 20" and "Allow: /" (the PDF is allowed)',
+        finding="The page 'الدستور' (footer 'الحقوق جميعها محفوظة لرئاسة الجمهورية © ٢٠٢٠', i.e. all rights reserved to the Presidency, a generic footer) offers the PDF 'دستور-جمهورية-مصر-العربية-2019.pdf' (114 pages, 2 MB): the House of Representatives' General Secretariat edition of April 2019 of the Constitution 'معدّل طبقاً للاستفتاء على تعديل الدستور' of 20-22 April 2019. It was fetched; its Arabic text layer extracts every lam-alef ligature in reverse order and the page marks are mixed into the lines (for example 'الانتخابات' comes out as 'االنتخابات'), so the words are not the words of the text, and no article heading is recognised. ULIS does not repair a text layer. The same PDF is not stored.",
+        phrase="reverse order",
     ),
     dict(
         id="tn-legislation-constitution",
@@ -916,7 +947,7 @@ BLOCKED: list[dict[str, Any]] = [
         url="http://www.legislation.tn/",
         langs=["ar"],
         robots="www.legislation.tn/robots.txt - connection reset by peer (twice)",
-        finding="robots.txt of www.legislation.tn could not be read (connection reset by peer, two attempts); nothing was requested. A search engine lists the Constitution of 2022 on that site article by article (about 142 pages). The Prime Ministry's PDF (pm.gov.tn) has an out-of-order text layer (earlier sweep).",
+        finding="robots.txt of www.legislation.tn could not be read (connection reset by peer, two attempts); nothing was requested. A search engine lists the Constitution of 2022 on that site article by article (about 142 pages). The Prime Ministry's PDF https://pm.gov.tn/sites/default/files/2023-03/constitution-2022.pdf (robots.txt of pm.gov.tn allows it; 41 pages, the JORT issue printed by the Imprimerie Officielle) was fetched and its Arabic text layer is corrupt (symbols instead of letters), so it cannot be stored.",
         phrase="connection reset",
     ),
     dict(
@@ -952,7 +983,7 @@ BLOCKED: list[dict[str, Any]] = [
         url="https://coursupreme.org.gn/en/constitution-du-26-09-2025-de-la-republique-de-guinee/",
         langs=["fr"],
         robots='coursupreme.org.gn/robots.txt - a long list of named crawlers (search engines, AI crawlers, archive.org_bot, Wget, curl, HTTrack ...) are disallowed ("Disallow: /"); "User-agent: *" "Allow: /" - the ULIS bot is not named, so it is allowed',
-        finding="The page 'CONSTITUTION DU 26 09 2025 DE LA REPUBLIQUE DE GUINEE' (footer '© Supreme Court of Guinea 2024. All rights reserved.') links the PDF 'CONSTITUTION-DU-26-09-2025-RG.pdf' (21.8 MB, 72 pages) which has no text layer (72 characters in all); ULIS does no OCR. The Government's Journal officiel site (gn-sgg-jo-constitution) forbids reproduction.",
+        finding="The page 'CONSTITUTION DU 26 09 2025 DE LA REPUBLIQUE DE GUINEE' (footer '© Supreme Court of Guinea 2024. All rights reserved.') links the PDF 'CONSTITUTION-DU-26-09-2025-RG.pdf' (21.8 MB, 72 pages) which has no text layer (72 characters in all); ULIS does no OCR. The Government's Journal officiel site (gn-sgg-jo-constitution) forbids reproduction; robots.txt of www.sgg.gov.gn and of presidence.gov.gn answered HTTP 403 to the ULIS bot (nothing further requested there).",
         phrase="no text layer",
     ),
     dict(
@@ -964,7 +995,7 @@ BLOCKED: list[dict[str, Any]] = [
         url="https://judicial.gov.gh/index.php/the-constitution",
         langs=["en"],
         robots='judicial.gov.gh/robots.txt - "User-agent: *" with the Joomla rules (Disallow /administrator/, /cache/, /images/, /includes/ ...); the chapter pages are not disallowed',
-        finding="The Constitution is published chapter by chapter (Chapter 001 ...); the pages print the clauses '(1) The Sovereignty of Ghana ...' without the article numbers (the list numbers are lost in the HTML), and some clauses appear twice, so the articles cannot be recognised and the text cannot be stored faithfully. Other official copies were examined: ohcs.gov.gh PDF (Act 527 of 1996 with the Constitution, 110 pages) has an OCR text layer with errors ('THE FI VI:' HUNDRED AND TWENTY -SEVENTH'); audit.gov.gh PDF (a print of the audit service's web pages, 215 pages) has articles out of order after chapter 14; osp.gov.gh PDF reproduces a commercial compilation ('Constitutional documents available for the Republic of Ghana', with an editor's note) and is not an official text. Footer of judicial.gov.gh: 'Copyright © 2026 Judicial Service of Ghana. All Rights Reserved'.",
+        finding="The Constitution is published chapter by chapter (Chapter 001 ...); the pages print the clauses '(1) The Sovereignty of Ghana ...' without the article numbers (the list numbers are lost in the HTML), and some clauses appear twice, so the articles cannot be recognised and the text cannot be stored faithfully. Other official copies were examined: ohcs.gov.gh PDF (Act 527 of 1996 with the Constitution, 110 pages) has an OCR text layer with errors ('THE FI VI:' HUNDRED AND TWENTY -SEVENTH'); audit.gov.gh PDF (a print of the audit service's web pages, 215 pages) has articles out of order after chapter 14; osp.gov.gh has two PDFs: one (Ghana_Constitution.pdf) reproduces a commercial compilation ('Constitutional documents available for the Republic of Ghana', with an editor's note) and is not an official text; the other (constitutionofghana.pdf, 110 pages) is the same OCR scan as the ohcs.gov.gh PDF. Footer of judicial.gov.gh: 'Copyright © 2026 Judicial Service of Ghana. All Rights Reserved'.",
         phrase="without the article numbers",
     ),
     dict(
@@ -991,6 +1022,18 @@ BLOCKED: list[dict[str, Any]] = [
         finding='The "Mentions légales" (https://presidence.cd/mentions_legales), section "Droits d\'auteurs", say: "Les documents \'publics\' ou \'officiels\' peuvent donc être reproduits librement ... Les informations utilisées ne doivent l\'être qu\'à des fins personnelles, associatives ou professionnelles. Toute utilisation à des fins commerciales ou publicitaires est formellement interdite." with the conditions "gratuité de la diffusion ; respect de l\'intégrité des documents reproduits ; citation explicite du site presidence.cd comme source". That is a non-commercial permission, but the Presidency\'s PDF of the Constitution ("Constitution de la 3me Republique. 18 Fev 2006.pdf", 36 pages) is a page of the printed compilation "LES CONSTITUTIONS DE LA RDC DE 1908 À 2011" in two columns whose text layer is out of reading order (article 2 before the heading of section 1), so it is not stored; the same text is loaded from the Ministry of the Environment (cd-medd-constitution).',
         phrase="Toute utilisation à des fins commerciales ou publicitaires est formellement interdite",
     ),
+    dict(
+        id="st-justica-constitution",
+        status="planned",
+        cc="ST",
+        country="Sao Tome and Principe",
+        publisher="Ministry of Justice of Sao Tome and Principe, legislation portal (justica.gov.st)",
+        url="https://justica.gov.st/legislacao.php",
+        langs=["pt"],
+        robots="justica.gov.st/robots.txt - the proxy answered 'Tunnel connection failed: 502 Bad Gateway' (two attempts, one day apart)",
+        finding="robots.txt of justica.gov.st could not be read (the proxy answered 'Tunnel connection failed: 502 Bad Gateway' twice, on 2026-10-15 and 2026-10-16), so nothing was requested from the host. A search engine lists its legislation page as holding the Constitution among its categories; the Diário da República (dre.gov.st) and the Assembleia Nacional (anp-stp.gov.st) were found by search only and not requested.",
+        phrase="Tunnel connection failed",
+    ),
 ]
 
 # countries for which no official host with a readable text was found (country, finding)
@@ -998,17 +1041,12 @@ NOT_FOUND: list[dict[str, str]] = [
     dict(
         country="Sudan",
         cc="SD",
-        finding="Searches (restricted to moj.gov.sd, sudan.gov.sd, parliament.gov.sd and other official domains) returned no official page with the Constitutional Document of 2019 (as amended in 2020 and 2025); nothing was requested.",
+        finding="Searches (restricted to moj.gov.sd, sudan.gov.sd, parliament.gov.sd and other official domains) returned no official page with the Constitutional Document of 2019 (as amended in 2020 and 2025). The Government portal (sudan.gov.sd; robots.txt only names a sitemap) was read: its home page links no constitution; the Ministry of Justice's site (moj.gov.sd; no robots.txt) answers an empty page.",
     ),
     dict(
         country="Central African Republic",
         cc="CF",
-        finding="www.gouv.cf (robots.txt: Crawl-delay 10) only describes the country ('La République Centrafricaine'); no official page or PDF with the Constitution of 30 August 2023 (or of 2016) was found; nothing from the Constitution was requested.",
-    ),
-    dict(
-        country="Sao Tome and Principe",
-        cc="ST",
-        finding="justica.gov.st (the Ministry of Justice's legislation portal, https://justica.gov.st/legislacao.php) is the likely official host; its robots.txt could not be read (the proxy answered 'Tunnel connection failed: 502 Bad Gateway'), so nothing was requested. dre.gov.st (Diário da República) and the Assembleia Nacional's site (anp-stp.gov.st) were found by search only.",
+        finding="www.gouv.cf (robots.txt: Crawl-delay 10) only describes the country ('La République Centrafricaine'); no official page or PDF with the Constitution of 30 August 2023 (or of 2016) was found there. A search engine lists, on the Embassy in Paris' site (paris.diplomatie.gouv.cf, 'Textes officiels'), a PDF 'Nouvelle-Constitution_RCA_Bonne-Version_2023.pdf' labelled 'Projet de la nouvelle Constitution centrafricaine'; robots.txt of that host answered 'connection reset by peer', so nothing was requested there.",
     ),
     dict(
         country="Senegal",
@@ -1016,3 +1054,50 @@ NOT_FOUND: list[dict[str, str]] = [
         finding="Already loaded by the earlier sweep (sn-cc-constitution); not repeated.",
     ),
 ]
+
+
+# the dev-database run (migrate, sync-catalog, load-all --jobs 4, verify-sources) of 2026-10-16: source id -> (documents, provisions)
+RESULTS: dict[str, tuple[int, int]] = {
+    "bj-courconst-constitution": (1, 179),
+    "bf-presidence-constitution": (1, 179),
+    "cd-medd-constitution": (1, 240),
+    "cg-gouvernement-constitution": (1, 246),
+    "ci-cc-constitution": (1, 185),
+    "cm-assnat-constitution": (2, 481),
+    "cv-parlamento-constitution": (1, 295),
+    "dz-joradp-constitution": (1, 227),
+    "ga-gouvernement-constitution": (1, 174),
+    "gq-gobierno-constitution": (1, 135),
+    "gw-anp-constitution": (1, 134),
+    "lr-mod-constitution": (1, 104),
+    "ma-adala-constitution": (1, 181),
+    "ml-koulouba-constitution": (1, 192),
+    "mr-primature-constitution": (1, 102),
+    "ne-gouv-constitution": (1, 186),
+    "tg-jo-constitution": (1, 106),
+}
+RUN_NOTES = [
+    "Dev database run on 2026-10-16 (`migrate`, `sync-catalog`, `load-all --jobs 4` of the 17 sources): 17 sources ok, 18 documents, 0 errors, 0 conflicts, "
+    "3,346 stored provisions (articles, their numbered paragraphs, preambles, blocks); `verify-sources`: 18 of 18 documents pass (every stored text re-derived from its stored raw bytes).",
+    "Searches through `ulis.cli search` on that database (first hit, citation): DZ 'La capitale de la République est Alger' -> `Algeria Constitution art. 5`; MA 'Le Maroc est une monarchie constitutionnelle démocratique parlementaire et sociale' -> `Morocco Constitution art. 1`; "
+    "ML 'Tous les Maliens naissent et demeurent libres et égaux en droits' -> `Mali Constitution art. 1`; CV 'A República de Cabo Verde reconhece a igualdade de todos os cidadãos perante a lei' -> `Cabo Verde Constitution art. 1`; "
+    "TG 'La République togolaise est un Etat de droit laïc démocratique et social' -> `Togo Constitution art. 1`; CM 'The Republic of Cameroon shall be a decentralized unitary State' -> `Cameroon Constitution art. 1(2)`. Each hit carries the limitations PROFILE_UNVERIFIED, ATTESTED_ONLY_AT and NOT_AUTHENTIC_TEXT.",
+    "Network: 2 to 3 requests per source (robots.txt and the document), at least 5 s apart (10 s where the host's robots.txt sets a Crawl-delay: conseil-constitutionnel.ci, presidencedufaso.bf, jo.gouv.tg). "
+    "Morocco's host (adala.justice.gov.ma) reset the connection on robots.txt during the load although it had answered during the discovery run; the stored bytes of that discovery run (the exact PDF received on 2026-10-15, with its retrieval time) were put in the connector's cache and ingested from there.",
+]
+
+# the 12 states of the region (Senegal excluded: loaded by the earlier sweep) with no constitution loaded, and the main reason
+STILL_WITHOUT: dict[str, str] = {
+    "Egypt": "the Presidency's PDF of the Constitution (April 2019 edition) has an Arabic text layer with every lam-alef ligature in reverse order; sis.gov.eg fails TLS verification and www.egypt.gov.eg resets the connection",
+    "Libya": "the only official PDF found has a damaged Arabic text layer; no consolidated text of the Constitutional Declaration with its amendments",
+    "Tunisia": "the Prime Ministry's PDF of the JORT issue has a corrupt Arabic text layer; legislation.tn resets the connection",
+    "Sudan": "no official page with the Constitutional Document found",
+    "Gambia": "the National Assembly's terms of use reserve all rights, allow personal non-commercial use only and forbid collecting data without permission",
+    "Guinea": "the Supreme Court's PDF has no text layer (scan); the Government's Journal officiel site forbids reproduction in its legal notice",
+    "Sierra Leone": "the Parliament's host fails TLS verification (self-signed certificate); the Electoral Commission prints only the sections about the Commission",
+    "Ghana": "the Judicial Service's chapter pages lose the article numbers; the PDFs on other official hosts are OCR with errors, misnumbered, or a commercial compilation",
+    "Nigeria": "the Ministry of Justice's PDF has no text layer; no readable official text found",
+    "Chad": "robots.txt of the Presidency answers HTTP 403; the Constitutional Council's site is unreachable through the proxy",
+    "Central African Republic": "no official page or PDF with the Constitution found",
+    "Sao Tome and Principe": "the Ministry of Justice's legislation portal is unreachable through the proxy (HTTP 502 tunnel error)",
+}

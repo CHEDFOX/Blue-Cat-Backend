@@ -48,9 +48,8 @@ coverage:
   corpus_status: pilot
   known_gaps:
   - >-
-    Only the constitution is loaded (Preamble and 246 articles of the Constitution of 25 October 2015 as the Government portal's
-    PDF of the Journal officiel prints them (one heading not recognised).) No legislation, regulations, treaties or case law
-    of Congo are ingested.
+    Only the constitution is loaded (Articles 1 to 246 of the Constitution of 25 October 2015 as the Government portal's PDF
+    of the Journal officiel prints them.) No legislation, regulations, treaties or case law of Congo are ingested.
   - >-
     The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since
     are not applied, and no history is held (docs/constitutions-africa-west-deep.md).

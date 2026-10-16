@@ -23,7 +23,7 @@ licence:
   id: UNKNOWN
   name: >-
     The PDF 'Nigerian-Constitution.pdf' (672 KB) has no text layer (pdftotext returns no text; it is a scan or an image PDF);
-    ULIS does no OCR. The National Assembly's site (nass.gov.ng) has no robots.txt (an HTML page answe
+    ULIS does no OCR. The National Assembly's site (nass.gov.ng) has no robots.txt (an HTML page ...
   url: https://justice.gov.ng/wp-content/uploads/2020/09/Nigerian-Constitution.pdf
   review_status: pending_review
   reviewed_by: >-

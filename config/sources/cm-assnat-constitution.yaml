@@ -2,12 +2,12 @@
 #   robots.txt - www.assnat.cm/robots.txt - "User-agent: *" with the Joomla rules (Disallow /administrator/, /bin/, /cache/, /components/,
 #        /includes/, /installation/, /language/, /layouts/, /libraries/, /logs/, /modules/, /plugins/ ...); /images/ is not disallowed; no
 #        Crawl-delay
-#   Terms - the home page has no footer text, terms-of-use or licence page was found on the pages read
+#   Terms - the home page has no footer text and no terms-of-use or licence page was found on the pages read
 #   The document - The Assembly's site hosts two PDFs of the Constitution (30 pages each, text layer):
 #        https://www.assnat.cm/images/La_Constitution.pdf headed "Loi n°96/06 du 18 janvier 1996 Portant révision de la Constitution du 02
 #        juin 1972, modifiée et complétée par la loi n°2008/001 du 14 avril 2008" and https://www.assnat.cm/images/The_constitution.pdf headed
 #        "Law No. 96-6 of 18 January 1996 to amend the Constitution of 2 June, 1972" (English): preamble and articles 1 to 69. The French text
-#        prints "ARICLE 48" (a misprint), so that heading is not recognised. Both languages are official in Cameroon.
+#        prints "ARICLE 48" (a misprint), which the keywords hint of the manifest reads. Both languages are official in Cameroon.
 schema_version: 1
 id: cm-assnat-constitution
 name: Constitution of Cameroon - Assemblée nationale du Cameroun (assnat.cm)
@@ -37,22 +37,22 @@ licence:
   id: CM-official-text-no-terms
   name: >-
     Official legal text published by Assemblée nationale du Cameroun (assnat.cm); no terms of reuse found (the home page has
-    no footer text, terms-of-use or licence page was found on the pages read)
+    no footer text and no terms-of-use or licence page was found on the pages read)
   url: https://www.assnat.cm/
   review_status: approved
   reviewed_by: >-
     ULIS project (not counsel), 2026-10-16, from the publisher's own pages quoted in the header of this file: robots.txt (www.assnat.cm/robots.txt
     - "User-agent: *" with the Joomla rules (Disallow /administrator/, /bin/, /cache/, /components/, /includes/, /installation/,
     /language/, /layouts/, /libraries/, /logs/, /modules/, /plugins/ ...); /images/ is not disallowed; no Crawl-delay) and
-    the terms (the home page has no footer text, terms-of-use or licence page was found on the pages read). The Assembly's
+    the terms (the home page has no footer text and no terms-of-use or licence page was found on the pages read). The Assembly's
     site hosts two PDFs of the Constitution (30 pages each, text layer): https://www.assnat.cm/images/La_Constitution.pdf
     headed "Loi n°96/06 du 18 janvier 1996 Portant révision de la Constitution du 02 juin 1972, modifiée et complétée par
     la loi n°2008/001 du 14 avril 2008" and https://www.assnat.cm/images/The_constitution.pdf headed "Law No. 96-6 of 18 January
     1996 to amend the Constitution of 2 June, 1972" (English): preamble and articles 1 to 69. The French text prints "ARICLE
-    48" (a misprint), so that heading is not recognised. Both languages are official in Cameroon. The Constitution is an official
-    legal text; no statute excluding official texts from copyright was read on the publisher's pages (to verify). Reading:
-    AMBER - the publisher states no restriction on reusing the text beyond a generic notice; no permission for automated retrieval
-    is stated either.
+    48" (a misprint), which the keywords hint of the manifest reads. Both languages are official in Cameroon. The Constitution
+    is an official legal text; no statute excluding official texts from copyright was read on the publisher's pages (to verify).
+    Reading: AMBER - the publisher states no restriction on reusing the text beyond a generic notice; no permission for automated
+    retrieval is stated either.
   reviewed_on: '2026-10-16'
   redistribution: allowed_with_conditions
   bulk_download: allowed_with_conditions
@@ -79,8 +79,8 @@ known_limitations:
   any) is the edition date, else the retrieval date.
 - Amendments adopted after the edition date are not applied; no history is held.
 - >-
-  The French heading of article 48 is misprinted in the PDF ('ARICLE 48') and is not recognised: its text is kept in article
-  47, whose note says so.
+  The French PDF misprints the heading of article 48 ('ARICLE 48'); the manifest's keywords hint reads that spelling too.
+  The page numbers printed on their own line are dropped.
 - Whether the English PDF includes the amendments of 2008 is not stated in its heading.
 status: active
 connector: constitution_docs

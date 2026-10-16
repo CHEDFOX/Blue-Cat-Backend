@@ -69,12 +69,14 @@ REJECTED = {
 PLANNED = {
     "td-presidence-constitution": "HTTP 403",
     "eg-sis-constitution": "certificate verification failed",
+    "eg-presidency-constitution": "reverse order",
     "tn-legislation-constitution": "connection reset",
     "ly-sld-constitution": "damaged Arabic text layer",
     "ng-justice-constitution": "no text layer",
     "gn-coursupreme-constitution": "no text layer",
     "gh-judicial-constitution": "without the article numbers",
     "sl-parliament-constitution": "self-signed certificate",
+    "st-justica-constitution": "Tunnel connection failed",
     "cd-presidence-constitution": "Toute utilisation à des fins commerciales ou publicitaires est formellement interdite",
 }
 
@@ -201,7 +203,14 @@ def test_committed_manifest_loads_and_matches_its_source(catalog: Catalog, sourc
     assert profile.verification.status == "draft_unverified" and profile.instrument_types == ["constitution"]
     assert profile.citation.module == "constitution" and source_id in profile.publication.official_sources
     assert "Only the constitution is loaded" in profile.coverage.known_gaps[0]
-    assert profile.parent == "INT" and set(profile.official_languages) >= set(source.languages)
+    assert profile.parent == "INT" and profile.official_languages
+    if ACTIVE[source_id] in (
+        "MR",
+        "MA",
+        "DZ",
+    ):  # the text loaded is the French edition; the official language is Arabic
+        assert profile.official_languages == ["ar"] and source.languages == ["fr"]
+        assert "Arabic" in " ".join(source.known_limitations)
 
 
 @pytest.mark.parametrize("source_id", sorted(REJECTED) + sorted(PLANNED))
@@ -270,6 +279,11 @@ def test_columns_hint_reads_a_gazette_page_strip_by_strip(catalog: Catalog) -> N
     first_right = next(x for x in data[0]["right"] if x.strip())
     assert columns.index(last_left) < columns.index(first_right)
     assert plain.index(first_right) < plain.index(last_left)  # without the hint the strips are read row by row
+    # a band at the top of every page (the running head of a gazette) can be left out
+    first_left = next(x for x in data[0]["left"] if "JOURNAL OFFICIEL" in x)
+    assert first_left in columns and first_left not in "\n".join(pdf_pages(pdf, columns=2, column_top=75))
+    last_right = [x for x in data[0]["right"] if x.strip()][-1]
+    assert last_right in "\n".join(pdf_pages(pdf, columns=2, column_top=75))
     doc = parse(_pdf_bundle(catalog, "tg-jo-constitution", "tg-fr", pdf))
     ids = [p.eid for p in doc.provisions if p.parent_eid is None]
     assert ids[0] in ("preamble", "art-1") and "art-1" in ids and "art-2" in ids

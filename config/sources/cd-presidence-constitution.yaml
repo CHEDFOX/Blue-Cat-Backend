@@ -24,7 +24,7 @@ licence:
   id: UNKNOWN
   name: >-
     The "Mentions légales" (https://presidence.cd/mentions_legales), section "Droits d'auteurs", say: "Les documents 'publics'
-    ou 'officiels' peuvent donc être reproduits librement ... Les informations utilisées ne doivent l
+    ou 'officiels' peuvent donc être reproduits librement ... Les informations utilisées ne doivent ...
   url: https://presidence.cd/ressources/constitutions
   review_status: pending_review
   reviewed_by: >-
@@ -51,7 +51,7 @@ known_limitations:
 - >-
   The "Mentions légales" (https://presidence.cd/mentions_legales), section "Droits d'auteurs", say: "Les documents 'publics'
   ou 'officiels' peuvent donc être reproduits librement ... Les informations utilisées ne doivent l'être qu'à des fins personnelles,
-  associatives ou professionnelles. Toute utilis
+  associatives ou professionnelles. Toute ...
 status: planned
 connector: null
 parser: null

@@ -23,7 +23,7 @@ licence:
   id: UNKNOWN
   name: >-
     The page 'CONSTITUTION DU 26 09 2025 DE LA REPUBLIQUE DE GUINEE' (footer '© Supreme Court of Guinea 2024. All rights reserved.')
-    links the PDF 'CONSTITUTION-DU-26-09-2025-RG.pdf' (21.8 MB, 72 pages) which has no text lay
+    links the PDF 'CONSTITUTION-DU-26-09-2025-RG.pdf' (21.8 MB, 72 pages) which has no text ...
   url: https://coursupreme.org.gn/en/constitution-du-26-09-2025-de-la-republique-de-guinee/
   review_status: pending_review
   reviewed_by: >-
@@ -32,7 +32,8 @@ licence:
     ("Disallow: /"); "User-agent: *" "Allow: /" - the ULIS bot is not named, so it is allowed. The page 'CONSTITUTION DU 26
     09 2025 DE LA REPUBLIQUE DE GUINEE' (footer '© Supreme Court of Guinea 2024. All rights reserved.') links the PDF 'CONSTITUTION-DU-26-09-2025-RG.pdf'
     (21.8 MB, 72 pages) which has no text layer (72 characters in all); ULIS does no OCR. The Government's Journal officiel
-    site (gn-sgg-jo-constitution) forbids reproduction. Nothing further is requested; no workaround was tried.
+    site (gn-sgg-jo-constitution) forbids reproduction; robots.txt of www.sgg.gov.gn and of presidence.gov.gn answered HTTP
+    403 to the ULIS bot (nothing further requested there). Nothing further is requested; no workaround was tried.
   reviewed_on: '2026-10-16'
   redistribution: unknown
   bulk_download: unknown
@@ -46,7 +47,7 @@ known_limitations:
 - >-
   The page 'CONSTITUTION DU 26 09 2025 DE LA REPUBLIQUE DE GUINEE' (footer '© Supreme Court of Guinea 2024. All rights reserved.')
   links the PDF 'CONSTITUTION-DU-26-09-2025-RG.pdf' (21.8 MB, 72 pages) which has no text layer (72 characters in all); ULIS
-  does no OCR. The Government's Journal officiel s
+  does no OCR. The Government's Journal officiel ...
 status: planned
 connector: null
 parser: null

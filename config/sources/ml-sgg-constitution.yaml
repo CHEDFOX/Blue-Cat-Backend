@@ -22,7 +22,7 @@ licence:
   id: NOT-GRANTED
   name: >-
     The page "Mentions légales" (https://sgg-mali.ml/fr/mentions-legales.html) says: "Ce site internet est édité par le Secrétariat
-    Général du Gouvernement du Mali ... Toute représentation totale ou partielle de ce site ou d
+    Général du Gouvernement du Mali ... Toute représentation totale ou partielle de ce site ou ...
   url: https://sgg-mali.ml/JO/2023/
   review_status: rejected
   reviewed_by: >-
@@ -46,9 +46,10 @@ licence:
 provenance: >-
   Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
 known_limitations:
-- "The page \"Mentions légales\" (https://sgg-mali.ml/fr/mentions-legales.html) says: \"Ce site internet est édité par le\
-  \ Secrétariat Général du Gouvernement du Mali ... Toute représentation totale ou partielle de ce site ou de son contenu\
-  \ (structure générale, textes, sons, logos, images animées ou non), "
+- >-
+  The page "Mentions légales" (https://sgg-mali.ml/fr/mentions-legales.html) says: "Ce site internet est édité par le Secrétariat
+  Général du Gouvernement du Mali ... Toute représentation totale ou partielle de ce site ou de son contenu (structure générale,
+  textes, sons, logos, images animées ou non) ...
 status: rejected
 connector: null
 parser: null

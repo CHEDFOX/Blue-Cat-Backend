@@ -1,0 +1,52 @@
+# PLANNED - evaluated 2026-10-16, not ingested. Findings are in licence.reviewed_by (publisher's own pages, robots.txt first).
+# Identifying User-Agent used for every request: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+schema_version: 1
+id: st-justica-constitution
+name: >-
+  Constitution of Sao Tome and Principe - Ministry of Justice of Sao Tome and Principe, legislation portal (justica.gov.st)
+publisher: Ministry of Justice of Sao Tome and Principe, legislation portal (justica.gov.st)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- ST
+document_kinds:
+- constitution
+languages:
+- pt
+coverage: The Constitution of Sao Tome and Principe (https://justica.gov.st/legislacao.php); not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://justica.gov.st/legislacao.php
+  authentication: none
+update_frequency: unknown
+licence:
+  id: UNKNOWN
+  name: >-
+    robots.txt of justica.gov.st could not be read (the proxy answered 'Tunnel connection failed: 502 Bad Gateway' twice,
+    on 2026-10-15 and 2026-10-16), so nothing was requested from the host. A search engine lists its ...
+  url: https://justica.gov.st/legislacao.php
+  review_status: pending_review
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: justica.gov.st/robots.txt
+    - the proxy answered 'Tunnel connection failed: 502 Bad Gateway' (two attempts, one day apart). robots.txt of justica.gov.st
+    could not be read (the proxy answered 'Tunnel connection failed: 502 Bad Gateway' twice, on 2026-10-15 and 2026-10-16),
+    so nothing was requested from the host. A search engine lists its legislation page as holding the Constitution among its
+    categories; the Diário da República (dre.gov.st) and the Assembleia Nacional (anp-stp.gov.st) were found by search only
+    and not requested. Nothing further is requested; no workaround was tried.
+  reviewed_on: '2026-10-16'
+  redistribution: unknown
+  bulk_download: unknown
+  automated_processing: unknown
+  commercial_use: unknown
+  attribution_required: null
+  attribution_text: null
+provenance: >-
+  Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
+known_limitations:
+- >-
+  robots.txt of justica.gov.st could not be read (the proxy answered 'Tunnel connection failed: 502 Bad Gateway' twice, on
+  2026-10-15 and 2026-10-16), so nothing was requested from the host. A search engine lists its legislation page as holding
+  the Constitution among its categories; the Diário da ...
+status: planned
+connector: null
+parser: null

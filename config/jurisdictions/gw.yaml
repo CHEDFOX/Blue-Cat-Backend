@@ -49,7 +49,7 @@ coverage:
   known_gaps:
   - >-
     Only the constitution is loaded (Preamble and 133 articles of the Constitution as the National People's Assembly's page
-    prints them (one heading not recognised).) No legislation, regulations, treaties or case law of Guinea-Bissau are ingested.
+    prints them.) No legislation, regulations, treaties or case law of Guinea-Bissau are ingested.
   - >-
     The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since
     are not applied, and no history is held (docs/constitutions-africa-west-deep.md).

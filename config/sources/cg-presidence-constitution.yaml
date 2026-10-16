@@ -22,7 +22,7 @@ licence:
   id: NOT-GRANTED
   name: >-
     The page "Mentions légales" (https://presidence.cg/mentions-legales/), section "5 - Propriété intellectuelle et contrefaçons",
-    says: "https://presidence.cg/ est propriétaire des droits de propriété intellectuelle et déti
+    says: "https://presidence.cg/ est propriétaire des droits de propriété intellectuelle et ...
   url: https://presidence.cg/la-constitution/
   review_status: rejected
   reviewed_by: >-
@@ -47,7 +47,7 @@ known_limitations:
 - >-
   The page "Mentions légales" (https://presidence.cg/mentions-legales/), section "5 - Propriété intellectuelle et contrefaçons",
   says: "https://presidence.cg/ est propriétaire des droits de propriété intellectuelle et détient les droits d'usage sur
-  tous les éléments accessibles sur le site internet, n
+  tous les éléments accessibles sur le site internet ...
 status: rejected
 connector: null
 parser: null

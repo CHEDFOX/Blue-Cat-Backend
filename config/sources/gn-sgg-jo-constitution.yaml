@@ -24,7 +24,7 @@ licence:
   id: NOT-GRANTED
   name: >-
     The page "Mentions légales" (https://journal-officiel.sgg.gov.gn/fr/mentions-legales.html) says: "Le site internet du
-    Journal officiel est édité par le Secrétariat Général du Gouvernement de la République de Guinée. Tout
+    Journal officiel est édité par le Secrétariat Général du Gouvernement de la République de Guinée. ...
   url: https://journal-officiel.sgg.gov.gn/fr/textes-officiels/constitution.html
   review_status: rejected
   reviewed_by: >-
@@ -49,7 +49,7 @@ known_limitations:
 - >-
   The page "Mentions légales" (https://journal-officiel.sgg.gov.gn/fr/mentions-legales.html) says: "Le site internet du Journal
   officiel est édité par le Secrétariat Général du Gouvernement de la République de Guinée. Toute représentation totale ou
-  partielle de ce site ou de son contenu (structure gén
+  partielle de ce site ou de son contenu (structure ...
 status: rejected
 connector: null
 parser: null

@@ -19,7 +19,7 @@ from typing import Any
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from constitution_west_africa_data import ACTIVE, BLOCKED, NOT_FOUND, READ_ON, UA  # noqa: E402
+from constitution_west_africa_data import ACTIVE, BLOCKED, NOT_FOUND, READ_ON, RESULTS, RUN_NOTES, STILL_WITHOUT, UA  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 GENERIC_STATUTE = "no statute was read on a publisher's page"
@@ -41,6 +41,13 @@ Dumper.add_representer(str, _str)
 
 def dump(data: Any) -> str:
     return yaml.dump(data, Dumper=Dumper, sort_keys=False, allow_unicode=True, width=120, default_flow_style=False)
+
+
+def trunc(text: str, size: int) -> str:
+    """The text cut at a word boundary and marked as cut."""
+    if len(text) <= size:
+        return text
+    return text[:size].rsplit(" ", 1)[0].rstrip(",;:") + " ..."
 
 
 def write(path: Path, text: str) -> None:
@@ -99,7 +106,9 @@ def active_source(p: dict[str, Any]) -> None:
         ),
         "licence": {
             "id": f"{p['cc']}-official-text-no-terms",
-            "name": f"Official legal text published by {p['publisher']}; no terms of reuse found ({p['terms'][:160]})",
+            "name": trunc(
+                f"Official legal text published by {p['publisher']}; no terms of reuse found ({p['terms']})", 230
+            ),
             "url": f"https://{p['hosts'][0]}/",
             "review_status": "approved",
             "reviewed_by": reviewed,
@@ -181,12 +190,13 @@ def profile(p: dict[str, Any], first_doc_title: str) -> None:
         "parent": "INT",
         "fictional": False,
         "verification": {"status": "draft_unverified", "notes": "Research notes only. Not reviewed by counsel."},
-        "official_languages": langs,
+        "official_languages": p.get("official_languages", langs),
         "legal_system": {
             "families": [],
             "structure": "unitary",
             "treaty_reception": "unknown",
-            "notes": "To verify - not profiled: this is a minimal profile created for the constitutions sweep of North, West and Central Africa. The official languages listed are those of the text loaded.",
+            "notes": "To verify - not profiled: this is a minimal profile created for the constitutions sweep of North, West and Central Africa. "
+            + p.get("language_note", "The official languages listed are those of the text loaded."),
         },
         "legislative_institutions": [],
         "instrument_types": ["constitution"],
@@ -245,7 +255,7 @@ def blocked_source(b: dict[str, Any]) -> None:
         "update_frequency": "unknown",
         "licence": {
             "id": "NOT-GRANTED" if status == "rejected" else "UNKNOWN",
-            "name": b["finding"][:220],
+            "name": trunc(b["finding"], 220),
             "url": b["url"],
             "review_status": "rejected" if status == "rejected" else "pending_review",
             "reviewed_by": reviewed,
@@ -258,7 +268,7 @@ def blocked_source(b: dict[str, Any]) -> None:
             "attribution_text": None,
         },
         "provenance": "Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.",
-        "known_limitations": [b["finding"][:300]],
+        "known_limitations": [trunc(b["finding"], 300)],
         "status": status,
         "connector": None,
         "parser": None,
@@ -284,6 +294,16 @@ def doc() -> None:
         "",
         f"Loaded: {len(ACTIVE)} publishers, {len(ACTIVE)} countries, {sum(len(p['docs']) for p in ACTIVE)} documents (counts of provisions are in the next section). Not loaded: {len(BLOCKED)} publishers examined and refused, unreadable or unreachable, and {len(NOT_FOUND) - 1} countries with no official host found.",
         "",
+        "### The 30 states",
+        "",
+        "Loaded now (17): " + ", ".join(p["country"] for p in ACTIVE) + ". Loaded by the earlier sweep (1): Senegal.",
+        "",
+        "Still without a constitution (12), with the main reason:",
+        "",
+        *[f"* {country}: {reason}." for country, reason in STILL_WITHOUT.items()],
+        "",
+        "Other laws and codes: the sweep went after the constitutions. Where a loaded publisher also showed codes, they were looked at: the Présidence du Faso's page offers a PDF titled 'CODE PENAL DE 1996' (83 pages), a text the Burkina Faso penal code of 2018 replaced, and an electoral-code PDF of 44 articles that is a modifying law; neither was loaded. The Moroccan Ministry of Justice's Adala portal (adala.justice.gov.ma) publishes the legislation of Morocco, and the Journal officiel sites of Algeria (joradp.dz) and Togo (jo.gouv.tg) publish every law, but they reset connections or are issue-by-issue PDF archives; they are not in this sweep.",
+        "",
         "### Loaded",
         "",
         "| Country | Source | Publisher | Languages | Documents | Text |",
@@ -293,6 +313,14 @@ def doc() -> None:
         lines.append(
             f"| {p['country']} | `{p['id']}` | {p['publisher']} | {', '.join(p['langs'])} | {len(p['docs'])} | {p['coverage']} |"
         )
+    total_docs = sum(d for d, _ in RESULTS.values())
+    total_prov = sum(n for _, n in RESULTS.values())
+    lines += ["", "### Numbers", "", "| Source | Documents | Stored provisions |", "|---|---|---|"]
+    for p in ACTIVE:
+        d, n = RESULTS[p["id"]]
+        lines.append(f"| `{p['id']}` | {d} | {n} |")
+    lines.append(f"| **Total** | **{total_docs}** | **{total_prov}** |")
+    lines += ["", *RUN_NOTES]
     lines += ["", "### Not loaded", "", "| Country | Source | Outcome | Finding |", "|---|---|---|---|"]
     for b in BLOCKED:
         lines.append(

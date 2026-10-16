@@ -22,15 +22,16 @@ licence:
   id: UNKNOWN
   name: >-
     robots.txt of www.legislation.tn could not be read (connection reset by peer, two attempts); nothing was requested. A
-    search engine lists the Constitution of 2022 on that site article by article (about 142 pages). The Pr
+    search engine lists the Constitution of 2022 on that site article by article (about 142 pages). The ...
   url: http://www.legislation.tn/
   review_status: pending_review
   reviewed_by: >-
     ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: www.legislation.tn/robots.txt
     - connection reset by peer (twice). robots.txt of www.legislation.tn could not be read (connection reset by peer, two
     attempts); nothing was requested. A search engine lists the Constitution of 2022 on that site article by article (about
-    142 pages). The Prime Ministry's PDF (pm.gov.tn) has an out-of-order text layer (earlier sweep). Nothing further is requested;
-    no workaround was tried.
+    142 pages). The Prime Ministry's PDF https://pm.gov.tn/sites/default/files/2023-03/constitution-2022.pdf (robots.txt of
+    pm.gov.tn allows it; 41 pages, the JORT issue printed by the Imprimerie Officielle) was fetched and its Arabic text layer
+    is corrupt (symbols instead of letters), so it cannot be stored. Nothing further is requested; no workaround was tried.
   reviewed_on: '2026-10-16'
   redistribution: unknown
   bulk_download: unknown
@@ -43,8 +44,7 @@ provenance: >-
 known_limitations:
 - >-
   robots.txt of www.legislation.tn could not be read (connection reset by peer, two attempts); nothing was requested. A search
-  engine lists the Constitution of 2022 on that site article by article (about 142 pages). The Prime Ministry's PDF (pm.gov.tn)
-  has an out-of-order text layer (earlier sweep).
+  engine lists the Constitution of 2022 on that site article by article (about 142 pages). The Prime Ministry's PDF ...
 status: planned
 connector: null
 parser: null

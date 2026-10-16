@@ -41,9 +41,7 @@ licence:
   id: MR-official-text-no-terms
   name: >-
     Official legal text published by Premier Ministère, Secrétariat Général du Gouvernement, Direction Générale de la Législation,
-    de la Traduction et de l'Edition du Journal Officiel (primature.gov.mr); no terms of reuse found (no terms-of-use, licence
-    or copyright page was found on the pages read (home page); the PDF is headed by the Government's own legislation and Journal
-    officiel d)
+    de la Traduction et de l'Edition du Journal Officiel (primature.gov.mr); no terms of reuse found (no ...
   url: https://www.primature.gov.mr/
   review_status: approved
   reviewed_by: >-
@@ -86,6 +84,8 @@ known_limitations:
   any) is the edition date, else the retrieval date.
 - Amendments adopted after the edition date are not applied; no history is held.
 - Revisions after the referendum laws of 15 August 2017, if any, are not applied.
+- >-
+  The official language is Arabic (article 6); this is the French edition of the Government's Journal officiel directorate.
 status: active
 connector: constitution_docs
 parser: constitution_text

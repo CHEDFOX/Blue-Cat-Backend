@@ -22,15 +22,16 @@ licence:
   id: UNKNOWN
   name: >-
     robots.txt (https://presidence.td/robots.txt) answered HTTP 403 to the ULIS bot: the host refuses automated clients; nothing
-    further was requested and no workaround was tried. A search engine lists the PDF of the Constit
+    further was requested and no workaround was tried. A search engine lists the PDF of the ...
   url: https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf
   review_status: pending_review
   reviewed_by: >-
     ULIS project (not counsel), 2026-10-16, from the publisher's own pages and robots.txt. Findings: presidence.td/robots.txt
     answered HTTP 403 to the ULIS bot. robots.txt (https://presidence.td/robots.txt) answered HTTP 403 to the ULIS bot: the
     host refuses automated clients; nothing further was requested and no workaround was tried. A search engine lists the PDF
-    of the Constitution at https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf. Nothing further is requested;
-    no workaround was tried.
+    of the Constitution at https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf. The Constitutional Council's
+    site (conseil-constitutionnel.td) and the National Assembly's site (www.assemblee-nationale.td) could not be reached through
+    the proxy ('Tunnel connection failed: 502 Bad Gateway'). Nothing further is requested; no workaround was tried.
   reviewed_on: '2026-10-16'
   redistribution: unknown
   bulk_download: unknown
@@ -44,6 +45,7 @@ known_limitations:
 - >-
   robots.txt (https://presidence.td/robots.txt) answered HTTP 403 to the ULIS bot: the host refuses automated clients; nothing
   further was requested and no workaround was tried. A search engine lists the PDF of the Constitution at https://presidence.td/wp-content/uploads/2024/06/Constitution.pdf.
+  The ...
 status: planned
 connector: null
 parser: null

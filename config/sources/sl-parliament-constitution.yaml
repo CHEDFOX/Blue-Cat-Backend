@@ -23,7 +23,7 @@ licence:
   id: UNKNOWN
   name: >-
     TLS verification of https://www.parliament.gov.sl/robots.txt failed ('self-signed certificate'); verification is never
-    disabled, so nothing was read there. The Electoral Commission (ec.gov.sl, Crawl-delay 30) prints only
+    disabled, so nothing was read there. The Electoral Commission (ec.gov.sl, Crawl-delay 30) prints ...
   url: https://www.parliament.gov.sl/
   review_status: pending_review
   reviewed_by: >-
@@ -44,9 +44,10 @@ licence:
 provenance: >-
   Evaluated and NOT ingested by the constitutions sweep (no document was stored). See the licence block and docs/constitutions-africa-west-deep.md.
 known_limitations:
-- "TLS verification of https://www.parliament.gov.sl/robots.txt failed ('self-signed certificate'); verification is never\
-  \ disabled, so nothing was read there. The Electoral Commission (ec.gov.sl, Crawl-delay 30) prints only the sections of\
-  \ the 1991 Constitution that concern the Commission (about 7,300 "
+- >-
+  TLS verification of https://www.parliament.gov.sl/robots.txt failed ('self-signed certificate'); verification is never disabled,
+  so nothing was read there. The Electoral Commission (ec.gov.sl, Crawl-delay 30) prints only the sections of the 1991 Constitution
+  that concern the Commission (about 7,300 ...
 status: planned
 connector: null
 parser: null

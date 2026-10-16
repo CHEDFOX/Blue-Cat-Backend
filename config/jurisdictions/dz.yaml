@@ -15,14 +15,15 @@ verification:
   status: draft_unverified
   notes: Research notes only. Not reviewed by counsel.
 official_languages:
-- fr
+- ar
 legal_system:
   families: []
   structure: unitary
   treaty_reception: unknown
   notes: >-
     To verify - not profiled: this is a minimal profile created for the constitutions sweep of North, West and Central Africa.
-    The official languages listed are those of the text loaded.
+    Arabic is the national and official language and Tamazight is also national and official (articles 3 and 4 of the text
+    loaded); the text loaded is the French translation edition of the Journal officiel.
 legislative_institutions: []
 instrument_types:
 - constitution
