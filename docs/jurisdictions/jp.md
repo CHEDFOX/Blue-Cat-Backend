@@ -188,6 +188,8 @@ configuration, so the `simple` configuration is used with CJK character bigrams 
   - `解雇の予告` → 労働基準法第22条第2項, 第20条第3項, 第20条第2項. 第20条第1項 is missed: its wording
     「解雇しようとする…その予告」 does not contain the query's bigrams 雇の/の予 - a limit of bigram search.
 
+Tests after widening (2026-10-16, own test database): full suite **1,291 passed**; `tests/test_egov_jp.py` 24 tests (committed manifest, Cabinet Order / Ministerial Ordinance / double-typed / long-number fixtures, connector robustness, PostgreSQL search with citations). ruff, ruff format, mypy pass.
+
 ## Known gaps
 
 - History only for 刑法 and APPI and only from 1 April 2017; every other law is the revision in force on the

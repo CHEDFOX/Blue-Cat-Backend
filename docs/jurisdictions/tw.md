@@ -234,6 +234,8 @@ PostgreSQL configuration, so the `simple` configuration with CJK character bigra
   - `知悉所保有之個人資料被竊取` → no in-force hit (PDPA art 12 as shown is not yet in force; its
     in-force wording is not ingested).
 
+Tests after widening (2026-10-16, own test database): full suite **1,291 passed**; `tests/test_moj_tw.py` 25 tests (committed manifest vs robots.txt, order / bracketed name / repealed / attachment-only / deeper-list fixtures, connector robustness, PostgreSQL search). ruff, ruff format, mypy pass.
+
 ## Known gaps
 
 - Current consolidation only; no per-article dates (attested at the cut-off date). The full 11,812-page download

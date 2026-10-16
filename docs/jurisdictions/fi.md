@@ -196,6 +196,8 @@ formally binding; KKO/KHO precedents are followed in practice (marked "to verify
 reception: dualist (to verify). No memberships are recorded here (EU membership is added with the EU
 profile).
 
+Tests after widening (2026-10-16, own test database): full suite **1,291 passed**; `tests/test_finlex.py` 18 tests (committed manifest, shell / repealed / decision fixtures, connector robustness, PostgreSQL search of a decision in both languages). ruff, ruff format, mypy pass.
+
 ## Known gaps
 
 - Consolidated (non-authentic) text only; no original Statute Book texts, translations, case law (KKO/KHO
