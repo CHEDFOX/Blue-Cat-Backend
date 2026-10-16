@@ -557,6 +557,8 @@ def test_every_other_publisher_of_the_sweep_is_recorded_and_refused_by_the_gate(
     statuses = {"planned": 0, "rejected": 0}
     for source_id in ids:
         source = catalog.sources.get(source_id)
+        if source.status == "active":  # promoted by the deep sweep (docs/constitutions-europe-me-deep.md)
+            continue
         statuses[source.status] += 1
         assert source.connector is None and source.parser is None
         assert source.licence.reviewed_on == date(2026, 10, 15) and "robots" in (source.licence.reviewed_by or "")
@@ -564,7 +566,7 @@ def test_every_other_publisher_of_the_sweep_is_recorded_and_refused_by_the_gate(
         with pytest.raises(LicenceNotApproved) as exc:
             licence_gate(source)
         assert f"status is {source.status!r}" in str(exc.value)
-    assert statuses["rejected"] == 2 and statuses["planned"] >= 58
+    assert statuses["rejected"] == 2 and statuses["planned"] >= 20
     for hostile in ("dm-government-constitution", "pt-tribunal-constitucional-constitution"):
         assert catalog.sources.get(hostile).status == "rejected"
         assert catalog.sources.get(hostile).licence.bulk_download == "not_allowed"

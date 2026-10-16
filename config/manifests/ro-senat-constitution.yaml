@@ -1,0 +1,33 @@
+# The Constitution of Romania (ro): 1 document(s) on www.senat.ro. See config/sources/ro-senat-constitution.yaml.
+schema_version: 1
+source_id: ro-senat-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.senat.ro
+documents:
+- slug: ro-ro
+  jurisdiction: RO
+  url: https://www.senat.ro/pagini/constitutia/constitutia.htm
+  format: html
+  language: ro
+  title: Constituția României
+  citation_name: Romania Constitution
+  adopted_on: '1991-11-21'
+  edition_label: 'page of the Senate (the frame of default.aspx?Sel=6B8B48EC-8CF6-4399-BED8-9C1D5B274576): the text as revised by Legea nr. 429/2003, in force 29 October 2003, no later edition date on the page'
+  events:
+  - type: adoption
+    date: '1991-11-21'
+    description: Constituţia României, în forma iniţială, a fost adoptată în şedinţa Adunării Constituante din 21 noiembrie 1991
+    locator: note at the top of the page
+  - type: amendment
+    date: '2003-10-29'
+    description: Legea de revizuire a Constituţiei României nr. 429/2003, aprobată prin referendumul naţional din 18-19 octombrie 2003, intrată în vigoare la data de 29 octombrie 2003
+    locator: note at the top of the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    encoding: windows-1250
+    keywords: [Articolul]
+    chapter_regex: '^(TITLUL|CAPITOLUL|SECŢIUNEA) '

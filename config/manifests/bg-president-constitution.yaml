@@ -1,0 +1,24 @@
+# The Constitution of Bulgaria (bg): 1 document(s) on m.president.bg. See config/sources/bg-president-constitution.yaml.
+schema_version: 1
+source_id: bg-president-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- m.president.bg
+documents:
+- slug: bg-bg
+  jurisdiction: BG
+  url: https://m.president.bg/bg/cat115/Konstitucia-na-Republika-Balgaria
+  format: html
+  language: bg
+  title: Конституция на Република България
+  citation_name: Bulgaria Constitution
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    keywords: ['Чл.']
+    start_regex: '^Ние, народните представители'
+    preamble_regex: '^Ние, народните представители'
+    chapter_regex: '^Глава '
+    tail_regex: '^ПРЕХОДНИ И ЗАКЛЮЧИТЕЛНИ РАЗПОРЕДБИ$'
