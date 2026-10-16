@@ -1,0 +1,78 @@
+# Ministry of Justice of the Republic of Rwanda (www.minijust.gov.rw), Publications / Laws. Read on 2026-10-15, before any document was fetched:
+#   robots.txt - www.minijust.gov.rw/robots.txt: a TYPO3 file; the "User-agent: *" group disallows URLs with query ids,
+#     /typo3temp/ (except css, js and images), /fileadmin/templates/html/*, *.sql and a few technical paths; further groups
+#     disallow named crawlers (none is the ULIS agent); no Crawl-delay; /fileadmin/user_upload/Minijust/Publications/Laws/
+#     is not disallowed
+#   Terms - page footer: "© 2026 Government of the Republic of Rwanda" - a generic footer; no terms-of-use, licence or
+#     disclaimer page is linked from the home page
+#   The document - the PDF is the Official Gazette n° Special of 04/08/2023 ("Umwaka wa 62 / Year 62 / 62ème Année"), 149
+#     pages: the Constitution of the Republic of Rwanda in three parallel columns, Kinyarwanda | English | French, on
+#     landscape pages. The connector fetches the file once per language and the parser reads one column (crop) of every
+#     page. Last-Modified of the file: 8 Sep 2023.
+schema_version: 1
+id: rw-minijust-constitution
+name: Constitution of Rwanda - Ministry of Justice of Rwanda (www.minijust.gov.rw)
+publisher: Ministry of Justice of the Republic of Rwanda (www.minijust.gov.rw), Publications / Laws
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- RW
+document_kinds:
+- constitution
+languages:
+- rw
+- en
+- fr
+coverage: 'The Constitution of Rwanda in rw, en, fr as published by Ministry of Justice of Rwanda: 3 document(s). The Constitution
+  of the Republic of Rwanda as printed in the Official Gazette n° Special of 04/08/2023, copy on the Ministry of Justice
+  site.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/rw-minijust-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 4 request(s) (robots.txt and 3 document(s)).
+licence:
+  id: RW-official-text-no-terms
+  name: Official legal text published by Ministry of Justice of Rwanda; no terms of reuse stated (AMBER)
+  url: https://www.minijust.gov.rw/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:
+    robots.txt - www.minijust.gov.rw/robots.txt: a TYPO3 file; the "User-agent: *" group disallows URLs with query ids,
+    /typo3temp/ (except css, js and images), /fileadmin/templates/html/*, *.sql and a few technical paths; further groups
+    disallow named crawlers (none is the ULIS agent); no Crawl-delay; /fileadmin/user_upload/Minijust/Publications/Laws/
+    is not disallowed. Terms - page footer: "© 2026 Government of the Republic of Rwanda" - a generic footer; no terms-of-use,
+    licence or disclaimer page is linked from the home page. The document - the PDF is the Official Gazette n° Special of
+    04/08/2023 ("Umwaka wa 62 / Year 62 / 62ème Année"), 149 pages: the Constitution of the Republic of Rwanda in three
+    parallel columns, Kinyarwanda | English | French, on landscape pages. The connector fetches the file once per language
+    and the parser reads one column (crop) of every page. Last-Modified of the file: 8 Sep 2023. Reading: AMBER - the publisher
+    states no restriction on reusing the text; no permission for automated retrieval is stated either. The text is an official
+    legal text; the national copyright law is believed not to protect official texts of this kind (to verify; not read on
+    a publisher''s page).'
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Rwanda, Ministry of Justice of Rwanda (www.minijust.gov.rw); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it (or, for Mauritius,
+    the State's copyright notice); there is no other licence. Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/rw-minijust-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- 'The Official Gazette is printed in three parallel columns; the parser cuts out the column of the language by its position
+  on the page. Justified lines are broken into words in places, so a few headings come out garbled or out of order (for
+  example article 1 in English, and the headings of articles 16, 132 and 169 in English, 48, 59, 115 and 117 in French,
+  several in Kinyarwanda): the text of such an article stays in the preceding article and its note names the missing numbers.'
+- The Kinyarwanda column is read with the article word 'Ingingo ya'; about 19 article headings were not recognised there
+  (their text is kept in the preceding article).
+- Schedules do not exist in this Constitution; the signatures at the end of the gazette are not stored.
+status: active
+connector: constitution_docs
+parser: constitution_text

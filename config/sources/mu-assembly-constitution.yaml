@@ -1,0 +1,89 @@
+# Rodrigues Regional Assembly, Government of Mauritius (assembly-rra.govmu.org), Legislations: The Constitution. Read on 2026-10-15, before any document was fetched:
+#   robots.txt - assembly-rra.govmu.org/robots.txt: HTTP 404 (no robots.txt): no crawling rules to apply. The connector
+#     reads it anyway.
+#   Terms - https://assembly-rra.govmu.org/Pages/CopyrightNotice.aspx: "The Government of Mauritius (the “State”) encourages
+#     public access to government information on this website and other government websites. However, all material published
+#     on this website is protected so far as is possible by the provisions of the Copyright Act in favour of the State.
+#     Apart from any use permitted by the Copyright Act, the State copyright protected material may be downloaded free of
+#     charge to file or printer without requiring specific permission, provided that any such State owned material being
+#     reproduced accurately and not being used in a derogated manner or in a misleading context. Where this material is
+#     being issued to others, the source (including the URL) and copyright status must be acknowledged. The permission to
+#     reproduced State copyright protected material does not extend to any material on this website that is identified as
+#     being the Copyright of a third party. Any other proposed use of any State protected material is subject to approval."
+#     Page footer: "© Government of Mauritius 2020. All rights reserved." The Disclaimer page (/Pages/Disclaimer.aspx)
+#     disclaims accuracy and completeness.
+#   The document - the PDF (131 pages, Last-Modified 3 Sep 2025, file name constitution_1968_revised_updated2025.pdf) is
+#     headed "THE CONSTITUTION GN 54/1968 12 March 1968 (Schedule to THE MAURITIUS INDEPENDENCE ORDER 1968)". It prints no
+#     edition date. The host is the site of the Rodrigues Regional Assembly, an organ of the Government of Mauritius; the
+#     National Assembly's site (mauritiusassembly.govmu.org) carries an older upload.
+schema_version: 1
+id: mu-assembly-constitution
+name: Constitution of Mauritius - Rodrigues Regional Assembly (Mauritius) (assembly-rra.govmu.org)
+publisher: 'Rodrigues Regional Assembly, Government of Mauritius (assembly-rra.govmu.org), Legislations: The Constitution'
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- MU
+document_kinds:
+- constitution
+languages:
+- en
+coverage: 'The Constitution of Mauritius in en as published by Rodrigues Regional Assembly (Mauritius): 1 document(s). The
+  Constitution of Mauritius (GN 54/1968, as revised and updated) from the site of the Rodrigues Regional Assembly.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/mu-assembly-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: MU-govmu-copyright-notice
+  name: Official legal text published by Rodrigues Regional Assembly (Mauritius); no terms of reuse stated (AMBER, leaning
+    GREEN)
+  url: https://assembly-rra.govmu.org/Pages/CopyrightNotice.aspx
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:
+    robots.txt - assembly-rra.govmu.org/robots.txt: HTTP 404 (no robots.txt): no crawling rules to apply. The connector
+    reads it anyway. Terms - https://assembly-rra.govmu.org/Pages/CopyrightNotice.aspx: "The Government of Mauritius (the
+    “State”) encourages public access to government information on this website and other government websites. However,
+    all material published on this website is protected so far as is possible by the provisions of the Copyright Act in
+    favour of the State. Apart from any use permitted by the Copyright Act, the State copyright protected material may be
+    downloaded free of charge to file or printer without requiring specific permission, provided that any such State owned
+    material being reproduced accurately and not being used in a derogated manner or in a misleading context. Where this
+    material is being issued to others, the source (including the URL) and copyright status must be acknowledged. The permission
+    to reproduced State copyright protected material does not extend to any material on this website that is identified
+    as being the Copyright of a third party. Any other proposed use of any State protected material is subject to approval."
+    Page footer: "© Government of Mauritius 2020. All rights reserved." The Disclaimer page (/Pages/Disclaimer.aspx) disclaims
+    accuracy and completeness. The document - the PDF (131 pages, Last-Modified 3 Sep 2025, file name constitution_1968_revised_updated2025.pdf)
+    is headed "THE CONSTITUTION GN 54/1968 12 March 1968 (Schedule to THE MAURITIUS INDEPENDENCE ORDER 1968)". It prints
+    no edition date. The host is the site of the Rodrigues Regional Assembly, an organ of the Government of Mauritius; the
+    National Assembly''s site (mauritiusassembly.govmu.org) carries an older upload. Reading: AMBER, leaning GREEN - the
+    Copyright Notice allows State material to be downloaded without specific permission if reproduced accurately, not in
+    a misleading context, with the source (URL) and copyright status acknowledged; any other proposed use is subject to
+    approval. The text is an official legal text; the national copyright law is believed not to protect official texts of
+    this kind (to verify; not read on a publisher''s page).'
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Mauritius, Rodrigues Regional Assembly (Mauritius) (assembly-rra.govmu.org); retrieved
+    {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it (or, for Mauritius,
+    the State's copyright notice); there is no other licence. Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/mu-assembly-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- The copy on the Rodrigues Regional Assembly's site, not the Attorney General's Revised Laws; it prints no edition date
+  (the file name says 'revised updated 2025'), so the retrieval date is the edition date.
+- The sections are numbered on a line of their own with the marginal heading below them; the table of contents and the two-column
+  arrangement of sections at the head of the PDF are not stored. Schedules and the oaths are stored as blocks of paragraphs.
+  Amendment notes printed in the margin ('Amended by [Act No. 48 of 1991]') are part of the stored text.
+status: active
+connector: constitution_docs
+parser: constitution_text

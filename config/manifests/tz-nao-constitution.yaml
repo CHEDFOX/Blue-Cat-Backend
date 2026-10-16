@@ -1,0 +1,36 @@
+# The Constitution of Tanzania (en): 1 document(s) on www.nao.go.tz. See config/sources/tz-nao-constitution.yaml.
+schema_version: 1
+source_id: tz-nao-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.nao.go.tz
+documents:
+- slug: tz-en
+  jurisdiction: TZ
+  url: https://www.nao.go.tz/uploads/Constitution_of_the_United_Republic_of_Tanzania_en.pdf
+  format: pdf
+  language: en
+  title: The Constitution of the United Republic of Tanzania of 1977
+  citation_name: Tanzania Constitution
+  adopted_on: '1977-04-26'
+  edition_date: '2005-12-31'
+  edition_label: 'Revised Edition 2005, Chapter 2 of the Laws, up to the 14th Amendment of 2005 (only the year is printed:
+    31 December 2005 is used)'
+  events:
+  - type: commencement
+    date: '1977-04-26'
+    description: '[26th April, 1977)'
+    locator: heading
+  authoritative: false
+  text_origin: official_revised
+  structure:
+    unit_kind: article
+    page_numbers: true
+    style: numdot
+    crop:
+    - 140
+    - 0
+    - 455
+    - 842
+    chapter_regex: ^(CHAPTER|PART) [A-Z]+

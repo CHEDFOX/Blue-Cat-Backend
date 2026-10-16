@@ -1,0 +1,91 @@
+# The Constitution of Rwanda (rw, en, fr): 3 document(s) on www.minijust.gov.rw. See config/sources/rw-minijust-constitution.yaml.
+schema_version: 1
+source_id: rw-minijust-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.minijust.gov.rw
+documents:
+- slug: rw-rw
+  jurisdiction: RW
+  url: https://www.minijust.gov.rw/fileadmin/user_upload/Minijust/Publications/Laws/Constitution.pdf
+  format: pdf
+  language: rw
+  title: Itegeko Nshinga rya Repubulika y'u Rwanda
+  citation_name: Rwanda Constitution
+  edition_date: '2023-08-04'
+  edition_label: Official Gazette n° Special of 04/08/2023 (the Constitution as revised; the gazette date is the edition
+    date)
+  authoritative: false
+  text_origin: official_authentic
+  structure:
+    first_page: 2
+    page_numbers: true
+    drop_lines: &id001
+    - ^Official Gazette n
+    unit_kind: article
+    style: keyword
+    heading: same_line
+    keywords:
+    - Ingingo ya
+    chapter_regex: '^UMUTWE WA '
+    preamble_regex: ^IRANGASHINGIRO$
+    crop:
+    - 88
+    - 0
+    - 226
+    - 595
+- slug: rw-en
+  jurisdiction: RW
+  url: https://www.minijust.gov.rw/fileadmin/user_upload/Minijust/Publications/Laws/Constitution.pdf
+  format: pdf
+  language: en
+  title: Constitution of the Republic of Rwanda
+  citation_name: Rwanda Constitution
+  edition_date: '2023-08-04'
+  edition_label: Official Gazette n° Special of 04/08/2023 (the Constitution as revised; the gazette date is the edition
+    date)
+  authoritative: false
+  text_origin: official_authentic
+  structure:
+    first_page: 2
+    page_numbers: true
+    drop_lines: *id001
+    unit_kind: article
+    style: keyword
+    heading: same_line
+    keywords:
+    - Article
+    chapter_regex: ^(CHAPTER|SECTION) (ONE|[IVX0-9]+)
+    crop:
+    - 314
+    - 0
+    - 220
+    - 595
+- slug: rw-fr
+  jurisdiction: RW
+  url: https://www.minijust.gov.rw/fileadmin/user_upload/Minijust/Publications/Laws/Constitution.pdf
+  format: pdf
+  language: fr
+  title: Constitution de la République du Rwanda
+  citation_name: Rwanda Constitution
+  edition_date: '2023-08-04'
+  edition_label: Official Gazette n° Special of 04/08/2023 (the Constitution as revised; the gazette date is the edition
+    date)
+  authoritative: false
+  text_origin: official_authentic
+  structure:
+    first_page: 2
+    page_numbers: true
+    drop_lines: *id001
+    unit_kind: article
+    style: keyword
+    heading: same_line
+    keywords:
+    - Article
+    chapter_regex: ^(CHAPITRE|SECTION) (PREMIER|[IVX0-9]+)
+    crop:
+    - 534
+    - 0
+    - 224
+    - 595

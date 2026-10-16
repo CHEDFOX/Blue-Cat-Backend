@@ -1,0 +1,67 @@
+# Présidence de la République de Djibouti (www.presidence.dj), Djibouti: La Constitution. Read on 2026-10-15, before any document was fetched:
+#   robots.txt - www.presidence.dj/robots.txt: "User-agent: *" "Disallow:" "Crawl-delay: 10" "Disallow: /admin/" (58 bytes);
+#     the crawl delay of 10 s is honoured; /page/ is not disallowed
+#   Terms - page footer: "Copyright © 2026 Présidence de la République - tout droit reservé. Réalisé par l' ANSIE" - a
+#     generic footer; no terms-of-use, licence or disclaimer page is linked
+#   The document - https://www.presidence.dj/page/la-constitution-de-la-republique-de-djibouti, an HTML page headed "LA
+#     CONSTITUTION DE LA RÉPUBLIQUE DE DJIBOUTI - version 2010" that prints the preamble and the articles of Titles I to XII
+#     in French. It prints no edition date or adoption date.
+schema_version: 1
+id: dj-presidence-constitution
+name: Constitution of Djibouti - Présidence de la République de Djibouti (www.presidence.dj)
+publisher: 'Présidence de la République de Djibouti (www.presidence.dj), Djibouti: La Constitution'
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- DJ
+document_kinds:
+- constitution
+languages:
+- fr
+coverage: 'The Constitution of Djibouti in fr as published by Présidence de la République de Djibouti: 1 document(s). The
+  Constitution of Djibouti (version 2010) from the web page of the Presidency.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/dj-presidence-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 10 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: DJ-official-text-no-terms
+  name: Official legal text published by Présidence de la République de Djibouti; no terms of reuse stated (AMBER)
+  url: https://www.presidence.dj/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:
+    robots.txt - www.presidence.dj/robots.txt: "User-agent: *" "Disallow:" "Crawl-delay: 10" "Disallow: /admin/" (58 bytes);
+    the crawl delay of 10 s is honoured; /page/ is not disallowed. Terms - page footer: "Copyright © 2026 Présidence de
+    la République - tout droit reservé. Réalisé par l'' ANSIE" - a generic footer; no terms-of-use, licence or disclaimer
+    page is linked. The document - https://www.presidence.dj/page/la-constitution-de-la-republique-de-djibouti, an HTML
+    page headed "LA CONSTITUTION DE LA RÉPUBLIQUE DE DJIBOUTI - version 2010" that prints the preamble and the articles
+    of Titles I to XII in French. It prints no edition date or adoption date. Reading: AMBER - the publisher states no restriction
+    on reusing the text; no permission for automated retrieval is stated either. The text is an official legal text; the
+    national copyright law is believed not to protect official texts of this kind (to verify; not read on a publisher''s
+    page).'
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Djibouti, Présidence de la République de Djibouti (www.presidence.dj); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 10 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it (or, for Mauritius,
+    the State's copyright notice); there is no other licence. Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/dj-presidence-constitution.yaml, stored byte for byte inside JSON
+  bundles with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- The page is headed 'version 2010' and is a web page of the Presidency, not the Journal officiel. A later revision exists
+  (loi n° 192/AN/25/9ème L portant révision de la Constitution, listed on journalofficiel.dj, which rewrites articles 93,
+  94 and 96); it is not applied here, and the page's own currency is not stated.
+- 'The page gives no dates: no adoption or amendment date is recorded.'
+status: active
+connector: constitution_docs
+parser: constitution_text

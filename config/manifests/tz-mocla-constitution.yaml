@@ -1,0 +1,35 @@
+# The Constitution of Tanzania (sw): 1 document(s) on www.sheria.go.tz. See config/sources/tz-mocla-constitution.yaml.
+schema_version: 1
+source_id: tz-mocla-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.sheria.go.tz
+documents:
+- slug: tz-sw
+  jurisdiction: TZ
+  url: https://www.sheria.go.tz/uploads/documents/sw-1675190712-sw1499671152-Katiba_ya_Tanzania.pdf
+  format: pdf
+  language: sw
+  title: Katiba ya Jamhuri ya Muungano wa Tanzania ya Mwaka 1977
+  citation_name: Tanzania Constitution
+  adopted_on: '1977-04-26'
+  edition_date: '2000-11-01'
+  edition_label: Toleo la Katiba lililozingatia mabadiliko hadi tarehe 30 Aprili, 2000 (Dar es Salaam, 1 Novemba, 2000)
+  events:
+  - type: commencement
+    date: '1977-04-26'
+    description: Katiba hii itaanza kutumika tarehe 26 Aprili, 1977.
+    locator: ibara ya 152(2)
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    page_numbers: true
+    style: numdot
+    start_regex: ^1\. Tanzania ni nchi moja
+    drop_lines:
+    - ^Katiba ya Jamhuri ya Muungano wa Tanzania$
+    - ^_{10,}$
+    chapter_regex: '^(SURA|SEHEMU) YA '
+    tail_regex: '^NYONGEZA YA '

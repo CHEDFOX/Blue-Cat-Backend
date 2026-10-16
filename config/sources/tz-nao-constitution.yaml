@@ -1,0 +1,74 @@
+# Ofisi ya Taifa ya Ukaguzi (National Audit Office of Tanzania, NAOT) (www.nao.go.tz), uploads. Read on 2026-10-15, before any document was fetched:
+#   robots.txt - www.nao.go.tz/robots.txt: "User-agent: *" with an empty rule list (14 bytes): nothing is disallowed; no
+#     Crawl-delay
+#   Terms - page footer: "© Copyright 2026 - OFISI YA TAIFA YA UKAGUZI" (links: Mwanzo, Sera ya Faragha, Intranet, Barua
+#     Pepe, Maoni na Maulizo, Ripoti Ubadhirifu) - a generic footer; no terms-of-use or licence page about texts
+#   The document - https://www.nao.go.tz/uploads/Constitution_of_the_United_Republic_of_Tanzania_en.pdf (91 pages, Last-
+#     Modified 13 Mar 2020): "THE CONSTITUTION OF THE UNITED REPUBLIC OF TANZANIA OF 1977 - CHAPTER 2 OF THE LAWS - 2005.
+#     The following is the official Revised version in English of 'KATIBA YA JAMHURI YA MUUNGANO WA TANZANIA YA MWAKA 1977'.
+#     This revised edition of the Constitution of the United Republic of Tanzania incorporates and consolidates all
+#     amendments made therein by the Constituent Assembly in 1977 up to the 14th Amendment of 2005 and it is printed and
+#     published under section 4 of the Laws Revision Act Chapter 4."
+schema_version: 1
+id: tz-nao-constitution
+name: Constitution of Tanzania - National Audit Office of Tanzania (www.nao.go.tz)
+publisher: Ofisi ya Taifa ya Ukaguzi (National Audit Office of Tanzania, NAOT) (www.nao.go.tz), uploads
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- TZ
+document_kinds:
+- constitution
+languages:
+- en
+coverage: 'The Constitution of Tanzania in en as published by National Audit Office of Tanzania: 1 document(s). The official
+  Revised English edition (2005) of the Constitution of the United Republic of Tanzania, copy on the site of the National
+  Audit Office.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/tz-nao-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: TZ-official-text-no-terms-nao
+  name: Official legal text published by National Audit Office of Tanzania; no terms of reuse stated (AMBER)
+  url: https://www.nao.go.tz/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:
+    robots.txt - www.nao.go.tz/robots.txt: "User-agent: *" with an empty rule list (14 bytes): nothing is disallowed; no
+    Crawl-delay. Terms - page footer: "© Copyright 2026 - OFISI YA TAIFA YA UKAGUZI" (links: Mwanzo, Sera ya Faragha, Intranet,
+    Barua Pepe, Maoni na Maulizo, Ripoti Ubadhirifu) - a generic footer; no terms-of-use or licence page about texts. The
+    document - https://www.nao.go.tz/uploads/Constitution_of_the_United_Republic_of_Tanzania_en.pdf (91 pages, Last-Modified
+    13 Mar 2020): "THE CONSTITUTION OF THE UNITED REPUBLIC OF TANZANIA OF 1977 - CHAPTER 2 OF THE LAWS - 2005. The following
+    is the official Revised version in English of ''KATIBA YA JAMHURI YA MUUNGANO WA TANZANIA YA MWAKA 1977''. This revised
+    edition of the Constitution of the United Republic of Tanzania incorporates and consolidates all amendments made therein
+    by the Constituent Assembly in 1977 up to the 14th Amendment of 2005 and it is printed and published under section 4
+    of the Laws Revision Act Chapter 4.". Reading: AMBER - the publisher states no restriction on reusing the text; no permission
+    for automated retrieval is stated either. The text is an official legal text; the national copyright law is believed
+    not to protect official texts of this kind (to verify; not read on a publisher''s page).'
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Tanzania, National Audit Office of Tanzania (www.nao.go.tz); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it (or, for Mauritius,
+    the State's copyright notice); there is no other licence. Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/tz-nao-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- The official revised English edition (Cap. 2) of 2005; only the year is printed, so 31 December 2005 is used as the edition
+  date. The Swahili text is the authentic one; later amendments are not applied here.
+- A copy on the National Audit Office's site (the Office is not the publisher of the text). The margin column of the print
+  (notes of the amending Acts) is cut off before reading, so the marginal headings of the articles are not stored; articles
+  carry no heading. The schedules are stored as blocks.
+status: active
+connector: constitution_docs
+parser: constitution_text

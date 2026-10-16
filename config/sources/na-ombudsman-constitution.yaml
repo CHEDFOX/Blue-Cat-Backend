@@ -1,0 +1,74 @@
+# Office of the Ombudsman of Namibia (ombudsman.org.na), Laws: The Constitution of Namibia. Read on 2026-10-15, before any document was fetched:
+#   robots.txt - ombudsman.org.na/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php"
+#     "Disallow: /wp-content/uploads/wpo/wpo-plugins-tables-list.json" and two sitemap lines; no Crawl-delay; /download/ is
+#     not disallowed
+#   Terms - the page https://ombudsman.org.na/download/the-constitution-of-namibia/ (14 October 2022) shows a cookie notice
+#     and a link to the Privacy Policy; no copyright, terms-of-use or licence statement was found on the pages read
+#   The document - the download link of that page leads to /wp-content/uploads/2022/09/The-Constitution-of-Namibia.pdf (96
+#     pages, Last-Modified 8 Sep 2022): "The Constitution of the Republic of Namibia has been amended three times; firstly
+#     by Act No. 34 of 1998, known as the Namibian Constitution First Amendment Act 1998; secondly by Act No. 7 of 2010,
+#     known as the Namibian Constitution Second Amendment Act, 2010; and thirdly by Act No. 8 of 2014, known as the Namibian
+#     Constitution Third Amendment Act, 2014. This printed version of the Constitution incorporates all the amendments to
+#     facilitate easy reading thereof. Compiled by: The Office of the Ombudsman, February 2016".
+schema_version: 1
+id: na-ombudsman-constitution
+name: Constitution of Namibia - Office of the Ombudsman of Namibia (ombudsman.org.na)
+publisher: 'Office of the Ombudsman of Namibia (ombudsman.org.na), Laws: The Constitution of Namibia'
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- NA
+document_kinds:
+- constitution
+languages:
+- en
+coverage: 'The Constitution of Namibia in en as published by Office of the Ombudsman of Namibia: 1 document(s). The Constitution
+  of Namibia as compiled by the Office of the Ombudsman (February 2016) with the amendments of 1998, 2010 and 2014.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/na-ombudsman-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: NA-official-text-no-terms
+  name: Official legal text published by Office of the Ombudsman of Namibia; no terms of reuse stated (AMBER)
+  url: https://ombudsman.org.na/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-15, from the publisher''s own pages quoted in the header of this file:
+    robots.txt - ombudsman.org.na/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php" "Disallow:
+    /wp-content/uploads/wpo/wpo-plugins-tables-list.json" and two sitemap lines; no Crawl-delay; /download/ is not disallowed.
+    Terms - the page https://ombudsman.org.na/download/the-constitution-of-namibia/ (14 October 2022) shows a cookie notice
+    and a link to the Privacy Policy; no copyright, terms-of-use or licence statement was found on the pages read. The document
+    - the download link of that page leads to /wp-content/uploads/2022/09/The-Constitution-of-Namibia.pdf (96 pages, Last-Modified
+    8 Sep 2022): "The Constitution of the Republic of Namibia has been amended three times; firstly by Act No. 34 of 1998,
+    known as the Namibian Constitution First Amendment Act 1998; secondly by Act No. 7 of 2010, known as the Namibian Constitution
+    Second Amendment Act, 2010; and thirdly by Act No. 8 of 2014, known as the Namibian Constitution Third Amendment Act,
+    2014. This printed version of the Constitution incorporates all the amendments to facilitate easy reading thereof. Compiled
+    by: The Office of the Ombudsman, February 2016". Reading: AMBER - the publisher states no restriction on reusing the
+    text; no permission for automated retrieval is stated either. The text is an official legal text; the national copyright
+    law is believed not to protect official texts of this kind (to verify; not read on a publisher''s page).'
+  reviewed_on: '2026-10-15'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Namibia, Office of the Ombudsman of Namibia (ombudsman.org.na); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it (or, for Mauritius,
+    the State's copyright notice); there is no other licence. Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/na-ombudsman-constitution.yaml, stored byte for byte inside JSON
+  bundles with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A compilation by the Office of the Ombudsman (February 2016; only the month is printed, so the last day of the month is
+  used as the edition date), not the Government Printer's text; amendments after 2016, if any, are not applied.
+- The tables of contents are skipped; the Schedules are stored as blocks of paragraphs. The page is read in layout mode
+  so that the paragraph numbers stay on their text lines.
+status: active
+connector: constitution_docs
+parser: constitution_text

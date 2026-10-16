@@ -1,0 +1,24 @@
+# The Constitution of Djibouti (fr): 1 document(s) on www.presidence.dj. See config/sources/dj-presidence-constitution.yaml.
+schema_version: 1
+source_id: dj-presidence-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 10
+hosts:
+- www.presidence.dj
+documents:
+- slug: dj-fr
+  jurisdiction: DJ
+  url: https://www.presidence.dj/page/la-constitution-de-la-republique-de-djibouti
+  format: html
+  language: fr
+  title: La Constitution de la République de Djibouti
+  citation_name: Djibouti Constitution
+  edition_label: web page headed 'version 2010'; no edition date printed
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    style: keyword
+    keywords:
+    - Article
+    heading: text

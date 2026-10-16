@@ -1,0 +1,32 @@
+# The Constitution of Namibia (en): 1 document(s) on ombudsman.org.na. See config/sources/na-ombudsman-constitution.yaml.
+schema_version: 1
+source_id: na-ombudsman-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- ombudsman.org.na
+documents:
+- slug: na-en
+  jurisdiction: NA
+  url: https://ombudsman.org.na/download/the-constitution-of-namibia/?wpdmdl=3819
+  format: pdf
+  language: en
+  title: The Constitution of the Republic of Namibia
+  citation_name: Namibia Constitution
+  edition_date: '2016-02-29'
+  edition_label: 'Compiled by the Office of the Ombudsman, February 2016, incorporating the amendments of 1998, 2010 and
+    2014 (day not printed: the last day of the month is used)'
+  authoritative: false
+  text_origin: unofficial_compilation
+  structure:
+    unit_kind: article
+    style: keyword
+    keywords:
+    - Article
+    page_numbers: true
+    layout: true
+    heading: same_line
+    drop_lines:
+    - ^The Constitution of the Republic of Namibia$
+    start_regex: ^PREAMBLE\s*$
+    preamble_regex: ^PREAMBLE\s*$

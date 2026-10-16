@@ -257,7 +257,7 @@ KOREAN_ARTICLE = re.compile(r"^\s*제\s?(?P<base>[0-9]{1,4})\s?조(?:의\s?(?P<b
 NUMDOT = re.compile(
     r"^\s*(?:(?P<mark>[0-9]{1,3})\s?\[\s*)?(?P<base>\d{1,3})"
     r"(?P<suffix>[A-Za-z\u0995-\u099c]{1,2}(?![A-Za-z\u0995-\u099c])|-[0-9]{1,2})?"
-    r"(?:\.(?P<t1>(?:\s.*)?)|\s?[\u0964\u09f7](?P<t2>.*))$"
+    r"(?:\.(?P<t1>(?:\s.*)?)|\.-(?P<t3>\(.*)|\s?[\u0964\u09f7](?P<t2>.*))$"
 )
 TOC_LEADER = re.compile(r"(\.{4,}|…{2,}|\s\.\s\.\s\.)\s*[0-9ivxlc]*\s*$")
 
@@ -277,7 +277,7 @@ def find_candidates(lines: list[str], style: str, keywords: list[str], words_aft
             if not m:
                 continue
             parsed = parse_number(m.group("base"), m.group("suffix") or "")
-            remainder = (m.group("t1") or m.group("t2") or "").strip()
+            remainder = (m.group("t1") or m.group("t3") or m.group("t2") or "").strip()
             mark = m.group("mark") or ""
         elif style == "numword":
             if after is None:
