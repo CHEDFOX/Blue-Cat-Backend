@@ -77,3 +77,4 @@ known_limitations:
 status: active
 connector: constitution_docs
 parser: constitution_text
+load_by_default: false  # superseded by the 2018 revision (the current text is only a scan): history, loaded on request
