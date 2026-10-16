@@ -7,6 +7,7 @@ The table is ``scripts/constitution_findings_asia_data.py``. Active publishers g
 descriptor with their findings and nothing registered for them. Profiles are written only for countries that have none.
 """
 
+# ruff: noqa: E501 - the descriptors quote the publishers' pages
 from __future__ import annotations
 
 import sys
@@ -141,7 +142,8 @@ def planned_yaml(e: dict[str, Any]) -> str:
                 "Not ingested. The source can be activated only when the publisher's own pages state terms that allow reuse, or a "
                 "statute excluding legislative texts from copyright is read and quoted (the project's earlier AMBER approvals).",
             ],
-            "notes": e.get("note") or "Recorded by the constitutions sweep; the finding above is what the pages said when read.",
+            "notes": e.get("note")
+            or "Recorded by the constitutions sweep; the finding above is what the pages said when read.",
         },
         "provenance": f"No document was stored. The pages read on {READ_ON} are listed in licence.reviewed_by.",
         "known_limitations": ["Nothing is ingested."] + ([e["note"]] if e.get("note") else []),

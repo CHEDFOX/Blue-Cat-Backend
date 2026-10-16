@@ -51,9 +51,8 @@ class ConstitutionModule(JurisdictionModule):
             return f"text block {b.group('n')}"
         if sc := _SCOPED.match(c.eid):
             article = sc.group("scope").upper() + (f"-{sc.group('part').upper()}" if sc.group("part") else "")
-            return (
-                f"art. {article}, s. {sc.group('num')}{sc.group('letters').upper()}"
-                + (f"({sc.group('par')})" if sc.group("par") else "")
+            return f"art. {article}, s. {sc.group('num')}{sc.group('letters').upper()}" + (
+                f"({sc.group('par')})" if sc.group("par") else ""
             )
         m = _EID.match(c.eid)
         if not m:
