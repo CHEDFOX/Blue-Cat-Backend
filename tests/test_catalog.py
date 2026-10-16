@@ -251,6 +251,8 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "gb-legislation-gov-uk",
         "gb-uksc-judgments",
         "gb-uksc-judgments-pdf",
+        "gb-legislation-gov-uk-secondary",
+        "gb-legislation-gov-uk-secondary-made",
         "gb-jcpc-judgments",
         "gb-jcpc-judgments-pdf",
         "gb-govuk-tribunal-decisions",

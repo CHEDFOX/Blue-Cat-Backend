@@ -31,21 +31,48 @@ UKM = "http://www.legislation.gov.uk/namespaces/metadata"
 DC = "http://purl.org/dc/elements/1.1/"
 DCT = "http://purl.org/dc/terms/"
 PARSER_ID = "legislation_gov_uk_akn"
-PARSER_VERSION = "1.1.0"
+PARSER_VERSION = "1.3.0"
 
 # legislation.gov.uk type -> (ULIS jurisdiction of the enacting body, instrument type)
 TYPES = {
     "ukpga": ("GB", "act"),
     "ukla": ("GB", "act"),
+    "ukppa": ("GB", "act"),  # private and personal Acts
+    "gbppa": ("GB", "act"),
+    "gbla": ("GB", "act"),  # Local Acts of the Parliament of Great Britain
+    "apgb": ("GB", "act"),  # Acts of the Parliament of Great Britain (1707-1800)
+    "aep": ("GB", "act"),  # Acts of the English Parliament (1235-1706)
+    "aosp": ("GB-SCT", "act"),  # Acts of the Old Scottish Parliament (1424-1707)
+    "aip": (
+        "GB-NIR",
+        "act",
+    ),  # Acts of the Old Irish Parliament (1495-1800); those still in force are in Northern Ireland
+    "apni": ("GB-NIR", "act"),  # Acts of the Parliament of Northern Ireland (1921-1972)
+    "mnia": ("GB-NIR", "act"),  # Measures of the Northern Ireland Assembly (1974)
+    "nia": ("GB-NIR", "act"),
+    "nisi": ("GB-NIR", "act"),  # Northern Ireland Orders in Council: primary legislation for Northern Ireland
+    "ukcm": ("GB", "act"),  # Church of England Measures have the force of Acts of Parliament
     "asp": ("GB-SCT", "act"),
     "anaw": ("GB-WLS", "act"),
     "asc": ("GB-WLS", "act"),
     "mwa": ("GB-WLS", "measure"),
-    "nia": ("GB-NIR", "act"),
     "uksi": ("GB", "statutory_instrument"),
+    "ukci": ("GB", "statutory_instrument"),  # Church Instruments
     "ssi": ("GB-SCT", "statutory_instrument"),
     "wsi": ("GB-WLS", "statutory_instrument"),
     "nisr": ("GB-NIR", "statutory_rule"),
+}
+# The date on which the site's revised text of older legislation starts (what-we-have page of
+# https://legislation.github.io/data-documentation/): 1 February 1991 for UK Acts, Local Acts and Church
+# Measures, 1 January 2006 for Northern Ireland.
+BASE_DATES = {
+    "ukpga": date(1991, 2, 1),
+    "ukla": date(1991, 2, 1),
+    "ukppa": date(1991, 2, 1),
+    "ukcm": date(1991, 2, 1),
+    "nisi": date(2006, 1, 1),
+    "apni": date(2006, 1, 1),
+    "mnia": date(2006, 1, 1),
 }
 PROVISION_TAGS = {"section", "subsection", "paragraph", "subparagraph", "level", "article", "rule", "clause", "point"}
 NAMED_PROVISIONS = {"regulation", "article", "rule"}  # hcontainer/@name used by statutory instruments
@@ -54,7 +81,7 @@ DOTS = re.compile(r"^[.\s…]*$")
 # ``/ukpga/1998/42`` and, for Acts before 1963, the regnal-year form ``/ukpga/Eliz2/10-11/58`` (the site's canonical
 # identifier). Calendar year + chapter alone is ambiguous for a few of them (Burial Act 1859 and Clerk of the Council
 # Act 1859 are both "1859 c. 1"), so the regnal form is the work identity for those Acts.
-SESSION = r"(?:\d{4}|[A-Za-z0-9]+/\d+(?:-\d+)*)"
+SESSION = r"(?:\d{4}(?:/[A-Za-z][A-Za-z0-9]*)?|[A-Za-z0-9&]+/\d+(?:-\d+)*)"
 
 
 class UkParseError(ValueError):
@@ -207,9 +234,13 @@ def parse_legislation_gov_uk(content: bytes) -> list[ParsedDocument]:
                 if ev.get("refersTo") != "#enactment":
                     revision_dates.append(events[ev.get("eId", "")])
     # A period with an end but no start ("period-to-2007-01-15") covers the text from the start of
-    # the revised data: the first lifecycle date after enactment (the 1991-02-01 basedate for older
-    # Acts, enactment for later ones).
-    history_base = min(revision_dates, default=None)
+    # the revised data: the first lifecycle date after enactment (enactment for later Acts; the base
+    # date for older ones, which is a lifecycle date only if something changed on it). The site's revised
+    # text of an Act enacted before the base date starts on that date, so a wording that ended soon after
+    # it (Gaming (Amendment) Act 1990: sections repealed on 1991-04-01) is not lost.
+    base_date = BASE_DATES.get(leg_type)
+    first_dates = [base_date] if base_date is not None and work_date is not None and work_date < base_date else []
+    history_base = min([*first_dates, *revision_dates], default=None)
     periods: dict[str, tuple[date | None, date | None]] = {}
     temporal = meta.find(_a("temporalData"))
     if temporal is not None:
@@ -401,6 +432,34 @@ def parse_legislation_gov_uk(content: bytes) -> list[ParsedDocument]:
             walk(child, eid, path, top_kind or kind, c_period, c_extent, c_status)
 
     walk(body, None, [], None, default_period, default_extent, None)
+    if not provisions:
+        # An old Act may have no sections at all (the Acts of the Old Scottish Parliament are a paragraph or two of
+        # text): the whole body is then one unit, "the Act", with the text exactly as the site gives it.
+        whole = text_of(body)
+        if whole and not DOTS.match(whole):
+            start, end = periods.get(default_period, (None, None)) if default_period else (None, None)
+            if start is None and end is not None:
+                start = history_base
+            provisions.append(
+                ParsedProvision(
+                    eid="body",
+                    kind="section",
+                    num_path=[],
+                    top_kind="section",
+                    heading=None,
+                    text=whole,
+                    parent_eid=None,
+                    sort_order=0,
+                    status="in_force",
+                    valid_from=start,
+                    valid_to=end,
+                    extent=default_extent,
+                    note=None,
+                    refs=[],
+                    is_leaf=True,
+                    has_own_content=False,
+                )
+            )
     if not provisions:
         # Well formed, but nothing to store (for example an Act repealed in full whose text has been removed).
         raise ParseSkipped(f"{identifier}: no provisions in the {version_date.isoformat()} version")

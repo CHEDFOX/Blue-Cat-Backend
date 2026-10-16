@@ -62,8 +62,10 @@ def derive_valid_to(
         span = v if isinstance(v, Span) else None
         if span is not None and span.valid_to_explicit and span.valid_to is not None:
             out[v.id] = (span.valid_to, "explicit")
-        elif i + 1 < len(dated):
-            out[v.id] = (dated[i + 1].valid_from, "derived")
+        elif (later := next((d.valid_from for d in dated[i + 1 :] if d.valid_from > v.valid_from), None)) is not None:  # type: ignore[operator]
+            # The next version that starts later. A version starting the same day (an in-force wording and the repeal of
+            # the same provision, or two wordings for different extents) does not end this one on its own start date.
+            out[v.id] = (later, "derived")
         else:
             out[v.id] = (None, "open")
     if statuses == LEGAL_CHAIN:

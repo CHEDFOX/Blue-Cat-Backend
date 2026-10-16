@@ -1,0 +1,81 @@
+# Secondary legislation of the United Kingdom, Scotland, Wales and Northern Ireland (statutory instruments and rules) from legislation.gov.uk (The
+# National Archives). Same publisher, terms and access rules as gb-legislation-gov-uk (read 2026-10-15, re-read 2026-10-16; cached under var/sources/):
+#   https://www.legislation.gov.uk/fair-use-policy - identify the bot; follow robots.txt; at most 1,500 requests per 5 minutes; "we encourage the
+#        downloading of data for re-use"; large crawls are pointed to "a different way to download content" (the New Legislation and Publication Log
+#        feeds, which are no archive).
+#   https://www.legislation.gov.uk/robots.txt - "User-agent: *" / "Crawl-delay: 5" / "Disallow: */data.pdf", "*/data.docx", "/defralex".
+#   https://legislation.github.io/data-documentation/reuse-licence.html - Open Government Licence v3.0 for all content; "Westlaw UK derived from
+#        Crown Copyright material and contributed to legislation.gov.uk" is the attribution for the pre-1987 Statutory Instruments and Statutory Rules and
+#        Orders that Westlaw UK contributed ("You can re-use all the text of the legislation on legislation.gov.uk under the terms of the Open
+#        Government Licence").
+#   https://legislation.github.io/data-documentation/what-we-have.html - UK Statutory Instruments: "All UK Statutory Instruments since 1987, except for
+#        Local Statutory Instruments and non-prints (all except Local and non-prints available as XML, most available as King's Printer PDF)", "Most UK
+#        Statutory Instruments made before 1987 (most only available as XML)"; Welsh, Scottish and Northern Ireland Statutory Rules similar; revised
+#        ("Are we revising these items?") "Yes, but only where available as XML"; amendments are recorded "normally only for ... 1994 onwards".
+#   The listing feeds (/<type>/data.feed?results-count=1000&page=N) give each item's formats; a work that exists as XML has a data.akn link.
+schema_version: 1
+id: gb-legislation-gov-uk-secondary
+name: legislation.gov.uk - statutory instruments and rules
+publisher: The National Archives (UK)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [GB, GB-EAW, GB-WLS, GB-SCT, GB-NIR]
+document_kinds: [statutory_instrument]
+languages: [en]
+coverage: >-
+  The statutory instruments and rules that legislation.gov.uk holds as Akoma Ntoso XML and has revised at least once (17,878 works): UK Statutory
+  Instruments (9,831 of 109,378 listed), Scottish Statutory Instruments (2,121 of 11,454), Welsh Statutory Instruments (1,574 of 6,771), Northern
+  Ireland Statutory Rules (4,292 of 18,553) and UK Church Instruments (60), each with every point-in-time version the lifecycle lists, from the
+  first the site holds (the date it came into force) to the latest. Revoked instruments are included with their history. The 65,505 instruments the
+  site holds as XML and has never revised (the text as made) are the source gb-legislation-gov-uk-secondary-made, not loaded by default. The
+  instruments the site holds only as PDF (48,814 UK, 2,730 Scottish, 2,106 Welsh and 9,183 Northern Ireland: local and non-print instruments and
+  most before 1987) have no text on the site and are not ingested.
+access:
+  method: api
+  endpoint: config/manifests/gb-legislation-gov-uk-secondary.yaml
+update_frequency: continuous (editorial); re-run scripts/build_legislation_gov_uk_manifest.py and the ingest to refresh
+rate_limits: >-
+  Fair use policy (see the header): identify with a User-Agent with contact details; obey robots.txt (Crawl-delay 5); at most 1,500 requests per
+  5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest: about 49,000
+  requests (the current text, each earlier version, and the versions that answer 404 once) = about 68 hours at the crawl delay. The connector
+  stops on any refusal (401/403/451/429), records a missing work and goes on, and gives up after five failures in a row.
+licence:
+  id: OGL-UK-3.0
+  name: Open Government Licence v3.0
+  url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+  review_status: approved
+  reviewed_by: ULIS project - site footer states "All content is available under the Open Government Licence v3.0 except where otherwise stated"; fair-use policy encourages downloading data for re-use
+  reviewed_on: 2026-10-16
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Contains public sector information licensed under the Open Government Licence v3.0. Statutory instruments and rules made before 1987 were
+    contributed by Westlaw UK: Westlaw UK derived from Crown Copyright material and contributed to legislation.gov.uk.
+  conditions:
+    - Attribution as required by the OGL, and for the pre-1987 instruments the Westlaw UK statement.
+    - Follow the legislation.gov.uk fair use policy and robots.txt.
+    - Content derived from EUR-Lex on the site is reused under Commission Decision 2011/833/EU.
+  notes: Counsel review still recommended before production use.
+provenance: Official publisher of UK legislation (The National Archives); revised texts maintained by its editorial team.
+known_limitations:
+  - >-
+    Only what the site holds as XML is ingested. About 63,000 instruments exist on the site only as PDF (most of the local instruments and those made
+    before 1987 that Westlaw UK did not contribute as XML): their text is not available to ULIS (no OCR).
+  - >-
+    The instrument as it was made (the site's /made version) is not stored separately: the first version is the site's point-in-time text on the
+    date the instrument came into force.
+  - >-
+    The site records amendments from 1994 on (and some earlier ones for instruments implementing EU law), so the versions of an older instrument may
+    miss pre-1994 amendments. Instruments are revised only where the site holds them as XML.
+  - >-
+    Welsh-language versions of Welsh instruments are not fetched (English only). An instrument whose latest version has no text is skipped for that
+    version; earlier versions stay open-ended.
+  - >-
+    Revised texts may have outstanding effects not yet applied; these are reported as limitations. Revised versions are editorial consolidations,
+    not the authentic text. Citations of instruments are "Title, SI 2018/480, reg 2(1)" (SSI for Scottish ones, SR for Northern Ireland Statutory Rules).
+status: active
+connector: legislation_gov_uk
+parser: legislation_gov_uk_akn

@@ -34,10 +34,14 @@ from ulis.sources.connectors.moj_laws import robots_allows
 
 # ``ukpga/1998/42``; Acts before 1963 are identified by regnal year (``ukpga/Eliz2/10-11/58``,
 # ``ukpga/Vict/22-23/12``), and calendar year + chapter number alone is ambiguous for some of them.
-_PATH = re.compile(r"^[a-z]+/(?:\d{4}|[A-Za-z0-9]+/\d+(?:-\d+)*)/\d+$")
+_PATH = re.compile(r"^[a-z]+/(?:\d{4}(?:/[A-Za-z][A-Za-z0-9]*)?|[A-Za-z0-9&]+/\d+(?:-\d+)*)/\d+$")
 _DATE = re.compile(rb'<FRBRExpression>.*?<FRBRdate date="(\d{4}-\d{2}-\d{2})', re.S)
 MAX_FAILURES_IN_A_ROW = 5
-_EVENTS = re.compile(rb'<eventRef[^>]*date="(\d{4}-\d{2}-\d{2})')
+_EVENT = re.compile(rb"<eventRef\b[^>]*>")
+_EVENT_DATE = re.compile(rb'\bdate="(\d{4}-\d{2}-\d{2})')
+# ``uksi/2018/480@made``: a work that exists in one version only (as enacted / as made).
+_COMPACT = re.compile(r"^([^@]+)(?:@(enacted|made))?$")
+SINGLE_VERSIONS = ("enacted", "made")
 
 
 class FetchError(RuntimeError):
@@ -80,13 +84,36 @@ class LegislationGovUkConnector:
         if not manifest.get("user_agent") or "(" not in manifest["user_agent"]:
             raise ManifestError("an identifying user_agent with contact details is required (fair-use policy)")
         seen: set[str] = set()
-        for work in manifest["works"]:
+        default_history = bool(manifest.get("history_default", False))
+        works: list[dict[str, Any]] = []
+        for entry in manifest["works"]:
+            work = self._work(entry, default_history)
             if not _PATH.match(work["path"]):
                 raise ManifestError(f"invalid work path {work['path']!r}")
             if work["path"] in seen:
                 raise ManifestError(f"work {work['path']!r} is listed twice")
             seen.add(work["path"])
+            works.append(work)
+        manifest["works"] = works
         return manifest
+
+    @staticmethod
+    def _work(entry: Any, default_history: bool) -> dict[str, Any]:
+        """A manifest entry as a dict. A plain string is ``path`` (history per ``history_default``) or ``path@made`` /
+        ``path@enacted`` (one version only, no history); a dict may carry ``history``, ``version`` and ``title``."""
+        if isinstance(entry, str):
+            m = _COMPACT.match(entry)
+            if not m:
+                raise ManifestError(f"invalid work entry {entry!r}")
+            path, version = m.groups()
+            return {"path": path, "history": default_history and version is None, "version": version}
+        if not isinstance(entry, dict) or "path" not in entry:
+            raise ManifestError(f"invalid work entry {entry!r}")
+        work = dict(entry)
+        work.setdefault("history", default_history)
+        if work.get("version") not in (None, *SINGLE_VERSIONS):
+            raise ManifestError(f"invalid version {work['version']!r} for {work['path']!r}")
+        return work
 
     def _robots(self, manifest: dict[str, Any], base: str) -> str | None:
         """robots.txt of the site (fetched once per run, cached); None when offline and not cached."""
@@ -121,6 +148,8 @@ class LegislationGovUkConnector:
         meta_file = cache_file.with_suffix(".json")
         if cache_file.exists() and meta_file.exists():
             return cache_file.read_bytes(), json.loads(meta_file.read_text())
+        if meta_file.exists() and json.loads(meta_file.read_text()).get("status") == 404:
+            return None  # a version the site does not have is not asked for again
         if self.offline:
             raise OfflineMiss(f"offline and not cached: {url}")
         if not url.startswith("https://"):
@@ -153,6 +182,8 @@ class LegislationGovUkConnector:
                 break
             except urllib.error.HTTPError as exc:
                 if exc.code == 404:
+                    meta_file.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+                    meta_file.write_text(json.dumps({"url": url, "status": 404}))
                     return None
                 if exc.code in (429, 500, 502, 503, 504) and attempt < 4:
                     retry_after = exc.headers.get("Retry-After")
@@ -206,6 +237,14 @@ class LegislationGovUkConnector:
 
     def _fetch_work(self, manifest: dict[str, Any], base: str, work: dict[str, Any]) -> Iterator[RawDocument]:
         path = work["path"]
+        version = work.get("version")
+        if version:  # exists in one version only: ``/enacted`` (Acts) or ``/made`` (instruments)
+            got = self._get(manifest, f"{base}/{path}/{version}/data.akn", self.cache_dir / path / f"{version}.akn")
+            if got is None:
+                raise FetchError(f"{path}: {version} version not found (404)")
+            match = _DATE.search(got[0])
+            yield self._raw(path, got[0], got[1], match.group(1).decode() if match else version)
+            return
         current = self._get(manifest, f"{base}/{path}/data.akn", self.cache_dir / path / "current.akn")
         if current is None:
             raise FetchError(f"{path}: not found (404)")
@@ -217,7 +256,14 @@ class LegislationGovUkConnector:
             # ``history_dates`` restricts the versions fetched (used for small test fixtures). A
             # partial history can hide intermediate versions, so production manifests omit it.
             wanted = work.get("history_dates")
-            for d in sorted({m.decode() for m in _EVENTS.findall(data)}):
+            # Every lifecycle date is a version, except the date an instrument was made (``#made``): the site has no
+            # point-in-time version for it (the first one is the date it came into force).
+            dates = set()
+            for tag in _EVENT.findall(data):
+                found = _EVENT_DATE.search(tag)
+                if found and b'refersTo="#made"' not in tag:
+                    dates.add(found.group(1).decode())
+            for d in sorted(dates):
                 if d >= current_date or (wanted is not None and d not in {str(w) for w in wanted}):
                     continue
                 got = self._get(manifest, f"{base}/{path}/{d}/data.akn", self.cache_dir / path / f"{d}.akn")

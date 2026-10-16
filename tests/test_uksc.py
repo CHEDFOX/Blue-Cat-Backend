@@ -191,7 +191,7 @@ def test_oscola_style_citations() -> None:
 
 def test_profile_source_and_manifest(catalog: Catalog, tmp_path: Path) -> None:
     reg = catalog.jurisdictions
-    assert reg.court_jurisdiction("GB-UKSC") == "GB" and reg.get("GB").profile_version == "0.4.0"
+    assert reg.court_jurisdiction("GB-UKSC") == "GB" and reg.get("GB").profile_version == "0.5.0"
     assert "gb-uksc-judgments" in reg.get("GB").publication.official_sources
     source = catalog.sources.get(SOURCE)
     licence_gate(source)
