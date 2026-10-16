@@ -26,6 +26,19 @@ What is kept and what is not:
   provision carries its own dates (``validity_basis = attested_at_edition``). Adoption and amendment dates are
   recorded as lifecycle events only when the manifest gives them (taken from the document's own text).
 
+Manifest hints beyond the common ones (all optional; see ``docs/constitutions-asia-oceania-deep.md``):
+
+* ``scope_regex`` (a pattern with a ``scope`` group, e.g. ``^ARTICLE (?P<scope>[IVXLC]+)$``) and ``part_regex`` (a
+  ``part`` group, e.g. the lettered parts of an Article): for texts whose *sections restart in every article*; a section
+  is then keyed by its article (``sec-iii_2``, cited ``art. III, s. 2``);
+* ``style: sequence`` with ``heading_regex``: headings that spell their number in words (Mongolian "Нэгдүгээр зүйл.");
+  the matching lines are numbered 1, 2, 3 ... in the order they appear;
+* the Commonwealth form ``2.—(1) text`` is read like ``2. (1) text``;
+* ``instrument_type: act`` on a manifest document: a publisher that lists other laws beside its constitution; the work
+  is ``/<cc>/act/<slug>`` instead of ``/<cc>/constitution``.
+
+A document whose text layer is private-use glyphs (a PDF font without a Unicode map) is skipped, not stored.
+
 Identifiers are language-neutral: the work is ``/<cc>/constitution``, an article ``art-12`` (``sec-12`` for
 documents that number *sections*), a numbered paragraph ``art-12-par1``, a block ``blk-1``, the preamble
 ``preamble``.

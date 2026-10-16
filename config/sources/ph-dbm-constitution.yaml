@@ -1,10 +1,10 @@
-# Constitution of Philippines from Department of Budget and Management of the Philippines (dbm.gov.ph) - a government agency's copy of the Constitution. Read on 2026-10-16, before any document was fetched:
+# Constitution of the Philippines from Department of Budget and Management of the Philippines (dbm.gov.ph) - a government agency's copy of the Constitution. Read on 2026-10-16, before any document was fetched:
 #   robots.txt - https://www.dbm.gov.ph/robots.txt answered HTTP 404 (none): no crawling rules to apply. The connector reads it anyway. The Official Gazette, the Senate, the Philippine Commission on Women and the SEC (earlier sweep) and nlrc.dole.gov.ph (this sweep) answered the bot with HTTP 403 on robots.txt and were not used
 #   Terms - No terms of use, copyright notice or licence was found on the home page (an accessibility toolbar and news items) or in the PDF
 #   The document - PDF "6. 1987 Philippine Constitution.pdf" in the Department's SPIB-ICIA folder (file last modified 21 Jun 2022): "THE 1987 CONSTITUTION OF THE REPUBLIC OF THE PHILIPPINES", PREAMBLE ("We, the sovereign Filipino people, imploring the aid of Almighty God ..."), Articles I - XVIII with sections numbered afresh in each Article (Article IX in four lettered parts A - D), ending "Ratified: February 2, 1987"
 schema_version: 1
 id: ph-dbm-constitution
-name: Constitution of Philippines - the Department of Budget and Management of the Philippines (www.dbm.gov.ph)
+name: Constitution of the Philippines - the Department of Budget and Management of the Philippines (www.dbm.gov.ph)
 publisher: Department of Budget and Management of the Philippines (dbm.gov.ph) - a government agency's copy of the Constitution
 kind: official_legislation_portal
 authority: official_non_authentic
@@ -45,7 +45,7 @@ licence:
   automated_processing: allowed_with_conditions
   commercial_use: unknown
   attribution_required: true
-  attribution_text: Constitution of Philippines, the Department of Budget and Management of the Philippines (www.dbm.gov.ph);
+  attribution_text: Constitution of the Philippines, the Department of Budget and Management of the Philippines (www.dbm.gov.ph);
     retrieved {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
   conditions:
   - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.

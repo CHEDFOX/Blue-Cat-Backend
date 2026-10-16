@@ -33,7 +33,7 @@ def active_yaml(e: dict[str, Any]) -> str:
         f"and the terms ({e['terms']}). {e['document']}. {e['basis']} {AMBER}"
     )
     header = (
-        f"# Constitution of {e['country']} from {e['publisher']}. Read on {READ_ON}, before any document was fetched:\n"
+        f"# Constitution of {e.get('of', e['country'])} from {e['publisher']}. Read on {READ_ON}, before any document was fetched:\n"
         f"#   robots.txt - {e['robots']}\n"
         f"#   Terms - {e['terms']}\n"
         f"#   The document - {e['document']}\n"
@@ -41,7 +41,7 @@ def active_yaml(e: dict[str, Any]) -> str:
     doc = {
         "schema_version": 1,
         "id": e["id"],
-        "name": f"Constitution of {e['country']} - {e['short']} ({e['host']})",
+        "name": f"Constitution of {e.get('of', e['country'])} - {e['short']} ({e['host']})",
         "publisher": e["publisher"],
         "kind": "official_legislation_portal",
         "authority": "official_non_authentic",
@@ -72,7 +72,7 @@ def active_yaml(e: dict[str, Any]) -> str:
             "commercial_use": "unknown",
             "attribution_required": True,
             "attribution_text": (
-                f"Constitution of {e['country']}, {e['short']} ({e['host']}); retrieved {{retrieved_date}}. "
+                f"Constitution of {e.get('of', e['country'])}, {e['short']} ({e['host']}); retrieved {{retrieved_date}}. "
                 "Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher."
             ),
             "conditions": [
