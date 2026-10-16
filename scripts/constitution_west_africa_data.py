@@ -38,8 +38,18 @@ ACTIVE: list[dict[str, Any]] = [
                 adopted_on="1990-12-11",
                 edition_label="as the Court's PDF is headed: Loi n° 90-32 du 11 décembre 1990, à jour de sa révision par la loi n° 2019-40 du 07 novembre 2019 (no edition date printed)",
                 events=[
-                    dict(type="promulgation", date="1990-12-11", description="Loi n° 90-32 du 11 décembre 1990 portant Constitution de la République du Bénin", locator="heading of the PDF"),
-                    dict(type="amendment", date="2019-11-07", description="loi n° 2019-40 portant révision de la loi n° 90-32 du 11 décembre 1990", locator="heading of the PDF"),
+                    dict(
+                        type="promulgation",
+                        date="1990-12-11",
+                        description="Loi n° 90-32 du 11 décembre 1990 portant Constitution de la République du Bénin",
+                        locator="heading of the PDF",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="2019-11-07",
+                        description="loi n° 2019-40 portant révision de la loi n° 90-32 du 11 décembre 1990",
+                        locator="heading of the PDF",
+                    ),
                 ],
                 structure={},
             )
@@ -69,18 +79,31 @@ ACTIVE: list[dict[str, Any]] = [
                 citation_name="Cote d'Ivoire Constitution",
                 adopted_on=None,
                 edition_label='the Council\'s PDF headed "LA TROISIEME CONSTITUTION DU 8 NOVEMBRE 2016" (no edition date printed)',
-                events=[dict(type="promulgation", date="2016-11-08", description="the heading of the PDF dates the third constitution 8 November 2016", locator="heading of the PDF")],
+                events=[
+                    dict(
+                        type="promulgation",
+                        date="2016-11-08",
+                        description="the heading of the PDF dates the third constitution 8 November 2016",
+                        locator="heading of the PDF",
+                    )
+                ],
                 structure={},
             )
         ],
-        limitations=["The PDF is the text of 8 November 2016; the 2020 revision (constitutional law n° 2020-348 of 19 March 2020, named by the Council in its decisions) and any later change are not applied."],
+        limitations=[
+            "The PDF is the text of 8 November 2016; the 2020 revision (constitutional law n° 2020-348 of 19 March 2020, named by the Council in its decisions) and any later change are not applied."
+        ],
         coverage="Preamble and 184 articles of the Constitution of 8 November 2016 as the Council's PDF prints them.",
     ),
     dict(
         id="mr-primature-constitution",
         cc="MR",
         country="Mauritania",
-        names={"fr": "République islamique de Mauritanie", "ar": "الجمهورية الإسلامية الموريتانية", "en": "Islamic Republic of Mauritania"},
+        names={
+            "fr": "République islamique de Mauritanie",
+            "ar": "الجمهورية الإسلامية الموريتانية",
+            "en": "Islamic Republic of Mauritania",
+        },
         langs=["fr"],
         publisher="Premier Ministère, Secrétariat Général du Gouvernement, Direction Générale de la Législation, de la Traduction et de l'Edition du Journal Officiel (primature.gov.mr)",
         hosts=["www.primature.gov.mr"],
@@ -99,10 +122,30 @@ ACTIVE: list[dict[str, Any]] = [
                 adopted_on="1991-07-20",
                 edition_label="consolidated by the Secrétariat Général du Gouvernement up to the referendum laws of 15 August 2017 (no edition date printed; file dated 2021-05 in its path)",
                 events=[
-                    dict(type="promulgation", date="1991-07-20", description="ordonnance n° 91-022 du 20 juillet 1991", locator="heading of the PDF"),
-                    dict(type="amendment", date="2006-07-12", description="loi constitutionnelle n° 2006-014 du 12 juillet 2006", locator="heading of the PDF"),
-                    dict(type="amendment", date="2012-03-20", description="loi constitutionnelle n° 2012-015 du 20 mars 2012", locator="heading of the PDF"),
-                    dict(type="amendment", date="2017-08-15", description="lois constitutionnelles référendaires n° 2017-021 et n° 2017-022 du 15 août 2017", locator="heading of the PDF"),
+                    dict(
+                        type="promulgation",
+                        date="1991-07-20",
+                        description="ordonnance n° 91-022 du 20 juillet 1991",
+                        locator="heading of the PDF",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="2006-07-12",
+                        description="loi constitutionnelle n° 2006-014 du 12 juillet 2006",
+                        locator="heading of the PDF",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="2012-03-20",
+                        description="loi constitutionnelle n° 2012-015 du 20 mars 2012",
+                        locator="heading of the PDF",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="2017-08-15",
+                        description="lois constitutionnelles référendaires n° 2017-021 et n° 2017-022 du 15 août 2017",
+                        locator="heading of the PDF",
+                    ),
                 ],
                 structure={"drop_lines": ["^Page [0-9]+ sur [0-9]+$"]},
             )
@@ -146,7 +189,11 @@ ACTIVE: list[dict[str, Any]] = [
         id="dz-joradp-constitution",
         cc="DZ",
         country="Algeria",
-        names={"fr": "République algérienne démocratique et populaire", "ar": "الجمهورية الجزائرية الديمقراطية الشعبية", "en": "People's Democratic Republic of Algeria"},
+        names={
+            "fr": "République algérienne démocratique et populaire",
+            "ar": "الجمهورية الجزائرية الديمقراطية الشعبية",
+            "en": "People's Democratic Republic of Algeria",
+        },
         langs=["fr"],
         publisher="Secrétariat Général du Gouvernement, Journal officiel de la République algérienne (joradp.dz)",
         hosts=["www.joradp.dz"],
@@ -165,8 +212,18 @@ ACTIVE: list[dict[str, Any]] = [
                 adopted_on="2020-11-01",
                 edition_label="Journal officiel n° 82 of 30 December 2020 (French translation edition)",
                 events=[
-                    dict(type="adoption", date="2020-11-01", description="révision constitutionnelle adoptée par référendum du 1er novembre 2020", locator="décret présidentiel n° 20-442, article 1"),
-                    dict(type="promulgation", date="2020-12-30", description="décret présidentiel n° 20-442 du 15 Joumada El Oula 1442 correspondant au 30 décembre 2020", locator="Journal officiel n° 82"),
+                    dict(
+                        type="adoption",
+                        date="2020-11-01",
+                        description="révision constitutionnelle adoptée par référendum du 1er novembre 2020",
+                        locator="décret présidentiel n° 20-442, article 1",
+                    ),
+                    dict(
+                        type="promulgation",
+                        date="2020-12-30",
+                        description="décret présidentiel n° 20-442 du 15 Joumada El Oula 1442 correspondant au 30 décembre 2020",
+                        locator="Journal officiel n° 82",
+                    ),
                 ],
                 structure={
                     "start_regex": "^PREAMBULE$",
@@ -209,13 +266,25 @@ ACTIVE: list[dict[str, Any]] = [
                 adopted_on="2011-07-01",
                 edition_label="text promulgated by the dahir n° 1-11-91 of 29 July 2011 (Bulletin officiel n° 5964 bis of 30 July 2011), as the Ministry's PDF of 2024-02-28 prints it",
                 events=[
-                    dict(type="adoption", date="2011-07-01", description="texte adopté par voie de référendum le vendredi 28 rejeb 1432 (1er juillet 2011)", locator="dahir n° 1-11-91"),
-                    dict(type="promulgation", date="2011-07-29", description="dahir n° 1-11-91 du 27 chaabane 1432 (29 juillet 2011) portant promulgation du texte de la constitution", locator="dahir n° 1-11-91"),
+                    dict(
+                        type="adoption",
+                        date="2011-07-01",
+                        description="texte adopté par voie de référendum le vendredi 28 rejeb 1432 (1er juillet 2011)",
+                        locator="dahir n° 1-11-91",
+                    ),
+                    dict(
+                        type="promulgation",
+                        date="2011-07-29",
+                        description="dahir n° 1-11-91 du 27 chaabane 1432 (29 juillet 2011) portant promulgation du texte de la constitution",
+                        locator="dahir n° 1-11-91",
+                    ),
                 ],
                 structure={"start_regex": "^PREAMBULE$", "drop_lines": ["^- ?[0-9]+ ?-$"]},
             )
         ],
-        limitations=["The text is the one promulgated in July 2011; later changes, if any, are not applied. The Arabic text is the authentic one."],
+        limitations=[
+            "The text is the one promulgated in July 2011; later changes, if any, are not applied. The Arabic text is the authentic one."
+        ],
         coverage="Preamble and 180 articles of the Constitution of 2011 as the Ministry of Justice's PDF prints them.",
     ),
     dict(
@@ -227,7 +296,7 @@ ACTIVE: list[dict[str, Any]] = [
         publisher="Portail officiel du Gouvernement du Niger (gouv.ne)",
         hosts=["www.gouv.ne"],
         robots='www.gouv.ne/robots.txt - "User-agent: *" with the Joomla rules (Disallow /administrator/, /bin/, /cache/, /components/, /includes/, /language/, /layouts/, /libraries/, /logs/, /modules/, /plugins/, /tmp/ ...); /images/ is not disallowed; no Crawl-delay',
-        terms="page footer: \"Copyright © 2021 - 2024 – PORTAIL OFFICIEL DU GOUVERNEMENT DU NIGER ** Tous droits réservés | Conditions d'utilisation\" - the \"Conditions d'utilisation\" are plain text, not a link, and no terms page was found",
+        terms='page footer: "Copyright © 2021 - 2024 – PORTAIL OFFICIEL DU GOUVERNEMENT DU NIGER ** Tous droits réservés | Conditions d\'utilisation" - the "Conditions d\'utilisation" are plain text, not a link, and no terms page was found',
         document='The page "Constitution de la 7ème République" (https://www.gouv.ne/index.php/textes-fondamentaux/constitution-de-la-7eme-republique, section "Textes fondamentaux") links the PDF "constitution.pdf" (46 pages, text layer) headed "CONSTITUTION DE LA VIIème REPUBLIQUE (Promulguée par décret n°2010-754/PCSRD du 25 novembre 2010) JORN n° spécial 19 du 29 novembre 2010": preamble and articles 1 to 185.',
         statute=None,
         docs=[
@@ -240,7 +309,14 @@ ACTIVE: list[dict[str, Any]] = [
                 citation_name="Niger Constitution",
                 adopted_on=None,
                 edition_label="as promulgated by decree n° 2010-754/PCSRD of 25 November 2010 (JORN special issue n° 19 of 29 November 2010), as the PDF is headed",
-                events=[dict(type="promulgation", date="2010-11-25", description="décret n° 2010-754/PCSRD du 25 novembre 2010 (JORN n° spécial 19 du 29 novembre 2010)", locator="heading of the PDF")],
+                events=[
+                    dict(
+                        type="promulgation",
+                        date="2010-11-25",
+                        description="décret n° 2010-754/PCSRD du 25 novembre 2010 (JORN n° spécial 19 du 29 novembre 2010)",
+                        locator="heading of the PDF",
+                    )
+                ],
                 structure={},
             )
         ],
@@ -271,15 +347,28 @@ ACTIVE: list[dict[str, Any]] = [
                 citation_name="Gabon Constitution",
                 adopted_on=None,
                 edition_label="Journal officiel n° 47 Bis of 19 December 2024 (loi référendaire n° 002-R/2024)",
-                events=[dict(type="promulgation", date="2024-12-19", description="loi référendaire n° 002-R/2024 du 19 décembre 2024 portant Constitution de la République Gabonaise", locator="Journal officiel n° 47 Bis")],
+                events=[
+                    dict(
+                        type="promulgation",
+                        date="2024-12-19",
+                        description="loi référendaire n° 002-R/2024 du 19 décembre 2024 portant Constitution de la République Gabonaise",
+                        locator="Journal officiel n° 47 Bis",
+                    )
+                ],
                 structure={
                     "columns": 2,
                     "start_regex": "^PREAMBULE$",
-                    "drop_lines": ["^JOURNAL OFFICIEL DE LA REPUBLIQUE GABONAISE$", "^[0-9]{1,2} DECEMBRE 2024 - N°47 Bis$", "^[0-9]{1,2}$"],
+                    "drop_lines": [
+                        "^JOURNAL OFFICIEL DE LA REPUBLIQUE GABONAISE$",
+                        "^[0-9]{1,2} DECEMBRE 2024 - N°47 Bis$",
+                        "^[0-9]{1,2}$",
+                    ],
                 },
             )
         ],
-        limitations=["The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). Revisions after 19 December 2024, if any, are not applied."],
+        limitations=[
+            "The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). Revisions after 19 December 2024, if any, are not applied."
+        ],
         coverage="Preamble and 173 articles of the Constitution of 19 December 2024 as the Government portal's PDF of the Journal officiel prints them.",
     ),
     dict(
@@ -305,19 +394,61 @@ ACTIVE: list[dict[str, Any]] = [
                 adopted_on="1991-06-02",
                 edition_label="as amended up to November 2015, as the Présidence du Faso's page and PDF present it",
                 events=[
-                    dict(type="adoption", date="1991-06-02", description="Constitution de la IVème République adoptée par référendum le 2 juin 1991", locator="Avant-propos"),
-                    dict(type="promulgation", date="1991-06-11", description="Kiti n° AN-VIII-330/FP/PRES du 11 juin 1991", locator="Avant-propos"),
-                    dict(type="amendment", date="1997-01-27", description="loi n° 002/97/ADP du 27 janvier 1997", locator="Avant-propos"),
-                    dict(type="amendment", date="2000-04-11", description="loi n° 003-2000/AN du 11 avril 2000", locator="Avant-propos"),
-                    dict(type="amendment", date="2002-01-22", description="loi n° 001-2002/AN du 22 janvier 2002", locator="Avant-propos"),
-                    dict(type="amendment", date="2009-04-30", description="loi n° 015-2009/AN du 30 avril 2009", locator="Avant-propos"),
-                    dict(type="amendment", date="2012-05-18", description="loi n° 023-2012/AN du 18 mai 2012", locator="Avant-propos"),
-                    dict(type="amendment", date="2012-06-11", description="loi n° 033-2012/AN du 11 juin 2012", locator="Avant-propos"),
+                    dict(
+                        type="adoption",
+                        date="1991-06-02",
+                        description="Constitution de la IVème République adoptée par référendum le 2 juin 1991",
+                        locator="Avant-propos",
+                    ),
+                    dict(
+                        type="promulgation",
+                        date="1991-06-11",
+                        description="Kiti n° AN-VIII-330/FP/PRES du 11 juin 1991",
+                        locator="Avant-propos",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="1997-01-27",
+                        description="loi n° 002/97/ADP du 27 janvier 1997",
+                        locator="Avant-propos",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="2000-04-11",
+                        description="loi n° 003-2000/AN du 11 avril 2000",
+                        locator="Avant-propos",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="2002-01-22",
+                        description="loi n° 001-2002/AN du 22 janvier 2002",
+                        locator="Avant-propos",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="2009-04-30",
+                        description="loi n° 015-2009/AN du 30 avril 2009",
+                        locator="Avant-propos",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="2012-05-18",
+                        description="loi n° 023-2012/AN du 18 mai 2012",
+                        locator="Avant-propos",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="2012-06-11",
+                        description="loi n° 033-2012/AN du 11 juin 2012",
+                        locator="Avant-propos",
+                    ),
                 ],
                 structure={},
             )
         ],
-        limitations=["The text is the Constitution as amended up to November 2015 as the Présidence publishes it; the later constitutional law n° 033-2024/ALT of 29 October 2024 (published on the Assemblée nationale's site) and any other later change are not applied."],
+        limitations=[
+            "The text is the Constitution as amended up to November 2015 as the Présidence publishes it; the later constitutional law n° 033-2024/ALT of 29 October 2024 (published on the Assemblée nationale's site) and any other later change are not applied."
+        ],
         coverage="Preamble and 173 articles of the Constitution of 1991 as amended up to November 2015, as the Présidence du Faso's PDF prints them.",
     ),
     dict(
@@ -342,11 +473,20 @@ ACTIVE: list[dict[str, Any]] = [
                 citation_name="Togo Constitution",
                 adopted_on=None,
                 edition_label="Journal officiel n° 42 Bis (special issue) of 6 May 2024 (loi n° 2024-005)",
-                events=[dict(type="promulgation", date="2024-05-06", description="loi n° 2024-005 du 6 mai 2024 portant Constitution de la République togolaise (Journal officiel, numéro spécial du 6 mai 2024)", locator="Journal officiel, special issue")],
+                events=[
+                    dict(
+                        type="promulgation",
+                        date="2024-05-06",
+                        description="loi n° 2024-005 du 6 mai 2024 portant Constitution de la République togolaise (Journal officiel, numéro spécial du 6 mai 2024)",
+                        locator="Journal officiel, special issue",
+                    )
+                ],
                 structure={"columns": 2},
             )
         ],
-        limitations=["The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). Revisions after 6 May 2024, if any, are not applied."],
+        limitations=[
+            "The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). Revisions after 6 May 2024, if any, are not applied."
+        ],
         coverage="Preamble and 100 articles of the Constitution promulgated on 6 May 2024 as the Journal officiel's special issue prints them.",
     ),
     dict(
@@ -403,12 +543,25 @@ ACTIVE: list[dict[str, Any]] = [
                 adopted_on="2006-02-18",
                 edition_label="Journal officiel, numéro spécial of 5 February 2011 (textes coordonnés)",
                 events=[
-                    dict(type="promulgation", date="2006-02-18", description="Constitution de la République Démocratique du Congo du 18 février 2006", locator="title of the document"),
-                    dict(type="amendment", date="2011-01-20", description="loi n° 11/002 du 20 janvier 2011 portant révision de certains articles de la Constitution", locator="title of the document"),
+                    dict(
+                        type="promulgation",
+                        date="2006-02-18",
+                        description="Constitution de la République Démocratique du Congo du 18 février 2006",
+                        locator="title of the document",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="2011-01-20",
+                        description="loi n° 11/002 du 20 janvier 2011 portant révision de certains articles de la Constitution",
+                        locator="title of the document",
+                    ),
                 ],
                 structure={
                     "page_numbers": True,
-                    "drop_lines": ["^Journal Officiel Numéro spécial 5 février 2011 – Constitution de la République Démocratique du Congo$", "^[0-9]{1,3}$"],
+                    "drop_lines": [
+                        "^Journal Officiel Numéro spécial 5 février 2011 – Constitution de la République Démocratique du Congo$",
+                        "^[0-9]{1,3}$",
+                    ],
                     "tail_regex": "^EXPOSE DES MOTIFS DE LA CONSTITUTION",
                     "keywords": ["Article", "Articles"],
                 },
@@ -443,8 +596,18 @@ ACTIVE: list[dict[str, Any]] = [
                 adopted_on="1996-01-18",
                 edition_label="loi n° 96/06 du 18 janvier 1996, modifiée et complétée par la loi n° 2008/001 du 14 avril 2008, as the Assembly's PDF is headed",
                 events=[
-                    dict(type="promulgation", date="1996-01-18", description="loi n° 96/06 du 18 janvier 1996 portant révision de la Constitution du 02 juin 1972", locator="heading of the PDF"),
-                    dict(type="amendment", date="2008-04-14", description="loi n° 2008/001 du 14 avril 2008", locator="heading of the PDF"),
+                    dict(
+                        type="promulgation",
+                        date="1996-01-18",
+                        description="loi n° 96/06 du 18 janvier 1996 portant révision de la Constitution du 02 juin 1972",
+                        locator="heading of the PDF",
+                    ),
+                    dict(
+                        type="amendment",
+                        date="2008-04-14",
+                        description="loi n° 2008/001 du 14 avril 2008",
+                        locator="heading of the PDF",
+                    ),
                 ],
                 structure={},
             ),
@@ -457,7 +620,14 @@ ACTIVE: list[dict[str, Any]] = [
                 citation_name="Cameroon Constitution",
                 adopted_on="1996-01-18",
                 edition_label="Law No. 96-6 of 18 January 1996 to amend the Constitution of 2 June 1972, as the Assembly's PDF is headed",
-                events=[dict(type="promulgation", date="1996-01-18", description="Law No. 96-6 of 18 January 1996 to amend the Constitution of 2 June, 1972", locator="heading of the PDF")],
+                events=[
+                    dict(
+                        type="promulgation",
+                        date="1996-01-18",
+                        description="Law No. 96-6 of 18 January 1996 to amend the Constitution of 2 June, 1972",
+                        locator="heading of the PDF",
+                    )
+                ],
                 structure={"unit_kind": "article"},
             ),
         ],
@@ -490,18 +660,34 @@ ACTIVE: list[dict[str, Any]] = [
                 adopted_on="2023-06-18",
                 edition_label="Journal officiel, special issue n° 13 of 22 July 2023 (décret n° 2023-0401/PT-RM)",
                 events=[
-                    dict(type="adoption", date="2023-06-18", description="référendum constitutionnel (scrutin du 18 juin 2023)", locator="décret n° 2023-0401/PT-RM, visas"),
-                    dict(type="promulgation", date="2023-07-22", description="décret n° 2023-0401/PT-RM du 22 juillet 2023 portant promulgation de la Constitution", locator="Journal officiel, special issue n° 13"),
+                    dict(
+                        type="adoption",
+                        date="2023-06-18",
+                        description="référendum constitutionnel (scrutin du 18 juin 2023)",
+                        locator="décret n° 2023-0401/PT-RM, visas",
+                    ),
+                    dict(
+                        type="promulgation",
+                        date="2023-07-22",
+                        description="décret n° 2023-0401/PT-RM du 22 juillet 2023 portant promulgation de la Constitution",
+                        locator="Journal officiel, special issue n° 13",
+                    ),
                 ],
                 structure={
                     "columns": 2,
                     "start_regex": "^PREAMBULE :$",
                     "preamble_regex": "^PREAMBULE :$",
-                    "drop_lines": ["^JOURNAL OFFICIEL DE LA REPUBLIQUE DU MALI$", "^SECRETARIAT GENERAL DU GOUVERNEMENT$", "^[0-9]{1,2}$"],
+                    "drop_lines": [
+                        "^JOURNAL OFFICIEL DE LA REPUBLIQUE DU MALI$",
+                        "^SECRETARIAT GENERAL DU GOUVERNEMENT$",
+                        "^[0-9]{1,2}$",
+                    ],
                 },
             )
         ],
-        limitations=["The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). Revisions after 22 July 2023, if any, are not applied."],
+        limitations=[
+            "The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). Revisions after 22 July 2023, if any, are not applied."
+        ],
         coverage="Preamble and 191 articles of the Constitution promulgated on 22 July 2023 as the Presidency's PDF of the Journal officiel prints them.",
     ),
     dict(
@@ -526,7 +712,14 @@ ACTIVE: list[dict[str, Any]] = [
                 citation_name="Congo Constitution",
                 adopted_on="2015-10-25",
                 edition_label="Journal officiel text 'adoptée par référendum le 25 octobre 2015' (no edition date printed)",
-                events=[dict(type="adoption", date="2015-10-25", description="Constitution adoptée par référendum le 25 octobre 2015", locator="heading of the PDF")],
+                events=[
+                    dict(
+                        type="adoption",
+                        date="2015-10-25",
+                        description="Constitution adoptée par référendum le 25 octobre 2015",
+                        locator="heading of the PDF",
+                    )
+                ],
                 structure={"columns": 2},
             )
         ],
@@ -540,7 +733,11 @@ ACTIVE: list[dict[str, Any]] = [
         id="gq-gobierno-constitution",
         cc="GQ",
         country="Equatorial Guinea",
-        names={"es": "República de Guinea Ecuatorial", "fr": "République de Guinée équatoriale", "en": "Republic of Equatorial Guinea"},
+        names={
+            "es": "República de Guinea Ecuatorial",
+            "fr": "République de Guinée équatoriale",
+            "en": "Republic of Equatorial Guinea",
+        },
         langs=["es"],
         publisher="Página Oficial del Gobierno de la República de Guinea Ecuatorial (guineaecuatorialpress.com)",
         hosts=["www.guineaecuatorialpress.com"],
@@ -559,8 +756,18 @@ ACTIVE: list[dict[str, Any]] = [
                 adopted_on="2011-11-13",
                 edition_label="Nuevo texto de la Constitución, promulgada oficialmente el 16 de febrero de 2012, as the PDF is headed",
                 events=[
-                    dict(type="adoption", date="2011-11-13", description="reforma constitucional aprobada en referéndum el 13 de noviembre de 2011", locator="heading of the PDF"),
-                    dict(type="promulgation", date="2012-02-16", description="Constitución promulgada oficialmente el 16 de febrero de 2012", locator="heading of the PDF"),
+                    dict(
+                        type="adoption",
+                        date="2011-11-13",
+                        description="reforma constitucional aprobada en referéndum el 13 de noviembre de 2011",
+                        locator="heading of the PDF",
+                    ),
+                    dict(
+                        type="promulgation",
+                        date="2012-02-16",
+                        description="Constitución promulgada oficialmente el 16 de febrero de 2012",
+                        locator="heading of the PDF",
+                    ),
                 ],
                 structure={"keywords": ["Artículo", "Articulo"], "drop_lines": ["^‐[0-9]+‐$"]},
             )

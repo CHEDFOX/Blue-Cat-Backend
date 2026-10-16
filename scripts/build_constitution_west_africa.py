@@ -51,7 +51,7 @@ def write(path: Path, text: str) -> None:
 def comment(lines: list[str]) -> str:
     out = []
     for line in lines:
-        for k, part in enumerate(textwrap.wrap(line, 140, subsequent_indent="       ") or [""]):
+        for part in textwrap.wrap(line, 140, subsequent_indent="       ") or [""]:
             out.append("# " + part)
     return "\n".join(out) + "\n"
 
@@ -224,7 +224,11 @@ def blocked_source(b: dict[str, Any]) -> None:
     word = "REJECTED" if status == "rejected" else "PLANNED"
     reviewed = (
         f"ULIS project (not counsel), {READ_ON}, from the publisher's own pages and robots.txt. Findings: {b['robots']}. {b['finding']}"
-        + (" It grants no licence to copy, store or republish the text: REJECTED." if status == "rejected" else " Nothing further is requested; no workaround was tried.")
+        + (
+            " It grants no licence to copy, store or republish the text: REJECTED."
+            if status == "rejected"
+            else " Nothing further is requested; no workaround was tried."
+        )
     )
     data = {
         "schema_version": 1,
@@ -286,15 +290,34 @@ def doc() -> None:
         "|---|---|---|---|---|---|",
     ]
     for p in ACTIVE:
-        lines.append(f"| {p['country']} | `{p['id']}` | {p['publisher']} | {', '.join(p['langs'])} | {len(p['docs'])} | {p['coverage']} |")
+        lines.append(
+            f"| {p['country']} | `{p['id']}` | {p['publisher']} | {', '.join(p['langs'])} | {len(p['docs'])} | {p['coverage']} |"
+        )
     lines += ["", "### Not loaded", "", "| Country | Source | Outcome | Finding |", "|---|---|---|---|"]
     for b in BLOCKED:
-        lines.append(f"| {b['country']} | `{b['id']}` ({b['publisher']}) | {b['status']} | {b['robots']}. {b['finding']} |")
+        lines.append(
+            f"| {b['country']} | `{b['id']}` ({b['publisher']}) | {b['status']} | {b['robots']}. {b['finding']} |"
+        )
     for n in NOT_FOUND:
         lines.append(f"| {n['country']} | - | not found | {n['finding']} |")
-    lines += ["", "## Findings per loaded publisher", "", "The text below is the header of each source descriptor: the robots.txt, the terms and the document as read.", ""]
+    lines += [
+        "",
+        "## Findings per loaded publisher",
+        "",
+        "The text below is the header of each source descriptor: the robots.txt, the terms and the document as read.",
+        "",
+    ]
     for p in ACTIVE:
-        lines += [f"### {p['country']} - `{p['id']}`", "", "```text", f"robots.txt - {p['robots']}", f"Terms - {p['terms']}", f"The document - {p['document']}", "```", ""]
+        lines += [
+            f"### {p['country']} - `{p['id']}`",
+            "",
+            "```text",
+            f"robots.txt - {p['robots']}",
+            f"Terms - {p['terms']}",
+            f"The document - {p['document']}",
+            "```",
+            "",
+        ]
     write(ROOT / "docs/constitutions-africa-west-deep.md", "\n".join(lines) + "\n")
 
 
