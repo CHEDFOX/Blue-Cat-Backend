@@ -304,7 +304,7 @@ def test_morocco_algeria_mauritania_pdf_furniture_is_dropped_and_dates_are_the_d
     assert "-2-" not in prov(ma, "preamble").text and prov(ma, "art-1").text.startswith("Le Maroc est une monarchie")
     dz = parse(_pdf_bundle(catalog, "dz-joradp-constitution", "dz-fr", make_pdf(_pages("dz-fr-pages.json"))))
     assert prov(dz, "preamble").text.startswith("Le peuple algérien est un peuple libre")
-    assert prov(dz, "art-2").text == "L'Islam est la religion de l'Etat"
+    assert prov(dz, "art-2").text == "L'Islam est la religion de l'Etat."  # the closing full stop is the source's
     assert all("JOURNAL OFFICIEL DE LA REPUBLIQUE ALGERIENNE" not in p.text for p in dz.provisions)
     mr = parse(_pdf_bundle(catalog, "mr-primature-constitution", "mr-fr", make_pdf(_pages("mr-fr-pages.json"))))
     assert prov(mr, "art-1").text.startswith("La Mauritanie est une République Islamique")

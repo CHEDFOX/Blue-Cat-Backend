@@ -71,7 +71,7 @@ BUNDLE_SCHEMA = "ulis-constitution-bundle/1"
 MIN_UNITS = 5  # fewer consecutive numbered units than this: the structure is not recognised, store blocks
 MAX_GAP = 4  # the largest jump in numbering tolerated inside the body chain (missing or unnumbered headings)
 BLOCK_CHARS = 2000
-TEXT_MARKER_CHARS = 40  # a preamble marker line longer than this is the text of the preamble, not its heading
+TEXT_MARKER_CHARS = 40  # a preamble marker line longer than this and written as a sentence is text, not a heading
 CHAPTER_TRAIL = 3  # a chapter heading is recognised among the last this-many text lines before the next article
 TEXT_ORIGINS = {
     "official_authentic",
@@ -147,6 +147,12 @@ NUMBER = (
     + r")?"
 )
 ORDINAL_SIGNS = "º°ᵒª"
+
+
+def _is_sentence(line: str) -> bool:
+    """A long line that is running text (clause punctuation, or many words) and not a title such as
+    "Constituição de República da Guiné-Bissau"."""
+    return len(line) > TEXT_MARKER_CHARS and (re.search(r"[,;:.]", line) is not None or len(line.split()) >= 10)
 
 
 def cjk_to_int(text: str) -> int | None:
@@ -817,7 +823,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
             body = [x for x in _nonblank(region) if not any(p.search(x) for p in note_re)]
             marker_line = lines[markers[-1]]
             # a marker that is a whole sentence (a preamble whose first line the manifest names) is text, not a heading
-            text_marker = len(marker_line) > TEXT_MARKER_CHARS
+            text_marker = _is_sentence(marker_line)
             if body or text_marker:
                 unit = Unit("preamble", "", "preamble", heading=None if text_marker else marker_line)
                 if text_marker:
@@ -878,7 +884,8 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
             cand.remainder, heading_mode if "heading" in hints or chosen in ("keyword", "numword") else "text"
         )
         if leftover and cand.raw.startswith(leftover):
-            leftover = cand.raw  # text on the heading line keeps its closing punctuation
+            # text on the heading line keeps its closing full stop; a trailing colon or dash is the heading's separator
+            leftover = cand.raw.rstrip(" \t:–—-")
         if heading_before and not heading:
             heading = pending
         content = _nonblank(region)
