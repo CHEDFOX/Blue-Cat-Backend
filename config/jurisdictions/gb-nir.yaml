@@ -1,7 +1,7 @@
 # REAL JURISDICTION - DRAFT, UNVERIFIED.
 schema_version: 1
 id: GB-NIR
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Northern Ireland
 kind: constituent_unit
 parent: GB
@@ -24,12 +24,25 @@ courts:
     name: Court of Appeal in Northern Ireland
     rank: 1
     appeals_to: [GB-UKSC]
+  - id: GB-NIHC
+    name: High Court of Justice in Northern Ireland
+    rank: 2
+    appeals_to: [GB-NICA]
+  - id: GB-NICC
+    name: Crown Court in Northern Ireland
+    rank: 3
+    appeals_to: [GB-NICA]
+  - id: GB-NIOTH
+    name: Other courts of Northern Ireland (county courts, coroners, magistrates)
+    rank: 4
+    appeals_to: [GB-NIHC]
 precedent:
   doctrine: stare_decisis
   vertical_binding: true
 citation:
   module: gb
 coverage:
-  corpus_status: none
+  corpus_status: pilot
   known_gaps:
-    - No Northern Ireland legislation is ingested yet (UK Acts extending to Northern Ireland are covered).
+    - Northern Ireland legislation is ingested from legislation.gov.uk with the UK's (Acts and Measures of the Northern Ireland Assembly, Acts of the Parliament of Northern Ireland, Orders in Council, Statutory Rules, with their version history where the site has XML); see docs/markets/uk.md.
+    - Case law is the decisions with a neutral citation on judiciaryni.uk (gb-ni-judiciary-judgments); decisions before the neutral citation and the courts' unreported rulings are not covered.

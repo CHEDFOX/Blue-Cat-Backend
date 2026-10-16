@@ -65,6 +65,7 @@ from ulis.sources.connectors.lilex import LilexConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.connectors.narodne_novine import NarodneNovineConnector
+from ulis.sources.connectors.ni_judiciary import NiJudiciaryConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
 from ulis.sources.connectors.oecd_legal_instruments import OecdLegalInstrumentsConnector
 from ulis.sources.connectors.rattspraxis_se import RattspraxisConnector
@@ -125,6 +126,7 @@ from ulis.sources.parsers import (
     manitoba_laws,
     moj_law,
     narodne_novine,
+    ni_judiciary,
     normattiva,
     oecd_legal_instruments,
     ontario_elaws,
@@ -178,6 +180,7 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "stj_integras": stj_integras.parse_stj_integra,
     "rattspraxis_se_json": rattspraxis_se.parse_rattspraxis,
     "govuk_decisions": govuk_decisions.parse_govuk_decision,
+    "ni_judiciary": ni_judiciary.parse_ni_judiciary,
     "uksc_html": uksc_html.parse_uksc,
     "uksc_pdf": uksc_pdf.parse_uksc_pdf,
     "moj_law_html": moj_law.parse_moj_law,
@@ -235,6 +238,7 @@ PARSER_VERSIONS = {
     "stj_integras": stj_integras.PARSER_VERSION,
     "rattspraxis_se_json": rattspraxis_se.PARSER_VERSION,
     "govuk_decisions": govuk_decisions.PARSER_VERSION,
+    "ni_judiciary": ni_judiciary.PARSER_VERSION,
     "uksc_html": uksc_html.PARSER_VERSION,
     "uksc_pdf": uksc_pdf.PARSER_VERSION,
     "moj_law_html": moj_law.PARSER_VERSION,
@@ -322,6 +326,7 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "rattspraxis_se": RattspraxisConnector,
     "govuk_decisions": GovUkDecisionsConnector,
     "jcpc": JcpcConnector,
+    "ni_judiciary": NiJudiciaryConnector,
     "jcpc_pdf": JcpcPdfConnector,
     "uksc": UkscConnector,
     "uksc_pdf": UkscPdfConnector,

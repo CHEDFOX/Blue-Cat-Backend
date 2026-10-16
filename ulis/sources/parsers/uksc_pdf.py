@@ -39,19 +39,15 @@ import re
 from typing import Any
 
 from ulis.sources.normalized import ParsedDocument, ParsedJudgmentMeta, ParsedParagraph, ParsedRef, ParseSkipped
+from ulis.sources.parsers.court_pdf_units import page_lines, units_from_lines
 from ulis.sources.parsers.pdf_text import PdfTextError, pdf_pages
-from ulis.sources.parsers.uksc_html import COURTS, SPACE, UkscParseError, _by_id, _date
+from ulis.sources.parsers.uksc_html import COURTS, UkscParseError, _by_id, _date
 
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 BUNDLE_SCHEMA = "ulis.uksc-pdf-bundle.v1"
 NEUTRAL = re.compile(r"^\[(\d{4})\] (UKSC|UKPC) (\d{1,3})$")
 OWN_COURT_CITATION = re.compile(r"\[(\d{4})\] (UKSC|UKPC) (\d{1,3})(?!\d)")
 CASE_ID = re.compile(r"^(UKSC|JCPC)/(\d{4})/(\d{4})$")
-FOOTER = re.compile(r"^Page \d+$")
-NUM_ALONE = re.compile(r"^(\d{1,4})\.$")
-NUM_INLINE = re.compile(r"^(\d{1,4})\.\s+(\S.*)$")
-OPINION = re.compile(r"^(?:LORD|LADY|BARONESS|SIR|JUSTICE)\b[A-Z ,.'’-]*(?:\b|:|\()")
-SENTENCE_END = (".", "?", "!", "”", '"', "’", ")", "]")
 MIN_TEXT_CHARS = 400
 PREFIX = {"heading": "h", "text": "t"}
 
@@ -62,59 +58,6 @@ class UkscPdfParseError(ValueError):
 
 def bundle_bytes(bundle: dict[str, Any]) -> bytes:
     return json.dumps(bundle, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
-
-
-def _join(lines: list[str]) -> str:
-    """Join the lines of a paragraph; a line that ends with a hyphen before a lower-case letter is joined without
-    space."""
-    out = ""
-    for line in (ln for ln in lines if ln):
-        if out.endswith("-") and line[:1].islower():
-            out += line
-        else:
-            out = f"{out} {line}" if out else line
-    return out
-
-
-def _is_heading_line(line: str) -> bool:
-    return (
-        0 < len(line) <= 70
-        and (line[0].isupper() or line[0].isdigit())
-        and not line.endswith((",", ";", ":", ".", "?", "!", "”", '"', "’", ")", "]"))
-    )
-
-
-def _split_trailing_headings(buf: list[str]) -> tuple[list[str], list[list[str]]]:
-    """(lines of the paragraph, heading blocks that follow it): short lines after a finished sentence, or an
-    opinion line."""
-    lines = list(buf)
-    while lines and not lines[-1]:
-        lines.pop()
-    headings: list[list[str]] = []
-    # An opinion line ("LORD REED: (with whom ...)") with its continuation lines, among the last few lines.
-    for start in range(max(0, len(lines) - 4), len(lines)):
-        if OPINION.match(lines[start]) and (
-            start == 0 or not lines[start - 1] or lines[start - 1].endswith(SENTENCE_END)
-        ):
-            headings.insert(0, [ln for ln in lines[start:] if ln])
-            lines = lines[:start]
-            break
-    # Short heading lines directly after a finished sentence.
-    while lines:
-        tail: list[str] = []
-        j = len(lines)
-        while j > 0 and lines[j - 1] and _is_heading_line(lines[j - 1]) and len(tail) < 2:
-            tail.insert(0, lines[j - 1])
-            j -= 1
-        before = next((ln for ln in reversed(lines[:j]) if ln), "")
-        if tail and (j == 0 or not lines[j - 1] or before.endswith(SENTENCE_END)) and j > 0:
-            headings.insert(0, tail)
-            lines = lines[:j]
-            while lines and not lines[-1]:
-                lines.pop()
-            continue
-        break
-    return lines, headings
 
 
 def _justices(html: str) -> list[str]:
@@ -157,79 +100,14 @@ def parse_uksc_pdf(content: bytes) -> list[ParsedDocument]:
         pages = pdf_pages(pdf)
     except PdfTextError as exc:
         raise UkscPdfParseError(f"{case_id}: the PDF cannot be read: {exc}") from exc
-    lines: list[str] = []
-    for page in pages:
-        for raw in page.splitlines():
-            line = SPACE.sub(" ", raw).strip()
-            if not FOOTER.match(line):
-                lines.append(line)
+    lines = page_lines(pages)
     if sum(len(ln) for ln in lines) < MIN_TEXT_CHARS:
         raise ParseSkipped(f"{case_id}: the PDF has no text layer (a scan); ULIS does no OCR")
 
     year, number = nc.group(1), nc.group(3)
     own = f"[{year}] {series} {number}"
     appealed = re.search(r"On appeals? from:\s*(.+)", "\n".join(pages[:2]))
-
-    def number_at(i: int) -> tuple[int, str | None] | None:
-        a, b = NUM_ALONE.match(lines[i]), NUM_INLINE.match(lines[i])
-        if a:
-            return int(a.group(1)), None
-        if b:
-            return int(b.group(1)), b.group(2)
-        return None
-
-    def restarts(i: int) -> bool:
-        for j in range(i + 1, len(lines)):
-            found = number_at(j)
-            if found:
-                return found[0] == 2
-        return False
-
-    units: list[tuple[str, str | None, str]] = []  # (kind, number, text)
-    buf: list[str] = []
-    current: int | None = None  # the number of the paragraph being collected, None before paragraph 1
-    expected = 1
-
-    def flush_text_block(block: list[str]) -> None:
-        text = _join(block)
-        if text:
-            units.append(("text", None, text))
-
-    def flush(last: bool = False) -> None:
-        nonlocal buf
-        body, headings = (buf, []) if last else _split_trailing_headings(buf)
-        if current is None:
-            # Front matter: blocks separated by blank lines; an opinion line is a heading.
-            block: list[str] = []
-            for ln in [*body, ""]:
-                if ln:
-                    block.append(ln)
-                    continue
-                if block:
-                    (
-                        units.append(("heading", None, _join(block)))
-                        if OPINION.match(block[0])
-                        else flush_text_block(block)
-                    )
-                block = []
-        else:
-            text = _join(body)
-            if text:
-                units.append(("considerations", str(current), text))
-        for h in headings:
-            units.append(("heading", None, _join(h)))
-        buf = []
-
-    for i, line in enumerate(lines):
-        found = number_at(i)
-        if found and (found[0] == expected or (found[0] == 1 and expected > 1 and restarts(i))):
-            flush()
-            current = found[0]
-            expected = found[0] + 1
-            buf = [found[1]] if found[1] else []
-            continue
-        buf.append(line)
-    flush(last=True)
+    units = units_from_lines(lines)
     if not any(u[0] == "considerations" for u in units):
         raise UkscPdfParseError(f"{case_id}: no numbered paragraphs found")
 
