@@ -183,7 +183,10 @@ def yaml_for(e: dict) -> str:
 def main() -> int:
     sources_dir = ROOT / "config" / "sources"
     for e in PLANNED:
-        (sources_dir / f"{e['id']}.yaml").write_text(yaml_for(e), encoding="utf-8")
+        target = sources_dir / f"{e['id']}.yaml"
+        if target.exists() and re.search(r"^status: active$", target.read_text(encoding="utf-8"), re.MULTILINE):
+            continue  # activated later (Kazakhstan, Turkmenistan: scripts/build_constitution_sources_asia.py)
+        target.write_text(yaml_for(e), encoding="utf-8")
 
     rows: list[tuple[str, str, str]] = []  # (region, country, line)
     for r in ACTIVE_ROWS:

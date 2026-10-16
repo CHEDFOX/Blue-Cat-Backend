@@ -1,0 +1,65 @@
+# Constitution of Vanuatu from Office of the Ombudsman of Vanuatu (ombudsman.gov.vu) - a government office's copy of the Constitution. Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://ombudsman.gov.vu/robots.txt: "User-agent: *" "Allow: /" and a Sitemap line (three lines); no Crawl-delay
+#   Terms - Footer of the home page: "Copyright © 2026 Office of the Ombudsman of Vanuatu. All Rights Reserved."; no terms-of-use or licence page is linked
+#   The document - PDF (234 KB, file last modified 8 Oct 2018) headed "LAWS OF THE REPUBLIC OF VANUATU Consolidated Edition 2006 CONSTITUTION OF THE REPUBLIC OF VANUATU Commencement: 30 July 1980 except Articles 87 and 93 which commenced 23 October 1979": preamble ("WE, the people of Vanuatu,"), 95 articles in chapters 1 - 17, and two Schedules
+schema_version: 1
+id: vu-ombudsman-constitution
+name: Constitution of Vanuatu - the Office of the Ombudsman of Vanuatu (ombudsman.gov.vu)
+publisher: Office of the Ombudsman of Vanuatu (ombudsman.gov.vu) - a government office's copy of the Constitution
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- VU
+document_kinds:
+- constitution
+languages:
+- en
+coverage: 'The Constitution of Vanuatu (Laws of the Republic of Vanuatu, Consolidated Edition 2006) in en: the preamble, 95
+  articles and the two Schedules (as blocks).'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/vu-ombudsman-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: VU-official-text-no-terms
+  name: Official legal text hosted by a government office; a generic copyright footer, no terms of use or licence found
+  url: https://ombudsman.gov.vu/images/docs/legislation/Constitution%20of%20the%20Republic%20of%20Vanuatu/Constitution%20of%20the%20Republic%20of%20Vanuatu.pdf
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file:
+    robots.txt (https://ombudsman.gov.vu/robots.txt: "User-agent: *" "Allow: /" and a Sitemap line (three lines); no Crawl-delay)
+    and the terms (Footer of the home page: "Copyright © 2026 Office of the Ombudsman of Vanuatu. All Rights Reserved."; no
+    terms-of-use or licence page is linked). PDF (234 KB, file last modified 8 Oct 2018) headed "LAWS OF THE REPUBLIC OF VANUATU
+    Consolidated Edition 2006 CONSTITUTION OF THE REPUBLIC OF VANUATU Commencement: 30 July 1980 except Articles 87 and 93
+    which commenced 23 October 1979": preamble ("WE, the people of Vanuatu,"), 95 articles in chapters 1 - 17, and two Schedules.
+    No statute was read; the basis is the official status of the text and the absence of any stated restriction on it. Reading:
+    AMBER - the publisher states no restriction on reusing the text beyond a generic copyright footer (if any); no permission
+    for automated retrieval is stated either.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Vanuatu, the Office of the Ombudsman of Vanuatu (ombudsman.gov.vu); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it; there is no licence.
+    Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/vu-ombudsman-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- The edition is the 2006 consolidation printed on the cover; amendments adopted after 2006 are not applied (to verify which
+  exist).
+- The French and Bislama texts are not ingested. The Ombudsman's office holds a copy; it is not the publisher of the Laws
+  of Vanuatu.
+status: active
+connector: constitution_docs
+parser: constitution_text

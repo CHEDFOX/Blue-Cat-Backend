@@ -1,0 +1,70 @@
+# Constitution of Mongolia from Эрх зүйн мэдээллийн нэгдсэн систем (Unified Legal Information System of Mongolia), legalinfo.mn. Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://legalinfo.mn/robots.txt answered HTTP 404 (none): no crawling rules to apply. The connector reads it anyway
+#   Terms - Footer of the home page: "© 2025 legalinfo.mn Бүх эрх хуулиар хамгаалагдсан." (all rights protected by law), contact info@legalinstitute.mn; the system's rules page (ЭЗМНС - ийн журам) and the Privacy Policy page hold no terms of use for the texts in their static HTML
+#   The document - The page "1992 оны Монгол Улсын Үндсэн Хууль" (last modified 20 Nov 2023) says "6 бүлэг, 70 зүйл" and prints the preamble ("Монголын ард түмэн бид:"), the six chapters (НЭГДҮГЭЭР - ЗУРГАДУГААР БҮЛЭГ) and 70 articles headed by their ordinal in words ("Нэгдүгээр зүйл."), with bracketed notes that date each amendment ("/Энэ хэсгийг 2019 оны 11 дүгээр сарын 14-ний өдөр баталсан Монгол Улсын Үндсэн хуульд оруулсан нэмэлт, өөрчлөлтөөр ... /"; amendments of 24 Dec 1999, 14 Nov 2019 and 31 May 2023 are named; one note says a passage applies "2028 оны 01 дүгээр сарын 01-ний өдрөөс"). The closing lines give the date of adoption: "1992 оны нэгдүгээр сарын 13-ны өдрийн 11 цаг 35 минут"
+schema_version: 1
+id: mn-legalinfo-constitution
+name: Constitution of Mongolia - the Unified Legal Information System of Mongolia (legalinfo.mn)
+publisher: Эрх зүйн мэдээллийн нэгдсэн систем (Unified Legal Information System of Mongolia), legalinfo.mn
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- MN
+document_kinds:
+- constitution
+languages:
+- mn
+coverage: 'The Constitution of Mongolia (1992, with the amendments of 1999, 2019 and 2023 as annotated in the page) in mn:
+  the preamble and 70 articles in 6 chapters.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/mn-legalinfo-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: MN-official-text-no-terms
+  name: Official legal text published by the Unified Legal Information System of Mongolia; a generic 'all rights reserved'
+    footer, no terms of use or licence found
+  url: https://legalinfo.mn/api/front/cons-detail-1992.html
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file:
+    robots.txt (https://legalinfo.mn/robots.txt answered HTTP 404 (none): no crawling rules to apply. The connector reads
+    it anyway) and the terms (Footer of the home page: "© 2025 legalinfo.mn Бүх эрх хуулиар хамгаалагдсан." (all rights protected
+    by law), contact info@legalinstitute.mn; the system''s rules page (ЭЗМНС - ийн журам) and the Privacy Policy page hold
+    no terms of use for the texts in their static HTML). The page "1992 оны Монгол Улсын Үндсэн Хууль" (last modified 20 Nov
+    2023) says "6 бүлэг, 70 зүйл" and prints the preamble ("Монголын ард түмэн бид:"), the six chapters (НЭГДҮГЭЭР - ЗУРГАДУГААР
+    БҮЛЭГ) and 70 articles headed by their ordinal in words ("Нэгдүгээр зүйл."), with bracketed notes that date each amendment
+    ("/Энэ хэсгийг 2019 оны 11 дүгээр сарын 14-ний өдөр баталсан Монгол Улсын Үндсэн хуульд оруулсан нэмэлт, өөрчлөлтөөр ...
+    /"; amendments of 24 Dec 1999, 14 Nov 2019 and 31 May 2023 are named; one note says a passage applies "2028 оны 01 дүгээр
+    сарын 01-ний өдрөөс"). The closing lines give the date of adoption: "1992 оны нэгдүгээр сарын 13-ны өдрийн 11 цаг 35 минут".
+    No statute was read; the basis is the official status of the text and the absence of any stated restriction on it. Reading:
+    AMBER - the publisher states no restriction on reusing the text beyond a generic copyright footer (if any); no permission
+    for automated retrieval is stated either.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Mongolia, the Unified Legal Information System of Mongolia (legalinfo.mn); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it; there is no licence.
+    Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/mn-legalinfo-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- Paragraph numbers are printed without a space ('1.Монгол Улс ...') and are not split into separate provisions; they stay
+  in the article's text.
+- Provisions that apply only from a later date (for example from 1 January 2028) are stored as printed, without dates of their
+  own.
+status: active
+connector: constitution_docs
+parser: constitution_text

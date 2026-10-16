@@ -1,0 +1,67 @@
+# Constitution of Marshall Islands from Republic of the Marshall Islands Judiciary (rmicourts.org). Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://rmicourts.org/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php" and three Sitemap lines; no Crawl-delay
+#   Terms - Footer: "© 2008-2026 Republic of the Marshall Islands Judiciary. All rights reserved." and a Disclaimer page (the material is "provided for general information only"; neither the Judiciary nor the Republic "accepts responsibility for the accuracy or completeness of any material contained on the web site"); no reuse terms
+#   The document - PDF "2025 Const" (1 MB, file last modified 8 Aug 2025) linked from the Judiciary's page "Constitution, Statutes, Regulations, Treaty List" as "Constitution of the Republic of the Marshall Islands": an index, the preamble ("WE, THE PEOPLE OF THE REPUBLIC OF THE MARSHALL ISLANDS, trusting in God ...") and Articles I - XV with sections, with bracketed notes on the constitutional amendments
+schema_version: 1
+id: mh-rmicourts-constitution
+name: Constitution of Marshall Islands - the Marshall Islands Judiciary (rmicourts.org)
+publisher: Republic of the Marshall Islands Judiciary (rmicourts.org)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- MH
+document_kinds:
+- constitution
+languages:
+- en
+coverage: The Constitution of the Marshall Islands (2025 file) in en, stored in 76 blocks of paragraphs in the order of the
+  PDF.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/mh-rmicourts-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches
+  every download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: MH-official-text-no-terms
+  name: Official legal text published by the Judiciary; a generic copyright footer and a general disclaimer, no reuse terms
+    found
+  url: https://rmicourts.org/wp-content/uploads/2025-Const.pdf
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file:
+    robots.txt (https://rmicourts.org/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php"
+    and three Sitemap lines; no Crawl-delay) and the terms (Footer: "© 2008-2026 Republic of the Marshall Islands Judiciary.
+    All rights reserved." and a Disclaimer page (the material is "provided for general information only"; neither the Judiciary
+    nor the Republic "accepts responsibility for the accuracy or completeness of any material contained on the web site");
+    no reuse terms). PDF "2025 Const" (1 MB, file last modified 8 Aug 2025) linked from the Judiciary''s page "Constitution,
+    Statutes, Regulations, Treaty List" as "Constitution of the Republic of the Marshall Islands": an index, the preamble
+    ("WE, THE PEOPLE OF THE REPUBLIC OF THE MARSHALL ISLANDS, trusting in God ...") and Articles I - XV with sections, with
+    bracketed notes on the constitutional amendments. No statute was read; the basis is the official status of the text and
+    the absence of any stated restriction on it. Reading: AMBER - the publisher states no restriction on reusing the text
+    beyond a generic copyright footer (if any); no permission for automated retrieval is stated either.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constitution of Marshall Islands, the Marshall Islands Judiciary (rmicourts.org); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it; there is no licence.
+    Counsel review is recommended before production use.
+provenance: The document(s) listed in config/manifests/mh-rmicourts-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if
+  any) is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- The PDF prints section labels apart from the section texts on many pages and an index before the text, so the articles and
+  sections are not recognised; the text is stored in blocks (cited as text blocks).
+- The Marshallese text is not ingested. The Judiciary's page holds a copy; it is not the publisher of the Constitution.
+status: active
+connector: constitution_docs
+parser: constitution_text
