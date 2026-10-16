@@ -1,0 +1,47 @@
+# The Constitution of Bosnia and Herzegovina (bs, hr, sr): 3 document(s) on www.ustavnisud.ba. See config/sources/ba-ustavni-sud-constitution.yaml.
+schema_version: 1
+source_id: ba-ustavni-sud-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.ustavnisud.ba
+documents:
+- slug: ba-bs
+  jurisdiction: BA
+  url: https://www.ustavnisud.ba/uploads/documents/ustav-bih-bs_1611076095.pdf
+  format: pdf
+  language: bs
+  title: Ustav Bosne i Hercegovine
+  citation_name: Bosnia and Herzegovina Constitution
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    style: blocks
+    first_page: 2
+- slug: ba-hr
+  jurisdiction: BA
+  url: https://www.ustavnisud.ba/uploads/documents/ustav-bih-hr_1611085312.pdf
+  format: pdf
+  language: hr
+  title: Ustav Bosne i Hercegovine
+  citation_name: Bosnia and Herzegovina Constitution
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    style: blocks
+    first_page: 2
+- slug: ba-sr
+  jurisdiction: BA
+  url: https://www.ustavnisud.ba/uploads/documents/ustav-sr_1611219965.pdf
+  format: pdf
+  language: sr
+  title: Устав Босне и Херцеговине
+  citation_name: Bosnia and Herzegovina Constitution
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    style: blocks
+    first_page: 2

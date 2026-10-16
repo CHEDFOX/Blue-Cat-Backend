@@ -2,7 +2,7 @@
 # profiles). EU membership is deliberately not recorded here (added separately with the EU profile).
 schema_version: 1
 id: IE
-profile_version: 0.2.0
+profile_version: 0.2.1
 name: Ireland
 names: {en: Ireland, ga: Éire}
 kind: sovereign_state
@@ -28,8 +28,8 @@ legislative_institutions:
   - id: IE-OIREACHTAS
     name: Oireachtas (President, Dáil Éireann and Seanad Éireann)
     instrument_types: [act]
-instrument_types: [act]
-norm_hierarchy: [act]
+instrument_types: [constitution, act]
+norm_hierarchy: [constitution, act]
 courts:
   - id: IE-SC
     name: Supreme Court
@@ -69,7 +69,7 @@ citation:
     - "Unfair Dismissals Act 1977, s 6(1)"
     - "Companies Act 2014, s 228(1)(a)"
 publication:
-  official_sources: [ie-irish-statute-book]
+  official_sources: [ie-irish-statute-book, ie-isb-constitution]
   commencement: >-
     An Act becomes law when signed by the President (Art 25) and is published in the Acts of the Oireachtas
     series. Whether and when its provisions take effect is stated in the Act itself: on the passing of the
@@ -90,7 +90,7 @@ coverage:
     - AS ENACTED, NOT AS AMENDED - every Public Act of the Oireachtas from 1922 to date is ingested as enacted, in the wording in which it was passed (4,007 in the source manifest). Later amendments, repeals and revocations are NOT applied, so an Act may have been amended heavily, replaced or repealed since (most Acts of the 1920s to 1960s have been repealed in whole or part, and several of the pilot Acts - the Non-Fatal Offences Act 1997, the Companies Act 2014 - have been amended substantially), so a provision found here may no longer be law in this wording. The Law Reform Commission's Revised Acts, which would show the current text, have no stated re-use licence and are not ingested. The status "in force" that dated answers carry means only "enacted and passed", never "currently in force".
     - No statutory instruments, no Private Acts, no Constitutional Amendment Acts as separate documents, no pre-1922 legislation, no case law and no treaties.
     - The enacted XML carries no commencement dates and many of these Acts commence by ministerial order; every provision is dated from the enactment date, which is only a lower bound, and commencement orders are not ingested.
-    - Bunreacht na hÉireann (the Constitution) is NOT ingested - eISB offers it as HTML and PDF only, not as XML.
+    - Bunreacht na hÉireann (the Constitution) is ingested separately, from the eISB HTML pages in English and Irish (source ie-isb-constitution, docs/constitutions-europe-me-deep.md); it is not in the XML source of the Acts.
     - English text only; the Irish-language versions of the Acts are not ingested.
     - Schedules are indexed as one passage per Schedule (or per Part of a Schedule); numbered paragraphs inside Schedules are not separated, and images and tables are reduced to text.
     - The structure of subsections, paragraphs and sub-paragraphs is rebuilt from printed labels because the XML is presentational; labels inside quoted amending text are not treated as provisions.

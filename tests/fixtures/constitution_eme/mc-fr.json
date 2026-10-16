@@ -1,0 +1,37 @@
+{
+"slug": "mc-fr",
+"source": "mc-legimonaco-constitution",
+"jurisdiction": "MC",
+"language": "fr",
+"media": "html",
+"title": "Constitution du 17 décembre 1962 de la Principauté",
+"citation_name": "Monaco Constitution",
+"hints": {
+"unit_kind": "article",
+"start_regex": "^Considérant que les institutions",
+"preamble_regex": "^Considérant que les institutions",
+"chapter_regex": "^Titre [IVX]+ - "
+},
+"lines": [
+"Notes",
+"*[1]",
+"Considérant que les institutions de la Principauté doivent être perfectionnées, aussi bien pour répondre aux nécessités d'une bonne administration du pays que pour satisfaire les besoins nouveaux suscités par l'évolution sociale de sa population ;",
+"Nous avons résolu de doter l'État d'une nouvelle Constitution, laquelle, de par Notre volonté souveraine, sera désormais considérée comme loi fondamentale de l'État et ne pourra être modifiée que dans les termes que Nous avons arrêtés ;",
+"Titre I - La Principauté - Les pouvoirs publics",
+"Article 1er",
+"La Principauté de Monaco est un État souverain et indépendant dans le cadre des principes généraux du droit international et des conventions particulières avec la France.",
+"Le territoire de la Principauté est inaliénable.",
+"Article 2",
+"Le principe du gouvernement est la monarchie héréditaire et constitutionnelle.",
+"La Principauté est un État de droit attaché au respect des libertés et droits fondamentaux.",
+"Article 3",
+"Le pouvoir exécutif relève de la haute autorité du Prince.",
+"La personne du Prince est inviolable.",
+"Article 4",
+"Le pouvoir législatif est exercé par le Prince et le Conseil National.",
+"Article 5",
+"Le pouvoir judiciaire est exercé par les cours et tribunaux.",
+"Article 6",
+"La séparation des fonctions administrative, législative et judiciaire est assurée."
+]
+}

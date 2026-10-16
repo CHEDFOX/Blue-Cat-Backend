@@ -1,0 +1,23 @@
+# The Constitution of Yemen (ar): 1 document(s) on www.yemen-nic.info. See config/sources/ye-nic-constitution.yaml.
+schema_version: 1
+source_id: ye-nic-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.yemen-nic.info
+documents:
+- slug: ye-ar
+  jurisdiction: YE
+  url: https://www.yemen-nic.info/yemen/dostor.php
+  format: html
+  language: ar
+  title: دستور الجمهورية اليمنية
+  citation_name: Yemen Constitution
+  edition_label: page of the National Information Center, no edition date on the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    keywords: [مادة]
+    html_select:
+      class: pages_text

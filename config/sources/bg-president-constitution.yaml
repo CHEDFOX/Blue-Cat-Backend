@@ -1,0 +1,74 @@
+# Constitution of Bulgaria from the Administration of the President of the Republic of Bulgaria (m.president.bg). Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://m.president.bg/robots.txt and https://www.president.bg/robots.txt - "User-agent: * Disallow: /archive-2002-2012/" and Crawl-Delay rules for named crawlers (AhrefsBot, Amazonbot ...); the page path /bg/cat115/ is not disallowed
+#   Terms - "Политика за авторски права" (http://m.president.bg/static104/Avtorska-i-pravna-politika/): "Вие имате право да разглеждате уеб страниците на сайта ... както и да отпечатвате извадки от тези страници не само за Ваша лична употреба, а и за да споделяте - копирате, разпространявате, излъчвате произведенията, да ремиксирате - да адаптирате произведенията, да използвате произведенията с комерсиална цел съгласно условията и реда на Creative Commons Attribution 2.5 License, освен ако за конкретно произведение изрично не е отбелязано друго" (you may share, remix and use the works commercially under Creative Commons Attribution 2.5, unless a specific work says otherwise)
+#   The document - one HTML page "КОНСТИТУЦИЯ НА РЕПУБЛИКА БЪЛГАРИЯ" (dated "6 ноември 2012 | 19:07" as a page, with the text carrying notes of the amendments up to ДВ, бр. 106 от 2023 г.): "Обн., ДВ, бр. 56 от 13.07.1991 г., в сила от 13.07.1991 г., изм. и доп. ...", the preamble ("Ние, народните представители от Седмото Велико Народно събрание ..."), Глава първа to Глава десета, Чл. 1 to 169 and the transitional and final provisions
+schema_version: 1
+id: bg-president-constitution
+name: Constitution of Bulgaria - the Administration of the President of the Republic of Bulgaria (m.president.bg)
+publisher: Администрация на Президента на Република България (Administration of the President of the Republic of Bulgaria), president.bg
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- BG
+document_kinds:
+- constitution
+languages:
+- bg
+coverage: 'The Constitution of Bulgaria in bg as published by the Administration of the President of the Republic of Bulgaria
+  (m.president.bg): 1 document(s) (Bulgaria (bg)). The preamble, Articles 1 to 169 and the transitional and final provisions,
+  with the amendment notes up to the law of 2023 as the page prints them.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/bg-president-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: CC-BY-2.5-BG
+  name: Creative Commons Attribution 2.5 Bulgaria (the copyright policy of the Administration of the President of the Republic
+    of Bulgaria)
+  url: https://creativecommons.org/licenses/by/2.5/bg/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file: robots.txt
+    (https://m.president.bg/robots.txt and https://www.president.bg/robots.txt - "User-agent: * Disallow: /archive-2002-2012/"
+    and Crawl-Delay rules for named crawlers (AhrefsBot, Amazonbot ...); the page path /bg/cat115/ is not disallowed) and the
+    terms ("Политика за авторски права" (http://m.president.bg/static104/Avtorska-i-pravna-politika/): "Вие имате право да разглеждате
+    уеб страниците на сайта ... както и да отпечатвате извадки от тези страници не само за Ваша лична употреба, а и за да споделяте
+    - копирате, разпространявате, излъчвате произведенията, да ремиксирате - да адаптирате произведенията, да използвате произведенията
+    с комерсиална цел съгласно условията и реда на Creative Commons Attribution 2.5 License, освен ако за конкретно произведение
+    изрично не е отбелязано друго" (you may share, remix and use the works commercially under Creative Commons Attribution 2.5,
+    unless a specific work says otherwise)). The document: one HTML page "КОНСТИТУЦИЯ НА РЕПУБЛИКА БЪЛГАРИЯ" (dated "6 ноември
+    2012 | 19:07" as a page, with the text carrying notes of the amendments up to ДВ, бр. 106 от 2023 г.): "Обн., ДВ, бр. 56 от
+    13.07.1991 г., в сила от 13.07.1991 г., изм. и доп. ...", the preamble ("Ние, народните представители от Седмото Велико Народно
+    събрание ..."), Глава първа to Глава десета, Чл. 1 to 169 and the transitional and final provisions. Reading: GREEN - an explicit
+    licence statement on the publisher''s own site covering the site''s works, commercial use and adaptation included; the Constitution
+    page is a work of the site. The page lies on the mobile host m.president.bg, which carries the same policy.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: Конституция на Република България, Администрация на Президента на Република България (president.bg), лиценз
+    CC BY 2.5 България; retrieved {retrieved_date}. Structured and indexed by ULIS; not the authentic text (Държавен вестник)
+    and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Attribution to the Administration of the President of the Republic of Bulgaria as in attribution_text (CC BY 2.5).
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: Explicit licence on the publisher's own site (CC BY 2.5 Bulgaria); counsel should confirm that it covers the constitutional
+    text hosted on the site.
+provenance: The document(s) listed in config/manifests/bg-president-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if any)
+  is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- The page carries the page date 6 November 2012 but the text prints notes of amendments up to ДВ, бр. 106 от 2023 г.; the retrieval
+  date is the edition date.
+- The amendment notes of the form '(Изм. ДВ, бр. 18 от 2005 г.)' are part of the printed text and are kept in it. The transitional
+  and final provisions are stored as blocks.
+status: active
+connector: constitution_docs
+parser: constitution_text

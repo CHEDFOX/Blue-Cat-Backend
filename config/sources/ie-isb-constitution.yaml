@@ -1,0 +1,73 @@
+# Constitution of Ireland from the electronic Irish Statute Book of the Office of the Attorney General (www.irishstatutebook.ie). Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://www.irishstatutebook.ie/robots.txt answers HTTP 404 (no robots file): no rules to apply
+#   Terms - page footer of the Constitution pages: "Open Data License" (link) and "© Government of Ireland. Oireachtas Copyright Material is reproduced with the permission of the Houses of the Oireachtas" / "© Rialtas na hÉireann. Atáirgtear ábhar faoi Chóipcheart le cead ó Thithe an Oireachtais". The existing source ie-irish-statute-book records the site's licence, read in full on 2026-10-14: the Oireachtas (Open Data) PSI Licence, which incorporates CC BY 4.0
+#   The document - two HTML pages (/eli/cons/en/html and /eli/cons/ga/html) of the Constitution of Ireland / Bunreacht na hÉireann with the list of the amending Acts, the Preamble, Articles 1 to 50 (with lettered articles such as 28A) and an alphabetical index
+schema_version: 1
+id: ie-isb-constitution
+name: Constitution of Ireland - the electronic Irish Statute Book of the Office of the Attorney General (www.irishstatutebook.ie)
+publisher: Office of the Attorney General of Ireland - electronic Irish Statute Book (www.irishstatutebook.ie)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- IE
+document_kinds:
+- constitution
+languages:
+- en
+- ga
+coverage: 'The Constitution of Ireland in en, ga as published by the electronic Irish Statute Book of the Office of the Attorney
+  General (www.irishstatutebook.ie): 2 document(s) (Ireland (en); Ireland (ga)). The Preamble and Articles 1 to 50 in English
+  and Irish; the alphabetical index of the publication is stored as blocks.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ie-isb-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 3 request(s) (robots.txt and 2 document(s)).
+licence:
+  id: IE-Oireachtas-Open-Data-PSI
+  name: Oireachtas (Open Data) PSI Licence (incorporating the Creative Commons Attribution 4.0 International License), as recorded
+    for the electronic Irish Statute Book
+  url: https://data.oireachtas.ie/ie/oireachtas/corporate/governanceAndReform/2016/2016-03-27_oireachtas-psi-licence-open-data_en.pdf
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file: robots.txt
+    (https://www.irishstatutebook.ie/robots.txt answers HTTP 404 (no robots file): no rules to apply) and the terms (page footer
+    of the Constitution pages: "Open Data License" (link) and "© Government of Ireland. Oireachtas Copyright Material is reproduced
+    with the permission of the Houses of the Oireachtas" / "© Rialtas na hÉireann. Atáirgtear ábhar faoi Chóipcheart le cead ó
+    Thithe an Oireachtais". The existing source ie-irish-statute-book records the site''s licence, read in full on 2026-10-14:
+    the Oireachtas (Open Data) PSI Licence, which incorporates CC BY 4.0). The document: two HTML pages (/eli/cons/en/html and
+    /eli/cons/ga/html) of the Constitution of Ireland / Bunreacht na hÉireann with the list of the amending Acts, the Preamble,
+    Articles 1 to 50 (with lettered articles such as 28A) and an alphabetical index. Reading: GREEN - the footer of the Constitution
+    pages names the Open Data Licence of the electronic Irish Statute Book, whose terms (CC BY 4.0 with attribution duties) the
+    project read in full for ie-irish-statute-book; ULIS''s reading that it covers the Constitution pages (hence counsel review).'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: Constitution of Ireland, electronic Irish Statute Book (www.irishstatutebook.ie), Office of the Attorney General.
+    (c) Houses of the Oireachtas, re-used under the Oireachtas (Open Data) PSI Licence (CC BY 4.0); retrieved {retrieved_date}.
+    This is not the official text or an official restatement; structured and indexed by ULIS.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Identify the Houses of the Oireachtas as creator, retain the copyright notice, refer to the Oireachtas (Open Data) PSI Licence
+    and retain the disclaimers.
+  - State that the text is not an official restatement (the site's disclaimer).
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The licence is explicit and open for the Irish Statute Book; counsel should confirm that it extends to the Constitution
+    pages.
+provenance: The document(s) listed in config/manifests/ie-isb-constitution.yaml, stored byte for byte inside JSON bundles with
+  the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if any)
+  is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- The Irish text (Bunreacht na hÉireann) prevails over the English text where they differ (Constitution, Art. 25.5.4°; to verify);
+  both are the site's conversions, not the signed and enrolled text.
+- The page prints no edition date; the list of the amending Acts is not stored (it precedes the Preamble). The alphabetical index
+  (INDEX / TREOIR) at the end is stored as blocks.
+status: active
+connector: constitution_docs
+parser: constitution_text

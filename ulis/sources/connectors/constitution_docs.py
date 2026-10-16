@@ -23,6 +23,7 @@ from __future__ import annotations
 import base64
 import contextlib
 import gzip
+import http.client
 import re
 import time
 import urllib.parse
@@ -238,6 +239,9 @@ class ConstitutionDocsConnector:
                 self.fetch_errors.append(f"{slug}: {exc}")
                 if re.search(r"HTTP (401|403|451)\b", str(exc)):
                     stopped.add(host)
+                continue
+            except (OSError, http.client.HTTPException) as exc:  # e.g. a host that closes the connection unanswered
+                self.fetch_errors.append(f"{slug}: {url}: {type(exc).__name__}: {exc}")
                 continue
             if problem:
                 self.fetch_errors.append(f"{slug}: {problem}")

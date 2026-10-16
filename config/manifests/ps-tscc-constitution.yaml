@@ -1,0 +1,23 @@
+# The Basic Law of Palestine (en): 1 document(s) on www.tscc.pna.ps. See config/sources/ps-tscc-constitution.yaml.
+schema_version: 1
+source_id: ps-tscc-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.tscc.pna.ps
+documents:
+- slug: ps-en
+  jurisdiction: PS
+  url: https://www.tscc.pna.ps/en/pages?id=palestinian_basic_law
+  format: html
+  language: en
+  title: The Palestinian Basic Law
+  citation_name: Palestine Basic Law
+  edition_label: page of the Supreme Constitutional Court, no edition date on the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    style: blocks
+    html_select:
+      class: collapse_pages

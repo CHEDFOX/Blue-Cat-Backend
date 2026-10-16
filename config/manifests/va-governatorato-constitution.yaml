@@ -1,0 +1,23 @@
+# The Fundamental Law of Vatican City State (it): 1 document(s) on www.vaticanstate.va. See config/sources/va-governatorato-constitution.yaml.
+schema_version: 1
+source_id: va-governatorato-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.vaticanstate.va
+documents:
+- slug: va-it
+  jurisdiction: VA
+  url: https://www.vaticanstate.va/phocadownload/leggi-decreti/normativa-generale/Legge%20fondamentale%20dello%20S.C.V.%2013%20maggio%2023.pdf
+  format: pdf
+  language: it
+  title: Legge fondamentale dello Stato della Città del Vaticano
+  citation_name: Vatican City State Fundamental Law
+  adopted_on: '2023-05-13'
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    start_regex: '^Chiamato ad esercitare'
+    preamble_regex: '^Chiamato ad esercitare'
+    chapter_regex: '^TITOLO [IVX]+$'

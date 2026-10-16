@@ -1,0 +1,68 @@
+# Constitution of Kosovo from the Constitutional Court of Kosovo (gjk-ks.org). Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://gjk-ks.org/robots.txt - "User-agent: * Allow: /" and a sitemap; no Crawl-delay
+#   Terms - the site is a script application (its pages hold no static text): no copyright notice and no terms page could be read
+#   The document - two PDFs (/src/assets/aboutDocs/gjkk_kushtetuta_e_republikes_se_kosoves_shq.pdf, 79 pages, and ..._srb.pdf, 75 pages) of the publication of the Assembly ("Kuvendi - Skupština - Assembly"): "KUSHTETUTA E REPUBLIKËS SË KOSOVËS (me amendamentet I-XXVI), Prishtinë, shtator 2020"; Neni / Član 1 to 162. The English guess of the file name answered the site shell, so no English text
+schema_version: 1
+id: xk-gjk-constitution
+name: Constitution of Kosovo - the Constitutional Court of Kosovo (gjk-ks.org)
+publisher: Gjykata Kushtetuese e Republikës së Kosovës (Constitutional Court of Kosovo), gjk-ks.org
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- XK
+document_kinds:
+- constitution
+languages:
+- sq
+- sr
+coverage: 'The Constitution of Kosovo in sq, sr as published by the Constitutional Court of Kosovo (gjk-ks.org): 2 document(s)
+  (Kosovo (sq); Kosovo (sr)). Articles 1 to 162 with the amendments I to XXVI (September 2020 edition), in Albanian and Serbian.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/xk-gjk-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 3 request(s) (robots.txt and 2 document(s)).
+licence:
+  id: XK-official-text-no-terms
+  name: Official legal text (a publication of the Assembly of Kosovo) hosted by the Constitutional Court of Kosovo; no terms page
+    could be read
+  url: https://gjk-ks.org/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file: robots.txt
+    (https://gjk-ks.org/robots.txt - "User-agent: * Allow: /" and a sitemap; no Crawl-delay) and the terms (the site is a script
+    application (its pages hold no static text): no copyright notice and no terms page could be read). The document: two PDFs
+    (/src/assets/aboutDocs/gjkk_kushtetuta_e_republikes_se_kosoves_shq.pdf, 79 pages, and ..._srb.pdf, 75 pages) of the publication
+    of the Assembly ("Kuvendi - Skupština - Assembly"): "KUSHTETUTA E REPUBLIKËS SË KOSOVËS (me amendamentet I-XXVI), Prishtinë,
+    shtator 2020"; Neni / Član 1 to 162. The English guess of the file name answered the site shell, so no English text. Reading:
+    AMBER - the publisher states no restriction on reusing the text; no permission for automated retrieval is stated either. The
+    terms could not be read because the site shows no static text; the Court''s own refusals or rules were not met.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Kushtetuta e Republikës së Kosovës / Ustav Republike Kosovo, the Constitutional Court of Kosovo (gjk-ks.org);
+    retrieved {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: The document(s) listed in config/manifests/xk-gjk-constitution.yaml, stored byte for byte inside JSON bundles with
+  the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if any)
+  is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- Amendments adopted after the September 2020 edition (the PDF's cover) are not applied. The English version of the Constitution
+  is not loaded.
+- 'The parser did not recognise the headings of some articles (the Albanian text: 58, 65, 81, 145, 146, 157; the Serbian text:
+  58, 147, 149); their text stays inside the preceding article, whose note names them.'
+- Kosovo's status as a sovereign state is not recognised by all States; the profile is a minimal research note about the legal
+  text.
+status: active
+connector: constitution_docs
+parser: constitution_text

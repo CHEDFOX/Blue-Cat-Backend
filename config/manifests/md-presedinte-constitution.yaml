@@ -1,0 +1,28 @@
+# The Constitution of Moldova (ro): 1 document(s) on presedinte.md. See config/sources/md-presedinte-constitution.yaml.
+schema_version: 1
+source_id: md-presedinte-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- presedinte.md
+documents:
+- slug: md-ro
+  jurisdiction: MD
+  url: https://presedinte.md/app/webroot/Constitutia_RM/Constitutia_2024_ro.pdf
+  format: pdf
+  language: ro
+  title: Constituția Republicii Moldova
+  citation_name: Moldova Constitution
+  edition_date: '2024-10-20'
+  edition_label: 'cover of the PDF: "Cu modificări și completări la data de 20 octombrie 2024" (Chișinău, 2024)'
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    keywords: [Articolul, Artcolul]
+    start_regex: '^NOI, reprezentanții'
+    preamble_regex: '^NOI, reprezentanții'
+    drop_lines: ['^CONSTITUŢIA REPUBLICII MOLDOVA$']
+    page_numbers: true
+    tail_regex: '^CUPRINS$'
+    chapter_regex: '^(Titlul|Capitolul) '

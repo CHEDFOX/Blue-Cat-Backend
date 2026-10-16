@@ -1,0 +1,47 @@
+{
+"slug": "ie-ga",
+"source": "ie-isb-constitution",
+"jurisdiction": "IE",
+"language": "ga",
+"media": "html",
+"title": "Bunreacht na hÉireann",
+"citation_name": "Ireland Constitution",
+"hints": {
+"unit_kind": "article",
+"keywords": [
+"Airteagal"
+],
+"start_regex": "^In Ainm na Tríonóide",
+"preamble_regex": "^In Ainm na Tríonóide",
+"tail_regex": "^TREOIR$"
+},
+"lines": [
+"In Ainm na Tríonóide Ró-Naofa is tobar don uile údarás agus gur chuici, ós í is críoch dheireanach dúinn, is dírithe ní amháin gníomhartha daoine ach gníomhartha Stát,",
+"Ar mbeith dúinne, muintir na hÉireann, ag admháil go huiríseal a mhéid atáimid faoi chomaoin ag Íosa Críost, ár dTiarna Dia, a thug comhfhurtacht dár sinsir i ngach cruatan ina rabhadar ar feadh na gcéadta bliain,",
+"Agus ar mbeith dúinn ag cuimhneamh go buíoch ar a chalmacht a rinneadarsan troid gan staonadh chun an neamhspleáchas is dual dár Náisiún a bhaint amach,",
+"Agus ar mbeith dúinn á chur romhainn an mhaitheas phoiblí a chur ar aghaidh maille le Críonnacht agus le hIonracas agus le Carthanacht de réir mar is cuí, ionas go dtiocfaidh linn a uaisleacht agus a shaoirse a chur in áirithe do gach aon duine, saol ceart comhdhaonnach a bhunú, aiseag a haontachta a thabhairt dár dtír, agus comhcharadra a dhéanamh le náisiúin eile,",
+"Atáimid leis seo ag gabháil an Bhunreachta seo chugainn, agus á achtú agus á thíolacadh dúinn féin.",
+"AN NÁISIÚN",
+"AIRTEAGAL 1 Deimhníonn náisiún na hÉireann leis seo a gceart doshannta, dochloíte, ceannasach chun cibé cineál Rialtais is rogha leo féin a bhunú, chun a gcaidreamh le náisiúin eile a chinneadh, agus chun a saol polaitíochta is geilleagair is saíochta a chur ar aghaidh de réir dhúchais is gnás a sinsear.",
+"AIRTEAGAL 2 Tá gach duine a shaolaítear in oileán na hÉireann, ar a n-áirítear a oileáin agus a fharraigí, i dteideal, agus tá de cheart oidhreachta aige nó aici, a bheith páirteach i náisiún na hÉireann. Tá an teideal sin freisin ag na daoine go léir atá cáilithe ar shlí eile de réir dlí chun bheith ina saoránaigh d'Éirinn. Ina theannta sin, is mór ag náisiún na hÉireann a choibhneas speisialta le daoine de bhunadh na hÉireann atá ina gcónaí ar an gcoigríoch agus arb ionann féiniúlacht agus oidhreacht chultúir dóibh agus do náisiún na hÉireann.",
+"AIRTEAGAL 3 1 Is í toil dhiongbháilte náisiún na hÉireann, go sítheach cairdiúil, na daoine go léir a chomhroinneann críoch oileán na hÉireann i bpáirt lena chéile, in éagsúlacht uile a bhféiniúlachtaí agus a dtraidisiún, a aontú, á aithint gur trí mhodhanna síochánta amháin le toiliú thromlach na ndaoine, á chur in iúl go daonlathach, sa dá dhlínse san oileán, a dhéanfar Éire aontaithe a thabhairt i gcrích. Go dtí sin, bainfidh na dlíthe a achtófar ag an bParlaimint a bhunaítear leis an mBunreacht seo leis an limistéar feidhme céanna, agus beidh an raon feidhme céanna acu, lenar bhain na dlíthe, agus a bhí ag na dlíthe, a d'achtaigh an Pharlaimint a bhí ar marthain díreach roimh theacht i ngníomh don Bhunreacht seo.",
+"2 Féadfaidh údaráis fhreagracha faoi seach na ndlínsí sin institiúidí ag a mbeidh cumhachtaí agus feidhmeanna feidhmiúcháin a chomhroinntear idir na dlínsí sin a bhunú chun críoch sonraithe agus féadfaidh na hinstitiúidí sin cumhachtaí agus feidhmeanna a fheidhmiú i leith an oileáin ar fad nó i leith aon chuid de.",
+"AN STÁT",
+"AIRTEAGAL 4 Éire is ainm don Stát nó, sa Sacs-Bhéarla, Ireland.",
+"AIRTEAGAL 5 Is Stát ceannasach, neamhspleách, daonlathach Éire.",
+"AIRTEAGAL 6 1 Is ón bpobal, faoi Dhia, a thagas gach cumhacht riala, idir reachtaíocht is comhallacht is breithiúnas, agus is ag an bpobal atá sé de cheart rialtóirí an Stáit a cheapadh, agus is faoin bpobal faoi dheoidh atá gach ceist i dtaobh beartas an Náisiúin a shocrú de réir mar is gá chun leasa an phobail.",
+"2 Is leis na horgain Stáit a chuirtear ar bun leis an mBunreacht seo, agus leo sin amháin nó lena n-údarás, is féidir na cumhachtaí riala sin a oibriú.",
+"TREOIR",
+"Nóta Ní úsáidtear uimhreacha leathanach sa treoir seo: baineann na huimhreacha le hAirteagail an Bhunreachta. Tá ceannlitreacha sa treoir ar fhocail ar a bhfuil ceannlitreacha i dtéacs an Bhunreachta.",
+"achainí",
+"i gcoinne Bille a shíniú 27",
+"adhradh",
+"adhradh Dé go poiblí 44.1",
+"aer: feic maoin nádúrtha",
+"airgead poiblí",
+"Ard-Reachtaire Cuntas agus Ciste: feic Ard-Reachtaire",
+"Cuntas agus Ciste",
+"Billí Airgid: feic Billí Airgid",
+"conarthaí idirnáisiúnta 29.5.2°"
+]
+}

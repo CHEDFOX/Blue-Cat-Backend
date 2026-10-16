@@ -1,0 +1,26 @@
+# The Fundamental Law of Hungary (hu): 1 document(s) on magyarkozlony.hu. See config/sources/hu-magyar-kozlony-constitution.yaml.
+schema_version: 1
+source_id: hu-magyar-kozlony-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- magyarkozlony.hu
+documents:
+- slug: hu-hu
+  jurisdiction: HU
+  url: https://magyarkozlony.hu/dokumentumok/0c1e4d177d14056ae2519bbf09d841752d65d743/letoltes
+  format: pdf
+  language: hu
+  title: Magyarország Alaptörvénye
+  citation_name: Hungary Fundamental Law
+  adopted_on: '2011-04-25'
+  edition_date: '2026-06-20'
+  edition_label: 'Magyar Közlöny 75. szám, 2026. június 22.: "Magyarország Alaptörvénye (egységes szerkezetben)", footnote: "2026. június 20-án hatályos szövege"'
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    style: blocks
+    start_regex: '^NEMZETI HITVALLÁS$'
+    drop_lines: ['^M A G Y A R K Ö Z L Ö N Y', '^[0-9]{4}$']
+    tail_regex: '^A Magyar Közlönyt az Igazságügyi'

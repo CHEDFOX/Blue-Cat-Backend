@@ -1,0 +1,26 @@
+# The Constitution of Andorra (ca): 1 document(s) on www.consellgeneral.ad. See config/sources/ad-consell-general-constitution.yaml.
+schema_version: 1
+source_id: ad-consell-general-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.consellgeneral.ad
+documents:
+- slug: ad-ca
+  jurisdiction: AD
+  url: https://www.consellgeneral.ad/ca/el-consell-dandorra/constitucio-i-reglament/la-constitucio-del-principat-d-andorra
+  format: html
+  language: ca
+  title: La Constitució del Principat d'Andorra
+  citation_name: Andorra Constitution
+  adopted_on: '1993-03-14'
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    html_select:
+      id: content-core
+    tail_regex: '^Disposició addicional primera$'
+    start_regex: '^El poble andorrà, amb plena llibertat'
+    preamble_regex: '^El poble andorrà, amb plena llibertat'
+    chapter_regex: '^Títol [IVX]+ - '

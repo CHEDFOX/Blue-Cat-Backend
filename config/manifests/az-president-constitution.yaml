@@ -1,0 +1,104 @@
+# The Constitution of Azerbaijan (az, en, ru): 3 document(s) on president.az. See config/sources/az-president-constitution.yaml.
+schema_version: 1
+source_id: az-president-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- president.az
+documents:
+- slug: az-az
+  jurisdiction: AZ
+  url: https://president.az/az/pages/view/azerbaijan/constitution
+  format: html
+  language: az
+  title: Azərbaycan Respublikasının Konstitusiyası
+  citation_name: Azerbaijan Constitution
+  edition_date: '2016-09-26'
+  edition_label: 'page of the President''s site: "1995-ci il noyabrın 27-dən qüvvəyə minmişdir" with the amendments of 2002, 2009 and 2016'
+  events:
+  - type: commencement
+    date: '1995-11-27'
+    description: 1995-ci il noyabrın 27-dən qüvvəyə minmişdir
+    locator: introduction of the page
+  - type: amendment
+    date: '2002-08-24'
+    description: 2002-ci il avqustun 24-də ümumxalq səsverməsində (referendumda) qəbul edilmiş dəyişikliklər
+    locator: introduction of the page
+  - type: amendment
+    date: '2009-03-18'
+    description: 2009-cu il martın 18-də ümumxalq səsverməsində (referendumda) qəbul edilmiş əlavə və dəyişikliklər
+    locator: introduction of the page
+  - type: amendment
+    date: '2016-09-26'
+    description: 2016-cı il sentyabrın 26-da keçirilmiş ümumxalq səsverməsində (referendumda) qəbul edilmiş əlavə və dəyişikliklər
+    locator: introduction of the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    start_regex: '^Azərbaycan xalqı özünün çoxəsrlik'
+    preamble_regex: '^Azərbaycan xalqı özünün çoxəsrlik'
+- slug: az-en
+  jurisdiction: AZ
+  url: https://president.az/en/pages/view/azerbaijan/constitution
+  format: html
+  language: en
+  title: Constitution of the Republic of Azerbaijan
+  citation_name: Azerbaijan Constitution
+  edition_date: '2016-09-26'
+  edition_label: 'page of the President''s site: "It entered into force on 27 November 1995" with the amendments of 2002, 2009 and 2016'
+  events:
+  - type: commencement
+    date: '1995-11-27'
+    description: It entered into force on 27 November 1995
+    locator: introduction of the page
+  - type: amendment
+    date: '2002-08-24'
+    description: With amendments adopted in a national vote (referendum) on 24 August 2002
+    locator: introduction of the page
+  - type: amendment
+    date: '2009-03-18'
+    description: With additions and amendments adopted in a national vote (referendum) on 18 March 2009
+    locator: introduction of the page
+  - type: amendment
+    date: '2016-09-26'
+    description: With additions and amendments adopted in a national vote (referendum) on 26 September 2016
+    locator: introduction of the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    start_regex: '^The people of Azerbaijan, continuing'
+    preamble_regex: '^The people of Azerbaijan, continuing'
+- slug: az-ru
+  jurisdiction: AZ
+  url: https://president.az/ru/pages/view/azerbaijan/constitution
+  format: html
+  language: ru
+  title: Конституция Азербайджанской Республики
+  citation_name: Azerbaijan Constitution
+  edition_date: '2016-09-26'
+  edition_label: 'page of the President''s site: "Вступила в силу 27 ноября 1995 года" with the amendments of 2002, 2009 and 2016'
+  events:
+  - type: commencement
+    date: '1995-11-27'
+    description: Вступила в силу 27 ноября 1995 года
+    locator: introduction of the page
+  - type: amendment
+    date: '2002-08-24'
+    description: С изменениями, принятыми на всенародном голосовании (референдуме) 24 августа 2002 года
+    locator: introduction of the page
+  - type: amendment
+    date: '2009-03-18'
+    description: С дополнениями и изменениями, принятыми на всенародном голосовании (референдуме) 18 марта 2009 года
+    locator: introduction of the page
+  - type: amendment
+    date: '2016-09-26'
+    description: С дополнениями и изменениями, принятыми на всенародном голосовании (референдуме) 26 сентября 2016 года
+    locator: introduction of the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    start_regex: '^Народ Азербайджана, продолжая'
+    preamble_regex: '^Народ Азербайджана, продолжая'

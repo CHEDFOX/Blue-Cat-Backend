@@ -71,6 +71,7 @@ BUNDLE_SCHEMA = "ulis-constitution-bundle/1"
 MIN_UNITS = 5  # fewer consecutive numbered units than this: the structure is not recognised, store blocks
 MAX_GAP = 4  # the largest jump in numbering tolerated inside the body chain (missing or unnumbered headings)
 BLOCK_CHARS = 2000
+TEXT_MARKER_CHARS = 40  # a preamble marker line longer than this is the text of the preamble, not its heading
 CHAPTER_TRAIL = 3  # a chapter heading is recognised among the last this-many text lines before the next article
 TEXT_ORIGINS = {
     "official_authentic",
@@ -250,6 +251,7 @@ class Candidate:
     mark: str = ""  # footnote reference printed before the number ("5[2A. ...")
     scope: str = ""  # the article (and part) a section belongs to, for texts whose sections restart in every article
     scope_rank: int = 0  # how many scope headings precede it: consecutive articles differ by 1
+    raw: str = ""  # the rest of the heading line with only leading separators removed (keeps the closing punctuation)
 
     @property
     def key(self) -> str:
@@ -260,16 +262,16 @@ def keyword_regex(keywords: list[str]) -> re.Pattern[str]:
     alternatives = "|".join(re.escape(k) for k in sorted(set(keywords), key=len, reverse=True))
     return re.compile(
         r"^\s*[«“„\"\-–—•]?\s*(?P<kw>" + alternatives + r")\s*[\s:#№]*(?:\(\s*)?" + NUMBER + r"\s*\)?"
-        r"(?P<tail>(?:\s*[.:–—-]+\s*|\s+|(?=\()|$).*)$",
+        r"(?P<tail>(?:\s*[.:–—-]+\s*|\s+|(?=\()|(?=\*?\[[0-9])|$).*)$",
         re.IGNORECASE,
     )
 
 
 def numword_regex(words: list[str]) -> re.Pattern[str]:
-    """Headings that print the number first: ``1-модда.``, ``1-modda``, ``1 maddə``."""
+    """Headings that print the number first: ``1-модда.``, ``1-modda``, ``1 maddə``, ``1. gr.``."""
     alternatives = "|".join(re.escape(k) for k in sorted(set(words), key=len, reverse=True))
     return re.compile(
-        r"^\s*" + NUMBER + r"\s*[-–]?\s*(?P<kw>" + alternatives + r")\b\.?(?P<tail>(?:\s*[.:–—-]+\s*|\s+|$).*)$",
+        r"^\s*" + NUMBER + r"\.?\s*[-–]?\s*(?P<kw>" + alternatives + r")\b\.?(?P<tail>(?:\s*[.:–—-]+\s*|\s+|$).*)$",
         re.IGNORECASE,
     )
 
@@ -343,6 +345,7 @@ def _candidates(
         parsed: tuple[int, str] | None
         keyword = ""
         mark = ""
+        raw = ""
         if style == "numdot":
             m = NUMDOT.match(line)
             if not m:
@@ -367,6 +370,7 @@ def _candidates(
                 continue
             parsed = parse_number(m.group("base"), m.group("suffix") or "")
             remainder = m.group("tail").strip(" \t.:–—-")
+            raw = m.group("tail").lstrip(" \t.:–—-").strip()
             keyword = m.group("kw")
         else:
             assert pattern is not None
@@ -382,14 +386,17 @@ def _candidates(
             elif m:
                 parsed = parse_number(m.group("base"), m.group("suffix") or "")
                 remainder = m.group("tail").strip(" \t.:–—-")
-                if remainder.isdigit():  # a footnote mark printed after the number
-                    remainder = ""
+                raw = m.group("tail").lstrip(" \t.:–—-").strip()
+                if remainder.isdigit() or re.fullmatch(
+                    r"\*?\[[0-9]+\]", remainder
+                ):  # a footnote mark printed after the number
+                    remainder = raw = ""
                 keyword = m.group("kw")
             else:
                 continue
         if parsed is None or parsed[0] == 0:
             continue
-        out.append(Candidate(i, parsed[0], parsed[1], remainder, keyword, mark=mark))
+        out.append(Candidate(i, parsed[0], parsed[1], remainder, keyword, mark=mark, raw=raw))
     return out
 
 
@@ -808,8 +815,13 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
             )
             pending = found_heading
             body = [x for x in _nonblank(region) if not any(p.search(x) for p in note_re)]
-            if body:
-                unit = Unit("preamble", "", "preamble", heading=lines[markers[-1]])
+            marker_line = lines[markers[-1]]
+            # a marker that is a whole sentence (a preamble whose first line the manifest names) is text, not a heading
+            text_marker = len(marker_line) > TEXT_MARKER_CHARS
+            if body or text_marker:
+                unit = Unit("preamble", "", "preamble", heading=None if text_marker else marker_line)
+                if text_marker:
+                    unit.content.append(marker_line)
                 unit.content.extend(body)
                 unit.notes.extend(x for x in _nonblank(region) if any(p.search(x) for p in note_re))
                 tops.append((unit, None))
@@ -865,6 +877,8 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
         heading, leftover = _heading_text(
             cand.remainder, heading_mode if "heading" in hints or chosen in ("keyword", "numword") else "text"
         )
+        if leftover and cand.raw.startswith(leftover):
+            leftover = cand.raw  # text on the heading line keeps its closing punctuation
         if heading_before and not heading:
             heading = pending
         content = _nonblank(region)

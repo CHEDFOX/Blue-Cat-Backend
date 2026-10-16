@@ -1,0 +1,34 @@
+# The Constitution of Kosovo (sq, sr): 2 document(s) on gjk-ks.org. See config/sources/xk-gjk-constitution.yaml.
+schema_version: 1
+source_id: xk-gjk-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- gjk-ks.org
+documents:
+- slug: xk-sq
+  jurisdiction: XK
+  url: https://gjk-ks.org/src/assets/aboutDocs/gjkk_kushtetuta_e_republikes_se_kosoves_shq.pdf
+  format: pdf
+  language: sq
+  title: Kushtetuta e Republikës së Kosovës
+  citation_name: Kosovo Constitution
+  edition_label: 'cover of the PDF (Kuvendi - Skupština - Assembly): "me amendamentet I-XXVI", Prishtinë, shtator 2020'
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    keywords: [Neni]
+- slug: xk-sr
+  jurisdiction: XK
+  url: https://gjk-ks.org/src/assets/aboutDocs/gjkk_kushtetuta_e_republikes_se_kosoves_srb.pdf
+  format: pdf
+  language: sr
+  title: Ustav Republike Kosovo
+  citation_name: Kosovo Constitution
+  edition_label: cover of the PDF (Kuvendi - Skupština - Assembly), with the amendments I-XXVI
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    keywords: [Član]

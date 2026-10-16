@@ -1,0 +1,54 @@
+# REAL JURISDICTION - DRAFT, UNVERIFIED. Vatican City State: a minimal profile created for the deep constitutions sweep of Europe, the
+# Caucasus and the Middle East. Only the constitution is loaded; nothing else about the legal system is profiled.
+schema_version: 1
+id: VA
+profile_version: 0.1.0
+name: Vatican City State
+names:
+  it: Stato della Città del Vaticano
+  en: Vatican City State
+kind: sovereign_state
+parent: INT
+fictional: false
+verification:
+  status: draft_unverified
+  notes: Research notes only. Not reviewed by counsel.
+official_languages:
+- it
+legal_system:
+  families:
+  - civil_law
+  - religious
+  structure: unitary
+  treaty_reception: unknown
+  notes: To verify - an absolute monarchy in which the Supreme Pontiff holds the fullness of the powers of government (Fundamental
+    Law art. 1); the laws are published in Italian. A canon-law and civil-law system.
+legislative_institutions: []
+instrument_types:
+- constitution
+norm_hierarchy:
+- constitution
+courts: []
+precedent:
+  doctrine: not_applicable
+  vertical_binding: false
+  notes: 'Not profiled: only the constitution is loaded, no court decisions. To verify - how precedent works in this jurisdiction.'
+citation:
+  module: constitution
+  notes: The constitution is cited as "Vatican City State Fundamental Law art. N" (a label, with the article number as the document
+    itself prints it). To verify - the country's own citation convention.
+  examples:
+  - Vatican City State Fundamental Law art. 1
+  - Vatican City State Fundamental Law art. 2
+publication:
+  official_sources:
+  - va-governatorato-constitution
+coverage:
+  corpus_status: pilot
+  known_gaps:
+  - Only the constitution is loaded (the Italian text of the Fundamental Law of 13 May 2023, from the Governorate). No legislation,
+    regulations, treaties or case law of Vatican City State are ingested.
+  - The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since are
+    not applied, and no history is held (docs/constitutions-europe-me-deep.md).
+  - 'Courts, legislative institutions, legal families and treaty reception are not profiled: this is a minimal profile, not reviewed
+    by counsel.'
