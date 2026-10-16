@@ -1,0 +1,54 @@
+# PLANNED - NOT INGESTED. The House of Lords judgments of 1996 to 2009 are published by the UK Parliament at
+# https://publications.parliament.uk/pa/ld/ldjudgmt.htm (one HTML page per judgment, "Judgments - <case>", under /pa/ld<session>/ldjudgmt/),
+# but the host answers automated clients with a Cloudflare challenge.
+# Access test on 2026-10-16 with ULIS's identifying User-Agent (one request, not repeated):
+#   https://publications.parliament.uk/robots.txt - HTTP 403, header "cf-mitigated: challenge", body "Just a moment..." (a Cloudflare
+#        JavaScript/CAPTCHA challenge page, content-security-policy allowing challenges.cloudflare.com).
+#   A challenge page is a refusal of automated access: ULIS does not pass challenges (no other user agents, no headless browsers, no
+#   proxies) and does not fetch anything else from the host. robots.txt could not be read, so no URL of the host may be fetched.
+#   Licence (not verified on the host because of the block): Parliamentary copyright material is published under the Open Parliament
+#   Licence (https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/), which allows copying,
+#   adaptation and commercial use with attribution; it would permit storage if access were open.
+#   Alternatives looked at: the same judgments are on BAILII (robots.txt disallows /uk/, see gb-uksc-judgments) and, since 2022, in the
+#   National Archives' Find Case Law (computational analysis needs a licence, see gb-find-case-law). Neither is usable.
+schema_version: 1
+id: gb-hl-judgments
+name: House of Lords judgments 1996-2009 (publications.parliament.uk)
+publisher: UK Parliament
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [GB]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  Judgments of the House of Lords in its judicial capacity (the final court of appeal of the United Kingdom until the Supreme Court
+  opened in October 2009), 1996 to 2009 as published by Parliament, with the neutral citations [2001] UKHL 1 onwards. Not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://publications.parliament.uk/pa/ld/ldjudgmt.htm
+update_frequency: closed collection (no new judgments since 2009)
+licence:
+  id: OPEN-PARLIAMENT-LICENCE
+  name: Open Parliament Licence v3.0 (not verified on the host; access blocked)
+  url: https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/
+  review_status: rejected
+  reviewed_by: ULIS project, from the access test of 2026-10-16 (HTTP 403, Cloudflare challenge at /robots.txt). Not reviewed by counsel.
+  reviewed_on: 2026-10-16
+  redistribution: unknown
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Contains Parliamentary information licensed under the Open Parliament Licence v3.0.
+  conditions:
+    - Automated access is answered with a challenge; none is attempted.
+  notes: >-
+    The terms pages of the host were not read because every request to the host is refused by the challenge. If the host stopped
+    challenging automated clients, the source could be activated after a
+    connector and parser (HTML judgments with numbered paragraphs) are written.
+provenance: UK Parliament, publications.parliament.uk.
+known_limitations:
+  - Not ingested because the host challenges automated clients. The House of Lords judgments are therefore missing; the Supreme Court's judgments start in 2009.
+status: planned
+connector: null
+parser: null

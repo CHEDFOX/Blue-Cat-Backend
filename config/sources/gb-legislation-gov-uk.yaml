@@ -1,45 +1,58 @@
+# Primary legislation of the United Kingdom, Scotland, Wales and Northern Ireland from legislation.gov.uk (The National Archives). Terms and
+# access rules (read 2026-10-15, re-read 2026-10-16; cached under var/sources/):
+#   https://www.legislation.gov.uk/fair-use-policy - identify the bot; follow robots.txt; "You must not exceed the request rate limit of 1,500
+#        requests in any 5-minute period"; "Consider using another way to get legislation.gov.uk data: if you want to carry out a large, one-off
+#        crawl of all or part of the content, or ... extract new legislation as it is published or republished, you should use a different way to
+#        download content" - the pages that follow name only the New Legislation feed and the Publication Log feed, which list new and changed
+#        items and are no archive; "we encourage the downloading of data for re-use".
+#   https://www.legislation.gov.uk/robots.txt - "User-agent: *" / "Crawl-delay: 5" / "Disallow: */data.pdf", "*/data.docx", "/defralex".
+#   https://legislation.github.io/data-documentation/reuse-licence.html - all content under the Open Government Licence v3.0, "free of charge,
+#        for commercial and non-commercial uses"; dual licences for content derived from EUR-Lex and from Westlaw (pre-1987 secondary legislation).
+#   https://legislation.github.io/data-documentation/what-we-have.html - "We only hold a partial dataset of UK legislation texts": the text of
+#        "almost all UK primary and secondary legislation published since 1988" (XML), "revised XML versions of most pre-1988 UK Public General
+#        Acts in force as of 1st February 1991 (the base date)"; "Most UK primary legislation we hold that was enacted before 1988 is currently
+#        only available as PDF" (the King's Printer scans, no text layer; robots.txt disallows */data.pdf anyway).
+#   https://research.legislation.gov.uk/ (the "Legislation Data Research Infrastructure" with bulk downloads, announced by search results) answers
+#        HTTP 401 for /robots.txt: a refusal, not retried and not worked around; nothing is fetched from that host.
+#   The listing feeds (/<type>/data.feed?results-count=1000&page=N) are what the developer pages offer for finding the items; the formats of each
+#        item (data.akn, data.xml, data.pdf ...) are listed in its feed entry, so the items that exist as XML are known before any is fetched.
 schema_version: 1
 id: gb-legislation-gov-uk
-name: legislation.gov.uk
+name: legislation.gov.uk - primary legislation
 publisher: The National Archives (UK)
 kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions: [GB, GB-EAW, GB-WLS, GB-SCT, GB-NIR]
-document_kinds: [act, measure, statutory_instrument]
+document_kinds: [act, measure]
 languages: [en]
 coverage: >-
-  UK, Scottish, Welsh and Northern Ireland legislation, as enacted and as revised at any point
-  in time, with territorial extent, commencement status and editorial annotations. ULIS
-  ingests the current revised text of every Act of the UK Parliament (public general Acts and the
-  few local Acts with a revised text), Act of the Scottish Parliament and Act or Measure of the
-  Senedd / National Assembly for Wales that the site holds in revised form and has not marked as
-  repealed in full (about 3,900 works, listed by scripts/build_legislation_gov_uk_manifest.py), and
-  keeps the full point-in-time history of nine of them (eight Acts/Measures and one statutory
-  instrument).
+  Every Act, Measure and Order in Council that legislation.gov.uk holds as Akoma Ntoso XML (7,178 works), as the site gives it: UK Public
+  General Acts (4,393 of 17,560 listed), UK Local Acts (199 of 20,171), Acts of the Scottish Parliament (402), the National Assembly for Wales
+  and Senedd Cymru (44 + 34) and Measures of the Assembly (22), Acts of the Northern Ireland Assembly (238), Measures of the Northern Ireland
+  Assembly (2), Acts of the Parliament of Northern Ireland 1921-1972 (287), Northern Ireland Orders in Council (558), UK Church Measures (157),
+  and the older parliaments' Acts that the site holds as XML: England (664), Scotland (109), Great Britain (58), Ireland (11). Each work comes
+  with all its versions: the enacted text where the work has no later version (926 works), otherwise every point-in-time version the lifecycle
+  lists, from the first the site holds (the enactment date, or the base date 1991-02-01 / 2006-01-01 for older Acts) to the latest. Repealed Acts
+  are included with their history. Items the site holds only as PDF scans (13,167 UK Public General Acts, 19,972 Local Acts, 869 Private Acts,
+  2,160 Acts of Great Britain and others) have no text on the site and are not ingested.
 access:
   method: api
   endpoint: config/manifests/gb-legislation-gov-uk.yaml
-update_frequency: continuous (editorial); re-fetch to refresh
+update_frequency: continuous (editorial); re-run scripts/build_legislation_gov_uk_manifest.py and the ingest to refresh
 rate_limits: >-
-  Fair use policy (https://www.legislation.gov.uk/fair-use-policy, read 2026-10-15): identify with a
-  User-Agent with contact details; obey robots.txt (https://www.legislation.gov.uk/robots.txt,
-  Crawl-delay 5; only */data.pdf, */data.docx and /defralex are disallowed; ULIS fetches data.feed
-  listings and data.akn); at most 1,500 requests per 5 minutes. ULIS makes one request every 5 seconds
-  (60 per 5 minutes), one at a time. The policy suggests "another way to download content" for "a large,
-  one-off crawl"; the developer pages (formats, searching, URIs) offer no bulk download, only the
-  Atom listings, the New Legislation feed and the Publication Log feed, so the listings and one data.akn
-  per Act are the documented route. The policy asks to be contacted only if its rules or robots.txt
-  "may prevent you from using" the site as required, or if the activity may affect its performance;
-  neither applies at this rate. Whole-collection run: about 3,900 requests (5.4 hours at the crawl
-  delay) plus the nine history works; the connector stops on any refusal (401/403/451/429), records a
-  missing work and goes on, and gives up after five failures in a row.
+  Fair use policy (see the header): identify with a User-Agent with contact details; obey robots.txt (Crawl-delay 5); at most 1,500 requests per
+  5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest (7,178 works):
+  about 24,700 documents, 28,200 requests (a document each, plus the versions that answer 404 once) = about 39 hours at the crawl delay, after
+  53 listing requests (the listing of primary and secondary legislation took 209); about 2.75 million provision versions, 10.7 GB of database,
+  9.2 GB of raw responses (estimated from a slice, plus or minus 50 percent). The connector stops on any refusal (401/403/451/429), records a missing work and goes on, and
+  gives up after five failures in a row.
 licence:
   id: OGL-UK-3.0
   name: Open Government Licence v3.0
   url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
   review_status: approved
   reviewed_by: ULIS project - site footer states "All content is available under the Open Government Licence v3.0 except where otherwise stated"; fair-use policy encourages downloading data for re-use
-  reviewed_on: 2026-10-14
+  reviewed_on: 2026-10-16
   redistribution: allowed_with_conditions
   bulk_download: allowed_with_conditions
   automated_processing: allowed_with_conditions
@@ -54,16 +67,28 @@ licence:
 provenance: Official publisher of UK legislation (The National Archives); revised texts maintained by its editorial team.
 known_limitations:
   - >-
-    Not every Act is ingested: Acts the site holds only as enacted (no revised text: before 1991 the site
-    revises only Acts still in force) and Acts labelled "(repealed ...)" are left out. Statutory instruments
-    are not ingested except one from the original sample (about 6,900 UK SIs have a revised text and are not
-    labelled revoked; that is above the size this source was scoped to). Acts of the Northern Ireland
-    Assembly, Church Measures, and the Acts of earlier parliaments are not ingested.
-  - Only the nine works of the original sample have their point-in-time history; every other Act is its current revised text, so earlier periods are a history gap.
-  - Cross-references from one Act to an Act before 1963 use the calendar-year form (ukpga/1945/18), which does not identify those Acts (two sessions can share a year and chapter number); their work identity here is the regnal-year path (/gb/ukpga/Geo6/9-10/18), so such links stay unresolved.
-  - Revised texts may have outstanding effects not yet applied; these are reported as limitations.
-  - Revised versions are editorial consolidations, not the authentic enacted text.
-  - Welsh-language versions are not yet fetched.
+    Only what the site holds as XML is ingested. About 13,000 UK Public General Acts, 19,900 Local Acts, 870 Private and Personal Acts, 2,160
+    Acts of Great Britain and 273 Local Acts of Great Britain exist on the site only as scans of the printed Acts (no text layer): their text is
+    not available to ULIS (no OCR). Of the older Acts mostly those still in force on 1991-02-01 have XML.
+  - >-
+    Welsh-language versions of Welsh legislation are not fetched (English only). Retained EU law and EU-origin legislation published on the site
+    (types eur, eut, eudn, eudr) are not part of this source (EU market).
+  - >-
+    The history is the site's: its revised versions start on the enactment date for Acts enacted from 1991, on 1991-02-01 for older UK Acts and
+    on 2006-01-01 for older Northern Ireland legislation; amendments are recorded by the site from 1994 on (some earlier ones are missing), so a
+    pre-1994 amendment of an older Act may be absent from the versions. The original (as enacted) text of an Act that has later versions is not
+    stored separately: the first version is the site's point-in-time text on its first date. Acts of 1988-1990 therefore start on 1991-02-01.
+  - >-
+    An Act whose latest version has no text at all (the site removes the text of some Acts repealed in full) is skipped for that version; the earlier
+    versions are stored and their provisions have no end date. The title of a repealed Act carries the site's label "(repealed ...)".
+  - >-
+    A version of an old Act that has no sections (the Acts of the Old Scottish Parliament) is one unit of text ("the Act") with no start date.
+  - >-
+    Revised texts may have outstanding effects not yet applied; these are reported as limitations. Revised versions are editorial consolidations,
+    not the authentic enacted text.
+  - >-
+    Cross-references from one Act to an Act before 1963 use the calendar-year form (ukpga/1945/18), which does not identify those Acts (two sessions
+    can share a year and chapter number); their work identity here is the regnal-year path (/gb/ukpga/Geo6/9-10/18), so such links stay unresolved.
 status: active
 connector: legislation_gov_uk
 parser: legislation_gov_uk_akn

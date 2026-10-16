@@ -2,7 +2,7 @@
 # jurisdictions (England and Wales, Scotland, Northern Ireland) are child profiles.
 schema_version: 1
 id: GB
-profile_version: 0.3.0
+profile_version: 0.5.0
 name: United Kingdom
 names: {en: United Kingdom of Great Britain and Northern Ireland}
 kind: sovereign_state
@@ -30,6 +30,21 @@ courts:
   - id: GB-UKSC
     name: Supreme Court of the United Kingdom
     rank: 1
+  # The Privy Council's appeals come from outside the United Kingdom's three jurisdictions (a few devolution matters
+  # apart): it is listed so that its judgments have a court, with no place in the UK hierarchy (no court appeals to it).
+  - id: GB-JCPC
+    name: Judicial Committee of the Privy Council
+    rank: 1
+  # Tribunals whose decisions GOV.UK publishes. Appeals from them go to the Court of Appeal (or, in Scotland, the Court of Session),
+  # which this profile does not model, so they are listed without a place in the hierarchy.
+  - id: GB-EAT
+    name: Employment Appeal Tribunal
+    kind: tribunal
+    rank: 2
+  - id: GB-UTAAC
+    name: Upper Tribunal (Administrative Appeals Chamber)
+    kind: tribunal
+    rank: 2
 precedent:
   doctrine: stare_decisis
   vertical_binding: true
@@ -44,7 +59,8 @@ citation:
     - "Theft Act 1968, sch 1, para 2(1)"
     - "Data Protection (Charges and Information) Regulations 2018, SI 2018/480, reg 2(1)"
 publication:
-  official_sources: [gb-legislation-gov-uk, gb-uksc-judgments]
+  official_sources:
+    [gb-legislation-gov-uk, gb-legislation-gov-uk-secondary, gb-legislation-gov-uk-secondary-made, gb-uksc-judgments, gb-uksc-judgments-pdf, gb-jcpc-judgments, gb-jcpc-judgments-pdf, gb-govuk-tribunal-decisions, gb-ni-judiciary-judgments]
   commencement: Acts commence on Royal Assent or as provided, often by commencement regulations.
   amendment: Textual amendment by later Acts and statutory instruments; legislation.gov.uk publishes revised versions.
   repeal: Express repeal; repealed text is shown as dots with an annotation.

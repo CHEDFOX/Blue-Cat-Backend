@@ -1,0 +1,90 @@
+# Judgments of the courts of Northern Ireland published by the Judiciary of Northern Ireland (judiciaryni.uk). Terms and access rules read
+# on 2026-10-16 from the publisher's own pages (cached under var/sources/):
+#   https://www.judiciaryni.uk/robots.txt (200) - closes named SEO bots (MJ12bot, SemrushBot, AhrefsBot ...) entirely; for "User-agent: *" it
+#        disallows /core/, /profiles/, /admin/, /search/, /user/..., /comment/reply/, /node/add/, /publications/*type and /publications/*date;
+#        /judicial-decisions/ and /files/ are not disallowed. No Crawl-delay.
+#   https://www.judiciaryni.uk/crown-copyright - "The material featured on this website is subject to Crown copyright protection and licensed
+#        for use under the Open Government Licence unless otherwise indicated. You may use and re-use information free of charge from this
+#        website (not including the Royal Arms and other departmental or Agency logos) under the terms and conditions of the Open Government
+#        Licence. ... When using material under the Open Government Licence you are required to acknowledge the material as Crown copyright and
+#        you must give the title of the source document or publication."
+#   https://www.judiciaryni.uk/terms-and-conditions - no restriction on automated access or computational analysis is stated.
+#   https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/ - OGL v3.0 (copy, publish, distribute, adapt, exploit commercially;
+#        attribution; excludes personal data and third-party rights).
+#   https://www.judiciaryni.uk/judicial-decisions?page=N - the listing (401 pages, about 20 items a page, back to 1968); each decision page
+#        has the title, "Neutral Citation No. [2026] NICA 38", the date delivered, the judges and the link to the PDF under /files/judiciaryni/.
+#        (The listing filtered by type, /judicial-decisions/type/judgments-118, answers HTTP 405 to ULIS and is not used.)
+#   Not used: the National Archives' Find Case Law (computational analysis needs a licence, see gb-find-case-law) and BAILII (robots disallow
+#        /nie/).
+schema_version: 1
+id: gb-ni-judiciary-judgments
+name: Northern Ireland judgments (judiciaryni.uk)
+publisher: Judiciary of Northern Ireland
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [GB, GB-NIR]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  Judgments, sentencing remarks and rulings of the Court of Appeal in Northern Ireland (NICA), the High Court of Justice (NIKB / NIQB, NICh,
+  NIFam, NIMaster), the Crown Court (NICC) and other courts of Northern Ireland that the Judiciary publishes with a neutral citation, as PDF
+  with a page of metadata, from the listing at https://www.judiciaryni.uk/judicial-decisions. The number of decisions is in the manifest header.
+  Practice directions, guidance notes, rules and bulletin items without a neutral citation are not ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/gb-ni-judiciary-judgments.yaml
+  authentication: none
+update_frequency: >-
+  When a court hands down a decision; ULIS re-reads the listing (scripts/build_judiciaryni_manifest.py) and extends the manifest (a page is
+  fetched again only with an empty cache).
+rate_limits: >-
+  None published. ULIS makes one request at a time, 5 s apart (two requests per decision: the page and the PDF), with an identifying
+  User-Agent, and caches every page and PDF under var/sources/www.judiciaryni.uk/.
+licence:
+  id: OGL-UK-3.0
+  name: Open Government Licence v3.0 (Crown copyright material on the Judiciary NI website)
+  url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project, from the site's Crown copyright page, its terms and conditions, its robots.txt and the licence text (read 2026-10-16). Its
+    statement covers "the material featured on this website"; judgments are Crown copyright (to verify). Not reviewed by counsel.
+  reviewed_on: 2026-10-16
+  redistribution: allowed
+  bulk_download: allowed
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: true
+  attribution_text: >-
+    Contains public sector information licensed under the Open Government Licence v3.0. Source: Judiciary of Northern Ireland
+    (www.judiciaryni.uk), Crown copyright. Judgment text as published on the Judiciary's website (PDF text layer); not the signed judgment.
+    Paragraphs recovered from the PDF by ULIS.
+  conditions:
+    - Acknowledge the material as Crown copyright and give the title of the source document, with the OGL attribution statement and a link to the licence.
+    - The licence does not cover personal data in the information or third-party rights; anonymity orders and reporting restrictions are left as published.
+    - No endorsement by the Judiciary or the Crown may be suggested.
+    - A modest request rate (5 s apart); a refusal (401/403/405/429) stops the run.
+  notes: >-
+    The site grants the OGL for its content; no restriction on automated access or computational analysis is stated on the site or in
+    robots.txt. Sentencing remarks and judgments may name defendants, victims' representatives and witnesses as the courts publish them.
+    Counsel review recommended before production use.
+provenance: >-
+  https://www.judiciaryni.uk/judicial-decisions/<slug> and the PDF it links, fetched with an identifying User-Agent; both are cached byte for
+  byte with their URL and retrieval time under var/sources/www.judiciaryni.uk/ and stored unchanged in one JSON bundle.
+known_limitations:
+  - >-
+    The text is the text layer of the court's PDF, read with pdftotext. Page footers are removed and the lines of a paragraph are joined;
+    footnotes stay where the PDF puts them; tables and quotations in another layout may be joined into their paragraph; headings are
+    recognised by a heuristic (a short line after a finished sentence). A PDF without a text layer is skipped (no OCR).
+  - >-
+    Numbered paragraphs ("[1]" on a line of their own) are recognised by the sequence 1, 2, 3 ...; a quoted paragraph number stays in its
+    paragraph. A decision without numbered paragraphs (sentencing remarks, rulings) is kept as unnumbered text.
+  - >-
+    Only the first PDF of a decision page is read (appendices and annexes on the same page are not). Decisions whose page name is not
+    "<year>-<series>-<number>" are not listed. The listing before 2000 is mostly bulletin items and practice directions.
+  - >-
+    No hyperlinks; citations of judgments of the Supreme Court, the Privy Council, the House of Lords and the Northern Ireland courts in the
+    text are linked by the pattern "[yyyy] SERIES n" to the work of that court, resolved only where that judgment is ingested. Later treatment
+    of a decision is not recorded.
+status: active
+connector: ni_judiciary
+parser: ni_judiciary

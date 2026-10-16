@@ -1,0 +1,63 @@
+# PLANNED - NOT INGESTED. The Scottish Courts and Tribunals Service publishes judgments of the Court of Session, the High Court of Justiciary, the
+# Sheriff Appeal Court, the sheriff courts and the Upper Tribunal for Scotland under the Open Government Licence, but the only route to the
+# archive that its robots.txt allows is a rolling window of the latest items. Terms and access rules read on 2026-10-16 from the publisher's own
+# pages (cached under var/sources/):
+#   https://www.scotcourts.gov.uk/robots.txt (200) - "User-agent: *" / "Disallow: /umbraco/" / "Disallow: /*?query=*". The judgment search of
+#        the website (https://www.scotcourts.gov.uk/search-judgments/...) works through query parameters, which robots.txt closes to robots.
+#   https://www.scotcourts.gov.uk/sitemap.xml (200, 1,090 pages) - lists news, rolls, forms and rules; it lists no judgment pages (the judgments
+#        are reached through the search).
+#   https://www.scotcourts.gov.uk/scts-crown-copyright-policy - "You may use and re-use the information featured on this website (excluding
+#        logos and photographs) free of charge in any format or medium, under the terms of the Open Government Licence."
+#   https://www.scotcourts.gov.uk/rss-feeds - the site documents RSS feeds "https://api.pa.web.scotcourts.gov.uk/web/rss/Judgments" (optionally
+#        "?Court=Court+of+Session" and similar filters). The feed read on 2026-10-16 holds the latest 215 judgments (5 June to 15 October 2026), each a
+#        PDF under https://www.scotcourts.gov.uk/media/<id>/<year><court-code><number>-<parties>.pdf; it has no paging or date parameter. The API
+#        host answers 404 for /robots.txt (no restrictions stated).
+#   Conclusion: the archive behind the search is reachable only through the search whose query URLs robots.txt disallows;
+#        ULIS does not work around that. What the documented feed offers is a rolling window of about four months, which a connector could
+#        collect from week to week (and a parser for the PDFs, with "[1]" paragraph numbers, could be built from ni_judiciary / court_pdf_units).
+#        No judgment is ingested, because a window collected from a first run would be a sample and not "the collection"; the Scottish court
+#        hierarchy would also have to be added to the GB-SCT profile (Inner House, Outer House, High Court of Justiciary, Sheriff Appeal Court,
+#        sheriff courts, Upper Tribunal for Scotland).
+#   Not used: the National Archives' Find Case Law (computational analysis needs a licence, see gb-find-case-law) and BAILII (robots disallow /scot/).
+schema_version: 1
+id: gb-scotcourts-judgments
+name: Scottish courts judgments (scotcourts.gov.uk)
+publisher: Scottish Courts and Tribunals Service
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [GB, GB-SCT]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  Judgments and opinions of the Court of Session, the High Court of Justiciary, the Sheriff Appeal Court, the sheriff courts and the Upper Tribunal
+  for Scotland as PDF. Not ingested: the archive is reachable only through a search that robots.txt closes to robots; the documented RSS feed holds
+  the latest 215 judgments only.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://api.pa.web.scotcourts.gov.uk/web/rss/Judgments
+update_frequency: judgments are posted as they are issued (the feed shows the latest ones)
+licence:
+  id: OGL-UK-3.0
+  name: Open Government Licence v3.0 (Crown copyright material on the SCTS website)
+  url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+  review_status: rejected
+  reviewed_by: ULIS project, from the SCTS Crown copyright policy, robots.txt, sitemap and RSS documentation (read 2026-10-16). Not reviewed by counsel.
+  reviewed_on: 2026-10-16
+  redistribution: allowed
+  bulk_download: not_allowed
+  automated_processing: allowed
+  commercial_use: allowed
+  attribution_required: true
+  attribution_text: >-
+    Contains public sector information licensed under the Open Government Licence v3.0. Source - Scottish Courts and Tribunals Service.
+  conditions:
+    - The judgment search (query parameters) is closed to robots by robots.txt; the archive is therefore not retrieved.
+  notes: >-
+    The licence would allow storage and use of the judgments; what is missing is an open route to the archive. A rolling-window collector over
+    the documented RSS feed is possible and is not built.
+provenance: Scottish Courts and Tribunals Service, www.scotcourts.gov.uk.
+known_limitations:
+  - Not ingested. Scottish case law is missing apart from the judgments on Scottish appeals that the Supreme Court and the Privy Council publish.
+status: planned
+connector: null
+parser: null

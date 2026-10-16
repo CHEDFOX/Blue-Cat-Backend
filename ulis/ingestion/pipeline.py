@@ -53,9 +53,11 @@ from ulis.sources.connectors.git_snapshot import GitSnapshotConnector
 from ulis.sources.connectors.govinfo_bulk import GovInfoCfrFrConnector, GovInfoStatutesConnector
 from ulis.sources.connectors.govinfo_uscourts import UsCourtsGovInfoConnector
 from ulis.sources.connectors.govinfo_usreports import UsReportsGovInfoConnector
+from ulis.sources.connectors.govuk_decisions import GovUkDecisionsConnector
 from ulis.sources.connectors.impo_uy import ImpoUyConnector
 from ulis.sources.connectors.infoleg_ar import InfolegArConnector
 from ulis.sources.connectors.irish_statute_book import IrishStatuteBookConnector
+from ulis.sources.connectors.jcpc import JcpcConnector, JcpcPdfConnector
 from ulis.sources.connectors.legilux import LegiluxConnector
 from ulis.sources.connectors.legislation_gov_uk import LegislationGovUkConnector
 from ulis.sources.connectors.likumi_lv import LikumiLvConnector
@@ -63,6 +65,7 @@ from ulis.sources.connectors.lilex import LilexConnector
 from ulis.sources.connectors.local_manifest import LocalManifestConnector
 from ulis.sources.connectors.moj_laws import MojLawsConnector
 from ulis.sources.connectors.narodne_novine import NarodneNovineConnector
+from ulis.sources.connectors.ni_judiciary import NiJudiciaryConnector
 from ulis.sources.connectors.normattiva import NormattivaConnector
 from ulis.sources.connectors.oecd_legal_instruments import OecdLegalInstrumentsConnector
 from ulis.sources.connectors.rattspraxis_se import RattspraxisConnector
@@ -81,6 +84,7 @@ from ulis.sources.connectors.subnational_http import (
     TasmanianLegislationConnector,
 )
 from ulis.sources.connectors.uksc import UkscConnector
+from ulis.sources.connectors.uksc_pdf import UkscPdfConnector
 from ulis.sources.connectors.uradni_list import UradniListConnector
 from ulis.sources.connectors.us_or_ors import OrOrsConnector
 from ulis.sources.connectors.us_tx_statutes import TxStatutesConnector
@@ -111,6 +115,7 @@ from ulis.sources.parsers import (
     govinfo_cfr_fr,
     govinfo_uscourts,
     govinfo_usreports,
+    govuk_decisions,
     impo_uy,
     infoleg_ar,
     irish_statute_book,
@@ -122,6 +127,7 @@ from ulis.sources.parsers import (
     manitoba_laws,
     moj_law,
     narodne_novine,
+    ni_judiciary,
     normattiva,
     oecd_legal_instruments,
     ontario_elaws,
@@ -137,6 +143,7 @@ from ulis.sources.parsers import (
     stj_integras,
     tas_legislation,
     uksc_html,
+    uksc_pdf,
     uradni_list,
     us_or_ors,
     us_tx_statutes,
@@ -174,8 +181,11 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "rechtspraak_xml": rechtspraak.parse_rechtspraak,
     "stj_integras": stj_integras.parse_stj_integra,
     "rattspraxis_se_json": rattspraxis_se.parse_rattspraxis,
+    "govuk_decisions": govuk_decisions.parse_govuk_decision,
+    "ni_judiciary": ni_judiciary.parse_ni_judiciary,
     "uksc_html": uksc_html.parse_uksc,
     "sci_judis_pdf": sci_judis.parse_sci_judis,
+    "uksc_pdf": uksc_pdf.parse_uksc_pdf,
     "moj_law_html": moj_law.parse_moj_law,
     "riksdagen_sfs_json": riksdagen_sfs.parse_riksdagen_sfs,
     "retsinformation_lexdania": retsinformation.parse_retsinformation,
@@ -230,8 +240,11 @@ PARSER_VERSIONS = {
     "rechtspraak_xml": rechtspraak.PARSER_VERSION,
     "stj_integras": stj_integras.PARSER_VERSION,
     "rattspraxis_se_json": rattspraxis_se.PARSER_VERSION,
+    "govuk_decisions": govuk_decisions.PARSER_VERSION,
+    "ni_judiciary": ni_judiciary.PARSER_VERSION,
     "uksc_html": uksc_html.PARSER_VERSION,
     "sci_judis_pdf": sci_judis.PARSER_VERSION,
+    "uksc_pdf": uksc_pdf.PARSER_VERSION,
     "moj_law_html": moj_law.PARSER_VERSION,
     "riksdagen_sfs_json": riksdagen_sfs.PARSER_VERSION,
     "retsinformation_lexdania": retsinformation.PARSER_VERSION,
@@ -315,8 +328,13 @@ CONNECTORS: dict[str, Callable[[Path, str, Path], Connector]] = {
     "rechtspraak": RechtspraakConnector,
     "stj_dados_abertos": StjConnector,
     "rattspraxis_se": RattspraxisConnector,
+    "govuk_decisions": GovUkDecisionsConnector,
+    "jcpc": JcpcConnector,
+    "ni_judiciary": NiJudiciaryConnector,
+    "jcpc_pdf": JcpcPdfConnector,
     "uksc": UkscConnector,
     "sci_judis": SciJudisConnector,
+    "uksc_pdf": UkscPdfConnector,
     "moj_laws": MojLawsConnector,
     "riksdagen_sfs": RiksdagenSfsConnector,
     "retsinformation": RetsinformationConnector,

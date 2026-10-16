@@ -22,6 +22,7 @@ judgments of 2021-2026 on 2026-10-14; earlier judgments are PDFs only). The page
 
 from __future__ import annotations
 
+import html as html_lib
 import re
 from datetime import date, datetime
 from html.parser import HTMLParser
@@ -29,12 +30,15 @@ from typing import Any
 
 from ulis.sources.normalized import ParsedDocument, ParsedJudgmentMeta, ParsedParagraph, ParsedRef, ParseSkipped
 
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 SPACE = re.compile(r"[ \t\r\n\xa0  ]+")
 NUMBERED = re.compile(r"^(\d{1,4})\.\s+(\S.*)$", re.S)
-NEUTRAL = re.compile(r"^\[(\d{4})\] UKSC (\d{1,3})$")
-OWN_COURT_CITATION = re.compile(r"\[(\d{4})\] UKSC (\d{1,3})(?!\d)")
-CASE_ID = re.compile(r"^UKSC/(\d{4})/(\d{4})$")
+NEUTRAL = re.compile(r"^\[(\d{4})\] (UKSC|UKPC) (\d{1,3})$")
+OWN_COURT_CITATION = re.compile(r"\[(\d{4})\] (UKSC|UKPC) (\d{1,3})(?!\d)")
+CASE_ID = re.compile(r"^(UKSC|JCPC)/(\d{4})/(\d{4})$")
+# Case id prefix -> (court id, neutral citation series). The Judicial Committee of the Privy Council (jcpc.uk) has the
+# same page layout as the Supreme Court's site; its judgments are cited "[2024] UKPC 11" and stored as /gb/ukpc/2024/11.
+COURTS = {"UKSC": ("GB-UKSC", "UKSC"), "JCPC": ("GB-JCPC", "UKPC")}
 LEGISLATION = re.compile(r"^https?://www\.legislation\.gov\.uk/id/[a-z]+/\d{4}/\d+(?:/[^?#\s]*)?$")
 BREAK = "\x1f"
 SKIP = {"script", "style", "svg", "button", "img", "noscript"}
@@ -144,11 +148,13 @@ def parse_uksc(content: bytes) -> list[ParsedDocument]:
     m = CASE_ID.match(case_id or "")
     if not m:
         raise UkscParseError(f"no case id (UKSC/yyyy/nnnn) on the page: {case_id!r}")
+    court_id, series = COURTS[m.group(1)]
     title = _by_id(html, "h1", "case-title")
     citation = _by_id(html, "p", "neutral-citation-number")
     nc = NEUTRAL.match(citation or "")
-    if not title or not nc:
+    if not title or not nc or nc.group(2) != series:
         raise UkscParseError(f"{case_id}: no case title or no neutral citation ({citation!r})")
+    title = html_lib.unescape(title)
     decision_date = _date(_by_id(html, "p", "judgment-date"), "judgment date")
     start = html.rfind('id="judgment-details"')
     if start < 0:
@@ -162,8 +168,8 @@ def parse_uksc(content: bytes) -> list[ParsedDocument]:
     if not units:
         raise ParseSkipped(f"{case_id}: the page has no judgment text")
 
-    year, number = nc.group(1), nc.group(2)
-    own = f"[{year}] UKSC {number}"
+    year, number = nc.group(1), nc.group(3)
+    own = f"[{year}] {series} {number}"
     paragraphs: list[ParsedParagraph] = []
     used: set[str] = set()
     expected = 1
@@ -202,8 +208,8 @@ def parse_uksc(content: bytes) -> list[ParsedDocument]:
                 seen.add(href)
                 refs.append(ParsedRef(href, label or href, "references"))
         for cited in OWN_COURT_CITATION.finditer(text):
-            target = f"[{cited.group(1)}] UKSC {cited.group(2)}"
-            href = f"/gb/uksc/{cited.group(1)}/{int(cited.group(2))}"
+            target = f"[{cited.group(1)}] {cited.group(2)} {cited.group(3)}"
+            href = f"/gb/{cited.group(2).lower()}/{cited.group(1)}/{int(cited.group(3))}"
             if target != own and href not in seen:
                 seen.add(href)
                 refs.append(ParsedRef(href, target, "cites", extraction_method="pattern"))
@@ -211,7 +217,7 @@ def parse_uksc(content: bytes) -> list[ParsedDocument]:
     if not any(p.part == "considerations" for p in paragraphs):
         raise UkscParseError(f"{case_id}: no numbered paragraphs found")
 
-    work_uri = f"/gb/uksc/{year}/{int(number)}"
+    work_uri = f"/gb/{series.lower()}/{year}/{int(number)}"
     ext: dict[str, Any] = {
         "case_id": case_id,
         "appellants": _all(html, "p", "appellant"),
@@ -244,7 +250,7 @@ def parse_uksc(content: bytes) -> list[ParsedDocument]:
             ext_module="gb",
             ext={k: v for k, v in ext.items() if v not in (None, [], "")},
             judgment=ParsedJudgmentMeta(
-                court_id="GB-UKSC",
+                court_id=court_id,
                 case_name=title,
                 neutral_citation=own,
                 decision_date=decision_date,

@@ -23,7 +23,7 @@ from ulis.jurisdictions.modules.base import (
     subdivision,
 )
 
-SI_SERIES = {"uksi": "SI", "ssi": "SSI", "wsi": "SI", "nisr": "SR"}
+SI_SERIES = {"uksi": "SI", "ssi": "SSI", "wsi": "SI", "nisr": "SR", "nisi": "SI"}
 PREFIX = {"section": "s", "regulation": "reg", "article": "art", "rule": "r", "paragraph": "para"}
 
 

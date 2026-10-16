@@ -1,0 +1,49 @@
+# REJECTED - NOT INGESTED. BAILII (British and Irish Legal Information Institute) holds the widest free collection of UK and Irish judgments, and
+# its robots.txt closes exactly those parts to robots. Re-read on 2026-10-16 (cached under var/sources/www.bailii.org/):
+#   https://www.bailii.org/robots.txt (200) - "User-agent: *" / "Disallow: /eu" "/ew" "/ie" "/je" "/nie" "/scot" "/sh" "/uk" "/wales" "/worldlii" (and
+#        the same as Noindex); "User-agent: GPTBot" / "Disallow: /". /ew/ (England and Wales), /uk/ (UK-wide courts and tribunals), /scot/ (Scotland),
+#        /nie/ (Northern Ireland), /ie/ (Ireland), /wales/ and /eu/ are the case-law collections.
+#   https://www.commonlii.org/robots.txt - HTTP 403 for ULIS's identifying User-Agent (a refusal; nothing else is fetched from the host).
+#   Conclusion: automated retrieval of BAILII's collections is forbidden by its robots.txt. ULIS does not reopen it: no other user agent, no
+#        mirror of unclear licence. The courts' own sites are used where they allow it (gb-uksc-judgments, gb-uksc-judgments-pdf, gb-jcpc-judgments,
+#        gb-jcpc-judgments-pdf, gb-govuk-tribunal-decisions, gb-ni-judiciary-judgments); the Court of Appeal and High Court of England and
+#        Wales, the Scottish archive and the House of Lords are not covered (see gb-find-case-law, gb-hl-judgments, gb-scotcourts-judgments).
+schema_version: 1
+id: gb-bailii
+name: BAILII (British and Irish Legal Information Institute)
+publisher: BAILII
+kind: open_data_repository
+authority: unofficial
+jurisdictions: [GB, GB-EAW, GB-SCT, GB-NIR]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  Judgments of the courts and tribunals of the United Kingdom and Ireland (England and Wales, UK-wide courts, Scotland, Northern Ireland, Ireland).
+  Not ingested: robots.txt disallows the collections.
+access:
+  method: permitted_web_retrieval
+  endpoint: https://www.bailii.org/
+update_frequency: daily
+licence:
+  id: BAILII-TERMS
+  name: BAILII terms (robots.txt closes the case-law collections to robots)
+  url: https://www.bailii.org/robots.txt
+  review_status: rejected
+  reviewed_by: ULIS project, from robots.txt (re-read 2026-10-16). Not reviewed by counsel.
+  reviewed_on: 2026-10-16
+  redistribution: unknown
+  bulk_download: not_allowed
+  automated_processing: not_allowed
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Source - BAILII (www.bailii.org).
+  conditions:
+    - robots.txt disallows /uk, /ew, /scot, /nie, /ie, /wales and /eu for every robot.
+  notes: >-
+    Not reopened. The judgments are Crown copyright and are published by the courts themselves; ULIS takes them from the courts' sites.
+provenance: BAILII, www.bailii.org.
+known_limitations:
+  - Not ingested.
+status: rejected
+connector: null
+parser: null

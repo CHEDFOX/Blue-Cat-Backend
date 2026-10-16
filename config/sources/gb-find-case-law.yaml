@@ -1,4 +1,28 @@
-# PLANNED - preliminary research notes, to be confirmed.
+# PLANNED - NOT INGESTED. The National Archives' Find Case Law service forbids computational analysis without a licence that has to
+# be applied for. Terms and access rules read on 2026-10-16 from the publisher's own pages (cached under var/sources/):
+#   https://caselaw.nationalarchives.gov.uk/robots.txt (200) - "User-Agent: *  Allow: /" and a sitemap; GPTBot, ChatGPT-User,
+#        Google-Extended, PerplexityBot, Amazonbot, ClaudeBot, Claude-Web, anthropic-ai, Bytespider, Diffbot, Omgili, FacebookBot,
+#        Applebot, ImagesiftBot and YouBot are disallowed (Disallow: /).
+#   https://caselaw.nationalarchives.gov.uk/re-use-find-case-law-records - "Most uses of Find Case Law judgments don't require permission
+#        or a licence ... Under the Open Justice Licence, you can freely: read and download any judgment from Find Case Law ... use
+#        commercially including incorporating judgments into your own products or applications ... What you can't do freely: The Open
+#        Justice Licence does not permit computational analysis. If you intend to do any programmatic searching in bulk across Find Case
+#        Law records to identify, extract or enrich contents within the records, you will need to apply for a licence to perform
+#        computational analysis."
+#   https://caselaw.nationalarchives.gov.uk/when-you-need-permission - "Computational analysis means using automated or algorithmic
+#        methods to process large numbers of judgments systematically - including using AI or large language models (LLMs). ... includes
+#        text mining across large numbers of judgments, natural language processing of judgment text, bulk extraction of data from
+#        judgments, machine learning or AI training on judgment datasets, building services or products using AI or large language models
+#        (LLMs), building vector databases for semantic search, statistical analysis across the full collection, automated identification
+#        or classification of judgments." Not computational analysis: "reading individual judgments, downloading judgments one at a time as
+#        you need them, using the search function to find cases, incorporating judgments into commercial products or services".
+#   https://caselaw.nationalarchives.gov.uk/terms-of-use - "You must apply for a licence to do computational analysis if you wish to
+#        conduct computational analysis of the information provided by Find Case Law." The terms also say the service "may block or
+#        disable the service for any users who appear to be compiling an index in violation of these terms".
+#   Conclusion: ULIS is a bulk, automated, indexing system (it stores judgments, extracts paragraphs and builds a search index), which is
+#        computational analysis as defined; a licence has to be applied for (no fee, assessed against the applicant's activities). ULIS
+#        takes no manual steps and does not depend on a permission arriving, so the source stays planned and nothing is fetched. The
+#        same judgments are taken from the courts' own sites where those allow it: gb-uksc-judgments(-pdf), gb-jcpc-judgments(-pdf).
 schema_version: 1
 id: gb-find-case-law
 name: Find Case Law
@@ -8,25 +32,38 @@ authority: official_non_authentic
 jurisdictions: [GB]
 document_kinds: [judgment]
 languages: [en]
-coverage: Judgments and decisions from courts and tribunals in England and Wales and UK-wide bodies (scope to be measured).
+coverage: >-
+  Judgments and decisions of the Supreme Court, the Privy Council, the Court of Appeal, the High Court, the Upper Tribunal, the
+  Employment Appeal Tribunal and other courts and tribunals of England and Wales and UK-wide bodies (the service's own scope pages
+  are not read; coverage is not measured because nothing is fetched).
 access:
   method: api
   endpoint: https://caselaw.nationalarchives.gov.uk/
 update_frequency: daily
 licence:
   id: OPEN-JUSTICE-LICENCE
-  name: Open Justice Licence (to be confirmed)
-  review_status: pending_review
+  name: Open Justice Licence (computational analysis excluded; separate licence by application)
+  url: https://caselaw.nationalarchives.gov.uk/re-use-find-case-law-records
+  review_status: rejected
+  reviewed_by: >-
+    ULIS project, from the service's own re-use, permission and terms-of-use pages and robots.txt (read 2026-10-16). Not reviewed by
+    counsel.
+  reviewed_on: 2026-10-16
   redistribution: allowed_with_conditions
-  bulk_download: unknown
+  bulk_download: not_allowed
   automated_processing: not_allowed
-  commercial_use: unknown
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: Contains public sector information licensed under the Open Justice Licence.
+  conditions:
+    - Computational analysis (bulk programmatic searching, text mining, indexing, AI use) needs a licence applied for from the National Archives.
   notes: >-
-    Our understanding (to be confirmed) is that computational analysis requires a separate
-    licence application. Until that licence is held, automated processing is recorded as not allowed.
-provenance: Official judgment repository.
+    Quoted in the header of this file. Individual reading and one-at-a-time download are free; ULIS's bulk ingestion is not. The
+    application process (https://caselaw.nationalarchives.gov.uk/licence-application-process) is a manual step with an uncertain
+    outcome, so ULIS does not rely on it.
+provenance: Official judgment repository of The National Archives.
 known_limitations:
-  - Historic coverage is incomplete.
+  - Not ingested. The courts' own sites (Supreme Court, Privy Council) are taken instead; the Court of Appeal, High Court and tribunal judgments of England and Wales that exist only on this service are therefore not covered.
 status: planned
 connector: null
 parser: null

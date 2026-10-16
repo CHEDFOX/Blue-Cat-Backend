@@ -30,8 +30,8 @@ languages: [en]
 coverage: >-
   The 126 judgments of the UK Supreme Court (2021 to 2026, neutral citations [2022] UKSC ... to [2026] UKSC 33) that the Court
   publishes in full as HTML on its website (156 case pages: joined appeals have one page per case number), with the case's parties, the decision appealed, the justices, hearing dates, the
-  numbered paragraphs and the Court's hyperlinks to legislation. Earlier judgments (PDF only), press summaries and the Judicial
-  Committee of the Privy Council (jcpc.uk) are not ingested.
+  numbered paragraphs and the Court's hyperlinks to legislation. Earlier judgments (PDF only) are in gb-uksc-judgments-pdf, the
+  Judicial Committee of the Privy Council (jcpc.uk) in gb-jcpc-judgments and gb-jcpc-judgments-pdf; press summaries are not ingested.
 access:
   method: permitted_web_retrieval
   endpoint: config/manifests/gb-uksc-judgments.yaml
@@ -72,11 +72,11 @@ provenance: >-
   https://www.supremecourt.uk/cases/judgments/uksc-<year>-<number> fetched with an identifying User-Agent; every page is cached
   byte for byte with its URL and retrieval time under var/sources/www.supremecourt.uk/ and stored unchanged.
 known_limitations:
-  - 126 judgments from 2021 on (the pages of further case numbers of joined appeals are not ingested, being the same judgment); the Court's earlier judgments (since 2009) exist on the site only as PDFs and are not ingested (a PDF text parser would be needed).
+  - 126 judgments from 2021 on (the pages of further case numbers of joined appeals are not ingested, being the same judgment); the Court's earlier judgments (since 2009) exist on the site only as PDFs and are in gb-uksc-judgments-pdf.
   - Website version of the judgment, not the signed judgment; the page layout is the Court's current one (element ids), a redesign would need a parser update.
   - Paragraph numbers are read from the text (1, 2, 3 ...); quoted numbered passages stay unnumbered. Footnotes, if any, are not separated.
   - Links to other judgments are by the pattern "[yyyy] UKSC n" only; links to legislation are the Court's own hyperlinks, resolved only where that Act is ingested. Later treatment of a judgment is not recorded.
-  - Only the Supreme Court (GB-UKSC); the Privy Council's judgments (jcpc.uk, same terms) are not ingested.
+  - Only the Supreme Court (GB-UKSC); the Privy Council's judgments (jcpc.uk, same terms) are in gb-jcpc-judgments and gb-jcpc-judgments-pdf.
 status: active
 connector: uksc
 parser: uksc_html
