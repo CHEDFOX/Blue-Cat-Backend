@@ -101,7 +101,7 @@ def test_source_document_verification_and_coverage(client: TestClient) -> None:
     res = client.post(f"/v1/verify/source-documents/{docs[0]['id']}", headers=H).json()
     assert res["result"] == "pass"
     coverage = {c["jurisdiction"]: c for c in client.get("/v1/coverage", headers=H).json()}
-    assert coverage["IN"]["instruments"] == 0 and coverage["IN"]["corpus_status"] == "none"
+    assert coverage["IN"]["instruments"] == 0 and coverage["IN"]["corpus_status"] == "pilot"
     assert coverage["XA"]["instruments"] == 4 and coverage["XA"]["fictional"] is True
 
 

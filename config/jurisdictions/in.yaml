@@ -4,7 +4,7 @@
 # profile's verification.status can become "reviewed" (see docs/jurisdiction-extensions.md).
 schema_version: 1
 id: IN
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Republic of India
 names: {en: Republic of India, hi: भारत गणराज्य}
 kind: sovereign_state
@@ -12,7 +12,9 @@ parent: INT
 fictional: false
 verification:
   status: draft_unverified
-  notes: Research notes only. Not reviewed by counsel.
+  notes: >-
+    Research notes only. Not reviewed by counsel. Judgments of the Supreme Court were read from the Court's JUDIS PDFs
+    (see docs/markets/india.md); the legislation hosts refused the bot.
 official_languages: [hi, en]
 legal_system:
   families: [common_law]
@@ -39,13 +41,17 @@ precedent:
     all courts within the territory of India. High Courts, tribunals and bench-strength rules
     still have to be modelled.
 citation:
-  module: default
+  module: in
 publication:
-  official_sources: [in-india-code]
+  official_sources: [in-india-code, in-sci-judis]
 memberships: []
 coverage:
-  corpus_status: none
+  corpus_status: pilot
   known_gaps:
-    - No Indian legislation or judgments have been ingested.
-    - Source licensing (India Code, court websites) is pending legal review.
-    - States, Union Territories, High Courts and tribunals are not yet modelled.
+    - "No Indian legislation is ingested: India Code, the Legislative Department, the Gazette of India (eGazette), the Law Commission and data.gov.in refused the bot (HTTP 403) or did not answer (connection reset) on 2026-10-16, so no Act, subordinate legislation, State Act or the Constitution of India is loaded, and no Act's history (as enacted, amended, repealed) is available."
+    - "Case law is the Supreme Court judgments the Court publishes as JUDIS PDFs on api.sci.gov.in under numbers 1 to 45100 (about 1950 to April 2017, English). Judgments from 2017 on are published under addresses that cannot be listed without the Court's search (behind a CAPTCHA) and are not ingested; reported-only coverage is not claimed for the earlier years either."
+    - "Older judgments (before about 2009) carry no paragraph numbers and no paragraph breaks in the PDF text layer, so their text is cut into unnumbered passages; scanned PDFs without a text layer are skipped (no OCR)."
+    - "Judgments are the Court's website PDFs converted to text, not the signed originals; headnotes and catchwords printed with older judgments are editorial matter of the Court's reporters."
+    - "No High Court, tribunal or district court judgments: the eCourts portals sit behind a CAPTCHA, and the only bulk copies (AWS Open Data: Dattam Labs) were produced by solving it, so they are rejected (see in-dattam-court-judgments)."
+    - "No neutral citations (the Court's \"INSC\" neutral citation starts in 2023, after the ingested range), no citator or subsequent-history tracking, no links between judgments."
+    - "States, Union Territories, High Courts and tribunals are not yet modelled."

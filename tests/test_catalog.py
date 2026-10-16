@@ -176,7 +176,7 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
     # XA, XB, XR ... are fictional test jurisdictions; XK (Kosovo) is the user-assigned code of a real one
     assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X") and p.id != "XK")
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"
-    assert catalog.jurisdictions.get("IN").coverage.corpus_status == "none"
+    assert catalog.jurisdictions.get("IN").coverage.corpus_status == "pilot"  # Supreme Court judgments only
 
 
 def test_hierarchy_navigation(catalog: Catalog) -> None:
@@ -250,6 +250,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "us-ecfr",
         "gb-legislation-gov-uk",
         "gb-uksc-judgments",
+        "in-sci-judis",
         "ca-justice-laws-xml",
         "au-qld-legislation",
         "au-tas-legislation",

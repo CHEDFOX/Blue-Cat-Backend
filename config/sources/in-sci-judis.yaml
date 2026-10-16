@@ -1,0 +1,105 @@
+# Supreme Court of India judgments (JUDIS PDFs on the Court's API host). AMBER: the Court's own terms page could not be read.
+# Read / observed 2026-10-16 (identifying User-Agent, 5 s apart, nothing else requested from these hosts):
+#   https://api.sci.gov.in/robots.txt -> HTTP 200, an empty file (no rule: nothing is disallowed). https://api.sci.gov.in/ -> HTTP 200,
+#        empty page. https://api.sci.gov.in/jonew/judis/<n>.pdf -> the judgment as PDF (application/pdf, 17 KB to 430 KB), or HTTP
+#        200 with an empty body when there is none under that number (about a third of the numbers asked: 100, 1263, 5000, 10000,
+#        15000, 30000, 33826, 34009, 38000, 39000, 42000, 43000, 43500, 44000, 44500, 44900 exist; 20000, 25000, 36000, 36500,
+#        40000, 41000 and every number from 45000 up to 99999999 are empty). The body is the PDF preceded by four bytes (a length).
+#        No login, no CAPTCHA, no token on this path.
+#   https://www.sci.gov.in/robots.txt and https://www.sci.gov.in/ website pages -> HTTP 403 "Access Denied" (Akamai); the Court's
+#        "website policies" page could therefore NOT be read. A search engine's excerpt of it (second-hand, not read on the page):
+#        "This website is designed and developed by National Informatics Centre (NIC) and content has been provided and processed by the
+#        Supreme Court of India", "Supreme Court of India cannot authorize the use of copyrighted materials contained in linked website",
+#        "In case of any omission or discrepancy, information in the original records will be final and binding". No copyright /
+#        reuse clause was found in the excerpts.
+#   https://main.sci.gov.in/robots.txt -> the egress proxy answered 502 (no connection); the Court's case search sits behind a CAPTCHA
+#        (a client library's README, via search) and is not used.
+#   Legal basis (search-engine excerpts, to verify): section 52(1)(q)(iv) Copyright Act 1957 - the reproduction or publication of "any
+#        judgment or order of a court, tribunal or other judicial authority, unless the reproduction or publication of such judgment or
+#        order is prohibited by the court, tribunal or other judicial authority"; Eastern Book Company v. D.B. Modak, (2008) 1 SCC 1 -
+#        there is no copyright in the raw text of judgments (the Court's reasoning), while editorial inputs (headnotes, footnotes) of
+#        a reporter are protected. No prohibition by the Court was found on api.sci.gov.in.
+# The list of numbers is not published anywhere the bot could read; the manifest is a range of numbers (see the connector).
+schema_version: 1
+id: in-sci-judis
+name: Supreme Court of India - judgments (JUDIS PDFs, api.sci.gov.in)
+publisher: Supreme Court of India
+kind: official_court_database
+authority: official_non_authentic
+jurisdictions: [IN]
+document_kinds: [judgment]
+languages: [en]
+coverage: >-
+  Judgments of the Supreme Court of India that the Court serves as PDF under the numbers 1 to 45100 of
+  https://api.sci.gov.in/jonew/judis/<n>.pdf: about 1950 to April 2017, English, with the Court's header block (parties, date, bench,
+  reporter citations, catchwords and headnote) for judgments up to about 2008 and the signed judgment (cause title, numbered
+  paragraphs, judges' names, closing date) from 2009. Later judgments, regional-language versions and the Court's order lists are not
+  ingested.
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/in-sci-judis.yaml
+  authentication: none
+update_frequency: >-
+  The numbers up to 45100 look like a fixed back file (judgments of later years are served under another address pattern); re-run
+  to pick up numbers that gain a PDF later (a cached empty answer is not asked again).
+rate_limits: >-
+  None published (robots.txt is empty). ULIS makes one request at a time, 5 s apart (45,100 numbers: about 62.7 hours), with an
+  identifying User-Agent, caches every answer under var/sources/api.sci.gov.in/ and stops on any refusal.
+licence:
+  id: IN-court-judgments-no-terms-read
+  name: >-
+    Judgments of the Supreme Court served openly by the Court; section 52(1)(q)(iv) Copyright Act 1957 (to verify); the Court's terms
+    page could not be read (HTTP 403)
+  url: https://www.sci.gov.in/website-policies/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project (not counsel), 2026-10-16, from the pages quoted in the header of this file: the API host's empty robots.txt, the
+    judgment PDFs themselves (no copyright or reuse notice in the text layer; each page carries only "http://JUDIS.NIC.IN SUPREME
+    COURT OF INDIA"), search-engine excerpts of the Court's website policies and of section 52(1)(q)(iv) and of Eastern Book Co. v.
+    D.B. Modak. NOT read: the Court's own terms and copyright policy (the website refuses the bot). Reading: AMBER - the Court
+    publishes the judgments openly; the Copyright Act (as we read it) permits their reproduction unless the Court prohibits it; no
+    prohibition and no restriction on automated retrieval was found; no licence was granted either.
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: >-
+    Judgment of the Supreme Court of India as published by the Court at api.sci.gov.in (JUDIS); retrieved {retrieved_date}. Text
+    converted from the Court's PDF and structured by ULIS; not the signed original, not endorsed by the Court.
+  conditions:
+    - >-
+      Polite retrieval only (identifying User-Agent, 5 s between requests, cached answers); stop on any refusal. No CAPTCHA is solved and
+      no other host of the Court is used.
+    - >-
+      The text is the Court's PDF converted to text. The catchwords ("ACT:") and the headnote printed with judgments up to about 2008 are
+      editorial matter of the Court's law reporters (Eastern Book Co. v. D.B. Modak: editorial inputs can be protected); they are kept in
+      separate parts (catchwords, headnote) so a deployment can leave them out.
+    - Commercial use is unknown until the Court's own terms can be read; the licence gate refuses this source in a commercial deployment.
+    - Judgments may carry anonymity or reporting restrictions of their own (e.g. in matrimonial or child cases); ULIS leaves the text as published.
+  notes: >-
+    The Court's website (www.sci.gov.in) and its case search are closed to the bot, so the only open route found is the API host's
+    PDF path by number. Counsel review is recommended before production use, in particular of the Court's website policies.
+provenance: >-
+  https://api.sci.gov.in/jonew/judis/<n>.pdf fetched with an identifying User-Agent; every answer is cached byte for byte with its URL
+  and retrieval time under var/sources/api.sci.gov.in/ and stored unchanged (including the four-byte prefix).
+known_limitations:
+  - >-
+    Only the numbers 1 to 45100 (back file to April 2017). Judgments of later years appear under another address pattern
+    (/supremecourt/<year>/<diary number>/<file>.pdf, seen in a third-party listing) for which there is no list ULIS may read.
+  - >-
+    Which judgments the Court chose to publish under these numbers is not known; the file is not claimed to be all judgments of the Court.
+  - >-
+    Older judgments have no paragraph numbers and no paragraph breaks in the text layer; their text is cut into unnumbered passages
+    at sentence ends.
+  - >-
+    Scanned PDFs without a text layer are skipped (no OCR). A judgment whose date cannot be read from the PDF is skipped, not
+    given a date.
+  - >-
+    The signed judgments (from 2009) are parsed from the layout of their cause title; a judgment with an unusual title (several
+    parties on one side, "v." inside a line) takes its case number as its name.
+  - English only; no regional-language versions, no neutral citations (INSC starts in 2023), no links between judgments.
+status: active
+connector: sci_judis
+parser: sci_judis_pdf

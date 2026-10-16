@@ -1,0 +1,14 @@
+# Supreme Court of India judgments: the JUDIS PDFs https://api.sci.gov.in/jonew/judis/<n>.pdf for the numbers 1 to 45100.
+# The Court publishes no list on a host that lets the bot in, so every number in the range is asked for. Probes on 2026-10-16: numbers
+# up to 44900 hold judgments (about 1950 to April 2017), numbers from 45000 up to 99999999 are all empty (checked: 45000, 45100,
+# 45500, 46500, 47000, 52000, 60000, 70000, 99999999); the range stops at the first number known to be empty.
+# SCALE (to be completed from the slice run, see docs/markets/india.md): 45,100 requests at 5 s = about 62.7 hours; about 70% of the
+# numbers hold a PDF; see the market document for documents, passages and database size.
+# A slice for testing is a copy of this file with a few short ranges, kept outside the repository.
+schema_version: 1
+source_id: in-sci-judis
+base_url: https://api.sci.gov.in
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+id_ranges:
+  - [1, 45100]
