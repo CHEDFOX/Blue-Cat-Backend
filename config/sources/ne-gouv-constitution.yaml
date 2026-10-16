@@ -81,3 +81,4 @@ known_limitations:
 status: active
 connector: constitution_docs
 parser: constitution_text
+load_by_default: false  # the 2010 text; that constitution was suspended in 2023, so it is not the law in force today: history, loaded on request
