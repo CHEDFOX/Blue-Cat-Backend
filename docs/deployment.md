@@ -10,6 +10,8 @@ ULIS is a research aid for lawyers, never legal advice.
 > systemd and no Caddy:** the image build, `docker compose up`, the Caddyfile (syntax checked by eye), the systemd
 > units, TLS issuance, a full `load-all` against all publishers, and any load test. Expect small fixes on first deploy.
 
+> **First release:** `docs/go-live.md` lists the nine countries loaded by default, the load times and the sizes.
+
 ## 1. Requirements
 
 | | Minimum for the current corpus (about 740k provisions, more with all of Germany) | Notes |

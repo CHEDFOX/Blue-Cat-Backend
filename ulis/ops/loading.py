@@ -116,6 +116,15 @@ def launch_markets(base_dir: Path = REPO_ROOT) -> frozenset[str]:
     return frozenset(str(item) for item in data.get("markets") or [])
 
 
+def not_yet_sources(base_dir: Path = REPO_ROOT) -> frozenset[str]:
+    """Source ids under ``not_yet`` in the launch-markets file: part-covers of a market, loaded on request."""
+    path = base_dir / "config" / "launch-markets.yaml"
+    if not path.is_file():
+        return frozenset()
+    data = yaml.safe_load(path.read_text("utf-8")) or {}
+    return frozenset(str(item) for item in data.get("not_yet") or [])
+
+
 def in_markets(catalog: Catalog, source: SourceDescriptor, markets: frozenset[str]) -> bool:
     """Whether the source covers a market, or a state, province or region below one."""
     for jurisdiction in source.jurisdictions:
@@ -139,6 +148,7 @@ def select_sources(catalog: Catalog, options: LoadOptions, base_dir: Path = REPO
         raise UnknownSource(f"unknown source id(s): {', '.join(unknown)}. Known: {', '.join(sorted(known))}")
     selection = Selection()
     markets = frozenset() if options.all_markets else launch_markets(base_dir)
+    not_yet = frozenset() if options.all_markets else not_yet_sources(base_dir)
     for source in known.values():
         named = source.id in options.only
         if options.only and not named:
@@ -153,6 +163,8 @@ def select_sources(catalog: Catalog, options: LoadOptions, base_dir: Path = REPO
                 reason = "fictional sample: only with --include-fictional or --only"
             elif is_case_law(source) and not options.include_case_law:
                 reason = "court decisions, not loaded by default: only with --include-case-law or --only"
+            elif source.id in not_yet:
+                reason = "covers only part of its jurisdiction, not at go-live: only with --all-markets or --only"
             elif markets and source.authority != "fictional" and not in_markets(catalog, source, markets):
                 reason = f"outside the launch markets ({', '.join(sorted(markets))}): only with --all-markets or --only"
             elif not source.load_by_default and not options.include_history:

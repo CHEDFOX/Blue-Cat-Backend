@@ -24,6 +24,7 @@ from ulis.ops.loading import (
     in_markets,
     is_case_law,
     launch_markets,
+    not_yet_sources,
     select_sources,
 )
 from ulis.ops.sources import LOAD_AFTER, STATIC_PINS, apply_load_order, manifest_info
@@ -65,18 +66,21 @@ def ids(catalog: Catalog, **kw: Any) -> list[str]:
 def test_default_selection_is_the_laws_of_the_launch_markets(catalog: Catalog) -> None:
     selected = ids(catalog)
     markets = launch_markets()
-    assert markets >= {"US", "GB", "EU", "DE", "FR", "CA", "AU", "IN"}
+    assert markets >= {"US", "GB", "DE", "CA", "AU", "ES", "SE", "FI", "JP"}  # the go-live countries
     active_real = {s.id for s in catalog.sources if s.status == "active" and s.authority != "fictional"}
     history = {s.id for s in catalog.sources if s.status == "active" and not s.load_by_default}
     case_law = {i for i in active_real if is_case_law(catalog.sources.get(i))}
-    outside = {i for i in active_real if not in_markets(catalog, catalog.sources.get(i), markets)}
+    held_back = not_yet_sources()
+    outside = {i for i in active_real if not in_markets(catalog, catalog.sources.get(i), markets)} | held_back
     assert history >= {"us-govinfo-bulk-statutes", "us-govinfo-bulk-cfr-fr"}  # old editions: only on request
     assert set(selected) == active_real - history - case_law - outside and SAMPLE not in selected
     assert history & set(selected) == set() and history - outside <= set(ids(catalog, include_history=True))
     assert all(catalog.sources.get(i).status == "active" for i in selected)
     # ... each kind of exclusion has its own switch, and naming a source overrides all of them
-    assert {"nl-bwb", "lu-legilux", "es-boe-consolidada"} <= outside  # countries outside the launch markets
-    assert {"nl-bwb", "lu-legilux"} <= set(ids(catalog, all_markets=True))
+    assert {"nl-bwb", "lu-legilux"} <= outside  # countries outside the launch markets
+    assert {"us-tx-statutes", "ca-on-e-laws"} <= held_back <= set(catalog.sources.sources)  # part-covers of a market
+    assert {"es-boe-consolidada", "jp-egov-laws", "de-gesetze-im-internet"} <= set(selected)
+    assert {"nl-bwb", "lu-legilux", "us-tx-statutes"} <= set(ids(catalog, all_markets=True))
     assert {"us-govinfo-usreports", "fr-dila-cass", "gb-uksc-judgments"} <= case_law  # court decisions
     assert case_law - outside <= set(ids(catalog, include_case_law=True))
     assert ids(catalog, only=("us-govinfo-bulk-cfr-fr",)) == ["us-govinfo-bulk-cfr-fr"]
@@ -105,7 +109,7 @@ def test_small_sources_come_first(catalog: Catalog) -> None:
 def test_the_ecfr_follows_the_annual_editions(catalog: Catalog) -> None:
     """Older editions of a part are loaded before the current eCFR text: the pipeline records a newer wording from
     its own date, but an older wording that arrives after it would be a conflict."""
-    order = ids(catalog, include_history=True)
+    order = ids(catalog, include_history=True, all_markets=True)
     ecfr = order.index("us-ecfr")
     assert ecfr > order.index("us-govinfo-bulk-cfr-fr") and ecfr > order.index("us-gpo-uslm-samples")
     assert ids(catalog, only=("us-ecfr",)) == ["us-ecfr"]
@@ -135,7 +139,7 @@ def test_refresh_skips_static_pins_and_pins_name_real_sources(catalog: Catalog) 
     assert set(STATIC_PINS) <= set(catalog.sources.sources)
     refreshed = set(ids(catalog, refresh=True))
     assert refreshed and refreshed.isdisjoint(STATIC_PINS)
-    assert {"gb-legislation-gov-uk", "de-gesetze-im-internet", "fr-dila-legi"} <= refreshed
+    assert {"gb-legislation-gov-uk", "de-gesetze-im-internet", "es-boe-consolidada"} <= refreshed
     assert {"ca-justice-laws-xml", "us-uscode-house", "us-gpo-uslm-samples"} <= set(STATIC_PINS)
     assert set(ids(catalog, refresh=True, only=("us-uscode-house",))) == {"us-uscode-house"}  # naming overrides
 
