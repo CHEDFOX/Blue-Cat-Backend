@@ -124,7 +124,7 @@ SUFFIX = (
     r"(?:\s?-\s?[A-Za-z](?![A-Za-z])|\s?[-.]\s?[0-9]{1,2}(?![0-9])|"
     r"\s?(?:bis|ter|quater|quinquies)\b|[A-Za-z](?![A-Za-z]))"
 )
-NUMBER = r"(?P<base>" + BASE + r")(?P<ord>\.?[º°ᵒ])?(?P<suffix>" + SUFFIX + r")?"
+NUMBER = r"(?P<base>" + BASE + r")(?P<ord>\.?[º°ᵒ]|(?<=[0-9])er\b)?(?P<suffix>" + SUFFIX + r")?"  # 12.º, 1er
 ORDINAL_SIGNS = "º°ᵒ"
 
 

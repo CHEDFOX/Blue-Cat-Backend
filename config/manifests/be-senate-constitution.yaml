@@ -1,0 +1,53 @@
+# The Constitution of Belgium (fr, nl, de): 3 document(s) on www.senate.be. See config/sources/be-senate-constitution.yaml.
+schema_version: 1
+source_id: be-senate-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.senate.be
+documents:
+- slug: be-fr
+  jurisdiction: BE
+  url: https://www.senate.be/doc/const_fr.html
+  format: html
+  language: fr
+  title: La Constitution belge
+  citation_name: Belgium Constitution
+  edition_date: '2025-06-20'
+  edition_label: page of the Senate, "Page last updated on 20/06/2025"
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    encoding: iso-8859-1
+    unit_kind: article
+    tail_regex: '^Texte coordonné du 17 février 1994'
+- slug: be-nl
+  jurisdiction: BE
+  url: https://www.senate.be/doc/const_nl.html
+  format: html
+  language: nl
+  title: De Belgische Grondwet
+  citation_name: Belgium Constitution
+  edition_date: '2025-06-20'
+  edition_label: page of the Senate, "Page last updated on 20/06/2025" (the French page)
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    encoding: iso-8859-1
+    unit_kind: article
+    tail_regex: '^Gecoördineerde tekst van 17 februari 1994'
+- slug: be-de
+  jurisdiction: BE
+  url: https://www.senate.be/deutsch/const_de.html
+  format: html
+  language: de
+  title: Die Verfassung Belgiens
+  citation_name: Belgium Constitution
+  edition_date: '2025-06-20'
+  edition_label: page of the Senate, "Page last updated on 20/06/2025" (the French page)
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    encoding: iso-8859-1
+    unit_kind: article
+    tail_regex: '^Koordinierter Text vom 17\. Februar 1994'

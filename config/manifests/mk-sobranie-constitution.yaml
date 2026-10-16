@@ -1,0 +1,21 @@
+# The Constitution of North Macedonia (mk): 1 document(s) on www.sobranie.mk. See config/sources/mk-sobranie-constitution.yaml.
+schema_version: 1
+source_id: mk-sobranie-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.sobranie.mk
+documents:
+- slug: mk-mk
+  jurisdiction: MK
+  url: https://www.sobranie.mk/content/Odluki%20USTAV/UstavSRSM.pdf
+  format: pdf
+  language: mk
+  title: Устав на Република Северна Македонија
+  citation_name: North Macedonia Constitution
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    unit_kind: article
+    keywords: [Член]
+    tail_regex: '^АМАНДМАНИ I И II$'

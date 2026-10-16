@@ -1,0 +1,24 @@
+# The Constitution of Lithuania (lt): 1 document(s) on www.lrs.lt. See config/sources/lt-seimas-constitution.yaml.
+schema_version: 1
+source_id: lt-seimas-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 20
+hosts:
+- www.lrs.lt
+documents:
+- slug: lt-lt
+  jurisdiction: LT
+  url: https://www.lrs.lt/home/Konstitucija/Konstitucija.htm
+  format: html
+  language: lt
+  title: Lietuvos Respublikos Konstitucija
+  citation_name: Lithuania Constitution
+  adopted_on: '1992-10-25'
+  edition_label: page of the Seimas, no edition date on the page
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    encoding: windows-1257
+    unit_kind: article
+    style: numword
+    keywords_after: [straipsnis]
