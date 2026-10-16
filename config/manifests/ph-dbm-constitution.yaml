@@ -1,0 +1,24 @@
+schema_version: 1
+source_id: ph-dbm-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.dbm.gov.ph
+documents:
+- slug: ph-en
+  jurisdiction: PH
+  url: https://www.dbm.gov.ph/wp-content/uploads/SPIB-ICIA/6.%201987%20Philippine%20Constitution.pdf
+  format: pdf
+  language: en
+  title: The 1987 Constitution of the Republic of the Philippines
+  citation_name: Philippines Constitution
+  authoritative: false
+  text_origin: official_consolidation
+  structure:
+    style: keyword
+    keywords:
+    - SECTION
+    unit_kind: section
+    scope_regex: ^ARTICLE (?P<scope>[IVXLC]+)$
+    part_regex: ^(?P<part>[A-D])\. (Common Provisions|The Civil Service Commission|The Commission on Elections|Commission on Audit)$
+    chapter_regex: ^(ARTICLE [IVXLC]+|[A-D]\. (Common Provisions|The Civil Service Commission|The Commission on Elections|Commission on Audit))$

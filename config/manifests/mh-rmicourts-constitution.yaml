@@ -14,4 +14,15 @@ documents:
   citation_name: Marshall Islands Constitution
   authoritative: false
   text_origin: official_consolidation
-  structure: {}
+  structure:
+    style: blocks
+    start_regex: ^WE, THE PEOPLE OF THE REPUBLIC OF THE MARSHALL ISLANDS, trusting$
+    page_numbers: true
+    drop_lines:
+    - ^Page[0-9]+$
+    - ^Constitution of the Republic of the Marshall Islands$
+    - ^ARTICLE [IVXLC]+§[0-9]+$
+  note: >-
+    The PDF prints the section labels ('§2.', '§3.') apart from the section headings and texts on many pages, and an index of
+    the whole Constitution before the text; the index is not stored and the structure is not recognised, so the text is
+    stored in blocks of paragraphs in the order of the PDF.

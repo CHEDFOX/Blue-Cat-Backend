@@ -228,10 +228,12 @@ class Candidate:
     keyword: str = ""
     weight: int = 0
     mark: str = ""  # footnote reference printed before the number ("5[2A. ...")
+    scope: str = ""  # the article (and part) a section belongs to, for texts whose sections restart in every article
+    scope_rank: int = 0  # how many scope headings precede it: consecutive articles differ by 1
 
     @property
     def key(self) -> str:
-        return f"{self.base}{self.suffix}"
+        return f"{self.scope.lower()}_{self.base}{self.suffix}" if self.scope else f"{self.base}{self.suffix}"
 
 
 def keyword_regex(keywords: list[str]) -> re.Pattern[str]:
@@ -262,8 +264,55 @@ NUMDOT = re.compile(
 TOC_LEADER = re.compile(r"(\.{4,}|…{2,}|\s\.\s\.\s\.)\s*[0-9ivxlc]*\s*$")
 
 
-def find_candidates(lines: list[str], style: str, keywords: list[str], words_after: list[str]) -> list[Candidate]:
+def find_candidates(
+    lines: list[str],
+    style: str,
+    keywords: list[str],
+    words_after: list[str],
+    heading_re: re.Pattern[str] | None = None,
+    scope_re: re.Pattern[str] | None = None,
+    part_re: re.Pattern[str] | None = None,
+) -> list[Candidate]:
+    out = _candidates(lines, style, keywords, words_after, heading_re)
+    if scope_re is not None:
+        # (line, scope token): the article heading ("ARTICLE IX" -> "IX"), then its lettered parts ("B. The Civil
+        # Service Commission" -> "IX-B"); the sections of each restart at 1
+        scopes: list[tuple[int, str]] = []
+        top = ""
+        for i, x in enumerate(lines):
+            if TOC_LEADER.search(x):
+                continue
+            if m := scope_re.match(x):
+                top = m.group("scope")
+                scopes.append((i, top))
+            elif top and part_re is not None and (m := part_re.match(x)):
+                scopes.append((i, f"{top}-{m.group('part')}"))
+        for c in out:
+            before = [k for k, (i, _) in enumerate(scopes) if i < c.line]
+            if before:
+                c.scope, c.scope_rank = scopes[before[-1]][1], before[-1] + 1
+        out = [c for c in out if c.scope]  # a section printed before the first article heading is not one
+    return out
+
+
+def _candidates(
+    lines: list[str],
+    style: str,
+    keywords: list[str],
+    words_after: list[str],
+    heading_re: re.Pattern[str] | None = None,
+) -> list[Candidate]:
     out: list[Candidate] = []
+    if style == "sequence":
+        # headings that spell their number in words (Mongolian "Арван нэгдүгээр зүйл."): the manifest names the
+        # heading line by a pattern and the units are numbered 1, 2, 3 ... in the order they appear
+        if heading_re is None:
+            return out
+        for i, line in enumerate(lines):
+            m = heading_re.match(line)
+            if m and not TOC_LEADER.search(line):
+                out.append(Candidate(i, len(out) + 1, "", (m.groupdict().get("tail") or "").strip()))
+        return out
     pattern = keyword_regex(keywords) if style == "keyword" else None
     after = numword_regex(words_after) if style == "numword" and words_after else None
     for i, line in enumerate(lines):
@@ -326,7 +375,12 @@ def body_chain(cands: list[Candidate], lines: list[str], max_gap: int = MAX_GAP,
         best[i] = c.weight if c.base <= max_first else 0
         for j in range(i):
             d = c.base - cands[j].base
-            follows = (1 <= d <= max_gap) or (d == 0 and c.suffix and c.suffix != cands[j].suffix)
+            if c.scope and c.scope != cands[j].scope:
+                # sections restart in every article: the next article's first section follows the last of the one before
+                step = c.scope_rank - cands[j].scope_rank
+                follows = 1 <= step <= 3 and c.base <= max_first
+            else:
+                follows = (1 <= d <= max_gap) or (d == 0 and bool(c.suffix) and c.suffix != cands[j].suffix)
             if best[j] and follows and best[j] + c.weight > best[i]:
                 best[i] = best[j] + c.weight
                 prev[i] = j
@@ -657,10 +711,13 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
     chosen = "blocks"
     if style != "blocks":
         words_after = list(hints.get("keywords_after") or [])
+        sequence_re = re.compile(hints["heading_regex"]) if hints.get("heading_regex") else None
+        scope_re = re.compile(hints["scope_regex"]) if hints.get("scope_regex") else None
+        part_re = re.compile(hints["part_regex"]) if hints.get("part_regex") else None
         order = ["keyword", "numdot", *(["numword"] if words_after else [])] if style == "auto" else [style]
         for name in order:
             found = body_chain(
-                find_candidates(lines, name, keywords, words_after),
+                find_candidates(lines, name, keywords, words_after, sequence_re, scope_re, part_re),
                 lines,
                 int(hints.get("max_gap", MAX_GAP)),
                 int(hints.get("max_first", 3)),
@@ -802,7 +859,7 @@ def _structure(lines: list[str], document: dict[str, Any], media: str) -> tuple[
         unit.content.extend(_paragraph_units(content, paragraph_style))
         if not last:
             following = chain[n + 1]
-            missing = [x for x in range(cand.base + 1, following.base)]
+            missing = [x for x in range(cand.base + 1, following.base)] if following.scope == cand.scope else []
             if missing:
                 unit.notes.append(
                     f"The heading of {word} {', '.join(str(x) for x in missing)} was not recognised: "
