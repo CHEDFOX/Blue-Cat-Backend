@@ -2,7 +2,7 @@
 # profiles). EU membership is deliberately not recorded here (added separately with the EU profile).
 schema_version: 1
 id: IE
-profile_version: 0.1.0
+profile_version: 0.1.1
 name: Ireland
 names: {en: Ireland, ga: Éire}
 kind: sovereign_state

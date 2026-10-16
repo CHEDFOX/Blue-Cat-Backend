@@ -9,15 +9,22 @@ The title is the Act's own short title (the comma the older Acts print before th
 the Irish Statute Book does in its listings). Formatting conventions only; to be confirmed by an Irish
 reviewer before the IE profile is "reviewed". Acts are cited by title and year, not by Act number; the
 number and year are kept in ``ext`` and in the work URI (``/ie/act/<year>/<number>``).
+
+The Constitution of Ireland (``constitution_text`` parser, ``ie-isb-constitution``) is not an Act and has no Act year or
+number; its provisions are cited as ``Constitution of Ireland art. 28A`` (the generic constitution module's convention).
 """
 
 from __future__ import annotations
 
-from typing import ClassVar, Literal
+from typing import Any, ClassVar, Literal
 
 from pydantic import BaseModel, ConfigDict
 
 from ulis.jurisdictions.modules.base import JurisdictionModule, ProvisionCitationInput
+from ulis.jurisdictions.modules.constitution import ConstitutionModule
+
+CONSTITUTION_KINDS = ("article", "preamble", "block")  # the units of the constitution parser; an Act has sections
+_CONSTITUTION = ConstitutionModule()
 
 
 class IeExt(BaseModel):
@@ -45,7 +52,13 @@ class IeModule(JurisdictionModule):
     version: ClassVar[str] = "1.0.0"
     ext_model: ClassVar[type[BaseModel]] = IeExt
 
+    def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:
+        # the Constitution has no Act year or number: the constitution parser leaves the extension empty
+        return {} if not ext else super().validate_ext(ext)
+
     def pinpoint(self, c: ProvisionCitationInput) -> str:
+        if c.top_kind in CONSTITUTION_KINDS:
+            return _CONSTITUTION.pinpoint(c)
         if c.top_kind == "long_title":
             return "long title"
         if c.top_kind == "schedule":
@@ -60,5 +73,7 @@ class IeModule(JurisdictionModule):
         return f"s {parts[0]}" + _subs(parts[1:]) if parts else ""
 
     def provision_citation(self, c: ProvisionCitationInput) -> str:
+        if c.top_kind in CONSTITUTION_KINDS:
+            return _CONSTITUTION.provision_citation(c)
         pin = self.pinpoint(c)
         return f"{c.instrument_title}, {pin}" if pin else c.instrument_title

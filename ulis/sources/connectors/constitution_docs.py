@@ -237,7 +237,7 @@ class ConstitutionDocsConnector:
                 if re.search(r"HTTP (401|403|451)\b", str(exc)):
                     stopped.add(host)
                 continue
-            except (OSError, http.client.HTTPException) as exc:  # e.g. a host that closes the connection without answering
+            except (OSError, http.client.HTTPException) as exc:  # e.g. a host that closes the connection unanswered
                 self.fetch_errors.append(f"{slug}: {url}: {type(exc).__name__}: {exc}")
                 continue
             if problem:

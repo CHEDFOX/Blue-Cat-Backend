@@ -18,3 +18,5 @@ documents:
   text_origin: official_consolidation
   structure:
     unit_kind: article
+    style: numword
+    keywords_after: [gr]

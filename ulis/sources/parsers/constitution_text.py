@@ -246,10 +246,10 @@ def keyword_regex(keywords: list[str]) -> re.Pattern[str]:
 
 
 def numword_regex(words: list[str]) -> re.Pattern[str]:
-    """Headings that print the number first: ``1-модда.``, ``1-modda``, ``1 maddə``."""
+    """Headings that print the number first: ``1-модда.``, ``1-modda``, ``1 maddə``, ``1. gr.``."""
     alternatives = "|".join(re.escape(k) for k in sorted(set(words), key=len, reverse=True))
     return re.compile(
-        r"^\s*" + NUMBER + r"\s*[-–]?\s*(?P<kw>" + alternatives + r")\b\.?(?P<tail>(?:\s*[.:–—-]+\s*|\s+|$).*)$",
+        r"^\s*" + NUMBER + r"\.?\s*[-–]?\s*(?P<kw>" + alternatives + r")\b\.?(?P<tail>(?:\s*[.:–—-]+\s*|\s+|$).*)$",
         re.IGNORECASE,
     )
 
@@ -307,7 +307,9 @@ def find_candidates(lines: list[str], style: str, keywords: list[str], words_aft
                 parsed = parse_number(m.group("base"), m.group("suffix") or "")
                 remainder = m.group("tail").strip(" \t.:–—-")
                 raw = m.group("tail").lstrip(" \t.:–—-").strip()
-                if remainder.isdigit() or re.fullmatch(r"\*?\[[0-9]+\]", remainder):  # a footnote mark printed after the number
+                if remainder.isdigit() or re.fullmatch(
+                    r"\*?\[[0-9]+\]", remainder
+                ):  # a footnote mark printed after the number
                     remainder = raw = ""
                 keyword = m.group("kw")
             else:

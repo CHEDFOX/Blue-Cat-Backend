@@ -1,0 +1,507 @@
+{
+ "ad-ca": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "blk-1",
+   "blk-2"
+  ],
+  "first_text": "Andorra és un Estat independent, de Dret, Democràtic i Socia",
+  "kinds": {
+   "article": 6,
+   "block": 2,
+   "preamble": 1
+  },
+  "last": "blk-2"
+ },
+ "az-az": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6"
+  ],
+  "first_text": "I. Azərbaycan Respublikasında dövlət hakimiyyətinin yeganə m",
+  "kinds": {
+   "article": 6,
+   "preamble": 1
+  },
+  "last": "art-6"
+ },
+ "az-en": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6"
+  ],
+  "first_text": "I. The sole source of state power in the Republic of Azerbai",
+  "kinds": {
+   "article": 6,
+   "preamble": 1
+  },
+  "last": "art-6"
+ },
+ "az-ru": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6"
+  ],
+  "first_text": "I. В Азербайджанской Республике единственным источником госу",
+  "kinds": {
+   "article": 6,
+   "preamble": 1
+  },
+  "last": "art-6"
+ },
+ "ba-bs": {
+  "eids": [
+   "blk-1",
+   "blk-2"
+  ],
+  "first_text": "USTAV BOSNE I HERCEGOVINE1\nPrijevod na bosanski jezik\nPREAMB",
+  "kinds": {
+   "block": 2
+  },
+  "last": "blk-2"
+ },
+ "ba-hr": {
+  "eids": [
+   "blk-1",
+   "blk-2"
+  ],
+  "first_text": "USTAV BOSNE I HERCEGOVINE1\nPrijevod na hrvatski jezik\nPREAMB",
+  "kinds": {
+   "block": 2
+  },
+  "last": "blk-2"
+ },
+ "ba-sr": {
+  "eids": [
+   "blk-1",
+   "blk-2"
+  ],
+  "first_text": "УСТАВ БОСНЕ И ХЕРЦЕГОВИНЕ\n1\nПревод на српски језик\nПРЕАМБУЛА",
+  "kinds": {
+   "block": 2
+  },
+  "last": "blk-2"
+ },
+ "be-de": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "blk-1"
+  ],
+  "first_text": "Belgien ist ein Föderalstaat, der sich aus den Gemeinschafte",
+  "kinds": {
+   "article": 6,
+   "block": 1
+  },
+  "last": "blk-1"
+ },
+ "be-fr": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "blk-1"
+  ],
+  "first_text": "La Belgique est un État fédéral qui se compose des communaut",
+  "kinds": {
+   "article": 6,
+   "block": 1
+  },
+  "last": "blk-1"
+ },
+ "be-nl": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "blk-1"
+  ],
+  "first_text": "België is een federale Staat, samengesteld uit de gemeenscha",
+  "kinds": {
+   "article": 6,
+   "block": 1
+  },
+  "last": "blk-1"
+ },
+ "bg-bg": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "blk-1",
+   "blk-2"
+  ],
+  "first_text": "(1) България е република с парламентарно управление.\n(2) Цял",
+  "kinds": {
+   "article": 6,
+   "block": 2,
+   "paragraph": 15,
+   "preamble": 1
+  },
+  "last": "blk-2"
+ },
+ "ge-en": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "art-7",
+   "art-8"
+  ],
+  "first_text": "Georgia is an independent, unified and indivisible state as ",
+  "kinds": {
+   "article": 8,
+   "preamble": 1
+  },
+  "last": "art-8"
+ },
+ "ge-ka": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "art-7",
+   "art-8"
+  ],
+  "first_text": "საქართველო არის დამოუკიდებელი, ერთიანი და განუყოფელი სახელმწ",
+  "kinds": {
+   "article": 8,
+   "preamble": 1
+  },
+  "last": "art-8"
+ },
+ "hu-hu": {
+  "eids": [
+   "blk-1",
+   "blk-2"
+  ],
+  "first_text": "NEMZETI HITVALLÁS\nMI, A MAGYAR NEMZET TAGJAI, az új évezred ",
+  "kinds": {
+   "block": 2
+  },
+  "last": "blk-2"
+ },
+ "ie-en": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "blk-1"
+  ],
+  "first_text": "The Irish nation hereby affirms its inalienable, indefeasibl",
+  "kinds": {
+   "article": 6,
+   "block": 1,
+   "preamble": 1
+  },
+  "last": "blk-1"
+ },
+ "ie-ga": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "blk-1"
+  ],
+  "first_text": "Deimhníonn náisiún na hÉireann leis seo a gceart doshannta, ",
+  "kinds": {
+   "article": 6,
+   "block": 1,
+   "preamble": 1
+  },
+  "last": "blk-1"
+ },
+ "is-is": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6"
+  ],
+  "first_text": "Ísland er lýðveldi með þingbundinni stjórn.",
+  "kinds": {
+   "article": 6
+  },
+  "last": "art-6"
+ },
+ "kz-kk": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6"
+  ],
+  "first_text": "Қазақстан Республикасы – демократиялық, зайырлы, құқықтық жә",
+  "kinds": {
+   "article": 6
+  },
+  "last": "art-6"
+ },
+ "kz-ru": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6"
+  ],
+  "first_text": "Республика Казахстан – демократическое, светское, правовое и",
+  "kinds": {
+   "article": 6
+  },
+  "last": "art-6"
+ },
+ "lt-lt": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "blk-1"
+  ],
+  "first_text": "Lietuvos valstybė yra nepriklausoma demokratinė respublika.",
+  "kinds": {
+   "article": 6,
+   "block": 1,
+   "preamble": 1
+  },
+  "last": "blk-1"
+ },
+ "mc-fr": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6"
+  ],
+  "first_text": "La Principauté de Monaco est un État souverain et indépendan",
+  "kinds": {
+   "article": 6,
+   "preamble": 1
+  },
+  "last": "art-6"
+ },
+ "md-ro": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "blk-1"
+  ],
+  "first_text": "Statul Republica Moldova\n(1) Republica Moldova este un stat ",
+  "kinds": {
+   "article": 6,
+   "block": 1,
+   "paragraph": 11,
+   "preamble": 1
+  },
+  "last": "blk-1"
+ },
+ "mk-mk": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "blk-1"
+  ],
+  "first_text": "Република Македонија е суверена, самостојна, демократска и с",
+  "kinds": {
+   "article": 6,
+   "block": 1
+  },
+  "last": "blk-1"
+ },
+ "mt-en": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-5a"
+  ],
+  "first_text": "(1) Malta is a democratic republic founded on work and on\nre",
+  "kinds": {
+   "article": 6,
+   "paragraph": 12
+  },
+  "last": "art-5a"
+ },
+ "mt-mt": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-5a"
+  ],
+  "first_text": "(1) Malta hija repubblika demokratika bbażata fuq ixxogħol u",
+  "kinds": {
+   "article": 6,
+   "paragraph": 12
+  },
+  "last": "art-5a"
+ },
+ "ps-en": {
+  "eids": [
+   "blk-1",
+   "blk-2",
+   "blk-3"
+  ],
+  "first_text": "The Palestinian Basic Law\nTitle Eight:General and Transition",
+  "kinds": {
+   "block": 3
+  },
+  "last": "blk-3"
+ },
+ "ro-ro": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6"
+  ],
+  "first_text": "Statul român\n(1) România este stat naţional, suveran şi inde",
+  "kinds": {
+   "article": 6,
+   "paragraph": 17
+  },
+  "last": "art-6-par2"
+ },
+ "va-it": {
+  "eids": [
+   "preamble",
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6"
+  ],
+  "first_text": "Il Sommo Pontefice, Sovrano dello Stato della Città del Vati",
+  "kinds": {
+   "article": 6,
+   "preamble": 1
+  },
+  "last": "art-6"
+ },
+ "xk-sq": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "art-7"
+  ],
+  "first_text": "Republika e Kosovës është shoqëri shumetnike, e përbërë nga ",
+  "kinds": {
+   "article": 7
+  },
+  "last": "art-7"
+ },
+ "xk-sr": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6",
+   "art-7"
+  ],
+  "first_text": "Republika Kosovo je multietničko društvo, koje se sastoji od",
+  "kinds": {
+   "article": 7
+  },
+  "last": "art-7"
+ },
+ "ye-ar": {
+  "eids": [
+   "art-1",
+   "art-2",
+   "art-3",
+   "art-4",
+   "art-5",
+   "art-6"
+  ],
+  "first_text": "الجمهورية اليمنية دولة عربية إسلامية مستقلة ذات سيادة، وهي و",
+  "kinds": {
+   "article": 6
+  },
+  "last": "art-6"
+ }
+}
