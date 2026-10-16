@@ -28,7 +28,7 @@ Loaded: 17 publishers, 17 countries, 18 documents (counts of provisions are in t
 | Democratic Republic of the Congo | `cd-medd-constitution` | Ministère de l'Environnement et Développement Durable, RDC (medd.gouv.cd) | fr | 1 | Preamble, 229 articles of the Constitution of 18 February 2006 as coordinated after the law of 20 January 2011 (Journal officiel special issue of 5 February 2011), and the Exposé des motifs as blocks. |
 | Cameroon | `cm-assnat-constitution` | Assemblée nationale du Cameroun (assnat.cm) | fr, en | 2 | Preamble and 69 articles of the Constitution of 1996, in French (as modified and completed by the law of 14 April 2008, per its heading) and in English, as the National Assembly's PDFs print them. |
 | Mali | `ml-koulouba-constitution` | Présidence de la République du Mali (koulouba.ml) | fr | 1 | Preamble and 191 articles of the Constitution promulgated on 22 July 2023 as the Presidency's PDF of the Journal officiel prints them. |
-| Congo | `cg-gouvernement-constitution` | Gouvernement de la République du Congo (gouvernement.cg) | fr | 1 | Preamble and 246 articles of the Constitution of 25 October 2015 as the Government portal's PDF of the Journal officiel prints them (one heading not recognised). |
+| Congo | `cg-gouvernement-constitution` | Gouvernement de la République du Congo (gouvernement.cg) | fr | 1 | Articles 1 to 246 of the Constitution of 25 October 2015 as the Government portal's PDF of the Journal officiel prints them. |
 | Equatorial Guinea | `gq-gobierno-constitution` | Página Oficial del Gobierno de la República de Guinea Ecuatorial (guineaecuatorialpress.com) | es | 1 | Preamble and 134 articles of the Ley Fundamental as promulgated on 16 February 2012, as the Government's PDF prints them. |
 | Liberia | `lr-mod-constitution` | Ministry of National Defense of Liberia (mod.gov.lr) | en | 1 | Preamble and 97 articles of the Constitution of Liberia as the Ministry of National Defense's PDF prints them (one heading not recognised). |
 
@@ -176,7 +176,7 @@ The document - The page "La Constitution du 22 juillet 2023" (https://koulouba.m
 ```text
 robots.txt - www.gouvernement.cg/robots.txt - "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php"; no Crawl-delay; /wp-content/uploads/ is not disallowed
 Terms - page footer of the home page: "Politique de confidentialité | Conditions générales | Cookies | Contacts © 2022 République du Congo. Tous droits réservés." - "Conditions générales" is a link to "#" (no terms page); no licence was found. TWO OTHER Congolese publishers of the same Journal officiel text forbid reproduction in their legal notices and are recorded as rejected (cg-sgg-constitution, cg-presidence-constitution): the reading of this source is therefore the least secure of the AMBER ones
-The document - The Government portal hosts the PDF "constitution_25_10_2015-1.pdf" (24 pages, text layer, two columns): the Journal officiel text "CONSTITUTION DE LA REPUBLIQUE DU CONGO ADOPTEE PAR REFERENDUM LE 25 OCTOBRE 2015": preamble and articles 1 to 246.
+The document - The Government portal hosts the PDF "constitution_25_10_2015-1.pdf" (24 pages, text layer, two columns): the Journal officiel text "CONSTITUTION DE LA REPUBLIQUE DU CONGO ADOPTEE PAR REFERENDUM LE 25 OCTOBRE 2015": articles 1 to 246 (the PDF's preamble is not recognised as such and is not stored).
 ```
 
 ### Equatorial Guinea - `gq-gobierno-constitution`

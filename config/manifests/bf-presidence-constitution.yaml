@@ -50,4 +50,6 @@ documents:
     locator: Avant-propos
   authoritative: false
   text_origin: official_consolidation
-  structure: {}
+  structure:
+    drop_lines:
+    - ^[0-9]{1,3}$

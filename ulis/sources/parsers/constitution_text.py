@@ -393,6 +393,8 @@ def _pdf_lines(body: bytes, hints: dict[str, Any]) -> list[str]:
             layout=bool(hints.get("layout")),
             soft_hyphen=str(hints.get("soft_hyphen", "drop")),
             columns=int(hints.get("columns", 1)),
+            column_top=float(hints.get("columns_top", 0)),
+            column_bottom=float(hints.get("columns_bottom", 0)),
         )
     except PdfTextError as exc:
         raise ConstitutionParseError(str(exc)) from exc

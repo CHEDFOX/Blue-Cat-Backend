@@ -76,8 +76,8 @@ known_limitations:
   any) is the edition date, else the retrieval date.
 - Amendments adopted after the edition date are not applied; no history is held.
 - >-
-  The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). Revisions after
-  6 May 2024, if any, are not applied.
+  The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2, the running head
+  left out with columns_top). Revisions after 6 May 2024, if any, are not applied.
 status: active
 connector: constitution_docs
 parser: constitution_text

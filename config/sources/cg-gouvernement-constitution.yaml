@@ -6,7 +6,8 @@
 #        publishers of the same Journal officiel text forbid reproduction in their legal notices and are recorded as rejected (cg-sgg-
 #        constitution, cg-presidence-constitution): the reading of this source is therefore the least secure of the AMBER ones
 #   The document - The Government portal hosts the PDF "constitution_25_10_2015-1.pdf" (24 pages, text layer, two columns): the Journal
-#        officiel text "CONSTITUTION DE LA REPUBLIQUE DU CONGO ADOPTEE PAR REFERENDUM LE 25 OCTOBRE 2015": preamble and articles 1 to 246.
+#        officiel text "CONSTITUTION DE LA REPUBLIQUE DU CONGO ADOPTEE PAR REFERENDUM LE 25 OCTOBRE 2015": articles 1 to 246 (the PDF's
+#        preamble is not recognised as such and is not stored).
 schema_version: 1
 id: cg-gouvernement-constitution
 name: Constitution of Congo - Gouvernement de la République du Congo (gouvernement.cg)
@@ -21,8 +22,7 @@ languages:
 - fr
 coverage: >-
   The Constitution of Congo in fr as published by Gouvernement de la République du Congo (gouvernement.cg): 1 document(s).
-  Preamble and 246 articles of the Constitution of 25 October 2015 as the Government portal's PDF of the Journal officiel
-  prints them (one heading not recognised).
+  Articles 1 to 246 of the Constitution of 25 October 2015 as the Government portal's PDF of the Journal officiel prints them.
 access:
   method: permitted_web_retrieval
   endpoint: config/manifests/cg-gouvernement-constitution.yaml
@@ -48,9 +48,10 @@ licence:
     notices and are recorded as rejected (cg-sgg-constitution, cg-presidence-constitution): the reading of this source is
     therefore the least secure of the AMBER ones). The Government portal hosts the PDF "constitution_25_10_2015-1.pdf" (24
     pages, text layer, two columns): the Journal officiel text "CONSTITUTION DE LA REPUBLIQUE DU CONGO ADOPTEE PAR REFERENDUM
-    LE 25 OCTOBRE 2015": preamble and articles 1 to 246. The Constitution is an official legal text; no statute excluding
-    official texts from copyright was read on the publisher's pages (to verify). Reading: AMBER - the publisher states no
-    restriction on reusing the text beyond a generic notice; no permission for automated retrieval is stated either.
+    LE 25 OCTOBRE 2015": articles 1 to 246 (the PDF's preamble is not recognised as such and is not stored). The Constitution
+    is an official legal text; no statute excluding official texts from copyright was read on the publisher's pages (to verify).
+    Reading: AMBER - the publisher states no restriction on reusing the text beyond a generic notice; no permission for automated
+    retrieval is stated either.
   reviewed_on: '2026-10-16'
   redistribution: allowed_with_conditions
   bulk_download: allowed_with_conditions
@@ -80,8 +81,9 @@ known_limitations:
   The text is the Constitution of 25 October 2015 as printed in the Journal officiel; the loi constitutionnelle n° 2-2022
   of 7 January 2022 (revising article 157, published by the Secrétariat Général du Gouvernement) is not applied.
 - >-
-  The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). The heading
-  of article 194 is not recognised: its text is kept in article 193, whose note says so.
+  The Journal officiel is printed in two columns, with marginal single letters and a running head cut by the layout; the parser
+  reads each page as two strips (hint columns: 2) and the manifest drops those fragments. Article 194 is headed 'Articles
+  194 :' (hint keywords).
 status: active
 connector: constitution_docs
 parser: constitution_text

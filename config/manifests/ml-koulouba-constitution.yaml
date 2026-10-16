@@ -28,9 +28,8 @@ documents:
   text_origin: official_consolidation
   structure:
     columns: 2
+    columns_top: 55
     start_regex: ^PREAMBULE :$
     preamble_regex: ^PREAMBULE :$
     drop_lines:
-    - ^JOURNAL OFFICIEL DE LA REPUBLIQUE DU MALI$
-    - ^SECRETARIAT GENERAL DU GOUVERNEMENT$
-    - ^[0-9]{1,2}$
+    - ^[0-9]{1,3}$

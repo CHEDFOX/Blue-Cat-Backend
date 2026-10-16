@@ -233,6 +233,7 @@ ACTIVE: list[dict[str, Any]] = [
                         "^30 décembre 2020$",
                         "^JOURNAL OFFICIEL DE LA REPUBLIQUE ALGERIENNE N° 82$",
                         "^Imprimerie Officielle",
+                        "^[0-9]{1,3}$",
                     ],
                     "tail_regex": "^Traduction des termes du serment",
                 },
@@ -317,7 +318,7 @@ ACTIVE: list[dict[str, Any]] = [
                         locator="heading of the PDF",
                     )
                 ],
-                structure={},
+                structure={"drop_lines": ["^[0-9]{1,3}$"]},
             )
         ],
         limitations=[
@@ -357,17 +358,14 @@ ACTIVE: list[dict[str, Any]] = [
                 ],
                 structure={
                     "columns": 2,
+                    "columns_top": 55,
                     "start_regex": "^PREAMBULE$",
-                    "drop_lines": [
-                        "^JOURNAL OFFICIEL DE LA REPUBLIQUE GABONAISE$",
-                        "^[0-9]{1,2} DECEMBRE 2024 - N°47 Bis$",
-                        "^[0-9]{1,2}$",
-                    ],
+                    "drop_lines": ["^[0-9]{1,3}$"],
                 },
             )
         ],
         limitations=[
-            "The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). Revisions after 19 December 2024, if any, are not applied."
+            "The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2, the running head left out with columns_top). Revisions after 19 December 2024, if any, are not applied."
         ],
         coverage="Preamble and 173 articles of the Constitution of 19 December 2024 as the Government portal's PDF of the Journal officiel prints them.",
     ),
@@ -443,7 +441,7 @@ ACTIVE: list[dict[str, Any]] = [
                         locator="Avant-propos",
                     ),
                 ],
-                structure={},
+                structure={"drop_lines": ["^[0-9]{1,3}$"]},
             )
         ],
         limitations=[
@@ -481,11 +479,11 @@ ACTIVE: list[dict[str, Any]] = [
                         locator="Journal officiel, special issue",
                     )
                 ],
-                structure={"columns": 2},
+                structure={"columns": 2, "columns_top": 90, "drop_lines": ["^[0-9]{1,3}$"]},
             )
         ],
         limitations=[
-            "The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). Revisions after 6 May 2024, if any, are not applied."
+            "The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2, the running head left out with columns_top). Revisions after 6 May 2024, if any, are not applied."
         ],
         coverage="Preamble and 100 articles of the Constitution promulgated on 6 May 2024 as the Journal officiel's special issue prints them.",
     ),
@@ -609,7 +607,7 @@ ACTIVE: list[dict[str, Any]] = [
                         locator="heading of the PDF",
                     ),
                 ],
-                structure={},
+                structure={"drop_lines": ["^[0-9]{1,3}$"]},
             ),
             dict(
                 slug="cm-en",
@@ -628,7 +626,7 @@ ACTIVE: list[dict[str, Any]] = [
                         locator="heading of the PDF",
                     )
                 ],
-                structure={"unit_kind": "article"},
+                structure={"unit_kind": "article", "drop_lines": ["^[0-9]{1,3}$"]},
             ),
         ],
         limitations=[
@@ -675,18 +673,15 @@ ACTIVE: list[dict[str, Any]] = [
                 ],
                 structure={
                     "columns": 2,
+                    "columns_top": 55,
                     "start_regex": "^PREAMBULE :$",
                     "preamble_regex": "^PREAMBULE :$",
-                    "drop_lines": [
-                        "^JOURNAL OFFICIEL DE LA REPUBLIQUE DU MALI$",
-                        "^SECRETARIAT GENERAL DU GOUVERNEMENT$",
-                        "^[0-9]{1,2}$",
-                    ],
+                    "drop_lines": ["^[0-9]{1,3}$"],
                 },
             )
         ],
         limitations=[
-            "The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). Revisions after 22 July 2023, if any, are not applied."
+            "The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2, the running head left out with columns_top). Revisions after 22 July 2023, if any, are not applied."
         ],
         coverage="Preamble and 191 articles of the Constitution promulgated on 22 July 2023 as the Presidency's PDF of the Journal officiel prints them.",
     ),
@@ -700,7 +695,7 @@ ACTIVE: list[dict[str, Any]] = [
         hosts=["www.gouvernement.cg"],
         robots='www.gouvernement.cg/robots.txt - "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php"; no Crawl-delay; /wp-content/uploads/ is not disallowed',
         terms='page footer of the home page: "Politique de confidentialité | Conditions générales | Cookies | Contacts © 2022 République du Congo. Tous droits réservés." - "Conditions générales" is a link to "#" (no terms page); no licence was found. TWO OTHER Congolese publishers of the same Journal officiel text forbid reproduction in their legal notices and are recorded as rejected (cg-sgg-constitution, cg-presidence-constitution): the reading of this source is therefore the least secure of the AMBER ones',
-        document='The Government portal hosts the PDF "constitution_25_10_2015-1.pdf" (24 pages, text layer, two columns): the Journal officiel text "CONSTITUTION DE LA REPUBLIQUE DU CONGO ADOPTEE PAR REFERENDUM LE 25 OCTOBRE 2015": preamble and articles 1 to 246.',
+        document='The Government portal hosts the PDF "constitution_25_10_2015-1.pdf" (24 pages, text layer, two columns): the Journal officiel text "CONSTITUTION DE LA REPUBLIQUE DU CONGO ADOPTEE PAR REFERENDUM LE 25 OCTOBRE 2015": articles 1 to 246 (the PDF\'s preamble is not recognised as such and is not stored).',
         statute=None,
         docs=[
             dict(
@@ -720,14 +715,28 @@ ACTIVE: list[dict[str, Any]] = [
                         locator="heading of the PDF",
                     )
                 ],
-                structure={"columns": 2},
+                structure={
+                    "columns": 2,
+                    "keywords": ["Article", "Articles"],
+                    "chapter_regex": "^(SOUS-)?TITRE [IVXL0-9]+ ?:",
+                    "chapter_title_lines": 2,
+                    "drop_lines": [
+                        "^[A-Za-zÀ-ÿ,.]$",
+                        "^[0-9]{1,3}$",
+                        "^Journal officiel de l",
+                        "^publique du Congo$",
+                        "^la République du Congo$",
+                        "^Edition spéciale N° 8-2015$",
+                        "^De novembre 2015$",
+                    ],
+                },
             )
         ],
         limitations=[
             "The text is the Constitution of 25 October 2015 as printed in the Journal officiel; the loi constitutionnelle n° 2-2022 of 7 January 2022 (revising article 157, published by the Secrétariat Général du Gouvernement) is not applied.",
-            "The Journal officiel is printed in two columns; the parser reads each page as two strips (hint columns: 2). The heading of article 194 is not recognised: its text is kept in article 193, whose note says so.",
+            "The Journal officiel is printed in two columns, with marginal single letters and a running head cut by the layout; the parser reads each page as two strips (hint columns: 2) and the manifest drops those fragments. Article 194 is headed 'Articles 194 :' (hint keywords).",
         ],
-        coverage="Preamble and 246 articles of the Constitution of 25 October 2015 as the Government portal's PDF of the Journal officiel prints them (one heading not recognised).",
+        coverage="Articles 1 to 246 of the Constitution of 25 October 2015 as the Government portal's PDF of the Journal officiel prints them.",
     ),
     dict(
         id="gq-gobierno-constitution",

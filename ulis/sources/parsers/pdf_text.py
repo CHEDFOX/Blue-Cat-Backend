@@ -43,7 +43,15 @@ def normalise_glyphs(text: str) -> str:
 PAGE_SIZE = re.compile(r"^Page\s+(\d+) size:\s+([0-9.]+) x ([0-9.]+) pts", re.MULTILINE)
 
 
-def pdf_pages(pdf: bytes, *, layout: bool = False, soft_hyphen: str = "drop", columns: int = 1) -> list[str]:
+def pdf_pages(
+    pdf: bytes,
+    *,
+    layout: bool = False,
+    soft_hyphen: str = "drop",
+    columns: int = 1,
+    column_top: float = 0.0,
+    column_bottom: float = 0.0,
+) -> list[str]:
     """The text of each PDF page, as ``pdftotext`` extracts it (reading order), glyph forms normalised.
 
     ``layout=True`` asks for ``pdftotext -layout`` (physical layout kept: numbers printed in a margin column stay on
@@ -51,7 +59,9 @@ def pdf_pages(pdf: bytes, *, layout: bool = False, soft_hyphen: str = "drop", co
     ("undang-undang" printed with a soft-hyphen glyph) instead of dropping it. The defaults leave the text every
     existing caller gets unchanged. ``columns=2`` (or more) reads a page printed in that many equal text columns (an
     official gazette): each page is cut into vertical strips and the strips are read left to right, so the columns do
-    not interleave; the full-width lines of a title page are cut across the strips, which is only furniture."""
+    not interleave; the full-width lines of a title page are cut across the strips, which is only furniture.
+    ``column_top`` / ``column_bottom`` (points) leave out a band at the top / bottom of every page when columns are
+    read: the running head and foot of a gazette, which the strips would cut in the middle."""
     exe = shutil.which("pdftotext")
     if exe is None:
         raise PdfTextError("pdftotext (poppler-utils) is not installed; it is needed to read PDF files")
@@ -82,7 +92,7 @@ def pdf_pages(pdf: bytes, *, layout: bool = False, soft_hyphen: str = "drop", co
         if columns <= 1:
             pages = run([*base, str(source), "-"], "text").stdout.decode("utf-8", "replace").split("\f")
         else:
-            pages = _column_pages(source, base, columns, run)
+            pages = _column_pages(source, base, columns, run, column_top, column_bottom)
     if pages and not pages[-1].strip():
         pages.pop()
     if soft_hyphen == "hyphen":
@@ -90,7 +100,7 @@ def pdf_pages(pdf: bytes, *, layout: bool = False, soft_hyphen: str = "drop", co
     return [normalise_glyphs(page) for page in pages]
 
 
-def _column_pages(source: Path, base: list[str], columns: int, run: Any) -> list[str]:
+def _column_pages(source: Path, base: list[str], columns: int, run: Any, top: float, bottom: float) -> list[str]:
     """Each page read as ``columns`` vertical strips, left to right (page sizes from ``pdfinfo``)."""
     exe = shutil.which("pdfinfo")
     if exe is None:
@@ -108,8 +118,8 @@ def _column_pages(source: Path, base: list[str], columns: int, run: Any) -> list
             args = [
                 *base,
                 *("-f", str(number), "-l", str(number)),
-                *("-x", str(int(width * k / columns)), "-y", "0"),
-                *("-W", str(int(width / columns) + 1), "-H", str(int(height) + 1)),
+                *("-x", str(int(width * k / columns)), "-y", str(int(top))),
+                *("-W", str(int(width / columns) + 1), "-H", str(int(height - top - bottom) + 1)),
                 str(source),
                 "-",
             ]

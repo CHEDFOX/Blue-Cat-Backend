@@ -34,4 +34,5 @@ documents:
     - ^30 décembre 2020$
     - ^JOURNAL OFFICIEL DE LA REPUBLIQUE ALGERIENNE N° 82$
     - ^Imprimerie Officielle
+    - ^[0-9]{1,3}$
     tail_regex: ^Traduction des termes du serment

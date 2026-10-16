@@ -25,3 +25,6 @@ documents:
   text_origin: official_consolidation
   structure:
     columns: 2
+    columns_top: 90
+    drop_lines:
+    - ^[0-9]{1,3}$

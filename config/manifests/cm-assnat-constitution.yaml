@@ -28,7 +28,9 @@ documents:
     locator: heading of the PDF
   authoritative: false
   text_origin: official_consolidation
-  structure: {}
+  structure:
+    drop_lines:
+    - ^[0-9]{1,3}$
 - slug: cm-en
   jurisdiction: CM
   url: https://www.assnat.cm/images/The_constitution.pdf
@@ -47,3 +49,5 @@ documents:
   text_origin: official_consolidation
   structure:
     unit_kind: article
+    drop_lines:
+    - ^[0-9]{1,3}$

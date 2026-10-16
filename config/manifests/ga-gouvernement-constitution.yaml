@@ -24,8 +24,7 @@ documents:
   text_origin: official_consolidation
   structure:
     columns: 2
+    columns_top: 55
     start_regex: ^PREAMBULE$
     drop_lines:
-    - ^JOURNAL OFFICIEL DE LA REPUBLIQUE GABONAISE$
-    - ^[0-9]{1,2} DECEMBRE 2024 - N°47 Bis$
-    - ^[0-9]{1,2}$
+    - ^[0-9]{1,3}$

@@ -24,3 +24,16 @@ documents:
   text_origin: official_consolidation
   structure:
     columns: 2
+    keywords:
+    - Article
+    - Articles
+    chapter_regex: '^(SOUS-)?TITRE [IVXL0-9]+ ?:'
+    chapter_title_lines: 2
+    drop_lines:
+    - ^[A-Za-zÀ-ÿ,.]$
+    - ^[0-9]{1,3}$
+    - ^Journal officiel de l
+    - ^publique du Congo$
+    - ^la République du Congo$
+    - ^Edition spéciale N° 8-2015$
+    - ^De novembre 2015$
