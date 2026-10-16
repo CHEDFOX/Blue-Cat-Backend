@@ -115,7 +115,8 @@ CJK_UNITS = {"十": 10, "百": 100, "千": 1000}
 FIRST_WORDS = {"premier", "première", "premiere", "unique"}
 _CJK = "〇零一二两兩三四五六七八九十百千"
 # the number token of a heading: digits in any script, a CJK numeral, or a word for "first"; then an optional ordinal
-# sign (12.º), then an optional suffix: letters (12A, 12bis, 12.º-A), a dash or dot branch (12-1, 12.1).
+# sign (12.º) or the French ordinal (1er, 1ère), then an optional suffix: letters (12A, 12bis, 12.º-A), a dash or dot
+# branch (12-1, 12.1).
 BASE = (
     r"(?:[0-9٠-٩۰-۹๐-๙០-៩]{1,4}|[" + _CJK + r"]{1,6}|"
     r"premier|première|premiere|unique)"
@@ -124,7 +125,7 @@ SUFFIX = (
     r"(?:\s?-\s?[A-Za-z](?![A-Za-z])|\s?[-.]\s?[0-9]{1,2}(?![0-9])|"
     r"\s?(?:bis|ter|quater|quinquies)\b|[A-Za-z](?![A-Za-z]))"
 )
-NUMBER = r"(?P<base>" + BASE + r")(?P<ord>\.?[º°ᵒ])?(?P<suffix>" + SUFFIX + r")?"
+NUMBER = r"(?P<base>" + BASE + r")(?P<ord>\.?[º°ᵒ]|(?<=[0-9])(?:er|ère)(?![A-Za-zÀ-ÿ]))?(?P<suffix>" + SUFFIX + r")?"
 ORDINAL_SIGNS = "º°ᵒ"
 
 
@@ -387,7 +388,12 @@ def _html_lines(body: bytes, hints: dict[str, Any], encoding: str) -> list[str]:
 
 def _pdf_lines(body: bytes, hints: dict[str, Any]) -> list[str]:
     try:
-        pages = pdf_pages(body, layout=bool(hints.get("layout")), soft_hyphen=str(hints.get("soft_hyphen", "drop")))
+        pages = pdf_pages(
+            body,
+            layout=bool(hints.get("layout")),
+            soft_hyphen=str(hints.get("soft_hyphen", "drop")),
+            columns=int(hints.get("columns", 1)),
+        )
     except PdfTextError as exc:
         raise ConstitutionParseError(str(exc)) from exc
     first = int(hints.get("first_page", 1))
