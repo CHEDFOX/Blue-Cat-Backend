@@ -1,0 +1,18 @@
+# CourtListener bulk case-law files (Free Law Project), generation 2026-09-30. PROVISIONAL scope; see the header below once sized.
+schema_version: 1
+source_id: us-courtlistener-bulk-s3
+base_url: https://com-courtlistener-storage.s3-us-west-2.amazonaws.com
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+generation: "2026-09-30"
+files:
+  courts: {name: courts-2026-09-30.csv.bz2, bytes: 81226}
+  dockets: {name: dockets-2026-09-30.csv.bz2, bytes: 5144011100}
+  clusters: {name: opinion-clusters-2026-09-30.csv.bz2, bytes: 2467613433}
+  citations: {name: citations-2026-09-30.csv.bz2, bytes: 127468518}
+  opinions: {name: opinions-2026-09-30.csv.bz2, bytes: 55252643429}
+scope:
+  statuses: [Published]
+  text_columns: [html_columbia, html_lawbox, xml_harvard, html, plain_text]
+  rules:
+    - {name: supreme-court, courts: [scotus]}

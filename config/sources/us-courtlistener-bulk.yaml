@@ -7,6 +7,9 @@
 #        the licence statement, the registration requirements and the S3 locations of the bulk files are unknown to ULIS.
 #        The S3 storage host was not contacted either: the rule is to read the publisher's terms before fetching data.
 #   The API needs an API token, which ULIS must not use (project rule).
+# 2026-10-16: the S3 route found on 2026-10-15 is now an ACTIVE source, us-courtlistener-bulk-s3 (the publisher's documentation of the bulk files
+#   is on wiki.free.law, whose robots.txt allows /c/; the files sit in a public bucket with no robots.txt). This record stays as the evidence of
+#   the website refusal: ULIS has not contacted www.courtlistener.com again and never will; the REST API needs a token and is not used.
 schema_version: 1
 id: us-courtlistener-bulk
 name: CourtListener bulk data, Free Law Project

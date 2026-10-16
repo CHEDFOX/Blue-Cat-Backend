@@ -14,6 +14,16 @@
 #   No opinion PDF was fetched.
 # Why it matters: GovInfo's USREPORTS collection ends with volume 586 (2018 Term). The Court's site is the free source of
 # the later volumes (587 as a bound volume; 588-606 as preliminary prints) and of the current term's slip opinions.
+# RE-TESTED 2026-10-16 (fixture tests/fixtures/us_case_law_sources/retest-2026-10-16/supremecourt.gov.robots.txt, two requests: robots.txt and
+#   /opinions/USReports.aspx):
+#   robots.txt now says "Crawl-delay:10" for all agents (it said 1 on 2026-10-14); /images/, /rss/ and /cdn/ are still disallowed, discobot and
+#        SOTScraper are barred by name; /opinions/ and /pdfs/ are not disallowed. The terms page still has no reuse statement.
+#   The U.S. Reports listing now links: bound volumes 561-587 (boundvolumes/<n>BV.pdf, typeset), preliminary prints 588-606
+#        (preliminaryprint/<n>US<part>PP_*.pdf), and the older volumes 2-501 as scans (/pdfs/USReports/USREPORTS-<n>_PDFA.pdf, 4-50 MB each).
+#        Volumes 2-586 are GovInfo's too; 587 and later are the new part. Still no HTML or text form of any opinion.
+#   Why still planned: the Court's decisions from 587 U.S. to the 2026 term are already in the bulk files of us-courtlistener-bulk-s3 (which
+#        reads the Court's slip opinions), and a parser for typeset preliminary prints (case boundaries without a MODS list) would be new
+#        work for the same text. Taking it up later needs only that parser; access is open.
 schema_version: 1
 id: us-supremecourt-gov-opinions
 name: Supreme Court of the United States, opinions (supremecourt.gov)
@@ -57,7 +67,7 @@ licence:
     reports.
 provenance: Not retrieved.
 known_limitations:
-  - Not ingested - PDF only; no text extraction or parser exists; volumes 587 and later are therefore not in ULIS.
+  - Not ingested - PDF only; no parser for the preliminary prints exists. Volumes 587 and later are covered by us-courtlistener-bulk-s3 (its default scope takes the Supreme Court in every year), without the Court's own page numbers where CourtListener lacks them.
   - The listing pages are HTML tables whose layout was not mapped to fields.
 status: planned
 connector: null

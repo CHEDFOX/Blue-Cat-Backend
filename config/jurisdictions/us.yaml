@@ -95,6 +95,2070 @@ courts:
     rank: 2
     appeals_to: [US-SC]
     binds_self: true
+  # BEGIN GENERATED COURTS (scripts/build_us_courts.py from CourtListener's court table; do not edit by hand)
+  - id: US-CL-CACA
+    name: "Circuit Court for California"
+    rank: 2
+  - id: US-CL-CIRCTCAPEFEARNC
+    name: "U.S. Circuit Court District of Cape Fear (North Carolina)"
+    rank: 2
+  - id: US-CL-CIRCTDAL
+    name: "U.S. Circuit Court for the District of Alabama"
+    rank: 2
+  - id: US-CL-CIRCTDALB
+    name: "U.S. Circuit Court District of Albemarle (North Carolina)"
+    rank: 2
+  - id: US-CL-CIRCTDALBANYNY
+    name: "U.S. Circuit Court for the District of Albany New York"
+    rank: 2
+  - id: US-CL-CIRCTDAR
+    name: "U.S. Circuit Court for the District of Arkansas"
+    rank: 2
+  - id: US-CL-CIRCTDCA
+    name: "U.S. Circuit Court for the District of California"
+    rank: 2
+  - id: US-CL-CIRCTDCO
+    name: "U.S. Circuit Court for the District of Colorado"
+    rank: 2
+  - id: US-CL-CIRCTDCT
+    name: "U.S. Circuit Court for the District of Connecticut"
+    rank: 2
+  - id: US-CL-CIRCTDDC
+    name: "U.S. Circuit Court for the District of District of Columbia"
+    rank: 2
+  - id: US-CL-CIRCTDEDENTON
+    name: "U.S. Circuit Court District of Edenton (North Carolina)"
+    rank: 2
+  - id: US-CL-CIRCTDEL
+    name: "U.S. Circuit Court for the District of Delaware"
+    rank: 2
+  - id: US-CL-CIRCTDGA
+    name: "U.S. Circuit Court for the District of Georgia"
+    rank: 2
+  - id: US-CL-CIRCTDIA
+    name: "U.S. Circuit Court for the District of Iowa"
+    rank: 2
+  - id: US-CL-CIRCTDID
+    name: "U.S. Circuit Court for the District of Idaho"
+    rank: 2
+  - id: US-CL-CIRCTDIL
+    name: "U.S. Circuit Court for the District of Illinois"
+    rank: 2
+  - id: US-CL-CIRCTDIN
+    name: "U.S. Circuit Court for the District of Indiana"
+    rank: 2
+  - id: US-CL-CIRCTDKS
+    name: "U.S. Circuit Court for the District of Kansas"
+    rank: 2
+  - id: US-CL-CIRCTDKY
+    name: "U.S. Circuit Court for the District of Kentucky"
+    rank: 2
+  - id: US-CL-CIRCTDLA
+    name: "U.S. Circuit Court for the District of Louisiana"
+    rank: 2
+  - id: US-CL-CIRCTDMA
+    name: "U.S. Circuit Court for the District of Massachusetts"
+    rank: 2
+  - id: US-CL-CIRCTDMD
+    name: "U.S. Circuit Court for the District of Maryland"
+    rank: 2
+  - id: US-CL-CIRCTDME
+    name: "U.S. Circuit Court for the District of Maine"
+    rank: 2
+  - id: US-CL-CIRCTDMI
+    name: "U.S. Circuit Court for the District of Michigan"
+    rank: 2
+  - id: US-CL-CIRCTDMN
+    name: "U.S. Circuit Court for the District of Minnesota"
+    rank: 2
+  - id: US-CL-CIRCTDMO
+    name: "U.S. Circuit Court for the District of Missouri"
+    rank: 2
+  - id: US-CL-CIRCTDMS
+    name: "U.S. Circuit Court for the District of Mississippi"
+    rank: 2
+  - id: US-CL-CIRCTDMT
+    name: "U.S. Circuit Court for the District of Montana"
+    rank: 2
+  - id: US-CL-CIRCTDND
+    name: "U.S. Circuit Court for the District of North Dakota"
+    rank: 2
+  - id: US-CL-CIRCTDNE
+    name: "U.S. Circuit Court for the District of Nebraska"
+    rank: 2
+  - id: US-CL-CIRCTDNEWBERN
+    name: "U.S. Circuit Court District of New Bern (North Carolina)"
+    rank: 2
+  - id: US-CL-CIRCTDNH
+    name: "U.S. Circuit Court for the District of New Hampshire"
+    rank: 2
+  - id: US-CL-CIRCTDNJ
+    name: "U.S. Circuit Court for the District of New Jersey"
+    rank: 2
+  - id: US-CL-CIRCTDNV
+    name: "U.S. Circuit Court for the District of Nevada"
+    rank: 2
+  - id: US-CL-CIRCTDOH
+    name: "U.S. Circuit Court for the District of Ohio"
+    rank: 2
+  - id: US-CL-CIRCTDOR
+    name: "U.S. Circuit Court for the District of Oregon"
+    rank: 2
+  - id: US-CL-CIRCTDPA
+    name: "U.S. Circuit Court for the District of Pennsylvania"
+    rank: 2
+  - id: US-CL-CIRCTDPAMPTICO
+    name: "U.S. Circuit Court District of Pamptico (North Carolina)"
+    rank: 2
+  - id: US-CL-CIRCTDRI
+    name: "U.S. Circuit Court for the District of Rhode Island"
+    rank: 2
+  - id: US-CL-CIRCTDSC
+    name: "U.S. Circuit Court for the District of South Carolina"
+    rank: 2
+  - id: US-CL-CIRCTDSD
+    name: "U.S. Circuit Court for the District of South Dakota"
+    rank: 2
+  - id: US-CL-CIRCTDTERRAR
+    name: "U.S. Circuit Court for the District of Territory of Arkansas"
+    rank: 2
+  - id: US-CL-CIRCTDTX
+    name: "U.S. Circuit Court for the District of Texas"
+    rank: 2
+  - id: US-CL-CIRCTDUT
+    name: "U.S. Circuit Court for the District of Utah"
+    rank: 2
+  - id: US-CL-CIRCTDVA
+    name: "U.S. Circuit Court for the District of Virginia"
+    rank: 2
+  - id: US-CL-CIRCTDVT
+    name: "U.S. Circuit Court for the District of Vermont"
+    rank: 2
+  - id: US-CL-CIRCTDWA
+    name: "U.S. Circuit Court for the District of Washington"
+    rank: 2
+  - id: US-CL-CIRCTDWI
+    name: "U.S. Circuit Court for the District of Wisconsin"
+    rank: 2
+  - id: US-CL-CIRCTDWILM
+    name: "U.S. Circuit Court District of Wilmington (North Carolina)"
+    rank: 2
+  - id: US-CL-CIRCTDWV
+    name: "U.S. Circuit Court for the District of West Virginia"
+    rank: 2
+  - id: US-CL-CIRCTDWY
+    name: "U.S. Circuit Court for the District of Wyoming"
+    rank: 2
+  - id: US-CL-CIRCTEDAR
+    name: "U.S. Circuit Court for the District of Eastern Arkansas"
+    rank: 2
+  - id: US-CL-CIRCTEDIL
+    name: "U.S. Circuit Court for the Eastern District of Illinois"
+    rank: 2
+  - id: US-CL-CIRCTEDKY
+    name: "U.S. Circuit Court for the District of Eastern Kentucky"
+    rank: 2
+  - id: US-CL-CIRCTEDLA
+    name: "U.S. Circuit Court for the District of Eastern Louisiana"
+    rank: 2
+  - id: US-CL-CIRCTEDMI
+    name: "U.S. Circuit Court for the District of Eastern Michigan"
+    rank: 2
+  - id: US-CL-CIRCTEDMO
+    name: "U.S. Circuit Court for the District of Eastern Missouri"
+    rank: 2
+  - id: US-CL-CIRCTEDNC
+    name: "U.S. Circuit Court for the District of Eastern North Carolina"
+    rank: 2
+  - id: US-CL-CIRCTEDNY
+    name: "U.S. Circuit Court for the District of Eastern New York"
+    rank: 2
+  - id: US-CL-CIRCTEDOK
+    name: "U.S. Circuit Court for the District of Eastern Oklahoma"
+    rank: 2
+  - id: US-CL-CIRCTEDPA
+    name: "U.S. Circuit Court for the District of Eastern Pennsylvania"
+    rank: 2
+  - id: US-CL-CIRCTEDSC
+    name: "United States Circuit Court for the Eastern District of South Carolina"
+    rank: 2
+  - id: US-CL-CIRCTEDTN
+    name: "U.S. Circuit Court for the District of Eastern Tennessee"
+    rank: 2
+  - id: US-CL-CIRCTEDTX
+    name: "U.S. Circuit Court for the District of Eastern Texas"
+    rank: 2
+  - id: US-CL-CIRCTEDVA
+    name: "U.S. Circuit Court for the District of Eastern Virginia"
+    rank: 2
+  - id: US-CL-CIRCTEDWA
+    name: "U.S. Circuit Court for the District of Eastern Washington"
+    rank: 2
+  - id: US-CL-CIRCTEDWI
+    name: "U.S. Circuit Court for the District of Eastern Wisconsin"
+    rank: 2
+  - id: US-CL-CIRCTMDAL
+    name: "U.S. Circuit Court for the District of Middle Alabama"
+    rank: 2
+  - id: US-CL-CIRCTMDPA
+    name: "U.S. Circuit Court for the District of Middle Pennsylvania"
+    rank: 2
+  - id: US-CL-CIRCTMDTN
+    name: "U.S. Circuit Court for the District of Middle Tennessee"
+    rank: 2
+  - id: US-CL-CIRCTMISSTERR
+    name: "U.S. Circuit Court for the Mississippi Territory"
+    rank: 2
+  - id: US-CL-CIRCTNC
+    name: "U.S. Circuit Court for the District of North Carolina"
+    rank: 2
+  - id: US-CL-CIRCTNDAL
+    name: "U.S. Circuit Court for the District of Northern Alabama"
+    rank: 2
+  - id: US-CL-CIRCTNDCA
+    name: "U.S. Circuit Court for the District of Northern California"
+    rank: 2
+  - id: US-CL-CIRCTNDFL
+    name: "United States Circuit Court for the Northern District of Florida"
+    rank: 2
+  - id: US-CL-CIRCTNDGA
+    name: "U.S. Circuit Court for the Northern District of Georgia"
+    rank: 2
+  - id: US-CL-CIRCTNDIL
+    name: "U.S. Circuit Court for the Northern District of Illnois"
+    rank: 2
+  - id: US-CL-CIRCTNDMS
+    name: "U.S. Circuit Court for the District of Northern Mississippi"
+    rank: 2
+  - id: US-CL-CIRCTNDNY
+    name: "U.S. Circuit Court for the District of Northern New York"
+    rank: 2
+  - id: US-CL-CIRCTNDOH
+    name: "U.S. Circuit Court for the District of Northern Ohio"
+    rank: 2
+  - id: US-CL-CIRCTNDTX
+    name: "U.S. Circuit Court for the District of Northern Texas"
+    rank: 2
+  - id: US-CL-CIRCTNDWV
+    name: "U.S. Circuit Court for the District of Northern West Virginia"
+    rank: 2
+  - id: US-CL-CIRCTNIA
+    name: "U.S. Circuit Court for the District of Northern Iowa"
+    rank: 2
+  - id: US-CL-CIRCTNY
+    name: "U.S. Circuit Court for New York"
+    rank: 2
+  - id: US-CL-CIRCTSDAL
+    name: "U.S. Circuit Court for the District of Southern Alabama"
+    rank: 2
+  - id: US-CL-CIRCTSDCA
+    name: "U.S. Circuit Court for the District of Southern California"
+    rank: 2
+  - id: US-CL-CIRCTSDFL
+    name: "United States Circuit Court for the Southern District of Florida"
+    rank: 2
+  - id: US-CL-CIRCTSDGA
+    name: "U.S. Circuit Court for the Southern District of Georgia"
+    rank: 2
+  - id: US-CL-CIRCTSDIA
+    name: "U.S. Circuit Court for the Southern District of Iowa"
+    rank: 2
+  - id: US-CL-CIRCTSDIL
+    name: "U.S. Circuit Court for the Southern District of Illnois"
+    rank: 2
+  - id: US-CL-CIRCTSDMS
+    name: "U.S. Circuit Court for the District of Southern Mississippi"
+    rank: 2
+  - id: US-CL-CIRCTSDNY
+    name: "U.S. Circuit Court for the District of Southern New York"
+    rank: 2
+  - id: US-CL-CIRCTSDOH
+    name: "U.S. Circuit Court for the District of Southern Ohio"
+    rank: 2
+  - id: US-CL-CIRCTSDTEX
+    name: "U.S. Circuit Court for the District of Southern Texas"
+    rank: 2
+  - id: US-CL-CIRCTSDWV
+    name: "U.S. Circuit Court for the District of Southern West Virginia"
+    rank: 2
+  - id: US-CL-CIRCTTENN
+    name: "U.S. Circuit Court for the District of Tennessee"
+    rank: 2
+  - id: US-CL-CIRCTWDAR
+    name: "U.S. Circuit Court for the District of Western Arkansas"
+    rank: 2
+  - id: US-CL-CIRCTWDKY
+    name: "U.S. Circuit Court for the District of Western Kentucky"
+    rank: 2
+  - id: US-CL-CIRCTWDLA
+    name: "U.S. Circuit Court for the District of Western Louisiana"
+    rank: 2
+  - id: US-CL-CIRCTWDMI
+    name: "U.S. Circuit Court for the District of Western Michigan"
+    rank: 2
+  - id: US-CL-CIRCTWDMO
+    name: "U.S. Circuit Court for the District of Western Missouri"
+    rank: 2
+  - id: US-CL-CIRCTWDNC
+    name: "U.S. Circuit Court for the District of Western North Carolina"
+    rank: 2
+  - id: US-CL-CIRCTWDNY
+    name: "U.S. Circuit Court for the District of Western New York"
+    rank: 2
+  - id: US-CL-CIRCTWDOK
+    name: "U.S. Circuit Court for the District of Western Oklahoma"
+    rank: 2
+  - id: US-CL-CIRCTWDPA
+    name: "U.S. Circuit Court for the District of Western Pennsylvania"
+    rank: 2
+  - id: US-CL-CIRCTWDTEX
+    name: "U.S. Circuit Court for the District of Western Texas"
+    rank: 2
+  - id: US-CL-CIRCTWDTN
+    name: "U.S. Circuit Court for the District of Western Tennessee"
+    rank: 2
+  - id: US-CL-CIRCTWDVA
+    name: "U.S. Circuit Court for the District of Western Virginia"
+    rank: 2
+  - id: US-CL-CIRCTWDWA
+    name: "U.S. Circuit Court for the District of Western Washington"
+    rank: 2
+  - id: US-CL-CIRCTWDWI
+    name: "U.S. Circuit Court for the District of Western Wisconsin"
+    rank: 2
+  - id: US-CL-CTAPPINDTERR
+    name: "Court Of Appeals Of Indian Territory"
+    rank: 2
+  - id: US-CL-INDCIRCT
+    name: "Indiana Circuit Court"
+    rank: 2
+  - id: US-CL-USCIRCT
+    name: "United States Circuit Court"
+    rank: 2
+  - id: US-CL-AKD
+    name: "District Court, D. Alaska"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-ALD
+    name: "District Court, D. Alabama"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-ALMD
+    name: "District Court, M.D. Alabama"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-ALND
+    name: "District Court, N.D. Alabama"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-ALSD
+    name: "District Court, S.D. Alabama"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-ARD
+    name: "United States District Court for the District of Arkansas"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-ARED
+    name: "District Court, E.D. Arkansas"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-ARWD
+    name: "District Court, W.D. Arkansas"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-AZD
+    name: "District Court, D. Arizona"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-CACD
+    name: "District Court, C.D. California"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-CAED
+    name: "District Court, E.D. California"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-CALIFORNIAD
+    name: "District Court, D. California"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-CANALZONED
+    name: "District Court, Canal Zone"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-CAND
+    name: "District Court, N.D. California"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-CASD
+    name: "District Court, S.D. California"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-COD
+    name: "District Court, D. Colorado"
+    rank: 3
+    appeals_to: [US-CA10]
+  - id: US-CL-CTD
+    name: "District Court, D. Connecticut"
+    rank: 3
+    appeals_to: [US-CA2]
+  - id: US-CL-DCD
+    name: "District Court, District of Columbia"
+    rank: 3
+    appeals_to: [US-CADC]
+  - id: US-CL-DED
+    name: "District Court, D. Delaware"
+    rank: 3
+    appeals_to: [US-CA3]
+  - id: US-CL-FLD
+    name: "District Court, D. Florida"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-FLMD
+    name: "District Court, M.D. Florida"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-FLND
+    name: "District Court, N.D. Florida"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-FLSD
+    name: "District Court, S.D. Florida"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-GAD
+    name: "District Court, D. Georgia"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-GAMD
+    name: "District Court, M.D. Georgia"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-GAND
+    name: "District Court, N.D. Georgia"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-GASD
+    name: "District Court, S.D. Georgia"
+    rank: 3
+    appeals_to: [US-CA11]
+  - id: US-CL-GUD
+    name: "District Court, D. Guam"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-HID
+    name: "District Court, D. Hawaii"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-IAD
+    name: "District Court, D. Iowa"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-IAND
+    name: "District Court, N.D. Iowa"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-IASD
+    name: "District Court, S.D. Iowa"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-IDD
+    name: "District Court, D. Idaho"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-ILCD
+    name: "District Court, C.D. Illinois"
+    rank: 3
+    appeals_to: [US-CA7]
+  - id: US-CL-ILLINOISD
+    name: "District Court, D. Illinois"
+    rank: 3
+    appeals_to: [US-CA7]
+  - id: US-CL-ILLINOISED
+    name: "District Court, E.D. Illinois"
+    rank: 3
+    appeals_to: [US-CA7]
+  - id: US-CL-ILND
+    name: "District Court, N.D. Illinois"
+    rank: 3
+    appeals_to: [US-CA7]
+  - id: US-CL-ILSD
+    name: "District Court, S.D. Illinois"
+    rank: 3
+    appeals_to: [US-CA7]
+  - id: US-CL-INDIANAD
+    name: "District Court, D. Indiana"
+    rank: 3
+    appeals_to: [US-CA7]
+  - id: US-CL-INND
+    name: "District Court, N.D. Indiana"
+    rank: 3
+    appeals_to: [US-CA7]
+  - id: US-CL-INSD
+    name: "District Court, S.D. Indiana"
+    rank: 3
+    appeals_to: [US-CA7]
+  - id: US-CL-KSD
+    name: "District Court, D. Kansas"
+    rank: 3
+    appeals_to: [US-CA10]
+  - id: US-CL-KYD
+    name: "District Court, D. Kentucky"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-KYED
+    name: "District Court, E.D. Kentucky"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-KYWD
+    name: "District Court, W.D. Kentucky"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-LAD
+    name: "District Court, D. Louisiana"
+    rank: 3
+    appeals_to: [US-CA5]
+  - id: US-CL-LAED
+    name: "District Court, E.D. Louisiana"
+    rank: 3
+    appeals_to: [US-CA5]
+  - id: US-CL-LAMD
+    name: "District Court, M.D. Louisiana"
+    rank: 3
+    appeals_to: [US-CA5]
+  - id: US-CL-LAWD
+    name: "District Court, W.D. Louisiana"
+    rank: 3
+    appeals_to: [US-CA5]
+  - id: US-CL-MAD
+    name: "District Court, D. Massachusetts"
+    rank: 3
+    appeals_to: [US-CA1]
+  - id: US-CL-MDD
+    name: "District Court, D. Maryland"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-MED
+    name: "District Court, D. Maine"
+    rank: 3
+    appeals_to: [US-CA1]
+  - id: US-CL-MICHD
+    name: "District Court, D. Michigan"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-MIED
+    name: "District Court, E.D. Michigan"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-MISSD
+    name: "District Court, D. Mississippi"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-MIWD
+    name: "District Court, W.D. Michigan"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-MND
+    name: "District Court, D. Minnesota"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-MOD
+    name: "District Court, D. Missouri"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-MOED
+    name: "District Court, E.D. Missouri"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-MOWD
+    name: "District Court, W.D. Missouri"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-MSND
+    name: "District Court, N.D. Mississippi"
+    rank: 3
+    appeals_to: [US-CA5]
+  - id: US-CL-MSSD
+    name: "District Court, S.D. Mississippi"
+    rank: 3
+    appeals_to: [US-CA5]
+  - id: US-CL-MTD
+    name: "District Court, D. Montana"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-NCD
+    name: "District Court, D. North Carolina"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-NCED
+    name: "District Court, E.D. North Carolina"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-NCMD
+    name: "District Court, M.D. North Carolina"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-NCWD
+    name: "District Court, W.D. North Carolina"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-NDD
+    name: "District Court, D. North Dakota"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-NED
+    name: "District Court, D. Nebraska"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-NHD
+    name: "District Court, D. New Hampshire"
+    rank: 3
+    appeals_to: [US-CA1]
+  - id: US-CL-NJD
+    name: "District Court, D. New Jersey"
+    rank: 3
+    appeals_to: [US-CA3]
+  - id: US-CL-NMD
+    name: "District Court, D. New Mexico"
+    rank: 3
+    appeals_to: [US-CA10]
+  - id: US-CL-NMID
+    name: "District Court, Northern Mariana Islands"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-NVD
+    name: "District Court, D. Nevada"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-NYD
+    name: "District Court, D. New York"
+    rank: 3
+    appeals_to: [US-CA2]
+  - id: US-CL-NYED
+    name: "District Court, E.D. New York"
+    rank: 3
+    appeals_to: [US-CA2]
+  - id: US-CL-NYND
+    name: "District Court, N.D. New York"
+    rank: 3
+    appeals_to: [US-CA2]
+  - id: US-CL-NYSD
+    name: "District Court, S.D. New York"
+    rank: 3
+    appeals_to: [US-CA2]
+  - id: US-CL-NYWD
+    name: "District Court, W.D. New York"
+    rank: 3
+    appeals_to: [US-CA2]
+  - id: US-CL-OHIOD
+    name: "District Court, D. Ohio"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-OHND
+    name: "District Court, N.D. Ohio"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-OHSD
+    name: "District Court, S.D. Ohio"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-OKD
+    name: "United States District Court for the District of Oklahoma"
+    rank: 3
+    appeals_to: [US-CA10]
+  - id: US-CL-OKED
+    name: "District Court, E.D. Oklahoma"
+    rank: 3
+    appeals_to: [US-CA10]
+  - id: US-CL-OKND
+    name: "District Court, N.D. Oklahoma"
+    rank: 3
+    appeals_to: [US-CA10]
+  - id: US-CL-OKWD
+    name: "District Court, W.D. Oklahoma"
+    rank: 3
+    appeals_to: [US-CA10]
+  - id: US-CL-ORD
+    name: "District Court, D. Oregon"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-ORLD
+    name: "District Court, Orleans"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-PAED
+    name: "District Court, E.D. Pennsylvania"
+    rank: 3
+    appeals_to: [US-CA3]
+  - id: US-CL-PAMD
+    name: "District Court, M.D. Pennsylvania"
+    rank: 3
+    appeals_to: [US-CA3]
+  - id: US-CL-PAWD
+    name: "District Court, W.D. Pennsylvania"
+    rank: 3
+    appeals_to: [US-CA3]
+  - id: US-CL-PENNSYLVANIAD
+    name: "District Court, D. Pennsylvania"
+    rank: 3
+  - id: US-CL-PRD
+    name: "District Court, D. Puerto Rico"
+    rank: 3
+    appeals_to: [US-CA1]
+  - id: US-CL-RID
+    name: "District Court, D. Rhode Island"
+    rank: 3
+    appeals_to: [US-CA1]
+  - id: US-CL-SCD
+    name: "District Court, D. South Carolina"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-SDD
+    name: "District Court, D. South Dakota"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-SOUTHCAROLINAED
+    name: "District Court, E.D. South Carolina"
+    rank: 3
+  - id: US-CL-SOUTHCAROLINAWD
+    name: "District Court, W.D. South Carolina"
+    rank: 3
+  - id: US-CL-SUPERCTSDFLA
+    name: "Superior Court, S. D. Florida"
+    rank: 3
+  - id: US-CL-TENNESSED
+    name: "District Court, D. Tennessee"
+    rank: 3
+  - id: US-CL-TEXD
+    name: "District Court, D. Texas"
+    rank: 3
+  - id: US-CL-TNED
+    name: "District Court, E.D. Tennessee"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-TNMD
+    name: "District Court, M.D. Tennessee"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-TNWD
+    name: "District Court, W.D. Tennessee"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-TXED
+    name: "District Court, E.D. Texas"
+    rank: 3
+    appeals_to: [US-CA5]
+  - id: US-CL-TXND
+    name: "District Court, N.D. Texas"
+    rank: 3
+    appeals_to: [US-CA5]
+  - id: US-CL-TXSD
+    name: "District Court, S.D. Texas"
+    rank: 3
+    appeals_to: [US-CA5]
+  - id: US-CL-TXWD
+    name: "District Court, W.D. Texas"
+    rank: 3
+    appeals_to: [US-CA5]
+  - id: US-CL-UTD
+    name: "District Court, D. Utah"
+    rank: 3
+    appeals_to: [US-CA10]
+  - id: US-CL-VAD
+    name: "District Court, D. Virginia"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-VAED
+    name: "District Court, E.D. Virginia"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-VAWD
+    name: "District Court, W.D. Virginia"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-VID
+    name: "District Court, Virgin Islands"
+    rank: 3
+    appeals_to: [US-CA3]
+  - id: US-CL-VTD
+    name: "District Court, D. Vermont"
+    rank: 3
+    appeals_to: [US-CA2]
+  - id: US-CL-WAED
+    name: "District Court, E.D. Washington"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-WASHD
+    name: "District Court, D. Washington"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-WAWD
+    name: "District Court, W.D. Washington"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-WIED
+    name: "District Court, E.D. Wisconsin"
+    rank: 3
+    appeals_to: [US-CA7]
+  - id: US-CL-WISD
+    name: "District Court, D. Wisconsin"
+    rank: 3
+    appeals_to: [US-CA7]
+  - id: US-CL-WIWD
+    name: "District Court, W.D. Wisconsin"
+    rank: 3
+    appeals_to: [US-CA7]
+  - id: US-CL-WVAD
+    name: "District Court, D. West Virginia"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-WVND
+    name: "District Court, N.D. West Virginia"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-WVSD
+    name: "District Court, S.D. West Virginia"
+    rank: 3
+    appeals_to: [US-CA4]
+  - id: US-CL-WYD
+    name: "District Court, D. Wyoming"
+    rank: 3
+    appeals_to: [US-CA10]
+  - id: US-CL-AKB
+    name: "United States Bankruptcy Court, D. Alaska"
+    rank: 4
+    appeals_to: [US-CL-AKD]
+  - id: US-CL-ALMB
+    name: "United States Bankruptcy Court, M.D. Alabama"
+    rank: 4
+    appeals_to: [US-CL-ALMD]
+  - id: US-CL-ALNB
+    name: "United States Bankruptcy Court, N.D. Alabama"
+    rank: 4
+    appeals_to: [US-CL-ALND]
+  - id: US-CL-ALSB
+    name: "United States Bankruptcy Court, S.D. Alabama"
+    rank: 4
+    appeals_to: [US-CL-ALSD]
+  - id: US-CL-ARB
+    name: "United States Bankruptcy Court, D. Arizona"
+    rank: 4
+    appeals_to: [US-CL-ARD]
+  - id: US-CL-AREB
+    name: "United States Bankruptcy Court, E.D. Arkansas"
+    rank: 4
+    appeals_to: [US-CL-ARED]
+  - id: US-CL-ARWB
+    name: "United States Bankruptcy Court, W.D. Arkansas"
+    rank: 4
+    appeals_to: [US-CL-ARWD]
+  - id: US-CL-CACB
+    name: "United States Bankruptcy Court, C.D. California"
+    rank: 4
+    appeals_to: [US-CL-CACD]
+  - id: US-CL-CAEB
+    name: "United States Bankruptcy Court, E.D. California"
+    rank: 4
+    appeals_to: [US-CL-CAED]
+  - id: US-CL-CANB
+    name: "United States Bankruptcy Court, N.D. California"
+    rank: 4
+    appeals_to: [US-CL-CAND]
+  - id: US-CL-CASB
+    name: "United States Bankruptcy Court, S.D. California"
+    rank: 4
+    appeals_to: [US-CL-CASD]
+  - id: US-CL-COB
+    name: "United States Bankruptcy Court, D. Colorado"
+    rank: 4
+    appeals_to: [US-CL-COD]
+  - id: US-CL-CTB
+    name: "United States Bankruptcy Court, D. Connecticut"
+    rank: 4
+    appeals_to: [US-CL-CTD]
+  - id: US-CL-DCB
+    name: "United States Bankruptcy Court, District of Columbia"
+    rank: 4
+    appeals_to: [US-CL-DCD]
+  - id: US-CL-DEB
+    name: "United States Bankruptcy Court, D. Delaware"
+    rank: 4
+    appeals_to: [US-CL-DED]
+  - id: US-CL-FLMB
+    name: "United States Bankruptcy Court, M.D. Florida"
+    rank: 4
+    appeals_to: [US-CL-FLMD]
+  - id: US-CL-FLNB
+    name: "United States Bankruptcy Court, N.D. Florida"
+    rank: 4
+    appeals_to: [US-CL-FLND]
+  - id: US-CL-FLSB
+    name: "United States Bankruptcy Court, S.D. Florida."
+    rank: 4
+    appeals_to: [US-CL-FLSD]
+  - id: US-CL-GAMB
+    name: "United States Bankruptcy Court, M.D. Georgia"
+    rank: 4
+    appeals_to: [US-CL-GAMD]
+  - id: US-CL-GANB
+    name: "United States Bankruptcy Court, N.D. Georgia"
+    rank: 4
+    appeals_to: [US-CL-GAND]
+  - id: US-CL-GASB
+    name: "United States Bankruptcy Court, S.D. Georgia"
+    rank: 4
+    appeals_to: [US-CL-GASD]
+  - id: US-CL-GUB
+    name: "United States Bankruptcy Court, D. Guam"
+    rank: 4
+    appeals_to: [US-CL-GUD]
+  - id: US-CL-HIB
+    name: "United States Bankruptcy Court, D. Hawaii"
+    rank: 4
+    appeals_to: [US-CL-HID]
+  - id: US-CL-IANB
+    name: "United States Bankruptcy Court, N.D. Iowa"
+    rank: 4
+    appeals_to: [US-CL-IAND]
+  - id: US-CL-IASB
+    name: "United States Bankruptcy Court, S.D. Iowa"
+    rank: 4
+    appeals_to: [US-CL-IASD]
+  - id: US-CL-IDB
+    name: "United States Bankruptcy Court, D. Idaho"
+    rank: 4
+    appeals_to: [US-CL-IDD]
+  - id: US-CL-ILCB
+    name: "United States Bankruptcy Court, C.D. Illinois"
+    rank: 4
+    appeals_to: [US-CL-ILCD]
+  - id: US-CL-ILNB
+    name: "United States Bankruptcy Court, N.D. Illinois"
+    rank: 4
+    appeals_to: [US-CL-ILND]
+  - id: US-CL-ILSB
+    name: "United States Bankruptcy Court, S.D. Illinois"
+    rank: 4
+    appeals_to: [US-CL-ILSD]
+  - id: US-CL-INNB
+    name: "United States Bankruptcy Court, N.D. Indiana"
+    rank: 4
+    appeals_to: [US-CL-INND]
+  - id: US-CL-INSB
+    name: "United States Bankruptcy Court, S.D. Indiana"
+    rank: 4
+    appeals_to: [US-CL-INSD]
+  - id: US-CL-KSB
+    name: "United States Bankruptcy Court, D. Kansas"
+    rank: 4
+    appeals_to: [US-CL-KSD]
+  - id: US-CL-KYEB
+    name: "United States Bankruptcy Court, E.D. Kentucky"
+    rank: 4
+    appeals_to: [US-CL-KYED]
+  - id: US-CL-KYWB
+    name: "United States Bankruptcy Court, W.D. Kentucky"
+    rank: 4
+    appeals_to: [US-CL-KYWD]
+  - id: US-CL-LAEB
+    name: "United States Bankruptcy Court, E.D. Louisiana"
+    rank: 4
+    appeals_to: [US-CL-LAED]
+  - id: US-CL-LAMB
+    name: "United States Bankruptcy Court, M.D. Louisiana"
+    rank: 4
+    appeals_to: [US-CL-LAMD]
+  - id: US-CL-LAWB
+    name: "United States Bankruptcy Court, W.D. Louisiana"
+    rank: 4
+    appeals_to: [US-CL-LAWD]
+  - id: US-CL-MAB
+    name: "United States Bankruptcy Court, D. Massachusetts"
+    rank: 4
+    appeals_to: [US-CL-MAD]
+  - id: US-CL-MDB
+    name: "United States Bankruptcy Court, D. Maryland"
+    rank: 4
+    appeals_to: [US-CL-MDD]
+  - id: US-CL-MEB
+    name: "United States Bankruptcy Court, D. Maine"
+    rank: 4
+    appeals_to: [US-CL-MED]
+  - id: US-CL-MIEB
+    name: "United States Bankruptcy Court, E.D. Michigan"
+    rank: 4
+    appeals_to: [US-CL-MIED]
+  - id: US-CL-MIWB
+    name: "United States Bankruptcy Court, W.D. Michigan"
+    rank: 4
+    appeals_to: [US-CL-MIWD]
+  - id: US-CL-MNB
+    name: "United States Bankruptcy Court, D. Minnesota"
+    rank: 4
+    appeals_to: [US-CL-MND]
+  - id: US-CL-MOEB
+    name: "United States Bankruptcy Court, E.D. Missouri"
+    rank: 4
+    appeals_to: [US-CL-MOED]
+  - id: US-CL-MOWB
+    name: "United States Bankruptcy Court, W.D. Missouri"
+    rank: 4
+    appeals_to: [US-CL-MOWD]
+  - id: US-CL-MSNB
+    name: "United States Bankruptcy Court, N.D. Mississippi"
+    rank: 4
+    appeals_to: [US-CL-MSND]
+  - id: US-CL-MSSB
+    name: "United States Bankruptcy Court, S.D. Mississippi"
+    rank: 4
+    appeals_to: [US-CL-MSSD]
+  - id: US-CL-MTB
+    name: "United States Bankruptcy Court, D. Montana"
+    rank: 4
+    appeals_to: [US-CL-MTD]
+  - id: US-CL-NCEB
+    name: "United States Bankruptcy Court, E.D. North Carolina"
+    rank: 4
+    appeals_to: [US-CL-NCED]
+  - id: US-CL-NCMB
+    name: "United States Bankruptcy Court, M.D. North Carolina"
+    rank: 4
+    appeals_to: [US-CL-NCMD]
+  - id: US-CL-NCWB
+    name: "United States Bankruptcy Court, W.D. North Carolina"
+    rank: 4
+    appeals_to: [US-CL-NCWD]
+  - id: US-CL-NDB
+    name: "United States Bankruptcy Court, D. North Dakota"
+    rank: 4
+    appeals_to: [US-CL-NDD]
+  - id: US-CL-NEBRASKAB
+    name: "United States Bankruptcy Court, D. Nebraska"
+    rank: 4
+  - id: US-CL-NHB
+    name: "United States Bankruptcy Court, D. New Hampshire"
+    rank: 4
+    appeals_to: [US-CL-NHD]
+  - id: US-CL-NJB
+    name: "United States Bankruptcy Court, D. New Jersey"
+    rank: 4
+    appeals_to: [US-CL-NJD]
+  - id: US-CL-NMB
+    name: "United States Bankruptcy Court, D. New Mexico"
+    rank: 4
+    appeals_to: [US-CL-NMD]
+  - id: US-CL-NMIB
+    name: "United States Bankruptcy Court, Northern Mariana Islands"
+    rank: 4
+    appeals_to: [US-CL-NMID]
+  - id: US-CL-NVB
+    name: "United States Bankruptcy Court, D. Nevada"
+    rank: 4
+    appeals_to: [US-CL-NVD]
+  - id: US-CL-NYEB
+    name: "United States Bankruptcy Court, E.D. New York"
+    rank: 4
+    appeals_to: [US-CL-NYED]
+  - id: US-CL-NYNB
+    name: "United States Bankruptcy Court, N.D. New York"
+    rank: 4
+    appeals_to: [US-CL-NYND]
+  - id: US-CL-NYSB
+    name: "United States Bankruptcy Court, S.D. New York"
+    rank: 4
+    appeals_to: [US-CL-NYSD]
+  - id: US-CL-NYWB
+    name: "United States Bankruptcy Court, W.D. New York"
+    rank: 4
+    appeals_to: [US-CL-NYWD]
+  - id: US-CL-OHNB
+    name: "United States Bankruptcy Court, N.D. Ohio"
+    rank: 4
+    appeals_to: [US-CL-OHND]
+  - id: US-CL-OHSB
+    name: "United States Bankruptcy Court, S.D. Ohio"
+    rank: 4
+    appeals_to: [US-CL-OHSD]
+  - id: US-CL-OKEB
+    name: "United States Bankruptcy Court, E.D. Oklahoma"
+    rank: 4
+    appeals_to: [US-CL-OKED]
+  - id: US-CL-OKNB
+    name: "United States Bankruptcy Court, N.D. Oklahoma"
+    rank: 4
+    appeals_to: [US-CL-OKND]
+  - id: US-CL-OKWB
+    name: "United States Bankruptcy Court, W.D. Oklahoma"
+    rank: 4
+    appeals_to: [US-CL-OKWD]
+  - id: US-CL-ORB
+    name: "United States Bankruptcy Court, D. Oregon"
+    rank: 4
+    appeals_to: [US-CL-ORD]
+  - id: US-CL-PAEB
+    name: "United States Bankruptcy Court, E.D. Pennsylvania"
+    rank: 4
+    appeals_to: [US-CL-PAED]
+  - id: US-CL-PAMB
+    name: "United States Bankruptcy Court, M.D. Pennsylvania"
+    rank: 4
+    appeals_to: [US-CL-PAMD]
+  - id: US-CL-PAWB
+    name: "United States Bankruptcy Court, W.D. Pennsylvania"
+    rank: 4
+    appeals_to: [US-CL-PAWD]
+  - id: US-CL-PRB
+    name: "United States Bankruptcy Court, D. Puerto Rico"
+    rank: 4
+    appeals_to: [US-CL-PRD]
+  - id: US-CL-RIB
+    name: "United States Bankruptcy Court, D. Rhode Island"
+    rank: 4
+    appeals_to: [US-CL-RID]
+  - id: US-CL-SCB
+    name: "United States Bankruptcy Court, D. South Carolina"
+    rank: 4
+    appeals_to: [US-CL-SCD]
+  - id: US-CL-SDB
+    name: "United States Bankruptcy Court, D. South Dakota"
+    rank: 4
+    appeals_to: [US-CL-SDD]
+  - id: US-CL-TENNESSEEB
+    name: "United States Bankruptcy Court, D. Tennessee"
+    rank: 4
+  - id: US-CL-TNEB
+    name: "United States Bankruptcy Court, E.D. Tennessee"
+    rank: 4
+    appeals_to: [US-CL-TNED]
+  - id: US-CL-TNMB
+    name: "United States Bankruptcy Court, M.D. Tennessee"
+    rank: 4
+    appeals_to: [US-CL-TNMD]
+  - id: US-CL-TNWB
+    name: "United States Bankruptcy Court, W.D. Tennessee"
+    rank: 4
+    appeals_to: [US-CL-TNWD]
+  - id: US-CL-TXEB
+    name: "United States Bankruptcy Court, E.D. Texas"
+    rank: 4
+    appeals_to: [US-CL-TXED]
+  - id: US-CL-TXNB
+    name: "United States Bankruptcy Court, N.D. Texas"
+    rank: 4
+    appeals_to: [US-CL-TXND]
+  - id: US-CL-TXSB
+    name: "United States Bankruptcy Court, S.D. Texas"
+    rank: 4
+    appeals_to: [US-CL-TXSD]
+  - id: US-CL-TXWB
+    name: "United States Bankruptcy Court, W.D. Texas"
+    rank: 4
+    appeals_to: [US-CL-TXWD]
+  - id: US-CL-UTB
+    name: "United States Bankruptcy Court, D. Utah"
+    rank: 4
+    appeals_to: [US-CL-UTD]
+  - id: US-CL-VAEB
+    name: "United States Bankruptcy Court, E.D. Virginia"
+    rank: 4
+    appeals_to: [US-CL-VAED]
+  - id: US-CL-VAWB
+    name: "United States Bankruptcy Court, W.D. Virginia"
+    rank: 4
+    appeals_to: [US-CL-VAWD]
+  - id: US-CL-VIB
+    name: "United States Bankruptcy Court, D. Virgin Islands"
+    rank: 4
+    appeals_to: [US-CL-VID]
+  - id: US-CL-VTB
+    name: "United States Bankruptcy Court, D. Vermont"
+    rank: 4
+    appeals_to: [US-CL-VTD]
+  - id: US-CL-WAEB
+    name: "United States Bankruptcy Court, E.D. Washington"
+    rank: 4
+    appeals_to: [US-CL-WAED]
+  - id: US-CL-WAWB
+    name: "United States Bankruptcy Court, W.D. Washington"
+    rank: 4
+    appeals_to: [US-CL-WAWD]
+  - id: US-CL-WIEB
+    name: "United States Bankruptcy Court, E.D. Wisconsin"
+    rank: 4
+    appeals_to: [US-CL-WIED]
+  - id: US-CL-WIWB
+    name: "United States Bankruptcy Court, W.D. Wisconsin"
+    rank: 4
+    appeals_to: [US-CL-WIWD]
+  - id: US-CL-WVNB
+    name: "United States Bankruptcy Court, N.D. West Virginia"
+    rank: 4
+    appeals_to: [US-CL-WVND]
+  - id: US-CL-WVSB
+    name: "United States Bankruptcy Court, S.D. West Virginia"
+    rank: 4
+    appeals_to: [US-CL-WVSD]
+  - id: US-CL-WYB
+    name: "United States Bankruptcy Court, D. Wyoming"
+    rank: 4
+    appeals_to: [US-CL-WYD]
+  - id: US-CL-BAP1
+    name: "Bankruptcy Appellate Panel of the First Circuit"
+    rank: 3
+    appeals_to: [US-CA1]
+  - id: US-CL-BAP10
+    name: "Bankruptcy Appellate Panel of the Tenth Circuit"
+    rank: 3
+    appeals_to: [US-CA10]
+  - id: US-CL-BAP2
+    name: "Bankruptcy Appellate Panel of the Second Circuit"
+    rank: 3
+    appeals_to: [US-CA2]
+  - id: US-CL-BAP6
+    name: "Bankruptcy Appellate Panel of the Sixth Circuit"
+    rank: 3
+    appeals_to: [US-CA6]
+  - id: US-CL-BAP8
+    name: "United States Bankruptcy Appellate Panel for the Eighth Circuit"
+    rank: 3
+    appeals_to: [US-CA8]
+  - id: US-CL-BAP9
+    name: "United States Bankruptcy Appellate Panel for the Ninth Circuit"
+    rank: 3
+    appeals_to: [US-CA9]
+  - id: US-CL-BAPMA
+    name: "Bankruptcy Appellate Panel of Massachusetts"
+    rank: 3
+    appeals_to: [US-CA1]
+  - id: US-CL-BAPME
+    name: "Bankruptcy Appellate Panel, D. Maine"
+    rank: 3
+    appeals_to: [US-CA1]
+  - id: US-CL-AG
+    name: "United States Attorneys General"
+    rank: 3
+  - id: US-CL-ASBCA
+    name: "Armed Services Board of Contract Appeals"
+    rank: 3
+    appeals_to: [US-CAFC]
+  - id: US-CL-BIA
+    name: "Board of Immigration Appeals"
+    rank: 3
+  - id: US-CL-BPAI
+    name: "Board of Patent Appeals and Interferences"
+    rank: 3
+    appeals_to: [US-CAFC]
+  - id: US-CL-BTA
+    name: "United States Board of Tax Appeals"
+    rank: 3
+  - id: US-CL-BVA
+    name: "Board of Veterans' Appeals"
+    rank: 3
+    appeals_to: [US-CL-CAVC]
+  - id: US-CL-CAVC
+    name: "United States Court of Appeals for Veterans Claims"
+    rank: 3
+    appeals_to: [US-CAFC]
+  - id: US-CL-CC
+    name: "United States Court of Claims"
+    rank: 3
+    appeals_to: [US-SC]
+  - id: US-CL-CCPA
+    name: "Court of Customs and Patent Appeals"
+    rank: 3
+    appeals_to: [US-SC]
+  - id: US-CL-CIT
+    name: "United States Court of International Trade"
+    rank: 3
+    appeals_to: [US-CAFC]
+  - id: US-CL-COM
+    name: "Commerce Court"
+    rank: 3
+  - id: US-CL-CUSC
+    name: "United States Customs Court"
+    rank: 3
+  - id: US-CL-DEPTINTERIOR
+    name: "Department of Interior"
+    rank: 3
+  - id: US-CL-ECA
+    name: "Emergency Court of Appeals"
+    rank: 3
+  - id: US-CL-FISC
+    name: "Foreign Intelligence Surveillance Court"
+    rank: 3
+    appeals_to: [US-CL-FISCR]
+  - id: US-CL-FISCR
+    name: "Foreign Intelligence Surveillance Court of Review"
+    rank: 3
+    appeals_to: [US-SC]
+  - id: US-CL-JPML
+    name: "United States Judicial Panel on Multidistrict Litigation"
+    rank: 3
+  - id: US-CL-JUDCOUN
+    name: "Circuit Judicial Councils"
+    rank: 3
+  - id: US-CL-JUDCOUN10
+    name: "Judicial Council of The Tenth Circuit"
+    rank: 3
+  - id: US-CL-JUDCOUN2
+    name: "Judicial Council of The Second Circuit"
+    rank: 3
+  - id: US-CL-JUDCOUN3
+    name: "Judicial Council of The Third Circuit"
+    rank: 3
+  - id: US-CL-JUDCOUN5
+    name: "Judicial Council of The Fifth Circuit"
+    rank: 3
+  - id: US-CL-JUDCOUN6
+    name: "Judicial Council of The Sixth Circuit"
+    rank: 3
+  - id: US-CL-JUDCOUN7
+    name: "Judicial Council of The Seventh Circuit"
+    rank: 3
+  - id: US-CL-JUDCOUN8
+    name: "Judicial Council of The Eighth Circuit"
+    rank: 3
+  - id: US-CL-JUDCOUN9
+    name: "Judicial Council of The Ninth Circuit"
+    rank: 3
+  - id: US-CL-JUDCOUNDC
+    name: "Judicial Council of the District of Columbia Circuit"
+    rank: 3
+  - id: US-CL-MSPB
+    name: "Merit Systems Protection Board"
+    rank: 3
+    appeals_to: [US-CAFC]
+  - id: US-CL-OLC
+    name: "Department of Justice Office of Legal Counsel"
+    rank: 3
+  - id: US-CL-PADEPTJUST
+    name: "Pennsylvania Department of Justice"
+    rank: 3
+  - id: US-CL-PHILADEPTJUST
+    name: "Philadelphia Department of Justice"
+    rank: 3
+  - id: US-CL-PTAB
+    name: "Patent Trial and Appeal Board"
+    rank: 3
+    appeals_to: [US-CAFC]
+  - id: US-CL-REGLRAILREORGCT
+    name: "Special Court under the Regional Rail Reorganization Act"
+    rank: 3
+  - id: US-CL-TAX
+    name: "United States Tax Court"
+    rank: 3
+  - id: US-CL-TECOA
+    name: "Temporary Emergency Court of Appeals"
+    rank: 3
+  - id: US-CL-TTAB
+    name: "Trademark Trial and Appeal Board"
+    rank: 3
+    appeals_to: [US-CAFC]
+  - id: US-CL-USBERLINCT
+    name: "United States Court of Berlin"
+    rank: 3
+  - id: US-CL-USCFC
+    name: "United States Court of Federal Claims"
+    rank: 3
+    appeals_to: [US-CAFC]
+  - id: US-CL-USJUDCONFCOMDIS
+    name: "United States Judicial Conference Committee on Judicial Conduct and Disability"
+    rank: 3
+  - id: US-CL-USLANDOFFICE
+    name: "United States Land Office"
+    rank: 3
+  - id: US-CL-USPROVCTLA
+    name: "United States Provisional Court for the State of Louisiana"
+    rank: 3
+  - id: US-CL-USSURVEYOR
+    name: "United States Surveyor"
+    rank: 3
+  - id: US-CL-ALA
+    name: "Supreme Court of Alabama"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-ALASKA
+    name: "Alaska Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-ARIZ
+    name: "Arizona Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-ARK
+    name: "Supreme Court of Arkansas"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-CAL
+    name: "California Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-COLO
+    name: "Supreme Court of Colorado"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-CONN
+    name: "Supreme Court of Connecticut"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-DAKOTASUP
+    name: "Supreme Court Of The Territory Of Dakota"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-DC
+    name: "District of Columbia Court of Appeals"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-DEL
+    name: "Supreme Court of Delaware"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-FLA
+    name: "Supreme Court of Florida"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-GA
+    name: "Supreme Court of Georgia"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-HAW
+    name: "Hawaii Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-IDAHO
+    name: "Idaho Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-ILL
+    name: "Illinois Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-IND
+    name: "Indiana Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-IOWA
+    name: "Supreme Court of Iowa"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-KAN
+    name: "Supreme Court of Kansas"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-KY
+    name: "Kentucky Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-KYCTAPPHIGH
+    name: "Court of Appeals of Kentucky (pre-1976)"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-LA
+    name: "Supreme Court of Louisiana"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-MASS
+    name: "Massachusetts Supreme Judicial Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-MD
+    name: "Court of Appeals of Maryland"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-ME
+    name: "Supreme Judicial Court of Maine"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-MICH
+    name: "Michigan Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-MINN
+    name: "Supreme Court of Minnesota"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-MISS
+    name: "Mississippi Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-MO
+    name: "Supreme Court of Missouri"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-MONT
+    name: "Montana Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-NC
+    name: "Supreme Court of North Carolina"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-ND
+    name: "North Dakota Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-NEB
+    name: "Nebraska Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-NEV
+    name: "Nevada Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-NH
+    name: "Supreme Court of New Hampshire"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-NJ
+    name: "Supreme Court of New Jersey"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-NM
+    name: "New Mexico Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-NY
+    name: "New York Court of Appeals"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-NYCHANCT
+    name: "New York Court of Chancery"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-OHIO
+    name: "Ohio Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-OKLA
+    name: "Supreme Court of Oklahoma"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-PA
+    name: "Supreme Court of Pennsylvania"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-RI
+    name: "Supreme Court of Rhode Island"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-SC
+    name: "Supreme Court of South Carolina"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-SD
+    name: "South Dakota Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-TENN
+    name: "Tennessee Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-TEXCRIMAPP
+    name: "Court of Criminal Appeals of Texas"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-VA
+    name: "Supreme Court of Virginia"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-VT
+    name: "Supreme Court of Vermont"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-WIS
+    name: "Wisconsin Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-WVA
+    name: "West Virginia Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-WYO
+    name: "Wyoming Supreme Court"
+    rank: 2
+    appeals_to: [US-SC]
+  - id: US-CL-ALACIVAPP
+    name: "Court of Civil Appeals of Alabama"
+    rank: 3
+    appeals_to: [US-CL-ALA]
+  - id: US-CL-ALACRIMAPP
+    name: "Court of Criminal Appeals of Alabama"
+    rank: 3
+    appeals_to: [US-CL-ALA]
+  - id: US-CL-ALACTAPP
+    name: "Alabama Court of Appeals"
+    rank: 3
+    appeals_to: [US-CL-ALA]
+  - id: US-CL-ALASKACTAPP
+    name: "Court of Appeals of Alaska"
+    rank: 3
+    appeals_to: [US-CL-ALASKA]
+  - id: US-CL-ARIZCTAPP
+    name: "Court of Appeals of Arizona"
+    rank: 3
+    appeals_to: [US-CL-ARIZ]
+  - id: US-CL-ARKCTAPP
+    name: "Court of Appeals of Arkansas"
+    rank: 3
+    appeals_to: [US-CL-ARK]
+  - id: US-CL-CALAPPDEPTSUPER
+    name: "Appellate Division of the Superior Court of California"
+    rank: 3
+    appeals_to: [US-CL-CAL]
+  - id: US-CL-CALCTAPP
+    name: "California Court of Appeal"
+    rank: 3
+    appeals_to: [US-CL-CAL]
+  - id: US-CL-CALCTAPP1D
+    name: "California Court of Appeal, 1st District"
+    rank: 3
+    appeals_to: [US-CL-CAL]
+  - id: US-CL-CALCTAPP2D
+    name: "California Court of Appeal, 2nd District"
+    rank: 3
+    appeals_to: [US-CL-CAL]
+  - id: US-CL-CALCTAPP3D
+    name: "California Court of Appeal, 3rd District"
+    rank: 3
+    appeals_to: [US-CL-CAL]
+  - id: US-CL-CALCTAPP4D
+    name: "California Court of Appeal, 4th District"
+    rank: 3
+    appeals_to: [US-CL-CAL]
+  - id: US-CL-CALCTAPP5D
+    name: "California Court of Appeal, 5th District"
+    rank: 3
+    appeals_to: [US-CL-CAL]
+  - id: US-CL-CALCTAPP6D
+    name: "California Court of Appeal, 6th District"
+    rank: 3
+    appeals_to: [US-CL-CAL]
+  - id: US-CL-COLOCTAPP
+    name: "Colorado Court of Appeals"
+    rank: 3
+    appeals_to: [US-CL-COLO]
+  - id: US-CL-CONNAPPCT
+    name: "Connecticut Appellate Court"
+    rank: 3
+    appeals_to: [US-CL-CONN]
+  - id: US-CL-CONNSUPERCT
+    name: "Connecticut Superior Court"
+    rank: 3
+  - id: US-CL-DELCH
+    name: "Court of Chancery of Delaware"
+    rank: 3
+  - id: US-CL-DELORPHCT
+    name: "Orphan's Court of Delaware"
+    rank: 3
+  - id: US-CL-DELSUPERCT
+    name: "Superior Court of Delaware"
+    rank: 3
+  - id: US-CL-FLADISTCTAPP
+    name: "District Court of Appeal of Florida"
+    rank: 3
+    appeals_to: [US-CL-FLA]
+  - id: US-CL-FLADISTCTAPP1
+    name: "Florida First District Court of Appeal"
+    rank: 3
+    appeals_to: [US-CL-FLA]
+  - id: US-CL-FLADISTCTAPP2
+    name: "Florida Second District Court of Appeal"
+    rank: 3
+    appeals_to: [US-CL-FLA]
+  - id: US-CL-FLADISTCTAPP3
+    name: "Florida Third District Court of Appeal"
+    rank: 3
+    appeals_to: [US-CL-FLA]
+  - id: US-CL-FLADISTCTAPP4
+    name: "Florida Fourth District Court of Appeal"
+    rank: 3
+    appeals_to: [US-CL-FLA]
+  - id: US-CL-FLADISTCTAPP5
+    name: "Florida Fifth District Court of Appeal"
+    rank: 3
+    appeals_to: [US-CL-FLA]
+  - id: US-CL-FLADISTCTAPP6
+    name: "Florida Sixth District Court of Appeal"
+    rank: 3
+    appeals_to: [US-CL-FLA]
+  - id: US-CL-GACTAPP
+    name: "Court of Appeals of Georgia"
+    rank: 3
+    appeals_to: [US-CL-GA]
+  - id: US-CL-HAWAPP
+    name: "Hawaii Intermediate Court of Appeals"
+    rank: 3
+    appeals_to: [US-CL-HAW]
+  - id: US-CL-IDAHOCTAPP
+    name: "Idaho Court of Appeals"
+    rank: 3
+    appeals_to: [US-CL-IDAHO]
+  - id: US-CL-ILLAPPCT
+    name: "Appellate Court of Illinois"
+    rank: 3
+    appeals_to: [US-CL-ILL]
+  - id: US-CL-INDCTAPP
+    name: "Indiana Court of Appeals"
+    rank: 3
+    appeals_to: [US-CL-IND]
+  - id: US-CL-IOWACTAPP
+    name: "Court of Appeals of Iowa"
+    rank: 3
+    appeals_to: [US-CL-IOWA]
+  - id: US-CL-KANCTAPP
+    name: "Court of Appeals of Kansas"
+    rank: 3
+    appeals_to: [US-CL-KAN]
+  - id: US-CL-KYCTAPP
+    name: "Court of Appeals of Kentucky"
+    rank: 3
+    appeals_to: [US-CL-KY]
+  - id: US-CL-LACTAPP
+    name: "Louisiana Court of Appeal"
+    rank: 3
+    appeals_to: [US-CL-LA]
+  - id: US-CL-LACTERRAPP
+    name: "Louisiana Court of Errors and Appeals"
+    rank: 3
+    appeals_to: [US-CL-LA]
+  - id: US-CL-MASSAPPCT
+    name: "Massachusetts Appeals Court"
+    rank: 3
+    appeals_to: [US-CL-MASS]
+  - id: US-CL-MASSDISTCT
+    name: "Massachusetts District Court"
+    rank: 3
+  - id: US-CL-MASSDISTCTAPP
+    name: "Massachusetts District Court, Appellate Division"
+    rank: 3
+    appeals_to: [US-CL-MASS]
+  - id: US-CL-MASSSUPERCT
+    name: "Massachusetts Superior Court"
+    rank: 3
+  - id: US-CL-MASSTAXBD
+    name: "Massachusetts Appellate Tax Board"
+    rank: 3
+    appeals_to: [US-CL-MASS]
+  - id: US-CL-MDCH
+    name: "High Court of Chancery of Maryland"
+    rank: 3
+  - id: US-CL-MDCTSPECAPP
+    name: "Court of Special Appeals of Maryland"
+    rank: 3
+    appeals_to: [US-CL-MD]
+  - id: US-CL-MICHCHANCT
+    name: "Michigan Court of Chancery"
+    rank: 3
+  - id: US-CL-MICHCTAPP
+    name: "Michigan Court of Appeals"
+    rank: 3
+    appeals_to: [US-CL-MICH]
+  - id: US-CL-MINNCTAPP
+    name: "Court of Appeals of Minnesota"
+    rank: 3
+    appeals_to: [US-CL-MINN]
+  - id: US-CL-MISSCTAPP
+    name: "Court of Appeals of Mississippi"
+    rank: 3
+    appeals_to: [US-CL-MISS]
+  - id: US-CL-MOCTAPP
+    name: "Missouri Court of Appeals"
+    rank: 3
+    appeals_to: [US-CL-MO]
+  - id: US-CL-MOCTAPPED
+    name: "Missouri Court of Appeals, Eastern District"
+    rank: 3
+    appeals_to: [US-CL-MO]
+  - id: US-CL-MOCTAPPSD
+    name: "Missouri Court of Appeals, Southern District"
+    rank: 3
+    appeals_to: [US-CL-MO]
+  - id: US-CL-MOCTAPPWD
+    name: "Missouri Court of Appeals, Western District"
+    rank: 3
+    appeals_to: [US-CL-MO]
+  - id: US-CL-NCCTAPP
+    name: "Court of Appeals of North Carolina"
+    rank: 3
+    appeals_to: [US-CL-NC]
+  - id: US-CL-NCSUPERCT
+    name: "Superior Court of North Carolina"
+    rank: 3
+  - id: US-CL-NDCTAPP
+    name: "North Dakota Court of Appeals"
+    rank: 3
+    appeals_to: [US-CL-ND]
+  - id: US-CL-NEBCTAPP
+    name: "Nebraska Court of Appeals"
+    rank: 3
+    appeals_to: [US-CL-NEB]
+  - id: US-CL-NEVAPP
+    name: "Court of Appeals of Nevada"
+    rank: 3
+    appeals_to: [US-CL-NEV]
+  - id: US-CL-NJCH
+    name: "New Jersey Court of Chancery"
+    rank: 3
+  - id: US-CL-NJCIRCTATLANTIC
+    name: "Atlantic County Circuit Court, N.J."
+    rank: 3
+  - id: US-CL-NJCIRCTBERGEN
+    name: "Bergen County Circuit Court, N.J."
+    rank: 3
+  - id: US-CL-NJCIRCTBURLINGT
+    name: "Burlington County Circuit Court, N.J."
+    rank: 3
+  - id: US-CL-NJCIRCTCAMDEN
+    name: "Camden County Circuit Court, N.J."
+    rank: 3
+  - id: US-CL-NJCIRCTCAPEMAY
+    name: "Cape May County Circuit Court, N.J."
+    rank: 3
+  - id: US-CL-NJCIRCTHUDSON
+    name: "Hudson County Circuit Court, N.J."
+    rank: 3
+  - id: US-CL-NJCIRCTMONMOUTH
+    name: "Monmouth County Circuit Court, N.J."
+    rank: 3
+  - id: US-CL-NJCIRCTMORRIS
+    name: "Morris County Circuit Court, N.J."
+    rank: 3
+  - id: US-CL-NJCIRCTOCEAN
+    name: "Ocean County Circuit Court, N.J."
+    rank: 3
+  - id: US-CL-NJCIRCTPASSAIC
+    name: "Passaic County Circuit Court, N.J."
+    rank: 3
+  - id: US-CL-NJCIRCTSOMERSET
+    name: "Somerset County Circuit Court, N.J."
+    rank: 3
+  - id: US-CL-NJSUPERCTAPPDIV
+    name: "New Jersey Superior Court Appellate Division"
+    rank: 3
+    appeals_to: [US-CL-NJ]
+  - id: US-CL-NMCTAPP
+    name: "New Mexico Court of Appeals"
+    rank: 3
+    appeals_to: [US-CL-NM]
+  - id: US-CL-NYAPPDIV
+    name: "Appellate Division of the Supreme Court of the State of New York"
+    rank: 3
+    appeals_to: [US-CL-NY]
+  - id: US-CL-NYAPPTERM
+    name: "Appellate Terms of the Supreme Court of New York"
+    rank: 3
+    appeals_to: [US-CL-NY]
+  - id: US-CL-NYHOSPCOMMN
+    name: "New York State Hospital Commission"
+    rank: 3
+  - id: US-CL-NYOYTERMCT
+    name: "Court Of Oyer And Terminer New York"
+    rank: 3
+  - id: US-CL-OHIOCTAPP
+    name: "Ohio Court of Appeals"
+    rank: 3
+    appeals_to: [US-CL-OHIO]
+  - id: US-CL-OKLACIVAPP
+    name: "Court of Civil Appeals of Oklahoma"
+    rank: 3
+    appeals_to: [US-CL-OKLA]
+  - id: US-CL-OKLACRIMAPP
+    name: "Court of Criminal Appeals of Oklahoma"
+    rank: 3
+    appeals_to: [US-CL-OKLA]
+  - id: US-CL-ORCTAPP
+    name: "Court of Appeals of Oregon"
+    rank: 3
+    appeals_to: [US-OR-SC]
+  - id: US-CL-PACOMMWCT
+    name: "Commonwealth Court of Pennsylvania"
+    rank: 3
+  - id: US-CL-PASUPERCT
+    name: "Superior Court of Pennsylvania"
+    rank: 3
+  - id: US-CL-RISUPERCT
+    name: "Superior Court of Rhode Island"
+    rank: 3
+  - id: US-CL-SCCTAPP
+    name: "Court of Appeals of South Carolina"
+    rank: 3
+    appeals_to: [US-CL-SC]
+  - id: US-CL-TENNCRIMAPP
+    name: "Court of Criminal Appeals of Tennessee"
+    rank: 3
+    appeals_to: [US-CL-TENN]
+  - id: US-CL-TENNCTAPP
+    name: "Court of Appeals of Tennessee"
+    rank: 3
+    appeals_to: [US-CL-TENN]
+  - id: US-CL-TENNSUPERCT
+    name: "Tennessee Superior Court for Law and Equity"
+    rank: 3
+  - id: US-CL-TEXAPP
+    name: "Court of Appeals of Texas"
+    rank: 3
+    appeals_to: [US-TX-SC]
+  - id: US-CL-TEXJPML
+    name: "Texas Judicial Panel on Multidistrict Litigation"
+    rank: 3
+  - id: US-CL-TXCTAPP1
+    name: "Texas Court of Appeals, 1st District (Houston)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP10
+    name: "Texas Court of Appeals, 10th District (Waco)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP11
+    name: "Texas Court of Appeals, 11th District (Eastland)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP12
+    name: "Texas Court of Appeals, 12th District (Tyler)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP13
+    name: "Texas Court of Appeals, 13th District"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP13A
+    name: "Texas Court of Appeals, 13th District (Corpus Christi)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP13B
+    name: "Texas Court of Appeals, 13th District (Edinburg)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP14
+    name: "Texas Court of Appeals, 14th District (Houston)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP15
+    name: "Texas Court of Appeals, 15th District"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP2
+    name: "Texas Court of Appeals, 2nd District (Fort Worth)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP3
+    name: "Texas Court of Appeals, 3rd District (Austin)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP4
+    name: "Texas Court of Appeals, 4th District (San Antonio)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP5
+    name: "Texas Court of Appeals, 5th District (Dallas)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP6
+    name: "Texas Court of Appeals, 6th District (Texarkana)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP7
+    name: "Texas Court of Appeals, 7th District (Amarillo)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP8
+    name: "Texas Court of Appeals, 8th District (El Paso)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-TXCTAPP9
+    name: "Texas Court of Appeals, 9th District (Beaumont)"
+    rank: 3
+    appeals_to: [US-TX-SC, US-CL-TEXCRIMAPP]
+  - id: US-CL-UTAHCTAPP
+    name: "Court of Appeals of Utah"
+    rank: 3
+    appeals_to: [US-UT-SC]
+  - id: US-CL-VACTAPP
+    name: "Court of Appeals of Virginia"
+    rank: 3
+    appeals_to: [US-CL-VA]
+  - id: US-CL-VTSUPERCT
+    name: "Vermont Superior Court"
+    rank: 3
+  - id: US-CL-WASHCTAPP
+    name: "Court of Appeals of Washington"
+    rank: 3
+    appeals_to: [US-WA-SC]
+  - id: US-CL-WISCTAPP
+    name: "Court of Appeals of Wisconsin"
+    rank: 3
+    appeals_to: [US-CL-WIS]
+  - id: US-CL-WVACTAPP
+    name: "Intermediate Court of Appeals of West Virginia"
+    rank: 3
+    appeals_to: [US-CL-WVA]
+  - id: US-CL-ACCA
+    name: "Army Court of Criminal Appeals"
+    rank: 3
+    appeals_to: [US-CL-ARMFOR]
+  - id: US-CL-AFCCA
+    name: "United States Air Force Court of Criminal Appeals"
+    rank: 3
+    appeals_to: [US-CL-ARMFOR]
+  - id: US-CL-ARMFOR
+    name: "Court of Appeals for the Armed Forces"
+    rank: 3
+    appeals_to: [US-SC]
+  - id: US-CL-CGCOMILREV
+    name: "U S Coast Guard Court of Military Review"
+    rank: 3
+    appeals_to: [US-CL-ARMFOR]
+  - id: US-CL-CMA
+    name: "United States Court of Military Appeals"
+    rank: 3
+    appeals_to: [US-SC]
+  - id: US-CL-MC
+    name: "United States Court of Military Commission Review"
+    rank: 3
+    appeals_to: [US-CL-ARMFOR]
+  - id: US-CL-NMCCA
+    name: "Navy-Marine Corps Court of Criminal Appeals"
+    rank: 3
+    appeals_to: [US-CL-ARMFOR]
+  - id: US-CL-USAFCTMILREV
+    name: "U S Air Force Court of Military Review"
+    rank: 3
+    appeals_to: [US-CL-ARMFOR]
+  - id: US-CL-USARMYMILREV
+    name: "U.S. Army Court of Military Review"
+    rank: 3
+    appeals_to: [US-CL-ARMFOR]
+  - id: US-CL-USCGCOCA
+    name: "U S Coast Guard Court of Criminal Appeals"
+    rank: 3
+    appeals_to: [US-CL-ARMFOR]
+  - id: US-CL-USNMCMILREV
+    name: "U.S. Navy-Marine Corps Court of Military Review"
+    rank: 3
+    appeals_to: [US-CL-ARMFOR]
+  - id: US-CL-AMSAMOA
+    name: "High Court of American Samoa"
+    rank: 2
+  - id: US-CL-GUAM
+    name: "Supreme Court of Guam"
+    rank: 2
+  - id: US-CL-NMARIANA
+    name: "Supreme Court of The Commonwealth of The Northern Mariana Islands"
+    rank: 2
+  - id: US-CL-PRSUPREME
+    name: "Supreme Court of Puerto Rico"
+    rank: 2
+  - id: US-CL-VIRGINISLANDS
+    name: "Supreme Court of The Virgin Islands"
+    rank: 2
+  - id: US-CL-PRAPP
+    name: "Tribunal De Apelaciones De Puerto Rico/Court of Appeals of Puerto Rico"
+    rank: 3
+  - id: US-CL-SUPERCTGUAM
+    name: "Superior Court of Guam"
+    rank: 3
+  # END GENERATED COURTS
 precedent:
   doctrine: stare_decisis
   vertical_binding: true

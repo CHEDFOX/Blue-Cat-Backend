@@ -26,6 +26,15 @@
 #   The layout of the static site (ReportersMetadata.json, per-reporter and per-volume metadata, one JSON file per
 #        case with name, citations, court, jurisdiction, decision_date and casebody) is as described in the
 #        request for this source; it was NOT examined here, so no parser exists and no field mapping is claimed.
+# RE-TESTED 2026-10-16 (market sweep, one request each; fixtures in tests/fixtures/us_case_law_sources/retest-2026-10-16/):
+#   https://static.case.law/robots.txt - still "User-agent: *" / "Disallow: /" (27 bytes): the data host still refuses every robot, so the
+#        reason for `planned` holds and nothing was requested from it. https://case.law/robots.txt unchanged ("Disallow: /caselaw/").
+#   https://lil.law.harvard.edu/blog/2024/03/26/transitions-for-the-caselaw-access-project (Harvard LIL; its robots.txt: Crawl-delay 10):
+#        "the original limitations on the data available for the Caselaw Access Project expired this month, and that data can now be
+#        fully released without restriction on access or use"; "The Free Law Project already includes all CAP cases, as well as cases
+#        scraped from court websites, in its CourtListener search engine." So the CAP corpus is loaded through the publisher-licensed
+#        route us-courtlistener-bulk-s3 (column opinions.xml_harvard, and filepath_json_harvard names the CAP file of each case), not from
+#        this host; this record stays planned because its own host refuses robots, and no mirror is used.
 schema_version: 1
 id: us-caselaw-access-project
 name: Caselaw Access Project (static data), Harvard Library Innovation Lab
@@ -82,7 +91,7 @@ provenance: >-
   Not retrieved. The authoritative text of United States Reports opinions is the Court's bound volumes; this data set
   is a copy of them.
 known_limitations:
-  - Not ingested - the data host's robots.txt disallows automated access (2026-10-14); no US case law in ULIS.
+  - Not ingested from this host - its robots.txt disallows automated access (2026-10-14, re-tested 2026-10-16); the same cases arrive through us-courtlistener-bulk-s3 (the Harvard text is its xml_harvard column).
   - Layout, field names and extent of the data set were not examined, so nothing about the content is verified.
   - Unofficial digitisation, so the text is not the Court's official reporter text; OCR errors would be possible.
   - Judicial treatment (overruled, distinguished, followed) is not part of this data set as described and would never be inferred by ULIS.

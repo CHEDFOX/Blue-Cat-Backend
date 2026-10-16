@@ -4,6 +4,9 @@
 #        "User-agent: *" / "Disallow:" (nothing disallowed). robots.txt grants no reuse right by itself.
 #   https://www.justia.com/terms-of-service/ - HTTP 403 (a bot-challenge page). Refused, so ULIS stopped: no other user
 #        agent or browser was tried and no opinion page was requested.
+# RE-TESTED 2026-10-16 (fixtures in tests/fixtures/us_case_law_sources/retest-2026-10-16/): robots.txt of www.justia.com (nothing disallowed) and
+#   supreme.justia.com ("Allow: /") unchanged; https://www.justia.com/terms-of-service/ still answers HTTP 403. The reason holds: the terms are
+#   unreadable, so nothing is taken. The Supreme Court's opinions arrive from GovInfo (to 586 U.S.) and from CourtListener's bulk files.
 schema_version: 1
 id: us-justia-supreme-court
 name: Justia, US Supreme Court Center
