@@ -27,7 +27,8 @@ from ulis.retrieval.search import SearchRequest, search
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.constitution_docs import ConstitutionDocsConnector
-from ulis.sources.parsers.constitution_text import find_candidates
+from ulis.sources.normalized import ParseSkipped
+from ulis.sources.parsers.constitution_text import find_candidates, parse_constitution
 from ulis.sources.registry import LicenceNotApproved, licence_gate
 from ulis.storage.object_store import LocalObjectStore
 
@@ -42,6 +43,7 @@ ACTIVE = [
     "mh-rmicourts-constitution",
     "fj-parliament-constitution",
     "bt-dlgdm-constitution",
+    "tl-parlamento-constitution",
 ]
 PLANNED = [
     "sg-eld-constitution",
@@ -50,7 +52,7 @@ PLANNED = [
     "kh-mfaic-constitution",
     "mv-mvlaw-constitution",
 ]
-REJECTED = ["nu-gov-constitution"]
+REJECTED = ["nu-gov-constitution", "pg-parliament-constitution"]
 
 
 def hints(source_id: str, slug: str) -> dict[str, Any]:
@@ -294,9 +296,11 @@ def test_committed_source_manifest_and_profile_agree(catalog: Catalog, source_id
             date.fromisoformat(str(event["date"]))
     for country in countries:
         profile = catalog.jurisdictions.get(country)
-        assert profile.verification.status == "draft_unverified" and profile.instrument_types == ["constitution"]
+        assert profile.verification.status == "draft_unverified" and "constitution" in profile.instrument_types
         assert profile.citation.module == "constitution" and source_id in profile.publication.official_sources
-        assert "Only the constitution is loaded" in profile.coverage.known_gaps[0]
+        if country != "BT":  # Bhutan's profile also covers the Acts of its second source
+            assert profile.instrument_types == ["constitution"]
+            assert "Only the constitution is loaded" in profile.coverage.known_gaps[0]
 
 
 @pytest.mark.parametrize("source_id", PLANNED + REJECTED)
@@ -321,6 +325,7 @@ def test_recorded_refusals_quote_the_publishers_words(catalog: Catalog) -> None:
         "in-legislative-constitution": "answered HTTP 403",
         "sg-eld-constitution": "Copyright @ 2010 Government of Singapore",
         "mv-mvlaw-constitution": "answered HTTP 401",
+        "pg-parliament-constitution": "Content may be reproduced for personal, non-commercial use",
     }
     for source_id, phrase in said.items():
         assert phrase in (catalog.sources.get(source_id).licence.reviewed_by or ""), source_id
@@ -333,6 +338,55 @@ def test_kazakhstan_and_turkmenistan_are_active_now_and_the_earlier_planned_reco
     for source_id in ("kz-akorda-constitution", "tm-minjust-constitution"):
         assert catalog.sources.get(source_id).status == "active"
     assert catalog.sources.get("kz-akorda-constitution").languages == ["ru", "kk"]
+
+
+# ------------------------------------------------------------- other laws of a publisher: the Acts of Bhutan
+
+
+def test_acts_of_bhutan_manifest_and_source(catalog: Catalog) -> None:
+    source = catalog.sources.get("bt-judiciary-acts")
+    assert source.status == "active" and source.document_kinds == ["act"] and source.jurisdictions == ["BT"]
+    licence_gate(source, commercial=False)
+    endpoint = REPO_ROOT / source.access.endpoint
+    manifest = ConstitutionDocsConnector(endpoint, "bt-judiciary-acts", Path("/nonexistent"))._manifest()
+    documents = manifest["documents"]
+    assert (
+        len(documents) > 100 and manifest["crawl_delay_seconds"] >= 5 and manifest["hosts"] == ["www.judiciary.gov.bt"]
+    )
+    assert len({d["slug"] for d in documents}) == len(documents)
+    assert all(d["instrument_type"] == "act" and d["language"] == "en" and d["url"].endswith(".pdf") for d in documents)
+    assert any(d["title"] == "Copyright Act of Bhutan 2001" for d in documents)
+    profile = catalog.jurisdictions.get("BT")
+    assert profile.instrument_types == ["constitution", "act"]
+    assert "bt-judiciary-acts" in profile.publication.official_sources
+
+
+def test_an_act_is_a_work_of_its_own_with_its_own_title_in_the_citation() -> None:
+    doc = parse(
+        bundle(
+            make_pdf(_pages("bt-copyright-act-pages.json")),
+            "pdf",
+            cc="BT",
+            slug="bt-copyright-act-of-bhutan-2001",
+            instrument_type="act",
+            structure={"page_numbers": True},
+            title="Copyright Act of Bhutan 2001",
+            citation_name="Copyright Act of Bhutan 2001",
+        )
+    )
+    assert doc.instrument_type == "act" and doc.work_uri == "/bt/act/copyright-act-of-bhutan-2001"
+    assert doc.short_title == "Copyright Act of Bhutan 2001" and doc.consolidation_kind == "act_text"
+    assert any(p.eid == "sec-1" for p in doc.provisions)
+    title = "Copyright Act of Bhutan 2001"
+    assert cite("sec-3", "section", ["sec:3"], "BT", title) == "Copyright Act of Bhutan 2001 s. 3"
+    plain = [f"Article {n}" if k == 0 else f"Words of article {n}, long enough." for n in range(1, 8) for k in (0, 1)]
+    assert parse(text_bundle(plain)).work_uri == "/xx/constitution"
+
+
+def test_a_pdf_whose_font_maps_letters_to_private_use_code_points_is_skipped() -> None:
+    glyphs = "".join(chr(0xF002 + k % 40) for k in range(80))
+    with pytest.raises(ParseSkipped, match="private-use"):
+        parse_constitution(text_bundle([glyphs, glyphs, glyphs]))
 
 
 # --------------------------------------------------------------------------- through the pipeline

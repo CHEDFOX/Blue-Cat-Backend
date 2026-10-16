@@ -194,6 +194,49 @@ ACTIVE: list[dict[str, Any]] = [
             "Numbered sections of an article are printed as '1.' on a line of their own and stay in the article's text.",
         ],
     ),
+    dict(
+        id="tl-parlamento-constitution",
+        cc="TL",
+        country="Timor-Leste",
+        publisher="Parlamento Nacional de Timor-Leste (National Parliament of Timor-Leste), parlamento.tl",
+        short="the National Parliament of Timor-Leste",
+        host="www.parlamento.tl",
+        url="https://www.parlamento.tl/legislasaun",
+        robots='https://www.parlamento.tl/robots.txt: "User-agent: *" "Disallow:" (nothing); no Crawl-delay',
+        terms='Footer: "© 2026 Parlamento Nacional de Timor-Leste. Todos os direitos reservados." with links "Termos de Uso", "Política de Privacidade" and "Mapa do Site" whose targets are "#" (no terms page exists behind them)',
+        document='The page https://www.parlamento.tl/legislasaun (menu entry "Constituição da República"; 1.4 MB, about 1,430 text lines) prints a table of contents, the foreword (Prefácio) of the President of the National Parliament dated 20 May 2017, the "PREÂMBULO" ("A Assembleia Constituinte, reunida na sessão plenária de 22 de Março de 2002, aprova e decreta a seguinte Constituição da República Democrática de Timor-Leste") and the Constitution in Portuguese, Partes I - VII, 170 articles ("Artigo 1.º — (A República)" ... "Artigo 170.º — (Entrada em vigor da Constituição)": "A Constituição da República Democrática de Timor-Leste entra em vigor no dia 20 de Maio de 2002.")',
+        licence_name="Official legal text published by the National Parliament; a generic copyright footer and dead terms links, no terms of use or licence found",
+        basis="No statute was read; the basis is the official status of the text and the absence of any stated restriction on it.",
+        coverage="The Constitution of Timor-Leste (2002, the Parliament's edition with the 2017 foreword) in pt: the preamble and 170 articles in 7 Parts.",
+        limitations=[
+            "The foreword of 20 May 2017 and the table of contents that precede the preamble on the page are not stored. The Tetum and English texts are not ingested.",
+            "Articles 166 and 168 are printed with the number on one line and the heading ('(Hino Nacional)', '(II Governo Transitório)') on the next; the heading stays in the article's text.",
+        ],
+    ),
+]
+
+# Acts of Bhutan: a second source of the same publisher family (the Judiciary of Bhutan's page of Acts)
+ACTS: list[dict[str, Any]] = [
+    dict(
+        id="bt-judiciary-acts",
+        cc="BT",
+        country="Bhutan",
+        publisher="Judiciary of Bhutan (judiciary.gov.bt), page 'Acts'",
+        short="the Judiciary of Bhutan",
+        host="www.judiciary.gov.bt",
+        url="https://www.judiciary.gov.bt/posts/first-category/acts",
+        robots='https://www.judiciary.gov.bt/robots.txt: "User-agent: Googlebot", "User-agent: Slurp", "User-agent: bingbot" "Allow: /" and "User-agent: *" "Allow: /" with a Sitemap line; no Crawl-delay',
+        terms="No copyright notice, terms of use or licence was found on the home page or on the Acts page (the only match for 'copyright' is the title of the Copyright Act of Bhutan 2001 in the list)",
+        document='The page "Acts" (https://www.judiciary.gov.bt/posts/first-category/acts) lists the Acts of Bhutan as paragraphs "Title (English)" with a link to a PDF in /storage/files/1/; 127 of the links are to English PDFs. The page\'s own link to the Constitution (constitutional_2015.pdf) answers HTTP 404, and some other links are dead or lead to Dzongkha-only files',
+        licence_name="Official legal texts published by the Judiciary; no copyright notice, terms of use or licence found",
+        basis="No statute was read; the basis is the official status of the texts and the absence of any stated restriction on them.",
+        coverage="The English PDFs of the Acts of Bhutan listed on the Judiciary's page (127 links; the ones that answer and have a text layer are stored): one work per Act, split into sections where the headings allow, else into blocks of paragraphs.",
+        limitations=[
+            "The page does not say which version of an Act a PDF is (an Act as passed, or with amendments); the retrieval date is the edition date. Later amendments, and Acts not on the page, are not covered.",
+            "A link that no longer answers is skipped and reported as a run error; a PDF whose text layer is not readable text is skipped. Dzongkha texts are not ingested except where an English PDF also contains them.",
+        ],
+        kinds=["act"],
+    ),
 ]
 
 # (id, cc, country, publisher, langs, url, doc_title, robots, terms, document, licence, status, note)
@@ -294,8 +337,25 @@ PLANNED: list[dict[str, Any]] = [
         review="pending_review",
         note="Would need a connector for the site's pages; the shared constitution parser reads web pages and text-layer PDFs only.",
     ),
+    dict(
+        id="pg-parliament-constitution",
+        cc="PG",
+        country="Papua New Guinea",
+        publisher="National Parliament of Papua New Guinea (parliament.gov.pg)",
+        langs=["en"],
+        url="https://parliament.gov.pg/constitution-of-png/",
+        doc_title="Constitution of the Independent State of Papua New Guinea",
+        robots='https://parliament.gov.pg/robots.txt: "User-agent: *" "Disallow: /wp-admin/" "Allow: /wp-admin/admin-ajax.php" and a Sitemap line; no Crawl-delay.',
+        terms='Terms of Use (https://parliament.gov.pg/terms-of-use/), 4. Copyright: "All content on this website, including text, images, logos, and documents, is protected by copyright unless otherwise stated. Content may be reproduced for personal, non-commercial use with proper acknowledgment."',
+        document='Page "Constitution of PNG" with a "Download PDF" link to https://demo.parliament.gov.pg/wp-content/uploads/2026/04/PNG-CONSTITUTION.pdf (a host named "demo"); the PDF was not requested because the terms limit reproduction to personal, non-commercial use.',
+        licence="Terms of Use allow reproduction only for personal, non-commercial use - not ingested",
+        status="rejected",
+        review="rejected",
+        note="Not ingested.",
+    ),
 ]
 
+# (PG rejected: appended to PLANNED below)
 # minimal profiles (country name, native names, official languages, notes), only for ACTIVE countries
 PROFILES: dict[str, dict[str, Any]] = {
     "KZ": dict(
@@ -378,5 +438,20 @@ PROFILES: dict[str, dict[str, Any]] = {
         notes="To verify - a unitary constitutional monarchy; Dzongkha is the national language (Constitution art. 1). The English text is a translation.",
         examples=["Bhutan Constitution art. 7", "Bhutan Constitution art. 35"],
         loaded="the English text of the 2008 Constitution, from a copy on the website of the Department of Local Governance and Disaster Management",
+        instrument_types=["constitution", "act"],
+        gap="Only the constitution is loaded as a constitution (the English text of the 2008 Constitution, from a copy on the website of the Department of Local Governance and Disaster Management); the other loaded instruments are the Acts of Bhutan in English listed on the Judiciary's page (bt-judiciary-acts). No regulations, treaties or case law of Bhutan are ingested.",
+    ),
+    "TL": dict(
+        name="Timor-Leste",
+        names={
+            "en": "Democratic Republic of Timor-Leste",
+            "pt": "República Democrática de Timor-Leste",
+            "tet": "Repúblika Demokrátika Timor-Leste",
+        },
+        languages=["pt", "tet"],
+        structure="unitary",
+        notes="To verify - a unitary semi-presidential republic; Portuguese and Tetum are the official languages (Constitution art. 13).",
+        examples=["Timor-Leste Constitution art. 1", "Timor-Leste Constitution art. 170"],
+        loaded="the Portuguese text of the 2002 Constitution, from the website of the National Parliament",
     ),
 }

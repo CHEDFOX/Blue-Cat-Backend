@@ -57,6 +57,7 @@ DOCUMENT_KEYS = (
     "edition_label",
     "events",
     "authoritative",
+    "instrument_type",
     "text_origin",
     "publisher",
     "structure",
@@ -144,6 +145,8 @@ class ConstitutionDocsConnector:
                 raise ManifestError(f"{slug}: invalid language {doc.get('language')!r}")
             if doc.get("format") not in ("pdf", "html"):
                 raise ManifestError(f"{slug}: format must be pdf or html")
+            if doc.get("instrument_type", "constitution") not in ("constitution", "act"):
+                raise ManifestError(f"{slug}: instrument_type must be constitution or act")
             if not doc.get("title") or not doc.get("citation_name"):
                 raise ManifestError(f"{slug}: title and citation_name are required")
             parts = urllib.parse.urlsplit(str(doc.get("url", "")))

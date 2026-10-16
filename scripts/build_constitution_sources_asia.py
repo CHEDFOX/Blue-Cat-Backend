@@ -17,7 +17,7 @@ from typing import Any
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from constitution_findings_asia_data import ACTIVE, AMBER, PLANNED, PROFILES, READ_ON  # noqa: E402
+from constitution_findings_asia_data import ACTIVE, ACTS, AMBER, PLANNED, PROFILES, READ_ON  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = "ULIS project (not counsel)"
@@ -46,7 +46,7 @@ def active_yaml(e: dict[str, Any]) -> str:
         "kind": "official_legislation_portal",
         "authority": "official_non_authentic",
         "jurisdictions": [e["cc"]],
-        "document_kinds": ["constitution"],
+        "document_kinds": e.get("kinds", ["constitution"]),
         "languages": languages,
         "coverage": e["coverage"],
         "access": {
@@ -177,8 +177,8 @@ def profile_yaml(e: dict[str, Any]) -> str:
             "notes": p["notes"],
         },
         "legislative_institutions": [],
-        "instrument_types": ["constitution"],
-        "norm_hierarchy": ["constitution"],
+        "instrument_types": p.get("instrument_types", ["constitution"]),
+        "norm_hierarchy": p.get("instrument_types", ["constitution"]),
         "courts": [],
         "precedent": {
             "doctrine": "not_applicable",
@@ -193,11 +193,12 @@ def profile_yaml(e: dict[str, Any]) -> str:
             ),
             "examples": p["examples"],
         },
-        "publication": {"official_sources": [e["id"]]},
+        "publication": {"official_sources": [e["id"], *[a["id"] for a in ACTS if a["cc"] == e["cc"]]]},
         "coverage": {
             "corpus_status": "pilot",
             "known_gaps": [
-                f"Only the constitution is loaded ({p['loaded']}). No legislation, regulations, treaties or case law of "
+                p.get("gap")
+                or f"Only the constitution is loaded ({p['loaded']}). No legislation, regulations, treaties or case law of "
                 f"{p['name']} are ingested.",
                 "The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since "
                 "are not applied, and no history is held (docs/constitutions-asia-oceania-deep.md).",
@@ -223,6 +224,9 @@ def main() -> int:
         target = profiles / f"{e['cc'].lower()}.yaml"
         if not target.exists():
             target.write_text(profile_yaml(e), encoding="utf-8")
+        written += 1
+    for e in ACTS:
+        (sources / f"{e['id']}.yaml").write_text(active_yaml(e), encoding="utf-8")
         written += 1
     for e in PLANNED:
         (sources / f"{e['id']}.yaml").write_text(planned_yaml(e), encoding="utf-8")

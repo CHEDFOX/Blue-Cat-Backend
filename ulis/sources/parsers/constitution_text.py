@@ -917,6 +917,10 @@ def parse_constitution(content: bytes) -> list[ParsedDocument]:
         raise ConstitutionParseError(f"unknown text_origin {text_origin!r}")
 
     lines = document_lines(bundle)
+    glyphs = [ch for line in lines for ch in line if not ch.isspace()]
+    if glyphs and sum(1 for ch in glyphs if unicodedata.category(ch) == "Co") > len(glyphs) // 2:
+        # a PDF whose font maps its letters to private-use code points: the text layer is not text
+        raise ParseSkipped("the text layer holds private-use glyphs, not readable text")
     tops, recognised = _structure(lines, document, str(bundle["media"]))
     if document.get("note") and tops:  # a statement of the manifest taken from the document (e.g. its heading line)
         tops[0][0].notes.append(str(document["note"]))
@@ -926,7 +930,12 @@ def parse_constitution(content: bytes) -> list[ParsedDocument]:
     if not any(p.text for p in provisions):
         raise ParseSkipped("the document has no text")
 
-    work = f"/{cc.lower()}/constitution"
+    instrument_type = str(document.get("instrument_type", "constitution"))
+    if instrument_type not in ("constitution", "act"):
+        raise ConstitutionParseError(f"unknown instrument_type {instrument_type!r}")
+    # other laws of a publisher that lists them beside its constitution (the Acts of Bhutan): one work per Act
+    own = str(document.get("slug", "")).removeprefix(f"{cc.lower()}-")
+    work = f"/{cc.lower()}/constitution" if instrument_type == "constitution" else f"/{cc.lower()}/act/{own}"
     events = [
         ParsedEvent(
             str(e["type"]), date.fromisoformat(str(e["date"])), None, e.get("description"), str(e.get("locator", ""))
@@ -936,7 +945,7 @@ def parse_constitution(content: bytes) -> list[ParsedDocument]:
     return [
         ParsedDocument(
             doc_kind="legislation",
-            instrument_type="constitution",
+            instrument_type=instrument_type,
             jurisdiction_id=cc,
             work_uri=work,
             expression_uri=f"{work}/{lang}@{version_date.isoformat()}",
@@ -948,7 +957,7 @@ def parse_constitution(content: bytes) -> list[ParsedDocument]:
             language=lang,
             authoritative=bool(document.get("authoritative", False)),
             text_origin=text_origin,
-            consolidation_kind="constitution_text" if recognised else "constitution_blocks",
+            consolidation_kind=f"{instrument_type}_text" if recognised else f"{instrument_type}_blocks",
             version_date=version_date,
             currency_date=version_date,
             extent=[cc],

@@ -23,10 +23,10 @@ legal_system:
   notes: To verify - a unitary constitutional monarchy; Dzongkha is the national language (Constitution art. 1). The English
     text is a translation.
 legislative_institutions: []
-instrument_types:
+instrument_types: &id001
 - constitution
-norm_hierarchy:
-- constitution
+- act
+norm_hierarchy: *id001
 courts: []
 precedent:
   doctrine: not_applicable
@@ -42,11 +42,13 @@ citation:
 publication:
   official_sources:
   - bt-dlgdm-constitution
+  - bt-judiciary-acts
 coverage:
   corpus_status: pilot
   known_gaps:
-  - Only the constitution is loaded (the English text of the 2008 Constitution, from a copy on the website of the Department
-    of Local Governance and Disaster Management). No legislation, regulations, treaties or case law of Bhutan are ingested.
+  - Only the constitution is loaded as a constitution (the English text of the 2008 Constitution, from a copy on the website
+    of the Department of Local Governance and Disaster Management); the other loaded instruments are the Acts of Bhutan in
+    English listed on the Judiciary's page (bt-judiciary-acts). No regulations, treaties or case law of Bhutan are ingested.
   - The constitution is stored as the text of the publisher's page or PDF at the retrieval date; amendments adopted since
     are not applied, and no history is held (docs/constitutions-asia-oceania-deep.md).
   - 'Courts, legislative institutions, legal families and treaty reception are not profiled: this is a minimal profile, not
