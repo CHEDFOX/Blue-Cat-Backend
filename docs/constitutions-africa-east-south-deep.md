@@ -55,6 +55,10 @@ All planned/rejected descriptors are checked by `tests/test_constitution_east_so
 * `ulis/jurisdictions/modules/mu.py`: the Mauritius module now also cites the Constitution (`Mauritius Constitution s. 4(1)`) and accepts documents with no judgment extension.
 * New: 13 source descriptors and manifests (`scripts/build_constitution_east_south.py` writes them and the 12 blocked descriptors), 11 draft profiles (RW, MG, DJ, AO, SO, TZ, NA, SC, LS, ZW, MZ; MU extended), `tests/test_constitution_east_south*.py` with fixtures in `tests/fixtures/constitution_east_south/`, additive lines in `tests/test_catalog.py`.
 
+## Checks
+
+`ruff check`, `ruff format --check` and `mypy ulis` clean; full test suite against a private PostgreSQL database: **1,610 passed** (42 unit tests in `tests/test_constitution_east_south.py`, 4 database tests in `tests/test_constitution_east_south_db.py`, 12 gate tests in `tests/test_constitution_east_south_blocked.py`, the earlier constitution and catalog tests unchanged).
+
 ## Known gaps
 
 * Several loaded texts are older editions of the Constitution (Lesotho 1993, Mozambique 2004, Zimbabwe 2013, Tanzania 2000/2005, Seychelles 2020, Namibia 2016); the system shows them as attested only at the edition date. Where a newer official text exists only as a scan (Mozambique, Burundi, Comoros) ULIS does no OCR.
