@@ -28,8 +28,8 @@ legislative_institutions:
   - id: IE-OIREACHTAS
     name: Oireachtas (President, Dáil Éireann and Seanad Éireann)
     instrument_types: [act]
-instrument_types: [act]
-norm_hierarchy: [act]
+instrument_types: [constitution, act]
+norm_hierarchy: [constitution, act]
 courts:
   - id: IE-SC
     name: Supreme Court
@@ -69,7 +69,7 @@ citation:
     - "Unfair Dismissals Act 1977, s 6(1)"
     - "Companies Act 2014, s 228(1)(a)"
 publication:
-  official_sources: [ie-irish-statute-book]
+  official_sources: [ie-irish-statute-book, ie-isb-constitution]
   commencement: >-
     An Act becomes law when signed by the President (Art 25) and is published in the Acts of the Oireachtas
     series. Whether and when its provisions take effect is stated in the Act itself: on the passing of the
@@ -90,7 +90,7 @@ coverage:
     - Only six Acts are ingested, as enacted - Unfair Dismissals Act 1977, Non-Fatal Offences against the Person Act 1997, Criminal Justice (Theft and Fraud Offences) Act 2001, Consumer Protection Act 2007, Companies Act 2014 and Data Protection Act 2018; no other Acts, no statutory instruments, no case law and no treaties.
     - Acts are as enacted. Later amendments, repeals and revocations are NOT applied (and several of these Acts have been amended substantially), so a provision may have changed or ceased to be law; the Law Reform Commission's Revised Acts, which would show the current text, have no stated re-use licence and are not ingested.
     - The enacted XML carries no commencement dates and many of these Acts commence by ministerial order; every provision is dated from the enactment date, which is only a lower bound, and commencement orders are not ingested.
-    - Bunreacht na hÉireann (the Constitution) is NOT ingested - eISB offers it as HTML and PDF only, not as XML.
+    - Bunreacht na hÉireann (the Constitution) is ingested separately, from the eISB HTML pages in English and Irish (source ie-isb-constitution, docs/constitutions-europe-me-deep.md); it is not in the XML source of the Acts.
     - English text only; the Irish-language versions of the Acts are not ingested.
     - Schedules are indexed as one passage per Schedule (or per Part of a Schedule); numbered paragraphs inside Schedules are not separated, and images and tables are reduced to text.
     - The structure of subsections, paragraphs and sub-paragraphs is rebuilt from printed labels because the XML is presentational; labels inside quoted amending text are not treated as provisions.

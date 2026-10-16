@@ -1,0 +1,64 @@
+# Constitution of Palestine from the Supreme Constitutional Court of the State of Palestine (www.tscc.pna.ps). Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://www.tscc.pna.ps/robots.txt answers HTTP 404 (no robots file): no rules to apply
+#   Terms - page footer: "All rights reserved for the Supreme Constitutional Court 2026 © | Designed and developed by ..." - a generic footer; no terms-of-use or licence page was found
+#   The document - one HTML page (/en/pages?id=palestinian_basic_law) "The Palestinian Basic Law": the eight Titles in a collapsible list printed from Title Eight down to Title One, each with its Articles ("Article (115)" ... "Article (1)"); the Arabic address of the page answers HTTP 404
+schema_version: 1
+id: ps-tscc-constitution
+name: Constitution of Palestine - the Supreme Constitutional Court of the State of Palestine (www.tscc.pna.ps)
+publisher: المحكمة الدستورية العليا (Supreme Constitutional Court of the State of Palestine), www.tscc.pna.ps
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- PS
+document_kinds:
+- constitution
+languages:
+- en
+coverage: 'The Constitution of Palestine in en as published by the Supreme Constitutional Court of the State of Palestine (www.tscc.pna.ps):
+  1 document(s) (Palestine (en)). The Basic Law (as the Court prints it in English), stored as text blocks.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ps-tscc-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: PS-official-text-no-terms
+  name: Official legal text published by the Supreme Constitutional Court of Palestine; a generic all-rights-reserved footer and
+    no terms page
+  url: https://www.tscc.pna.ps/en/pages?id=palestinian_basic_law
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file: robots.txt
+    (https://www.tscc.pna.ps/robots.txt answers HTTP 404 (no robots file): no rules to apply) and the terms (page footer: "All
+    rights reserved for the Supreme Constitutional Court 2026 © | Designed and developed by ..." - a generic footer; no terms-of-use
+    or licence page was found). The document: one HTML page (/en/pages?id=palestinian_basic_law) "The Palestinian Basic Law":
+    the eight Titles in a collapsible list printed from Title Eight down to Title One, each with its Articles ("Article (115)"
+    ... "Article (1)"); the Arabic address of the page answers HTTP 404. Reading: AMBER - the publisher states no restriction
+    on reusing the text; no permission for automated retrieval is stated either.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: The Palestinian Basic Law, the Supreme Constitutional Court of the State of Palestine (www.tscc.pna.ps); retrieved
+    {retrieved_date}. Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: The document(s) listed in config/manifests/ps-tscc-constitution.yaml, stored byte for byte inside JSON bundles with
+  the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if any)
+  is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- 'The Titles are printed in descending order (Title Eight first), which the parser does not read as one numbered sequence: the
+  text is stored in blocks (text block 1, 2 ...), without pinpoints to articles.'
+- English only (the Court's page); the page prints no edition date. Whether this is the Basic Law of 2002 as amended in 2003 is
+  what its Article 119 'Amended Basic Law' suggests, not something the page states.
+status: active
+connector: constitution_docs
+parser: constitution_text

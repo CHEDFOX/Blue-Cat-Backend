@@ -1,0 +1,44 @@
+# The Constitution of Ireland (en, ga): 2 document(s) on www.irishstatutebook.ie. See config/sources/ie-isb-constitution.yaml.
+schema_version: 1
+source_id: ie-isb-constitution
+user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
+crawl_delay_seconds: 5
+hosts:
+- www.irishstatutebook.ie
+documents:
+- slug: ie-en
+  jurisdiction: IE
+  url: https://www.irishstatutebook.ie/eli/cons/en/html
+  format: html
+  language: en
+  title: Constitution of Ireland
+  citation_name: Ireland Constitution
+  edition_label: page of the electronic Irish Statute Book (ELI eli/cons), no edition date on the page
+  authoritative: false
+  text_origin: official_conversion
+  structure:
+    unit_kind: article
+    html_replace:
+    - ['(?s)\A.*?(?=In the Name of the Most Holy)', '<html><body><table><tr><td><p>']
+    start_regex: '^In the Name of the Most Holy'
+    preamble_regex: '^In the Name of the Most Holy'
+    chapter_regex: '^(THE NATION|THE STATE|THE PRESIDENT|THE NATIONAL PARLIAMENT|THE GOVERNMENT|LOCAL GOVERNMENT|INTERNATIONAL RELATIONS|THE ATTORNEY GENERAL|THE COUNCIL OF STATE|THE COMPTROLLER AND AUDITOR GENERAL|THE COURTS|TRIAL OF OFFENCES|FUNDAMENTAL RIGHTS|DIRECTIVE PRINCIPLES OF SOCIAL POLICY|AMENDING THE CONSTITUTION|REFERENDUM|REPEAL OF CONSTITUTION|DÁIL ÉIREANN|SEANAD ÉIREANN|LEGISLATION)'
+    tail_regex: '^INDEX$'
+- slug: ie-ga
+  jurisdiction: IE
+  url: https://www.irishstatutebook.ie/eli/cons/ga/html
+  format: html
+  language: ga
+  title: Bunreacht na hÉireann
+  citation_name: Ireland Constitution
+  edition_label: page of the electronic Irish Statute Book (ELI eli/cons), no edition date on the page
+  authoritative: false
+  text_origin: official_conversion
+  structure:
+    unit_kind: article
+    keywords: [Airteagal]
+    html_replace:
+    - ['(?s)\A.*?(?=In Ainm na Tríonóide)', '<html><body><table><tr><td><p>']
+    start_regex: '^In Ainm na Tríonóide'
+    preamble_regex: '^In Ainm na Tríonóide'
+    tail_regex: '^TREOIR$'

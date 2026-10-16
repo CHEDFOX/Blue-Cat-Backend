@@ -114,8 +114,29 @@ def test_all_profiles_load_and_cross_validate(catalog: Catalog) -> None:
         "UZ",
         "VN",
         "ZA",
+        # the deep constitutions sweep of Europe, the Caucasus and the Middle East
+        "AD",
+        "AZ",
+        "BA",
+        "BE",
+        "BG",
+        "GE",
+        "HU",
+        "IS",
+        "KZ",
+        "LT",
+        "MC",
+        "MD",
+        "MK",
+        "MT",
+        "PS",
+        "RO",
+        "VA",
+        "XK",
+        "YE",
     }
-    assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X"))
+    # XA, XB, XR ... are fictional test jurisdictions; XK (Kosovo) is the user-assigned code of a real one
+    assert all(p.fictional for p in catalog.jurisdictions.profiles.values() if p.id.startswith("X") and p.id != "XK")
     assert catalog.jurisdictions.get("IN").verification.status == "draft_unverified"
     assert catalog.jurisdictions.get("IN").coverage.corpus_status == "none"
 
@@ -259,6 +280,27 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "uz-constitution-site",
         "vn-chinhphu-constitution",
         "za-doj-constitution",
+        # the deep constitutions sweep of Europe, the Caucasus and the Middle East
+        "ad-consell-general-constitution",
+        "az-president-constitution",
+        "ba-ustavni-sud-constitution",
+        "be-senate-constitution",
+        "bg-president-constitution",
+        "ge-constitutional-court-constitution",
+        "hu-magyar-kozlony-constitution",
+        "ie-isb-constitution",
+        "is-stjornarradid-constitution",
+        "kz-akorda-constitution",
+        "lt-seimas-constitution",
+        "mc-legimonaco-constitution",
+        "md-presedinte-constitution",
+        "mk-sobranie-constitution",
+        "mt-legislation-constitution",
+        "ps-tscc-constitution",
+        "ro-senat-constitution",
+        "va-governatorato-constitution",
+        "xk-gjk-constitution",
+        "ye-nic-constitution",
     }
     for source_id in approved:
         licence_gate(catalog.sources.get(source_id))

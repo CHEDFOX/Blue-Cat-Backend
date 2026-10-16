@@ -1,0 +1,72 @@
+# Constitution of Yemen from the National Information Center of Yemen (www.yemen-nic.info). Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://www.yemen-nic.info/robots.txt - "User-agent: *" with Disallow lines for /bitrix/, /admin/, /upload/main/, /upload/bx/, /upload/form/, /tenders/, /img/, /2English site/, /123/, /phpmyadmin/; the page /yemen/dostor.php is not disallowed; no Crawl-delay
+#   Terms - footer: "Copyright © National Information Center 2014 All Rights Reserved"; the terms page https://www.yemen-nic.info/personal/site_use.php ("شروط إستخدام الموقع") says the site is published by the National Information Center of the Presidency, that the contents are protected by copyright, and under "الاقتباس والنشر" (quotation and publication) that material quoted or published from the Center's site must be used "في شكلها الأصلي، مع الإشارة الواضحة إلى أية تعديلات أو اختصارات" (in its original form, with any changes or abridgements clearly indicated), with a link to the Center's site and a clear attribution to the Center; it adds that the information publications may be used in informational publishing provided the source is clearly named
+#   The document - one HTML page "دستور الجمهورية اليمنية" (/yemen/dostor.php): الباب الأول (أسس الدولة) ... "مادة (1)" to "مادة (162)" including the final and transitional articles; no edition date is printed
+schema_version: 1
+id: ye-nic-constitution
+name: Constitution of Yemen - the National Information Center of Yemen (www.yemen-nic.info)
+publisher: المركز الوطني للمعلومات (National Information Center of the Presidency of the Republic of Yemen), www.yemen-nic.info
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- YE
+document_kinds:
+- constitution
+languages:
+- ar
+coverage: 'The Constitution of Yemen in ar as published by the National Information Center of Yemen (www.yemen-nic.info): 1 document(s)
+  (Yemen (ar)). Articles 1 to 162 of the Constitution as the Center prints it.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ye-nic-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: YE-NIC-quotation-with-attribution
+  name: 'Terms of use of the National Information Center of Yemen: quotation and publication allowed in the original form, with
+    a link and attribution to the Center'
+  url: https://www.yemen-nic.info/personal/site_use.php
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file: robots.txt
+    (https://www.yemen-nic.info/robots.txt - "User-agent: *" with Disallow lines for /bitrix/, /admin/, /upload/main/, /upload/bx/,
+    /upload/form/, /tenders/, /img/, /2English site/, /123/, /phpmyadmin/; the page /yemen/dostor.php is not disallowed; no Crawl-delay)
+    and the terms (footer: "Copyright © National Information Center 2014 All Rights Reserved"; the terms page https://www.yemen-nic.info/personal/site_use.php
+    ("شروط إستخدام الموقع") says the site is published by the National Information Center of the Presidency, that the contents
+    are protected by copyright, and under "الاقتباس والنشر" (quotation and publication) that material quoted or published from
+    the Center''s site must be used "في شكلها الأصلي، مع الإشارة الواضحة إلى أية تعديلات أو اختصارات" (in its original form, with
+    any changes or abridgements clearly indicated), with a link to the Center''s site and a clear attribution to the Center; it
+    adds that the information publications may be used in informational publishing provided the source is clearly named). The
+    document: one HTML page "دستور الجمهورية اليمنية" (/yemen/dostor.php): الباب الأول (أسس الدولة) ... "مادة (1)" to "مادة (162)"
+    including the final and transitional articles; no edition date is printed. Reading: AMBER - the terms allow quoting and publishing
+    the site''s material in its original form with a link and clear attribution, and say nothing about automated retrieval or
+    commercial use; the copyright footer reserves rights.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: دستور الجمهورية اليمنية, the National Information Center of Yemen (www.yemen-nic.info); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Keep the text in its original form, indicate any change or abridgement, link to the Center's site and name the National Information
+    Center as the source (terms, 'الاقتباس والنشر').
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The permission is limited to quotation and publication in the original form with attribution; counsel should confirm
+    that storing and indexing fits it.
+provenance: The document(s) listed in config/manifests/ye-nic-constitution.yaml, stored byte for byte inside JSON bundles with
+  the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if any)
+  is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- The page prints no edition date and no list of amendments; the retrieval date is the edition date. The parser did not recognise
+  the headings of articles 64, 133 and 152, whose text stays inside the preceding article.
+- The site is that of the National Information Center of the Presidency; which authority controls it in the present conflict is
+  not stated and not assessed here.
+status: active
+connector: constitution_docs
+parser: constitution_text

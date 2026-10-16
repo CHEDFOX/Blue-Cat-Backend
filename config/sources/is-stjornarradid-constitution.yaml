@@ -1,0 +1,67 @@
+# Constitution of Iceland from the Government Offices of Iceland (stjornarradid.is). Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://stjornarradid.is/robots.txt and https://www.stjornarradid.is/robots.txt - empty files (no rules); no Crawl-delay
+#   Terms - the site has no copyright line; its page "Fyrirvari" (disclaimer, https://www.stjornarradid.is/um-vefinn/fyrirvari/) says only that "Þótt leitast sé við að hafa upplýsingar á vef Stjórnarráðs réttar og í samræmi við nýjustu stöðu mála er ekki ávallt hægt að ábyrgjast að svo sé" (the information is not guaranteed to be correct) and states no restriction on reuse
+#   The document - PDF of 9 pages "Stjórnarskrá lýðveldisins Íslands uppfærð með öllum breytingum til og með 2013" (the Constitution of 17 June 1944 updated with all amendments up to and including 2013), linked from "Stjórnarskráin með breytingum 2013" on the page "Núgildandi stjórnarskrá"; Articles 1 to 81 in seven chapters
+schema_version: 1
+id: is-stjornarradid-constitution
+name: Constitution of Iceland - the Government Offices of Iceland (stjornarradid.is)
+publisher: Stjórnarráð Íslands (Government Offices of Iceland), stjornarradid.is
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- IS
+document_kinds:
+- constitution
+languages:
+- is
+coverage: 'The Constitution of Iceland in is as published by the Government Offices of Iceland (stjornarradid.is): 1 document(s)
+  (Iceland (is)). Articles 1 to 81 of the Constitution of 1944 as amended up to and including 2013.'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/is-stjornarradid-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: IS-official-text-no-terms
+  name: Official legal text published by the Government Offices of Iceland; no copyright notice, a disclaimer page that states
+    no restriction on reuse
+  url: https://www.stjornarradid.is/verkefni/stjornskipan-og-thjodartakn/stjornarskrain/nugildandi-stjornarskra/
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file: robots.txt
+    (https://stjornarradid.is/robots.txt and https://www.stjornarradid.is/robots.txt - empty files (no rules); no Crawl-delay)
+    and the terms (the site has no copyright line; its page "Fyrirvari" (disclaimer, https://www.stjornarradid.is/um-vefinn/fyrirvari/)
+    says only that "Þótt leitast sé við að hafa upplýsingar á vef Stjórnarráðs réttar og í samræmi við nýjustu stöðu mála er ekki
+    ávallt hægt að ábyrgjast að svo sé" (the information is not guaranteed to be correct) and states no restriction on reuse).
+    The document: PDF of 9 pages "Stjórnarskrá lýðveldisins Íslands uppfærð með öllum breytingum til og með 2013" (the Constitution
+    of 17 June 1944 updated with all amendments up to and including 2013), linked from "Stjórnarskráin með breytingum 2013" on
+    the page "Núgildandi stjórnarskrá"; Articles 1 to 81 in seven chapters. The Icelandic Copyright Act (Höfundalög nr. 73/1972)
+    is believed to exclude laws from protection (to verify; not read on a publisher''s page). Reading: AMBER - the publisher states
+    no restriction on reusing the text; no permission for automated retrieval is stated either.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Stjórnarskrá lýðveldisins Íslands, the Government Offices of Iceland (stjornarradid.is); retrieved {retrieved_date}.
+    Structured and indexed by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: The document(s) listed in config/manifests/is-stjornarradid-constitution.yaml, stored byte for byte inside JSON bundles
+  with the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if any)
+  is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- The Althing's own copy (althingi.is) refuses automated clients (HTTP 403, source is-althingi-constitution) and is not used.
+  The English translation on the same site covers the amendments only up to 1999 and is not loaded.
+- The article marker 'gr.' (grein) is printed on the line of the number and stays as the first line of each article's text; the
+  chapter numbers (I., II. ...) are headings inside the text.
+status: active
+connector: constitution_docs
+parser: constitution_text

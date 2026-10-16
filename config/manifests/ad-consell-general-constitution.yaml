@@ -18,6 +18,9 @@ documents:
   text_origin: official_consolidation
   structure:
     unit_kind: article
+    html_select:
+      id: content-core
+    tail_regex: '^Disposició addicional primera$'
     start_regex: '^El poble andorrà, amb plena llibertat'
     preamble_regex: '^El poble andorrà, amb plena llibertat'
     chapter_regex: '^Títol [IVX]+ - '

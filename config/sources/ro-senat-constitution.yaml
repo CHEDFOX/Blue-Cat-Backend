@@ -1,0 +1,64 @@
+# Constitution of Romania from the Senate of Romania (www.senat.ro). Read on 2026-10-16, before any document was fetched:
+#   robots.txt - https://www.senat.ro/robots.txt answers HTTP 404 (no robots file): no rules to apply
+#   Terms - page footer: "Copyright © Parlamentul României SENAT" - a generic footer; no terms-of-use or licence page was found. (The Chamber of Deputies, cdep.ro, and the Constitutional Court, ccr.ro, closed the connection on the first request: Errno 104)
+#   The document - the frame https://www.senat.ro/pagini/constitutia/constitutia.htm (windows-1250) of the page "Constituția României" (/default.aspx?Sel=6B8B48EC-8CF6-4399-BED8-9C1D5B274576): notes that the Constitution "în forma iniţială, a fost adoptată în şedinţa Adunării Constituante din 21 noiembrie 1991" and that Legea nr. 429/2003 "a fost aprobată prin referendumul naţional din 18-19 octombrie 2003 şi a intrat în vigoare la data de 29 octombrie 2003", then Titlurile I to VIII, ARTICOLUL 1 to 156
+schema_version: 1
+id: ro-senat-constitution
+name: Constitution of Romania - the Senate of Romania (www.senat.ro)
+publisher: Senatul României (www.senat.ro)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions:
+- RO
+document_kinds:
+- constitution
+languages:
+- ro
+coverage: 'The Constitution of Romania in ro as published by the Senate of Romania (www.senat.ro): 1 document(s) (Romania (ro)).
+  Articles 1 to 156 of the Constitution as revised by Legea nr. 429/2003 (in force 29 October 2003).'
+access:
+  method: permitted_web_retrieval
+  endpoint: config/manifests/ro-senat-constitution.yaml
+  authentication: none
+update_frequency: Not stated; the retrieval date is the edition date unless the document prints one.
+rate_limits: As recorded under robots.txt in the header; ULIS waits at least 5 s between requests, identifies itself, caches every
+  download and makes 2 request(s) (robots.txt and 1 document(s)).
+licence:
+  id: RO-official-text-no-terms
+  name: Official legal text published by the Senate of Romania; a generic copyright footer and no terms page
+  url: https://www.senat.ro/default.aspx?Sel=6B8B48EC-8CF6-4399-BED8-9C1D5B274576
+  review_status: approved
+  reviewed_by: 'ULIS project (not counsel), 2026-10-16, from the publisher''s own pages quoted in the header of this file: robots.txt
+    (https://www.senat.ro/robots.txt answers HTTP 404 (no robots file): no rules to apply) and the terms (page footer: "Copyright
+    © Parlamentul României SENAT" - a generic footer; no terms-of-use or licence page was found. (The Chamber of Deputies, cdep.ro,
+    and the Constitutional Court, ccr.ro, closed the connection on the first request: Errno 104)). The document: the frame https://www.senat.ro/pagini/constitutia/constitutia.htm
+    (windows-1250) of the page "Constituția României" (/default.aspx?Sel=6B8B48EC-8CF6-4399-BED8-9C1D5B274576): notes that the
+    Constitution "în forma iniţială, a fost adoptată în şedinţa Adunării Constituante din 21 noiembrie 1991" and that Legea nr.
+    429/2003 "a fost aprobată prin referendumul naţional din 18-19 octombrie 2003 şi a intrat în vigoare la data de 29 octombrie
+    2003", then Titlurile I to VIII, ARTICOLUL 1 to 156. Law no. 8/1996 on copyright (Romania) is believed to exclude official
+    texts such as laws from protection (to verify; not read on a publisher''s page). Reading: AMBER - the publisher states no
+    restriction on reusing the text; no permission for automated retrieval is stated either.'
+  reviewed_on: '2026-10-16'
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: unknown
+  attribution_required: true
+  attribution_text: Constituția României, the Senate of Romania (www.senat.ro); retrieved {retrieved_date}. Structured and indexed
+    by ULIS; not the authentic text and not endorsed by the publisher.
+  conditions:
+  - The text is the publisher's copy, not the authentic publication; amendments after the edition date are not applied.
+  - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+  notes: The basis is the official status of the text and the absence of any stated restriction on it; there is no licence. Counsel
+    review is recommended before production use.
+provenance: The document(s) listed in config/manifests/ro-senat-constitution.yaml, stored byte for byte inside JSON bundles with
+  the URL and retrieval time; the text is re-derived from the page or from the PDF's text layer (pdftotext).
+known_limitations:
+- A copy on the publisher's site, not the authentic publication of the constitution; the publisher's own edition date (if any)
+  is the edition date, else the retrieval date.
+- Amendments adopted after the edition date are not applied; no history is held.
+- The page prints the title of each article as the first line of its text; the Constitution has no preamble. The frame's own editorial
+  notes (publication data of the revision) are not stored.
+status: active
+connector: constitution_docs
+parser: constitution_text

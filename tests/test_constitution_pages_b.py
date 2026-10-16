@@ -561,7 +561,9 @@ def test_every_other_publisher_of_the_sweep_is_recorded_and_refused_by_the_gate(
             continue
         statuses[source.status] += 1
         assert source.connector is None and source.parser is None
-        assert source.licence.reviewed_on == date(2026, 10, 15) and "robots" in (source.licence.reviewed_by or "")
+        # read on 2026-10-15; a record the deep sweep re-read on the next day carries that date
+        assert source.licence.reviewed_on in (date(2026, 10, 15), date(2026, 10, 16))
+        assert "robots" in (source.licence.reviewed_by or "")
         assert source.document_kinds == ["constitution"]
         with pytest.raises(LicenceNotApproved) as exc:
             licence_gate(source)
