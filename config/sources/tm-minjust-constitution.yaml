@@ -1,7 +1,7 @@
 # Constitution of Turkmenistan from Türkmenistanyň Adalat ministrligi (Ministry of Justice of Turkmenistan), minjust.gov.tm. Read on 2026-10-16, before any document was fetched:
 #   robots.txt - https://minjust.gov.tm/robots.txt answered HTTP 404 (none): no crawling rules to apply. The connector reads it anyway
 #   Terms - The home page (https://minjust.gov.tm/) is a script application whose static text is only "Köp soralýan soraglar"; no terms of use, copyright notice or licence was found on it or in the PDF
-#   The document - PDF of 24 pages with a text layer (file last modified 3 Mar 2023): the Constitutional law of 14 September 2016 "Türkmenistanyň Konstitusiýasyny rejelenen görnüşde tassyklamak hakynda" (3 articles, № 448-V), then "TÜRKMENISTANYŇ KONSTITUSIÝASY (rejelenen görnüşi)" with the sub-title "(Türkmenistanyň 09.10.2017 ý. № 617-V, 25.09.2020 ý. № 297-VI we 21.01.2023 ý. № 531-VI Konstitusion kanunlary esasynda girizilen üýtgetmeler we goşmaçalar bilen)": preamble ("Biz, Türkmenistanyň halky,") and 142 articles ("1-nji madda." ... "142-nji madda.") in chapters I - VIII
+#   The document - PDF of 24 pages with a text layer (file last modified 3 Mar 2023): the Constitutional law of 14 September 2016 "Türkmenistanyň Konstitusiýasyny rejelenen görnüşde tassyklamak hakynda" (3 articles, № 448-V), then "TÜRKMENISTANYŇ KONSTITUSIÝASY (rejelenen görnüşi)" with the sub-title "(Türkmenistanyň 09.10.2017 ý. № 617-V, 25.09.2020 ý. № 297-VI we 21.01.2023 ý. № 531-VI Konstitusion kanunlary esasynda girizilen üýtgetmeler we goşmaçalar bilen)": preamble ("Biz, Türkmenistanyň halky,") and 142 articles ("1-nji madda." ... "142-nji madda.") in chapters I - VIII (the heading of chapter VII is not found in the text layer)
 schema_version: 1
 id: tm-minjust-constitution
 name: Constitution of Turkmenistan - the Ministry of Justice of Turkmenistan (minjust.gov.tm)
@@ -36,9 +36,10 @@ licence:
     rejelenen görnüşde tassyklamak hakynda" (3 articles, № 448-V), then "TÜRKMENISTANYŇ KONSTITUSIÝASY (rejelenen görnüşi)"
     with the sub-title "(Türkmenistanyň 09.10.2017 ý. № 617-V, 25.09.2020 ý. № 297-VI we 21.01.2023 ý. № 531-VI Konstitusion
     kanunlary esasynda girizilen üýtgetmeler we goşmaçalar bilen)": preamble ("Biz, Türkmenistanyň halky,") and 142 articles
-    ("1-nji madda." ... "142-nji madda.") in chapters I - VIII. No statute was read; the basis is the official status of the
-    text and the absence of any stated restriction on it. Reading: AMBER - the publisher states no restriction on reusing
-    the text beyond a generic copyright footer (if any); no permission for automated retrieval is stated either.'
+    ("1-nji madda." ... "142-nji madda.") in chapters I - VIII (the heading of chapter VII is not found in the text layer).
+    No statute was read; the basis is the official status of the text and the absence of any stated restriction on it. Reading:
+    AMBER - the publisher states no restriction on reusing the text beyond a generic copyright footer (if any); no permission
+    for automated retrieval is stated either.'
   reviewed_on: '2026-10-16'
   redistribution: allowed_with_conditions
   bulk_download: allowed_with_conditions
