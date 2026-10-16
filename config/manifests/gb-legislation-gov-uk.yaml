@@ -26,6 +26,7 @@
 #   anaw   Acts of the National Assembly for Wales (2012-2020)            items      44, listed here      44 (of which with XML: revised 44, one version 0), PDF only 0
 #   asc    Acts of Senedd Cymru (2020-)                                   items      34, listed here      34 (of which with XML: revised 34, one version 0), PDF only 0
 #   mwa    Measures of the National Assembly for Wales (2008-2011)        items      22, listed here      22 (of which with XML: revised 22, one version 0), PDF only 0
+# Scale of loading all of it (estimated from a slice, plus or minus 50 percent): about 24,700 documents, 28,200 requests, 39 hours; about 2.75 million provision versions; about 10.7 GB of database and 9.2 GB of raw responses.
 # `path` is the canonical path on the site; Acts before 1963 use the regnal-year form (ukpga/Eliz2/10-11/58).
 schema_version: 1
 source_id: gb-legislation-gov-uk

@@ -41,9 +41,10 @@ access:
 update_frequency: continuous (editorial); re-run scripts/build_legislation_gov_uk_manifest.py and the ingest to refresh
 rate_limits: >-
   Fair use policy (see the header): identify with a User-Agent with contact details; obey robots.txt (Crawl-delay 5); at most 1,500 requests per
-  5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest: about 26,500
-  requests (a document each, plus the versions that answer 404 once) = about 37 hours at the crawl delay, after 53 listing requests (the listing
-  of primary and secondary legislation took 209). The connector stops on any refusal (401/403/451/429), records a missing work and goes on, and
+  5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest (7,178 works):
+  about 24,700 documents, 28,200 requests (a document each, plus the versions that answer 404 once) = about 39 hours at the crawl delay, after
+  53 listing requests (the listing of primary and secondary legislation took 209); about 2.75 million provision versions, 10.7 GB of database,
+  9.2 GB of raw responses (estimated from a slice, plus or minus 50 percent). The connector stops on any refusal (401/403/451/429), records a missing work and goes on, and
   gives up after five failures in a row.
 licence:
   id: OGL-UK-3.0

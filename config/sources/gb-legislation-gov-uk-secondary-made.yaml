@@ -33,7 +33,8 @@ update_frequency: continuous (editorial); re-run scripts/build_legislation_gov_u
 rate_limits: >-
   Fair use policy (see the header): identify with a User-Agent with contact details; obey robots.txt (Crawl-delay 5); at most 1,500 requests per
   5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest: 65,505 requests =
-  91 hours (3.8 days) at the crawl delay; run it in batches (scripts/ingest_in_batches.py). The connector stops on any refusal (401/403/451/429),
+  91 hours (3.8 days) at the crawl delay; about 2.31 million provision versions, 5.8 GB of database, 1.8 GB of raw responses (estimated from a
+  slice, plus or minus 50 percent); run it in batches (scripts/ingest_in_batches.py). The connector stops on any refusal (401/403/451/429),
   records a missing work and goes on, and gives up after five failures in a row.
 licence:
   id: OGL-UK-3.0

@@ -215,6 +215,26 @@ def main() -> int:
     return 0
 
 
+# Scale of loading a whole manifest, extrapolated from a stratified slice (fixed seed, per type and per kind of work:
+# documents per work, provision versions per document, raw bytes per document, database bytes per provision version)
+# run on 2026-10-16; heavy-tailed, so read it as plus or minus 50 percent. Requests include the versions that answer 404
+# once and the listing pages; hours are at the 5 s crawl delay, one request at a time.
+SCALE = {
+    "primary": (
+        "about 24,700 documents, 28,200 requests, 39 hours; about 2.75 million provision versions; about 10.7 GB of "
+        "database and 9.2 GB of raw responses"
+    ),
+    "secondary": (
+        "about 42,700 documents, 48,700 requests, 68 hours; about 1.18 million provision versions; about 4.6 GB of "
+        "database and 2.4 GB of raw responses"
+    ),
+    "secondary_made": (
+        "65,505 documents, 65,505 requests, 91 hours; about 2.31 million provision versions; about 5.8 GB of database "
+        "and 1.8 GB of raw responses (not loaded by default)"
+    ),
+}
+
+
 def write_manifest(
     scope: str,
     source_id: str,
@@ -262,6 +282,7 @@ def write_manifest(
 # in one version only (`version: enacted|made`: one request).
 # Repealed and revoked items are included (their in-force versions are history); items the site holds only as PDF
 # (no machine-readable text; robots.txt disallows */data.pdf) are not listed.
+# Scale of loading all of it (estimated from a slice, plus or minus 50 percent): {SCALE[scope]}.
 {table}
 # `path` is the canonical path on the site; Acts before 1963 use the regnal-year form (ukpga/Eliz2/10-11/58).
 """

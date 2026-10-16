@@ -13,6 +13,7 @@
 #   wsi    Welsh Statutory Instruments (1999-)                            items    6771, listed here    1574 (of which with XML: revised 1574, one version 3091), PDF only 2106
 #   nisr   Northern Ireland Statutory Rules (1974-)                       items   18553, listed here    4292 (of which with XML: revised 4292, one version 5078), PDF only 9183
 #   ukci   UK Church Instruments (1991-2016)                              items      60, listed here      60 (of which with XML: revised 0, one version 0), PDF only 0
+# Scale of loading all of it (estimated from a slice, plus or minus 50 percent): about 42,700 documents, 48,700 requests, 68 hours; about 1.18 million provision versions; about 4.6 GB of database and 2.4 GB of raw responses.
 # `path` is the canonical path on the site; Acts before 1963 use the regnal-year form (ukpga/Eliz2/10-11/58).
 schema_version: 1
 source_id: gb-legislation-gov-uk-secondary
