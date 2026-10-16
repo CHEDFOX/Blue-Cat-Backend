@@ -19,6 +19,10 @@ class ProfileError(ValueError):
 @dataclass
 class JurisdictionRegistry:
     profiles: dict[str, JurisdictionProfile] = field(default_factory=dict)
+    # Built on first use: the profiles are not changed after loading, and the US profile alone lists hundreds of
+    # courts, so the appeal chains asked for on every search hit must not rebuild the court table each time.
+    _court_table: dict[str, Court] | None = field(default=None, init=False, repr=False, compare=False)
+    _court_home: dict[str, str] = field(default_factory=dict, init=False, repr=False, compare=False)
 
     # ------------------------------------------------------------------ loading
     @classmethod
@@ -135,19 +139,24 @@ class JurisdictionRegistry:
 
     # ------------------------------------------------------------------ courts
     def courts(self) -> dict[str, Court]:
-        out: dict[str, Court] = {}
-        for profile in self.profiles.values():
-            for court in profile.courts:
-                if court.id in out:
-                    raise ProfileError(f"court {court.id} defined in more than one profile")
-                out[court.id] = court
-        return out
+        if self._court_table is None:
+            out: dict[str, Court] = {}
+            home: dict[str, str] = {}
+            for profile in self.profiles.values():
+                for court in profile.courts:
+                    if court.id in out:
+                        raise ProfileError(f"court {court.id} defined in more than one profile")
+                    out[court.id] = court
+                    home[court.id] = profile.id
+            self._court_table, self._court_home = out, home
+        return self._court_table
 
     def court_jurisdiction(self, court_id: str) -> str:
-        for profile in self.profiles.values():
-            if profile.court(court_id) is not None:
-                return profile.id
-        raise KeyError(f"unknown court {court_id!r}")
+        self.courts()
+        try:
+            return self._court_home[court_id]
+        except KeyError:
+            raise KeyError(f"unknown court {court_id!r}") from None
 
     def courts_above(self, court_id: str) -> list[str]:
         """Courts to which appeals from ``court_id`` lie, directly or indirectly."""

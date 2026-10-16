@@ -1,9 +1,10 @@
 # REAL JURISDICTION - DRAFT, UNVERIFIED.
-# Federal level only. States, territories, tribes and the federal trial courts are not yet modelled.
+# Federal level only for legislation. The courts of the federal system and the highest and appellate courts of the States
+# (generated from CourtListener's court table, see the generated block below) are modelled for case law.
 # Every statement must be confirmed by a qualified US lawyer before verification.status can become "reviewed".
 schema_version: 1
 id: US
-profile_version: 0.4.0
+profile_version: 0.5.0
 name: United States of America (federal)
 names: {en: United States of America}
 kind: sovereign_state
@@ -2164,11 +2165,14 @@ precedent:
   vertical_binding: true
   notes: >-
     To verify - decisions of the Supreme Court bind lower federal courts and, on federal
-    questions, state courts. The thirteen courts of appeals (rank 2) are modelled so that Supreme
-    Court decisions rank above them; a court of appeals binds the district courts of its own
-    circuit and, in general, its own later panels (an en banc court may overrule), not the other
-    circuits. District courts, specialised federal courts, the Court of Federal Claims and all
-    state courts are not modelled, so a forum court can only be one of the courts listed here.
+    questions, state courts. The thirteen courts of appeals (rank 2) rank below it; a court of appeals binds the
+    district courts of its own circuit and, in general, its own later panels (an en banc court may overrule), not the other
+    circuits. The district, bankruptcy and specialised federal courts and the State courts of CourtListener's court table
+    are listed with the appeal routes the law fixes and the table lets the generator derive (district court to the
+    circuit of its State, bankruptcy court to its district court, State intermediate court to the State's highest
+    court, State highest court to the Supreme Court on federal questions); where a route is not derived the court
+    has none and nothing is inferred. A State court's decision is persuasive outside its State; the profile does not
+    encode the State boundary, so a forum court is how to ask for binding weight.
 citation:
   module: us
   examples:
@@ -2212,18 +2216,21 @@ coverage:
     - Engrossed amendments and some bill stages without a dated action are not ingested.
     - >-
       Case law ingested: United States Reports volumes 2-586 from GovInfo (OCR text of the bound volumes; only the cases
-      whose page headers the parser recognises, about four in five in the volumes sampled and fewer before 1900) and
-      opinions of the thirteen courts of appeals from GovInfo's USCOURTS collection (PDF text layer; scans skipped).
-      Supreme Court decisions after volume 586 (the 2018 Term) are not ingested, so a later decision that overruled or
-      limited an ingested case is missing; ULIS records no judicial treatment (it would never be inferred), so every
-      ingested decision must be checked for later history elsewhere. District, bankruptcy and state courts are absent.
+      whose page headers the parser recognises, about four in five in the volumes sampled and fewer before 1900), opinions
+      of the thirteen courts of appeals from GovInfo's USCOURTS collection (PDF text layer; scans skipped), and the cases
+      that the default scope of CourtListener's bulk files selects (docs/markets/us-cases.md: the Supreme Court in every
+      year and the federal appellate and State high courts from the years the manifest names; the rest of the
+      publication, about ten million cases, is a manifest change away). The text of CourtListener is the publisher's
+      aggregation (OCR of printed reporters, court-website HTML or PDF text), not authentic. ULIS records no judicial
+      treatment (it would never be inferred), so every decision must be checked for later history elsewhere.
     - >-
-      Sources examined and not used: the Caselaw Access Project (CC0 data, but its host's robots.txt disallows all
-      robots), CourtListener (HTTP 403 for the ULIS bot), Cornell LII (terms restrict commercial use of its
-      compilation), Justia (terms page HTTP 403), and the Supreme Court's own site (PDF only, planned); see
-      docs/jurisdictions/us-case-law.md. No State, territorial or tribal law.
+      Sources examined and not used: the Caselaw Access Project's own host (CC0 data, but its robots.txt disallows all
+      robots; the same cases arrive through CourtListener's bulk files), CourtListener's website (HTTP 403 for the ULIS
+      bot; its public S3 bulk files are used instead), Cornell LII (terms restrict commercial use of its compilation),
+      Justia (terms page HTTP 403), and the Supreme Court's own site (PDF only, planned); see
+      docs/jurisdictions/us-case-law.md and docs/markets/us-cases.md. No State, territorial or tribal legislation.
     - >-
-      The court hierarchy models the Supreme Court and the thirteen courts of appeals only; district courts and
-      state courts are not modelled. Judicial treatment (overruled, distinguished) is in no ingested source and
-      would never be inferred.
+      Trial courts of the States (about 2,600 courts in CourtListener's table, mostly historical), tribal courts,
+      administrative bodies and the courts of the territories other than the highest ones are not modelled. Judicial
+      treatment (overruled, distinguished) is in no ingested source and would never be inferred.
     - Provision-specific effective dates are not extracted from Acts or rules.

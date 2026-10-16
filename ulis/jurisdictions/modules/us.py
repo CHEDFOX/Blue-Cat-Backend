@@ -26,6 +26,12 @@ Citation forms follow common US practice (Bluebook-style) for the document types
   ``Kolenc v. HHS, No. 23-1808 (Fed. Cir. Jan. 3, 2024)``; no pinpoint, because the PDF page is not the slip opinion's
   own page number
 
+* judgment from CourtListener's bulk files (any court): the reporter citation the source gives, the court and the
+  year in the parenthetical, a pinpoint only when the units are the printed pages of that very citation:
+  ``State v. Reams, 945 P.2d 52, 53 (Mont. 1997)``; a neutral citation stands alone (``State v. Doe, 2019 ND 15``); a
+  Westlaw or Lexis number takes the full date (``Doe v. Roe, 2019 WL 5 (9th Cir. Sept. 22, 2019)``); with no citation at
+  all the docket number and the date (``Doe v. Roe, No. 99-1234 (9th Cir. Sept. 22, 1997)``)
+
 They are formatting conventions for research output, reviewed by no one yet; a reviewer
 sign-off is required before the US profile can be marked "reviewed".
 """

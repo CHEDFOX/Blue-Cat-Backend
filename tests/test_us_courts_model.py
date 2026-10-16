@@ -100,3 +100,14 @@ def test_the_script_is_deterministic(generated: list[dict[str, object]], tmp_pat
     script.write_profile(generated, target)
     assert target.read_text(encoding="utf-8") == once and once.count("BEGIN GENERATED COURTS") == 1
     assert once.index("BEGIN GENERATED COURTS") < once.index("precedent:")
+
+
+def test_court_table_is_built_once_so_appeal_chains_stay_cheap_with_hundreds_of_courts(catalog: Catalog) -> None:
+    reg = catalog.jurisdictions
+    assert reg.courts() is reg.courts()
+    assert reg.court_jurisdiction("US-CL-NYSD") == "US" and reg.court_jurisdiction("US-WA-SC") == "US-WA"
+    with pytest.raises(KeyError, match="unknown court"):
+        reg.court_jurisdiction("US-NO-SUCH")
+    assert (
+        len(reg.courts_below("US-SC")) > 300
+    )  # every federal and State court that can be appealed to the Supreme Court
