@@ -4,7 +4,7 @@
 # Every statement must be confirmed by a qualified US lawyer before verification.status can become "reviewed".
 schema_version: 1
 id: US
-profile_version: 0.5.0
+profile_version: 0.6.0
 name: United States of America (federal)
 names: {en: United States of America}
 kind: sovereign_state
@@ -25,7 +25,9 @@ legislative_institutions:
   - id: US-CONGRESS
     name: Congress of the United States
     instrument_types: [act, bill, resolution]
-instrument_types: [constitution, act, regulation, bill, resolution]
+# court_rules and reorganization_plan: the material the OLRC prints in the appendices to the titles of the United
+# States Code (federal rules of procedure and evidence; reorganization plans), not enacted as part of the title.
+instrument_types: [constitution, act, regulation, bill, resolution, court_rules, reorganization_plan]
 norm_hierarchy: [constitution, act, regulation]
 courts:
   - id: US-SC
@@ -2194,10 +2196,15 @@ coverage:
   corpus_status: pilot
   known_gaps:
     - >-
-      United States Code: all 53 titles are listed (one online release point, current through Public Law 119-120,
-      7 October 2026; no earlier release points, appendices or notes). 27 are positive law; the other 26 (including 26 and
-      42) are editorial compilations and only prima facie evidence of the law (1 U.S.C. 204): their results carry the
-      NOT_POSITIVE_LAW limitation, and the Statutes at Large control.
+      United States Code: all 53 titles and the five appendices (to titles 5, 11, 18, 28 and 50) are listed (one online
+      release point, current through Public Law 119-121, 9 October 2026; no earlier release points, no editorial or
+      statutory notes). 27 titles are positive law; the other 26 (including 26 and 42) are editorial compilations and only
+      prima facie evidence of the law (1 U.S.C. 204): their results carry the NOT_POSITIVE_LAW limitation, and the Statutes
+      at Large control. The appendices (Federal Rules of Civil, Criminal and Appellate Procedure, of Evidence and of
+      Bankruptcy Procedure; the Classified Information Procedures Act and the Interstate Agreement on Detainers; the
+      Reorganization Plans) are not enacted as part of the title and carry the USC_APPENDIX limitation; title 50's appendix
+      has been eliminated by the OLRC and holds no text. Uncodified statutes are only in us-govinfo-bulk-statutes; state
+      law is out of this profile's scope (the US-WA, US-TX, US-OR and US-UT profiles hold samples).
     - >-
       Enacted law: the Statutes at Large, volumes 1 to 138 (1789 to January 2025) and the public and private laws of the
       119th Congress, as GPO's USLM "beta" XML, as enacted (dated from approval, later amendments not tracked); statute

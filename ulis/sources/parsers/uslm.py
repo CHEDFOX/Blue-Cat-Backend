@@ -17,6 +17,19 @@ Supported document types and how their time semantics are recorded:
   date (``attested_at_edition``). OLRC files use the namespace ``http://xml.house.gov/schemas/uslm/1.0``
   and may be given as the downloaded ``usc<NN>.xml`` zip. Placeholder entries (omitted, transferred,
   renumbered, vacant) carry no law text and are not provisions; repealed ones are recorded as repealed.
+  The release point's date is not in the XML (it says only ``Online@119-121``): the connector passes what
+  the OLRC's download page states (``metadata["release_date"]``, from the manifest), and
+  :data:`USC_RELEASE_POINT_DATES` is a fallback and consistency check for release points recorded here.
+* ``uscDoc`` with ``dc:type`` ``USCTitleAppendix`` (the appendix to a title: ``usc05a.xml`` ...): the OLRC
+  prints after titles 5, 11, 18, 28 and 50 material that "has not been enacted as part of the title" - the
+  Federal Rules of Civil, Criminal and Appellate Procedure, of Evidence and of Bankruptcy Procedure,
+  free-standing Acts (the Classified Information Procedures Act, the Interstate Agreement on Detainers) and
+  the Reorganization Plans. Each such unit becomes its own instrument (``court_rules``, ``act`` or
+  ``reorganization_plan``) under the OLRC's identifier for it (``/us/usc/t28a/courtRules/Civil``,
+  ``/us/usc/t18a/pl/96/456``, ``/us/usc/t5a/reorgPlans``) or, where the file gives none, under the appendix
+  identifier and the unit's heading (``/us/usc/t11a/federal-rules-of-bankruptcy-procedure``). Rules are
+  provisions of kind ``courtRule`` (``rule_12__subsec_b__para_6``); an appendix that holds no law text any more
+  (title 50's, "eliminated") is skipped.
 
 Not yet supported (rejected with an explicit error): Federal Register issues (``frDoc``),
 Statutes at Large volumes, engrossed amendments.
@@ -28,7 +41,9 @@ import io
 import re
 import zipfile
 from collections import Counter
+from dataclasses import dataclass
 from datetime import date
+from typing import Any
 from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing uses defusedxml
 
 from defusedxml.ElementTree import fromstring
@@ -39,13 +54,23 @@ NS = "http://schemas.gpo.gov/xml/uslm"
 HOUSE_NS = "http://xml.house.gov/schemas/uslm/1.0"  # the OLRC's United States Code files
 DC = "http://purl.org/dc/elements/1.1/"
 PARSER_ID = "uslm"
-PARSER_VERSION = "1.3.0"
+PARSER_VERSION = "1.4.0"
 MAX_XML_BYTES = 512 * 1024 * 1024  # largest XML member read from a zip (title 42 is 114 MB at release point 119-120)
 
 # The OLRC's XML says only "Online@<congress>-<law>" (current through that Public Law). The date of the
-# release point is stated on https://uscode.house.gov/download.html ("Public Law 119-120 (10/07/2026)").
-# A release point that is not listed here is rejected rather than dated by a guess.
-USC_RELEASE_POINT_DATES: dict[str, date] = {"119-120": date(2026, 10, 7)}
+# release point is stated on https://uscode.house.gov/download.html ("Public Law 119-121 (10/09/2026)") and
+# reaches the parser through the manifest (release_point.date) and the connector (metadata["release_date"]).
+# This table is a fallback for documents parsed without that metadata (fixtures) and a consistency check when
+# both are given; a release point that neither names is rejected rather than dated by a guess.
+USC_RELEASE_POINT_DATES: dict[str, date] = {"119-120": date(2026, 10, 7), "119-121": date(2026, 10, 9)}
+# The rule sets of the appendices, by the key in the OLRC's identifier (/us/usc/t28a/courtRules/Civil); the
+# Federal Rules of Bankruptcy Procedure carry no identifier in usc11a.xml and are recognised by their heading.
+USC_COURT_RULES_BY_HEADING = {"FEDERAL RULES OF BANKRUPTCY PROCEDURE": "Bankr"}
+USC_APPENDIX_INSTRUMENT_TYPES = {
+    "court_rules": "court_rules",
+    "act": "act",
+    "reorganization_plans": "reorganization_plan",
+}
 
 PROVISION_PREFIX = {
     "section": "sec",
@@ -58,6 +83,10 @@ PROVISION_PREFIX = {
     "subitem": "subitem",
     "subsubitem": "subsubitem",
     "appropriations": "approp",
+    # the appendices to the titles of the United States Code
+    "courtRule": "rule",
+    "reorganizationPlan": "plan",
+    "form": "form",  # a <level role="form"> of an appendix of forms (Fed. R. App. P. Forms 1A ...)
 }
 CONTAINERS = {
     "title",
@@ -71,6 +100,7 @@ CONTAINERS = {
     "level",
     "group",
     "subgroup",
+    "article",  # the articles of the Federal Rules of Evidence
 }
 # Quoted material is text of the provision that quotes it; its inner structure is never walked.
 QUOTED = {"quotedContent", "quotedText"}
@@ -247,6 +277,8 @@ class _Builder:
     ) -> None:
         for child in el:
             tag = _local(child.tag)
+            if self.usc and tag == "level" and child.get("role") == "form":
+                tag = "form"  # a form of an appendix of forms is a unit of the rules, not a grouping level
             if tag in CONTAINERS:
                 if parent_eid is not None:
                     # A title/chapter/... inside a section is quoted material (e.g. a new title of the
@@ -259,12 +291,22 @@ class _Builder:
             if tag not in PROVISION_PREFIX or tag in QUOTED:
                 continue
             entry_status = (child.get("status") or "") if self.usc else ""
-            if entry_status and entry_status != "repealed":
-                # omitted, transferred, renumbered, vacant ...: a pointer in the Code, not law text.
-                continue
-            value, _ = _num_value(child)
+            value, display = _num_value(child)
             heading_el = child.find(_q("heading"))
             heading = inline_text(heading_el) if heading_el is not None else None
+            if entry_status == "unknown" and "abrogated" in f"{display} {heading or ''}".lower():
+                # "[Rule 3.1. ...] (Abrogated Apr. 24, 1998, eff. Dec. 1, 1998)": a court rule's repeal
+                entry_status = "repealed"
+            superseded = tag == "form" and display.startswith("[") and not entry_status
+            if entry_status and entry_status != "repealed":
+                # omitted, transferred, renumbered, reserved, vacant ...: a pointer in the Code, not law text.
+                continue
+            if tag == "reorganizationPlan" and not value:
+                # a plan has no <num>; the identifier names it: /us/usc/t5a/reorgPlan/1939/I -> "1939/I"
+                m = re.search(r"/reorgPlan/(\d{4})/([0-9A-Za-z]+)$", child.get("identifier") or "")
+                value = f"{m.group(1)}/{m.group(2)}" if m else ""
+            if tag == "form":
+                value = re.sub(r"^Form\s+", "", value)
             if tag == "appropriations":
                 self.approp_counter += 1
                 local_id = f"approp_{self.approp_counter}"
@@ -290,12 +332,13 @@ class _Builder:
                 notes.append(f"Source credit: {inline_text(credit)}")
             if self.usc:
                 notes.extend(f"Footnote: {f}" for f in _footnotes(child))
-            repealed = entry_status == "repealed"
+            repealed = entry_status == "repealed" or superseded
             body = self.text_of(child)
             if repealed:
                 # A repealed entry has no text; what the Code prints in its place (the repeal citation) is the note.
                 shown = body or heading or ""
-                notes.insert(0, "Status in source: repealed." + (f" The Code prints: {shown}" if shown else ""))
+                word = "superseded" if superseded else "repealed"
+                notes.insert(0, f"Status in source: {word}." + (f" The Code prints: {shown}" if shown else ""))
             if ambiguous:
                 notes.append(
                     "Ambiguous pinpoint: this number repeats at the same level in the source "
@@ -329,11 +372,11 @@ class _Builder:
 
 
 def _xml_of_usc_zip(content: bytes) -> bytes:
-    """The single ``usc<NN>.xml`` of an OLRC per-title download, with a bound on its size."""
+    """The single ``usc<NN>.xml`` (``usc05A.xml`` for an appendix) of an OLRC download, with a bound on its size."""
     try:
         with zipfile.ZipFile(io.BytesIO(content)) as archive:
             members = archive.infolist()
-            if len(members) != 1 or not re.fullmatch(r"usc\d{2}\.xml", members[0].filename):
+            if len(members) != 1 or not re.fullmatch(r"usc\d{2}[aA]?\.xml", members[0].filename):
                 raise UslmParseError(f"expected a single usc<NN>.xml, found {[m.filename for m in members][:5]}")
             if members[0].file_size > MAX_XML_BYTES:
                 raise UslmParseError(f"{members[0].filename} is larger than {MAX_XML_BYTES} bytes")
@@ -354,7 +397,10 @@ def _to_gpo_namespace(root: Element) -> None:
             el.tag = f"{{{NS}}}" + el.tag[len(old) :]
 
 
-def parse_uslm(content: bytes) -> list[ParsedDocument]:
+def parse_uslm(content: bytes, metadata: dict[str, Any] | None = None) -> list[ParsedDocument]:
+    """``metadata`` is what the connector states about the document (see the pipeline's ``METADATA_PARSERS``): for
+    the United States Code, the release point and the date the OLRC gives for it (``release_point``,
+    ``release_date``) and whether the archive is an appendix (``appendix``), all from the manifest."""
     if content.startswith(b"PK\x03\x04"):
         content = _xml_of_usc_zip(content)
     try:
@@ -367,7 +413,7 @@ def parse_uslm(content: bytes) -> list[ParsedDocument]:
         raise UslmParseError("root element is not in the USLM namespace")
     kind = _local(root.tag)
     if kind == "uscDoc":
-        return [_usc_title(root)]
+        return _usc_doc(root, metadata or {})
     if kind == "pLaw":
         return [_public_law(root)]
     if kind == "statutesAtLarge":
@@ -766,9 +812,17 @@ _SMALL_WORDS = {"a", "an", "and", "as", "at", "by", "for", "in", "of", "on", "or
 
 
 def _title_case(heading: str) -> str:
-    """'CRIMES AND CRIMINAL PROCEDURE' -> 'Crimes and Criminal Procedure' (a display label, not law text)."""
-    words = heading.lower().split()
-    return " ".join(w if i and w in _SMALL_WORDS else w[:1].upper() + w[1:] for i, w in enumerate(words))
+    """'CRIMES AND CRIMINAL PROCEDURE' -> 'Crimes and Criminal Procedure' (a display label, not law text).
+    A word with a full stop or a digit inside it ("U.S.C.", "405(g)") is an abbreviation or a number and is kept."""
+    words = heading.split()
+    out = []
+    for i, word in enumerate(words):
+        if re.search(r"\w\.\w|\d", word):
+            out.append(word)
+            continue
+        w = word.lower()
+        out.append(w if i and w in _SMALL_WORDS else w[:1].upper() + w[1:])
+    return " ".join(out)
 
 
 def _drop_footnote_markers(root: Element) -> None:
@@ -803,25 +857,71 @@ def _footnotes(el: Element) -> list[str]:
     return [f for f in found if f]
 
 
-def _usc_title(root: Element) -> ParsedDocument:
+def _usc_release(meta: Element, metadata: dict[str, Any]) -> tuple[str, date]:
+    """The release point the file names ("Online@119-121") and its date: the date the connector passes from the
+    manifest (what the OLRC's download page states), checked against :data:`USC_RELEASE_POINT_DATES` when that table
+    knows the release point; without metadata the table alone; a release point neither dates is refused."""
+    m = re.fullmatch(r"Online@(\d+-\d+)", _find_text(meta, "u:docPublicationName") or "")
+    if not m:
+        raise UslmParseError("United States Code release point not found (docPublicationName)")
+    release_point = m.group(1)
+    stated = metadata.get("release_point")
+    if stated is not None and str(stated) != release_point:
+        raise UslmParseError(f"the archive is release point {release_point} but the manifest says {stated}")
+    recorded = USC_RELEASE_POINT_DATES.get(release_point)
+    given = metadata.get("release_date")
+    if given is None:
+        if recorded is None:
+            raise UslmParseError(
+                f"release point {release_point} has no recorded date; take it from "
+                "https://uscode.house.gov/download.html (release_point.date in the manifest, written by "
+                "scripts/build_uscode_manifest.py)"
+            )
+        return release_point, recorded
+    try:
+        released = given if isinstance(given, date) else date.fromisoformat(str(given))
+    except ValueError as exc:
+        raise UslmParseError(f"release_date {given!r} is not a date") from exc
+    if recorded is not None and recorded != released:
+        raise UslmParseError(
+            f"release point {release_point} is dated {released.isoformat()} by the manifest but "
+            f"{recorded.isoformat()} by USC_RELEASE_POINT_DATES"
+        )
+    return release_point, released
+
+
+def _usc_doc(root: Element, metadata: dict[str, Any]) -> list[ParsedDocument]:
+    """A ``uscDoc`` of the OLRC: a main title (``USCTitle``) or the appendix to a title (``USCTitleAppendix``)."""
     meta = root.find(_q("meta"))
     if meta is None:
         raise UslmParseError("missing meta")
-    _drop_footnote_markers(root)
-    if _find_text(meta, "dc:type") != "USCTitle":
-        raise UslmParseError(f"not a main title of the United States Code (dc:type {_find_text(meta, 'dc:type')!r})")
-    number = _find_text(meta, "u:docNumber")
-    m = re.fullmatch(r"Online@(\d+-\d+)", _find_text(meta, "u:docPublicationName") or "")
-    identifier = root.get("identifier") or ""
-    if not number or not number.isdigit() or not m or identifier != f"/us/usc/t{number}":
-        raise UslmParseError("United States Code title number, release point or identifier not found")
-    release_point = m.group(1)
-    released = USC_RELEASE_POINT_DATES.get(release_point)
-    if released is None:
+    doc_type = _find_text(meta, "dc:type")
+    if doc_type not in ("USCTitle", "USCTitleAppendix"):
+        raise UslmParseError(f"not a title or appendix of the United States Code (dc:type {doc_type!r})")
+    appendix = doc_type == "USCTitleAppendix"
+    if "appendix" in metadata and bool(metadata["appendix"]) is not appendix:
         raise UslmParseError(
-            f"release point {release_point} has no recorded date; take it from https://uscode.house.gov/download.html "
-            "and add it to USC_RELEASE_POINT_DATES"
+            f"the manifest lists {'an appendix' if metadata['appendix'] else 'a main title'}, the file is not"
         )
+    number = _find_text(meta, "u:docNumber") or ""
+    m = re.fullmatch(r"(\d+)a" if appendix else r"\d+", number)
+    if not m:
+        raise UslmParseError(f"United States Code title number not found (docNumber {number!r})")
+    title_no = int(m.group(1) if appendix else m.group(0))
+    if "title" in metadata and int(metadata["title"]) != title_no:
+        raise UslmParseError(f"the manifest lists title {metadata['title']}, the file is title {title_no}")
+    _drop_footnote_markers(root)
+    if appendix:
+        return _usc_appendix(root, meta, title_no, metadata)
+    return [_usc_title(root, meta, title_no, metadata)]
+
+
+def _usc_title(root: Element, meta: Element, title_no: int, metadata: dict[str, Any]) -> ParsedDocument:
+    number = str(title_no)
+    identifier = root.get("identifier") or ""
+    if identifier != f"/us/usc/t{number}":
+        raise UslmParseError(f"United States Code title identifier {identifier!r} does not name title {number}")
+    release_point, released = _usc_release(meta, metadata)
     positive = {"yes": True, "no": False}.get((_find_text(meta, "u:property[@role='is-positive-law']") or "").lower())
     main = _main(root)
     heading = _find_text(main, "u:title/u:heading")
@@ -866,6 +966,148 @@ def _usc_title(root: Element) -> ParsedDocument:
         provisions=builder.provisions,
         validity_basis="attested_at_edition",
     )
+
+
+@dataclass(frozen=True)
+class _AppendixUnit:
+    """One self-contained unit of an appendix: a set of court rules (``courtRules``, or a ``level`` of
+    supplemental rules inside one), a compiled Act (``compiledAct``, or a ``level`` of statutory material) or the
+    reorganization plans (``reorganizationPlans``)."""
+
+    kind: str  # "court_rules", "act", "reorganization_plans"
+    element: Element
+    parent_identifier: str | None = None  # the rule set a level of supplemental rules belongs to
+    supplemental: bool = False
+
+
+def _slug(heading: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", heading.lower()).strip("-")
+
+
+def _appendix_units(appendix: Element) -> list[_AppendixUnit]:
+    units: list[_AppendixUnit] = []
+    for child in appendix:
+        tag = _local(child.tag)
+        if tag == "compiledAct":
+            units.append(_AppendixUnit("act", child))
+        elif tag == "reorganizationPlans":
+            units.append(_AppendixUnit("reorganization_plans", child))
+        elif tag == "courtRules":
+            units.append(_AppendixUnit("court_rules", child))
+            # Supplemental rules (Admiralty, Social Security actions) are levels of the rule set with rules of their
+            # own numbering: separate units, detached so the rule set's walk does not count them twice.
+            parents = {grandchild: parent for parent in child.iter() for grandchild in parent}
+            for level in list(child.iter(_q("level"))):
+                if any(_local(c.tag) == "courtRule" for c in level):
+                    units.append(_AppendixUnit("court_rules", level, child.get("identifier"), supplemental=True))
+                    parents[level].remove(level)
+        elif tag == "level":
+            # free-standing statutory material printed without an Act heading ("Unlawful Possession or Receipt of
+            # Firearms", title 18): sections, or notes only
+            units.append(_AppendixUnit("act", child))
+    return units
+
+
+def _appendix_unit_document(
+    unit: _AppendixUnit,
+    title_no: int,
+    appendix_identifier: str,
+    release_point: str,
+    released: date,
+    positive: bool | None,
+) -> ParsedDocument | None:
+    el = unit.element
+    heading_el = el.find(_q("heading"))
+    heading = inline_text(heading_el) if heading_el is not None else ""
+    if not heading:
+        raise UslmParseError(f"an appendix unit ({_local(el.tag)}) has no heading")
+    name = _title_case(heading)
+    identifier = el.get("identifier")
+    court_rules: str | None = None
+    if unit.kind == "court_rules":
+        base = unit.parent_identifier if unit.supplemental else identifier
+        if base and "/courtRules/" in base:
+            court_rules = base.rsplit("/courtRules/", 1)[1].split("/")[0] or None
+        else:
+            court_rules = USC_COURT_RULES_BY_HEADING.get(heading)
+    if unit.supplemental:
+        work_uri = f"{unit.parent_identifier or appendix_identifier}/{_slug(heading)}"
+    else:
+        work_uri = identifier or f"{appendix_identifier}/{_slug(heading)}"
+    if not work_uri.startswith(f"{appendix_identifier}/"):
+        raise UslmParseError(f"appendix unit identifier {work_uri!r} is not under {appendix_identifier}")
+    builder = _Builder(["US"], "in_force", None, usc=True)
+    builder.walk(el, None, [], None, None, "")
+    if not builder.provisions:
+        return None  # notes only (a level recording where an Act's text went): nothing to ingest
+    status = {
+        "court_rules": "court rules, not enacted as part of the title",
+        "act": "Act reprinted in the appendix, not enacted as part of the title",
+        "reorganization_plans": "reorganization plans reprinted in the appendix, not enacted as part of the title",
+    }[unit.kind]
+    ext: dict[str, Any] = {
+        "usc_title": title_no,
+        "usc_appendix": True,
+        "appendix_unit": unit.kind,
+        "appendix_heading": heading,
+        "positive_law": positive,
+        "release_point": release_point,
+        "compiled_through": f"Public Law {release_point}",
+    }
+    if court_rules:
+        ext["court_rules"] = court_rules
+    if unit.supplemental:
+        ext["supplemental_rules"] = True
+    law = re.search(r"/pl/(\d+)/(\d+)$", identifier or "")
+    if law:
+        ext.update({"congress": int(law.group(1)), "number": law.group(2), "public_private": "public"})
+    where = f"Appendix to Title {title_no}, United States Code"
+    return ParsedDocument(
+        doc_kind="legislation",
+        instrument_type=USC_APPENDIX_INSTRUMENT_TYPES[unit.kind],
+        jurisdiction_id="US",
+        work_uri=work_uri,
+        expression_uri=f"{work_uri}/en@{released.isoformat()}/release-point-{release_point}",
+        work_title=f"{name} ({where})",
+        title=f"{name} ({where}; {status}; release point {release_point})",
+        short_title=name,
+        number=None,
+        work_date=None,
+        language="en",
+        authoritative=False,
+        text_origin="official_consolidation",
+        consolidation_kind="us_code_release_point",
+        version_date=released,
+        currency_date=released,
+        extent=["US"],
+        ext_module="us",
+        ext=ext,
+        provisions=builder.provisions,
+        validity_basis="attested_at_edition",
+    )
+
+
+def _usc_appendix(root: Element, meta: Element, title_no: int, metadata: dict[str, Any]) -> list[ParsedDocument]:
+    """The appendix to a title: one instrument per unit the OLRC prints in it (see the module docstring)."""
+    identifier = f"/us/usc/t{title_no}a"
+    # usc50A.xml (converter 1.1, 2015) carries no identifier on its root; the later files do, and it must agree.
+    if root.get("identifier") not in (None, identifier):
+        raise UslmParseError(f"appendix identifier {root.get('identifier')!r} is not {identifier}")
+    release_point, released = _usc_release(meta, metadata)
+    positive = {"yes": True, "no": False}.get((_find_text(meta, "u:property[@role='is-positive-law']") or "").lower())
+    appendix = root.find(_q("appendix"))
+    if appendix is None:
+        raise UslmParseError("missing appendix")
+    docs: list[ParsedDocument] = []
+    for unit in _appendix_units(appendix):
+        doc = _appendix_unit_document(unit, title_no, identifier, release_point, released, positive)
+        if doc is not None:
+            docs.append(doc)
+    if not docs:
+        # Title 50's appendix: "has been eliminated. For disposition of provisions ... see Table II"
+        said = " ".join(t for t in (inline_text(n) for n in appendix.iter(_q("note"))) if t)
+        raise ParseSkipped(f"the appendix to title {title_no} holds no law text: {said or 'no units'}")
+    return docs
 
 
 def _bill(root: Element, kind: str) -> ParsedDocument:
@@ -945,6 +1187,28 @@ def _eid(levels: list[str], parts: list[str]) -> str:
     return "__".join(f"{levels[min(i, len(levels) - 1)]}_{p}" for i, p in enumerate(parts))
 
 
+def _resolve_appendix_identifier(uri: str) -> tuple[str, str | None] | None:
+    """Identifiers of the appendices to the titles of the Code, as usc<NN>a.xml writes them:
+    ``/us/usc/t28a/courtRules/Civil/rule12/b/6`` -> (``/us/usc/t28a/courtRules/Civil``, ``rule_12``) (below the
+    rule: the rule, as for sections); ``/us/usc/t18a/pl/96/456/s4`` -> (``/us/usc/t18a/pl/96/456``, ``sec_4``);
+    ``/us/usc/t5a/reorgPlan/1939/I`` -> (``/us/usc/t5a/reorgPlans``, ``plan_1939_I``)."""
+    m = re.match(r"^(/us/usc/t\d+a/courtRules/[A-Za-z]+)(?:/rule([0-9A-Za-z.]+)(?:/[0-9A-Za-z._-]+)*)?/?$", uri)
+    if m:
+        work, rule = m.groups()
+        return work, f"rule_{rule}" if rule else None
+    m = re.match(r"^(/us/usc/t\d+a/pl/\d+/\d+)(?:/s([0-9A-Za-z.-]+)(?:/[0-9A-Za-z._-]+)*)?/?$", uri)
+    if m:
+        work, section = m.groups()
+        return work, f"sec_{re.sub(r'[^A-Za-z0-9.-]', '_', section)}" if section else None
+    m = re.match(r"^(/us/usc/t\d+a)/reorgPlan/(\d{4})/([0-9A-Za-z]+)/?$", uri)
+    if m:
+        return f"{m.group(1)}/reorgPlans", f"plan_{m.group(2)}_{m.group(3)}"
+    m = re.match(r"^(/us/usc/t\d+a/reorgPlans)/?$", uri)
+    if m:
+        return m.group(1), None
+    return None
+
+
 def resolve_identifier(uri: str) -> tuple[str, str | None] | None:
     """Map a USLM identifier to (work URI, eId) in ULIS terms, or None if not a known form.
 
@@ -961,6 +1225,9 @@ def resolve_identifier(uri: str) -> tuple[str, str | None] | None:
     if m:
         work, section = m.groups()
         return work, f"sec_{re.sub(r'[^A-Za-z0-9.-]', '_', section)}" if section else None
+    resolved = _resolve_appendix_identifier(uri)
+    if resolved:
+        return resolved
     m = re.match(r"^/us/cfr/t(\d+)/s(\d+)\.([0-9A-Za-z-]+)((?:/[0-9A-Za-z.-]+)*)/?$", uri)
     if m:
         title, part, rest, tail = m.groups()

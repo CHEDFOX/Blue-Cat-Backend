@@ -1,16 +1,18 @@
 """Regenerate config/manifests/us-uscode-house.yaml from the OLRC download page.
 
 Reads https://uscode.house.gov/download.html (robots.txt first), takes the current release point, the date it is
-"current through" and every main title that has an XML archive (the page's own list: titles 1 to 54 without the
-reserved 53; appendices are not main titles and are not listed), downloads each archive with the polite
-connector (identifying User-Agent, 5 s apart, cached) and writes the manifest with the SHA-256 of every archive.
+"current through", every main title that has an XML archive (the page's own list: titles 1 to 54 without the
+reserved 53) and every appendix the page offers (``xml_usc<NN>a``: the appendices to titles 5, 11, 18, 28 and 50),
+downloads each archive with the polite connector (identifying User-Agent, 5 s apart, cached) and writes the
+manifest with the SHA-256 of every archive.
 
     python scripts/build_uscode_manifest.py [--cache-dir var/sources] [--out config/manifests/us-uscode-house.yaml]
                                             [--offline]
 
-A titles' ``positive_law`` flag is the page's asterisk ("This title has been enacted as positive law"). The XML
+A title's ``positive_law`` flag is the page's asterisk ("This title has been enacted as positive law"). The XML
 carries the same fact (``is-positive-law``); ``tests/test_uscode_house.py`` compares the two for the fixtures.
-A new release point also needs its date in ``USC_RELEASE_POINT_DATES`` (ulis/sources/parsers/uslm.py).
+The release point's date (``release_point.date``) is the date in the page's "current through Public Law 119-121
+(10/09/2026)"; the connector passes it to the parser, so a new release point needs no code change.
 """
 
 from __future__ import annotations
@@ -30,6 +32,7 @@ from ulis.sources.connectors.uscode_house import (
     BASE_URL,
     HOST,
     UscodeHouseConnector,
+    archive_label,
     parse_download_page,
     title_url,
 )
@@ -39,15 +42,18 @@ USER_AGENT = "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backen
 DELAY = 5
 
 HEADER = """\
-# United States Code, all titles, USLM XML from the Office of the Law Revision Counsel (OLRC).
-# One archive per main title and release point:
+# United States Code, all titles and appendices, USLM XML from the Office of the Law Revision Counsel (OLRC).
+# One archive per main title (or appendix) and release point:
 #   https://uscode.house.gov/download/releasepoints/us/pl/<congress>/<law>/xml_usc<NN>@<congress>-<law>.zip
+#   https://uscode.house.gov/download/releasepoints/us/pl/<congress>/<law>/xml_usc<NN>a@<congress>-<law>.zip
 # Release point {release}: "All files are current through {through}" - download page
 # https://uscode.house.gov/download.html (read {today}). The XML itself says only "Online@{release}", so the
-# parser holds that date (USC_RELEASE_POINT_DATES in ulis/sources/parsers/uslm.py).
-# Listed: every main title of the Code that the page offers ({count} titles: 1 to 54 without the reserved title 53).
-# Not listed: the appendices to titles 5, 11, 18, 28 and 50 (xml_usc05a ... xml_usc50a; "any Appendix to this title has
-# not been enacted as part of the title") and the other formats (XHTML, PCC, PDF).
+# release point's date is carried here (release_point.date, the date in that sentence) and the connector passes it
+# to the parser with every archive; the parser dates every text by it (attested in force at the release point).
+# Listed: every main title of the Code that the page offers ({count} titles: 1 to 54 without the reserved title 53)
+# and every appendix it offers ({appendices} appendices, xml_usc<NN>a: court rules, free-standing Acts and
+# reorganization plans that the OLRC prints after a title; the page's legend: "any Appendix to this title has not
+# been enacted as part of the title"). Not listed: the other formats (XHTML, PCC, PDF).
 # `positive_law` is the download page's asterisk: "This title has been enacted as positive law" ({positive} titles).
 # For the other {other} titles the Code is "prima facie evidence" of the law (1 U.S.C. 204), and the Statutes at Large
 # control; the XML of such a title says is-positive-law "no". The parser checks the XML, not this flag.
@@ -77,12 +83,18 @@ def main(argv: list[str]) -> int:
     if got is None:
         raise FetchError(f"{page_url}: not found")
     page = parse_download_page(got[0].decode("utf-8"))
-    print(f"release point {page.release_point}, {page.current_through}, {len(page.titles)} titles")
+    print(
+        f"release point {page.release_point}, {page.current_through} ({page.release_date.isoformat()}), "
+        f"{len(page.titles)} titles, {len(page.appendices)} appendices"
+    )
 
-    old = {}
+    old: dict[str, str | None] = {}
     if args.out.exists():
-        for entry in yaml.safe_load(args.out.read_text(encoding="utf-8")).get("titles", []):
-            old[entry["number"]] = entry.get("sha256")
+        previous = yaml.safe_load(args.out.read_text(encoding="utf-8"))
+        for entry in previous.get("titles", []):
+            old[archive_label(entry["number"])] = entry.get("sha256")
+        for entry in previous.get("appendices", []):
+            old[archive_label(entry["number"], appendix=True)] = entry.get("sha256")
 
     draft = {
         "schema_version": 1,
@@ -90,26 +102,32 @@ def main(argv: list[str]) -> int:
         "base_url": BASE_URL,
         "user_agent": USER_AGENT,
         "crawl_delay_seconds": DELAY,
-        "release_point": {"id": page.release_point, "current_through": page.current_through},
+        "release_point": {
+            "id": page.release_point,
+            "current_through": page.current_through,
+            "date": page.release_date.isoformat(),
+        },
         "titles": [{"number": t["number"], "name": t["name"], "positive_law": t["positive_law"]} for t in page.titles],
+        "appendices": [{"number": a["number"], "name": a["name"]} for a in page.appendices],
     }
-    pins: dict[int, str] = {}
+    pins: dict[str, str] = {}
     with tempfile.TemporaryDirectory() as tmp:
         draft_path = Path(tmp) / "draft.yaml"
         draft_path.write_text(yaml.safe_dump(draft, sort_keys=False), encoding="utf-8")
         connector = UscodeHouseConnector(draft_path, "us-uscode-house", args.cache_dir, offline=args.offline)
         for doc in connector.fetch():
-            number = int(doc.metadata["title"])
-            pins[number] = hashlib.sha256(doc.content).hexdigest()
-            changed = old.get(number) not in (None, pins[number])
-            print(
-                f"title {number:>2}: {len(doc.content):>10,} bytes {pins[number][:12]}{'  CHANGED' if changed else ''}"
-            )
+            label = archive_label(int(doc.metadata["title"]), bool(doc.metadata.get("appendix")))
+            pins[label] = hashlib.sha256(doc.content).hexdigest()
+            changed = old.get(label) not in (None, pins[label])
+            print(f"{label:>6}: {len(doc.content):>10,} bytes {pins[label][:12]}{'  CHANGED' if changed else ''}")
         for error in connector.fetch_errors:
             print("ERROR", error)
-    missing = [t["number"] for t in page.titles if t["number"] not in pins]
+    wanted = [archive_label(t["number"]) for t in page.titles] + [
+        archive_label(a["number"], appendix=True) for a in page.appendices
+    ]
+    missing = [label for label in wanted if label not in pins]
     if missing:
-        print(f"not written: no archive for titles {missing}")
+        print(f"not written: no archive for {missing}")
         return 1
 
     positive = sum(1 for t in page.titles if t["positive_law"])
@@ -119,6 +137,7 @@ def main(argv: list[str]) -> int:
             through=page.current_through,
             today=date.today().isoformat(),
             count=len(page.titles),
+            appendices=len(page.appendices),
             positive=positive,
             other=len(page.titles) - positive,
         ),
@@ -130,11 +149,26 @@ def main(argv: list[str]) -> int:
         "release_point:",
         f'  id: "{page.release_point}"',
         f'  current_through: "{page.current_through}"',
+        f'  date: "{page.release_date.isoformat()}"',
         "titles:",
     ]
     for t in page.titles:
         flow = yaml.safe_dump(
-            {"number": t["number"], "name": t["name"], "positive_law": t["positive_law"], "sha256": pins[t["number"]]},
+            {
+                "number": t["number"],
+                "name": t["name"],
+                "positive_law": t["positive_law"],
+                "sha256": pins[archive_label(t["number"])],
+            },
+            default_flow_style=True,
+            sort_keys=False,
+            width=10_000,
+        ).strip()
+        lines.append(f"  - {flow}")
+    lines.append("appendices:")
+    for a in page.appendices:
+        flow = yaml.safe_dump(
+            {"number": a["number"], "name": a["name"], "sha256": pins[archive_label(a["number"], appendix=True)]},
             default_flow_style=True,
             sort_keys=False,
             width=10_000,
@@ -144,7 +178,9 @@ def main(argv: list[str]) -> int:
     # Every URL the manifest implies must be one the connector would build.
     for t in page.titles:
         title_url(page.release_point, t["number"])
-    print(f"wrote {args.out} ({len(page.titles)} titles, {positive} positive law)")
+    for a in page.appendices:
+        title_url(page.release_point, a["number"], appendix=True)
+    print(f"wrote {args.out} ({len(page.titles)} titles, {len(page.appendices)} appendices, {positive} positive law)")
     return 0
 
 

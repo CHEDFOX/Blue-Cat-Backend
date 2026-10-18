@@ -1,14 +1,15 @@
 # United States Code, USLM XML, from the Office of the Law Revision Counsel (OLRC), U.S. House of Representatives.
-# Facts below were read on 2026-10-14 and 2026-10-15 from the publisher's own pages and from GovInfo:
+# Facts below were read on 2026-10-14 and 2026-10-15 (and the download page again on 2026-10-18) from the publisher's
+# own pages and from GovInfo:
 #   https://uscode.house.gov/robots.txt          - "User-agent: Slurp / Disallow: /" only (Yahoo's robot); no Crawl-delay;
-#        every other robot, including ULIS-research-bot, is unrestricted
+#        every other robot, including ULIS-research-bot, is unrestricted (re-read 2026-10-18, unchanged)
 #   https://uscode.house.gov/download.html       - "Each update of the United States Code is a release point. This page
-#        provides downloadable files for the current release point. All files are current through Public Law 119-120
-#        (10/07/2026)"; per-title XML (USLM), XHTML, PCC and PDF archives (53 main titles, 1 to 54 without the reserved
-#        title 53, and the appendices to titles 5, 11, 18, 28, 50) and a single archive of all titles
-#        (xml_uscAll@119-120.zip), a User Guide and the USLM schema are offered for download; "* This title has been
-#        enacted as positive law. However, any Appendix to this title has not been enacted as part of the title."
-#        The page marks 27 titles with the asterisk.
+#        provides downloadable files for the current release point. All files are current through Public Law 119-121
+#        (10/09/2026)" (2026-10-18; it said 119-120 (10/07/2026) on 2026-10-15); per-title XML (USLM), XHTML, PCC and
+#        PDF archives (53 main titles, 1 to 54 without the reserved title 53, and the appendices to titles 5, 11, 18,
+#        28, 50: 58 XML archives) and a single archive of all titles (xml_uscAll@119-121.zip), a User Guide and the
+#        USLM schema are offered for download; "* This title has been enacted as positive law. However, any Appendix
+#        to this title has not been enacted as part of the title." The page marks 27 titles with the asterisk.
 #   https://uscode.house.gov/about_code.html     - the Code is "prepared and published by the Office of the Law Revision
 #        Counsel ... pursuant to 2 U.S.C. 285b"; "Under 1 U.S.C. 204, the matter set forth in a main edition of the Code
 #        (together with its current supplement) establishes the law prima facie, except that the text of titles enacted
@@ -35,14 +36,20 @@ publisher: Office of the Law Revision Counsel, U.S. House of Representatives
 kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions: [US]
-document_kinds: [act]
+document_kinds: [act, court_rules, reorganization_plan]
 languages: [en]
 coverage: >-
-  All 53 main titles of the United States Code (1 to 54 without the reserved title 53), one USLM XML file per title at
-  one release point, current through Public Law 119-120 (7 October 2026), whole titles without appendices. 27 titles
-  have been enacted into positive law (legal evidence of the law); the other 26 (for example 26, the Internal Revenue
-  Code, and 42, Public Health and Welfare) are editorial compilations, prima facie evidence of the law only (1 U.S.C. 204),
-  and are marked as such in every result. Earlier release points are not ingested.
+  All 53 main titles of the United States Code (1 to 54 without the reserved title 53) and the five appendices (to
+  titles 5, 11, 18, 28 and 50), one USLM XML file per title or appendix at one release point, current through Public
+  Law 119-121 (9 October 2026). 27 titles have been enacted into positive law (legal evidence of the law); the other 26
+  (for example 26, the Internal Revenue Code, and 42, Public Health and Welfare) are editorial compilations, prima facie
+  evidence of the law only (1 U.S.C. 204), and are marked as such in every result. The appendices hold court rules
+  (the Federal Rules of Civil, Criminal and Appellate Procedure, of Evidence and of Bankruptcy Procedure, with the
+  supplemental rules and appendix of forms), free-standing Acts (the Classified Information Procedures Act, the
+  Interstate Agreement on Detainers; the Acts in title 5's appendix are repealed or transferred placeholders) and the
+  Reorganization Plans; each is its own instrument, typed court_rules, act or reorganization_plan, and marked as not
+  enacted as part of the title. Title 50's appendix has been eliminated and holds no text. Earlier release points are
+  not ingested.
 access:
   method: permitted_web_retrieval
   endpoint: config/manifests/us-uscode-house.yaml
@@ -89,17 +96,26 @@ known_limitations:
     ext.positive_law (false) and with the NOT_POSITIVE_LAW limitation on every result; the underlying statutes are
     the us-govinfo-bulk-statutes source.
   - >-
-    One release point only (current through Public Law 119-120); no earlier release points, so no point-in-time
+    One release point only (current through Public Law 119-121); no earlier release points, so no point-in-time
     history; each text is attested as in force at the release date, with no per-provision dates.
   - >-
-    The XML does not state the release date; the date in the parser comes from the download page.
+    The XML does not state the release date; the manifest carries it (release_point.date, copied from the download
+    page by scripts/build_uscode_manifest.py) and the connector passes it to the parser with every archive.
   - >-
     Editorial and statutory notes (amendment and effective-date notes, repeal histories) are not ingested; source
     credits are kept as notes. Placeholder entries marked omitted, transferred or renumbered carry no law text and
     are not ingested; repealed sections and subsections are recorded as repealed with their notes.
   - >-
-    Tables are flattened to text; the appendices to titles 5, 11, 18, 28 and 50 are not ingested (the OLRC: an
-    Appendix "has not been enacted as part of the title").
+    Tables are flattened to text; images (the length-limit charts of the appellate and bankruptcy rules, printed as
+    pictures) are not ingested.
+  - >-
+    The appendices to titles 5, 11, 18, 28 and 50 are ingested as separate instruments per unit (rule set, Act,
+    reorganization plans) under the OLRC's identifiers (/us/usc/t28a/courtRules/Civil, /us/usc/t18a/pl/96/456,
+    /us/usc/t5a/reorgPlans) or, where the file gives none, under the appendix identifier and the unit's heading
+    (/us/usc/t11a/federal-rules-of-bankruptcy-procedure). The OLRC: an Appendix "has not been enacted as part of the
+    title"; every result carries the USC_APPENDIX limitation. The court rules' text of record is the Supreme Court's
+    orders transmitted to Congress (28 U.S.C. 2072-2075), not the Code; the Advisory Committee notes are notes and are
+    not ingested. Title 50's appendix is eliminated (its file holds only a note) and is skipped.
   - >-
     A container provision (section, subsection) stores the text of its whole subtree and its parts are stored again,
     so the stored text is several times the size of the XML text; only leaves and containers with their own text are
