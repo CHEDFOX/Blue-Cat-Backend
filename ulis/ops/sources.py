@@ -31,6 +31,7 @@ STATIC_PINS: dict[str, str] = {
     "pl-eli-sejm": "explicit list of consolidated texts; add newer ones to the manifest",
     "it-normattiva": "text as of the dates in the manifest; scripts/build_normattiva_manifest.py appends acts",
     "eu-eur-lex": "explicit CELEX list of the acts in force; regenerate with scripts/build_eu_manifest.py to refresh",
+    "jp-egov-laws": "pinned bulk archive (size and SHA-256); fetch the latest all_xml.zip and move the pin",
 }
 
 # Sources that must be loaded after others, whatever their size. The pipeline never overwrites a stored wording and does
@@ -86,7 +87,7 @@ DEFAULT_ENTRIES = 500  # ordering weight for a manifest that lists no recognisab
 @dataclass(frozen=True)
 class ManifestInfo:
     entries: int | None  # length of the manifest's main list (laws, works, documents, ...)
-    requests: int | None  # lower bound of HTTP requests: entries x nested versions x languages
+    requests: int | None  # lower bound of HTTP requests: entries x nested versions x languages, or `network_requests`
     crawl_delay: float | None  # seconds between requests, when the manifest sets one
     hosts: tuple[str, ...]  # hosts named in the manifest (they name the cache sub-directories)
     git: bool  # fetched with a git clone rather than HTTP requests
@@ -126,6 +127,11 @@ def _read(path: str, mtime_ns: int) -> ManifestInfo:
             )
             languages = data.get("languages")
             requests = nested * (len(languages) if isinstance(languages, list) and languages else 1)
+        stated = data.get("network_requests")
+        if isinstance(stated, int) and not isinstance(stated, bool) and stated >= 0:
+            # The manifest states the requests of a full run itself, where its list is not one request per entry
+            # (e.g. a bulk archive downloaded once for every entry).
+            requests = stated
         raw_delay = data.get("crawl_delay_seconds")
         delay = float(raw_delay) if isinstance(raw_delay, int | float) else None
         git = "repository" in data

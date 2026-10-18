@@ -221,9 +221,12 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
 }
 # Parsers that also read what the connector states about a document (``RawDocument.metadata``): facts the file
 # itself does not carry, such as the date the OLRC gives for a release point of the United States Code (from the
-# manifest). Everything else about the document still comes from its bytes.
+# manifest), or the law id and revision data of a bare <Law> file of e-Gov's bulk download (from e-Gov's list of
+# laws in force). Everything else about the document still comes from its bytes. Verification re-parses a stored
+# document with the metadata recorded with it.
 METADATA_PARSERS: dict[str, Callable[[bytes, dict[str, Any]], list[ParsedDocument]]] = {
     "uslm": uslm.parse_uslm,
+    "egov_law_xml": egov_law.parse_egov,
 }
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,

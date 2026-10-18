@@ -1,6 +1,6 @@
 schema_version: 1
 id: jp-egov-laws
-name: e-Gov 法令検索 (e-Gov Law Search), 法令API Version 2
+name: e-Gov 法令検索 (e-Gov Law Search), XML bulk download and 法令API Version 2
 publisher: Digital Agency (デジタル庁), Government of Japan
 kind: official_legislation_portal
 authority: official_non_authentic
@@ -17,7 +17,9 @@ coverage: >-
   suspended or without effect (廃止・失効・停止・実効性喪失, 561) and laws none of whose revisions is in
   force yet (16) are not ingested.
 access:
-  method: api
+  # The official XML bulk download (all_xml.zip) for every law, read once per archive; 法令API Version 2 for the list
+  # of laws in force (10 pages) and for the two laws loaded with their history (see the manifest's mode).
+  method: bulk_download
   endpoint: config/manifests/jp-egov-laws.yaml
 update_frequency: >-
   Each time a law is promulgated in the Official Gazette (官報), by enforcement date (help page).
@@ -28,12 +30,15 @@ rate_limits: >-
   so there is no Crawl-delay. Digital Agency's page for the API prototype (the forerunner of v2) says
   「サーバの保護等のため、過剰アクセスやBOTアクセスなどが確認された場合には、アクセス制限を行うことがあります。」 and
   「全法令をループして条文データを順次取得するようなご利用方法についても、サーバリソースの負担となり、他の利用者にも影響の生じうるレスポンス遅延やサーバダウンなどが発生するためお控えください。」
-  (https://www.digital.go.jp/policies/legal-practice/public-test, read 2026-10-18); ULIS applies it to v2 too. So ULIS
-  does not go faster: one connection, one request every 5 s (the connector refuses a manifest delay under 5 s), back-off
-  on 429/5xx. The manifest needs two requests per law (revision list, then text): 18,014 requests, 25 hours. A refusal
-  (401, 403, 429, 451) stops the run, and responses are cached, so a repeated run costs no requests. Because a full API
-  loop goes against the publisher's stated wish, the faster route is the official bulk download (all_xml.zip, 283 MB,
-  https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true, PDL1.0), which needs a new connector path;
+  (https://www.digital.go.jp/policies/legal-practice/public-test, read 2026-10-18); ULIS applies it to v2 too, and the v2
+  spec itself says 「法令データをダウンロードする場合は、XML一括ダウンロードにアクセスするか、以下のURLを利用してダウンロードしてください。」
+  So ULIS loads every law from the official bulk download (all_xml.zip,
+  https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true; no key, registration or notice; PDL1.0 like the
+  API): one download (297,202,960 bytes on 2026-10-18, 20 s) plus the API's list of laws in force (10 requests) and the
+  history of two laws (40 requests): 51 requests, about 4 minutes, where looping over the API took 18,014 requests and
+  25 hours. Every request, the archive included, goes over one connection with 5 s between request starts (the
+  connector refuses a manifest delay under 5 s), back-off on 429/5xx; a refusal (401, 403, 429, 451) stops the run;
+  everything is cached, so a repeated run costs no requests. The per-law API route (mode: api) remains for single laws;
   ask Digital Agency (https://www.e-gov.go.jp/contact/inquiry.html) before any full API loop or a faster pace.
 licence:
   id: PDL-1.0
@@ -67,15 +72,19 @@ licence:
     licence covers the e-Gov data and site. Counsel review still recommended before production use.
 provenance: >-
   Data prepared by the Ministry of Justice reflecting each amendment, checked by the ministries
-  concerned and published by the Digital Agency (help page). Fetched from
-  https://laws.e-gov.go.jp/api/2/law_data/{law_revision_id}?response_format=xml and
-  /api/2/law_revisions/{law_id}?response_format=xml; raw responses are stored unchanged.
+  concerned and published by the Digital Agency (help page). Loaded from the XML bulk download
+  (https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true, all_xml.zip, pinned by size and SHA-256):
+  each law's file of the revision in force and its lines of all_law_list.csv are stored unchanged, with the law_info
+  and current_revision_info of https://laws.e-gov.go.jp/api/2/laws?repeal_status=None in the document metadata. Laws
+  with history, and single laws, from https://laws.e-gov.go.jp/api/2/law_data/{law_revision_id}?response_format=xml
+  and /api/2/law_revisions/{law_id}?response_format=xml; raw responses are stored unchanged.
 known_limitations:
   - Not the authentic text. The help page states that where the e-Gov data differs from the Official Gazette (官報) the Gazette prevails, and that notation may differ from the Gazette for editorial reasons.
   - Revision history only from the data baseline of 1 April 2017; earlier wordings are not available from this source. Only two laws are ingested with their history; every other law is the revision in force on the retrieval date.
   - 21 laws are typed "Act,CabinetOrder", "Act,ImperialOrder" or "Act,MinisterialOrdinance" by the list and revision-list endpoints but "Act" by the text endpoint; they are recorded as acts.
   - Laws whose text has no article, paragraph or table to index are skipped and counted as skipped documents.
   - Per-provision dates are not stated - each revision is a whole-law snapshot dated by the amendment's enforcement date (施行期日).
+  - The bulk download holds only the revision in force and those to come. For the laws loaded from it, the lifecycle events are the amendment in force and the promulgation; the earlier amendments since 2017 that a revision list names are not recorded (two laws are loaded from the API with their full history).
   - Ruby readings (furigana) are dropped from indexed text; tables, figures and forms are flattened or omitted.
   - Official English translations (Japanese Law Translation) are a different, unofficial source and are not ingested.
 status: active
