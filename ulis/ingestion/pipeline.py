@@ -219,6 +219,12 @@ PARSERS: dict[str, Callable[[bytes], list[ParsedDocument]]] = {
     "oecd_legal_instruments": oecd_legal_instruments.parse_oecd_legal_instruments,
     "constitution_text": constitution_text.parse_constitution,
 }
+# Parsers that also read what the connector states about a document (``RawDocument.metadata``): facts the file
+# itself does not carry, such as the date the OLRC gives for a release point of the United States Code (from the
+# manifest). Everything else about the document still comes from its bytes.
+METADATA_PARSERS: dict[str, Callable[[bytes, dict[str, Any]], list[ParsedDocument]]] = {
+    "uslm": uslm.parse_uslm,
+}
 PARSER_VERSIONS = {
     "akn3": akn.PARSER_VERSION,
     "uslm": uslm.PARSER_VERSION,
@@ -500,7 +506,10 @@ class Ingestor:
             try:
                 with self.session.begin_nested():
                     doc_row = self._store_raw(source, raw, sha)
-                    parsed_docs = parser(raw.content)
+                    with_metadata = METADATA_PARSERS.get(source.parser or "")
+                    parsed_docs = (
+                        with_metadata(raw.content, dict(raw.metadata)) if with_metadata else parser(raw.content)
+                    )
                     for parsed in parsed_docs:
                         self._validate(parsed)
                     for parsed in parsed_docs:

@@ -1,16 +1,19 @@
-# United States Code, all titles, USLM XML from the Office of the Law Revision Counsel (OLRC).
-# One archive per main title and release point:
+# United States Code, all titles and appendices, USLM XML from the Office of the Law Revision Counsel (OLRC).
+# One archive per main title (or appendix) and release point:
 #   https://uscode.house.gov/download/releasepoints/us/pl/<congress>/<law>/xml_usc<NN>@<congress>-<law>.zip
-# Release point 119-120: "All files are current through Public Law 119-120 (10/07/2026)" - download page
-# https://uscode.house.gov/download.html (read 2026-10-15). The XML itself says only "Online@119-120", so the
-# parser holds that date (USC_RELEASE_POINT_DATES in ulis/sources/parsers/uslm.py).
-# Listed: every main title of the Code that the page offers (53 titles: 1 to 54 without the reserved title 53).
-# Not listed: the appendices to titles 5, 11, 18, 28 and 50 (xml_usc05a ... xml_usc50a; "any Appendix to this title has
-# not been enacted as part of the title") and the other formats (XHTML, PCC, PDF).
+#   https://uscode.house.gov/download/releasepoints/us/pl/<congress>/<law>/xml_usc<NN>a@<congress>-<law>.zip
+# Release point 119-121: "All files are current through Public Law 119-121 (10/09/2026)" - download page
+# https://uscode.house.gov/download.html (read 2026-10-18). The XML itself says only "Online@119-121", so the
+# release point's date is carried here (release_point.date, the date in that sentence) and the connector passes it
+# to the parser with every archive; the parser dates every text by it (attested in force at the release point).
+# Listed: every main title of the Code that the page offers (53 titles: 1 to 54 without the reserved title 53)
+# and every appendix it offers (5 appendices, xml_usc<NN>a: court rules, free-standing Acts and
+# reorganization plans that the OLRC prints after a title; the page's legend: "any Appendix to this title has not
+# been enacted as part of the title"). Not listed: the other formats (XHTML, PCC, PDF).
 # `positive_law` is the download page's asterisk: "This title has been enacted as positive law" (27 titles).
 # For the other 26 titles the Code is "prima facie evidence" of the law (1 U.S.C. 204), and the Statutes at Large
 # control; the XML of such a title says is-positive-law "no". The parser checks the XML, not this flag.
-# `sha256` pins the exact download (taken on 2026-10-15); a later regeneration of a file by the OLRC fails loudly.
+# `sha256` pins the exact download (taken on 2026-10-18); a later regeneration of a file by the OLRC fails loudly.
 # Regenerate with scripts/build_uscode_manifest.py.
 
 schema_version: 1
@@ -19,59 +22,66 @@ base_url: https://uscode.house.gov
 user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
 crawl_delay_seconds: 5
 release_point:
-  id: "119-120"
-  current_through: "Public Law 119-120 (10/07/2026)"
+  id: "119-121"
+  current_through: "Public Law 119-121 (10/09/2026)"
+  date: "2026-10-09"
 titles:
-  - {number: 1, name: General Provisions, positive_law: true, sha256: 6d7d505defd730c112e1adda3f332139e30777ca0138300c0f6d9f34a8ce9ed5}
-  - {number: 2, name: The Congress, positive_law: false, sha256: 1aa15294d332b9f87d7f5bdc79dbaa0411e7c31ec050b345725373be440d0b2f}
-  - {number: 3, name: The President, positive_law: true, sha256: dcd38c2cade632084fffea1900cfb99ed10dae7c08214360d97a523acb8339ce}
-  - {number: 4, name: 'Flag and Seal, Seat of Government, and the States', positive_law: true, sha256: 290ef22089929b63345796a115b2ba48214776df15d752eb2c9d1b9bf8e2f62c}
-  - {number: 5, name: Government Organization and Employees, positive_law: true, sha256: 2976cf8bd903927396f57a74871568fffb13f5263da33baa8952f0a5d01cb331}
-  - {number: 6, name: Domestic Security, positive_law: false, sha256: 254519d4df13cbe8c5cff93ad90d0fe116101203d63e60f9f9486dcc80ac4251}
-  - {number: 7, name: Agriculture, positive_law: false, sha256: ba15e52c7856393d53f1f9e7574b6051dafc520bb415060bc4ec9d9d21741e8d}
-  - {number: 8, name: Aliens and Nationality, positive_law: false, sha256: 2b3b98d32e247c5eedfe2481ae01864302c08df50141b956f19e757e6c4e907e}
-  - {number: 9, name: Arbitration, positive_law: true, sha256: c1ae9204c39b614fdc3a12f44c813c4d9a89132d8019748a5eea8aee8f031be8}
-  - {number: 10, name: Armed Forces, positive_law: true, sha256: f13b587ed94277e9f1a2e42e34e5e186f7cee1fc5d46590b8b61552faeb62570}
-  - {number: 11, name: Bankruptcy, positive_law: true, sha256: e65030a825c84517e1bee8ca13659e1a469b0a677a05af63b31023aa6fb8f17e}
-  - {number: 12, name: Banks and Banking, positive_law: false, sha256: a76542176d43ef40f9f24657bb9f93f7b5e5b331b4349dffde7c47c9dea575dc}
-  - {number: 13, name: Census, positive_law: true, sha256: f1c4f1fff8af00b05e8221ca961bfd2cce5eefed97608f0298cd895a0f6e5a7c}
-  - {number: 14, name: Coast Guard, positive_law: true, sha256: 65b86595810ed12b0c24f23a39c2fa18aaf303fea5a289578edb2bfa379cbf64}
-  - {number: 15, name: Commerce and Trade, positive_law: false, sha256: e053dcada37ec19ab55ec063abd415642b09a3e8ef9a37cc70ca88030d59e699}
-  - {number: 16, name: Conservation, positive_law: false, sha256: 6fe9a28cca4dc73e2a01e43482e3be5e01e165690ab42639abdc0a04635d4f06}
-  - {number: 17, name: Copyrights, positive_law: true, sha256: aa970d45710822aef07460f1be02fbca9382bf1212929ff8d75b359dbb0f3e6c}
-  - {number: 18, name: Crimes and Criminal Procedure, positive_law: true, sha256: 0f0e8f8e51a19855b5bbe803ce3645a662108614e0745a64b5b4fe9afa4141ca}
-  - {number: 19, name: Customs Duties, positive_law: false, sha256: 59e288206359aaade97f7341e88a478a52428e5993053bc21363bcff75c52367}
-  - {number: 20, name: Education, positive_law: false, sha256: 32e055a2592b3a524989e2f63986a84bede0aade36d4b27069674582b57ad700}
-  - {number: 21, name: Food and Drugs, positive_law: false, sha256: 0f7bbfae69c5e2511ddae9ecfad244387149561a281b64b0a3a09e6c077f934a}
-  - {number: 22, name: Foreign Relations and Intercourse, positive_law: false, sha256: 74eaf341b8fa6f3372ee5c2e5b359a2d343f96dfd120b06449d94d2fd87ce960}
-  - {number: 23, name: Highways, positive_law: true, sha256: ad44a5fe6e3794d8cb4bc31ccc98a2b2bf23b8cb3684f069451e1b7b48a13ba4}
-  - {number: 24, name: Hospitals and Asylums, positive_law: false, sha256: 97a18e59dcd323285b986f152ad04e8febd8ab55f06b9266406b7ff4c4b8d530}
-  - {number: 25, name: Indians, positive_law: false, sha256: f2cfb8e95d47b808c923f377b82fe8e5b8417e479d2a349c22c4414d90b7739e}
-  - {number: 26, name: Internal Revenue Code, positive_law: false, sha256: 84af19d59b5b6ee347c14da510d4a97f6d1d4187e138481352aed0be139b796d}
-  - {number: 27, name: Intoxicating Liquors, positive_law: false, sha256: e47d81f74685659955939a813cb2308eaac4e1450e2f0dbf5cdf50ce0083b01b}
-  - {number: 28, name: Judiciary and Judicial Procedure, positive_law: true, sha256: f96419158b65bf03f5b5d74ddf9df18fec8c8f9b94b7278c515f88fd0eceefaa}
-  - {number: 29, name: Labor, positive_law: false, sha256: e29580cd7af2e775a3d15ad5004540af7b155f97a5a66fcb94a76175afd13908}
-  - {number: 30, name: Mineral Lands and Mining, positive_law: false, sha256: 1e071a6bc2ba177ae989378896c545416150bd81eadbc5378d25fc15e890d886}
-  - {number: 31, name: Money and Finance, positive_law: true, sha256: 9c0d6e05b34bf880582b2ce4cf821f7f66bad709bc514911ee92ff4e646a2ffe}
-  - {number: 32, name: National Guard, positive_law: true, sha256: 3f97682160788f13df5d167103014e1e49ae9ad1ec0ac31acc3951d85cf78639}
-  - {number: 33, name: Navigation and Navigable Waters, positive_law: false, sha256: dbc612a0d46c5f508c4b8a4afb3f48a9eef4e8a392285dae771acd19ad14a8af}
-  - {number: 34, name: Crime Control and Law Enforcement, positive_law: false, sha256: 010734941b0569d6ce0ea86ec00af6b719c7900fcc4e8ae8fa5bbb10dbf05dc2}
-  - {number: 35, name: Patents, positive_law: true, sha256: 281c25fc742afe1c3b51f4cfb1365aee824df57d435708c20f0d71a84730c47b}
-  - {number: 36, name: 'Patriotic and National Observances, Ceremonies, and Organizations', positive_law: true, sha256: b653980e1201dd44656e82b6cdad5ee36ef2e2771baa044ef28e3fb6590c6a65}
-  - {number: 37, name: Pay and Allowances of the Uniformed Services, positive_law: true, sha256: 08c27874f8cf0c7e7e25479375065a80a4c9d9fa65356e2caf312e3530542b51}
-  - {number: 38, name: Veterans' Benefits, positive_law: true, sha256: 61dd4d91a0b2b59043085409054680856110e34186cb80c7b4482c6127b40cd5}
-  - {number: 39, name: Postal Service, positive_law: true, sha256: 51d5d2afe9695b5d11b680328ec6dac658623179bda28a2c4103e03c58a90647}
-  - {number: 40, name: 'Public Buildings, Property, and Works', positive_law: true, sha256: 0e6996c8396201e9294962a0f5322ecb1f5ab7b3cc9b8f8c06b2229397a3f6fc}
-  - {number: 41, name: Public Contracts, positive_law: true, sha256: 6fda84209dbf5651338ba4df1a2462773e992109c0cc924cc5668c5e4ab52ae3}
-  - {number: 42, name: The Public Health and Welfare, positive_law: false, sha256: bbf5183b7e3b007bb69ab2f6d67a91ac81a7233388ba02fb49e4b1c953a21146}
-  - {number: 43, name: Public Lands, positive_law: false, sha256: 748f345ebd2eec1d48b81585145269b1caf2551ec0759c0fd6fdd70a72ec085a}
-  - {number: 44, name: Public Printing and Documents, positive_law: true, sha256: 290a3b294018db7592aa0807f92d19355e828f8f8c8135b57620a33ce008c938}
-  - {number: 45, name: Railroads, positive_law: false, sha256: 6ea525dd7c8e2084cf3866bde8bc6272da7a55c4d3e8da6d7fed59d9294935b4}
-  - {number: 46, name: Shipping, positive_law: true, sha256: d1906d7b1e65e75d5c22cfd8dd40c6cbd683b3bb6084a2b8c52fc1ecc21e5353}
-  - {number: 47, name: Telecommunications, positive_law: false, sha256: dadd8b81854bc7337f3afcd465da2f14c194906153a4ccd0d6361ed29895ea2a}
-  - {number: 48, name: Territories and Insular Possessions, positive_law: false, sha256: 7064096dd8c92f2134139be4ad087f6cbc48f74bf6669310d2e32396781c6c27}
-  - {number: 49, name: Transportation, positive_law: true, sha256: f971d6114e37b8056c0cd4a103d4d332bb3901fba42d4a1c506a957f5d048a3b}
-  - {number: 50, name: War and National Defense, positive_law: false, sha256: 5ebbb2c0a285652e17f988a066141e17e725a62e748ba7743137283422fd74ed}
-  - {number: 51, name: National and Commercial Space Programs, positive_law: true, sha256: 89d961fab645079934a73299743a6ea49a590b45e77800bf72a973b51d18ccd8}
-  - {number: 52, name: Voting and Elections, positive_law: false, sha256: 369c4f31100fc0a806195eff0bb229778bb892ed62f06773c80cad853c1ff4b2}
-  - {number: 54, name: National Park Service and Related Programs, positive_law: true, sha256: 33807a08391d07f6ead94dbb5b5abdfca153c7ef4fabfe15cc774dd7d2809a24}
+  - {number: 1, name: General Provisions, positive_law: true, sha256: 8fddb1a187fb36ece41c3077b6d070c4a1090a6ee282cef078a4a75303963e1e}
+  - {number: 2, name: The Congress, positive_law: false, sha256: 6695a0efe0ac7bb8c8c804a88b840ca4d9be12de155fedfb119885bca1946602}
+  - {number: 3, name: The President, positive_law: true, sha256: a173b15894be6b90aae68f8c2f0122d0453d04f5ebac35857e722b43f9f83085}
+  - {number: 4, name: 'Flag and Seal, Seat of Government, and the States', positive_law: true, sha256: e272c817069a66dfe202daf5b1f1d18140a985e9c26f568afe9bf676e519b896}
+  - {number: 5, name: Government Organization and Employees, positive_law: true, sha256: 7bc9b4fe213e9bf2a07087ee5df589d264aa8e28adc646cce3f4c2d3a2a221a3}
+  - {number: 6, name: Domestic Security, positive_law: false, sha256: 86fe4b1fdf113b80b90e8ca3ac2aceb0af5428fff9d0abc790addd210528382f}
+  - {number: 7, name: Agriculture, positive_law: false, sha256: cd478589e752c36361632aa718cfcdf25b04ca59776117d8823a617a414f1c32}
+  - {number: 8, name: Aliens and Nationality, positive_law: false, sha256: 8e94ff972f2292912dc017cce23cc3ca0f6f2dfb57679f942c648552cea0a43a}
+  - {number: 9, name: Arbitration, positive_law: true, sha256: e72366452b89eb7139707e1f9e0c51d94b2c02778a99655f3056ce0ae632b09a}
+  - {number: 10, name: Armed Forces, positive_law: true, sha256: 047dc4e73d74aa9240e9cdaca155e5301f4c08dfdbb2fc0f27209f7687df1e54}
+  - {number: 11, name: Bankruptcy, positive_law: true, sha256: bf6ea03eba69f95dedade5d85d24cc9342d9f0318c3a1b24d926332baf715537}
+  - {number: 12, name: Banks and Banking, positive_law: false, sha256: 2512cdadc25da086937cec4adbd00fd07176d8483f138820f5e3e1749adfaa7d}
+  - {number: 13, name: Census, positive_law: true, sha256: f4b16ea3f583b40a23d4afa850d492e6999a45f4bfb65908b873b8e1f1209345}
+  - {number: 14, name: Coast Guard, positive_law: true, sha256: dc334ed62d78d6629072107698b83757e5ac060ff93e17f0640f36c50327b8c8}
+  - {number: 15, name: Commerce and Trade, positive_law: false, sha256: f64aa4ced77f295396e4c5f037122a4227258a047a92a9a0689d903f7a7aa216}
+  - {number: 16, name: Conservation, positive_law: false, sha256: ca1ae963fdeaf057e444dcad235b5707a1aacf6588ee9d2b1a282d04c1562bff}
+  - {number: 17, name: Copyrights, positive_law: true, sha256: 7e5571c6aa513fdea8383f8a89c3a9e037883395b06b882958b223b8017e584b}
+  - {number: 18, name: Crimes and Criminal Procedure, positive_law: true, sha256: 81e57f161a5429473af7c1bf3f841aedf9b9f00782223adeda9dad892d16e1ca}
+  - {number: 19, name: Customs Duties, positive_law: false, sha256: 91e83575e34f158e715902a88eb8cb4e454993fcca9dee5be11ef8a2b603dad5}
+  - {number: 20, name: Education, positive_law: false, sha256: ee541c6d3ca2bea22e94dd6ac8f2239fa56e201e522a2e6e512e0ebbddcfe000}
+  - {number: 21, name: Food and Drugs, positive_law: false, sha256: 80917f302b9fd4d632d4ae2d0a70e3123e10669c5fbcca38547287db4669c29f}
+  - {number: 22, name: Foreign Relations and Intercourse, positive_law: false, sha256: 6e14cb4e915b78d5ea40f05868f6901bd6d53c7b837395623a4d20e755447cf9}
+  - {number: 23, name: Highways, positive_law: true, sha256: a75471864b7bab081f79eb90eed9c8ac434869b629e8ee094c4e787d0baeef9e}
+  - {number: 24, name: Hospitals and Asylums, positive_law: false, sha256: 0307370611a29b072a4554b0c2b94ea092077a0862f63b2f5ef4da9c4b237dc0}
+  - {number: 25, name: Indians, positive_law: false, sha256: aa724a9c5d6ebd7c189e90b76cd94790be3362bf5bec5edef9732046f69f4958}
+  - {number: 26, name: Internal Revenue Code, positive_law: false, sha256: 5d3633536e1d289992d676cb9520b6816529e15e837d09af2e5c8d9100ca9d3a}
+  - {number: 27, name: Intoxicating Liquors, positive_law: false, sha256: 04e806e6577d6cbfd0e0eac78c98d3b8c741dc4994de5f369868593230a65849}
+  - {number: 28, name: Judiciary and Judicial Procedure, positive_law: true, sha256: 46fc48f1e603091c050e1871cb7ed850019bffba995aa9fb741e3f41a066a064}
+  - {number: 29, name: Labor, positive_law: false, sha256: 359198f6ec9a40212485a0b111f93536ce16a0063878367c39e8ca2d083b622f}
+  - {number: 30, name: Mineral Lands and Mining, positive_law: false, sha256: 0c0d5b7685331ad07b4a46e173761152f0d272f6ab3d87a993bde138eb668c4e}
+  - {number: 31, name: Money and Finance, positive_law: true, sha256: 0ef7d7480ccf0671dbedfc53fd21009d6715e5de2d9deca04c42e1585b0a28c3}
+  - {number: 32, name: National Guard, positive_law: true, sha256: 399ee22a4fecae649da1c33824d804a761de77f43117340438b327e438b19a76}
+  - {number: 33, name: Navigation and Navigable Waters, positive_law: false, sha256: 40d8026fb852ef8ad19c250290c6f20e415f4ba94f878b34e21a73501b5a3600}
+  - {number: 34, name: Crime Control and Law Enforcement, positive_law: false, sha256: a8901308268cbccf7274f8f04b97e9c7bbadd0616ca76798398d48a95434cbd9}
+  - {number: 35, name: Patents, positive_law: true, sha256: 42bc5facc6ad085ccfa5e27f6e0de4784bed58b075192f1fb45aeec240d5cfb2}
+  - {number: 36, name: 'Patriotic and National Observances, Ceremonies, and Organizations', positive_law: true, sha256: a8dfa2f386a4593c7da845274580721d074bcb51925eaa5629d7779177766891}
+  - {number: 37, name: Pay and Allowances of the Uniformed Services, positive_law: true, sha256: f88ae6691c076be60cec7fd250ccf62066942175b92856aa6a213aa301b03ed2}
+  - {number: 38, name: Veterans' Benefits, positive_law: true, sha256: 73b040bce35ce2b7b14cae7ce381347dbd92184c29ca6ee3100978d3e534d4ee}
+  - {number: 39, name: Postal Service, positive_law: true, sha256: 102b634faa1d9db0dc24060317f5d0f4520367ccfbe9b140f88ee9e988ef46d5}
+  - {number: 40, name: 'Public Buildings, Property, and Works', positive_law: true, sha256: d5a16588d67ed16064c444764aa3d99f7aeede3470f9011d832d51fa2276d19c}
+  - {number: 41, name: Public Contracts, positive_law: true, sha256: 6c870a96d2b44ef4673335552d581bb7ab87ff35341cf418cc0c651aae27bf25}
+  - {number: 42, name: The Public Health and Welfare, positive_law: false, sha256: c07443d18b301bf72ae208579fbce5d880928844a1ed595a041df8ed283ed8f3}
+  - {number: 43, name: Public Lands, positive_law: false, sha256: 7d9ea6fbfa14e646e46ab7bae3ce071f7b6342707a1d957ec7b9323127c9e271}
+  - {number: 44, name: Public Printing and Documents, positive_law: true, sha256: d66a2c9fce5a5dd98bce04c2d6795238bf6531e9948ed3de8e5d7ca02bf25d75}
+  - {number: 45, name: Railroads, positive_law: false, sha256: dad5c8b2619f415309561b94d66baa873aa02557d59af9b00288750bd83d3504}
+  - {number: 46, name: Shipping, positive_law: true, sha256: ef0c1d19fb5012490ec64f346cdbc84c1ec227acb48387ac2be82fe876d92b06}
+  - {number: 47, name: Telecommunications, positive_law: false, sha256: c08e7b0e796c5156f19e92380d3f8d4e81b49f4291c5d349ad75f814834059ac}
+  - {number: 48, name: Territories and Insular Possessions, positive_law: false, sha256: 37e9b1b0ff4b14bbf0674631c7f701af7e21f1c4580363bab7776d57a9b66c13}
+  - {number: 49, name: Transportation, positive_law: true, sha256: 36ecc70e306a62c8fa6c241046556061d39a6c618adf1e0a0ac0612ed9de36f1}
+  - {number: 50, name: War and National Defense, positive_law: false, sha256: 640d5e91e6b247a8817be218e767148d637299665c44d846246beb3025591429}
+  - {number: 51, name: National and Commercial Space Programs, positive_law: true, sha256: 1283e103be9d0262d2b9cd8b97d34940e4c9a90e260cbe22251299cc3420e899}
+  - {number: 52, name: Voting and Elections, positive_law: false, sha256: 4e43c1511a8d0c78c0f15f9e4bf69062078f4a01910f86c397d144ae3d925856}
+  - {number: 54, name: National Park Service and Related Programs, positive_law: true, sha256: f7d47730e0783fa886368851a7edb57a6586997498c0d64516b9c66e05c46fe4}
+appendices:
+  - {number: 5, name: Appendix to Title 5, sha256: 6caf19e48eba296fc703c6cf80a255b6b850c36cd875927ce9971fd6858acda9}
+  - {number: 11, name: Appendix to Title 11, sha256: 80a453a31a97bd0c9502557b2ece7eae5abf7f03a64de9b5bc657832e5cc2a2b}
+  - {number: 18, name: Appendix to Title 18, sha256: c3e6999fc93eca07078993d0eac3664e1409bf4305e9b82c2fb83c43d346e64c}
+  - {number: 28, name: Appendix to Title 28, sha256: 51d8dc2ddb578f7b597adc6eca5d97e1bb6c38fa1572d5bf5c7d19ef4c6debe7}
+  - {number: 50, name: Appendix to Title 50, sha256: af28e101684678db9dc727e45a967a48e5414a312090c97f9aa83f32726309ed}

@@ -19,6 +19,15 @@ Citation forms follow common US practice (Bluebook-style) for the document types
 * United States Code title (a release point of the Office of the Law Revision Counsel):
   ``18 U.S.C. § 1030(a)(2)``; the year is omitted because the online release points are not
   printed editions, and the release point is carried in the version data
+* the appendices to the titles of the United States Code (``ext.usc_appendix``): the court rules the OLRC prints
+  there in the Bluebook's forms, ``Fed. R. Civ. P. 12(b)(6)``, ``Fed. R. Crim. P. 11(b)``,
+  ``Fed. R. App. P. 4(a)(1)``, ``Fed. R. Evid. 702``, ``Fed. R. Bankr. P. 3001(c)``, a form of an appendix of forms
+  ``Fed. R. App. P. Form 1A``, and the supplemental rules of the civil rules ``Fed. R. Civ. P. Supp. R. C(3)``
+  (``Supp. R.`` is this module's convention for the Supplemental Rules for Admiralty or Maritime Claims and for
+  Social Security Actions); a rule set without an abbreviation here is named as the appendix prints it,
+  ``28 U.S.C. app., <name>, Rule 3``; an Act reprinted in an appendix ``18 U.S.C. app. § 4 (Classified Information
+  Procedures Act)`` (the Act's name in a parenthetical because several Acts with their own section 1 share one
+  appendix); a reorganization plan ``Reorg. Plan No. 3 of 1970, 5 U.S.C. app.``
 
 * judgment of the Supreme Court (United States Reports, the page is the pinpoint):
   ``Roe v. Wade, 410 U.S. 113, 153 (1973)``
@@ -87,6 +96,15 @@ class UsExt(BaseModel):
     rin: str | None = None  # Regulation Identifier Number
     cfr_affected: list[str] | None = None  # the CFR parts the rule's heading names, as printed
     release_point: str | None = None
+    # The appendix to a title of the United States Code (parsers/uslm.py, ``USCTitleAppendix``): the unit of the
+    # appendix the instrument is ("court_rules", "act", "reorganization_plans"), its heading as the OLRC prints it,
+    # the rule set's key in the OLRC's identifier ("Civil", "Crim", "App", "Evid", "Bankr") and whether the rules are a
+    # set of supplemental rules of that rule set.
+    usc_appendix: bool | None = None
+    appendix_unit: str | None = None
+    appendix_heading: str | None = None
+    court_rules: str | None = None
+    supplemental_rules: bool | None = None
     cfr_compilation: str | None = None  # "ecfr": the eCFR (current text), as against an annual edition
     cfr_chapter: str | None = None
     cfr_authority: str | None = None  # the part's statutory authority statement, as printed
@@ -170,6 +188,15 @@ MONTHS = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept."
 
 BLUEBOOK_MONTHS = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."]
 CFR_REVISION_DAYS = {(1, 1), (4, 1), (7, 1), (10, 1)}
+# Bluebook abbreviations of the federal rules printed in the appendices to titles 11, 18 and 28 of the United States
+# Code, by the key of the rule set in the OLRC's identifiers (/us/usc/t28a/courtRules/Civil ...).
+COURT_RULES = {
+    "Civil": "Fed. R. Civ. P.",
+    "Crim": "Fed. R. Crim. P.",
+    "App": "Fed. R. App. P.",
+    "Evid": "Fed. R. Evid.",
+    "Bankr": "Fed. R. Bankr. P.",
+}
 # The parts of a final rule in the Federal Register that its provisions are named after (the first word of the eId).
 FR_PARTS = {
     "summary": "summary",
@@ -192,6 +219,11 @@ def is_cfr_edition_date(d: date | None) -> bool:
     return d is not None and (d.month, d.day) in CFR_REVISION_DAYS
 
 
+def _eid_prefix(eid: str) -> str:
+    """The kind prefix of the provision's own level: ``form`` for ``form_1A``, ``subsec`` for ``rule_12__subsec_b``."""
+    return eid.rsplit("__", 1)[-1].split("_", 1)[0] if eid else ""
+
+
 def ordinal(n: int) -> str:
     suffix = "th" if 10 <= n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
     return f"{n}{suffix}"
@@ -199,7 +231,7 @@ def ordinal(n: int) -> str:
 
 class UsModule(JurisdictionModule):
     id: ClassVar[str] = "us"
-    version: ClassVar[str] = "1.4.0"
+    version: ClassVar[str] = "1.5.0"
     ext_model: ClassVar[type[BaseModel]] = UsExt
 
     def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:
@@ -212,7 +244,44 @@ class UsModule(JurisdictionModule):
         parts = [p for p in c.num_path if p]
         if not parts:
             return ""
+        if c.ext.get("usc_appendix"):
+            unit = c.ext.get("appendix_unit")
+            if unit == "court_rules":
+                word = "Form" if _eid_prefix(c.eid) == "form" else "Rule"
+                return f"{word} {parts[0]}" + "".join(subdivision(p) for p in parts[1:])
+            if unit == "reorganization_plans" and "/" in parts[0]:
+                year, number = parts[0].split("/", 1)
+                return f"Reorg. Plan No. {number} of {year}"
         return f"§ {parts[0]}" + "".join(subdivision(p) for p in parts[1:])
+
+    def usc_appendix_citation(self, c: ProvisionCitationInput) -> str:
+        """Material the OLRC prints in the appendix to a title of the Code (see the module docstring): the federal
+        rules by their Bluebook abbreviations (``Fed. R. Civ. P. 12(b)(6)``), an Act as ``18 U.S.C. app. § 4 (Classified
+        Information Procedures Act)``, a reorganization plan as ``Reorg. Plan No. 3 of 1970, 5 U.S.C. app.``."""
+        ext = c.ext
+        appendix = f"{ext['usc_title']} U.S.C. app."
+        parts = [p for p in c.num_path if p]
+        tail = "".join(subdivision(p) for p in parts[1:])
+        unit = ext.get("appendix_unit")
+        if unit == "court_rules":
+            label = COURT_RULES.get(ext.get("court_rules") or "")
+            if label and ext.get("supplemental_rules"):
+                label += " Supp. R."
+            if label is None:
+                # a rule set this module has no abbreviation for: the appendix and the set's own name
+                label = f"{appendix}, {c.instrument_title}"
+                if not parts:
+                    return label
+                return f"{label}, {self.pinpoint(c)}"
+            if not parts:
+                return label
+            return f"{label} Form {parts[0]}{tail}" if _eid_prefix(c.eid) == "form" else f"{label} {parts[0]}{tail}"
+        if unit == "reorganization_plans":
+            if parts and "/" in parts[0]:
+                return f"{self.pinpoint(c)}, {appendix}"
+            return f"{appendix} ({c.instrument_title})"
+        pin = f" § {parts[0]}{tail}" if parts else ""
+        return f"{appendix}{pin} ({c.instrument_title})"
 
     def ecfr_citation(self, c: ProvisionCitationInput) -> str:
         """``12 CFR 220.1(b)(1)``; an appendix: ``12 CFR part 220, appendix A``; no provision: ``12 CFR part 220``."""
@@ -240,6 +309,8 @@ class UsModule(JurisdictionModule):
         pin = self.pinpoint(c)
         dated = c.version_date or c.work_date
         when = f" ({dated.year})" if dated else ""
+        if ext.get("usc_appendix") and ext.get("usc_title"):
+            return self.usc_appendix_citation(c)
         if c.instrument_type == "act" and ext.get("usc_title"):
             return f"{ext['usc_title']} U.S.C." + (f" {pin}" if pin else "")
         if c.instrument_type == "regulation" and ext.get("cfr_title") and ext.get("cfr_compilation") == "ecfr":

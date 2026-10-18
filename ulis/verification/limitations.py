@@ -310,7 +310,20 @@ def provision_limitations(catalog: Catalog, data: ProvisionData, authority: Auth
                     f"Equally authentic language versions exist ({langs}); interpretation may require comparing them.",
                 )
             )
-    if (data.instrument.ext or {}).get("positive_law") is False:
+    instrument_ext = data.instrument.ext or {}
+    if instrument_ext.get("usc_appendix"):
+        out.append(
+            Limitation(
+                "USC_APPENDIX",
+                "warning",
+                "This text is printed in an appendix to a title of the United States Code, which the Office of the Law "
+                "Revision Counsel states 'has not been enacted as part of the title'. Court rules printed there were "
+                "prescribed by the Supreme Court under 28 U.S.C. 2072-2075, and the text of record is the one in the "
+                "Court's orders as transmitted to Congress; an Act or reorganization plan printed there is an "
+                "editorial compilation and only prima facie evidence (1 U.S.C. 204): the Statutes at Large prevail.",
+            )
+        )
+    elif instrument_ext.get("positive_law") is False:
         out.append(
             Limitation(
                 "NOT_POSITIVE_LAW",
