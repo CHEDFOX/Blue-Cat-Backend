@@ -35,10 +35,17 @@ def test_sfs_list_records_are_told_apart() -> None:
     gone = record(sokdata={"statusrad": "<dl><dt>Författningen är upphävd</dt></dl>"})
     assert sfs.classify(gone) == ("repealed", "sfs-2008-1300", "")
     assert sfs.classify(record(id="sfs-n2026-3", beteckning="N2026:3")) == ("other", "sfs-n2026-3", "")
-    assert sfs.classify(record(id="sfs-1905-38 s.1", beteckning="1905:38 s.1"))[0] == "other"
+    assert sfs.classify(record(id="sfs-rfs1975-6", beteckning="RFS1975:6"))[0] == "other"
+    assert sfs.classify(record(id="sfs-1899-bih. 25", beteckning="1899:bih. 25"))[0] == "other"  # supplement reference
     assert sfs.classify(record(id="d6s0riksb", subtyp="regl-riksb")) == ("foreign", "d6s0riksb", "")
     # an id with a leading zero is kept as printed: sfs-1810-0926 is not sfs-1810-926
     assert sfs.classify(record(id="sfs-1810-0926", beteckning="1810:0926"))[1] == "1810:0926"
+    # a balk or page suffix is part of the number and is kept as the list prints it (the document id is formed from it)
+    balk = record(id="sfs-1736-0123 2", beteckning="1736:0123 2", titel="Handelsbalk (1736:0123 2)\n")
+    assert sfs.classify(balk) == ("work", "1736:0123 2", "Handelsbalk (1736:0123 2)")
+    assert sfs.classify(record(id="sfs-1905-38 s.1", beteckning="1905:38 s.1"))[1] == "1905:38 s.1"
+    assert sfs.classify(record(id="sfs-1907-36 s. 22", beteckning="1907:36 s. 22"))[1] == "1907:36 s. 22"
+    assert sfs.classify(record(id="sfs-1904-48s1", beteckning="1904:48s1"))[1] == "1904:48s1"
     assert sfs.FIRST[0] == "1974:152"
 
 

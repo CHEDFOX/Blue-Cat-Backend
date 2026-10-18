@@ -25,7 +25,7 @@ from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.riksdagen import FetchError, RiksdagenSfsConnector, document_id
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkipped
-from ulis.sources.parsers.riksdagen_sfs import SfsParseError, citation_name, parse_riksdagen_sfs
+from ulis.sources.parsers.riksdagen_sfs import SfsParseError, citation_name, parse_riksdagen_sfs, parse_sfs_number
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
 
@@ -327,6 +327,99 @@ def test_rejects_unsupported_documents() -> None:
     with pytest.raises(SfsParseError, match="not a Riksdag document"):
         parse_riksdagen_sfs(b"{}")
     assert resolve_uri("https://data.riksdagen.se/dokument/sfs-1974-152.json") == ("/se/sfs/1974/152", None)
+
+
+def test_sfs_numbers_with_a_balk_or_page_suffix() -> None:
+    """A few old statutes carry a suffix in their SFS number; every spelling of one number names one work."""
+    # the Riksdag's document id is the number as printed, colon replaced; the request URL percent-encodes the space
+    assert document_id("1736:0123 2") == "sfs-1736-0123 2"
+    assert document_id("1904:48 s.1") == "sfs-1904-48 s.1"
+    assert document_id("1907:36 s. 22") == "sfs-1907-36 s. 22"
+    assert document_id("1904:48s1") == "sfs-1904-48s1"
+    assert document_id(" 1810:0926 ") == "sfs-1810-0926"
+    for bad in ("1899:bih. 25", "N2026:3", "RFS1975:6", "1904:48 s.", "1904:48 x", "1736:0123 12", "../x", ""):
+        with pytest.raises(ManifestError, match="invalid SFS number"):
+            document_id(bad)
+    # one canonical spelling and one language-neutral work URI per statute
+    handelsbalk = parse_sfs_number("1736:0123 2")
+    assert handelsbalk is not None
+    assert (handelsbalk.year, handelsbalk.serial, handelsbalk.balk, handelsbalk.page) == (1736, "0123", "2", None)
+    assert (handelsbalk.canonical, handelsbalk.suffix) == ("1736:0123 2", "2")
+    assert handelsbalk.work_uri == "/se/sfs/1736/123-2"
+    for spelling in ("1904:48 s.1", "1904:48 s. 1", "1904:48s1", "1904:48  s.1"):
+        number = parse_sfs_number(spelling)
+        assert number is not None and (number.canonical, number.work_uri) == ("1904:48 s.1", "/se/sfs/1904/48-s1")
+    page = parse_sfs_number("1907:36 s. 22")
+    assert page is not None and (page.canonical, page.suffix) == ("1907:36 s.22", "s.22")
+    assert page.work_uri == "/se/sfs/1907/36-s22"
+    plain = parse_sfs_number("1810:0926")
+    assert plain is not None and (plain.canonical, plain.suffix) == ("1810:0926", None)
+    assert plain.work_uri == "/se/sfs/1810/926"
+    assert parse_sfs_number("1899:bih. 25") is None
+    # the publisher's URLs, encoded or not, resolve to the same work
+    for url in (
+        "https://data.riksdagen.se/dokument/sfs-1904-48%20s.1.json",
+        "https://data.riksdagen.se/dokument/sfs-1904-48 s.1",
+        "https://data.riksdagen.se/dokument/sfs-1904-48s1.html",
+    ):
+        assert resolve_uri(url) == ("/se/sfs/1904/48-s1", None)
+    assert resolve_uri("https://data.riksdagen.se/dokument/sfs-1736-0123%202.text") == ("/se/sfs/1736/123-2", None)
+    # codes are cited by name whatever their number; the title may space the page differently from the record
+    assert citation_name("1736:0123 2", "Handelsbalk (1736:0123 2)") == ("handelsbalken", "title")
+    assert citation_name("1907:36 s.22", "Lag (1907:36 s. 22) om nyttjanderätt") == (
+        "lagen (1907:36 s.22) om nyttjanderätt",
+        "title",
+    )
+
+
+def test_statutes_with_a_suffixed_number_parse_to_their_own_work() -> None:
+    """Handelsbalk (1736:0123 2), Byggningabalk (1736:0123 1), lagen (1904:48 s.1) and (1907:36 s.22): real records."""
+    hb = _doc("sfs-1736-0123-2")
+    assert (hb.work_uri, hb.number, hb.instrument_type, hb.work_date) == (
+        "/se/sfs/1736/123-2",
+        "1736:0123 2",
+        "act",
+        date(1736, 1, 23),
+    )
+    assert {k: hb.ext[k] for k in ("sfs_number", "year", "number", "suffix", "citation_name")} == {
+        "sfs_number": "1736:0123 2",
+        "year": 1736,
+        "number": 123,
+        "suffix": "2",
+        "citation_name": "handelsbalken",
+    }
+    assert hb.expression_uri == "/se/sfs/1736/123-2/swe@2025-10-17"
+    assert _cite(hb, "chapter-1-section-5-paragraph-1") == "1 kap. 5 § första stycket handelsbalken"
+    repealed = _one(hb, "chapter-1-section-2")  # repealed by a statute with a page suffix: recognised as a repeal note
+    assert (repealed.status, repealed.text) == ("repealed", "")
+    assert repealed.note == "2 § har upphävts genom lag (1905:38 s.1)."
+    # byggningabalken prints its repeal notes without "har" and names ordinances, pages and unknown statutes
+    bb = _doc("sfs-1736-0123-1")
+    assert (bb.work_uri, bb.ext["suffix"], bb.ext["citation_name"]) == ("/se/sfs/1736/123-1", "1", "byggningabalken")
+    for eid, note in (
+        ("chapter-9-section-1", "1 § upphävd genom förordning (1933:269)."),
+        ("chapter-10-section-6", "6 § har upphävts genom förordning (1946:804)."),
+        ("chapter-26-section-1", "1 § har upphävts genom förordning (1885:28 s. 4)."),
+        ("chapter-26-section-2", "2 § har upphävts genom förordning ?"),
+    ):
+        p = _one(bb, eid)
+        assert (p.status, p.text, p.note) == ("repealed", "", note), eid
+    chapters = {p.num_path[0] for p in bb.provisions if p.num_path}
+    assert "ch:7" not in chapters and "ch:28" not in chapters  # "7 kap. upphävd genom förordning (1860:56 s.3)."
+    assert _cite(bb, "chapter-2-section-1") == "2 kap. 1 § byggningabalken"
+    # a page suffix: the record spells "1904:48 s.1", the Riksdag's list also "1904:48s1"; one work, cited as printed
+    sam = _doc("sfs-1904-48-s.1")
+    assert (sam.work_uri, sam.ext["suffix"], sam.number) == ("/se/sfs/1904/48-s1", "s.1", "1904:48 s.1")
+    assert _cite(sam, "section-1-paragraph-1") == "1 § första stycket lagen (1904:48 s.1) om samäganderätt"
+    # the record prints "1907:36 s. 22", the title "(1907:36 s.22)": one canonical number; an enumeration whose items
+    # start "16 kap. och 17 kap. ..." and "13 kap. handelsbalken ..." is the text of 3 §, not chapter headings
+    nyttj = _doc("sfs-1907-36-s.22")
+    assert (nyttj.work_uri, nyttj.number, nyttj.ext["suffix"]) == ("/se/sfs/1907/36-s22", "1907:36 s.22", "s.22")
+    assert not any(p.num_path and p.num_path[0].startswith("ch:") for p in nyttj.provisions)
+    three = _one(nyttj, "section-3-paragraph-1")
+    assert three.text.startswith("Genom nya lagen upphäfvas:\n16 kap. och 17 kap. 1, 2 och 5 §§ jordabalken")
+    assert "kungl. brefvet den 17 oktober 1781" in three.text and "stridande mot nya lagens bestämmelser." in three.text
+    assert _one(nyttj, "section-10").status == "repealed"
 
 
 # --------------------------------------------------------------------------- connector

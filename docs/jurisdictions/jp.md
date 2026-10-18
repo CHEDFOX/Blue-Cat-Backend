@@ -1,9 +1,10 @@
 # Japan (national law) - `JP`
 
 Status: profile `draft_unverified` (0.1.0). The committed manifest lists **every law in force** that
-e-Gov 法令検索 names (8,989 laws, see "Widened to every law in force"); the real runs recorded in
-"Results" cover the original seven laws (two with their full revision history since 1 April 2017) and a
-35-law slice of the widened manifest. The full download has not been run here.
+e-Gov 法令検索 names (8,989 laws; regenerated 2026-10-18 from a list of 9,005 laws not repealed, 16 of which have no
+revision in force yet; see "Widened to every law in force"); the real runs recorded in "Results" cover the original seven
+laws (two with their full revision history since 1 April 2017), a 35-law slice of the widened manifest and a 5-law slice of
+the regenerated one. The full download has not been run here.
 
 ## Source
 
@@ -54,7 +55,7 @@ Licence review status: `approved` (project review; counsel review still recommen
 Language: Japanese only (`ja`). Indexed: preamble, articles (条), paragraphs (項), items (号),
 sub-items (号細分), the law's own original supplementary provisions (附則) and appended tables (別表).
 
-## Widened to every law in force (2026-10-15)
+## Widened to every law in force (2026-10-15, regenerated 2026-10-18)
 
 - **Manifest** `config/manifests/jp-egov-laws.yaml`, written by `python -m scripts.build_egov_manifest` from the
   API's own list endpoint, `GET /api/2/laws?repeal_status=None&limit=1000&offset=N` (10 requests; spec
@@ -89,6 +90,22 @@ sub-items (号細分), the law's own original supplementary provisions (附則) 
   pass**, 40,360 units. Searches (`ulis.cli search … --jurisdiction JP`): `予防接種の実施` → 予防接種実施規則第1条;
   `検疫感染症` → 検疫法施行令別表第二, 第2条の2第2項; `農薬の登録` → 農薬取締法第36条第1項; `豪雨による災害についての
   激甚災害` → the 2010 Cabinet Order 附則第1項 and 第1項.
+- **Regenerated 2026-10-18** (`python -m scripts.build_egov_manifest`: 10 list requests, plus one `laws?limit=1` request
+  for the unfiltered total). `total_count` **9,005** laws not repealed (9,003 on 2026-10-15); **16** of them have no
+  revision in force yet (`UnEnforced`, 14 before: e.g. 防衛特別所得税に関する政令 from 2027-01-01, 防災庁組織令 from
+  2026-11-02) and are left out, so **8,989 laws are listed: the same 8,989 ids** (0 added, 0 removed). Two titles changed in
+  the list: 323M40000100034 社会保険診療報酬支払基金法施行規則 → 医療情報基盤・診療報酬審査支払機構法施行規則, and 419M60000802002
+  (a 公安委員会 order under the 地域公共交通 act) shortened. The unfiltered list has 9,566 laws, so 561 are repealed, expired,
+  suspended or without effect (unchanged). `load-all --refresh` re-fetches only the laws already listed; new laws appear
+  after the builder is re-run (delete the cached pages `var/sources/laws.e-gov.go.jp/api2/laws/inforce-cur-offset*.xml`
+  first; `docs/deployment.md`, "Refresh").
+- **Scope of the API.** e-Gov 法令検索 holds 憲法・法律・政令・勅令・府省令・規則: the Constitution, Acts, Cabinet Orders,
+  Imperial Orders, Ministerial Ordinances and Rules. Notices (告示), the rules of the Diet and of the Supreme Court, and
+  treaties are not in e-Gov, so they are not in ULIS either (nor local ordinances or case law).
+- **Slice of the regenerated manifest** (2026-10-18, dev database `ulis_regen`): 5 laws (日本国憲法, the two retitled
+  ordinances above, メートル条約 119IO0000000000, which the API types as an Imperial Order, and 会計検査院規則の公布に関する規則
+  322R00000001001; 10 requests): 10 documents (5 revision lists, 5 texts), 5 instruments, 323 provision versions, 275
+  passages, **0 errors** (45 s). `verify-sources`: **10 of 10 pass** (texts 216, 73, 10, 20 and 4 units).
 - Not evaluated: e-Gov's bulk download of all laws (one file instead of 18,000 requests), which would need a
   different parser input and has no revision list.
 
@@ -194,9 +211,10 @@ Tests after widening (2026-10-16, own test database): full suite **1,291 passed*
 
 - History only for 刑法 and APPI and only from 1 April 2017; every other law is the revision in force on the
   day it was fetched (add `history: true` per law to widen, in a fresh database).
-- The full 8,989-law download has not been run (a slice of 35 has); the size figures above are estimates.
-- No notices, treaties, local ordinances or case law. Laws that are repealed, expired or not yet in force at all
-  are not ingested.
+- The full 8,989-law download has not been run (slices of 35 and of 5 have); the size figures above are estimates.
+- No notices (告示), Diet or Supreme Court rules, treaties, local ordinances or case law: they are not in e-Gov. Laws
+  that are repealed, expired or not yet in force at all are not ingested. New laws enter the manifest only when the
+  builder is re-run.
 - Supplementary provisions of amending laws (改正附則, including transitional and reading-substitution
   rules), the table of contents, the enacting formula, figures and forms are not indexed; furigana dropped.
 - Pending amendments are reported for the whole law, not linked to the provisions they change.

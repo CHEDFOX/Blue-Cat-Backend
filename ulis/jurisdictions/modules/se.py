@@ -82,9 +82,10 @@ ORDINALS = [
 
 class SeExt(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    sfs_number: str  # e.g. "1962:700"
+    sfs_number: str  # e.g. "1962:700"; a few old statutes carry a suffix: "1736:0123 2", "1904:48 s.1"
     year: int
     number: int
+    suffix: str | None = None  # the balk of the 1734 law ("2": handelsbalken) or the page ("s.1") in such a number
     citation_name: str  # e.g. "brottsbalken", "lagen (1982:80) om anställningsskydd"
     citation_name_basis: Literal["title", "fundamental_law", "established_short_name"] = "title"
     sections_per_chapter: bool = False  # sections restart in each chapter (cite the chapter)
@@ -115,7 +116,7 @@ def _parts(num_path: list[str]) -> dict[str, str]:
 
 class SeModule(JurisdictionModule):
     id: ClassVar[str] = "se"
-    version: ClassVar[str] = "1.2.0"
+    version: ClassVar[str] = "1.3.0"
     ext_model: ClassVar[type[BaseModel]] = SeExt
 
     def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:

@@ -26,7 +26,7 @@ coverage: >-
   Consolidated texts of the norms of the Spanish legal order prepared by the AEBOE's documentation services, with
   every intermediate version since the original publication, served by the BOE open-data API
   (https://www.boe.es/datosabiertos/api/legislacion-consolidada). ULIS ingests every State (ambito "Estatal") norm
-  of the API's list that is not repealed or spent in full - 6,826 on 2026-10-16: laws, royal decrees, orders,
+  of the API's list that is not repealed or spent in full - 6,826 on 2026-10-18: laws, royal decrees, orders,
   resolutions, circulars, instructions, agreements, international agreements and the older decrees - in Castilian
   Spanish with their full version history (see the manifest, generated from the list endpoint). The 1,988 norms marked
   vigencia_agotada = S (repealed or spent in full: not the law in force today) and the 3,620 norms of the autonomous
