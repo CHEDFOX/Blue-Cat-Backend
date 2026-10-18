@@ -34,7 +34,9 @@ coverage: >-
   "Nahezu das gesamte aktuelle Bundesrecht": federal Acts and ordinances in their currently
   applicable wording, continuously consolidated by the documentation unit of the Federal Office
   of Justice; one XML download per law. Current wording only (no earlier versions); amending
-  Acts themselves are not included. ULIS ingests a selected list of ten laws in German.
+  Acts themselves are not included. ULIS lists every norm of the publisher's table of contents
+  (gii-toc.xml: 6,141 laws and ordinances on 2026-10-18) in German; the manifest is regenerated
+  with scripts/build_gii_manifest.py --all to follow it.
 access:
   method: permitted_web_retrieval
   endpoint: config/manifests/de-gesetze-im-internet.yaml

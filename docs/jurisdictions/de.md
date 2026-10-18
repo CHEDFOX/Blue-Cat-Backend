@@ -1,13 +1,16 @@
 # Germany (DE): federal law from Gesetze im Internet
 
-Status: **pilot sample, draft unverified profile.** Ten federal laws, current consolidation only,
-German only. Research aid, not legal advice. Not reviewed by a German lawyer.
+Status: **every federal law and ordinance the publisher lists is in the manifest (6,141 norms on 2026-10-18); profile
+draft unverified.** Current consolidation only, German only. The real runs recorded here are the ten-law pilot of
+2026-10-14 (tables below), a 1,101-law trial from the cache (`docs/deployment.md`) and a five-law slice of the regenerated
+manifest (2026-10-18); the full load (at least 8.5 h of network time) has not been run here. Research aid, not legal
+advice. Not reviewed by a German lawyer.
 
 | | |
 |---|---|
 | Profile | `config/jurisdictions/de.yaml` (`DE`, parent `INT`, `draft_unverified`, version 0.1.0) |
 | Source | `config/sources/de-gesetze-im-internet.yaml` (`de-gesetze-im-internet`, active) |
-| Manifest | `config/manifests/de-gesetze-im-internet.yaml` (10 laws) |
+| Manifest | `config/manifests/de-gesetze-im-internet.yaml` (6,141 norms: every entry of the publisher's table of contents on 2026-10-18; `python scripts/build_gii_manifest.py --all`) |
 | Connector | `ulis/sources/connectors/gesetze_im_internet.py` (on `PoliteHttp`) |
 | Parser | `ulis/sources/parsers/gesetze_im_internet.py` (`gii_norm_xml` 1.0.0) |
 | Citations | `ulis/jurisdictions/modules/de.py` (`de`) |
@@ -43,10 +46,31 @@ Retrieval: `PoliteHttp` with User-Agent `ULIS-research-bot/0.1 (+https://github.
 pages above, the table of contents, and 12 `xml.zip` downloads: the ten laws, plus SGB I and
 GewStG while choosing the tax/social law). The DTD was never fetched.
 
-## What is ingested
+## Coverage: the publisher's whole table of contents (2026-10-18)
+
+- **What the manifest lists.** Every norm in the publisher's own table of contents,
+  https://www.gesetze-im-internet.de/gii-toc.xml (one `xml.zip` link per norm; `scripts/bulk_fetch_gii.py --limit 0`
+  fetches the file, one request, and `python scripts/build_gii_manifest.py --all` writes the manifest from it without
+  further requests). The table of contents holds the laws and ordinances (Gesetze und Rechtsverordnungen) of federal law
+  in their consolidated wording; the publisher describes the site as "nahezu das gesamte aktuelle Bundesrecht" (home page
+  and Hinweise, read 2026-10-14). Amending acts are not listed as norms of their own: their changes are worked into the
+  consolidated texts (a file the site lists but serves without text, about 2.6% in the 1,101-law trial, is counted as
+  skipped, not as an error).
+- **Count and date.** 6,141 norms on 2026-10-18. The manifest of 2026-10-16 had 6,139: the regeneration added
+  `patinfozbek_2026` (Bekanntmachung der Änderung der zur Entgegennahme von Patent-, Gebrauchsmuster-, Marken- und
+  Designanmeldungen befugten Patentinformationszentren) and `schuberdg` (Gesetz über den Zugang zu
+  Schuldnerberatungsdiensten für Verbraucher) and removed nothing; no title changed. The table of contents is daily
+  (Hinweise item 6), so the manifest is regenerated to follow it: `load-all --refresh` re-fetches only the norms already
+  listed (`docs/deployment.md`, "Refresh").
+- **Slice run** (2026-10-18, dev database `ulis_regen`, `scripts/ingest_in_batches.py --manifest` with the two new norms
+  and KSchG, VwVfG, BDSG; 5 requests): 5 documents, 5 instruments, 1,342 provision versions, 1,169 passages, **0 errors**
+  (22 s). `verify-sources`: **5 of 5 pass** (patinfozbek_2026 2 units, schuberdg 5, kschg 106, vwvfg 621, bdsg_2018 608).
+
+## What is ingested (the ten-law pilot, 2026-10-14)
 
 One `xml.zip` per law, stored byte-for-byte as downloaded on 2026-10-14 (UTC). "Build date" is
-`dokumente/@builddate`, used as version and currency date.
+`dokumente/@builddate`, used as version and currency date. The ten laws below were the pilot; the manifest now lists
+every norm of the table of contents (section above).
 
 | Law | Kind | Ausfertigung (work date) | Build date | Provision versions | of which repealed | Passages | SHA-256 of the download |
 |---|---|---|---|---|---|---|---|
@@ -162,8 +186,9 @@ Language `de` uses PostgreSQL's `german` text-search configuration (already conf
 
 ## Known gaps
 
-- Ten hand-picked federal laws only; no other federal law, no ordinances, no Land law, no EU law,
-  no case law.
+- Federal laws and ordinances as the publisher lists them; no Land law, no EU law, no case law. Norms the site lists
+  but serves without text (consumed amendment acts) are skipped. The full 6,141-norm load has not been run here
+  (a 1,101-law trial and slices have).
 - Current consolidation only; no per-provision dates in the source; earlier dates are a history
   gap. Not the authentic text (the Bundesgesetzblatt is not ingested).
 - Sentence numbers exist only where the source marks them (tax laws). Elsewhere citations stop at
