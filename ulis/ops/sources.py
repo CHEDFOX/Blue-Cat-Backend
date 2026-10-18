@@ -31,6 +31,7 @@ STATIC_PINS: dict[str, str] = {
     "pl-eli-sejm": "explicit list of consolidated texts; add newer ones to the manifest",
     "it-normattiva": "text as of the dates in the manifest; scripts/build_normattiva_manifest.py appends acts",
     "eu-eur-lex": "explicit CELEX list of the acts in force; regenerate with scripts/build_eu_manifest.py to refresh",
+    "fi-finlex": "pinned download package (size, SHA-256); move the pin with scripts/finlex_package.py --replace --pin",
 }
 
 # Sources that must be loaded after others, whatever their size. The pipeline never overwrites a stored wording and does
@@ -92,9 +93,15 @@ class ManifestInfo:
     git: bool  # fetched with a git clone rather than HTTP requests
     # hosts named in the manifest's settings and entries, not in its comments (whose robots.txt can set a floor)
     data_hosts: tuple[str, ...] = ()
+    # a manifest loaded from one download package (``mode: package`` with a pinned ``package.bytes``): its size, and
+    # the documents read from it (the requests the per-document route would make)
+    download_bytes: int | None = None
+    documents: int | None = None
 
     @property
     def weight(self) -> int:
+        if self.documents is not None:
+            return self.documents
         return self.requests if self.requests is not None else DEFAULT_ENTRIES
 
     @property
@@ -114,6 +121,8 @@ def _read(path: str, mtime_ns: int) -> ManifestInfo:
     requests: int | None = None
     delay: float | None = None
     git = False
+    download_bytes: int | None = None
+    documents: int | None = None
     if isinstance(data, dict):
         lists = [v for v in data.values() if isinstance(v, list)]
         main = max(lists, key=len) if lists else None
@@ -129,9 +138,13 @@ def _read(path: str, mtime_ns: int) -> ManifestInfo:
         raw_delay = data.get("crawl_delay_seconds")
         delay = float(raw_delay) if isinstance(raw_delay, int | float) else None
         git = "repository" in data
+        package = data.get("package")
+        if data.get("mode") == "package" and isinstance(package, dict) and isinstance(package.get("bytes"), int):
+            # robots.txt and one download (resumed if interrupted); a few per-document requests may come on top
+            download_bytes, documents, requests = package["bytes"], requests, 2
     hosts = tuple(sorted(url_hosts(raw)))
     data_hosts = tuple(sorted(url_hosts(_COMMENT_LINE.sub("", raw))))
-    return ManifestInfo(entries, requests, delay, hosts, git, data_hosts)
+    return ManifestInfo(entries, requests, delay, hosts, git, data_hosts, download_bytes, documents)
 
 
 def manifest_info(source: SourceDescriptor, base_dir: Path) -> ManifestInfo | None:

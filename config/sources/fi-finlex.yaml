@@ -20,28 +20,39 @@ coverage: >-
   (history: true). The API's in-force list names 38,585 statutes, but 33,006 are empty shells
   (title and metadata, no text) and are not ingested. Original statutes as published in the
   Statute Book (FRBR subtype "statute"), translations, case law and treaties are not ingested.
+  A full load reads the documents from Finlex's daily download package of the same collection
+  (statute-consolidated.zip, the same Akoma Ntoso documents as the API); single works can be
+  refreshed from the API.
 access:
-  method: api
+  method: bulk_download
   endpoint: config/manifests/fi-finlex.yaml
-  authentication: none (the API requires a User-Agent header; no registration)
+  authentication: >-
+    none (no registration; the download package is a public link on
+    https://www.finlex.fi/en/open-data/download-materials; the API requires a User-Agent header)
 update_frequency: >-
-  continuous - the API is updated shortly after publication; downloadable packages daily
-  (https://www.finlex.fi/en/open-data)
+  daily for the download package ("the packages are updated with new documents once a day",
+  https://www.finlex.fi/en/open-data/download-materials); continuous for the API ("updated with a
+  small delay when the document is published", https://www.finlex.fi/en/open-data). The manifest
+  pins one package (size and SHA-256); scripts/finlex_package.py moves the pin to a newer one.
 rate_limits: >-
   No numeric limit is published. "User volumes ... may be restricted to ensure service availability. If the number of
   calls is being restricted, the service will return the http error code 429 Too Many Requests"
   (https://www.finlex.fi/en/open-data/integration-quick-guide, read 2026-10-18); "You can call the API without
   identification or registration." The OpenAPI file https://opendata.finlex.fi/Finlex_avoin_data_v0_4_0.yaml has no rate
   or quota text. opendata.finlex.fi has no robots.txt (404 on 2026-10-18); www.finlex.fi/robots.txt disallows only
-  /_next/image and sets no Crawl-delay. ULIS sends one request per 1 s (start to start; the project minimum; the API
-  host's robots.txt is checked before the first request of each run and a Crawl-delay there would win), one connection,
-  with an identifying User-Agent, and backs off on 429/5xx honouring Retry-After; a 429 that persists stops the run and
-  is never retried faster. The manifest needs about 11,140 requests: about 3.1 hours at 1 s (about 4.6 h if latency
-  adds), against 15.4 h at the earlier 5 s. Building it took about 3,900 list requests (the list endpoint returns at
-  most 10 entries a page) and 2 Range requests to the download package
-  https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip (only its central directory was read). That
-  package (4.4 GB, updated daily, CC BY 4.0, byte-identical to the API for the document compared on 2026-10-18) would
-  be faster still but needs a package connector; it is not used yet.
+  /_next/image and sets no Crawl-delay (read again on 2026-10-18 before the package download; the package path is
+  allowed). A full load now downloads one file, the package
+  https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip (4,397,198,140 bytes, Last-Modified Sat, 17
+  Oct 2026 23:27:28 GMT, SHA-256 8c07c5b9...3e45): robots.txt, then one GET, resumed with Range/If-Range if the
+  transfer breaks; on 2026-10-18 it took 3 requests and 143.5 s. The package is read locally (the manifest's 11,126
+  documents in 10.3 s), and about 23 requests still go to the API (14 documents whose package copy names a newer
+  amendment, 8 history versions the package lacks, robots.txt). Per request, ULIS sends one request per 1 s (start to start; the
+  project minimum; each host's robots.txt is checked before the first request of a run and a Crawl-delay there would
+  win), one connection, with an identifying User-Agent; the API route backs off on 429/5xx honouring Retry-After, the
+  package download stops at the first 401/403/429/451, and a 429 is never retried faster. The per-document API route
+  (kept for refreshing single works) needs about 11,140 requests for the whole manifest: about 3.1 hours at 1 s (15.4 h
+  at the earlier 5 s). Building the manifest took about 3,900 list requests (the list endpoint returns at most 10
+  entries a page) and 2 Range requests for the package's central directory.
 licence:
   id: CC-BY-4.0
   name: Creative Commons Attribution 4.0 International (Finlex open data)
@@ -59,7 +70,12 @@ licence:
     documentation: https://www.finlex.fi/en/open-data,
     https://www.finlex.fi/en/open-data/integration-quick-guide ("You can call the API without
     identification or registration"; "All endpoints require you to set 'User-Agent'-header"),
-    OpenAPI description https://opendata.finlex.fi/Finlex_avoin_data_v0_4_0.yaml.
+    OpenAPI description https://opendata.finlex.fi/Finlex_avoin_data_v0_4_0.yaml. Download package (reviewed
+    2026-10-18): the open data page defines open data as both routes ("To access the open data, you can perform
+    searches using a REST application programming interface (API) or access a user interface to download data
+    packages", https://www.finlex.fi/en/open-data); the download page offers the packages as plain links with no
+    sign-up or terms of its own ("Updated legislation (4.1 GB)", https://www.finlex.fi/en/open-data/download-materials),
+    so the FAQ's CC BY 4.0 grant and its privacy conditions apply to them too.
   reviewed_on: 2026-10-14
   redistribution: allowed_with_conditions
   bulk_download: allowed
@@ -82,10 +98,16 @@ licence:
     open data (metadata, structure, editorial notes) as published. Counsel review still
     recommended before production use.
 provenance: >-
+  Package route: https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip, downloaded once with an
+  identifying User-Agent into var/sources/www.finlex.fi/files/open-data/archives/ with its size, SHA-256, ETag,
+  Last-Modified and retrieval time (.meta.json), checked against the manifest's pin and read in place; each document is
+  the member akn/fi/act/statute-consolidated/{year}/{number}/{fin|swe}@{version}/main.xml exactly as stored (CRC-32
+  checked, its own FRBRuri checked against the member path), recorded with the URI <package URL>#<member>. API route:
   https://opendata.finlex.fi/finlex/avoindata/v1/akn/fi/act/statute-consolidated/{year}/{number}/{fin|swe}@{version}
   fetched with an identifying User-Agent; every response cached with its URL and retrieval time
   under var/sources/opendata.finlex.fi/. Responses are gzip-encoded; the decoded XML is stored
-  unchanged (SHA-256 addressed).
+  unchanged (SHA-256 addressed). Both routes serve the same bytes for an unchanged document (25 of 38 compared on
+  2026-10-18; see docs/jurisdictions/fi.md).
 known_limitations:
   - Consolidated text prepared by Finlex's editors; not authentic. The authentic Finnish and Swedish texts are the statutes as published in the Statute Book of Finland.
   - The consolidation lags publication; the source's consolidation date (dateConsolidated) is reported as the currency date.
@@ -93,6 +115,14 @@ known_limitations:
   - The Finnish and Swedish versions occasionally differ in structure or in amendment markers; each is recorded as published.
   - Earlier temporal versions are not available from the API for every Act (e.g. the Constitution's earlier versions answer 404). Only two Acts are ingested with their history; the others are the latest consolidated version.
   - Most statutes in force (33,006 of 38,585) are shells without text and are not ingested; a size threshold on the download package's index separates them, so a text document under 5.5 KB would be missed and about one listed statute in seven turns out to be a shell (skipped at ingest).
+  - >-
+    The download package lags the API. A package rebuilt on 2026-10-17 lacked the temporal versions of amending
+    statutes 871-887/2026 (consolidated 2026-10-08/09) for some works; the connector takes a work from the API when the
+    package's own metadata names an amending statute newer than its latest member (14 of the 11,108 documents), but a
+    newer version that no package member mentions is not detected until a later package. The publisher also rewrites
+    documents without a new version (reference targets, metadata order; 9 of 38 compared within a day); re-ingesting
+    such a document over the stored one is refused by the pipeline ("already recorded from different source bytes")
+    and the stored text is kept.
   - The list endpoint's pages overlap slightly (about 0.7 % duplicate entries), so a few statutes in force may be missing from the manifest; re-running scripts/build_finlex_manifest.py with a warm cache adds none without new list requests, so a later run is needed to fill gaps.
 status: active
 connector: finlex

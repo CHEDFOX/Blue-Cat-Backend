@@ -105,9 +105,11 @@ def archive_text_sizes(http: PoliteHttp) -> dict[tuple[int, str], dict[str, int]
         raise SystemExit(f"read {count} central directory entries, the archive says {entries}")
     sizes: dict[tuple[int, str], dict[str, int]] = defaultdict(dict)
     for (year, number, lang), versions in members.items():
-        current = [size for version, size in versions if version == ""]
-        # "fin@" is the current version; a statute without one is known by its (only or newest) version number
-        sizes[(year, number)][lang] = current[0] if current else max(versions)[1]
+        # The latest document is the highest-numbered temporal version; "fin@" (no number) is the statute as enacted,
+        # the latest only when there is no other (checked against the API's @latest on 2026-10-18; the earlier rule,
+        # "fin@ first", gave the same manifest: no statute crosses MIN_TEXT_BYTES between the two).
+        numbered = [(version, size) for version, size in versions if version]
+        sizes[(year, number)][lang] = max(numbered)[1] if numbered else versions[0][1]
     return sizes
 
 
