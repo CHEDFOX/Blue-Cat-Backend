@@ -5,7 +5,10 @@
 #
 # First go-live: laws in force of the countries whose national collection is listed in full from the publisher's own index,
 # with a clear licence (docs/go-live.md). EU, France, Netherlands, Latvia and the other launch markets follow.
-markets: [US, CA, AU, GB, DE, ES, SE, FI, JP]
+# Launch set (docs/markets/launch-markets.md, 2026-10-18): the five markets whose complete laws in force are delivered
+# first are US (federal), GB, FR, DE and the EU; CA, AU, ES, SE, FI and JP load as well because their national
+# collections are listed in full and licensed.
+markets: [US, GB, FR, DE, EU, CA, AU, ES, SE, FI, JP]
 
 # Sources of those countries that are not loaded at go-live because they cover only part of their jurisdiction (a few
 # states, provinces or sample files), so that an answer would look complete when it is not.
