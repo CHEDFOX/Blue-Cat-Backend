@@ -561,16 +561,21 @@ def parse_ecfr(content: bytes) -> list[ParsedDocument]:
     except ValueError as exc:
         raise EcfrParseError("envelope lacks a title number or a Last-Modified date") from exc
     version_date = modified.date()
-    part_el = root.find("DIV5")
-    if part_el is None or part_el.get("TYPE") != "PART":
+    part_els = root.findall("DIV5")
+    if not part_els or any(el.get("TYPE") != "PART" for el in part_els):
         raise EcfrParseError("envelope holds no CFR part")
+    part_el = part_els[0]  # a part printed across several volumes comes as several chunks; the first names it
     part_no = (part_el.get("N") or "").strip()
+    if any((el.get("N") or "").strip() != part_no for el in part_els[1:]):
+        raise EcfrParseError("envelope mixes the chunks of different CFR parts")
     ctx = _Ctx()
     head = _ws(_flat(part_el.find("HEAD"), ctx)) if part_el.find("HEAD") is not None else ""
     heading = re.sub(r"^PARTS?\s+\S+\s*[—–-]\s*", "", head).strip() or head
+    heading = re.sub(r"\s*\(continued\)\s*$", "", heading, flags=re.I).strip() or heading
     builder = _PartBuilder()
-    for unit in _units(part_el):
-        builder.add_unit(unit)
+    for chunk in part_els:
+        for unit in _units(chunk):
+            builder.add_unit(unit)
     if not builder.provisions:
         raise ParseSkipped(f"{title_no} CFR part {part_no} has no section or appendix text (reserved or removed)")
 

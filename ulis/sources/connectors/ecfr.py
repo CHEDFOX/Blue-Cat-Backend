@@ -72,11 +72,16 @@ class TitleSplit:
     part_numbers: list[str] = field(default_factory=list)
 
     def parts(self) -> Iterator[tuple[str, bytes]]:
+        """One envelope per part. A part printed across several volumes appears in the title file as several
+        ``DIV5`` elements with the same number (the later ones headed "(CONTINUED)"); they are one part and are
+        yielded as one envelope holding every chunk, in document order, under the first chunk's ancestors."""
         data = self.data
         stack: list[tuple[int, bytes, bytes, bytes]] = []  # (level, N, TYPE, HEAD element)
         amddate = b""
         pos = 0
         inside = 0
+        chunks: dict[str, list[bytes]] = {}
+        context: dict[str, tuple[bytes, list[tuple[int, bytes, bytes, bytes]]]] = {}
         while True:
             m = _TITLE_TAG.search(data, pos)
             if m is None:
@@ -116,9 +121,15 @@ class TitleSplit:
                 continue
             if not _PART_NUMBER.match(number):
                 raise ManifestError(f"title {self.title}: unexpected part number {number!r}")
-            self.part_numbers.append(number)
-            yield number, self._envelope(amddate, stack, body)
+            if number not in chunks:
+                chunks[number] = []
+                context[number] = (amddate, list(stack))
+            chunks[number].append(body)
         self.outside_parts = data.count(b"<DIV8 ") + data.count(b"<DIV9 ") - inside
+        for number, bodies in chunks.items():
+            self.part_numbers.append(number)
+            first_amddate, first_stack = context[number]
+            yield number, self._envelope(first_amddate, first_stack, b"\n".join(bodies))
 
     def _envelope(self, amddate: bytes, stack: list[tuple[int, bytes, bytes, bytes]], body: bytes) -> bytes:
         attrs = " ".join(

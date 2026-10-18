@@ -662,3 +662,49 @@ def test_a_part_with_no_number_and_only_a_reserved_appendix_heading_is_an_empty_
     numberless_with_sections = part_5.replace(b'N="5"', b'N=""')
     with pytest.raises(ManifestError, match="unexpected part number ''"):
         list(TitleSplit(head + numberless_with_sections + tail, 24, title_url(24), stamp, "0" * 64).parts())
+
+
+def test_a_part_printed_across_several_volumes_is_one_envelope_and_one_document() -> None:
+    """26 CFR part 1 fills fifteen volumes: GPO's title file holds fifteen ``<DIV5 N="1" TYPE="PART">`` elements,
+    the later ones headed "PART 1-INCOME TAXES (CONTINUED)". The first full load stored the first chunk only and
+    refused the fourteen others as a different document with the same version. They are one part now: one envelope
+    holding every chunk, parsed into one document whose sections come from all of them."""
+    head = (
+        b'<?xml version="1.0"?><ECFR><DIV1 N="Title 26" TYPE="TITLE"><HEAD>Title 26</HEAD>'
+        b'<DIV3 N="I" TYPE="CHAPTER"><HEAD>CHAPTER I-INTERNAL REVENUE SERVICE</HEAD>'
+    )
+    chunk_1 = (
+        b'<DIV5 N="1" NODE="26:1.0.1.1.1" TYPE="PART"><HEAD>PART 1-INCOME TAXES</HEAD>'
+        b"<AUTH><HED>Authority:</HED><PSPACE>26 U.S.C. 7805, unless otherwise noted.</PSPACE></AUTH>"
+        b'<DIV8 N="\xc2\xa7 1.1-1" NODE="26:1.0.1.1.1.0.1.1" TYPE="SECTION">'
+        b"<HEAD>\xc2\xa7 1.1-1 Income tax on individuals.</HEAD>"
+        b"<P>(a) General rule.</P></DIV8></DIV5>"
+    )
+    between = (
+        b'</DIV3></DIV1><DIV1 N="Title 26" TYPE="TITLE"><HEAD>Title 26</HEAD>'
+        b'<DIV3 N="I" TYPE="CHAPTER"><HEAD>CHAPTER I-INTERNAL REVENUE SERVICE (CONTINUED)</HEAD>'
+    )
+    chunk_2 = (
+        b'<DIV5 N="1" NODE="26:2.0.1.1.1" TYPE="PART"><HEAD>PART 1-INCOME TAXES (CONTINUED)</HEAD>'
+        b"<AUTH><HED>Authority:</HED><PSPACE>26 U.S.C. 7805, unless otherwise noted.</PSPACE></AUTH>"
+        b'<DIV8 N="\xc2\xa7 1.61-1" NODE="26:2.0.1.1.1.0.1.1" TYPE="SECTION"><HEAD>\xc2\xa7 1.61-1 Gross income.</HEAD>'
+        b"<P>(a) General definition.</P></DIV8></DIV5>"
+    )
+    part_2 = (
+        b'<DIV5 N="2" NODE="26:2.0.1.1.2" TYPE="PART"><HEAD>PART 2-MARITIME CONSTRUCTION RESERVE FUND</HEAD>'
+        b'<DIV8 N="\xc2\xa7 2.1-1" NODE="26:2.0.1.1.2.0.1.1" TYPE="SECTION"><HEAD>\xc2\xa7 2.1-1 Definitions.</HEAD>'
+        b"<P>(a) As used in the regulations in this part.</P></DIV8></DIV5>"
+    )
+    tail = b"</DIV3></DIV1></ECFR>"
+    stamp = datetime(2026, 10, 13, 20, 47, 54, tzinfo=UTC)
+    split = TitleSplit(head + chunk_1 + between + chunk_2 + part_2 + tail, 26, title_url(26), stamp, "0" * 64)
+    parts = dict(split.parts())
+    assert list(parts) == ["1", "2"] and split.part_numbers == ["1", "2"] and split.outside_parts == 0
+    assert parts["1"].count(b"<DIV5 ") == 2 and chunk_1 in parts["1"] and chunk_2 in parts["1"]
+    doc = parse_ecfr(parts["1"])[0]
+    assert doc.work_uri == "/us/cfr/t26/p1" and doc.short_title == "26 CFR Part 1"
+    assert "(continued)" not in doc.work_title.lower() and doc.work_title.endswith("Income Taxes")
+    assert {p.num_path[0] for p in doc.provisions if p.kind == "section"} == {"1.1-1", "1.61-1"}
+    assert len(parse_ecfr(parts["2"])[0].provisions) >= 1
+    with pytest.raises(EcfrParseError, match="mixes the chunks"):
+        parse_ecfr(parts["1"].replace(b'<DIV5 N="1" NODE="26:2.0.1.1.1"', b'<DIV5 N="9" NODE="26:2.0.1.1.1"'))
