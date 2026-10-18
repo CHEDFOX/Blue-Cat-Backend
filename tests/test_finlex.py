@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import gzip
+import io
 import json
 import shutil
 from collections.abc import Iterator
@@ -24,7 +25,15 @@ from ulis.retrieval.lookup import provision_at
 from ulis.retrieval.search import SearchRequest, search
 from ulis.settings import REPO_ROOT
 from ulis.sources.connectors.base import RawDocument
-from ulis.sources.connectors.finlex import FetchError, FinlexConnector, history_version_ids, version_dates
+from ulis.sources.connectors.finlex import (
+    API,
+    PACKAGE_URL,
+    FetchError,
+    FinlexConnector,
+    PackageChanged,
+    history_version_ids,
+    version_dates,
+)
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.normalized import ParseSkipped
 from ulis.sources.parsers.finlex import (
@@ -521,4 +530,398 @@ def test_a_decision_is_ingested_and_found_in_both_languages(
     )
     assert sv["results"][0]["citation"] == (
         "Skatteförvaltningens beslut om uppgifter som ska lämnas i bilskattedeklarationen (718/2024) 1 § 1 mom."
+    )
+
+
+# --------------------------------------------------------------------------- download package (mode: package)
+
+SAMPLE_ZIP = REPO_ROOT / "tests" / "fixtures" / "finlex" / "package" / "statute-consolidated-sample.zip"
+SAMPLE = "akn/fi/act/statute-consolidated"
+LATEST_SAME_AS_API = [  # (work, language, package member version): the API's @latest is byte-identical
+    ("2024/718", "fin", ""),
+    ("2024/718", "swe", ""),
+    ("1932/246", "fin", ""),
+    ("2020/1175", "fin", "20220521"),
+    ("2009/330", "fin", "20250869"),
+    ("2009/330", "swe", "20250869"),
+]
+
+
+def _pin(path: Path) -> dict[str, Any]:
+    import hashlib
+
+    return {
+        "url": PACKAGE_URL,
+        "bytes": path.stat().st_size,
+        "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "last_modified": "Sat, 17 Oct 2026 23:27:28 GMT",
+        "retrieved_at": "2026-10-18T11:57:24.666915+00:00",
+    }
+
+
+def _package_connector(tmp_path: Path, works: list[dict[str, Any]], package: Path | None = SAMPLE_ZIP, **kw: Any):  # type: ignore[no-untyped-def]
+    cache = tmp_path / "cache"
+    if not cache.exists():
+        shutil.copytree(CACHE, cache)
+    conn = _connector(cache, tmp_path, works, package_file=package, **kw)
+    manifest = yaml.safe_load(conn.manifest_path.read_text())
+    manifest.update(mode="package", package=_pin(package or SAMPLE_ZIP))  # no local copy: the download is pinned
+    conn.manifest_path.write_text(yaml.safe_dump(manifest))
+    return conn
+
+
+def test_package_route_reads_the_same_documents_as_the_api_route(tmp_path: Path) -> None:
+    works = [
+        {"year": 2024, "number": "718"},  # only the version as enacted ("fin@") in the package
+        {"year": 1932, "number": "246", "languages": ["fin"]},  # a shell
+        {"year": 2020, "number": "1175", "languages": ["fin"]},  # "fin@" and two later versions: the latest is 20220521
+        {"year": 2009, "number": "330"},  # numbered versions only
+    ]
+    conn = _package_connector(tmp_path, works, offline=True)
+    docs = list(conn.fetch())
+    assert [d.external_id.removeprefix("finlex:statute-consolidated/") for d in docs] == [
+        "2024/718/fin@20240718",
+        "2024/718/swe@20240718",
+        "1932/246/fin@19320246",
+        "2020/1175/fin@20220521",
+        "2009/330/fin@20250869",
+        "2009/330/swe@20250869",
+    ]
+    for doc, (work, lang, version) in zip(docs, LATEST_SAME_AS_API, strict=True):
+        member = f"{SAMPLE}/{work}/{lang}@{version}/main.xml"
+        assert doc.uri == f"{PACKAGE_URL}#{member}" and doc.metadata["member"] == member
+        assert doc.retrieved_at == datetime.fromisoformat("2026-10-18T11:57:24.666915+00:00")
+        # The member's main.xml is the API's response for the same statute, byte for byte (fixtures fetched from
+        # the API on 2026-10-14/15 and 2026-10-18), so the parser gives the same documents.
+        api = _read(ACTS / work / f"{lang}@latest")
+        assert doc.content == api
+        try:
+            expected = parse_finlex(api)
+        except ParseSkipped as exc:  # the shell and the statute no longer in force: skipped on both routes
+            with pytest.raises(ParseSkipped, match=str(exc).split("(")[0]):
+                parse_finlex(doc.content)
+        else:
+            assert parse_finlex(doc.content) == expected
+    assert conn.fetch_errors == [] and conn.package_fallbacks == [] and conn.http is not None
+    assert conn.http.requests_made == 0  # nothing was asked of the API
+    assert conn.package_meta is not None and conn.package_meta["sha256"] == _pin(SAMPLE_ZIP)["sha256"]
+
+
+def test_package_route_history_and_what_it_takes_from_the_api(tmp_path: Path) -> None:
+    works = [
+        # history: the version as enacted is the member "fin@"; 20240029 is not in the sample package, so it is
+        # asked of the API (here a cached 404, reported like on the API route)
+        {
+            "year": 2018,
+            "number": "1050",
+            "history": True,
+            "history_versions": ["20181050", "20240029", "20250437"],
+            "languages": ["fin"],
+        },
+        # the package's latest version is 20250006, but its members' metadata name 871/2026: the API's @latest
+        {"year": 2023, "number": "64", "languages": ["fin"]},
+        # not in the package at all: the API, as on the API route
+        {"year": 1999, "number": "731", "languages": ["swe"]},
+    ]
+    conn = _package_connector(tmp_path, works, offline=True)
+    tsl = tmp_path / "cache" / ACTS.relative_to(CACHE) / "2018" / "1050"
+    (tsl / "fin@20240029").write_bytes(b"")
+    (tsl / "fin@20240029.meta.json").write_text(json.dumps({"url": "x", "status": 404}))
+    docs = list(conn.fetch())
+    assert [d.external_id.removeprefix("finlex:statute-consolidated/") for d in docs] == [
+        "2018/1050/fin@20181050",
+        "2018/1050/fin@20250437",
+        "2018/1050/fin@20260380",
+        "2023/64/fin@20260871",
+        "1999/731/swe@20180817",
+    ]
+    assert [d.uri.split("#")[-1] for d in docs[:3]] == [
+        f"{SAMPLE}/2018/1050/fin@/main.xml",
+        f"{SAMPLE}/2018/1050/fin@20250437/main.xml",
+        f"{SAMPLE}/2018/1050/fin@20260380/main.xml",
+    ]
+    # The version as enacted in the package is the API's fin@20181050, byte for byte (fetched 2026-10-18).
+    assert docs[0].content == _read(TSL / "fin@20181050")
+    assert docs[3].uri.startswith(API) and docs[4].uri.startswith(API)
+    assert conn.missing_versions == ["statute-consolidated/2018/1050/fin@20240029"]
+    assert conn.package_fallbacks == [
+        "finlex:statute-consolidated/2023/64/fin: the package's latest version is 20250006, but its metadata names "
+        "20260871; fetched from the API",
+        "finlex:statute-consolidated/1999/731/swe: not in the package; fetched from the API",
+    ]
+
+
+def test_package_route_loads_only_the_pinned_package(tmp_path: Path) -> None:
+    conn = _package_connector(tmp_path, [{"year": 2024, "number": "718"}], offline=True)
+    manifest = yaml.safe_load(conn.manifest_path.read_text())
+    for change, message in [
+        ({"sha256": "0" * 64}, "not the one the manifest pins"),
+        ({"bytes": 1}, "not the one the manifest pins"),
+    ]:
+        conn.manifest_path.write_text(yaml.safe_dump({**manifest, "package": {**manifest["package"], **change}}))
+        with pytest.raises(PackageChanged, match=message):
+            list(conn.fetch())
+    for change, message in [
+        ({"url": "https://example.org/statute-consolidated.zip"}, "url is"),
+        ({"sha256": "abc"}, "SHA-256"),
+        ({"bytes": "4 GB"}, "bytes"),
+        ({"retrieved_at": None}, "retrieved_at"),
+    ]:
+        conn.manifest_path.write_text(yaml.safe_dump({**manifest, "package": {**manifest["package"], **change}}))
+        with pytest.raises(ManifestError, match=message):
+            conn._manifest()
+    conn.manifest_path.write_text(yaml.safe_dump({**manifest, "mode": "bulk"}))
+    with pytest.raises(ManifestError, match="mode"):
+        conn._manifest()
+    # Offline without a cached package (and no local copy): nothing is downloaded.
+    conn.manifest_path.write_text(yaml.safe_dump(manifest))
+    no_copy = FinlexConnector(conn.manifest_path, "fi-finlex", tmp_path / "empty", offline=True)
+    with pytest.raises(FetchError, match="offline and not cached"):
+        list(no_copy.fetch())
+
+
+def test_api_mode_overrides_the_manifest_for_single_works(tmp_path: Path) -> None:
+    conn = _package_connector(tmp_path, [{"year": 2024, "number": "718"}], offline=True, mode="api")
+    docs = list(conn.fetch())
+    assert [d.uri for d in docs] == [
+        f"{API}/akn/fi/act/statute-consolidated/2024/718/fin@20240718",
+        f"{API}/akn/fi/act/statute-consolidated/2024/718/swe@20240718",
+    ]
+    assert conn.package_meta is None  # the package was not opened
+
+
+def test_a_package_member_that_is_not_its_document_is_reported(tmp_path: Path) -> None:
+    import zipfile
+
+    bad = tmp_path / "bad.zip"
+    with zipfile.ZipFile(SAMPLE_ZIP) as src, zipfile.ZipFile(bad, "w") as dst:
+        dst.writestr(f"{SAMPLE}/2024/719/fin@/main.xml", src.read(f"{SAMPLE}/2024/718/fin@/main.xml"))
+        dst.writestr(f"{SAMPLE}/2024/718/fin@/main.xml", src.read(f"{SAMPLE}/2024/718/fin@/main.xml"))
+    works = [
+        {"year": 2024, "number": "719", "languages": ["fin"]},
+        {"year": 2024, "number": "718", "languages": ["fin"]},
+    ]
+    conn = _package_connector(tmp_path, works, package=bad, offline=True)
+    docs = list(conn.fetch())
+    assert [d.external_id for d in docs] == ["finlex:statute-consolidated/2024/718/fin@20240718"]
+    assert len(conn.fetch_errors) == 1
+    assert "is not /akn/fi/act/statute-consolidated/2024/719/fin@" in conn.fetch_errors[0]
+
+
+def test_committed_manifest_loads_from_the_pinned_package(tmp_path: Path, catalog: Catalog) -> None:
+    from ulis.ops.loading import LoadOptions, Selection, format_plan
+    from ulis.ops.sources import STATIC_PINS, manifest_info
+
+    manifest = FinlexConnector(REPO_ROOT / "config/manifests/fi-finlex.yaml", "fi-finlex", tmp_path)._manifest()
+    assert manifest["mode"] == "package"
+    pin = manifest["package"]
+    assert pin["url"] == PACKAGE_URL and pin["bytes"] == 4_397_198_140
+    assert pin["sha256"] == "8c07c5b96f4d5063b841bb156eb204fb8f783c6e96d34c810555200aa7ce3e45"
+    assert pin["last_modified"] == "Sat, 17 Oct 2026 23:27:28 GMT"
+    # The load plan counts one download, not 11,000 requests; the weekly refresh leaves a pinned package alone.
+    info = manifest_info(catalog.sources.get("fi-finlex"), REPO_ROOT)
+    assert info is not None and info.requests == 2 and info.download_bytes == pin["bytes"]
+    assert info.weight == info.documents and info.documents is not None and info.documents > 11_000
+    assert "www.finlex.fi" in info.data_hosts and "fi-finlex" in STATIC_PINS
+    from ulis.ops.loading import PlanItem
+
+    plan = format_plan(Selection(selected=[PlanItem(catalog.sources.get("fi-finlex"), info)]), LoadOptions())
+    assert ">= 2s + 4.1 GB" in plan and "fi-finlex 4.1 GB" in plan
+
+
+def test_the_refresh_script_rewrites_only_the_pin() -> None:
+    """scripts/finlex_package.py --pin replaces the manifest's package block and nothing else."""
+    from scripts.finlex_package import _BLOCK, pin_block
+
+    text = (REPO_ROOT / "config/manifests/fi-finlex.yaml").read_text(encoding="utf-8")
+    pin = yaml.safe_load(text)["package"]
+    assert _BLOCK.sub(lambda _m: pin_block(pin), text, count=1) == text  # the committed pin round-trips
+    newer = {**pin, "bytes": 4_400_000_000, "sha256": "a" * 64, "etag": '"new-526"'}
+    moved = yaml.safe_load(_BLOCK.sub(lambda _m: pin_block(newer), text, count=1))
+    assert moved["package"] == newer and moved["works"] == yaml.safe_load(text)["works"]
+
+
+# --------------------------------------------------------------------------- download (fake server, no network)
+
+
+class _Served(io.BytesIO):
+    """A response of the fake server: ``cut`` bytes are sent, then the connection breaks."""
+
+    def __init__(self, data: bytes, status: int, headers: dict[str, str], url: str, cut: int | None = None):
+        super().__init__(data)
+        self.status, self.headers, self._url, self._cut = status, headers, url, cut
+
+    def read(self, n: int | None = -1) -> bytes:
+        if self._cut is not None and self.tell() >= self._cut:
+            raise ConnectionResetError("connection reset by peer")
+        if self._cut is not None and n is not None and n > 0:
+            n = min(n, self._cut - self.tell())
+        return super().read(n)
+
+    def geturl(self) -> str:
+        return self._url
+
+    def __enter__(self) -> _Served:
+        return self
+
+    def __exit__(self, *exc: Any) -> None:
+        pass
+
+
+class _Server:
+    """www.finlex.fi as the connector sees it: robots.txt, then the package (with ETag and Range support)."""
+
+    def __init__(self, payload: bytes, *, etag: str = '"v1"', cut: int | None = None, refuse: int | None = None):
+        self.payload, self.etag, self.cut, self.refuse = payload, etag, cut, refuse
+        self.rebuilt_after_cut: str | None = None
+        self.requests: list[dict[str, str]] = []
+        self.robots = b"User-Agent: *\nDisallow: /_next/image\n"
+
+    def __call__(self, request: Any, timeout: float = 0, **kw: Any) -> _Served:
+        import urllib.error
+
+        headers = {k.lower(): v for k, v in request.header_items()}
+        self.requests.append({"url": request.full_url, **headers})
+        if request.full_url.endswith("/robots.txt"):
+            return _Served(self.robots, 200, {"Content-Type": "text/plain"}, request.full_url)
+        if self.refuse:
+            raise urllib.error.HTTPError(request.full_url, self.refuse, "refused", {}, None)  # type: ignore[arg-type]
+        common = {"ETag": self.etag, "Last-Modified": "Sat, 17 Oct 2026 23:27:28 GMT"}
+        start = int(headers["range"].removeprefix("bytes=").rstrip("-")) if "range" in headers else 0
+        if start and headers.get("if-range") == self.etag:
+            body = self.payload[start:]
+            content_range = f"bytes {start}-{len(self.payload) - 1}/{len(self.payload)}"
+            return _Served(body, 206, {**common, "Content-Range": content_range}, request.full_url)
+        cut, self.cut = self.cut, None  # the connection breaks once
+        if cut is not None and self.rebuilt_after_cut:
+            self.etag = self.rebuilt_after_cut  # the publisher rebuilds the package while the transfer is broken
+        return _Served(self.payload, 200, {**common, "Content-Length": str(len(self.payload))}, request.full_url, cut)
+
+
+def _download(tmp_path: Path, server: _Server, monkeypatch: pytest.MonkeyPatch, pin: bool = True):  # type: ignore[no-untyped-def]
+    monkeypatch.setattr("urllib.request.urlopen", server)
+    sleeps: list[float] = []
+    conn = _package_connector(tmp_path, [{"year": 2024, "number": "718"}], package=None, sleep=sleeps.append)
+    manifest = yaml.safe_load(conn.manifest_path.read_text())
+    return conn, manifest, sleeps
+
+
+def test_download_resumes_an_interrupted_transfer_politely(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    payload = SAMPLE_ZIP.read_bytes()
+    server = _Server(payload, cut=30_000)
+    conn, manifest, sleeps = _download(tmp_path, server, monkeypatch)
+    path, meta = conn.download_package(manifest)
+    assert path.read_bytes() == payload and path == conn.package_file()
+    assert (meta["bytes"], meta["sha256"]) == (len(payload), manifest["package"]["sha256"])
+    assert meta["requests"] == 3 and meta["interruptions"] == 1 and meta["etag"] == '"v1"'
+    assert [r["url"].rsplit("/", 1)[-1] for r in server.requests] == [
+        "robots.txt",
+        "statute-consolidated.zip",
+        "statute-consolidated.zip",
+    ]
+    resumed = server.requests[2]
+    assert resumed["range"] == "bytes=30000-" and resumed["if-range"] == '"v1"'
+    assert all(r["user-agent"].startswith("ULIS-test") for r in server.requests)
+    assert sleeps and all(s > 0 for s in sleeps)  # the manifest's delay (5 s here) between request starts
+    assert not path.with_name(path.name + ".part").exists()
+    # Later runs use the cache: no request.
+    server.requests.clear()
+    assert conn.download_package(manifest)[0] == path and server.requests == []
+    # The connector then reads the downloaded package (the API is not asked).
+    docs = list(conn.fetch())
+    assert [d.external_id for d in docs][:1] == ["finlex:statute-consolidated/2024/718/fin@20240718"]
+
+
+def test_download_starts_again_when_the_package_changed_meanwhile(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    payload = SAMPLE_ZIP.read_bytes()
+    server = _Server(payload, cut=30_000)
+    conn, manifest, _ = _download(tmp_path, server, monkeypatch)
+    server.rebuilt_after_cut = '"v2"'  # after the break If-Range ("v1") does not match: the whole file again
+    path, meta = conn.download_package(manifest)
+    assert path.read_bytes() == payload and meta["etag"] == '"v2"' and meta["requests"] == 3
+    assert conn.download_events == [
+        "interrupted at byte 30000 (connection reset by peer); resuming",
+        "the package changed (ETag); starting again from byte 0",
+    ]
+    assert server.requests[2]["if-range"] == '"v1"'
+
+
+@pytest.mark.parametrize("code", [401, 403, 429, 451])
+def test_download_stops_at_the_first_refusal(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, code: int) -> None:
+    server = _Server(SAMPLE_ZIP.read_bytes(), refuse=code)
+    conn, manifest, _ = _download(tmp_path, server, monkeypatch)
+    with pytest.raises(FetchError, match=f"HTTP {code}"):
+        conn.download_package(manifest)
+    assert len(server.requests) == 2  # robots.txt and one GET: never retried
+
+
+def test_download_refuses_a_newer_package_and_a_disallowed_path(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    payload = SAMPLE_ZIP.read_bytes()
+    server = _Server(payload + b"rebuilt")
+    conn, manifest, _ = _download(tmp_path, server, monkeypatch)
+    with pytest.raises(PackageChanged, match="replaced the package"):
+        conn.download_package(manifest)
+    assert not conn.package_file().with_name("statute-consolidated.zip.part").exists()
+    # Unpinned (scripts/finlex_package.py --replace), the new package is downloaded.
+    path, meta = conn.download_package(manifest, check_pin=False)
+    assert meta["bytes"] == len(payload) + 7
+    server.robots = b"User-agent: *\nDisallow: /files/\n"
+    path.unlink()
+    with pytest.raises(FetchError, match="disallowed by"):
+        conn.download_package(manifest, check_pin=False)
+
+
+@pytest.fixture(scope="module")
+def fi_package_ingested(
+    session_factory: sessionmaker[Session],
+    catalog: Catalog,
+    store: LocalObjectStore,
+    fi_decision_ingested: IngestionReport,
+    tmp_path_factory: pytest.TempPathFactory,
+) -> IngestionReport:
+    works = [
+        {"year": 2024, "number": "718"},  # ingested above from the API's responses: the same bytes
+        {"year": 2009, "number": "330"},
+        {"year": 2020, "number": "1175", "languages": ["fin"]},  # no longer in force: skipped
+        {"year": 1932, "number": "246", "languages": ["fin"]},  # a shell: skipped
+    ]
+    connector = _package_connector(tmp_path_factory.mktemp("finlex-package"), works, offline=True)
+    with session_factory() as session:
+        report = Ingestor(session, catalog, store).ingest_source("fi-finlex", actor="pytest", connector=connector)
+        session.commit()
+    return report
+
+
+@pytest.mark.db
+def test_the_package_route_ingests_through_the_pipeline(
+    session: Session, catalog: Catalog, store: LocalObjectStore, fi_package_ingested: IngestionReport
+) -> None:
+    report = fi_package_ingested
+    assert report.errors == [] and report.conflicts == []
+    # 2024/718 was already stored from the API route: the package's bytes are the same, so nothing is duplicated.
+    assert (report.documents_seen, report.documents_unchanged, report.documents_new, report.documents_skipped) == (
+        6,
+        2,
+        2,
+        2,
+    )
+    assert (report.instruments_created, report.instrument_versions_created) == (1, 2)
+    docs = session.scalars(select(m.SourceDocument).where(m.SourceDocument.uri.like(f"{PACKAGE_URL}#%"))).all()
+    assert sorted(d.external_id for d in docs) == [
+        "finlex:statute-consolidated/2009/330/fin@20250869",
+        "finlex:statute-consolidated/2009/330/swe@20250869",
+    ]
+    for doc in docs:
+        assert verify_source_document(session, catalog, store, doc.id)["result"] == "pass"
+    fi = _search(session, catalog, q="tuotantoeläinten hyvinvoinnin neuvottelukunta", query_language="fi")
+    assert fi["results"][0]["citation"] == (
+        "Valtioneuvoston asetus tuotantoeläinten hyvinvoinnin neuvottelukunnasta (330/2009) 1 § 1 mom."
+    )
+    sv = _search(session, catalog, q="delegation för animalieproduktionsdjurens välbefinnande", query_language="sv")
+    assert sv["results"][0]["citation"].startswith(
+        "Statsrådets förordning om delegationen för animalieproduktionsdjurens välbefinnande (330/2009) 1 §"
     )
