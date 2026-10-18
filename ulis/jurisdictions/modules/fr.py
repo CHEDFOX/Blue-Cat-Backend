@@ -9,7 +9,9 @@
   ``CE, 5 mars 1999, n° 196283``, ``CAA Paris, 11 juill. 2025, n° 22PA02724``, ``TA Lyon, 3 mars 2020, n° 1805678``
 
 The article number is the DILA's ``NUM`` (``L233-3``, ``R*229-8``, ``1240``); it is printed in the French way, a letter
-and a point before the figures (``L. 233-3``). Formatting conventions only; to be confirmed by a French reviewer
+and a point before the figures (``L. 233-3``). The annexes of decrees and orders are stored by the DILA as articles
+numbered ``Annexe``, ``Annexe I`` or ``annexe art. 4``: they are cited as ``annexe I``, ``annexe, art. 4``, not as
+``art. Annexe I``. Formatting conventions only; to be confirmed by a French reviewer
 before the FR profile is "reviewed" (in particular the abbreviations, the "§" pinpoint and the chambers).
 """
 
@@ -52,6 +54,7 @@ CHAMBERS = {
     "avis": "avis",
 }
 ARTICLE_NUMBER = re.compile(r"^(?P<letter>LO|LP|L|R|D|A)(?P<star>\*{0,2})\s*\.?\s*(?P<rest>\d.*)$")
+ANNEX_NUMBER = re.compile(r"^(?P<word>annexes?)\b(?P<rest>.*)$", re.I)
 PAYMENT_NUMBER = re.compile(r"^((?:[A-Z] )?\d{2}-\d{2})(\d{3})$")
 
 
@@ -138,7 +141,17 @@ class FrModule(JurisdictionModule):
     def pinpoint(self, c: ProvisionCitationInput) -> str:
         parts = [p for p in c.num_path if p]
         if c.top_kind == "article":
-            return f"art. {format_article(parts[0])}" if parts else ""
+            if not parts:
+                return ""
+            annex = ANNEX_NUMBER.match(parts[0])
+            if annex:  # an annex the DILA stores as an article
+                rest = annex["rest"].strip(" ,.:-")
+                return (
+                    f"{annex['word'].lower()}, {rest}"
+                    if rest.lower().startswith("art")
+                    else f"{annex['word'].lower()} {rest}".strip()
+                )
+            return f"art. {format_article(parts[0])}"
         name = SECTION_NAMES.get(c.top_kind, c.top_kind)
         return f"{name} {parts[0]}" if parts else name
 

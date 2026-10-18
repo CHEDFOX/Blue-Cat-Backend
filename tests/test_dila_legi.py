@@ -271,6 +271,150 @@ def test_section_versions_starting_the_same_day_keep_the_longest() -> None:
     assert periods == [(p.valid_from, p.valid_to) for p in parse("loi-78-17.zip").provisions if p.eid == "sec-6095881"]
 
 
+# ------------------------------------------------------------------------------------------------------ decrees
+DECRET_VIG = "JORFTEXT000020017088"  # Décret n° 2008-1484 (in force; annexes with tables, an article that only amends)
+DECRET_ABR = "JORFTEXT000042219936"  # Décret n° 2020-1006 (repealed on 2023-05-01; two unnumbered annex articles)
+
+
+def test_decree_in_force_metadata_and_title_whitespace() -> None:
+    doc = parse("decret-2008-1484.zip")
+    assert doc.work_uri == f"/fr/legi/{DECRET_VIG}" and doc.instrument_type == "decree"
+    assert doc.title.startswith("Décret n° 2008-1484 du 22 décembre 2008 relatif aux actes de gestion du patrimoine")
+    # the source's TITRE holds a line break ("Décret n°2008-1484\n du 22 décembre 2008"): a label, not a text
+    assert doc.short_title == "Décret n°2008-1484 du 22 décembre 2008" and doc.number == "2008-1484"
+    assert doc.work_date == date(2008, 12, 22) and [(e.event_type, e.date) for e in doc.events] == [
+        ("enactment", date(2008, 12, 22)),
+        ("publication", date(2008, 12, 31)),
+    ]
+    assert doc.ext["nature"] == "DECRET" and doc.ext["etat"] == "VIGUEUR" and doc.ext["nor"]
+    art1 = versions(doc, "art-1")
+    assert [(p.status, p.valid_from, p.valid_to) for p in art1] == [("in_force", date(2009, 1, 1), None)]
+    assert art1[0].text.startswith("Constituent des actes d'administration les actes d'exploitation")
+
+
+def test_amending_article_without_period_is_recorded_without_a_version() -> None:
+    # Article 5 "A abrogé les dispositions suivantes : - Décret n°65-961 ... Art. 4, Art. 5 ..." has no ETAT and the
+    # source's no-date on both ends (TYPE ENTIEREMENT_MODIF): the consolidation holds no words of it for any day.
+    doc = parse("decret-2008-1484.zip")
+    (art5,) = versions(doc, "art-5")
+    assert art5.record_version is False and art5.text == "" and art5.valid_from is None and not art5.indexable
+    assert art5.kind == "article" and art5.num_path == ["5"] and art5.sort_order < versions(doc, "art-6")[0].sort_order
+    recorded = [p for p in doc.provisions if p.record_version]
+    assert all(p.valid_from is not None or p.status == "prospective" for p in recorded)  # nothing undated is claimed
+    assert not any("dispositions suivantes" in p.text for p in doc.provisions)
+
+
+def test_annexes_are_articles_with_their_versions_notes_and_tables() -> None:
+    doc = parse("decret-2008-1484.zip")
+    annex = next(p for p in doc.provisions if p.kind == "annex")
+    assert annex.heading == "Annexes" and not annex.is_leaf and annex.valid_from == date(2009, 1, 1)
+    a1 = versions(doc, "art-Annexe1")
+    assert [(p.valid_from, p.valid_to) for p in a1] == [
+        (date(2009, 1, 1), date(2009, 12, 27)),
+        (date(2009, 12, 27), date(2015, 12, 17)),
+        (date(2015, 12, 17), date(2022, 1, 1)),
+        (date(2022, 1, 1), None),
+    ]
+    assert all(p.status == "in_force" and p.parent_eid == annex.eid and p.heading == "Annexes" for p in a1)
+    # an HTML table: every cell's text is kept, one cell per line, the cell's own line breaks kept
+    lines = a1[-1].text.split("\n")
+    assert lines[0] == "LISTE DES ACTES REGARDÉS COMME ACTES D'ADMINISTRATION OU COMME ACTES DE DISPOSITION"
+    assert "COLONNE 1 : ACTES D'ADMINISTRATION" in lines and "COLONNE 2 : ACTES DE DISPOSITION" in lines
+    assert "― convention de jouissance précaire (art. 426, al. 2, du code civil) ;" in lines
+    # the source's NOTA (an erratum, then a commencement note) is a note, not text
+    assert a1[1].note == (
+        '(1) Au lieu de "article 1526-1 du code de commerce", il convient de lire '
+        '"article L. 526-1 du code de commerce".'
+    )
+    assert a1[3].note and a1[3].note.startswith(
+        "Conformément au premier alinéa du I de l'article 7 du décret n° 2021-1888"
+    )
+    assert all("Au lieu de" not in p.text for p in a1)
+
+
+def test_repealed_decree_ends_every_article_on_the_repeal_date() -> None:
+    doc = parse("decret-2020-1006.zip")
+    assert doc.instrument_type == "decree" and doc.ext["etat"] == "ABROGE" and doc.number == "2020-1006"
+    for eid in ("art-1", "art-2", "art-3", "art-4", "art-6"):
+        v = versions(doc, eid)
+        assert [(p.status, p.valid_from, p.valid_to) for p in v] == [
+            ("in_force", date(2020, 8, 9), date(2023, 5, 1)),
+            ("repealed", date(2023, 5, 1), None),
+        ], eid
+        assert v[1].text == "" and v[1].note == "ETAT ABROGE; DATE_FIN 2023-05-01."
+    assert "code de la construction et de l'habitation" in versions(doc, "art-3")[0].text
+    (art5,) = versions(doc, "art-5")  # "A abrogé les dispositions suivantes ..." without a period
+    assert art5.record_version is False
+    # two unnumbered annex articles (NUM empty): stable eids, each under its own "Annexe" section
+    first, second = versions(doc, "art-x"), versions(doc, "art-x-42219958")
+    assert [(p.status, p.valid_from, p.valid_to) for p in first] == [
+        ("in_force", date(2020, 8, 9), date(2022, 4, 15)),
+        ("in_force", date(2022, 4, 15), date(2023, 5, 1)),
+        ("repealed", date(2023, 5, 1), None),
+    ]
+    assert first[0].text.startswith("ANNEXES\nANNEXE 1\nLISTE DES AGGLOMÉRATIONS")
+    assert second[0].text.startswith("ANNEXE 2\nLISTE DES COMMUNES") and second[0].parent_eid != first[0].parent_eid
+    sections = {p.eid: p for p in doc.provisions if p.kind != "article"}
+    assert all(
+        p.kind == "annex" and p.heading == "Annexe" and p.valid_to == date(2023, 5, 1) for p in sections.values()
+    )
+    # as of today nothing of the decree is in force
+    today = date(2026, 10, 18)
+    live = [p for p in doc.provisions if p.record_version and p.status == "in_force" and p.text]
+    assert live and all(p.valid_to is not None and p.valid_to <= today for p in live)
+
+
+def test_amendment_summary_of_a_dated_version_goes_to_the_note() -> None:
+    # The source prints "a modifié les dispositions suivantes" where an amending article's words would be; for the
+    # few dated versions that carry only this summary it is the consolidation's note, not the text.
+    source = zipfile.ZipFile(FIX / "decret-2020-1006.zip")
+    member = next(  # the file of article 1 (NUM 1, 2020-08-09 to 2023-05-01)
+        n
+        for n in source.namelist()
+        if n.startswith("article/")
+        and fromstring(source.read(n), forbid_dtd=True).findtext("META/META_SPEC/META_ARTICLE/NUM") == "1"
+    )
+    old = source.read(member).decode()
+    bloc = old[old.index("<BLOC_TEXTUEL>") : old.index("</BLOC_TEXTUEL>") + len("</BLOC_TEXTUEL>")]
+    summary = (
+        "<BLOC_TEXTUEL><CONTENU>A modifié les dispositions suivantes :<br/>- Décret n° 1 Art. 2</CONTENU>"
+        "</BLOC_TEXTUEL>"
+    )
+    content = _rewritten("decret-2020-1006.zip", {member: (bloc, summary)}, {})
+    (doc,) = parser.parse_dila_legi(content)
+    changed = [p for p in versions(doc, "art-1") if p.status == "in_force"]
+    assert len(changed) == 1 and changed[0].text == "" and changed[0].record_version
+    assert changed[0].note == "A modifié les dispositions suivantes :\n- Décret n° 1 Art. 2"
+    assert parser.AMENDMENT_SUMMARY.match("a modifié les dispositions suivantes")
+    assert not parser.AMENDMENT_SUMMARY.match(
+        "La disposition prévue au premier alinéa a modifié les dispositions suivantes"
+    )
+
+
+def test_no_period_and_no_start_are_not_kept() -> None:
+    assert parser._kept("", None, None, "open") is False  # DATE_DEBUT 2999-01-01: the source's "no date"
+    assert parser._kept("VIGUEUR", date(2009, 1, 1), None, "date") is True
+    assert parser._kept("ABROGE_DIFF", date(2009, 1, 1), None, "placeholder") is True  # 2222-...: prospective
+    assert parser._kept("PERIME", date(1995, 11, 16), date(1995, 11, 16), "date") is False  # empty period
+
+
+def test_decree_citations() -> None:
+    module = FrModule()
+    vig, abr = parse("decret-2008-1484.zip"), parse("decret-2020-1006.zip")
+    assert _cite(module, vig, "art-1") == "Décret n°2008-1484 du 22 décembre 2008, art. 1"
+    assert _cite(module, vig, "art-Annexe1") == "Décret n°2008-1484 du 22 décembre 2008, annexe 1"
+    assert _cite(module, abr, "art-2") == "Décret n°2020-1006 du 6 août 2020, art. 2"
+    assert _cite(module, abr, "art-x") == "Décret n°2020-1006 du 6 août 2020"  # no number in the source: no pinpoint
+    pin = lambda num: module.pinpoint(ProvisionCitationInput("x", "decree", "FR", "article", [num], "fr"))  # noqa: E731
+    assert [pin(n) for n in ("Annexe", "ANNEXE II", "annexe art. 4", "Annexes", "A663-21")] == [
+        "annexe",
+        "annexe II",
+        "annexe, art. 4",
+        "annexes",
+        "art. A. 663-21",
+    ]
+
+
 # ------------------------------------------------------------------------------------------------------ citations
 def _cite(module: FrModule, doc: ParsedDocument, eid: str, extensions: dict[str, Any] | None = None) -> str:
     p = versions(doc, eid)[-1]
