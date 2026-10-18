@@ -1,6 +1,6 @@
-"""Parser for compilations from the Federal Register of Legislation (Australia).
+"""Parser for compilations and "as made" texts from the Federal Register of Legislation (Australia).
 
-Input: the Register API's response for one compilation document requested with
+Input: the Register API's response for one document (a compilation, or the text as made) requested with
 ``Accept: application/json`` and ``$expand=version`` (see the connector). It carries the
 EPUB (base64) and the version's dates: ``Start`` (the compilation date) and ``End`` (the day the
 next version of the title starts, if any).
@@ -34,6 +34,22 @@ but not across a period that has no compilation.
 Not parsed, and counted by :func:`parse_with_report`: text placed directly under a Part or
 Division heading (outside any section), and images (formulas), which a provision's note then
 mentions. Repealed provisions are omitted from compilations, so they are not recorded as repealed.
+
+**As made** (compilation number 0, register id = title id): the only text of an Act or instrument
+that was never amended. The Register dates that version from the making date (an Act: assent; an
+instrument: its registration), which is not its commencement (commencement is in the Act's or
+instrument's own text and is not extracted), so every provision is dated from that date with
+``validity_basis = enactment_date_presumed`` and a note saying so; ``text_origin`` is
+``official_conversion`` (the EPUB is the Register's own rendering of the text as made, not the
+authorised PDF). In an Act as made the body starts at the assent endorsement (``AssentDt``); the
+cover and contents before it, the enacting words, and the second-reading and assent notes after the
+last provision (``2ndRd``, ``AssentBk``) are not law text. Unstyled recitals before the first
+heading are the preamble.
+
+**Legislative instruments** (title ids ``F2016L00123``, ``F1996B00084``, ``C2004L09583``) use the
+same styles when drafted in the current template; compilations prepared by the Office of Legislative
+Drafting before 2005 use ``HR`` (regulation heading), ``R1``/``R2`` (regulation, subregulation),
+``Rc`` (continuation), ``P1``-``P3`` (paragraphs) and ``Note``, mapped to the current styles.
 """
 
 from __future__ import annotations
@@ -56,7 +72,7 @@ from defusedxml.ElementTree import fromstring
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
 
 PARSER_ID = "frl_epub"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 XHTML = "http://www.w3.org/1999/xhtml"
 OPF = "http://www.idpf.org/2007/opf"
 CONTAINER = "urn:oasis:names:tc:opendocument:xmlns:container"
@@ -68,26 +84,51 @@ _DOCTYPE = re.compile(
 )
 _MAX_UNZIPPED = 200 * 1024 * 1024
 _LABEL = re.compile(r"^(?:\([0-9A-Za-z]{1,12}\.?\)|\d+[A-Z]*\.\d+[A-Z]*)$")
-_TITLE_ID = re.compile(r"^C\d{4}([AQ])\d{5}$")
+# C...A: an Act; C...Q: the Constitution (one title); C/F...L and F...B: legislative instruments.
+_TITLE_ID = re.compile(r"^([CF])\d{4}([ABLQ])\d{5}$")
 _SCHEDULE = re.compile(r"^schedule\b\s*(\d+[A-Z]*)?", re.I)
 _NUMBERED_HEADING = re.compile(r"^(\d+[A-Z]*(?:\.\d+[A-Z]*)*\.?) (?=\S)")
 _MONTHS = {
     m: i for i, m in enumerate(("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"), 1)
 }
 IMAGE_NOTE = "Contains a formula or image that is not reproduced in this text; see the source document."
+AS_MADE_NOTE = {
+    "act": "Text as made, never amended. The Register dates this version from assent ({date}); the Act commences as it "
+    "provides (otherwise 28 days after assent, Acts Interpretation Act 1901 s 3A), which is not recorded here.",
+    "legislative_instrument": "Text as made, never amended. The Register dates this version from its registration "
+    "({date}); the instrument commences as it provides (otherwise the day after registration, Legislation Act 2003 "
+    "s 12), which is not recorded here.",
+}
+# The enacting words of an Act as made (not a provision): "The Parliament of Australia enacts:",
+# "BE IT THEREFORE enacted by the Queen, the Senate and the House of Representatives ..., as follows:".
+_ENACTING = re.compile(r"^(?:The Parliament of Australia enacts:?|BE IT(?: THEREFORE)? ENACTED\b.*)$", re.I)
+# Cover-page, contents and signature styles that are never law text (the body starts after them).
+FRONT = {
+    "ShortT", "Actno", "ShortTP1", "ActNoP1", "Page1", "AssentDt", "CompiledActNo", "SignCoverPageStart",
+    "SignCoverPageEnd", "Title", "CoverStatRule", "CoverMade", "CoverAct", "CoverUpdate", "ContentsStatRule",
+    "ContentsHead", "ContentsPage", "TOC",
+}  # fmt: skip
 
 # Paragraph styles (XHTML classes) by role.
 NUMBERED = {"subsection": 1, "paragraph": 2, "paragraphsub": 3, "paragraphsub-sub": 4, "paragraphsub-sub-sub": 5}
 # Older reprints (registered 2004 for 1997-2003) use other names for the same styles, and plain
 # h1-h6 elements for the headings (h5 = section heading).
 OLD_STYLES = {"Subsection": "subsection", "indenta": "paragraph", "indentii": "paragraphsub"}
+# Compilations of regulations and other instruments prepared by the Office of Legislative Drafting
+# (registered 2004-2005): regulation heading, regulation / subregulation, continuation, paragraphs, notes.
+OLD_STYLES |= {
+    "HR": "ActHead5", "R1": "subsection", "R2": "subsection", "Rc": "subsection2", "P1": "paragraph",
+    "P2": "paragraphsub", "P3": "paragraphsub-sub", "definition0": "Definition", "Note": "notetext",
+}  # fmt: skip
 # An editorial pointer to the endnotes in older reprints' headings, e.g. "1 Short title [see Note 1]".
 _SEE_NOTE = re.compile(r"\s*\[see Note \d+\]$")
 SUB_KIND = {1: "subsection", 2: "paragraph", 3: "subparagraph", 4: "subsubparagraph", 5: "subsubsubparagraph"}
 SKIP = {"Header", "TOC1", "TOC2", "TOC3", "TOC4", "TOC5", "TOC6", "TOC7", "TOC8", "TOC9"}
 # The endnotes (editorial): "ENotesHeading1" in current compilations, "NotesSection" ("Notes to the
-# ... Act"), "Table of Acts" and "Table of Amendments" in older ones. Nothing from here on is law text.
-_ENDNOTES = re.compile(r"^(?:ENote|EndNote|Notes|NotesSection|TableOf|ActNotes)")
+# ... Act"), "NoteHeading" ("Notes to the ... Regulations"), "Table of Acts" and "Table of Amendments" in older
+# ones; in an Act as made, the second-reading and assent notes after the last provision. Nothing from here on is
+# law text.
+_ENDNOTES = re.compile(r"^(?:ENote|EndNote|Notes|NoteHeading|TableOf|TableEnotes|ActNotes|2ndRd|AssentBk)")
 # Styles whose role is known; anything else is kept as text of the enclosing provision and counted.
 KNOWN = {
     "LongT", "SubsectionHead", "Definition", "subsection2", "notetext", "notepara", "noteToPara", "notemargin",
@@ -139,14 +180,31 @@ def written_date(text: str) -> date | None:
         return None
 
 
+def instrument_type_for(title_id: str) -> str:
+    """``constitution``, ``act`` or ``legislative_instrument`` from the Register's title id; unsupported ids raise."""
+    m = _TITLE_ID.match(title_id)
+    if title_id == CONSTITUTION_ID:
+        return "constitution"
+    if m and m.group(1) == "C" and m.group(2) == "A":
+        return "act"
+    if m and m.group(2) in ("B", "L"):
+        return "legislative_instrument"
+    raise FrlParseError(f"unsupported title {title_id!r}")
+
+
 def work_uri_for(title_id: str) -> str:
-    return f"/au/{'constitution' if title_id == CONSTITUTION_ID else 'act'}/{title_id}"
+    return f"/au/{instrument_type_for(title_id)}/{title_id}"
 
 
 def resolve_uri(uri: str) -> tuple[str, str | None] | None:
     """Map a Register web URL (``https://www.legislation.gov.au/C2004A03712/latest/text``) to a work URI."""
-    m = re.match(r"^https://www\.legislation\.gov\.au/(C\d{4}[AQ]\d{5})(?:/[^?#]*)?$", uri)
-    return (work_uri_for(m.group(1)), None) if m else None
+    m = re.match(r"^https://www\.legislation\.gov\.au/([CF]\d{4}[ABLQ]\d{5})(?:/[^?#]*)?$", uri)
+    if not m:
+        return None
+    try:
+        return work_uri_for(m.group(1)), None
+    except FrlParseError:
+        return None
 
 
 # --------------------------------------------------------------------------- EPUB container
@@ -313,8 +371,9 @@ class ParseReport:
 
 
 class _Builder:
-    def __init__(self, title_id: str):
+    def __init__(self, title_id: str, as_made: bool = False):
         self.is_constitution = title_id == CONSTITUTION_ID
+        self.as_made = as_made
         self.nodes: list[_Node] = []
         self.used: dict[str, int] = {}
         self.stack: list[_Node] = []
@@ -473,10 +532,14 @@ class _Builder:
     # -- blocks
     def block(self, block: Element, cls: str, segments: list[str | None], text: str, images: list[str]) -> None:
         if self.in_preamble:
-            # Recitals and enacting words between the long title and the first heading. Unstyled
-            # paragraphs there are template placeholders ("Do not delete : Chapter placeholder").
-            if not cls:
+            # Recitals and enacting words between the long title and the first heading. In a compilation,
+            # unstyled paragraphs there are template placeholders ("Do not delete : Chapter placeholder"); in
+            # an Act as made they are the enacting words (not a provision) or unstyled recitals (the preamble).
+            if not cls and (not self.as_made or text.startswith("Do not delete")):
                 self.report.blocks_outside_provisions["unstyled"] += 1
+                return
+            if not cls and _ENACTING.match(text):
+                self.report.blocks_outside_provisions["enacting_words"] += 1
                 return
             if self.preamble is None:
                 self.preamble = self.new("preamble", "preamble", "preamble", [], None, 0, None)
@@ -567,18 +630,38 @@ class _Builder:
 
 
 def _parse_body(pages: list[Element], b: _Builder) -> None:
+    # An Act as made repeats its long title on the cover and on page 1 before the assent endorsement
+    # ("[Assented to 2 December 2024]"); the body starts there, and the long title is recorded once.
+    starts_at_assent = b.as_made and any(
+        (block.get("class") or "") == "AssentDt" for body in pages for block in _blocks(body)
+    )
+    long_title: str | None = None
     for body in pages:
         inside = False
         for block in _blocks(body):
             tag = _local(block.tag)
             cls = block.get("class") or ""
+            if tag in ("h1", "h2", "h3", "h4", "h5", "h6") and not cls:
+                cls = f"ActHead{tag[1]}"
+            cls = OLD_STYLES.get(cls, cls)
             if inside and _ENDNOTES.match(cls):
                 break
+            if not inside and starts_at_assent:
+                if cls in ("LongT", "Page1"):
+                    long_title = _render(_segments(block, []))
+                if cls != "AssentDt":
+                    continue
+                inside = True
+                if long_title:
+                    b.close_all()
+                    b.new("long-title", "long_title", "long_title", [], None, 0, None).items.append(long_title)
+                    b.in_preamble = True
+                continue
             if not inside:
                 if cls != "LongT" and not cls.startswith("ActHead"):
                     continue
                 inside = True
-            if cls in SKIP:
+            if cls in SKIP or cls in FRONT:
                 continue
             images: list[str] = []
             if tag == "table":
@@ -591,9 +674,6 @@ def _parse_body(pages: list[Element], b: _Builder) -> None:
                         b.add_text(target, line, [])
                     b.add_text(target, "", images)
                 continue
-            if tag in ("h1", "h2", "h3", "h4", "h5", "h6") and not cls:
-                cls = f"ActHead{tag[1]}"
-            cls = OLD_STYLES.get(cls, cls)
             if tag not in ("p", "h1", "h2", "h3", "h4", "h5", "h6"):
                 continue
             segments = _segments(block, images)
@@ -649,12 +729,29 @@ def _assent_date(pages: list[Element], name: str, title_id: str) -> date | None:
     return None
 
 
-def _cover_value(pages: list[Element], pattern: str) -> str | None:
+def _cover_value(pages: list[Element], pattern: str, cls: str | None = None) -> str | None:
+    """The first match of ``pattern`` in a paragraph of the first page (of style ``cls``, when given)."""
     for el in pages[0].iter(f"{{{XHTML}}}p"):
+        if cls is not None and (el.get("class") or "") != cls:
+            continue
         m = re.match(pattern, _ws("".join(el.itertext())))
         if m:
             return m.group(1)
     return None
+
+
+def _assent_endorsements(pages: list[Element]) -> list[date]:
+    """Dates in the assent endorsement(s) of an Act as made: "[Assented to 2 December 2024]",
+    "[Queen's Assent, 19 October 1973]" (also "[Reserved for Her Majesty's pleasure, 14 September 1973]")."""
+    out: list[date] = []
+    for body in pages:
+        for el in body.iter(f"{{{XHTML}}}p"):
+            if (el.get("class") or "") == "AssentDt":
+                for m in re.finditer(r"\d{1,2} [A-Z][a-z]+ \d{4}", _ws("".join(el.itertext()))):
+                    d = written_date(m.group(0))
+                    if d is not None:
+                        out.append(d)
+    return out
 
 
 def _outstanding(version: dict[str, Any], title_id: str, end: date | None) -> list[dict[str, Any]]:
@@ -697,17 +794,14 @@ def parse_with_report(content: bytes) -> tuple[list[ParsedDocument], ParseReport
     if not isinstance(version, dict):
         raise FrlParseError("version metadata missing (request the document with $expand=version)")
     title_id = str(data["TitleId"])
-    m = _TITLE_ID.match(title_id)
-    if not m or (m.group(1) == "Q" and title_id != CONSTITUTION_ID):
-        raise FrlParseError(f"unsupported title {title_id!r}")
+    instrument_type = instrument_type_for(title_id)  # raises for unsupported titles
     start = _day(data.get("Start"))
     if start is None or _day(version.get("Start")) != start or version.get("TitleId") != title_id:
         raise FrlParseError("missing or inconsistent version metadata")
     end = _day(version.get("End"))
     if end is not None and end <= start:
         raise FrlParseError(f"version ends ({end}) before it starts ({start})")
-    if str(data.get("CompilationNumber") or "") == "0" or data.get("RegisterId") == title_id:
-        raise FrlParseError("an 'as made' version is not a compilation (not supported)")
+    as_made = str(data.get("CompilationNumber") or "") == "0" or data.get("RegisterId") == title_id
     if data.get("VolumeNumber") or data.get("UniqueTypeNumber"):
         raise FrlParseError("multi-volume documents are not supported")
     try:
@@ -718,14 +812,18 @@ def parse_with_report(content: bytes) -> tuple[list[ParsedDocument], ParseReport
     stated = _cover_value(pages, r"^Compilation date: (.+)$")
     if stated is not None and written_date(stated) not in (None, start):
         raise FrlParseError(f"compilation date {stated!r} differs from the version start {start}")
+    assented = _assent_endorsements(pages) if as_made else []
+    if assented and start not in assented:
+        raise FrlParseError(f"assent date(s) {assented} differ from the version start {start}")
     name = _ws(str(version.get("Name") or ""))
     if not name:
         raise FrlParseError("version has no title")
 
-    builder = _Builder(title_id)
+    builder = _Builder(title_id, as_made)
     _parse_body(pages, builder)
     if not any(n.kind in ("section", "clause") for n in builder.nodes):
         raise FrlParseError("no sections found")
+    as_made_note = AS_MADE_NOTE[instrument_type].format(date=start.isoformat()) if as_made else None
     provisions: list[ParsedProvision] = []
     for node in builder.nodes:
         children = [i for i in node.items if isinstance(i, _Node)]
@@ -744,7 +842,7 @@ def parse_with_report(content: bytes) -> tuple[list[ParsedDocument], ParseReport
                 valid_from=start,
                 valid_to=end,
                 extent=["AU"],
-                note=" | ".join(node.notes)[:400] or None,
+                note=" | ".join([n for n in (as_made_note, *node.notes) if n])[:400] or None,
                 refs=[],
                 is_leaf=not children,
                 has_own_content=own and bool(children),
@@ -753,17 +851,35 @@ def parse_with_report(content: bytes) -> tuple[list[ParsedDocument], ParseReport
         )
 
     act_no = next(
-        (_ws("".join(el.itertext())) for el in pages[0].iter(f"{{{XHTML}}}p") if el.get("class") == "CompiledActNo"),
+        (
+            _ws("".join(el.itertext()))
+            for el in pages[0].iter(f"{{{XHTML}}}p")
+            if el.get("class") in ("CompiledActNo", "Actno") and instrument_type == "act"
+        ),
         "",
     )
     retro = _day(data.get("RetrospectiveStart"))
-    events = [ParsedEvent("version_change", start, None, None, "Version/Start")]
+    if not as_made:
+        work_date = _assent_date(pages, name, title_id)
+        events = [ParsedEvent("version_change", start, None, None, "Version/Start")]
+    elif instrument_type == "act":
+        # The Register dates an Act as made from its assent.
+        work_date = start
+        events = [ParsedEvent("enactment", start, None, "Assent", "Version/Start")]
+    else:
+        # An instrument as made is dated from its registration; the cover states when it was made ("Dated ...").
+        dated = _cover_value(pages, r"^Dated:? (\d{1,2} [A-Z][a-z]+ \d{4})\b")
+        work_date = written_date(dated) if dated else None
+        events = [ParsedEvent("publication", start, None, "Registered", "Version/Start")]
+        if work_date is not None:
+            events.insert(0, ParsedEvent("enactment", work_date, None, "Made", "cover: Dated"))
     if retro is not None and retro != start:
         events.append(ParsedEvent("retrospective_start", retro, None, None, "Version/RetrospectiveStart"))
+    collection = {"constitution": "Constitution", "act": "Act", "legislative_instrument": "LegislativeInstrument"}
     work_uri = work_uri_for(title_id)
     doc = ParsedDocument(
         doc_kind="legislation",
-        instrument_type="constitution" if title_id == CONSTITUTION_ID else "act",
+        instrument_type=instrument_type,
         jurisdiction_id="AU",
         work_uri=work_uri,
         expression_uri=f"{work_uri}/eng@{start.isoformat()}",
@@ -771,25 +887,26 @@ def parse_with_report(content: bytes) -> tuple[list[ParsedDocument], ParseReport
         title=name,
         short_title=name,
         number=act_no or None,
-        work_date=_assent_date(pages, name, title_id),
+        work_date=work_date,
         language="en",
         authoritative=True,
-        text_origin="official_consolidation",
-        consolidation_kind="point_in_time",
+        text_origin="official_conversion" if as_made else "official_consolidation",
+        consolidation_kind="as_made" if as_made else "point_in_time",
         version_date=start,
-        currency_date=start,
+        # A text as made states no currency; the compilation date is the currency of a compilation.
+        currency_date=None if as_made else start,
         extent=["AU"],
         ext_module="au",
         ext={
             "title_id": title_id,
-            "collection": "Constitution" if title_id == CONSTITUTION_ID else "Act",
+            "collection": collection[instrument_type],
             "act_number": act_no or None,
             "code_title": builder.code_title,
         },
         outstanding_changes=_outstanding(version, title_id, end),
         events=events,
         provisions=provisions,
-        validity_basis="revision_snapshot",
+        validity_basis="enactment_date_presumed" if as_made else "revision_snapshot",
     )
     return [doc], builder.report
 

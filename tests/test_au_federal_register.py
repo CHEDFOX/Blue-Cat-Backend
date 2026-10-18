@@ -1,6 +1,7 @@
 """Federal Register of Legislation parser, connector and Australian search behaviour.
 
-Real Commonwealth compilations (CC BY 4.0), retrieved from the Register's API on 2026-10-14.
+Real Commonwealth compilations (CC BY 4.0), retrieved from the Register's API on 2026-10-14; texts as made and
+legislative instruments retrieved on 2026-10-18.
 """
 
 from __future__ import annotations
@@ -38,6 +39,9 @@ from ulis.sources.parsers.au_federal_register import (
     parse_with_report,
     written_date,
 )
+from ulis.sources.parsers.au_federal_register import (
+    resolve_uri as frl_resolve_uri,
+)
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
 
@@ -46,6 +50,12 @@ API = FIX / "api.prod.legislation.gov.au"
 CONSTITUTION = API / "C2004Q00685"
 AIA = API / "C1901A00002" / "2026-03-28_r0.json"
 PRIVACY = API / "C2004A03712" / "2026-06-04_r0.json"
+# Acts as made (never amended): the current template (2024) and an older re-keyed text (1973).
+SURCHARGES = API / "C2024A00101" / "2024-12-02_r0.json"
+ROYAL_STYLE = API / "C2004A00044" / "1973-10-19_r0.json"
+# Legislative instruments: one as made (current template), one compilation in the pre-2005 OLD template.
+LAVERTON = API / "F2026L01385" / "2026-10-14_r0.json"
+SPREP = API / "F1996B00533" / "2000-07-01_r1.json"
 
 
 def _read(path: Path) -> bytes:
@@ -187,8 +197,10 @@ def test_rejects_unsupported_input() -> None:
     data = json.loads(_read(AIA))
     with pytest.raises(FrlParseError, match="EPUB"):
         parse_federal_register(json.dumps({**data, "Extension": ".docx"}).encode())
-    with pytest.raises(FrlParseError, match="as made"):
-        parse_federal_register(json.dumps({**data, "CompilationNumber": "0"}).encode())
+    # Only Acts, the Constitution and legislative instruments: a Gazette notice (C2004G...) is refused.
+    with pytest.raises(FrlParseError, match="unsupported title"):
+        gazette = {**data, "TitleId": "C2004G00001", "Version": {**data["Version"], "TitleId": "C2004G00001"}}
+        parse_federal_register(json.dumps(gazette).encode())
     with pytest.raises(FrlParseError, match="version metadata"):
         parse_federal_register(json.dumps({**data, "Version": None}).encode())
     # Any document type declaration other than XHTML 1.1's is refused (no DTD processing).
@@ -218,8 +230,193 @@ def test_helpers() -> None:
     assert [label_key(x) for x in ("(1A)", "(xx.)", "1.2", "51.")] == ["1A", "xx", "1.2", "51"]
     assert resolve_uri("https://www.legislation.gov.au/C2004A03712/latest/text") == ("/au/act/C2004A03712", None)
     assert resolve_uri("https://www.legislation.gov.au/C2004Q00685") == ("/au/constitution/C2004Q00685", None)
+    assert frl_resolve_uri("https://www.legislation.gov.au/F2026L01385/asmade/text") == (
+        "/au/legislative_instrument/F2026L01385",
+        None,
+    )
+    assert frl_resolve_uri("https://www.legislation.gov.au/C2004L09583") == (
+        "/au/legislative_instrument/C2004L09583",
+        None,
+    )
+    assert frl_resolve_uri("https://www.legislation.gov.au/C2004G00001/latest/text") is None  # a Gazette notice
     _, report = parse_with_report(_read(PRIVACY))
     assert report.images == 1 and sum(report.blocks_outside_provisions.values()) == 2
+
+
+# --------------------------------------------------------------------------- texts as made, instruments
+
+
+def test_act_as_made_current_template() -> None:
+    """An Act never amended: the only text is the text as made, dated by the Register from assent."""
+    docs, report = parse_with_report(_read(SURCHARGES))
+    doc = docs[0]
+    assert (doc.instrument_type, doc.work_uri) == ("act", "/au/act/C2024A00101")
+    assert doc.expression_uri == "/au/act/C2024A00101/eng@2024-12-02"
+    assert (doc.text_origin, doc.consolidation_kind, doc.validity_basis) == (
+        "official_conversion",
+        "as_made",
+        "enactment_date_presumed",
+    )
+    # A text as made states no currency; the Register's version start is the assent date.
+    assert (doc.version_date, doc.currency_date, doc.work_date) == (date(2024, 12, 2), None, date(2024, 12, 2))
+    assert doc.number == "No. 101, 2024" and doc.ext["collection"] == "Act" and doc.ext["act_number"] == "No. 101, 2024"
+    assert [(e.event_type, e.date, e.description) for e in doc.events] == [("enactment", date(2024, 12, 2), "Assent")]
+    assert doc.outstanding_changes == []
+    p = _by_eid(doc)
+    assert doc.provisions[0].eid == "long-title"
+    assert p["long-title"].text == (
+        "An Act to authorise Commonwealth entities to charge and collect payment surcharges, and for related purposes"
+    )
+    assert "preamble" not in p  # the enacting words are not a provision
+    assert report.blocks_outside_provisions == {"enacting_words": 1} and report.other_styles == {}
+    assert p["section-1"].text == "This Act is the Commonwealth Entities (Payment Surcharges) Act 2024."
+    assert p["section-4-def-payment-surcharge-a"].text.startswith("an amount charged, in addition to the amount")
+    assert p["section-7-4"].heading == "Non‑compliance"
+    assert doc.provisions[-1].eid == "section-7-7"
+    # Every provision is dated from assent, open-ended, with the note that says what that date is.
+    assert {(x.valid_from, x.valid_to, x.status) for x in doc.provisions} == {(date(2024, 12, 2), None, "in_force")}
+    assert all(
+        (x.note or "").startswith(
+            "Text as made, never amended. The Register dates this version from assent (2024-12-02)"
+        )
+        for x in doc.provisions
+    )
+    # Nothing from the cover, the contents, the enacting words or the back page is law text.
+    joined = "\n".join(x.text for x in doc.provisions)
+    for absent in (
+        "Contents",
+        "Assented to",
+        "Parliament of Australia enacts",
+        "second reading",
+        "(153/24)",
+        "No. 101",
+    ):
+        assert absent not in joined, absent
+
+
+def test_act_as_made_older_text_with_preamble() -> None:
+    docs, report = parse_with_report(_read(ROYAL_STYLE))
+    doc = docs[0]
+    p = _by_eid(doc)
+    assert (doc.version_date, doc.work_date, doc.number) == (date(1973, 10, 19), date(1973, 10, 19), "No. 114 of 1973")
+    # Three endorsements ("Reserved for Her Majesty's pleasure, 14 September 1973", "Queen's Assent, 19 October 1973",
+    # "Queen's Assent proclaimed, 19 October 1973"): the version start is the assent date.
+    assert [x.eid for x in doc.provisions] == [
+        "long-title", "preamble", "section-1", "section-2", "section-2-1", "section-2-2", "schedule",
+    ]  # fmt: skip
+    assert p["preamble"].text.startswith("WHEREAS, in accordance with the Royal Style and Titles Act 1953")
+    assert "BE IT THEREFORE enacted" not in p["preamble"].text
+    assert report.blocks_outside_provisions == {"enacting_words": 1}
+    assert p["section-2-2"].text.startswith("The Proclamation referred to in sub-section (1)")
+    assert p["schedule"].text.startswith("Elizabeth the Second, by the Grace of God Queen of Australia")
+    assert _cite(doc, "section-2-1") == "Royal Style and Titles Act 1973 (Cth) s 2(1)"
+    assert _cite(doc, "schedule") == "Royal Style and Titles Act 1973 (Cth) sch"
+    # A version start that matches none of the stated assent dates is refused, not silently recorded.
+    data = json.loads(_read(ROYAL_STYLE))
+    shifted = {**data, "Start": "1973-10-20T00:00:00", "Version": {**data["Version"], "Start": "1973-10-20T00:00:00"}}
+    with pytest.raises(FrlParseError, match="assent date"):
+        parse_federal_register(json.dumps(shifted).encode())
+
+
+def test_legislative_instrument_as_made() -> None:
+    docs, report = parse_with_report(_read(LAVERTON))
+    doc = docs[0]
+    assert (doc.instrument_type, doc.work_uri) == ("legislative_instrument", "/au/legislative_instrument/F2026L01385")
+    assert doc.expression_uri == "/au/legislative_instrument/F2026L01385/eng@2026-10-14"
+    assert (doc.text_origin, doc.consolidation_kind, doc.validity_basis) == (
+        "official_conversion",
+        "as_made",
+        "enactment_date_presumed",
+    )
+    assert doc.ext == {
+        "title_id": "F2026L01385",
+        "collection": "LegislativeInstrument",
+        "act_number": None,
+        "code_title": None,
+    }
+    # Registered on 2026-10-14 (the Register's version start), made ("Dated") on 2026-10-12, repealed by its own s 4
+    # on 2026-11-30: the Register lists that as the end of the version.
+    assert (doc.version_date, doc.work_date, doc.currency_date) == (date(2026, 10, 14), date(2026, 10, 12), None)
+    assert [(e.event_type, e.date, e.description) for e in doc.events] == [
+        ("enactment", date(2026, 10, 12), "Made"),
+        ("publication", date(2026, 10, 14), "Registered"),
+    ]
+    assert {(x.valid_from, x.valid_to) for x in doc.provisions} == {(date(2026, 10, 14), date(2026, 11, 30))}
+    assert [c["by_title"] for c in doc.outstanding_changes] == ["Version from 2026-11-30"]
+    p = _by_eid(doc)
+    assert (
+        doc.provisions[0].eid == "section-1" and p["section-2"].text == "This instrument commences on 26 October 2026."
+    )
+    assert all(
+        (x.note or "").startswith(
+            "Text as made, never amended. The Register dates this version from its registration (2026-10-14)"
+        )
+        for x in doc.provisions
+    )
+    assert "formula or image" in (p["schedule-clause-2"].note or "") and report.images == 1
+    assert _cite(doc, "section-3-1-a") == "Defence (Laverton—Defence Area) Declaration 2026 (Cth) s 3(1)(a)"
+    assert _cite(doc, "schedule-clause-1-3") == "Defence (Laverton—Defence Area) Declaration 2026 (Cth) sch cl 1(3)"
+    joined = "\n".join(x.text for x in doc.provisions)
+    assert "I, Peter Khalil" not in joined and "Dated 12 October" not in joined  # the signature block is not law text
+
+
+def test_legislative_instrument_compilation_in_the_pre_2005_template() -> None:
+    """Regulations compiled by the Office of Legislative Drafting: HR/R1/R2/P1-P3/Note styles, 'Notes to the ...'."""
+    docs, report = parse_with_report(_read(SPREP))
+    doc = docs[0]
+    p = _by_eid(doc)
+    assert (doc.instrument_type, doc.text_origin, doc.validity_basis) == (
+        "legislative_instrument",
+        "official_consolidation",
+        "revision_snapshot",
+    )
+    assert (doc.version_date, doc.currency_date, doc.work_date) == (date(2000, 7, 1), date(2000, 7, 1), None)
+    assert p["section-1"].heading == "Name of Regulations"  # "[see Note 1]" is editorial
+    assert p["section-2-1"].text == (
+        "Subject to subregulation (2), these Regulations are taken to have commenced on 31 August 1995."
+    )
+    assert (
+        p["section-3-def-act"].text == "Act means the International Organisations (Privileges and Immunities) Act 1963."
+    )
+    # Two alternative terms in one definition ("member of the family or family member"): the first names the eid.
+    assert p["section-3-def-member-of-the-family-b-ii"].kind == "subparagraph"
+    assert p["section-10A-4-b-i-A"].kind == "subsubparagraph"
+    # Closing words after paragraphs (Rc) continue the subregulation; an in-text Note stays with its provision.
+    assert p["section-9-2"].has_own_content and p["section-9-2"].text.endswith(
+        "while in Australia solely for the purpose of performing services for the organisation."
+    )
+    assert p["section-10A-7-def-exceptional-circumstances"].text.startswith("exceptional circumstances, in relation to")
+    assert "Note Section 11C of the Act establishes" in p["section-10A-7-def-exceptional-circumstances"].text
+    assert doc.provisions[-1].eid == "section-13-3" and report.other_styles == {}
+    joined = "\n".join(x.text for x in doc.provisions)
+    assert (
+        "Notes to the" not in joined
+        and "Table of Statutory Rules" not in joined
+        and "Statutory Rules 1996 No. 144" not in joined
+    )
+    assert _cite(doc, "section-7-1") == (
+        "South Pacific Regional Environmental Programme (Privileges and Immunities) Regulations 1996 (Cth) reg 7(1)"
+    )
+    assert _cite(doc, "section-3-def-act") == (
+        "South Pacific Regional Environmental Programme (Privileges and Immunities) Regulations 1996 (Cth) reg 3 "
+        "(definition of ‘Act’)"
+    )
+    module = get_module("au")
+    ext = {"title_id": "F2026L00001", "collection": "LegislativeInstrument"}
+
+    def cite(title: str, top_kind: str, path: list[str]) -> str:
+        return module.provision_citation(
+            ProvisionCitationInput(title, "legislative_instrument", "AU", top_kind, path, "en", ext=ext)
+        )
+
+    assert cite("Court Procedures Rules 2026", "section", ["5", "(2)"]) == "Court Procedures Rules 2026 (Cth) r 5(2)"
+    assert (
+        cite("Trade Marks Regulations 1995", "schedule", ["1", "2"]) == "Trade Marks Regulations 1995 (Cth) sch 1 cl 2"
+    )
+    assert (
+        cite("Migration (Rules) Determination 2026", "section", ["3"])
+        == "Migration (Rules) Determination 2026 (Cth) s 3"
+    )
 
 
 # --------------------------------------------------------------------------- connector
@@ -234,10 +431,12 @@ def _cache_copy(dest: Path) -> Path:
     return dest
 
 
-def _connector(cache: Path, tmp_path: Path, works: list[dict[str, Any]], **kw: Any) -> FederalRegisterConnector:
+def _connector(
+    cache: Path, tmp_path: Path, works: list[dict[str, Any]], source_id: str = "au-federal-register", **kw: Any
+) -> FederalRegisterConnector:
     manifest = {
         "schema_version": 1,
-        "source_id": "au-federal-register",
+        "source_id": source_id,
         "api_base": "https://api.prod.legislation.gov.au/v1",
         "user_agent": "ULIS-test (+https://example.org)",
         "crawl_delay_seconds": 10,
@@ -245,7 +444,7 @@ def _connector(cache: Path, tmp_path: Path, works: list[dict[str, Any]], **kw: A
     }
     path = tmp_path / "manifest.yaml"
     path.write_text(yaml.safe_dump(manifest))
-    return FederalRegisterConnector(path, "au-federal-register", cache, **kw)
+    return FederalRegisterConnector(path, source_id, cache, **kw)
 
 
 CONSTITUTION_WORK = {"title_id": "C2004Q00685", "history": True, "history_since": "1946-12-19"}
@@ -272,6 +471,31 @@ def test_connector_offline_from_cache(tmp_path: Path) -> None:
         (tmp_path / "cache/api.prod.legislation.gov.au/C1901A00002/2026-03-28_r0.json.meta.json").read_text()
     )
     assert docs[3].retrieved_at.isoformat() == meta["retrieved_at"]
+
+
+def test_connector_fetches_the_text_as_made_when_it_is_the_latest_version(tmp_path: Path) -> None:
+    works = [{"title_id": "C2024A00101", "as_made": True}, {"title_id": "C2004A00044"}, {"title_id": "F2026L01385"}]
+    conn = _connector(_cache_copy(tmp_path / "cache"), tmp_path, works, offline=True)
+    docs = list(conn.fetch())
+    assert [d.external_id for d in docs] == [
+        "frl:C2024A00101@2024-12-02#r0",
+        "frl:C2004A00044@1973-10-19#r0",
+        "frl:F2026L01385@2026-10-14#r0",
+    ]
+    assert conn.skipped == [] and conn.fetch_errors == []
+    assert all(d.metadata["as_made"] and d.metadata["register_id"] == d.metadata["title_id"] for d in docs)
+    assert docs[0].metadata["web_url"] == "https://www.legislation.gov.au/C2024A00101/asmade/text"
+    assert docs[2].metadata["end"] == "2026-11-30"
+    # A compiled instrument is fetched like a compiled Act (the register id is the compilation's).
+    conn = _connector(
+        tmp_path / "cache", tmp_path, [{"title_id": "F1996B00533"}], "au-federal-register-instruments", offline=True
+    )
+    (doc,) = list(conn.fetch())
+    assert doc.external_id == "frl:F1996B00533@2000-07-01#r1" and doc.metadata["as_made"] is False
+    assert doc.metadata["register_id"] == "F2004C00644"
+    assert doc.metadata["web_url"] == "https://www.legislation.gov.au/F1996B00533/2000-07-01/text"
+    with pytest.raises(ManifestError, match="as_made must be booleans"):
+        _connector(tmp_path / "c2", tmp_path, [{"title_id": "C2024A00101", "as_made": "yes"}], offline=True)._manifest()  # noqa: SLF001
 
 
 def test_connector_selection_and_manifest_checks(tmp_path: Path) -> None:
@@ -433,6 +657,89 @@ def test_au_sources_verify_and_reingest_is_idempotent(
         )
         session.rollback()
     assert again.documents_unchanged == 4 and again.provision_versions_created == 0
+
+
+@pytest.mark.db
+def test_acts_as_made_are_dated_from_assent_with_a_presumed_effective_date(
+    session_factory: sessionmaker[Session],
+    catalog: Catalog,
+    store: LocalObjectStore,
+    au_ingested: IngestionReport,
+    tmp_path: Path,
+) -> None:
+    works = [{"title_id": "C2024A00101", "as_made": True}, {"title_id": "C2004A00044", "as_made": True}]
+    connector = _connector(_cache_copy(tmp_path / "cache"), tmp_path, works, offline=True)
+    with session_factory() as session:
+        report = Ingestor(session, catalog, store).ingest_source(
+            "au-federal-register", actor="pytest", connector=connector
+        )
+        assert report.errors == [] and report.conflicts == [] and report.instruments_created == 2
+        res = search(
+            session,
+            catalog,
+            SearchRequest(q="charge and collect a payment surcharge", jurisdiction="AU", as_of=date(2026, 10, 18)),
+            today=date(2026, 10, 18),
+        )
+        hit = next(h for h in res["results"] if h["document"]["uri"] == "/au/act/C2024A00101")
+        assert hit["citation"] == "Commonwealth Entities (Payment Surcharges) Act 2024 (Cth) s 5(1)"
+        codes = _codes(hit["limitations"])
+        assert codes["EFFECTIVE_DATE_PRESUMED"] == "warning" and codes["CURRENCY_UNKNOWN"] == "warning"
+        assert codes["NOT_AUTHENTICATED"] == "info" and codes["SOURCE_NOT_AUTHENTIC"] == "info"
+        assert "SNAPSHOT_DATES" not in codes and "OFFICIAL_CONSOLIDATION_REPRODUCED" not in codes
+        assert "AS_OF_AFTER_CURRENCY" not in codes
+        note = next(lim for lim in hit["limitations"] if lim["code"] == "VERSION_NOTE")
+        assert note["message"].startswith(
+            "Text as made, never amended. The Register dates this version from assent (2024-12-02)"
+        )
+        uri = "/au/act/C2004A00044/~section-2-1"
+        now = provision_at(session, catalog, uri, date(2026, 10, 18))
+        assert now["status_on_date"] == "in_force"
+        assert (now["version"]["valid_from"], now["version"]["valid_to"]) == ("1973-10-19", None)
+        assert now["provision"]["citation"] == "Royal Style and Titles Act 1973 (Cth) s 2(1)"
+        assert provision_at(session, catalog, uri, date(1973, 10, 1))["status_on_date"] != "in_force"
+        # Re-deriving the stored text from the raw API response passes for texts as made too.
+        ids = session.scalars(
+            select(m.SourceDocument.id).where(m.SourceDocument.external_id.like("frl:C2024A00101@%"))
+        ).all()
+        assert [verify_source_document(session, catalog, store, i)["result"] for i in ids] == ["pass"]
+        session.rollback()
+
+
+@pytest.mark.db
+def test_legislative_instruments_are_a_separate_source(
+    session_factory: sessionmaker[Session],
+    catalog: Catalog,
+    store: LocalObjectStore,
+    au_ingested: IngestionReport,
+    tmp_path: Path,
+) -> None:
+    works = [{"title_id": "F2026L01385"}, {"title_id": "F1996B00533"}]
+    source_id = "au-federal-register-instruments"
+    connector = _connector(_cache_copy(tmp_path / "cache"), tmp_path, works, source_id, offline=True)
+    assert catalog.sources.get(source_id).load_by_default is False
+    with session_factory() as session:
+        report = Ingestor(session, catalog, store).ingest_source(source_id, actor="pytest", connector=connector)
+        assert report.errors == [] and report.conflicts == [] and report.instruments_created == 2
+        res = search(
+            session,
+            catalog,
+            SearchRequest(
+                q="office of Director is a high office in the organisation", jurisdiction="AU", as_of=date(2026, 10, 18)
+            ),
+            today=date(2026, 10, 18),
+        )
+        hit = next(h for h in res["results"] if h["document"]["uri"] == "/au/legislative_instrument/F1996B00533")
+        assert hit["citation"] == (
+            "South Pacific Regional Environmental Programme (Privileges and Immunities) Regulations 1996 (Cth) reg 7(1)"
+        )
+        assert hit["document"]["type"] == "legislative_instrument"
+        codes = _codes(hit["limitations"])
+        assert codes["SNAPSHOT_DATES"] == "warning" and codes["AS_OF_AFTER_CURRENCY"] == "warning"
+        # The Declaration is in force (as registered) until its own repeal on 2026-11-30.
+        uri = "/au/legislative_instrument/F2026L01385/~section-3-1"
+        assert provision_at(session, catalog, uri, date(2026, 10, 20))["status_on_date"] == "in_force"
+        assert provision_at(session, catalog, uri, date(2026, 12, 1))["status_on_date"] == "no_version"
+        session.rollback()
 
 
 def _relabelled(name: str, title_id: str, **version: Any) -> RawDocument:
