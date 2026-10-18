@@ -19,8 +19,9 @@ coverage: >-
   declarations, orders, standards, plans, ...; amending instruments have no text of their own to fetch). For each,
   the latest registered version through the Register's public API as an EPUB document with its version metadata:
   the latest compilation of an instrument that was amended, or the text as made of one that never was (dated by
-  the Register from its registration, with the instrument's own commencement not extracted). Tested on a slice;
-  see docs/jurisdictions/au.md for the share of instruments whose EPUB styles the parser can read.
+  the Register from its registration, with the instrument's own commencement not extracted). Tested on a slice of
+  20 (every 1,179th title, 2026-10-18): the parser read 2 and refused 18 (docs/jurisdictions/au.md), so a full load
+  is not recommended until it covers the forms, tables and agency templates that make up most of the collection.
 access:
   method: api
   endpoint: config/manifests/au-federal-register-instruments.yaml
@@ -94,6 +95,14 @@ provenance: >-
   version's start and end dates), stored unmodified with its SHA-256.
 known_limitations:
   - >-
+    The parser reads only part of the collection: 2 of a 20-instrument slice (2026-10-18). Airworthiness directives
+    (9,010 titles, 38%) and tariff concession orders (5,596, 24%) are forms and tables without sections and are dated
+    from their effect rather than their registration; many agencies draft in templates the parser does not know
+    (Statements of Principles, accounting and vehicle standards, unstyled determinations). Such documents are refused
+    and reported. At the slice's rate a full load (about 24,750 requests, 69 hours) would ingest roughly 2,400
+    instruments; leaving the directives and concession orders out of the manifest would cut it to about 9,400
+    requests (26 hours).
+  - >-
     Not loaded by default (about 69 hours of crawl delay for 23,573 titles). Amending instruments,
     notifiable instruments, the Gazette, and instruments no longer in force are not listed; only the latest
     registered version of each principal instrument is fetched (no history).
@@ -105,7 +114,9 @@ known_limitations:
   - >-
     A never-amended instrument has only its text as made, which the Register dates from its registration; the
     instrument's own commencement (usually the day after registration unless it provides otherwise, Legislation Act
-    2003 s 12) is not extracted. Every such provision carries validity_basis enactment_date_presumed and a note.
+    2003 s 12) is not extracted. Every such provision carries validity_basis enactment_date_presumed and a note. A text
+    as made whose version start is not the Register's registration date (RegisteredAt) is refused (12 of the 20 slice
+    instruments: back-captured directives dated 2004-12-20, concession orders dated from their effect).
   - ULIS parses the EPUB rendering of each document; only the PDF stamped "Authorised version" can be relied on in court proceedings.
   - The Register dates compilations, not provisions; per-provision commencement dates are not given, and repealed provisions (omitted from compilations) are not recorded as repealed.
   - Uncommenced amendments are not shown in compilations; a later version of a title without a registered compilation, and the Register's "unincorporated amendments" flag, are reported as outstanding changes but not applied.

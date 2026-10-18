@@ -102,6 +102,12 @@ known_limitations:
     (CURRENCY_UNKNOWN); the EPUB is the Register's rendering of the text as made, not the authorised PDF
     (text_origin official_conversion, NOT_AUTHENTICATED). If such an Act is amended later, the next run adds
     its compilation; the as-made version's open end is not closed by it (re-load the title).
+  - >-
+    A text as made is refused and reported when the source does not confirm its version start as the assent date
+    (the Register dates some from a retrospective commencement, e.g. Lake Eyre Basin Intergovernmental Agreement Act
+    2001: from 21 October 2000, assent 1 May 2001; older texts without an assent endorsement) or when the parser finds
+    no sections (texts re-keyed without styles): 4 of a 30-Act slice on 2026-10-18. Schedule items in a text as made
+    (amendments of other Acts, application and transitional items) are not reproduced.
   - ULIS parses the EPUB rendering of each compilation; only the PDF stamped "Authorised version" can be relied on in court proceedings.
   - The Register dates compilations, not provisions. A provision's text is known to apply during the period of the compilations that show it (adjacent compilations with identical wording are joined); per-provision commencement dates are not given.
   - Uncommenced amendments are not shown in compilations; a later version of a title without a registered compilation, and the Register's "unincorporated amendments" flag, are reported as outstanding changes but not applied.
