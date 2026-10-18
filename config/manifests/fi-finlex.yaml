@@ -1,28 +1,49 @@
-# Consolidated Finnish statutes fetched from the Finlex open data API (Finnish and Swedish).
-# Licence: CC BY 4.0 (Finlex FAQ). API rules: User-Agent required, 429 when rate-limited.
-# history: true fetches every earlier temporal version named in the latest version's
-# finlex:amendedBy list (plus the version as enacted); versions the API lacks are skipped.
+# Consolidated Finnish statutes from Finlex open data (Finnish and Swedish): read from Finlex's daily download package
+# (mode: package; a full load), or fetched from the API one document at a time (mode: api; single works).
+# Licence: CC BY 4.0 (Finlex FAQ), for the API and the packages alike. API rules: User-Agent required, 429 when
+# rate-limited. history: true takes every earlier temporal version named in the latest version's finlex:amendedBy list
+# (plus the version as enacted); versions neither the package nor the API holds are skipped and reported.
 #
 # Scope (2026-10-16): every consolidated statute in force that has text, 5,579 works: the 7 hand-picked works
 # below (two with history) and 5,572 written by scripts/build_finlex_manifest.py. The API's in-force list names
 # 38,585 statutes, but 33,006 of them are empty shells (a title and metadata, `contentAbsent`, 3-5 KB); the
 # download package's index (central directory of statute-consolidated.zip, read with one Range request) says
 # which have text and in which language, so `languages: [fin]` / `[swe]` marks the 50 listed in one language only.
+#
+# Package (https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip, "Updated legislation (4.1 GB)" on
+# https://www.finlex.fi/en/open-data/download-materials, read 2026-10-18; rebuilt daily): the package Finlex serves
+# when a run starts (`pin: latest` below), downloaded into var/sources/www.finlex.fi/ (robots.txt, then one GET,
+# resumable; the package of 2026-10-17, 4,397,198,140 bytes, SHA-256 8c07c5b9...3e45, took 3 requests and 143.5 s on
+# 2026-10-18), reused while one HEAD shows the same ETag, and read as a zip without extracting it. In it, `fin@` is the statute as enacted and `fin@<version>` each
+# later temporal version; the latest (the highest-numbered, else `fin@`) is the document the API's @latest serves:
+# 25 of 38 documents compared on 2026-10-18 were byte-identical, 9 were rewritten by the publisher after the package
+# was built (same version), and 4 had a newer version in the API, which the connector detects and fetches from the API.
+# All 11,108 listed documents are in the package (0 missing); 14 are taken from the API (the package names a newer
+# amendment) and 8 history versions of 434/2003 are in neither the package nor the API (404).
 # Pace: one connection, 1 s between request starts (the project minimum). The publisher states no Crawl-delay or number:
 # https://opendata.finlex.fi/robots.txt answers 404 and www.finlex.fi/robots.txt has no Crawl-delay (2026-10-18); the
 # quick guide says only that "user volumes ... may be restricted" with HTTP 429
-# (https://www.finlex.fi/en/open-data/integration-quick-guide, read 2026-10-18): a 429 that persists stops the run.
-# A Crawl-delay in the API host's robots.txt would win.
-# Cost of a full run: 11,108 documents = about 11,100 requests = 3.1 hours at the 1 s crawl delay; about 0.5 GB
-# of XML; database about 2 GB (the measured ratio is 4 bytes of database per byte of XML). A 404 or a server
-# error for one statute is reported and the run goes on; a refusal stops it. Responses are cached, so an
-# interrupted run resumes without new requests. The 4.1 GB download package would be faster for the owner
-# (one file, every temporal version) but needs a different connector; it is not used.
+# (https://www.finlex.fi/en/open-data/integration-quick-guide, read 2026-10-18): a 429 that persists stops the run, and
+# the package download stops at the first 401/403/429/451. A Crawl-delay in either host's robots.txt would win.
+# Cost of a full run: one 4.4 GB download (bandwidth-bound: 143.5 s here, about 12 min at 50 Mbit/s, 1 h at 10 Mbit/s),
+# about 23 API requests, reading the 11,126 documents (0.5 GB of XML) in 10 s and parsing them in 82 s; then the
+# database writes (not measured on a full load: 30-60 min extrapolated from a 50-work slice; about 2 GB, 4 bytes of
+# database per byte of XML). The API route would need about 11,140 requests = 3.1 hours at 1 s. A 404 or a server error for one statute is reported
+# and the run goes on; a refusal stops it. Downloads and responses are cached, so an interrupted run resumes.
 schema_version: 1
 source_id: fi-finlex
 base_url: https://opendata.finlex.fi/finlex/avoindata/v1
 user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
 crawl_delay_seconds: 1
+# The download package: `pin: latest` loads the package Finlex serves when the run starts (reused from the cache while
+# one HEAD shows the same ETag; downloaded again when Finlex has rebuilt it or the cached copy was pruned); its size,
+# SHA-256, ETag and Last-Modified are recorded in the cache's .meta.json and in every document's metadata. For a
+# reproducible run, `python -m scripts.finlex_package --pin` writes an exact pin (bytes, sha256) instead.
+mode: package
+package:
+  url: https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip
+  pin: latest
+  approx_bytes: 4397198140  # the package of 2026-10-17, for the load plan only (not checked)
 languages: [fin, swe]
 works:
   - {year: 1999, number: "731", history: false}     # Suomen perustuslaki / Finlands grundlag (Constitution)

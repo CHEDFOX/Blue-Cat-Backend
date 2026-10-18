@@ -3,7 +3,10 @@
 Status: profile `draft_unverified` (0.3.0). The committed manifest lists **every consolidated statute in
 force that has text** in Finlex open data (5,579 works, Finnish and Swedish; see "Widened to every statute in
 force"); the real runs in "Results" cover the original seven Acts (two with every earlier temporal version the
-API holds) and a 40-work slice of the widened manifest. The full download has not been run here.
+API holds) and a 40-work slice of the widened manifest. Since 2026-10-18 a full load reads the documents from Finlex's
+daily **download package** (one 4.4 GB file instead of about 11,100 API requests; see "Download package route"); all
+11,108 listed documents were read from it and a 50-work slice was ingested from it. The full database load has not been
+run here.
 
 ## Source
 
@@ -11,8 +14,8 @@ API holds) and a 40-work slice of the widened manifest. The full download has no
 |---|---|
 | Source id | `fi-finlex` (`config/sources/fi-finlex.yaml`) |
 | Publisher | Ministry of Justice, Finland; Finlex is maintained by the Legal Register Centre ([help](https://www.finlex.fi/en/instructions)) |
-| Access | Finlex open data REST API, Akoma Ntoso XML: `GET https://opendata.finlex.fi/finlex/avoindata/v1/akn/fi/act/statute-consolidated/{year}/{number}/{fin\|swe}@{version}` ([open data](https://www.finlex.fi/en/open-data), [quick guide](https://www.finlex.fi/en/open-data/integration-quick-guide), [OpenAPI](https://opendata.finlex.fi/Finlex_avoin_data_v0_4_0.yaml)). No key; a User-Agent header is required |
-| Connector | `finlex` (`ulis/sources/connectors/finlex.py`, uses `PoliteHttp`) |
+| Access | Full load: Finlex's download package [`statute-consolidated.zip`](https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip) ("Updated legislation (4.1 GB)" on the [download page](https://www.finlex.fi/en/open-data/download-materials); rebuilt daily), the same Akoma Ntoso documents in one zip. Single works: the Finlex open data REST API, Akoma Ntoso XML: `GET https://opendata.finlex.fi/finlex/avoindata/v1/akn/fi/act/statute-consolidated/{year}/{number}/{fin\|swe}@{version}` ([open data](https://www.finlex.fi/en/open-data), [quick guide](https://www.finlex.fi/en/open-data/integration-quick-guide), [OpenAPI](https://opendata.finlex.fi/Finlex_avoin_data_v0_4_0.yaml)). No key; a User-Agent header is required |
+| Connector | `finlex` (`ulis/sources/connectors/finlex.py`): `mode: package` (the committed manifest; the package Finlex serves when a run starts, or an exact pin; resumable download, read in place) or `mode: api` (`PoliteHttp`, one document per request) |
 | Parser | `finlex_akn` (`ulis/sources/parsers/finlex.py`) |
 | Module | `fi` (`ulis/jurisdictions/modules/fi.py`) |
 | Manifest | `config/manifests/fi-finlex.yaml` |
@@ -81,8 +84,8 @@ taken from each latest version's `finlex:amendedBy` list.
 
 ## Widened to every statute in force (2026-10-16)
 
-- **What the two indexes say.** The download package `statute-consolidated.zip` (4.1 GB; central directory read with
-  2 Range requests, never downloaded) has 348,144 members: 56,478 statutes, each in Finnish and Swedish, 1.17 temporal
+- **What the two indexes say.** The download package `statute-consolidated.zip` (4.1 GB; on 2026-10-16 only its
+  central directory was read, with 2 Range requests) has 348,144 members: 56,478 statutes, each in Finnish and Swedish, 1.17 temporal
   versions per language on average. The API's list (`GET /akn/fi/act/statute-consolidated/list?isInForce=true&
   langAndVersion=fin@latest`, at most 10 per page, no total) names **38,585 statutes in force** (3,885 pages). But
   **33,006 of them are shells**: `<hcontainer name="contentAbsent"/>`, a title and metadata, 3-5 KB, no text and no
@@ -111,8 +114,121 @@ taken from each latest version's `finlex:amendedBy` list.
   (`ulis.cli search … --jurisdiction FI`): `tupakkatuote` → Tupakkalaki (549/2016) 2 § 1 mom., 11 § 1 mom.;
   `elintarvikevalvonta` → Maa- ja metsätalousministeriön asetus elintarvikevalvonnasta (315/2021) 15 § 1 mom. 4 kohta;
   `kreditinstitut` → Lag om resolution av kreditinstitut och värdepappersföretag (1194/2014) 1 kap. 3 § 1 mom.
-- Not used: the 4.1 GB package itself (one file with every temporal version, faster for the owner than 11,100
-  requests, but it needs a streaming zip reader and a rule for the latest version of each statute).
+- The 4.1 GB package itself was not used then; it is now the full-load route (next section).
+
+## Download package route (2026-10-18)
+
+**Terms, read first (2026-10-18).** The open data page counts the packages as part of the same service ("To access
+the open data, you can perform searches using a REST application programming interface (API) or access a user
+interface to download data packages", [open data](https://www.finlex.fi/en/open-data)); the
+[download page](https://www.finlex.fi/en/open-data/download-materials) offers them as plain links, with no sign-up or
+terms of their own ("The materials are ZIP-compressed, and the packages are updated with new documents once a day."),
+so the FAQ's CC BY 4.0 grant and its privacy conditions apply (`config/sources/fi-finlex.yaml`). No notice is asked
+for. `https://www.finlex.fi/robots.txt`, read again before the download, has `User-Agent: *`, `Disallow:
+/_next/image` and no Crawl-delay: `/files/open-data/archives/` is allowed.
+
+**The package, downloaded once** (`FinlexConnector.download_package`: robots.txt, then one GET with the ULIS
+User-Agent; a broken transfer resumes with `Range` + `If-Range: <ETag>`, so a package rebuilt meanwhile is fetched
+whole again rather than spliced; the first 401/403/429/451 stops it):
+
+| | |
+|---|---|
+| URL | `https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip` |
+| Size | **4,397,198,140 bytes** (4.1 GiB) |
+| SHA-256 | `8c07c5b96f4d5063b841bb156eb204fb8f783c6e96d34c810555200aa7ce3e45` (checked again with `sha256sum`: 3.5 s) |
+| Last-Modified / ETag | `Sat, 17 Oct 2026 23:27:28 GMT` / `"0d44183df8d844dd14a81c32ddfaa8e8-525"` |
+| Retrieved | 2026-10-18 11:57:24 UTC: 3 requests (robots.txt and 2 GETs), **143.5 s** including the SHA-256 (about 30 MB/s) |
+| Integrity | CRC-32 of all **346,017 members** checked (`zipfile.testzip`, 40.9 s): no error |
+| Cache | `var/sources/www.finlex.fi/files/open-data/archives/statute-consolidated.zip` + `.meta.json` |
+
+**Which package a run loads.** The committed manifest has `mode: package` and `package: {url, pin: latest,
+approx_bytes}`: each run loads the package Finlex serves when it starts, so a fresh server load needs nothing done
+beforehand. A cached package is reused while one HEAD request shows the same ETag (else Last-Modified) and size;
+otherwise it is deleted and the current one downloaded (one package on disk at a time), and a cached package that is
+gone (for example deleted by a cache pruner after an ingest) is simply downloaded again. If Finlex cannot be asked (5xx
+or no connection after 4 tries) the cached package is used and the run says so; a refused HEAD stops the run. The
+package's size, SHA-256, ETag, Last-Modified and retrieval time are written to the cache's `.meta.json` and into every
+document's metadata (`package_bytes`, `package_sha256`, `package_etag`, `package_last_modified`,
+`package_retrieved_at`, stored with each source document), and a run opens one package file and reads every document
+from it, so two packages are never mixed. For a reproducible run, `package.pin: exact` with `bytes`, `sha256`,
+`last_modified`, `etag` and `retrieved_at` (written by `python -m scripts.finlex_package --pin`) accepts only that
+package and refuses any other (`PackageChanged`); Finlex stops serving it at its next rebuild, so it can be repeated
+only while it is cached.
+
+**Which member is the latest version.** Members are `akn/fi/act/statute-consolidated/<year>/<number>/<lang>@<version>/
+main.xml`. `fin@` (no number) is the statute **as enacted** (its `FRBRversionNumber` is the statute's own number:
+the package's `2018/1050/fin@` is byte-identical to the API's `fin@20181050`), and `fin@<version>` each later temporal
+version. Of the 11,108 listed documents 6,076 have only the as-enacted member; 5,032 have numbered versions, 1,254 of
+them also `fin@`, which is then always the oldest. The latest is therefore the highest-numbered member, else `fin@`;
+the API's `@latest` matched that rule in every comparison below except where the API already had a newer version.
+(`scripts/build_finlex_manifest.py` assumed `fin@` was the current text; it is corrected, and the manifest is
+unchanged: no statute's latest document falls on the other side of the 5,500-byte text threshold.)
+
+**All listed documents read from the package** (no network; 2026-10-18):
+
+| | |
+|---|---|
+| Listed latest documents (5,579 works) | **11,108**, all present in the package: **0 missing**, **0 errors** (CRC-32 and the member's own `FRBRuri` checked) |
+| Read from the package | **11,094** latest + 32 earlier temporal versions of the two `history` Acts = 11,126 documents, 514,875,592 bytes, **10.3 s** (+3.2 s to check and open the package, 0.3 s to index its 132,499 `main.xml` members) |
+| Taken from the API instead | **14** (7 works: 4/1734, 400/2015, 801/2017, 616/2019, 221/2022, 64/2023, 380/2023): the package's own metadata names a newer amending statute (871-887/2026, consolidated 2026-10-08/09) that has no member yet |
+| History versions in neither | 8: 434/2003 `@20030434`, `@20091408`, `@20100581`, `@20140368` in both languages - the same versions the API answered 404 for on 2026-10-14 |
+| Shells (`contentAbsent`) | 1,098, skipped at ingest as before |
+| Parsed without a database | **82.3 s**: 9,780 documents parsed (767,046 provisions), 1,097 shells and 27 statutes no longer in force skipped, **222 refused** by the parser ("missing statuteProvisionsWrapper": decisions whose text is in an attachment; the API serves the same bytes, so this is a parser gap, not a package one) |
+
+**Byte comparison with the API** (38 documents: 32 API responses fetched on 2026-10-18 - 30 for this comparison,
+seeded random works with text plus edge cases, and 2 fetched by the slice's fallback - and 6 fixtures fetched on
+2026-10-14/15; 37 with text, 19 Finnish and 18 Swedish):
+
+| Result | Documents |
+|---|---|
+| Byte-identical (same SHA-256) | **25** (24 with text: 13 fi, 11 sv; e.g. Criminal Code 39/1889 fin/swe 2,260,855 / 2,260,840 bytes, Code of Judicial Procedure 4/1734 fin/swe, Constitution 731/1999, Data Protection Act 1050/2018 `@20250437` and as enacted) |
+| Same version, rewritten by the publisher after the package was built | 9 (API `dateProduced` 2026-10-18 for 4, the same 2026-10-17 for 5): reference targets now point to consolidated sections (`/akn/fi/act/statute/2018/560` → `/akn/fi/act/statute-consolidated/2018/560#sec_82`) and metadata order changed. Parsed: 4 identical `ParsedDocument`s, 5 identical except those reference targets |
+| Newer version in the API | 4: 380/2023 fin/swe (API `20260887`, package `20260803`) and 64/2023 fin/swe (`20260871` vs `20250006`); the connector detects both (the package names 887/2026 and 871/2026) and takes them from the API |
+
+Of the three flagged works checked against the API, 380/2023 and 64/2023 had the newer version and 4/1734 did not (its
+API `@latest`, 20260687, is byte-identical to the package's): the check errs towards asking the API.
+
+**Slice ingest through the package route** (dev database `ulis_fib`, fresh; 50 works: 49 drawn from the manifest with
+seed 20261018, plus 64/2023): 100 documents seen, **89 new** (85 from the package, 4 from the API: 4/1734 and 64/2023),
+11 skipped (10 shells, 1 no longer in force), **0 errors, 0 conflicts**; 45 instruments, 89 versions, 9,468 provision
+versions, 317 citation links (5 resolved), 6,907 passages; **28.4 s** in all (3 API requests). `verify-sources`:
+**89/89 pass**, 9,468 units, 6.1 s. Database 34 MB for 5.9 MB of XML. Searches (`ulis.cli search … --jurisdiction
+FI`): `holhoustoimi edunvalvoja` → Laki holhoustoimesta (442/1999) 92 § 2 mom. (a package document);
+`fosforia sisältävien lannoitevalmisteiden` → Valtioneuvoston asetus fosforia sisältävien lannoitevalmisteiden ja lannan
+käytöstä (64/2023) 5 § 1 mom. 2 kohta (version 20260871, from the API); `rättegångsbalk domstol` → Rättegångsbalk
+(4/1734) 22 kap. 3 § 1 mom. 1 punkten.
+
+**Cost of a full load.** Before (API route): 11,108 latest documents plus history, about 11,140 requests = **3.1 hours**
+at 1 s start to start (4.6 h if latency adds; 15.4 h at the earlier 5 s). After (package route): **one 4.4 GB download**
+(143.5 s here; bandwidth-bound: about 12 min at 50 Mbit/s, 1 h at 10 Mbit/s), about 23 API requests (14 fallbacks, 8
+history versions, robots.txt: about 23 s at 1 s), then local work: reading 10 s, parsing 82 s, and the database writes,
+which both routes share (not measured on a full load: 30-60 min extrapolated from the slice's 9,468 provision versions
+to the 767,046 provisions the manifest parses into; about 2 GB). `load-all --dry-run` shows `>= 2s + 4.1 GB` for
+`fi-finlex` (`approx_bytes`, the size of the package of 2026-10-17).
+
+**Requests made for this work** (all with the ULIS User-Agent, one connection, at least 1 s apart): www.finlex.fi 5
+(robots.txt twice, 2 GETs of the package, 1 HEAD by `scripts/finlex_package.py`); opendata.finlex.fi 35 (robots.txt
+three times, 404; 32 documents). No 401, 403, 429 or 451.
+
+**Refreshing (daily).** Finlex rebuilds the package once a day under the same URL; the API is updated continuously.
+`load-all --refresh` (and any later `ingest fi-finlex`) runs fi-finlex like a first load: `--refresh` first deletes
+cached downloads older than `--max-cache-age-days` (7), then the connector asks Finlex with one HEAD whether the cached
+package is still current, downloads the new package only when the ETag changed, and the pipeline skips every document
+whose bytes it already holds (same SHA-256). `fi-finlex` is therefore a live source again (not in the static pins).
+
+```
+python -m scripts.finlex_package                   # manifest pin, cached package, what Finlex serves now (robots + HEAD)
+python -m scripts.finlex_package --replace         # download Finlex's current package now if it differs from the cache
+python -m scripts.finlex_package --replace --pin   # ... and pin it exactly for a reproducible run
+python -m scripts.finlex_package --live            # back to pin: latest (the committed default)
+```
+
+Single works come from the API one document at a time: a manifest with `mode: api` listing them, or
+`FinlexConnector(manifest, "fi-finlex", cache, mode="api")`. Two caveats, both measured above: the package lags the
+API for new amendments (a version that no package member mentions yet is only picked up by a later package or by the
+API route), and the publisher rewrites documents without a new version number; loading such a rewrite over the stored
+document is refused by the pipeline ("already recorded from different source bytes") and the stored text is kept, so
+a refresh over an existing database reports those documents as errors. A load into a fresh database is not affected.
 
 ## How dates and versions work
 
@@ -197,13 +313,29 @@ formally binding; KKO/KHO precedents are followed in practice (marked "to verify
 reception: dualist (to verify). No memberships are recorded here (EU membership is added with the EU
 profile).
 
+Tests with the package route (2026-10-18, own test database): full suite **2,121 passed** (1,326 s); `tests/test_finlex.py`
+37 tests (package route against API fixtures, history and fallbacks, exact-pin refusal, API override, a member
+that is not its document, the committed live manifest and load plan, the package script's switch between `latest` and
+an exact pin, the resumable download against a fake server - resume, rebuilt package, refusals 401/403/429/451, newer
+package, robots.txt - the live package against a fake server - a "current" package different from the sample is
+downloaded and named in every document while an exact pin of the sample refuses it, reuse after one HEAD, replacement
+when the ETag changes, download after pruning, offline, HEAD failure and refusal, a cache altered on disk - and a
+PostgreSQL ingest of the package fixture whose source-document records name the package's SHA-256). Fixture:
+`tests/fixtures/finlex/package/statute-consolidated-sample.zip` (14 real members). ruff, ruff format, mypy pass.
+
 Tests after widening (2026-10-16, own test database): full suite **1,291 passed**; `tests/test_finlex.py` 18 tests (committed manifest, shell / repealed / decision fixtures, connector robustness, PostgreSQL search of a decision in both languages). ruff, ruff format, mypy pass.
 
 ## Known gaps
 
 - Consolidated (non-authentic) text only; no original Statute Book texts, translations, case law (KKO/KHO
   precedents are on Finlex but not ingested) or treaties. The 33,006 in-force statutes without text are not ingested.
-  The full 5,579-work download has not been run (a slice of 40 has); the size figures are estimates.
+  The full 5,579-work database load has not been run (slices of 40 from the API and 50 from the package have; all
+  11,108 documents were read and parsed from the package); the database size and time are estimates.
+- 222 of the 11,126 documents (2.0 %) are refused by the parser ("missing statuteProvisionsWrapper": decisions whose
+  text is in an attachment) on either route.
+- The download package lags the API for new amendments: a newer version is taken from the API only when the
+  package's own metadata names it (14 documents on 2026-10-18); rewritten documents of an unchanged version are not
+  re-ingested over the stored ones (see "Refreshing").
 - Full history only for the Data Protection Act; the Administrative Procedure Act from 2015; every other
   statute in its latest version (add `history: true` per work, in a fresh database).
 - Start dates are those the source records for the statute that gave each wording; where an amending

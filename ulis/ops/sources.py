@@ -92,9 +92,15 @@ class ManifestInfo:
     git: bool  # fetched with a git clone rather than HTTP requests
     # hosts named in the manifest's settings and entries, not in its comments (whose robots.txt can set a floor)
     data_hosts: tuple[str, ...] = ()
+    # a manifest loaded from one download package (``mode: package`` with ``package.bytes`` or ``approx_bytes``): its
+    # size, and the documents read from it (the requests the per-document route would make)
+    download_bytes: int | None = None
+    documents: int | None = None
 
     @property
     def weight(self) -> int:
+        if self.documents is not None:
+            return self.documents
         return self.requests if self.requests is not None else DEFAULT_ENTRIES
 
     @property
@@ -114,6 +120,8 @@ def _read(path: str, mtime_ns: int) -> ManifestInfo:
     requests: int | None = None
     delay: float | None = None
     git = False
+    download_bytes: int | None = None
+    documents: int | None = None
     if isinstance(data, dict):
         lists = [v for v in data.values() if isinstance(v, list)]
         main = max(lists, key=len) if lists else None
@@ -129,9 +137,14 @@ def _read(path: str, mtime_ns: int) -> ManifestInfo:
         raw_delay = data.get("crawl_delay_seconds")
         delay = float(raw_delay) if isinstance(raw_delay, int | float) else None
         git = "repository" in data
+        package = data.get("package")
+        size = (package.get("bytes") or package.get("approx_bytes")) if isinstance(package, dict) else None
+        if data.get("mode") == "package" and isinstance(size, int):
+            # robots.txt and one download (resumed if interrupted); a few per-document requests may come on top
+            download_bytes, documents, requests = size, requests, 2
     hosts = tuple(sorted(url_hosts(raw)))
     data_hosts = tuple(sorted(url_hosts(_COMMENT_LINE.sub("", raw))))
-    return ManifestInfo(entries, requests, delay, hosts, git, data_hosts)
+    return ManifestInfo(entries, requests, delay, hosts, git, data_hosts, download_bytes, documents)
 
 
 def manifest_info(source: SourceDescriptor, base_dir: Path) -> ManifestInfo | None:

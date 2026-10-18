@@ -248,11 +248,14 @@ def plan_delay(info: ManifestInfo | None, cache_dir: Path | None = None) -> floa
 def format_plan(selection: Selection, options: LoadOptions, cache_dir: Path | None = None) -> str:
     rows: list[list[object]] = []
     total_seconds = 0.0
+    packages: list[str] = []
     for n, item in enumerate(selection.selected, 1):
         info = item.info
         delay = plan_delay(info, cache_dir)
         floor = info.requests * delay if info and info.requests is not None and delay is not None else None
         total_seconds += floor or 0.0
+        if info and info.download_bytes:
+            packages.append(f"{item.source.id} {human_bytes(info.download_bytes)}")
         rows.append(
             [
                 n,
@@ -261,7 +264,8 @@ def format_plan(selection: Selection, options: LoadOptions, cache_dir: Path | No
                 info.entries if info and info.entries is not None else "?",
                 f"{info.requests:,}" if info and info.requests is not None else "?",
                 "git clone" if info and info.git else (f"{delay:g}s" if delay else "-"),
-                f">= {human_duration(floor)}" if floor else "-",
+                (f">= {human_duration(floor)}" if floor else "-")
+                + (f" + {human_bytes(info.download_bytes)}" if info and info.download_bytes else ""),
             ]
         )
     lines = [
@@ -274,6 +278,11 @@ def format_plan(selection: Selection, options: LoadOptions, cache_dir: Path | No
             f"or a longer robots.txt Crawl-delay; one connection per host; sources that fetch version histories need "
             f"more): "
             f">= {human_duration(total_seconds)} in total; parsing and indexing come on top."
+        )
+    if packages:
+        lines.append(
+            "Download packages (one file each, resumable; their time depends on bandwidth, not on the crawl delay, "
+            f"and is not in the total): {', '.join(packages)}."
         )
     if options.refresh and cache_dir is not None:
         files = size = 0
