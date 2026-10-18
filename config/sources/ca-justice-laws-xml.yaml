@@ -5,12 +5,14 @@ publisher: Department of Justice Canada
 kind: open_data_repository
 authority: official_non_authentic
 jurisdictions: [CA]
-document_kinds: [act]
+document_kinds: [act, regulation]
 languages: [en, fr]
 coverage: >-
   The consolidated federal Acts and regulations published on the Justice Laws Website, in
-  English and French, as XML in the department's public GitHub repository. ULIS ingests a
-  selected list of Acts in both languages at one pinned commit.
+  English and French, as XML in the department's public GitHub repository. ULIS ingests every
+  consolidated Act (eng/acts, fra/lois) and every consolidated regulation and statutory
+  instrument (eng/regulations, fra/reglements: SOR, SI and C.R.C. instruments) in both languages
+  at one pinned commit; the manifest header gives the counts and names each file left out.
 access:
   method: bulk_download
   endpoint: config/manifests/ca-justice-laws-xml.yaml
@@ -42,8 +44,16 @@ provenance: >-
   (Legislation Revision and Consolidation Act, s 31); this reproduction is not.
 known_limitations:
   - Current consolidation only; earlier versions (available on the Justice Laws Website) are not indexed.
-  - A reproduction, not an official version; in case of inconsistency the enacted Act prevails.
+  - A reproduction, not an official version; in case of inconsistency the enacted Act or regulation prevails.
   - Amendments not in force are listed in a schedule and reported as outstanding changes.
+  - Instruments whose consolidation holds only a repeal notice (18 Acts and 430 regulations at the pinned commit)
+    have no text to ingest; they are named under `excluded` in the manifest. Wholly repealed instruments that still
+    carry their repealed text are recorded with every provision repealed and a repeal event.
+  - A regulation's making order (or the whole text of an order in council) is unnumbered and paragraphed differently in
+    the two languages; it is indexed as one provision without a pinpoint. The "Related provisions" schedule and the
+    editorial RecentAmendments list are not indexed.
+  - One instrument (C.R.C. 1955, p. 2561 / p. 2802, Post Office Savings Bank Regulations) is numbered by a different
+    page in each language, so its two language versions do not share a work URI.
 status: active
 connector: git_snapshot
 parser: justice_canada_xml

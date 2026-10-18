@@ -13,7 +13,7 @@ gaps and the actual test and ingestion results. See
 | United States (federal regulations, eCFR, all CFR titles) | GPO bulk data XML (govinfo.gov/bulkdata/ECFR) | [us-ecfr.md](us-ecfr.md) |
 | United States (federal case law) | GovInfo: United States Reports (Supreme Court) and courts of appeals; CAP, CourtListener, LII, Justia, supremecourt.gov examined | [us-case-law.md](us-case-law.md) |
 | United Kingdom (Acts and Measures in force) | legislation.gov.uk | [gb.md](gb.md), [test-results.md](../test-results.md), [temporal-model.md](../temporal-model.md) |
-| Canada (federal) | Justice Laws XML | [test-results.md](../test-results.md) |
+| Canada (federal: all consolidated Acts and regulations, EN and FR) | Justice Laws XML (justicecanada/laws-lois-xml) | [ca.md](ca.md), [test-results.md](../test-results.md) |
 | Germany (federal) | Gesetze im Internet | [de.md](de.md) |
 | Germany (federal case law, planned) | Rechtsprechung im Internet (robots.txt disallows) | [de-case-law.md](de-case-law.md) |
 | European Union (sample) | EUR-Lex / Cellar | [eu.md](eu.md) |

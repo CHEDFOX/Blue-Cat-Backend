@@ -2,7 +2,7 @@
 # (CA-ON, CA-BC, ... ) whose parent is CA.
 schema_version: 1
 id: CA
-profile_version: 0.1.0
+profile_version: 0.2.0
 name: Canada
 names: {en: Canada, fr: Canada}
 kind: sovereign_state
@@ -50,16 +50,19 @@ citation:
   examples:
     - "Access to Information Act, RSC 1985, c A-1, s 4(1)(a)"
     - "Loi sur l’accès à l’information, LRC 1985, c A-1, art 4(1)a)"
+    - "Leamy Lake Navigation Channel Regulations, SOR/98-547, s 2"
+    - "Règlement sur le chenal de navigation du lac Leamy, DORS/98-547, art 2"
+    - "Armed Forces Postal Regulations, CRC, c 1274, s 4"
 publication:
   official_sources: [ca-justice-laws-xml]
   commencement: On Royal Assent unless the Act provides otherwise (often by order in council).
   amendment: Textual amendment by later Acts; the Department of Justice publishes consolidations.
   repeal: Express repeal; the consolidation replaces repealed text with "[Repealed, ...]".
 coverage:
-  corpus_status: pilot
+  corpus_status: broad
   known_gaps:
-    - Only a hand-picked selection of federal Acts is ingested (see the source manifest).
+    - Coverage is every consolidated federal Act and regulation (SOR, SI and C.R.C. instruments) in both languages at one pinned commit of the Justice Laws XML repository (see the source manifest), not newer consolidations; the 18 Acts and 430 regulations whose consolidation holds only a repeal notice have no text and are listed as excluded there.
     - Current consolidation only. Earlier wordings are not indexed, so dates before a provision's current wording are reported as history not indexed.
-    - No regulations, no case law. Provincial and territorial law is not part of this profile; it lives in the provincial profiles (CA-ON and CA-MB hold pilot corpora; the other publishers block ULIS or are unevaluated, see docs/jurisdictions/ca-au-subnational.md). A search for CA does not return it; search the province.
-    - The "Related provisions" schedule (provisions of amending Acts) is not indexed.
+    - No case law, no bills. Provincial and territorial law is not part of this profile; it lives in the provincial profiles (CA-ON and CA-MB hold pilot corpora; the other publishers block ULIS or are unevaluated, see docs/jurisdictions/ca-au-subnational.md). A search for CA does not return it; search the province.
+    - The "Related provisions" schedule (provisions of amending Acts) is not indexed; a regulation's making order is indexed as one unnumbered provision.
     - Amendments not in force are reported as outstanding changes but not applied.
