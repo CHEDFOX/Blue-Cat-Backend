@@ -16,7 +16,13 @@ the link to its latest version and the formats the site holds for it:
 * a dated latest link (``.../ukpga/1998/42/2026-04-01``) means the item has a revised text with a version history; the
   work is listed with ``history: true`` and the connector fetches every version the lifecycle lists;
 * ``.../enacted`` or ``.../made`` as the latest link means the item exists in one version only (as enacted / as made);
-  the work is listed with ``version: enacted|made`` and one request.
+  the work is listed with ``version: enacted|made`` and one request;
+* an ``application/akn+xml`` link with ``hreflang="cy"`` means the site also holds the Welsh text of the latest version
+  (Welsh legislation is published in both languages, with equal standing); the work is marked ``welsh: true`` (``+cy``
+  in the compact form) and the connector fetches the Welsh expression of each version as well (one more request per
+  version; a version without a Welsh text is recorded and skipped). An instrument revised in English only lists its
+  Welsh text only as made (a ``contents/made/welsh`` link) and the site answers ``.../welsh/data.akn`` for its revised
+  version with the English text (checked on ``wsi/2019/432``, 2026-10-18): such a work is not marked.
 
 Every item with XML is listed, repealed and revoked items included (their last in-force versions are history). The
 listing takes one request per 1,000 items at the robots.txt crawl delay (5 s); the works themselves are fetched later by
@@ -75,7 +81,7 @@ MANIFESTS = {
         "gb-legislation-gov-uk-secondary",
         REPO_ROOT / "config" / "manifests" / "gb-legislation-gov-uk-secondary.yaml",
     ),
-    # The never-revised statutory instruments: one request each, as made. A source of its own (not loaded by default).
+    # The never-revised statutory instruments: one request each, as made. A source of its own: the largest, loaded last.
     "secondary_made": (
         "gb-legislation-gov-uk-secondary-made",
         REPO_ROOT / "config" / "manifests" / "gb-legislation-gov-uk-secondary-made.yaml",
@@ -99,7 +105,8 @@ def entry_title(entry) -> str:  # type: ignore[no-untyped-def]
 
 
 def parse_feed(data: bytes) -> tuple[list[dict[str, object]], bool]:
-    """(entries, has_next_page); an entry has path, version (the dated link or 'enacted'/'made'), title, akn, xml."""
+    """(entries, has_next_page); an entry has path, version (the dated link or 'enacted'/'made'), title, akn, xml and
+    welsh (the site also holds the Welsh text of the latest version as Akoma Ntoso: an akn link with hreflang="cy")."""
     root = fromstring(data)
     entries = []
     for entry in root.findall(f"{ATOM}entry"):
@@ -107,11 +114,14 @@ def parse_feed(data: bytes) -> tuple[list[dict[str, object]], bool]:
         path = entry_id.split("/id/", 1)[-1]
         version = ""
         types = set()
+        welsh = False
         for link in entry.findall(f"{ATOM}link"):
             if link.get("rel") is None and link.get("href"):  # the item's own page, with its latest version
                 version = link.get("href", "").split(path, 1)[-1].strip("/")
             elif link.get("rel") == "alternate":
                 types.add(link.get("type"))
+                if link.get("type") == "application/akn+xml" and link.get("hreflang") == "cy":
+                    welsh = True
         entries.append(
             {
                 "path": path,
@@ -119,6 +129,7 @@ def parse_feed(data: bytes) -> tuple[list[dict[str, object]], bool]:
                 "title": entry_title(entry),
                 "akn": "application/akn+xml" in types,
                 "xml": "application/xml" in types,
+                "welsh": welsh,
             }
         )
     has_next = any(link.get("rel") == "next" for link in root.findall(f"{ATOM}link"))
@@ -190,6 +201,8 @@ def main() -> int:
                             continue
                         if REPEALED_LABEL.search(str(e["title"])):
                             counts["listed_repealed_or_revoked"] += 1
+                        if e["welsh"]:
+                            counts["welsh"] += 1
                         kept[owner].append(e)
                 if not has_next:
                     break
@@ -218,21 +231,35 @@ def main() -> int:
 # Scale of loading a whole manifest, extrapolated from a stratified slice (fixed seed, per type and per kind of work:
 # documents per work, provision versions per document, raw bytes per document, database bytes per provision version)
 # run on 2026-10-16; heavy-tailed, so read it as plus or minus 50 percent. Requests include the versions that answer 404
-# once and the listing pages; hours are at the 5 s crawl delay, one request at a time.
+# once and the listing pages; hours are at the 5 s crawl delay, one request at a time. The Welsh texts (2026-10-18) add
+# one request per version of each Welsh work: with `current_only` one per work.
 SCALE = {
     "primary": (
-        "about 24,700 documents, 28,200 requests, 39 hours; about 2.75 million provision versions; about 10.7 GB of "
-        "database and 9.2 GB of raw responses"
+        "about 24,700 documents, 28,200 requests, 39 hours with every version (with `current_only` one request per "
+        "work, about 10 hours), plus the Welsh texts of the 100 Welsh Acts and Measures; about 2.75 million provision "
+        "versions; about 10.7 GB of database and 9.2 GB of raw responses"
     ),
     "secondary": (
-        "about 42,700 documents, 48,700 requests, 68 hours; about 1.18 million provision versions; about 4.6 GB of "
-        "database and 2.4 GB of raw responses"
+        "about 42,700 documents, 48,700 requests, 68 hours with every version (with `current_only` one request per "
+        "work, about 25 hours), plus the Welsh texts of the Welsh instruments (one more request per version); about "
+        "1.18 million provision versions; about 4.6 GB of database and 2.4 GB of raw responses"
     ),
     "secondary_made": (
-        "65,505 documents, 65,505 requests, 91 hours; about 2.31 million provision versions; about 5.8 GB of database "
-        "and 1.8 GB of raw responses (not loaded by default)"
+        "one request per work plus one for the Welsh text of each Welsh instrument (about 68,600 requests, 95 hours);"
+        " about 2.31 million provision versions; about 5.8 GB of database and 1.8 GB of raw responses. Loaded by"
+        " default (law in force as made unless revoked), last because it is the largest; see the descriptor to leave"
+        " it out of a quick go-live"
     ),
 }
+# The go-live switch written into the manifests of the works that have versions (primary and secondary scope): the
+# connector then fetches the current text of each work only. The as-made instruments have one version anyway.
+CURRENT_ONLY = (
+    "# GO-LIVE: only the current text of each work is fetched (`current_only`), one request per work. Delete this line"
+    " to fetch every\n# earlier version as well (about four times the requests: {hours} hours for this source); older"
+    " versions added later are dated correctly\n# and do not conflict with the current text"
+    " (tests/test_legislation_gov_uk.py).\ncurrent_only: true\n"
+)
+CURRENT_ONLY_HOURS = {"primary": "39", "secondary": "68"}
 
 
 def write_manifest(
@@ -250,10 +277,11 @@ def write_manifest(
         1 for e in works if classify(e) != "single"
     )  # revised texts, and the few types with another version name
     n_single = len(works) - n_hist
+    n_welsh = sum(1 for e in works if e["welsh"])
     table = "\n".join(
         f"#   {t:6} {TYPES[t][0]:62} items {stats[t].get('items', 0):>7}, listed here {len(kept[t]):>7} "
         f"(of which with XML: revised {stats[t].get('history', 0)}, one version {stats[t].get('single', 0)}), "
-        f"PDF only {stats[t].get('pdf_only', 0)}"
+        f"PDF only {stats[t].get('pdf_only', 0)}, with a Welsh text {sum(1 for e in kept[t] if e['welsh'])}"
         for t in types
     )
     lines = []
@@ -263,14 +291,18 @@ def write_manifest(
             if scope == "primary":
                 title = json.dumps(e["title"], ensure_ascii=False)
                 extra = f", version: {e['version']}" if single else ""
+                extra += ", welsh: true" if e["welsh"] else ""
                 lines.append(f"  - {{path: {path}, history: {'false' if single else 'true'}{extra}, title: {title}}}")
             else:
-                # Compact: a plain path is a work with a version history (history_default), `path@made` has one version.
-                lines.append(f'  - "{path}@{e["version"]}"' if single else f'  - "{path}"')
+                # Compact: a plain path is a work with a version history (history_default), `path@made` has one version,
+                # `+cy` marks a work whose Welsh text the site holds as well.
+                entry = f"{path}@{e['version']}" if single else path
+                lines.append(f'  - "{entry}+cy"' if e["welsh"] else f'  - "{entry}"')
     kind = {
         "primary": "Acts, Measures and Orders in Council",
         "secondary": "statutory instruments and rules that have versions",
-        "secondary_made": "statutory instruments and rules that exist as made only",
+        "secondary_made": "statutory instruments and rules that exist as made only: never revised by the site, so in "
+        "force in the text as made unless revoked",
     }[scope]
     header = f"""# Works fetched from legislation.gov.uk ({kind}): every such item the site holds as Akoma Ntoso XML.
 # Licence: Open Government Licence v3.0 (pre-1987 secondary legislation contributed by Westlaw UK also carries the
@@ -281,9 +313,10 @@ def write_manifest(
 # version history (`history: true`: every point-in-time version the lifecycle lists is fetched) and {n_single} exist
 # in one version only (`version: enacted|made`: one request).
 # Repealed and revoked items are included (their in-force versions are history); items the site holds only as PDF
-# (no machine-readable text; robots.txt disallows */data.pdf) are not listed.
-# Scale of loading all of it (estimated from a slice, plus or minus 50 percent): {SCALE[scope]}.
+# (no machine-readable text; robots.txt disallows */data.pdf) are not listed. {n_welsh} works are marked `welsh`
+# (the site holds their Welsh text as well, with equal standing): the connector fetches both languages.
 {table}
+# Scale of loading all of it (estimated from a slice, plus or minus 50 percent): {SCALE[scope]}.
 # `path` is the canonical path on the site; Acts before 1963 use the regnal-year form (ukpga/Eliz2/10-11/58).
 """
     head = f"""schema_version: 1
@@ -292,8 +325,10 @@ base_url: https://www.legislation.gov.uk
 user_agent: "{USER_AGENT}"
 crawl_delay_seconds: 5
 history_default: true
-works:
 """
+    if scope in CURRENT_ONLY_HOURS:
+        head += CURRENT_ONLY.format(hours=CURRENT_ONLY_HOURS[scope])
+    head += "works:\n"
     out.write_text(header + head + "\n".join(lines) + "\n", encoding="utf-8")
     print(f"(header requests so far: {requests_made})")
 

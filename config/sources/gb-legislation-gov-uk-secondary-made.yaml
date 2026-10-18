@@ -8,10 +8,13 @@
 #   https://legislation.github.io/data-documentation/what-we-have.html - "All UK Statutory Instruments since 1987, except for Local Statutory
 #        Instruments and non-prints", "Most UK Statutory Instruments made before 1987 (most only available as XML)".
 #   The listing feeds (/<type>/data.feed?results-count=1000&page=N) give each item's latest version: ".../made" with a data.akn link is an instrument
-#        with XML and no later version; each is fetched once at https://www.legislation.gov.uk/<type>/<year>/<number>/made/data.akn.
-# This source is not loaded by default (load_by_default: false): it adds 65,505 instruments (mostly amending, commencement and local-effect orders
-# that were never amended themselves, and some that are still the law in force) for about 6 GB of database. Load it with
-# `python -m ulis.cli ingest gb-legislation-gov-uk-secondary-made` (or load-all --include-history).
+#        with XML and no later version; each is fetched once at https://www.legislation.gov.uk/<type>/<year>/<number>/made/data.akn, and a Welsh
+#        instrument (an akn link with hreflang="cy" in the feed) once more at .../made/welsh/data.akn.
+# Law in force: an instrument the site has never revised stands in its text as made unless it has been revoked (a revised instrument moves to
+# gb-legislation-gov-uk-secondary). Most of the 65,456 are amending, commencement and local-effect orders that were never amended themselves; the
+# rest are free-standing instruments still in force. The site does not say which have been revoked (some titles carry "(revoked)"), so every
+# provision here is reported as "in force at the source date; applicability on the requested date unverified" with the text's status as made.
+# load_by_default: true - loaded by load-all after the two other UK legislation sources (same host, one request every 5 s; it is the largest).
 schema_version: 1
 id: gb-legislation-gov-uk-secondary-made
 name: legislation.gov.uk - statutory instruments and rules as made (never revised)
@@ -20,22 +23,27 @@ kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions: [GB, GB-EAW, GB-WLS, GB-SCT, GB-NIR]
 document_kinds: [statutory_instrument]
-languages: [en]
+languages: [en, cy]
 coverage: >-
-  The statutory instruments and rules that legislation.gov.uk holds as Akoma Ntoso XML in the text as made and has never revised (65,505 works): UK
-  Statutory Instruments (50,733), Scottish Statutory Instruments (6,603), Welsh Statutory Instruments (3,091) and Northern Ireland Statutory Rules
-  (5,078). Instruments the site revises are in gb-legislation-gov-uk-secondary with their versions. Revoked instruments the site holds only as made
-  are included.
+  The statutory instruments and rules that legislation.gov.uk holds as Akoma Ntoso XML in the text as made and has never revised (65,456 works,
+  listing of 2026-10-18): UK Statutory Instruments (50,700), Scottish Statutory Instruments (6,589), Welsh Statutory Instruments (3,090) and
+  Northern Ireland Statutory Rules (5,077). These are law in force in the text as made unless revoked: the site never revised them, so their
+  text is the instrument as made, with no start date (status "as made"); whether an instrument has since been revoked is not recorded by the site
+  (revoked instruments it holds only as made are included, some with "(revoked)" in the title). Instruments the site has revised are in
+  gb-legislation-gov-uk-secondary with their versions. The 2,988 Welsh Statutory Instruments whose Welsh text the site lists (of 3,090) and 4 UK
+  Statutory Instruments made in both languages are fetched in English and in Welsh (the site's own Welsh text, of equal standing with the
+  English one), as two expressions of one work with the same provision identifiers.
 access:
   method: api
   endpoint: config/manifests/gb-legislation-gov-uk-secondary-made.yaml
 update_frequency: continuous (editorial); re-run scripts/build_legislation_gov_uk_manifest.py and the ingest to refresh (an instrument the site revises later moves to gb-legislation-gov-uk-secondary)
 rate_limits: >-
   Fair use policy (see the header): identify with a User-Agent with contact details; obey robots.txt (Crawl-delay 5); at most 1,500 requests per
-  5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest: 65,505 requests =
-  91 hours (3.8 days) at the crawl delay; about 2.31 million provision versions, 5.8 GB of database, 1.8 GB of raw responses (estimated from a
-  slice, plus or minus 50 percent); run it in batches (scripts/ingest_in_batches.py). The connector stops on any refusal (401/403/451/429),
-  records a missing work and goes on, and gives up after five failures in a row.
+  5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest: 65,456 requests
+  for the English texts plus 2,992 for the Welsh texts = 68,448 requests, 95 hours (4.0 days) at the crawl delay; about 2.31 million provision
+  versions, 5.8 GB of database, 1.8 GB of raw responses (estimated from a slice, plus or minus 50 percent); run it in batches
+  (scripts/ingest_in_batches.py). load-all runs it after gb-legislation-gov-uk and gb-legislation-gov-uk-secondary (never two sources on one host at
+  once). The connector stops on any refusal (401/403/451/429), records a missing work and goes on, and gives up after five failures in a row.
 licence:
   id: OGL-UK-3.0
   name: Open Government Licence v3.0
@@ -58,14 +66,27 @@ licence:
 provenance: Official publisher of UK legislation (The National Archives).
 known_limitations:
   - >-
-    The text is the instrument as made: its provisions have no start date (the commencement of the instrument is not stated in the text), and the
-    site has not revised it, so amendments made by other instruments are not applied to it. If an instrument was amended without the site recording
-    it (it records amendments from 1994 on), the text here may be out of date.
+    Status as made: the text is the instrument as made, never revised by the site. Its provisions have no start date (the commencement is stated
+    in the instrument's own words, not in the metadata), no currency date, and no amendment applied: an instrument the site never revised has no
+    recorded amendment, but the site records amendments only from 1994 on, so an older instrument may have been amended without the site
+    recording it. Every provision is reported as "In force at the source date; applicability on the requested date unverified" with the
+    limitations EFFECTIVE_DATE_UNKNOWN and CURRENCY_UNKNOWN (as made text).
   - >-
-    Only what the site holds as XML is ingested (about 63,000 instruments exist only as PDF). Welsh-language versions of Welsh instruments are not
-    fetched. Revoked instruments are not marked as revoked in the text; the site labels some titles "(revoked ...)" and ULIS keeps the title as
-    given.
+    Revocation unknown: whether an instrument has since been revoked by another instrument is not recorded by the site for these texts and not
+    known to ULIS. The site labels some titles "(revoked ...)"; ULIS keeps the title as given and does not mark the provisions as revoked.
+  - >-
+    Only what the site holds as XML is ingested (about 63,000 instruments exist only as PDF: local and non-print instruments and most made
+    before 1987, including the Northern Ireland Statutory Rules before 1996).
+  - >-
+    Welsh texts are indexed with PostgreSQL's "simple" text-search configuration (there is no Welsh stemmer): a Welsh query matches exact word
+    forms only. The Welsh and English texts of a Welsh instrument are two language versions of the same provisions; the English title is the
+    work's title, each version carries its own title and citation (Welsh: "..., OS 2024/1337, rheoliad 2(1)").
 status: active
-load_by_default: false
+# QUICK GO-LIVE SWITCH: this is the largest UK source (68,448 requests, about 95 hours at the crawl delay, run after the Acts and the revised
+# instruments on the same host). To leave it out of a first load, run `load-all --skip gb-legislation-gov-uk-secondary-made` (no file change), or
+# set `load_by_default: false` here: load-all then skips it unless `--include-history` is given or `--only` names it. Load it later with
+# `python -m ulis.cli ingest gb-legislation-gov-uk-secondary-made` or `scripts/ingest_in_batches.py gb-legislation-gov-uk-secondary-made --batch 50`
+# (resumable: downloads are cached, documents already stored are skipped).
+load_by_default: true
 connector: legislation_gov_uk
 parser: legislation_gov_uk_akn

@@ -13,6 +13,12 @@ legislation.gov.uk's AKN differs from the plain OASIS subset in ``akn.py``:
 
 Each document is one point-in-time version of a whole instrument; the connector fetches one
 per date on which the instrument changed, which yields its full version history.
+
+Welsh legislation (``anaw``, ``asc``, ``mwa``, ``wsi``, and instruments made in both languages) is published in English
+and in Welsh; the two texts are of equal standing (Government of Wales Act 2006, s 156(1)). A Welsh document
+(``FRBRlanguage`` ``cym``, ``dc:identifier`` ending in ``/welsh``) is parsed to the same work URI and the same eIds as
+the English one, as language ``cy`` with its own expression URI (``/gb/anaw/2020/3/cym@2022-03-21``), so the two are
+parallel versions of one provision.
 """
 
 from __future__ import annotations
@@ -31,7 +37,7 @@ UKM = "http://www.legislation.gov.uk/namespaces/metadata"
 DC = "http://purl.org/dc/elements/1.1/"
 DCT = "http://purl.org/dc/terms/"
 PARSER_ID = "legislation_gov_uk_akn"
-PARSER_VERSION = "1.3.0"
+PARSER_VERSION = "1.4.0"
 
 # legislation.gov.uk type -> (ULIS jurisdiction of the enacting body, instrument type)
 TYPES = {
@@ -62,6 +68,12 @@ TYPES = {
     "wsi": ("GB-WLS", "statutory_instrument"),
     "nisr": ("GB-NIR", "statutory_rule"),
 }
+# Types whose English and Welsh texts are both authentic (Welsh legislation): ``authoritative`` is true for both
+# languages. Other types are English-only on the site (an instrument of another type made in Welsh as well is
+# recognised by the language of the document itself).
+BILINGUAL_TYPES = {"anaw", "asc", "mwa", "wsi"}
+# legislation.gov.uk's FRBRlanguage codes (ISO 639-2) -> BCP 47.
+LANGUAGES = {"eng": "en", "cym": "cy"}
 # The date on which the site's revised text of older legislation starts (what-we-have page of
 # https://legislation.github.io/data-documentation/): 1 February 1991 for UK Acts, Local Acts and Church
 # Measures, 1 January 2006 for Northern Ireland.
@@ -165,7 +177,8 @@ def resolve_uri(uri: str) -> tuple[str, str | None] | None:
     kind, year, number, rest = m.groups()
     work = f"/gb/{kind}/{year}/{number}"
     rest = (rest or "").strip("/")
-    if not rest or re.match(r"^\d{4}-\d{2}-\d{2}$", rest) or rest in ("contents", "enacted", "made"):
+    rest = rest.removesuffix("/welsh")  # the Welsh text is the same work and the same provisions
+    if not rest or re.match(r"^\d{4}-\d{2}-\d{2}$", rest) or rest in ("contents", "enacted", "made", "welsh"):
         return work, None
     return work, rest.replace("/", "-")
 
@@ -196,6 +209,13 @@ def parse_legislation_gov_uk(content: bytes) -> list[ParsedDocument]:
     if expr_date_el is None or not expr_date_el.get("date"):
         raise UkParseError("missing expression date")
     version_date = date.fromisoformat(expr_date_el.get("date", "")[:10])
+    lang_el = meta.find(f"{_a('identification')}/{_a('FRBRExpression')}/{_a('FRBRlanguage')}")
+    lang3 = (lang_el.get("language") or "eng").strip().lower() if lang_el is not None else "eng"
+    if lang3 not in LANGUAGES:
+        raise UkParseError(f"unsupported language {lang3!r}")
+    language = LANGUAGES[lang3]
+    if language == "cy" and not identifier.rstrip("/").endswith("/welsh"):
+        raise UkParseError(f"a Welsh document is expected at a /welsh identifier, got {identifier!r}")
     modified = prop.findtext(f"{{{DC}}}modified")
     title = _ws(prop.findtext(f"{{{DC}}}title") or "")
     # Element truthiness depends on children, so compare with None explicitly.
@@ -501,18 +521,22 @@ def parse_legislation_gov_uk(content: bytes) -> list[ParsedDocument]:
             instrument_type=instrument_type,
             jurisdiction_id=jurisdiction,
             work_uri=work_uri,
-            expression_uri=f"{work_uri}/eng@{version_date.isoformat()}",
+            expression_uri=f"{work_uri}/{lang3}@{version_date.isoformat()}",
             work_title=title,
             title=f"{title} (as at {version_date.isoformat()})" if revised else title,
             short_title=title,
             number=number,
             work_date=work_date,
-            language="en",
-            authoritative=False,
+            language=language,
+            # English and Welsh texts of Welsh legislation are of equal standing; elsewhere the flag stays off (the
+            # site's text is an official but not authenticated publication; English is its only language).
+            authoritative=leg_type in BILINGUAL_TYPES or language == "cy",
             text_origin="official_revised" if revised else "official_conversion",
             consolidation_kind="point_in_time" if revised else "as_made",
             version_date=version_date,
-            currency_date=date.fromisoformat(modified[:10]) if modified else None,
+            # A revised text is up to date to the site's modification date; a text as made or as enacted is never
+            # revised, so the site asserts no currency for it (dc:modified is then the date of the record itself).
+            currency_date=date.fromisoformat(modified[:10]) if modified and revised else None,
             extent=default_extent,
             ext_module="gb",
             ext={
