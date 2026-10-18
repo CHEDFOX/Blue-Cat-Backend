@@ -38,7 +38,7 @@ from ulis.sources.connectors.moj_laws import robots_allows
 from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
 from ulis.sources.normalized import ParsedDocument, ParseSkipped
 from ulis.sources.parsers import ecfr
-from ulis.sources.parsers.ecfr import EcfrParseError, parse_ecfr
+from ulis.sources.parsers.ecfr import EcfrParseError, _section_number, parse_ecfr
 from ulis.sources.registry import licence_gate
 from ulis.storage.object_store import LocalObjectStore
 from ulis.verification.integrity import verify_source_document
@@ -708,3 +708,48 @@ def test_a_part_printed_across_several_volumes_is_one_envelope_and_one_document(
     assert len(parse_ecfr(parts["2"])[0].provisions) >= 1
     with pytest.raises(EcfrParseError, match="mixes the chunks"):
         parse_ecfr(parts["1"].replace(b'<DIV5 N="1" NODE="26:2.0.1.1.1"', b'<DIV5 N="9" NODE="26:2.0.1.1.1"'))
+
+
+def test_title_48_sections_numbered_without_the_section_sign_are_provisions() -> None:
+    """48 CFR (the Federal Acquisition Regulations System) numbers its sections "1.000", "52.212-4", "206.302-3-70"
+    without the section sign; the first full load parsed all 817 parts of the title as empty and skipped them. Bare
+    numbers are sections now; a bare range ("13.83-13.87", "52.223-13—52.223-18") is still a reserved block."""
+    assert _section_number("§ 1.1", "§ 1.1 Purpose.") == ("1.1", "Purpose.")
+    assert _section_number("§§ 3.4-3.9", "§§ 3.4-3.9 [Reserved]") == ("", "§§ 3.4-3.9 [Reserved]")
+    assert _section_number("1.000", "1.000   Scope of part.") == ("1.000", "Scope of part.")
+    assert _section_number("52.212-4", "52.212-4 Contract Terms and Conditions-Commercial Products.") == (
+        "52.212-4",
+        "Contract Terms and Conditions-Commercial Products.",
+    )
+    assert _section_number("206.302-3-70", "206.302-3-70 Scope.") == ("206.302-3-70", "Scope.")
+    assert _section_number("352.270-4a", "352.270-4a Notice.")[0] == "352.270-4a"
+    assert _section_number("752.227-71.", "752.227-71. Rights in data.") == ("752.227-71", "Rights in data.")
+    assert _section_number("19-8.1", "19-8.1 Scope.") == ("19-8.1", "Scope.")
+    assert _section_number("13.83-13.87", "13.83-13.87 [Reserved]")[0] == ""
+    assert _section_number("52.223-13—52.223-18", "[Reserved]")[0] == ""
+    assert _section_number("Sec. 1-1", "Sec. 1-1 Applicability.") == ("Sec. 1-1", "Applicability.")
+    assert _section_number("Section 01", "Section 01 Scope.") == ("Section 01", "Scope.")
+    part = (
+        b'<?xml version="1.0" encoding="UTF-8"?><ecfr-part title-number="48" source-url="x"'
+        b' last-modified="2026-10-13T20:47:54+00:00" file-sha256="0"><amddate>Oct. 1, 2026</amddate>'
+        b'<ancestor level="3" n="1" type="CHAPTER"><HEAD>CHAPTER 1-FEDERAL ACQUISITION REGULATION</HEAD></ancestor>'
+        b'<DIV5 N="1" NODE="48:1.0.1.1.1" TYPE="PART"><HEAD>PART 1-FEDERAL ACQUISITION REGULATIONS SYSTEM</HEAD>'
+        b"<AUTH><HED>Authority:</HED><PSPACE>41 U.S.C. 1121(b).</PSPACE></AUTH>"
+        b'<DIV8 N="1.000" NODE="48:1.0.1.1.1.0.1.1" TYPE="SECTION"><HEAD>1.000   Scope of part.</HEAD>'
+        b"<P>This part sets forth basic policies.</P></DIV8>"
+        b'<DIV6 N="Subpart 1.1" TYPE="SUBPART"><HEAD>Subpart 1.1-Purpose, Authority, Issuance</HEAD>'
+        b'<DIV8 N="1.101" NODE="48:1.0.1.1.1.1.1.1" TYPE="SECTION"><HEAD>1.101   Purpose.</HEAD>'
+        b"<P>(a) The Federal Acquisition Regulations System is established.</P>"
+        b"<P>(b) It consists of the FAR and agency acquisition regulations.</P></DIV8>"
+        b'<DIV8 N="1.102-1" NODE="48:1.0.1.1.1.1.1.3" TYPE="SECTION"><HEAD>1.102-1   Discussion.</HEAD>'
+        b"<P>(a) Introduction.</P></DIV8>"
+        b'<DIV8 N="1.105-1.107" TYPE="SECTION"><HEAD>1.105-1.107   [Reserved]</HEAD></DIV8>'
+        b'<DIV8 N="3.102" TYPE="SECTION"><HEAD>3.102   [Reserved]</HEAD></DIV8>'
+        b"</DIV6></DIV5></ecfr-part>"
+    )
+    doc = parse_ecfr(part)[0]
+    sections = {p.num_path[0]: p for p in doc.provisions if p.kind == "section"}
+    assert set(sections) == {"1.000", "1.101", "1.102-1"}
+    assert sections["1.000"].heading == "Scope of part." and sections["1.000"].eid == "sec_1.000"
+    assert sections["1.101"].heading == "Purpose."
+    assert any(p.num_path == ["1.101", "a"] for p in doc.provisions)

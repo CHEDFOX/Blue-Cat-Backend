@@ -30,7 +30,7 @@ from defusedxml.ElementTree import fromstring
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkipped
 
 PARSER_ID = "ecfr_xml"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 APPENDIX_SPLIT = 30_000  # an appendix with more text than this (characters) is cut into blocks ...
 APPENDIX_BLOCK = 20_000  # ... of about this size, starting at its headings
 MAX_LABELLED = 3000  # more labelled paragraphs in one section than this: not split into paragraphs
@@ -410,6 +410,37 @@ def _appendix_root(lines: list[str], heads: set[str]) -> _Node:
     return root
 
 
+_BARE_SECTION = re.compile(r"^\d+[A-Za-z]?(?:\.\d+|-\d+\.\d+)(?:-\d+)*[A-Za-z]?(?:\([a-z0-9]+\))?\.?$")
+_LABELLED_SECTION = re.compile(r"^(?:Section|Sec\.)\s+\S+$")
+
+
+def _section_number(number_attr: str, head_text: str) -> tuple[str, str | None]:
+    """The section's number and its heading without the number.
+
+    Most titles number sections "§ 1.1"; a reserved range "§§ 3.4-3.9" has no number and is not a provision. Title 48
+    (the Federal Acquisition Regulations System) writes its numbers without the section sign: "1.000", "52.212-4",
+    "206.302-3-70", "352.270-4a"; a reserved range there reads "13.83-13.87" or "52.223-13—52.223-18" (a second dotted
+    number after a dash). A few titles label sections "Sec. 1-1" or "Section 01" (e.g. special federal aviation
+    regulations in title 14); the label is the number."""
+    m = re.match(r"^§\s*(\S+)$", number_attr)
+    if m:
+        return m.group(1), re.sub(r"^§+\s*\S+\s*", "", head_text).strip() or None
+    if number_attr.startswith("§") or "—" in number_attr:
+        return "", head_text or None
+    if _BARE_SECTION.match(number_attr):
+        num = number_attr.rstrip(".")
+    elif _LABELLED_SECTION.match(number_attr):
+        num = re.sub(r"\s+", " ", number_attr)
+    else:
+        return "", head_text or None
+    heading = head_text
+    if heading.startswith(number_attr):
+        heading = heading[len(number_attr) :]
+    elif heading.startswith(num):
+        heading = heading[len(num) :]
+    return num, heading.strip() or None
+
+
 class _PartBuilder:
     def __init__(self) -> None:
         self.provisions: list[ParsedProvision] = []
@@ -448,9 +479,7 @@ class _PartBuilder:
                         heads.add(lines[0])
         number_attr = (el.get("N") or "").strip()
         if kind == "section":
-            m = re.match(r"^§\s*(\S+)$", number_attr)  # "§§ 3.4-3.9" (a reserved range) does not match
-            num = m.group(1) if m else ""
-            heading = re.sub(r"^§+\s*\S+\s*", "", head_text).strip() or None
+            num, heading = _section_number(number_attr, head_text)
             root = _build_tree(items)
         else:
             named = re.match(r"^(?:Appendix|Supplement)\s+\S+", head_text)  # "Supplement I to Part 1005" has no N
