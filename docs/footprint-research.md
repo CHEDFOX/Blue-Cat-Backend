@@ -66,8 +66,8 @@ Effort: about 4-8 engineer-weeks. Gain: about 1.5-2x on top of today's 30-35 GB.
 
 * **Ranking:** BM25 shares on average only 4 of its top 10 results with today's `ts_rank_cd`. Either prove parity or better
   with relevance judgments (at least 50 queries per language: en, fr, de, es, sv, fi, ja, cy; pooled top 20 from both
-  engines), or build a scorer that reproduces `ts_rank_cd`. No judgment set exists yet (`eval/questions.yaml` has about 8
-  end-to-end questions).
+  engines), or build a scorer that reproduces `ts_rank_cd`. No judgment set exists yet (`eval/questions.yaml` has 17
+  end-to-end assistant questions with expected citations, none graded for ranking).
 * **Query syntax:** a parser compatible with `websearch_to_tsquery` (quoted phrases, `or` in any case, `-term`), never
   Tantivy's own query parser: it fails on "401(k)" and "6(1)(f)" and treats "or" as a word.
 * **Filters:** every predicate of today's search as an index field (kind, language, doc_type, extent with its empty case,
