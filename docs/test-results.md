@@ -1,10 +1,25 @@
 # Test results
 
-Recorded on 2026-10-14 and 2026-10-15 in the build container: Python 3.13.16, PostgreSQL 16.15, Node 22, Chromium
+Recorded from 2026-10-14 to 2026-10-18 in the build container: Python 3.13.16, PostgreSQL 16.15, Node 22, Chromium
 (Playwright 1.56.1). These are the actual outputs of the runs, not targets. Older per-corpus sections below
 keep their original numbers; the first table is the current state.
 
-## Backend (`Blue-Cat-Backend`), current
+## Backend (`Blue-Cat-Backend`), current (2026-10-18)
+
+| Check | Command | Result |
+|---|---|---|
+| Lint, format, types | `ruff check`, `ruff format --check`, `mypy ulis` | clean (mypy: no issues in 237 source files) |
+| Config | `python -m ulis.cli validate-config` | 148 jurisdictions, 356 sources (144 active), 4 concepts |
+| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q -p no:cacheprovider` | **2,147 passed, 0 failed** in 25 min 35 s (fresh test database, a shared machine under load) |
+| Full eCFR load (all 50 CFR titles) | `ingest us-ecfr`, `verify-sources`, `status` | 8,124 parts, 1,942,069 provision versions, 1,812,535 passages, 0 errors, 0 conflicts, 2 reserved parts skipped; **8,124/8,124 verified**; database 6.1 GB (`docs/jurisdictions/us-ecfr.md`) |
+
+The first full load of a whole national collection found three defects that slices had not (a numberless reserved
+part in title 24, parts printed across several volumes, title 48's section numbers without the section sign); each was
+fixed with a regression test before the final run. The other launch sources were run as slices of 30-100 works per
+source into their workers' scratch databases, every slice with 0 errors and every stored document passing
+`verify-sources`; the numbers are in each `docs/jurisdictions/<cc>.md` and in [go-live.md](go-live.md).
+
+## Backend, state of 2026-10-15
 
 | Check | Command | Result |
 |---|---|---|
