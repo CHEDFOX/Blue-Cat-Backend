@@ -708,37 +708,44 @@ def test_a_package_member_that_is_not_its_document_is_reported(tmp_path: Path) -
     assert "is not /akn/fi/act/statute-consolidated/2024/719/fin@" in conn.fetch_errors[0]
 
 
-def test_committed_manifest_loads_from_the_pinned_package(tmp_path: Path, catalog: Catalog) -> None:
-    from ulis.ops.loading import LoadOptions, Selection, format_plan
+def test_committed_manifest_loads_the_package_finlex_serves(tmp_path: Path, catalog: Catalog) -> None:
+    from ulis.ops.loading import LoadOptions, PlanItem, Selection, format_plan
     from ulis.ops.sources import STATIC_PINS, manifest_info
 
     manifest = FinlexConnector(REPO_ROOT / "config/manifests/fi-finlex.yaml", "fi-finlex", tmp_path)._manifest()
     assert manifest["mode"] == "package"
-    pin = manifest["package"]
-    assert pin["url"] == PACKAGE_URL and pin["bytes"] == 4_397_198_140
-    assert pin["sha256"] == "8c07c5b96f4d5063b841bb156eb204fb8f783c6e96d34c810555200aa7ce3e45"
-    assert pin["last_modified"] == "Sat, 17 Oct 2026 23:27:28 GMT"
-    # The load plan counts one download, not 11,000 requests; the weekly refresh leaves a pinned package alone.
+    # A fresh server load works unattended: no pin to move, the package's size and SHA-256 are recorded per run.
+    assert manifest["package"] == {"url": PACKAGE_URL, "pin": "latest", "approx_bytes": 4_397_198_140}
+    # The load plan counts one download, not 11,000 requests; the weekly refresh runs it (one HEAD decides).
     info = manifest_info(catalog.sources.get("fi-finlex"), REPO_ROOT)
-    assert info is not None and info.requests == 2 and info.download_bytes == pin["bytes"]
+    assert info is not None and info.requests == 2 and info.download_bytes == 4_397_198_140
     assert info.weight == info.documents and info.documents is not None and info.documents > 11_000
-    assert "www.finlex.fi" in info.data_hosts and "fi-finlex" in STATIC_PINS
-    from ulis.ops.loading import PlanItem
-
+    assert "www.finlex.fi" in info.data_hosts and "fi-finlex" not in STATIC_PINS
     plan = format_plan(Selection(selected=[PlanItem(catalog.sources.get("fi-finlex"), info)]), LoadOptions())
     assert ">= 2s + 4.1 GB" in plan and "fi-finlex 4.1 GB" in plan
 
 
-def test_the_refresh_script_rewrites_only_the_pin() -> None:
-    """scripts/finlex_package.py --pin replaces the manifest's package block and nothing else."""
-    from scripts.finlex_package import _BLOCK, pin_block
+def test_the_package_script_switches_between_latest_and_an_exact_pin(tmp_path: Path) -> None:
+    """scripts/finlex_package.py --pin / --live replace the manifest's package block and nothing else."""
+    from scripts.finlex_package import _BLOCK, live_block, pin_block
 
     text = (REPO_ROOT / "config/manifests/fi-finlex.yaml").read_text(encoding="utf-8")
-    pin = yaml.safe_load(text)["package"]
-    assert _BLOCK.sub(lambda _m: pin_block(pin), text, count=1) == text  # the committed pin round-trips
-    newer = {**pin, "bytes": 4_400_000_000, "sha256": "a" * 64, "etag": '"new-526"'}
-    moved = yaml.safe_load(_BLOCK.sub(lambda _m: pin_block(newer), text, count=1))
-    assert moved["package"] == newer and moved["works"] == yaml.safe_load(text)["works"]
+    assert _BLOCK.sub(lambda _m: live_block(4_397_198_140), text, count=1) == text  # the committed block round-trips
+    exact = {
+        "bytes": 4_397_198_140,
+        "sha256": "8c07c5b96f4d5063b841bb156eb204fb8f783c6e96d34c810555200aa7ce3e45",
+        "etag": '"0d44183df8d844dd14a81c32ddfaa8e8-525"',
+        "last_modified": "Sat, 17 Oct 2026 23:27:28 GMT",
+        "retrieved_at": "2026-10-18T11:57:24.666915+00:00",
+    }
+    pinned_text = _BLOCK.sub(lambda _m: pin_block(exact), text, count=1)
+    pinned = yaml.safe_load(pinned_text)
+    assert pinned["package"] == {"url": PACKAGE_URL, "pin": "exact", **exact}
+    assert pinned["works"] == yaml.safe_load(text)["works"]
+    path = tmp_path / "pinned.yaml"
+    path.write_text(pinned_text, encoding="utf-8")
+    assert FinlexConnector(path, "fi-finlex", tmp_path)._manifest()["package"]["pin"] == "exact"
+    assert _BLOCK.sub(lambda _m: live_block(4_397_198_140), pinned_text, count=1) == text
 
 
 # --------------------------------------------------------------------------- download (fake server, no network)
@@ -773,7 +780,9 @@ class _Server:
 
     def __init__(self, payload: bytes, *, etag: str = '"v1"', cut: int | None = None, refuse: int | None = None):
         self.payload, self.etag, self.cut, self.refuse = payload, etag, cut, refuse
+        self.last_modified = "Sat, 17 Oct 2026 23:27:28 GMT"
         self.rebuilt_after_cut: str | None = None
+        self.head_failure: int | None = None  # HTTP status the HEAD request gets instead of the headers
         self.requests: list[dict[str, str]] = []
         self.robots = b"User-Agent: *\nDisallow: /_next/image\n"
 
@@ -781,12 +790,16 @@ class _Server:
         import urllib.error
 
         headers = {k.lower(): v for k, v in request.header_items()}
-        self.requests.append({"url": request.full_url, **headers})
+        self.requests.append({"url": request.full_url, "method": request.get_method(), **headers})
         if request.full_url.endswith("/robots.txt"):
             return _Served(self.robots, 200, {"Content-Type": "text/plain"}, request.full_url)
         if self.refuse:
             raise urllib.error.HTTPError(request.full_url, self.refuse, "refused", {}, None)  # type: ignore[arg-type]
-        common = {"ETag": self.etag, "Last-Modified": "Sat, 17 Oct 2026 23:27:28 GMT"}
+        common = {"ETag": self.etag, "Last-Modified": self.last_modified}
+        if request.get_method() == "HEAD":
+            if self.head_failure:
+                raise urllib.error.HTTPError(request.full_url, self.head_failure, "x", {}, None)  # type: ignore[arg-type]
+            return _Served(b"", 200, {**common, "Content-Length": str(len(self.payload))}, request.full_url)
         start = int(headers["range"].removeprefix("bytes=").rstrip("-")) if "range" in headers else 0
         if start and headers.get("if-range") == self.etag:
             body = self.payload[start:]
@@ -798,11 +811,14 @@ class _Server:
         return _Served(self.payload, 200, {**common, "Content-Length": str(len(self.payload))}, request.full_url, cut)
 
 
-def _download(tmp_path: Path, server: _Server, monkeypatch: pytest.MonkeyPatch, pin: bool = True):  # type: ignore[no-untyped-def]
+def _download(tmp_path: Path, server: _Server, monkeypatch: pytest.MonkeyPatch, live: bool = False):  # type: ignore[no-untyped-def]
     monkeypatch.setattr("urllib.request.urlopen", server)
     sleeps: list[float] = []
     conn = _package_connector(tmp_path, [{"year": 2024, "number": "718"}], package=None, sleep=sleeps.append)
     manifest = yaml.safe_load(conn.manifest_path.read_text())
+    if live:
+        manifest["package"] = {"url": PACKAGE_URL, "pin": "latest"}
+        conn.manifest_path.write_text(yaml.safe_dump(manifest))
     return conn, manifest, sleeps
 
 
@@ -875,6 +891,141 @@ def test_download_refuses_a_newer_package_and_a_disallowed_path(
         conn.download_package(manifest, check_pin=False)
 
 
+# --------------------------------------------------------------------------- live package (package.pin: latest)
+
+
+def _current_package(tmp_path: Path) -> bytes:
+    """Another day's package, different from the sample: the sample's real members without those of 64/2023."""
+    import zipfile
+
+    path = tmp_path / "current.zip"
+    with zipfile.ZipFile(SAMPLE_ZIP) as src, zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as dst:
+        for info in src.infolist():
+            if "/2023/64/" not in info.filename:
+                dst.writestr(info, src.read(info))
+    return path.read_bytes()
+
+
+def _methods(server: _Server) -> list[str]:
+    return [f"{r['method']} {r['url'].rsplit('/', 1)[-1]}" for r in server.requests]
+
+
+def test_live_package_loads_what_finlex_serves_and_names_it_in_every_document(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import hashlib
+
+    current = _current_package(tmp_path)
+    assert current != SAMPLE_ZIP.read_bytes()
+    server = _Server(current, etag='"day-2"')
+    server.last_modified = "Sun, 18 Oct 2026 23:27:28 GMT"
+    conn, manifest, _ = _download(tmp_path, server, monkeypatch, live=True)
+    docs = list(conn.fetch())
+    assert _methods(server) == ["GET robots.txt", "GET statute-consolidated.zip"]  # nothing cached: no HEAD
+    sha = hashlib.sha256(current).hexdigest()
+    assert [d.external_id for d in docs] == [
+        "finlex:statute-consolidated/2024/718/fin@20240718",
+        "finlex:statute-consolidated/2024/718/swe@20240718",
+    ]
+    for doc in docs:  # the exact package bytes the document came from
+        assert {k: doc.metadata[k] for k in ("package_bytes", "package_sha256", "package_etag")} == {
+            "package_bytes": len(current),
+            "package_sha256": sha,
+            "package_etag": '"day-2"',
+        }
+        assert doc.metadata["package_last_modified"] == "Sun, 18 Oct 2026 23:27:28 GMT"
+        assert doc.metadata["package_retrieved_at"] == doc.retrieved_at.isoformat()
+    meta = json.loads(conn.package_file().with_name("statute-consolidated.zip.meta.json").read_text())
+    assert (meta["bytes"], meta["sha256"], meta["etag"]) == (len(current), sha, '"day-2"')
+    # The same manifest pinned exactly to the sample package refuses the current one.
+    conn.manifest_path.write_text(yaml.safe_dump({**manifest, "package": _pin(SAMPLE_ZIP)}))
+    with pytest.raises(PackageChanged, match="not the one the manifest pins"):
+        list(conn.fetch())
+    for bad, message in [({"sha256": "a" * 64}, "takes no bytes or sha256"), ({"approx_bytes": "4 GB"}, "approx")]:
+        conn.manifest_path.write_text(yaml.safe_dump({**manifest, "package": {**manifest["package"], **bad}}))
+        with pytest.raises(ManifestError, match=message):
+            conn._manifest()
+    conn.manifest_path.write_text(yaml.safe_dump({**manifest, "package": {**manifest["package"], "pin": "today"}}))
+    with pytest.raises(ManifestError, match="package.pin"):
+        conn._manifest()
+
+
+def test_live_package_is_reused_until_finlex_rebuilds_it(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import hashlib
+
+    server = _Server(SAMPLE_ZIP.read_bytes(), etag='"day-1"')
+    conn, _, _ = _download(tmp_path, server, monkeypatch, live=True)
+    first = list(conn.fetch())
+    server.requests.clear()
+    second = list(conn.fetch())  # the same ETag: one HEAD, and the cached package is read again
+    assert _methods(server) == ["GET robots.txt", "HEAD statute-consolidated.zip"]
+    assert [(d.metadata["package_sha256"], d.retrieved_at) for d in second] == [
+        (d.metadata["package_sha256"], d.retrieved_at) for d in first
+    ]
+    # Finlex rebuilds the package: the HEAD shows another ETag and the cached package is replaced (one on disk).
+    server.payload, server.etag = _current_package(tmp_path), '"day-2"'
+    server.requests.clear()
+    third = list(conn.fetch())
+    assert _methods(server) == ["GET robots.txt", "HEAD statute-consolidated.zip", "GET statute-consolidated.zip"]
+    assert {d.metadata["package_sha256"] for d in third} == {hashlib.sha256(server.payload).hexdigest()}
+    assert conn.download_events == [
+        'the cached package (ETag "day-1") is not the one Finlex serves now (ETag "day-2", Last-Modified Sat, '
+        "17 Oct 2026 23:27:28 GMT); downloading that one"
+    ]
+    assert conn.package_file().read_bytes() == server.payload
+    assert sorted(p.name for p in conn.package_file().parent.iterdir()) == [
+        "statute-consolidated.zip",
+        "statute-consolidated.zip.meta.json",
+    ]
+
+
+def test_live_package_is_downloaded_again_after_it_was_pruned(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    server = _Server(SAMPLE_ZIP.read_bytes())
+    conn, _, _ = _download(tmp_path, server, monkeypatch, live=True)
+    list(conn.fetch())
+    package = conn.package_file()
+    package.unlink()  # a cache pruner deleted the package and left its record
+    server.requests.clear()
+    assert len(list(conn.fetch())) == 2
+    assert _methods(server) == ["GET robots.txt", "GET statute-consolidated.zip"]  # nothing left to compare: no HEAD
+    assert package.read_bytes() == SAMPLE_ZIP.read_bytes()
+    package.unlink()
+    package.with_name(package.name + ".meta.json").unlink()  # both gone
+    server.requests.clear()
+    assert len(list(conn.fetch())) == 2 and len(server.requests) == 2
+    # Offline, the cached package is read without a request; once it is gone, nothing is fetched.
+    offline = FinlexConnector(conn.manifest_path, "fi-finlex", conn.cache_dir, offline=True)
+    server.requests.clear()
+    assert len(list(offline.fetch())) == 2 and server.requests == []
+    package.unlink()
+    with pytest.raises(FetchError, match="offline and not cached"):
+        list(offline.fetch())
+
+
+def test_live_package_when_finlex_cannot_be_asked_or_the_cache_was_altered(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    server = _Server(SAMPLE_ZIP.read_bytes())
+    conn, _, _ = _download(tmp_path, server, monkeypatch, live=True)
+    list(conn.fetch())
+    server.head_failure = 503  # Finlex cannot say what it serves: the cached package is used, and the run says so
+    server.requests.clear()
+    assert len(list(conn.fetch())) == 2
+    assert _methods(server) == ["GET robots.txt"] + ["HEAD statute-consolidated.zip"] * 4
+    assert conn.download_events == ["could not ask Finlex for its current package; using the cached one"]
+    server.head_failure = 403  # a refusal stops the run
+    with pytest.raises(FetchError, match="HTTP 403"):
+        list(conn.fetch())
+    # A cached file that no longer matches its record is not taken for Finlex's package: it is downloaded again.
+    server.head_failure = None
+    package = conn.package_file()
+    package.write_bytes(package.read_bytes() + b"x")
+    server.requests.clear()
+    assert len(list(conn.fetch())) == 2
+    assert _methods(server) == ["GET robots.txt", "HEAD statute-consolidated.zip", "GET statute-consolidated.zip"]
+    assert package.read_bytes() == SAMPLE_ZIP.read_bytes()
+
+
 @pytest.fixture(scope="module")
 def fi_package_ingested(
     session_factory: sessionmaker[Session],
@@ -917,6 +1068,9 @@ def test_the_package_route_ingests_through_the_pipeline(
     ]
     for doc in docs:
         assert verify_source_document(session, catalog, store, doc.id)["result"] == "pass"
+        # The source-document record names the exact package the bytes came from.
+        assert doc.metadata_["package_sha256"] == _pin(SAMPLE_ZIP)["sha256"]
+        assert doc.metadata_["package_bytes"] == SAMPLE_ZIP.stat().st_size
     fi = _search(session, catalog, q="tuotantoeläinten hyvinvoinnin neuvottelukunta", query_language="fi")
     assert fi["results"][0]["citation"] == (
         "Valtioneuvoston asetus tuotantoeläinten hyvinvoinnin neuvottelukunnasta (330/2009) 1 § 1 mom."

@@ -11,9 +11,10 @@
 # which have text and in which language, so `languages: [fin]` / `[swe]` marks the 50 listed in one language only.
 #
 # Package (https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip, "Updated legislation (4.1 GB)" on
-# https://www.finlex.fi/en/open-data/download-materials, read 2026-10-18; rebuilt daily): pinned below by size and
-# SHA-256, downloaded once into var/sources/www.finlex.fi/ (robots.txt, then one GET, resumable; 2026-10-18: 3 requests,
-# 143.5 s) and read as a zip without extracting it. In it, `fin@` is the statute as enacted and `fin@<version>` each
+# https://www.finlex.fi/en/open-data/download-materials, read 2026-10-18; rebuilt daily): the package Finlex serves
+# when a run starts (`pin: latest` below), downloaded into var/sources/www.finlex.fi/ (robots.txt, then one GET,
+# resumable; the package of 2026-10-17, 4,397,198,140 bytes, SHA-256 8c07c5b9...3e45, took 3 requests and 143.5 s on
+# 2026-10-18), reused while one HEAD shows the same ETag, and read as a zip without extracting it. In it, `fin@` is the statute as enacted and `fin@<version>` each
 # later temporal version; the latest (the highest-numbered, else `fin@`) is the document the API's @latest serves:
 # 25 of 38 documents compared on 2026-10-18 were byte-identical, 9 were rewritten by the publisher after the package
 # was built (same version), and 4 had a newer version in the API, which the connector detects and fetches from the API.
@@ -34,15 +35,15 @@ source_id: fi-finlex
 base_url: https://opendata.finlex.fi/finlex/avoindata/v1
 user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
 crawl_delay_seconds: 1
-# The download package this manifest is loaded from (refresh with `python -m scripts.finlex_package --replace --pin`).
+# The download package: `pin: latest` loads the package Finlex serves when the run starts (reused from the cache while
+# one HEAD shows the same ETag; downloaded again when Finlex has rebuilt it or the cached copy was pruned); its size,
+# SHA-256, ETag and Last-Modified are recorded in the cache's .meta.json and in every document's metadata. For a
+# reproducible run, `python -m scripts.finlex_package --pin` writes an exact pin (bytes, sha256) instead.
 mode: package
 package:
   url: https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip
-  bytes: 4397198140
-  sha256: 8c07c5b96f4d5063b841bb156eb204fb8f783c6e96d34c810555200aa7ce3e45
-  last_modified: "Sat, 17 Oct 2026 23:27:28 GMT"
-  etag: '"0d44183df8d844dd14a81c32ddfaa8e8-525"'
-  retrieved_at: "2026-10-18T11:57:24.666915+00:00"
+  pin: latest
+  approx_bytes: 4397198140  # the package of 2026-10-17, for the load plan only (not checked)
 languages: [fin, swe]
 works:
   - {year: 1999, number: "731", history: false}     # Suomen perustuslaki / Finlands grundlag (Constitution)

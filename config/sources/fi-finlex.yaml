@@ -32,8 +32,11 @@ access:
 update_frequency: >-
   daily for the download package ("the packages are updated with new documents once a day",
   https://www.finlex.fi/en/open-data/download-materials); continuous for the API ("updated with a
-  small delay when the document is published", https://www.finlex.fi/en/open-data). The manifest
-  pins one package (size and SHA-256); scripts/finlex_package.py moves the pin to a newer one.
+  small delay when the document is published", https://www.finlex.fi/en/open-data). Each run
+  loads the package Finlex serves when it starts (package.pin: latest; one HEAD decides whether
+  the cached copy is still current) and records its size and SHA-256 in every document's
+  metadata; scripts/finlex_package.py --pin freezes the manifest to one package for a
+  reproducible run.
 rate_limits: >-
   No numeric limit is published. "User volumes ... may be restricted to ensure service availability. If the number of
   calls is being restricted, the service will return the http error code 429 Too Many Requests"
@@ -100,7 +103,9 @@ licence:
 provenance: >-
   Package route: https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip, downloaded once with an
   identifying User-Agent into var/sources/www.finlex.fi/files/open-data/archives/ with its size, SHA-256, ETag,
-  Last-Modified and retrieval time (.meta.json), checked against the manifest's pin and read in place; each document is
+  Last-Modified and retrieval time (.meta.json; also in every document's metadata as package_bytes, package_sha256,
+  package_etag, package_last_modified, package_retrieved_at), one package file per run, checked against the
+  manifest's pin when it is exact, and read in place; each document is
   the member akn/fi/act/statute-consolidated/{year}/{number}/{fin|swe}@{version}/main.xml exactly as stored (CRC-32
   checked, its own FRBRuri checked against the member path), recorded with the URI <package URL>#<member>. API route:
   https://opendata.finlex.fi/finlex/avoindata/v1/akn/fi/act/statute-consolidated/{year}/{number}/{fin|swe}@{version}

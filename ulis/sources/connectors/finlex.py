@@ -7,9 +7,13 @@ version is named after the amending statute it incorporates: ``fin@20260380`` is
 
 **Package** (``mode: package``, the committed manifest's default for a full load). Finlex publishes the whole collection
 as one zip archive, ``https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip`` (about 4.4 GB, rebuilt
-daily; https://www.finlex.fi/en/open-data/download-materials). It is downloaded once into the cache (resumable; see
-:meth:`FinlexConnector.download_package`), must be the package the manifest pins (``package.bytes``,
-``package.sha256``), and is read in place as a zip, never extracted. Its members are
+daily; https://www.finlex.fi/en/open-data/download-materials). It is downloaded into the cache (resumable; see
+:meth:`FinlexConnector.download_package`) and read in place as a zip, never extracted. With ``package.pin: latest``
+(committed) a run loads the package Finlex serves at that moment: a cached copy is reused while one HEAD request shows
+the same ETag, otherwise (or when the cached copy was pruned) the current package is downloaded; its size, SHA-256,
+ETag, Last-Modified and retrieval time are recorded in the cache's ``.meta.json`` and in every document's metadata, and
+one run reads one package file only. With ``package.pin: exact`` (``bytes``, ``sha256``) only that package is accepted,
+for reproducible runs. Its members are
 ``akn/fi/act/statute-consolidated/<year>/<number>/<fin|swe>@<version>/main.xml``: ``fin@`` with no version is the
 statute as enacted (its ``FRBRversionNumber`` is the statute's own number) and ``fin@<version>`` each later temporal
 version, so the latest version is the highest-numbered member, or ``fin@`` when there is no other (checked against the
@@ -49,6 +53,7 @@ from __future__ import annotations
 import gzip
 import hashlib
 import json
+import os
 import re
 import shutil
 import ssl
@@ -62,7 +67,7 @@ from collections.abc import Iterator
 from datetime import UTC, datetime
 from http.client import HTTPException
 from pathlib import Path
-from typing import Any
+from typing import Any, BinaryIO
 
 import yaml
 
@@ -154,12 +159,31 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _is_exact(pin: dict[str, Any]) -> bool:
+    """``package.pin``: ``exact`` (the default; ``bytes`` and ``sha256`` given) or ``latest`` (what Finlex serves
+    now)."""
+    return pin.get("pin", "exact") != "latest"
+
+
+def _same_package(meta: dict[str, Any], current: dict[str, Any]) -> bool:
+    """Whether the cached package (its record) is the one a HEAD response describes: same ETag (else Last-Modified)
+    and, when the response gives one, the same size."""
+    if meta.get("etag") and current.get("etag"):
+        same = meta["etag"] == current["etag"]
+    elif meta.get("last_modified") and current.get("last_modified"):
+        same = meta["last_modified"] == current["last_modified"]
+    else:
+        return False
+    return same and (current.get("bytes") is None or current["bytes"] == meta.get("bytes"))
+
+
 def _check_pin(meta: dict[str, Any], pin: dict[str, Any] | None) -> None:
     if pin is not None and (meta.get("bytes") != pin["bytes"] or meta.get("sha256") != pin["sha256"]):
         raise PackageChanged(
             f"the cached package ({meta.get('bytes')} bytes, SHA-256 {meta.get('sha256')}, Last-Modified "
             f"{meta.get('last_modified')}) is not the one the manifest pins ({pin['bytes']} bytes, SHA-256 "
-            f"{pin['sha256']}); refresh the pin with `python -m scripts.finlex_package`"
+            f"{pin['sha256']}); load the current package (package.pin: latest) or move the pin with "
+            "`python -m scripts.finlex_package --replace --pin`"
         )
 
 
@@ -226,6 +250,9 @@ class FinlexConnector:
         self.package_meta: dict[str, Any] | None = None
         self.download_events: list[str] = []
         self.http: PoliteHttp | None = None
+        self._last_start = 0.0
+        self._requests = 0
+        self._package_handle: BinaryIO | None = None
 
     def _manifest(self) -> dict[str, Any]:
         manifest = yaml.safe_load(self.manifest_path.read_text(encoding="utf-8"))
@@ -257,6 +284,15 @@ class FinlexConnector:
             pin = manifest.get("package")
             if not isinstance(pin, dict) or pin.get("url") != PACKAGE_URL:
                 raise ManifestError(f"mode package needs a package block whose url is {PACKAGE_URL}")
+            if pin.get("pin", "exact") not in ("exact", "latest"):
+                raise ManifestError("package.pin must be latest (what Finlex serves now) or exact")
+            if not _is_exact(pin):
+                if "bytes" in pin or "sha256" in pin:
+                    raise ManifestError("package.pin latest takes no bytes or sha256: they are recorded on each run")
+                approx = pin.get("approx_bytes")
+                if approx is not None and (not isinstance(approx, int) or approx <= 0):
+                    raise ManifestError("package.approx_bytes must be a size in bytes (for the load plan)")
+                return manifest
             if not isinstance(pin.get("bytes"), int) or pin["bytes"] <= 0:
                 raise ManifestError("package.bytes must be the package's size in bytes")
             if not _SHA256.match(str(pin.get("sha256", ""))):
@@ -276,7 +312,8 @@ class FinlexConnector:
         return self.cache_dir / PACKAGE_HOST / PACKAGE_PATH
 
     def download_package(self, manifest: dict[str, Any], *, check_pin: bool = True) -> tuple[Path, dict[str, Any]]:
-        """The package in the cache, downloaded once (resumable); returns its path and its record (``.meta.json``).
+        """The package in the cache, downloaded when needed (resumable); returns its path and its record
+        (``.meta.json``: URL, size, SHA-256, ETag, Last-Modified, retrieval time).
 
         Politeness as for every request: robots.txt of www.finlex.fi is read first (its Crawl-delay, if any, is a floor
         and the package path must be allowed), the identifying User-Agent, HTTPS to www.finlex.fi only, one connection,
@@ -285,22 +322,25 @@ class FinlexConnector:
         whole again instead of being spliced. 401/403/429/451 stop at once (a refusal is never retried); 5xx and broken
         connections are retried with back-off, at most ``MAX_DOWNLOAD_FAILURES`` times in a row without progress.
 
-        With ``check_pin`` the package must be the one the manifest pins (``package.bytes`` and ``package.sha256``):
-        the publisher rebuilds it daily under the same URL, so a newer one is refused, not silently loaded (refresh the
-        pin with ``python -m scripts.finlex_package``).
+        ``package.pin: latest`` (the committed manifest): the package Finlex serves now. A cached package is reused when
+        one HEAD request shows the same ETag (or Last-Modified) and size; otherwise it is deleted and the current one
+        downloaded. A cached package that is gone (pruned) is simply downloaded again.
+
+        ``package.pin: exact`` (``bytes`` and ``sha256`` given; reproducible runs): only that package is accepted - the
+        publisher rebuilds it daily under the same URL, so a newer one is refused, not silently loaded. ``check_pin``
+        False treats an exact manifest as ``latest`` (``scripts/finlex_package.py``).
         """
-        pin = manifest.get("package") if check_pin else None
+        pin = manifest.get("package") or {}
+        exact = check_pin and _is_exact(pin)
+        self.download_events = []
         dest = self.package_file()
-        meta_file = dest.with_name(dest.name + ".meta.json")
-        if dest.exists() and meta_file.exists():
-            meta = json.loads(meta_file.read_text())
-            stat = dest.stat()
-            if stat.st_size != meta.get("bytes") or stat.st_mtime_ns != meta.get("mtime_ns"):
-                meta["sha256"] = _sha256(dest)  # changed on disk since it was recorded: hash it again
-                meta["bytes"], meta["mtime_ns"] = stat.st_size, stat.st_mtime_ns
-            _check_pin(meta, pin)
-            return dest, meta
+        cached = self._cached_package()
+        if cached is not None and exact:
+            _check_pin(cached[1], pin)
+            return cached
         if self.offline:
+            if cached is not None:
+                return cached
             raise FetchError(f"offline and not cached: {PACKAGE_URL}")
         user_agent = manifest["user_agent"]
         site = PoliteHttp(
@@ -311,12 +351,73 @@ class FinlexConnector:
             sleep=self._sleep,
             honour_robots_delay=True,
         )
-        last_start = time.monotonic()
+        self._last_start = time.monotonic()
         robots = site.get(f"https://{PACKAGE_HOST}/robots.txt", refresh=True)  # also records its Crawl-delay
         if robots is not None and not robots_allows(robots[0].decode("utf-8", "replace"), user_agent, PACKAGE_URL):
             raise FetchError(f"{PACKAGE_URL}: disallowed by https://{PACKAGE_HOST}/robots.txt; not fetched")
         delay = site.delay_for(PACKAGE_HOST)
-        requests_made = site.requests_made
+        self._requests = site.requests_made
+        if cached is not None:
+            current = self._head_package(user_agent, delay)
+            if current is None:
+                self.download_events.append("could not ask Finlex for its current package; using the cached one")
+                return cached
+            if _same_package(cached[1], current):
+                return cached
+            self.download_events.append(
+                f"the cached package (ETag {cached[1].get('etag')}) is not the one Finlex serves now (ETag "
+                f"{current.get('etag')}, Last-Modified {current.get('last_modified')}); downloading that one"
+            )
+            dest.unlink(missing_ok=True)  # one package on disk at a time
+            dest.with_name(dest.name + ".meta.json").unlink(missing_ok=True)
+        return self._download(user_agent, delay, pin if exact else None)
+
+    def _cached_package(self) -> tuple[Path, dict[str, Any]] | None:
+        """The cached package and its record; ``None`` when either is missing (pruned, or never downloaded). A package
+        that changed on disk since it was recorded is hashed again and no longer counts as the publisher's response."""
+        dest = self.package_file()
+        meta_file = dest.with_name(dest.name + ".meta.json")
+        if not (dest.exists() and meta_file.exists()):
+            return None
+        meta = json.loads(meta_file.read_text())
+        stat = dest.stat()
+        if stat.st_size != meta.get("bytes") or stat.st_mtime_ns != meta.get("mtime_ns"):
+            meta.update(sha256=_sha256(dest), bytes=stat.st_size, mtime_ns=stat.st_mtime_ns, etag=None)
+            meta["last_modified"] = None
+        return dest, meta
+
+    def _pause(self, delay: float) -> None:
+        wait = self._last_start + delay - time.monotonic()
+        if wait > 0:
+            self._sleep(wait)
+        self._last_start = time.monotonic()
+        self._requests += 1
+
+    def _head_package(self, user_agent: str, delay: float) -> dict[str, Any] | None:
+        """ETag, Last-Modified and size of the package Finlex serves now (one HEAD; retried on 5xx and broken
+        connections). ``None`` when Finlex cannot be asked; a refusal stops the run."""
+        for attempt in range(4):
+            self._pause(delay if attempt == 0 else min(delay * 2**attempt, 300.0))
+            request = urllib.request.Request(PACKAGE_URL, method="HEAD", headers={"User-Agent": user_agent})  # noqa: S310
+            try:
+                with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310 - the fixed https URL
+                    return {
+                        "etag": response.headers.get("ETag"),
+                        "last_modified": response.headers.get("Last-Modified"),
+                        "bytes": int(response.headers.get("Content-Length") or 0) or None,
+                    }
+            except urllib.error.HTTPError as exc:
+                if exc.code in (500, 502, 503, 504):
+                    continue
+                if exc.code == 404:
+                    raise FetchError(f"{PACKAGE_URL}: not found (404)") from exc
+                raise FetchError(f"{PACKAGE_URL}: HTTP {exc.code} (not retried: a refusal is respected)") from exc
+            except (urllib.error.URLError, TimeoutError, ConnectionError, HTTPException, ssl.SSLError):
+                continue
+        return None
+
+    def _download(self, user_agent: str, delay: float, pin: dict[str, Any] | None) -> tuple[Path, dict[str, Any]]:
+        dest = self.package_file()
         dest.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
         part = dest.with_name(dest.name + ".part")
         part_meta = dest.with_name(dest.name + ".part.json")  # validators of the response the partial file comes from
@@ -330,11 +431,7 @@ class FinlexConnector:
             have = part.stat().st_size if part.exists() else 0
             if total is not None and have == total:
                 break
-            wait = last_start + delay - time.monotonic()
-            if wait > 0:
-                self._sleep(wait)
-            last_start = time.monotonic()
-            requests_made += 1
+            self._pause(delay)
             headers = {"User-Agent": user_agent}
             if have:
                 headers["Range"] = f"bytes={have}-"
@@ -365,8 +462,8 @@ class FinlexConnector:
                         raise PackageChanged(
                             f"{PACKAGE_URL} now has {total} bytes (Last-Modified "
                             f"{response.headers.get('Last-Modified')}); the manifest pins {pin['bytes']} bytes of "
-                            f"{pin.get('last_modified')}: the publisher has replaced the package; refresh the pin with "
-                            "`python -m scripts.finlex_package`"
+                            f"{pin.get('last_modified')}: the publisher has replaced the package; load the current "
+                            "one (package.pin: latest) or move the pin with `python -m scripts.finlex_package`"
                         )
                     with part.open(mode) as out:
                         if mode == "wb":  # the partial file and its validators are replaced together
@@ -407,11 +504,11 @@ class FinlexConnector:
             "sha256": sha,
             "mtime_ns": stat.st_mtime_ns,
             "retrieved_at": datetime.now(UTC).isoformat(),
-            "requests": requests_made,
-            "interruptions": len(self.download_events),
+            "requests": self._requests,
+            "interruptions": sum(e.startswith("interrupted") for e in self.download_events),
             "download_seconds": round(time.monotonic() - started, 1),
         }
-        meta_file.write_text(json.dumps(meta, indent=1))
+        dest.with_name(dest.name + ".meta.json").write_text(json.dumps(meta, indent=1))
         return dest, meta
 
     def _get(self, path: str) -> tuple[bytes, dict[str, Any]] | None:
@@ -460,19 +557,37 @@ class FinlexConnector:
     # ------------------------------------------------------------------ package route
 
     def _open_package(self, manifest: dict[str, Any]) -> zipfile.ZipFile:
+        """The run's one package, opened once: every document of the run comes from this file, whose size and SHA-256
+        (with its ETag, Last-Modified and retrieval time) go into each document's metadata."""
         pin = manifest["package"]
-        if self._package_file is not None:
+        if self._package_file is not None:  # a local copy (tests)
             path = self._package_file
-            meta = {"bytes": path.stat().st_size, "sha256": _sha256(path), "last_modified": pin["last_modified"]}
-            _check_pin(meta, pin)
-            meta["retrieved_at"] = pin["retrieved_at"]  # a local copy of the pinned package: retrieved when pinned
+            stat = path.stat()
+            meta = {
+                "bytes": stat.st_size,
+                "sha256": _sha256(path),
+                "mtime_ns": stat.st_mtime_ns,
+                "etag": pin.get("etag"),
+                "last_modified": pin.get("last_modified"),
+                "retrieved_at": pin.get("retrieved_at") or datetime.fromtimestamp(stat.st_mtime, UTC).isoformat(),
+            }
+            if _is_exact(pin):
+                _check_pin(meta, pin)
         else:
             path, meta = self.download_package(manifest)
-        self.package_meta = {k: meta.get(k) for k in ("bytes", "sha256", "last_modified", "retrieved_at")}
+        handle = path.open("rb")
+        stat = os.fstat(handle.fileno())
+        if stat.st_size != meta["bytes"] or stat.st_mtime_ns != meta.get("mtime_ns", stat.st_mtime_ns):
+            handle.close()
+            raise FetchError(f"{path}: changed on disk while the run was starting; run again")
+        self.package_meta = {k: meta.get(k) for k in ("bytes", "sha256", "etag", "last_modified", "retrieved_at")}
         try:
-            return zipfile.ZipFile(path)
+            archive = zipfile.ZipFile(handle)
         except zipfile.BadZipFile as exc:
+            handle.close()
             raise FetchError(f"{PACKAGE_URL}: not a zip archive ({exc})") from exc
+        self._package_handle = handle  # a ZipFile given a file object leaves closing it to the caller (fetch)
+        return archive
 
     def _member_raw(self, archive: zipfile.ZipFile, base: str, lang: str, version: str, name: str) -> RawDocument:
         """The member's ``main.xml`` exactly as stored, after checking that it is the document its path names."""
@@ -495,8 +610,11 @@ class FinlexConnector:
                 "temporal_version": number,
                 "archive": PACKAGE_URL,
                 "member": name,
+                "package_bytes": self.package_meta["bytes"],
                 "package_sha256": self.package_meta["sha256"],
+                "package_etag": self.package_meta["etag"],
                 "package_last_modified": self.package_meta["last_modified"],
+                "package_retrieved_at": self.package_meta["retrieved_at"],
             },
         )
 
@@ -577,6 +695,9 @@ class FinlexConnector:
         finally:
             if archive is not None:
                 archive.close()
+            if self._package_handle is not None:
+                self._package_handle.close()
+                self._package_handle = None
 
     def _works(
         self,

@@ -15,7 +15,7 @@ run here.
 | Source id | `fi-finlex` (`config/sources/fi-finlex.yaml`) |
 | Publisher | Ministry of Justice, Finland; Finlex is maintained by the Legal Register Centre ([help](https://www.finlex.fi/en/instructions)) |
 | Access | Full load: Finlex's download package [`statute-consolidated.zip`](https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip) ("Updated legislation (4.1 GB)" on the [download page](https://www.finlex.fi/en/open-data/download-materials); rebuilt daily), the same Akoma Ntoso documents in one zip. Single works: the Finlex open data REST API, Akoma Ntoso XML: `GET https://opendata.finlex.fi/finlex/avoindata/v1/akn/fi/act/statute-consolidated/{year}/{number}/{fin\|swe}@{version}` ([open data](https://www.finlex.fi/en/open-data), [quick guide](https://www.finlex.fi/en/open-data/integration-quick-guide), [OpenAPI](https://opendata.finlex.fi/Finlex_avoin_data_v0_4_0.yaml)). No key; a User-Agent header is required |
-| Connector | `finlex` (`ulis/sources/connectors/finlex.py`): `mode: package` (the committed manifest; pinned package, resumable download, read in place) or `mode: api` (`PoliteHttp`, one document per request) |
+| Connector | `finlex` (`ulis/sources/connectors/finlex.py`): `mode: package` (the committed manifest; the package Finlex serves when a run starts, or an exact pin; resumable download, read in place) or `mode: api` (`PoliteHttp`, one document per request) |
 | Parser | `finlex_akn` (`ulis/sources/parsers/finlex.py`) |
 | Module | `fi` (`ulis/jurisdictions/modules/fi.py`) |
 | Manifest | `config/manifests/fi-finlex.yaml` |
@@ -141,8 +141,19 @@ whole again rather than spliced; the first 401/403/429/451 stops it):
 | Integrity | CRC-32 of all **346,017 members** checked (`zipfile.testzip`, 40.9 s): no error |
 | Cache | `var/sources/www.finlex.fi/files/open-data/archives/statute-consolidated.zip` + `.meta.json` |
 
-The manifest pins this package (`mode: package`, `package: {url, bytes, sha256, last_modified, etag, retrieved_at}`);
-the connector refuses any other (`PackageChanged`), so a newer daily package is never mixed in silently.
+**Which package a run loads.** The committed manifest has `mode: package` and `package: {url, pin: latest,
+approx_bytes}`: each run loads the package Finlex serves when it starts, so a fresh server load needs nothing done
+beforehand. A cached package is reused while one HEAD request shows the same ETag (else Last-Modified) and size;
+otherwise it is deleted and the current one downloaded (one package on disk at a time), and a cached package that is
+gone (for example deleted by a cache pruner after an ingest) is simply downloaded again. If Finlex cannot be asked (5xx
+or no connection after 4 tries) the cached package is used and the run says so; a refused HEAD stops the run. The
+package's size, SHA-256, ETag, Last-Modified and retrieval time are written to the cache's `.meta.json` and into every
+document's metadata (`package_bytes`, `package_sha256`, `package_etag`, `package_last_modified`,
+`package_retrieved_at`, stored with each source document), and a run opens one package file and reads every document
+from it, so two packages are never mixed. For a reproducible run, `package.pin: exact` with `bytes`, `sha256`,
+`last_modified`, `etag` and `retrieved_at` (written by `python -m scripts.finlex_package --pin`) accepts only that
+package and refuses any other (`PackageChanged`); Finlex stops serving it at its next rebuild, so it can be repeated
+only while it is cached.
 
 **Which member is the latest version.** Members are `akn/fi/act/statute-consolidated/<year>/<number>/<lang>@<version>/
 main.xml`. `fin@` (no number) is the statute **as enacted** (its `FRBRversionNumber` is the statute's own number:
@@ -158,7 +169,7 @@ unchanged: no statute's latest document falls on the other side of the 5,500-byt
 | | |
 |---|---|
 | Listed latest documents (5,579 works) | **11,108**, all present in the package: **0 missing**, **0 errors** (CRC-32 and the member's own `FRBRuri` checked) |
-| Read from the package | **11,094** latest + 32 earlier temporal versions of the two `history` Acts = 11,126 documents, 514,875,592 bytes, **10.3 s** (+3.2 s to open the pinned package, 0.3 s to index its 132,499 `main.xml` members) |
+| Read from the package | **11,094** latest + 32 earlier temporal versions of the two `history` Acts = 11,126 documents, 514,875,592 bytes, **10.3 s** (+3.2 s to check and open the package, 0.3 s to index its 132,499 `main.xml` members) |
 | Taken from the API instead | **14** (7 works: 4/1734, 400/2015, 801/2017, 616/2019, 221/2022, 64/2023, 380/2023): the package's own metadata names a newer amending statute (871-887/2026, consolidated 2026-10-08/09) that has no member yet |
 | History versions in neither | 8: 434/2003 `@20030434`, `@20091408`, `@20100581`, `@20140368` in both languages - the same versions the API answered 404 for on 2026-10-14 |
 | Shells (`contentAbsent`) | 1,098, skipped at ingest as before |
@@ -193,24 +204,24 @@ at 1 s start to start (4.6 h if latency adds; 15.4 h at the earlier 5 s). After 
 history versions, robots.txt: about 23 s at 1 s), then local work: reading 10 s, parsing 82 s, and the database writes,
 which both routes share (not measured on a full load: 30-60 min extrapolated from the slice's 9,468 provision versions
 to the 767,046 provisions the manifest parses into; about 2 GB). `load-all --dry-run` shows `>= 2s + 4.1 GB` for
-`fi-finlex`, and the weekly `--refresh` skips it (a pinned source).
+`fi-finlex` (`approx_bytes`, the size of the package of 2026-10-17).
 
 **Requests made for this work** (all with the ULIS User-Agent, one connection, at least 1 s apart): www.finlex.fi 5
 (robots.txt twice, 2 GETs of the package, 1 HEAD by `scripts/finlex_package.py`); opendata.finlex.fi 35 (robots.txt
 three times, 404; 32 documents). No 401, 403, 429 or 451.
 
 **Refreshing (daily).** Finlex rebuilds the package once a day under the same URL; the API is updated continuously.
+`load-all --refresh` (and any later `ingest fi-finlex`) runs fi-finlex like a first load: `--refresh` first deletes
+cached downloads older than `--max-cache-age-days` (7), then the connector asks Finlex with one HEAD whether the cached
+package is still current, downloads the new package only when the ETag changed, and the pipeline skips every document
+whose bytes it already holds (same SHA-256). `fi-finlex` is therefore a live source again (not in the static pins).
 
 ```
-python -m scripts.finlex_package                  # pinned vs cached vs what Finlex serves now (robots.txt + one HEAD)
-python -m scripts.finlex_package --replace --pin  # if the ETag changed: delete the old package, download the new one
-                                                  # (resumable), write its size, SHA-256, ETag, date into the manifest
-python -m ulis.cli ingest fi-finlex               # unchanged documents are recognised by SHA-256 and skipped
+python -m scripts.finlex_package                   # manifest pin, cached package, what Finlex serves now (robots + HEAD)
+python -m scripts.finlex_package --replace         # download Finlex's current package now if it differs from the cache
+python -m scripts.finlex_package --replace --pin   # ... and pin it exactly for a reproducible run
+python -m scripts.finlex_package --live            # back to pin: latest (the committed default)
 ```
-
-Finlex replaces the file under the same URL, so a pinned package can be downloaded again only until the next rebuild;
-after that, `ingest fi-finlex` stops with "the publisher has replaced the package" until the pin is moved with
-`--replace --pin` (the package used here was deleted from the worktree after the runs above).
 
 Single works come from the API one document at a time: a manifest with `mode: api` listing them, or
 `FinlexConnector(manifest, "fi-finlex", cache, mode="api")`. Two caveats, both measured above: the package lags the
@@ -302,11 +313,14 @@ formally binding; KKO/KHO precedents are followed in practice (marked "to verify
 reception: dualist (to verify). No memberships are recorded here (EU membership is added with the EU
 profile).
 
-Tests with the package route (2026-10-18, own test database): full suite **2,117 passed** (966 s); `tests/test_finlex.py`
-33 tests (15 new: package route against API fixtures, history and fallbacks, pin refusal, API override, a member that
-is not its document, the committed pin and load plan, the refresh script's pin rewrite, the resumable download against
-a fake server - resume, rebuilt package, refusals 401/403/429/451, newer package, robots.txt - and a PostgreSQL ingest
-of the package fixture). Fixture:
+Tests with the package route (2026-10-18, own test database): full suite **2,121 passed** (1,326 s); `tests/test_finlex.py`
+37 tests (package route against API fixtures, history and fallbacks, exact-pin refusal, API override, a member
+that is not its document, the committed live manifest and load plan, the package script's switch between `latest` and
+an exact pin, the resumable download against a fake server - resume, rebuilt package, refusals 401/403/429/451, newer
+package, robots.txt - the live package against a fake server - a "current" package different from the sample is
+downloaded and named in every document while an exact pin of the sample refuses it, reuse after one HEAD, replacement
+when the ETag changes, download after pruning, offline, HEAD failure and refusal, a cache altered on disk - and a
+PostgreSQL ingest of the package fixture whose source-document records name the package's SHA-256). Fixture:
 `tests/fixtures/finlex/package/statute-consolidated-sample.zip` (14 real members). ruff, ruff format, mypy pass.
 
 Tests after widening (2026-10-16, own test database): full suite **1,291 passed**; `tests/test_finlex.py` 18 tests (committed manifest, shell / repealed / decision fixtures, connector robustness, PostgreSQL search of a decision in both languages). ruff, ruff format, mypy pass.

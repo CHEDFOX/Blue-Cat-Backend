@@ -31,7 +31,6 @@ STATIC_PINS: dict[str, str] = {
     "pl-eli-sejm": "explicit list of consolidated texts; add newer ones to the manifest",
     "it-normattiva": "text as of the dates in the manifest; scripts/build_normattiva_manifest.py appends acts",
     "eu-eur-lex": "explicit CELEX list of the acts in force; regenerate with scripts/build_eu_manifest.py to refresh",
-    "fi-finlex": "pinned download package (size, SHA-256); move the pin with scripts/finlex_package.py --replace --pin",
 }
 
 # Sources that must be loaded after others, whatever their size. The pipeline never overwrites a stored wording and does
@@ -93,8 +92,8 @@ class ManifestInfo:
     git: bool  # fetched with a git clone rather than HTTP requests
     # hosts named in the manifest's settings and entries, not in its comments (whose robots.txt can set a floor)
     data_hosts: tuple[str, ...] = ()
-    # a manifest loaded from one download package (``mode: package`` with a pinned ``package.bytes``): its size, and
-    # the documents read from it (the requests the per-document route would make)
+    # a manifest loaded from one download package (``mode: package`` with ``package.bytes`` or ``approx_bytes``): its
+    # size, and the documents read from it (the requests the per-document route would make)
     download_bytes: int | None = None
     documents: int | None = None
 
@@ -139,9 +138,10 @@ def _read(path: str, mtime_ns: int) -> ManifestInfo:
         delay = float(raw_delay) if isinstance(raw_delay, int | float) else None
         git = "repository" in data
         package = data.get("package")
-        if data.get("mode") == "package" and isinstance(package, dict) and isinstance(package.get("bytes"), int):
+        size = (package.get("bytes") or package.get("approx_bytes")) if isinstance(package, dict) else None
+        if data.get("mode") == "package" and isinstance(size, int):
             # robots.txt and one download (resumed if interrupted); a few per-document requests may come on top
-            download_bytes, documents, requests = package["bytes"], requests, 2
+            download_bytes, documents, requests = size, requests, 2
     hosts = tuple(sorted(url_hosts(raw)))
     data_hosts = tuple(sorted(url_hosts(_COMMENT_LINE.sub("", raw))))
     return ManifestInfo(entries, requests, delay, hosts, git, data_hosts, download_bytes, documents)
