@@ -34,8 +34,9 @@ PostgreSQL). The frontend is in [`Blue-Cat-Web`](https://github.com/CHEDFOX/Blue
   cited authority and removes any claim whose quote is not in the source. Case text is never stored
   or logged. See [docs/research-assistant.md](docs/research-assistant.md).
 - **Operations**: `load-all` (every active source, smallest first, resumable), `status`, backups,
-  restore, corpus export/import, API keys, rate limits, `/ready`, JSON logs. See
-  [docs/deployment.md](docs/deployment.md).
+  restore, corpus export/import, API keys, rate limits, `/ready`, JSON logs; lossless space saving
+  (zstd object store, `compact-objects`, `prune-cache`, zstd dumps, a compressing filesystem for
+  PostgreSQL). See [docs/deployment.md](docs/deployment.md).
 
 ## Quick start
 

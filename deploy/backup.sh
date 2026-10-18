@@ -5,10 +5,14 @@
 #   deploy/backup.sh [--dir DIR] [--keep-days N] [--with-objects]
 #
 # Settings (environment or deploy/.env): ULIS_BACKUP_DIR (default deploy/backups), ULIS_BACKUP_KEEP_DAYS (14),
-# ULIS_BACKUP_OBJECTS (0). The newest 3 dumps are always kept whatever their age.
+# ULIS_BACKUP_OBJECTS (0), ULIS_BACKUP_ZSTD_LEVEL (9), ULIS_BACKUP_COMPRESS (unset). The newest 3 dumps are always
+# kept whatever their age.
+# Compression: zstd when pg_dump supports it (PostgreSQL 16+), else gzip level 6; lossless either way (see
+# dump_compression in lib.sh). The dump is read back in full (every block decompressed) before it is kept.
 # The dump holds EVERYTHING in the database (including audit events and research results): treat it as sensitive.
 # The raw object store (--with-objects) is content-addressed and immutable; for large stores prefer
-# `rsync -a --ignore-existing /srv/ulis/objects/ backup-host:/path/objects/` to a tarball every night.
+# `rsync -a --ignore-existing /srv/ulis/objects/ backup-host:/path/objects/` to a tarball every night (after
+# `cli compact-objects` has converted old objects, one `rsync -a --delete` drops their uncompressed copies there).
 set -euo pipefail
 . "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
@@ -37,10 +41,11 @@ stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 out="$BACKUP_DIR/ulis-$stamp.dump"
 trap 'rm -f "$out.partial" "$BACKUP_DIR/ulis-objects-$stamp.tar.gz.partial"' EXIT
 
-log "dumping the database to $out"
-pg pg_dump --format=custom --compress=6 --no-owner > "$out.partial"
+compression="$(dump_compression)"
+log "dumping the database to $out (--compress=$compression)"
+pg pg_dump --format=custom --compress="$compression" --no-owner > "$out.partial"
 [ -s "$out.partial" ] || die "the dump is empty"
-pg pg_restore --list < "$out.partial" > /dev/null || die "the dump cannot be read back"
+check_dump "$out.partial" || die "the dump cannot be read back"
 mv "$out.partial" "$out"
 ( cd "$BACKUP_DIR" && sha256sum "ulis-$stamp.dump" > "ulis-$stamp.dump.sha256" )
 log "database dump done ($(du -h "$out" | cut -f1))"
@@ -49,8 +54,8 @@ if [ "$WITH_OBJECTS" = 1 ]; then
   src="$(objects_dir)"
   [ -d "$src" ] || die "object store directory $src not found (set ULIS_OBJECT_STORE_DIR or ULIS_DATA_DIR)"
   log "archiving the object store $src"
-  tar -C "$src" -czf "$BACKUP_DIR/ulis-objects-$stamp.tar.gz.partial" .
-  mv "$BACKUP_DIR/ulis-objects-$stamp.tar.gz.partial" "$BACKUP_DIR/ulis-objects-$stamp.tar.gz"
+  archive="$(archive_objects "$src" "$BACKUP_DIR/ulis-objects-$stamp.tar.gz")"
+  log "object archive done: $archive ($(du -h "$archive" | cut -f1))"
 fi
 
 # Retention: delete dumps (and their checksums / object archives) older than KEEP_DAYS, but never the newest 3.

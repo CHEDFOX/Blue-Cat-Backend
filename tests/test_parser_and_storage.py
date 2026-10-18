@@ -112,7 +112,8 @@ def test_object_store_is_content_addressed_and_detects_tampering(tmp_path: Path)
     assert key == "sha256:" + hashlib.sha256(b"original bytes").hexdigest()
     assert store.put(b"original bytes") == key
     assert store.get(key) == b"original bytes"
-    path = tmp_path / "sha256" / key[7:9] / key[9:11] / key[7:]
+    path = tmp_path / "sha256" / key[7:9] / key[9:11] / f"{key[7:]}.zst"  # the address stays the original bytes' hash
+    assert store.locate(key) == path
     assert oct(path.stat().st_mode & 0o777) == "0o600"
     path.write_bytes(b"tampered")
     with pytest.raises(IntegrityError):

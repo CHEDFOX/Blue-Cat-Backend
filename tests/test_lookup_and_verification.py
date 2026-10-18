@@ -7,6 +7,7 @@ from datetime import date
 from pathlib import Path
 
 import pytest
+import zstandard
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -119,8 +120,10 @@ def test_source_integrity_detects_tampering(
         select(m.SourceDocument).where(m.SourceDocument.external_id == "xa-act-2015-12-eng-2023-03-01")
     )
     assert doc is not None
-    path = tmp_path / "objects" / "sha256" / doc.sha256[:2] / doc.sha256[2:4] / doc.sha256
-    path.write_bytes(path.read_bytes().replace(b"five years", b"four years"))
+    path = copy.locate(doc.storage_key)  # <digest>.zst: the raw bytes are stored zstd-compressed
+    assert path is not None
+    raw = zstandard.ZstdDecompressor().decompress(path.read_bytes())
+    path.write_bytes(zstandard.ZstdCompressor().compress(raw.replace(b"five years", b"four years")))
     result = verify_source_document(session, catalog, copy, doc.id)
     assert result["result"] == "fail" and "altered" in result["problems"][0]
     # Tampering with the *stored* text is detected too.

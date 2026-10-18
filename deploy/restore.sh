@@ -6,7 +6,8 @@
 # Runs as one transaction: if anything fails the previous contents stay as they were. In the compose setup the
 # API is stopped for the duration and started again (it then applies any newer migrations). --objects also unpacks
 # an object-store archive made with backup.sh --with-objects (into the host object store; run as a user who may
-# write there, and keep the directory owned by uid 10001).
+# write there, and keep the directory owned by uid 10001). Dumps compressed with zstd or gzip and object stores
+# holding compressed (.zst) or older uncompressed objects are all restored as they are.
 # After a restore:  docker compose --profile tools run --rm cli status
 set -euo pipefail
 . "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
@@ -37,6 +38,6 @@ if [ -n "$OBJECTS" ]; then
   dest="$(objects_dir)"
   mkdir -p "$dest"
   log "unpacking $OBJECTS into $dest"
-  tar -C "$dest" -xzf "$OBJECTS"
+  tar -C "$dest" -xf "$OBJECTS"   # GNU tar recognises gzip (or a plain .tar) by itself
 fi
 log "restore finished"

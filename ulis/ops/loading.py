@@ -33,7 +33,7 @@ from ulis.ops.text import format_table, human_bytes, human_duration
 from ulis.settings import REPO_ROOT, Settings
 from ulis.sources.connectors.polite_http import MIN_CRAWL_DELAY, robots_crawl_delay
 from ulis.sources.registry import LicenceNotApproved, SourceDescriptor, licence_gate
-from ulis.storage.object_store import LocalObjectStore, ObjectStore
+from ulis.storage.object_store import ObjectStore, open_object_store
 
 # Session-level PostgreSQL advisory lock: only one load-all runs against a database at a time.
 LOCK_KEY = 0x554C4953_4C4F4144
@@ -72,6 +72,9 @@ class LoadOptions:
     # Sources loaded at the same time. Never two on the same host (so the crawl delay each publisher asked for
     # holds), whatever this is set to; 1 = one source after the other.
     jobs: int = 1
+    # After a load in which no source failed: verify the new documents of the sources loaded, then delete the cached
+    # downloads of those whose documents all passed (`prune-cache`, ulis/ops/cache.py).
+    prune_cache: bool = False
 
 
 @dataclass(frozen=True)
@@ -182,6 +185,15 @@ def select_sources(catalog: Catalog, options: LoadOptions, base_dir: Path = REPO
     return selection
 
 
+def cache_names(hosts: Iterable[str]) -> set[str]:
+    """The directory names a host may be cached under: connectors cache by host name, some without ``www.``."""
+    names: set[str] = set()
+    for host in hosts:
+        bare = host.removeprefix("www.")
+        names.update({host, bare, "www." + bare})
+    return names
+
+
 def evict_stale_cache(
     cache_dir: Path, hosts: Iterable[str], max_age_days: float, *, dry_run: bool = False, now: float | None = None
 ) -> tuple[int, int]:
@@ -192,12 +204,8 @@ def evict_stale_cache(
     """
     root = cache_dir.resolve()
     cutoff = (time.time() if now is None else now) - max_age_days * 86400
-    names: set[str] = set()
-    for host in hosts:
-        bare = host.removeprefix("www.")
-        names.update({host, bare, "www." + bare})
     files = size = 0
-    for name in sorted(names):
+    for name in sorted(cache_names(hosts)):
         base = root / name
         if base.is_symlink() or not base.is_dir():
             continue
@@ -218,9 +226,8 @@ PLAN_USER_AGENT = "ULIS-research-bot/0.1"  # the product token connectors send; 
 
 def cached_robots_delay(cache_dir: Path, host: str) -> float | None:
     """The Crawl-delay of the robots.txt a connector cached for ``host`` (either spelling, with or without ``www.``)."""
-    bare = host.removeprefix("www.")
     found: list[float] = []
-    for name in sorted({host, bare, "www." + bare}):
+    for name in sorted(cache_names([host])):
         path = cache_dir / name / "robots.txt"
         try:
             text = path.read_text(encoding="utf-8", errors="replace")
@@ -413,13 +420,20 @@ def run_load_all(
         return EXIT_OK
     if options.dry_run:
         out(format_plan(selection, options, settings.source_cache_dir))
+        if options.prune_cache:
+            out(
+                "--prune-cache: after a load in which no source failed, the new documents of these sources are "
+                "verified (verify-sources) and the cached downloads of those whose documents all pass are deleted; "
+                "`prune-cache --dry-run` shows what that frees today."
+            )
         return EXIT_OK
 
     factory = make_session_factory(engine)
-    store = LocalObjectStore(settings.object_store_dir)
+    store = open_object_store(settings)
     results: list[SourceResult] = []
     started = time.monotonic()
     explicit = set(options.only)
+    prune_code = EXIT_OK
     try:
         with single_instance(engine), _sigterm_as_interrupt():
             with session_scope(factory) as session:
@@ -429,6 +443,10 @@ def run_load_all(
                 _run_parallel(selection, options, settings, catalog, factory, store, explicit, results, out)
             else:
                 _run_sequential(selection, options, settings, catalog, factory, store, explicit, results, out)
+            out("")
+            out(format_summary(results, time.monotonic() - started))
+            if options.prune_cache:
+                prune_code = _prune_after(results, settings, catalog, factory, options, out)
     except AlreadyRunning as exc:
         out(f"error: {exc}")
         return EXIT_LOCKED
@@ -438,9 +456,27 @@ def run_load_all(
         out("interrupted - the work already done is kept and downloads are cached; run the same command to resume\n")
         out(format_summary(results, time.monotonic() - started))
         return EXIT_INTERRUPTED
+    return EXIT_ERRORS if any(r.failed for r in results) or prune_code else EXIT_OK
+
+
+def _prune_after(
+    results: list[SourceResult],
+    settings: Settings,
+    catalog: Catalog,
+    factory: sessionmaker[Session],
+    options: LoadOptions,
+    out: Callable[[str], None],
+) -> int:
+    """`load-all --prune-cache`: only after a load in which no source failed (a failed source needs its downloads to
+    resume), verify the new documents of the sources loaded, then delete the downloads of those fully verified."""
+    from ulis.ops.cache import prune_after_load  # ulis.ops.cache builds on this module
+
     out("")
-    out(format_summary(results, time.monotonic() - started))
-    return EXIT_ERRORS if any(r.failed for r in results) else EXIT_OK
+    if any(r.failed for r in results):
+        out("prune-cache: not run, a source failed (the cached downloads are what a re-run resumes from)")
+        return EXIT_OK
+    loaded = [r.source_id for r in results if r.status == "ok"]
+    return prune_after_load(settings, catalog, factory, loaded, options.actor, out)
 
 
 def _host_keys(item: PlanItem) -> frozenset[str]:

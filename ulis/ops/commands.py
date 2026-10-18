@@ -11,10 +11,10 @@ from sqlalchemy.exc import OperationalError
 
 from ulis.catalog import Catalog
 from ulis.db import make_engine, make_session_factory, session_scope
-from ulis.ops import loading, status
+from ulis.ops import cache, loading, status
 from ulis.settings import Settings
 
-OPS_COMMANDS = ("load-all", "status")
+OPS_COMMANDS = ("load-all", "status", "prune-cache")
 
 
 def add_ops_parsers(sub: argparse._SubParsersAction) -> None:  # type: ignore[type-arg]
@@ -61,6 +61,25 @@ def add_ops_parsers(sub: argparse._SubParsersAction) -> None:  # type: ignore[ty
         metavar="N",
         help="load N sources at the same time (never two from the same host; try 4); default 1",
     )
+    load.add_argument(
+        "--prune-cache",
+        action="store_true",
+        help="after a load in which no source failed: verify the new documents of the sources loaded, then delete the "
+        "cached downloads of those whose documents all passed (see prune-cache)",
+    )
+    prune = sub.add_parser(
+        "prune-cache",
+        help="delete the cached downloads of sources whose stored documents all passed verify-sources",
+        description=(
+            "Deletes ULIS_SOURCE_CACHE_DIR/<host>/... (and git clones) of every source whose stored documents all "
+            "passed their latest verify-sources run and whose latest ingestion run completed. A host directory "
+            "shared with a source that failed or is not verified is kept whole; robots.txt files are kept. "
+            "A later load of a pruned source downloads again what it needs. Exit code: 0 ok, 2 usage, "
+            "3 a load-all is running."
+        ),
+    )
+    prune.add_argument("--dry-run", action="store_true", help="report what would be deleted and freed; delete nothing")
+    prune.add_argument("--only", nargs="+", default=[], metavar="SRC", help="prune only these sources' downloads")
     stat = sub.add_parser("status", help="per-jurisdiction counts, last ingestion and verification freshness")
     stat.add_argument("--json", action="store_true", help="machine-readable output")
     stat.add_argument("--all", action="store_true", help="also list jurisdictions without data")
@@ -91,8 +110,11 @@ def _run(args: argparse.Namespace, settings: Settings, catalog: Catalog, engine:
             include_case_law=args.include_case_law,
             all_markets=args.all_markets,
             jobs=max(1, min(args.jobs, 8)),
+            prune_cache=args.prune_cache,
         )
         return loading.run_load_all(settings, catalog, engine, options)
+    if args.cmd == "prune-cache":
+        return cache.run_prune_cache(settings, catalog, engine, only=args.only, dry_run=args.dry_run)
     with session_scope(make_session_factory(engine)) as session:
         data = status.collect_status(session, catalog, include_empty=args.all)
     if args.json:

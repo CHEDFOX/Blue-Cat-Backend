@@ -28,7 +28,7 @@ from ulis.retrieval.coverage import coverage_for
 from ulis.retrieval.lookup import NotFound, instrument_detail, judgment_detail, provision_at
 from ulis.retrieval.search import SearchError, SearchRequest, search
 from ulis.settings import Settings, load_settings
-from ulis.storage.object_store import LocalObjectStore, ObjectStore
+from ulis.storage.object_store import ObjectStore, open_object_store
 from ulis.verification.integrity import verify_source_document
 from ulis.verification.quotes import check_quote
 
@@ -65,7 +65,7 @@ def create_app(
         settings=settings,
         catalog=catalog,
         session_factory=make_session_factory(make_engine(settings.database_url)),
-        store=store or LocalObjectStore(settings.object_store_dir),
+        store=store or open_object_store(settings),
     )
 
     @app.middleware("http")

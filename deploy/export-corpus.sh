@@ -7,10 +7,10 @@
 # schema and the data of the corpus tables only (see CORPUS_TABLES in lib.sh): sources, source documents, instruments,
 # provisions, judgments, citations, concepts and the search passages. Audit events, verification records, research
 # jobs and any other table are exported EMPTY, so no usage data leaves the machine.
-# --with-objects also archives the raw source documents (DIR/ulis-corpus-<date>-objects.tar.gz). They are what
-# `verify-sources` and the integrity endpoint re-derive texts from; without them the imported corpus is searchable
-# but cannot be re-verified until the documents are fetched again (load-all re-fetches missing ones from the cache
-# or the publishers).
+# --with-objects also archives the raw source documents (DIR/ulis-corpus-<date>-objects.tar.gz; compressed .zst objects
+# and older uncompressed ones alike). They are what `verify-sources` and the integrity endpoint re-derive texts from; without them the imported corpus is
+# searchable but cannot be re-verified until the documents are fetched again (load-all re-fetches missing ones from the
+# cache or the publishers).
 # Import on the other machine with deploy/import-corpus.sh.
 set -euo pipefail
 . "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
@@ -40,10 +40,11 @@ while IFS= read -r table; do
 done < <(pg psql --no-psqlrc -Atc "SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY 1" \
          | grep -v -x -F "$(printf '%s\n' $CORPUS_TABLES)" || true)
 
-log "dumping schema and corpus data to $file (excluded data: ${#exclude[@]} table(s))"
-pg pg_dump --format=custom --compress=6 --no-owner "${exclude[@]}" > "$file.partial"
+compression="$(dump_compression)"
+log "dumping schema and corpus data to $file (excluded data: ${#exclude[@]} table(s), --compress=$compression)"
+pg pg_dump --format=custom --compress="$compression" --no-owner "${exclude[@]}" > "$file.partial"
 [ -s "$file.partial" ] || die "the dump is empty"
-pg pg_restore --list < "$file.partial" > /dev/null || die "the dump cannot be read back"
+check_dump "$file.partial" || die "the dump cannot be read back"
 mv "$file.partial" "$file"
 
 {
@@ -58,9 +59,8 @@ if [ "$WITH_OBJECTS" = 1 ]; then
   src="$(objects_dir)"
   [ -d "$src" ] || die "object store directory $src not found (set ULIS_OBJECT_STORE_DIR or ULIS_DATA_DIR)"
   log "archiving the object store $src"
-  obj="$OUT/ulis-corpus-$stamp-objects.tar.gz"
-  tar -C "$src" -czf "$obj.partial" .
-  mv "$obj.partial" "$obj"
+  obj="$(archive_objects "$src" "$OUT/ulis-corpus-$stamp-objects.tar.gz")"
+  log "object archive done: $obj"
 fi
 ( cd "$OUT" && sha256sum "$(basename "$file")" > "$(basename "$file").sha256" )
 cat "$file.txt" >&2
