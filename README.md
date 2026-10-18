@@ -103,8 +103,10 @@ tests/             unit + PostgreSQL integration tests
 
 ## Corpora
 
-The full, generated list is in **[docs/corpus.md](docs/corpus.md)**: 50 active sources (laws and court decisions)
-and 97 recorded as blocked, suspended or unlicensed, each with the publisher's own findings. In short:
+The full, generated list is in **[docs/corpus.md](docs/corpus.md)**: 144 active sources (laws and court decisions)
+and 212 recorded as blocked, suspended or unlicensed, each with the publisher's own findings. The default load
+(`load-all`) takes the complete laws in force of eleven launch markets: US (federal), UK, France, Germany, the EU,
+Canada, Australia, Spain, Sweden, Finland and Japan; plan, sizes and known gaps in **[docs/go-live.md](docs/go-live.md)**. In short:
 
 * **Laws, current text** for Argentina, Australia (Commonwealth, Queensland, Tasmania), Austria (blocked), Canada (all 953
   federal Acts in English and French, plus Ontario and Manitoba), Croatia, Czechia, Denmark, Estonia, the EU, Finland,
