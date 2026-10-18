@@ -1,8 +1,31 @@
-# Laws fetched from e-Gov 法令検索 (Digital Agency), 法令API Version 2, as XML.
-# Licence: Public Data License 1.0 (CC BY 4.0 compatible); see config/sources/jp-egov-laws.yaml.
-# history: true fetches every enforced revision since the 1 April 2017 data baseline (one per
-# enforcement date); history: false fetches only the revision in force. Revisions not yet in
-# force are reported from the revision list as outstanding changes, never fetched as law.
+# Laws of Japan from e-Gov 法令検索 (Digital Agency), as XML: the official bulk download for every law, 法令API Version 2
+# for the two laws loaded with their history. Licence: Public Data License 1.0 (CC BY 4.0 compatible); see
+# config/sources/jp-egov-laws.yaml.
+#
+# mode: bulk (2026-10-18). Digital Agency asked API users not to loop over every law fetching texts one after another
+# and warned that excessive or bot access may be restricted (https://www.digital.go.jp/policies/legal-practice/public-test,
+# read 2026-10-18); the API's own spec (lawapi-v2.yaml 2.1.139, "XML一括ダウンロードについて") points to the bulk download
+# for downloading law data. So a full load downloads all_xml.zip once (bulk.url; the bulk page
+# https://laws.e-gov.go.jp/bulkdownload/ says 「すべての法令データ 283MB」: every law in force or to come, XML only, one
+# 法令標準XML <Law> file per revision plus the list all_law_list.csv) and reads the API's list of laws in force once
+# per archive (/api/2/laws?repeal_status=None, 10 pages), which gives each law's law_info and current_revision_info
+# (the bare files carry neither). bulk.pin: latest takes the archive e-Gov serves at the time and records its size and
+# SHA-256 in the cache's .meta.json and in every document (metadata.archive; uri <archive URL>#<member>), so each
+# stored document names its exact bytes; pin: exact with bytes and sha256 accepts only that archive (a reproducible
+# run). The archive checked on 2026-10-18 (downloaded 11:51 UTC in 20 s, files dated 2026-10-17): 297,202,960 bytes,
+# SHA-256 4581bf3a78278a83a18e5a7043f41e8ba56613b5458149db59e47c56979b744c, 10,467 revision files for 8,990 laws (8,991
+# rows in force, 1,476 not yet in force) and the list; it held every law below. Revisions not yet in force (未施行) are reported from the list as outstanding
+# changes, never loaded as law. The archive holds only the revision in force and those to come, so the two laws with
+# history: true are fetched from the API (2 revision lists + 38 texts). A full run: 51 requests (archive 1, list 10,
+# API 40) = about 4 minutes at the 5 s delay, instead of 18,014 requests and 25 hours with mode: api.
+# e-Gov rebuilds the archive as laws are promulgated (61 update dates from 2026-07-21 to 2026-10-16) and serves only
+# the latest one, with no ETag, Last-Modified or Content-Length (HEAD, 2026-10-18 13:11 UTC). The cached archive is
+# used until it is deleted: load-all --refresh discards it when it is older than the refresh age (7 days) and the next
+# run downloads the current one (one request) and reads the list again for it.
+# mode: api fetches every law from the API instead (revision list + text per law, 25 hours): for single laws only.
+#
+# history: true fetches every enforced revision since the 1 April 2017 data baseline (one per enforcement date), from
+# the API; history: false loads only the revision in force.
 #
 # Scope (2026-10-18): every law in force that the API's list endpoint names, 8,989 laws: the 7 hand-picked
 # laws below (two with history) and then the other 8,982, written by scripts/build_egov_manifest.py from
@@ -10,22 +33,21 @@
 # Ordinance 4,103, Rule 409, and 21 listed under two types such as "Act,CabinetOrder"; the Constitution is the first
 # entry). Left out: 561 repealed, expired, suspended or ineffective laws and 16 laws none of whose revisions is in force yet.
 # Pace: one connection, 5 s between request starts, kept on purpose. laws.e-gov.go.jp has no robots.txt (the path answers
-# with the web app's HTML, 2026-10-18 10:40 UTC) and no numeric limit is published, but Digital Agency asked users not to
-# loop over every law through the API and warned that excessive or bot access may be restricted
-# (https://www.digital.go.jp/policies/legal-practice/public-test, read 2026-10-18), so ULIS does not go faster (the
-# connector refuses less than 5 s); ask Digital Agency before any faster pace. The official bulk download
-# (https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true, 283 MB) is the faster route; it needs a
-# new connector path.
-# Cost of a full run: two requests per law (revision list, then text) = about 18,000 requests = 25 hours at
-# the 5 s crawl delay; about 1.5 GB of XML and, estimated from a random sample of 98 laws (163 KB of XML,
-# 127 provision versions and 0.63 MB of database per law), about 1.1 million provision versions and 4-8 GB of
-# database. Responses are cached, so an interrupted run resumes without new requests. Load it in batches
-# (python -m scripts.ingest_in_batches jp-egov-laws --batch 50) if one long transaction is not wanted.
+# with the web app's HTML, 2026-10-18 10:40 UTC) and no numeric limit is published; given Digital Agency's request
+# above, ULIS does not go faster (the connector refuses less than 5 s); ask Digital Agency before any faster pace.
+# Size: the archive's 10,467 files are 3.3 GB of XML; the 8,989 texts in force are 1.17 GB (1,165,105,058 bytes);
+# about 1.1 million provision versions and 4-8 GB of database (estimated from a random sample of 98 laws). Load it in
+# batches (python -m scripts.ingest_in_batches jp-egov-laws --batch 50) if one long transaction is not wanted.
 schema_version: 1
 source_id: jp-egov-laws
 base_url: https://laws.e-gov.go.jp/api/2
 user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
 crawl_delay_seconds: 5
+mode: bulk
+bulk:
+  url: https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true
+  pin: latest  # or `pin: exact` with `bytes:` and `sha256:` of the one archive to accept
+network_requests: 51  # a full run: the archive, 10 list pages, 2 revision lists and 38 texts (history: true)
 laws:
   - {law_id: 321CONSTITUTION, history: false}  # 日本国憲法 (Constitution of Japan; never amended)
   - {law_id: 129AC0000000089, history: false}  # 民法 (Civil Code)

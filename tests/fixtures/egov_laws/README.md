@@ -26,3 +26,13 @@ Added with the widened manifest (retrieved 2026-10-15, same layout, unmodified):
 | `law_revisions/322CO0000000052.xml` + `law_data/322CO0000000052_19530801_…` | 昭和二十二年政令第五十二号 - typed `Act,CabinetOrder` by the revision list, `Act` by the text |
 | `law_revisions/320IO0000000730.xml` + `law_data/320IO0000000730_19451229_…` | 昭和二十年勅令第七百三十号 - typed `Act,ImperialOrder` by the revision list, `Act` by the text |
 | `law_revisions/322M40010B72001.xml` + `law_data/322M40010B72001_19560521_…` | 昭和二十二年総理庁・大蔵省・…・司法省令第一号 (a joint order whose law number is longer than the 40-character `instruments.number` column) |
+
+Added with the bulk download route (retrieved 2026-10-18, same layout, unmodified; compared with the same revisions
+in `tests/fixtures/egov_laws_bulk/`):
+
+| File | Content |
+|---|---|
+| `law_revisions/205M10000200030.xml` + `law_data/205M10000200030_19431115_…` | 大正五年農商務省令第三十号（農商省主管歳入証券納付ニ関スル件） - a revision with no amending law but `amendment_type` 3 |
+| `law_revisions/322R00000001001.xml` + `law_data/322R00000001001_19470503_…` | 会計検査院規則の公布に関する規則 (a Rule) |
+| `law_revisions/504AC0000000068.xml` + `law_data/504AC0000000068_20250601_…` | 刑法等の一部を改正する法律の施行に伴う関係法律の整理等に関する法律 (令和四年法律第六十八号) - `amendment_law_id` 000000000000000, one amendment not yet in force |
+| `law_data/141AC0000000029_20250601_…` | 刑法施行法 - `revision_info/abbrev` 旧刑法施行法 where the list says 旧刑法施行法　抄 |

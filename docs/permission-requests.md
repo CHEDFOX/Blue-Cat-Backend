@@ -186,7 +186,7 @@ note (the pace, the single connection, the User-Agent and the volume) before the
 | `es-boe-consolidada` | 1 s, one connection | Webmaster form linked from the API page ("Ayúdenos a mejorar"), https://www.boe.es/contactar/formulario_simple.php?tipo=WEB | 6,827 requests; AEBOE may suspend access "sin previo aviso" for breach of its conditions |
 | `de-gesetze-im-internet` | 1 s, one connection | Kompetenzzentrum Rechtsinformationssystem des Bundes, named on https://www.gesetze-im-internet.de/impressum.html | 6,141 requests; ask there before more than one connection or more than 1 request/s |
 | `se-riksdagen-sfs` | 1 s, one connection | Riksdagsinformation, named on the open-data pages | 5,353 requests |
-| `jp-egov-laws` | 5 s, unchanged | e-Gov inquiry form linked from https://laws.e-gov.go.jp/apitop/ | **Ask before** any full API loop or a faster pace: Digital Agency asked users not to loop over every law through the API (https://www.digital.go.jp/policies/legal-practice/public-test). The official bulk download (all_xml.zip) needs no request |
+| `jp-egov-laws` | 5 s, unchanged | e-Gov inquiry form linked from https://laws.e-gov.go.jp/apitop/ | **Ask before** any full API loop or a faster pace: Digital Agency asked users not to loop over every law through the API (https://www.digital.go.jp/policies/legal-practice/public-test). Since 2026-10-18 ULIS loads every law from the official bulk download (all_xml.zip, no key, registration or notice) plus 50 API requests, so no request is needed |
 
 ## When a reply arrives
 

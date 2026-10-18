@@ -145,7 +145,8 @@ pinned by hand in `config/manifests/fr-dila-legi.yaml` (DILA's data sheet asks f
 --all`. EU `python -m scripts.build_eu_manifest` (static pin). CA `python scripts/build_justice_canada_manifest.py
 /path/to/laws-lois-xml --all` (static pin; needs a checkout of github.com/justicecanada/laws-lois-xml). AU
 `python scripts/build_frl_manifest.py`. ES `python -m scripts.build_boe_manifest`. SE `python scripts/build_sfs_manifest.py`.
-FI `python -m scripts.build_finlex_manifest`. JP `python -m scripts.build_egov_manifest`. A static pin stays skipped by
+FI `python -m scripts.build_finlex_manifest`. JP `python -m scripts.build_egov_manifest` (the texts come from e-Gov's bulk
+archive, which `--refresh` downloads again once the cached one is older than the refresh age, `docs/jurisdictions/jp.md`). A static pin stays skipped by
 `--refresh` after its manifest changed: load it with `load-all` without `--refresh`, or `--only`. Running the builders on a
 schedule is not implemented.
 

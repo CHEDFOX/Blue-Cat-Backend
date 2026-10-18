@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from ulis.catalog import Catalog
 from ulis.db import models as m
-from ulis.ingestion.pipeline import PARSERS
+from ulis.ingestion.pipeline import METADATA_PARSERS, PARSERS
 from ulis.storage.object_store import IntegrityError, ObjectStore
 
 
@@ -36,7 +36,10 @@ def verify_source_document(
     if raw is not None:
         if hashlib.sha256(raw).hexdigest() != doc.sha256:
             problems.append("raw bytes do not match the recorded SHA-256")
-        parsed_docs = PARSERS[catalog.sources.get(doc.source_id).parser or ""](raw)
+        parser_id = catalog.sources.get(doc.source_id).parser or ""
+        # A parser that reads what the connector stated about the document gets the metadata stored with it.
+        with_metadata = METADATA_PARSERS.get(parser_id)
+        parsed_docs = with_metadata(raw, dict(doc.metadata_ or {})) if with_metadata else PARSERS[parser_id](raw)
         # One raw document can attest several versions of a provision (e.g. a source that carries a
         # provision's whole version history), so each locator maps to the hashes of all its texts.
         units: dict[tuple[str, str], set[str]] = {}

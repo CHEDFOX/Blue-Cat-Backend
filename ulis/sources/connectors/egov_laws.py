@@ -1,7 +1,30 @@
-"""Polite fetcher for e-Gov 法令検索 (Digital Agency), 法令API Version 2.
+"""Polite fetcher for e-Gov 法令検索 (Digital Agency): the bulk download and 法令API Version 2.
 
-For every law in the manifest it fetches the revision list (``/law_revisions/{law_id}``) and
-the text of the revisions to ingest (``/law_data/{law_revision_id}``), as XML:
+Two modes (manifest ``mode``):
+
+``bulk`` (the committed manifest; the route for a full load). Digital Agency asked API users not to loop over every
+law fetching texts one after another, and the API's own spec points to the XML bulk download for downloading law
+data. The connector downloads ``all_xml.zip`` once (``bulk.url``, every law in force or to come, one 法令標準XML file
+per revision plus the list ``all_law_list.csv``; 283 MB) and records its size and SHA-256 (``bulk.pin: latest``, the
+committed default: whatever archive e-Gov serves; ``pin: exact``: only the archive of ``bulk.bytes``/``bulk.sha256``,
+for a reproducible run). It reads the API's list of laws in force once (``/laws?repeal_status=None``, 10 pages of
+1,000, cached under the archive's SHA-256, so a run never mixes two archives):
+the list gives, for each law, the ``law_info`` and ``current_revision_info`` that a ``law_data`` response carries
+and the bare files lack. For every manifest law it then yields, without further requests:
+
+* the archive member of the revision the list names as in force (exact bytes, uri ``<archive URL>#<member>``;
+  metadata ``egov_bulk: law`` with the list's two records and ``archive``: the archive's URL, size, SHA-256 and
+  retrieval time and the member), which the parser turns into the document ``law_data`` gives for that revision;
+* the law's lines of ``all_law_list.csv`` (the header and its rows, exact bytes; ``egov_bulk: law_list``): the change
+  report. Rows marked 未施行 (not yet in force) become outstanding changes; their texts, which are in the archive
+  too, are never yielded.
+
+A law the archive and the list disagree on (the archive older or newer than the list, a law repealed since the
+manifest was made) is reported in ``fetch_errors`` and skipped. The archive holds only the revision in force and
+the revisions to come, so laws with ``history: true`` are fetched from the API as below.
+
+``api`` (default when ``mode`` is absent; single laws and laws with history). For every law it fetches the revision
+list (``/law_revisions/{law_id}``) and the text of the revisions to ingest (``/law_data/{law_revision_id}``), as XML:
 
 * ``history: false`` - only the revision currently in force (``CurrentEnforced``);
 * ``history: true`` - every enforced revision since the data baseline (1 April 2017), one per
@@ -18,7 +41,10 @@ Crawl-delay there would win). The delay stays at no less than :data:`MIN_DELAY` 
 users not to loop over every law fetching texts one after another and warned that excessive or bot access may be
 restricted (https://www.digital.go.jp/policies/legal-practice/public-test, read 2026-10-18), so ULIS does not go
 faster than it already did without asking first. Responses are cached forever: delete
-``<cache>/laws.e-gov.go.jp/api2/law_revisions`` to pick up new revisions.
+``<cache>/laws.e-gov.go.jp/api2/law_revisions`` to pick up new revisions. In bulk mode the archive is kept until the
+cached file is deleted (``load-all --refresh`` discards it once it is older than the refresh age; e-Gov's archive
+carries no ETag, Last-Modified or Content-Length to compare, see docs/jurisdictions/jp.md); the next run downloads the
+current one and reads the list again for it.
 
 The manifest may list every law in force (``scripts/build_egov_manifest.py``: about 9,000 laws, two requests
 each), so one law that cannot be fetched (404, a revision list without a revision in force, a server error that
@@ -28,9 +54,13 @@ stops the run, and so do ``MAX_CONSECUTIVE_ERRORS`` laws failing in a row.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import re
 import time
 import urllib.parse
+import zipfile
+from collections import defaultdict
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import datetime
@@ -43,8 +73,18 @@ from defusedxml.ElementTree import fromstring
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError, PoliteHttp, manifest_crawl_delay
+from ulis.sources.parsers.egov_law import BulkListRow, EgovParseError, bulk_list_rows
 
 BASE_URL = "https://laws.e-gov.go.jp/api/2"
+MODES = ("api", "bulk")
+# The publisher's archive of every law (XML only), named in the API spec (lawapi-v2.yaml, XML一括ダウンロードについて).
+BULK_URL = "https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true"
+BULK_CACHE_KEY = "bulkdownload/all_xml.zip"
+BULK_LIST = "all_law_list.csv"
+LIST_PAGE = 1000
+_SHA256 = re.compile(r"^[0-9a-f]{64}$")
+# bulk.pin: "latest" takes the archive e-Gov serves (recording its size and SHA-256); "exact" only bulk.bytes/sha256.
+PINS = ("latest", "exact")
 # The publisher's own wish (see the module docstring), stricter than the project-wide minimum of 1 s.
 MIN_DELAY = 5.0
 _LAW_ID = re.compile(r"^[0-9]{3}[0-9A-Z]+$")
@@ -53,7 +93,11 @@ IN_FORCE = ("CurrentEnforced", "PreviousEnforced")
 _REFUSAL = re.compile(r"HTTP (?:401|403|429|451)\b")
 MAX_CONSECUTIVE_ERRORS = 20
 
-__all__ = ["EgovLawsConnector", "FetchError", "Revision", "revisions_to_fetch"]
+__all__ = ["BulkArchive", "BulkMismatch", "EgovLawsConnector", "FetchError", "Revision", "revisions_to_fetch"]
+
+
+class BulkMismatch(FetchError):
+    """The bulk archive and the API list do not agree on a law (reported; the run goes on)."""
 
 
 @dataclass(frozen=True)
@@ -96,6 +140,150 @@ def revisions_to_fetch(listing: bytes, history: bool, history_dates: set[str] | 
     return chosen
 
 
+@dataclass(frozen=True)
+class Listed:
+    """One law of the API list of laws in force: its law_info and current_revision_info (element texts)."""
+
+    law_info: dict[str, str]
+    revision_info: dict[str, str]
+    url: str
+    retrieved_at: str
+
+
+def _fields(el: Any) -> dict[str, str]:
+    return {child.tag: "".join(child.itertext()) for child in el} if el is not None else {}
+
+
+def _list_page(data: bytes) -> Any:
+    """One page of ``/laws?repeal_status=None`` (its root element)."""
+    try:
+        root = fromstring(data, forbid_dtd=True)
+    except Exception as exc:
+        raise FetchError(f"law list is not well-formed or unsafe XML: {exc}") from exc
+    if root.tag != "laws_response":
+        raise FetchError(f"unexpected law list root {root.tag!r}")
+    return root
+
+
+def list_laws(pages: list[tuple[Any, dict[str, Any]]]) -> dict[str, Listed]:
+    """law_id -> its entry, from the pages (root element, fetch meta) of ``/laws?repeal_status=None``."""
+    listed: dict[str, Listed] = {}
+    for root, meta in pages:
+        for law in root.findall("laws/law"):
+            info = _fields(law.find("law_info"))
+            if info.get("law_id"):
+                listed[info["law_id"]] = Listed(
+                    info, _fields(law.find("current_revision_info")), meta["url"], meta["retrieved_at"]
+                )
+    return listed
+
+
+class BulkArchive:
+    """``all_xml.zip`` as cached: its members by revision id and the lines of ``all_law_list.csv`` by law."""
+
+    def __init__(self, path: Path, meta: dict[str, Any], *, url: str, sha256: str, size: int):
+        self.path = path
+        self.meta = meta
+        self.url = url
+        self.sha256 = sha256
+        self.size = size
+        self.zip = zipfile.ZipFile(path)
+        names = self.zip.namelist()
+        if BULK_LIST not in names:
+            raise FetchError(f"{url}: the archive has no {BULK_LIST}")
+        self.members = {name for name in names if name.endswith(".xml")}
+        raw = self.zip.read(BULK_LIST)
+        header, *lines = raw.split(b"\n")
+        self.header = header
+        self.lines: dict[str, list[bytes]] = defaultdict(list)
+        self.rows: dict[str, list[BulkListRow]] = defaultdict(list)
+        try:
+            for line in lines:
+                if not line:
+                    continue
+                (row,) = bulk_list_rows(header + b"\n" + line + b"\n")  # one physical line per row (checked)
+                row.revision_id  # noqa: B018 - validates the 本文URL
+                self.lines[row.law_id].append(line)
+                self.rows[row.law_id].append(row)
+        except (EgovParseError, ValueError) as exc:
+            raise FetchError(f"{url}: unexpected {BULK_LIST}: {exc}") from exc
+        self.retrieved_at = datetime.fromisoformat(meta["retrieved_at"])
+
+    def provenance(self, member: str) -> dict[str, Any]:
+        """Which bytes a document came from: the archive (URL, size, SHA-256, when it was retrieved, and its
+        Last-Modified header, which e-Gov does not send) and the member."""
+        return {
+            "url": self.url,
+            "bytes": self.size,
+            "sha256": self.sha256,
+            "retrieved_at": self.meta.get("retrieved_at"),
+            "last_modified": self.meta.get("last_modified"),
+            "member": member,
+        }
+
+    def law(self, law_id: str, listed: Listed | None) -> list[RawDocument]:
+        """The text of the revision in force and the change report of one law."""
+        rows = self.rows.get(law_id)
+        where = f"the bulk archive (SHA-256 {self.sha256[:12]}…)"
+        if not rows:
+            raise BulkMismatch(f"not in {where}: repealed, or not in the archive yet")
+        if listed is None or not listed.revision_info:
+            raise BulkMismatch("not in the API list of laws in force (repeal_status=None): repealed since?")
+        current = listed.revision_info
+        status = current.get("current_revision_status", "")
+        if status not in IN_FORCE:
+            raise BulkMismatch(f"the API list gives no revision in force ({status or 'none'})")
+        revision_id = current.get("law_revision_id", "")
+        in_force = [r for r in rows if not r.pending]
+        row = next((r for r in rows if r.revision_id == revision_id), None)
+        if row is None or row.pending or any(r.enforcement_date > row.enforcement_date for r in in_force):
+            raise BulkMismatch(
+                f"{where} and the API list disagree on the revision in force (list: {revision_id}; archive: "
+                f"{', '.join(r.revision_id for r in in_force) or 'none'}): read both again, or use mode: api"
+            )
+        member = f"{revision_id}/{revision_id}.xml"
+        if member not in self.members:
+            raise BulkMismatch(f"{where} lists {revision_id} but has no file {member}")
+        common: dict[str, Any] = {
+            "law_id": law_id,
+            "law_info": listed.law_info,
+            "revision_info": current,
+            "api_list": {"url": listed.url, "retrieved_at": listed.retrieved_at},
+            "cached_fetch": self.meta,
+        }
+        text = RawDocument(
+            external_id=f"e-gov:{revision_id}",
+            uri=f"{self.url}#{member}",
+            media_type="application/xml",
+            content=self.zip.read(member),
+            retrieved_at=self.retrieved_at,
+            metadata={
+                **common,
+                "egov_bulk": "law",
+                "law_revision_id": revision_id,
+                "enforcement_date": current.get("amendment_enforcement_date"),
+                "archive": self.provenance(member),
+            },
+        )
+        report = RawDocument(
+            external_id=f"e-gov:{law_id}:law_list",
+            uri=f"{self.url}#{BULK_LIST}",
+            media_type="text/csv",
+            content=b"".join(line + b"\n" for line in [self.header, *self.lines[law_id]]),
+            retrieved_at=self.retrieved_at,
+            metadata={**common, "egov_bulk": "law_list", "archive": self.provenance(BULK_LIST)},
+        )
+        return [text, report]
+
+
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1 << 20), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
 class EgovLawsConnector:
     def __init__(
         self,
@@ -131,6 +319,23 @@ class EgovLawsConnector:
                 raise ManifestError(f"{law_id} is listed twice")
             seen.add(law_id)
         manifest_crawl_delay(manifest, minimum=MIN_DELAY)
+        mode = manifest.get("mode", "api")
+        if mode not in MODES:
+            raise ManifestError(f"mode must be one of {', '.join(MODES)} (got {mode!r})")
+        if mode == "bulk":
+            bulk = manifest.get("bulk")
+            if not isinstance(bulk, dict) or bulk.get("url") != BULK_URL:
+                raise ManifestError(f"mode: bulk needs bulk.url {BULK_URL}")
+            pinned = (bulk.get("bytes"), bulk.get("sha256"))
+            pin = bulk.setdefault("pin", "latest" if pinned == (None, None) else "exact")
+            if pin not in PINS:
+                raise ManifestError(f"bulk.pin must be one of {', '.join(PINS)} (got {pin!r})")
+            if pin == "exact" and not (
+                isinstance(pinned[0], int) and isinstance(pinned[1], str) and _SHA256.match(pinned[1])
+            ):
+                raise ManifestError("pin: exact needs bulk.bytes and bulk.sha256, both set (an integer, 64 hex)")
+            if pin == "latest" and pinned != (None, None):
+                raise ManifestError("pin: latest takes the archive e-Gov serves: leave bulk.bytes and bulk.sha256 out")
         return manifest
 
     def _get(self, url: str, cache_key: str) -> tuple[bytes, dict[str, Any]]:
@@ -158,6 +363,67 @@ class EgovLawsConnector:
         documents.append(self._raw(f"e-gov:{law_id}:law_revisions", listing, list_meta, law_id, None))
         return documents
 
+    def _archive(self, bulk: dict[str, Any]) -> BulkArchive:
+        """The bulk archive of this run: the cached one, or one download (one request) when there is none.
+
+        The size and SHA-256 of the file are written into the cache's ``.meta.json`` when it arrives, so a later run
+        notices a cached file that is no longer the downloaded one (cut short, altered): with ``pin: latest`` it is
+        downloaded again (once; never offline), with ``pin: exact`` the run stops. ``pin: exact`` also stops at any
+        archive other than ``bulk.bytes``/``bulk.sha256``. A deleted archive (or a deleted ``.meta.json``) is simply
+        downloaded again. The archive is opened once and used for the whole run.
+        """
+        assert self.http is not None
+        path = self.http.cache_path(BULK_URL, BULK_CACHE_KEY)
+        meta_path = path.with_name(path.name + ".meta.json")
+        exact = bulk["pin"] == "exact"
+        for attempt in (1, 2):
+            if not (path.exists() and meta_path.exists()):
+                self._get(BULK_URL, BULK_CACHE_KEY)  # PoliteHttp stores the file and its meta; the bytes are dropped
+            meta = json.loads(meta_path.read_text())
+            size, sha256 = path.stat().st_size, _file_sha256(path)
+            recorded = (meta.get("bytes"), meta.get("sha256"))
+            problem = None
+            if recorded == (None, None):  # just downloaded (or cached before digests were recorded)
+                meta.update(bytes=size, sha256=sha256)
+                meta_path.write_text(json.dumps(meta))
+            elif recorded != (size, sha256):
+                problem = f"is no longer the file downloaded ({recorded[0]} bytes, SHA-256 {recorded[1]})"
+            if problem is None:
+                try:
+                    archive = BulkArchive(path, meta, url=BULK_URL, sha256=sha256, size=size)
+                except zipfile.BadZipFile as exc:
+                    problem = f"is not a zip archive ({exc})"
+            if problem is not None:
+                where = f"{BULK_URL}: the cached archive {path} ({size} bytes, SHA-256 {sha256}) {problem}"
+                if exact or self.offline or attempt == 2:
+                    raise FetchError(where)
+                path.unlink()  # download it again
+                meta_path.unlink()
+                continue
+            if exact and (size, sha256) != (bulk.get("bytes"), bulk.get("sha256")):
+                archive.zip.close()
+                raise FetchError(
+                    f"{BULK_URL}: the archive in {path} ({size} bytes, SHA-256 {sha256}) is not the one the manifest "
+                    f"pins ({bulk.get('bytes')} bytes, SHA-256 {bulk.get('sha256')}). e-Gov serves only its latest "
+                    "archive: review it and move bulk.bytes and bulk.sha256 to it, or use pin: latest"
+                )
+            return archive
+        raise AssertionError("unreachable")  # pragma: no cover
+
+    def _list(self, archive_sha256: str) -> dict[str, Listed]:
+        """The API list of laws in force, read once per archive (cached under its SHA-256)."""
+        pages: list[tuple[Any, dict[str, Any]]] = []
+        offset = 0
+        while True:
+            url = f"{BASE_URL}/laws?repeal_status=None&limit={LIST_PAGE}&offset={offset}&response_format=xml"
+            data, meta = self._get(url, f"api2/laws/bulk-{archive_sha256[:16]}/offset{offset:06d}.xml")
+            root = _list_page(data)
+            pages.append((root, meta))
+            count = len(root.findall("laws/law"))
+            offset += count
+            if count == 0 or offset >= int(root.findtext("total_count") or 0):
+                return list_laws(pages)
+
     def fetch(self) -> Iterator[RawDocument]:
         manifest = self._manifest()
         self.fetch_errors = []
@@ -171,12 +437,20 @@ class EgovLawsConnector:
             sleep=self._sleep,
             honour_robots_delay=True,
         )
+        archive: BulkArchive | None = None
+        listed: dict[str, Listed] = {}
+        if manifest.get("mode", "api") == "bulk":
+            archive = self._archive(manifest["bulk"])
+            listed = self._list(archive.sha256)
         failed_in_a_row = 0
         for law in manifest["laws"]:
             try:
-                documents = self._law(law)
+                if archive is not None and not law.get("history", False):
+                    documents = archive.law(str(law["law_id"]), listed.get(str(law["law_id"])))
+                else:  # the API: single laws, and the earlier revisions the archive does not hold
+                    documents = self._law(law)
             except FetchError as exc:
-                if _REFUSAL.search(str(exc)) or self.offline:
+                if not isinstance(exc, BulkMismatch) and (_REFUSAL.search(str(exc)) or self.offline):
                     raise  # a refusal stops the run; so does a missing cache entry when offline
                 self.fetch_errors.append(f"e-gov:{law['law_id']}: {exc}; skipped")
                 failed_in_a_row += 1
