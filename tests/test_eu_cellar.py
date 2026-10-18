@@ -41,7 +41,7 @@ from ulis.sources.connectors.eu_cellar import (
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.polite_http import FetchError
 from ulis.sources.normalized import ParsedDocument, ParsedProvision, ParseSkipped
-from ulis.sources.parsers.eu_cellar import EuParseError, parse_eu_cellar, resolve_uri
+from ulis.sources.parsers.eu_cellar import ANN, CDM, EuParseError, parse_eu_cellar, resolve_uri
 from ulis.storage.object_store import LocalObjectStore
 
 FIX = REPO_ROOT / "tests" / "fixtures" / "eu_cellar"
@@ -562,6 +562,10 @@ def test_the_committed_manifest_lists_acts_in_force_and_passes_validation(tmp_pa
     core = {w.get("base") or w["celex"]: w for w in works if w.get("languages")}
     assert {"32016R0679", "32008R0593", "32012R1215", "32011L0083", "32024R1689"} <= set(core)
     assert all(core[c]["languages"] == ["en", "fr", "de"] for c in core)
+    # Acts without a Formex 4 file are listed in the text format Cellar has (legacy HTML, OJ XHTML), as adopted.
+    formats = {fmt: sum(w["format"] == fmt for w in works) for fmt in ("fmx4", "xhtml", "html")}
+    assert formats["html"] > 6000 and formats["xhtml"] > 300 and formats["fmx4"] > 27000
+    assert all("base" not in w for w in works if w["format"] in ("html", "xhtml"))
 
 
 class _FakeHttp:
@@ -699,16 +703,45 @@ def test_manifest_generator_reads_the_sparql_rows() -> None:
         def get(self, url: str, cache_key: str | None = None, headers: dict[str, str] | None = None):  # type: ignore[no-untyped-def]
             return json.dumps({"results": {"bindings": self.rows}}).encode(), {}
 
-    acts = _Http([{"c": {"value": "32016R0679"}, "d": {"value": "2016-04-27"}}, {"c": {"value": "32016L0680"}}])
-    assert acts_of_year(acts, 2016) == {"32016R0679": "2016-04-27", "32016L0680": ""}  # type: ignore[arg-type]
+    acts = _Http(
+        [
+            {"c": {"value": "32016R0679"}, "d": {"value": "2016-04-27"}, "t": {"value": "fmx4"}},
+            {"c": {"value": "32016R0679"}, "d": {"value": "2016-04-27"}, "t": {"value": "pdf"}},
+            {"c": {"value": "32016L0680"}, "t": {"value": "xhtml"}},
+        ]
+    )
+    # Every English manifestation type of each act; the caller picks the format to fetch.
+    assert acts_of_year(acts, 2016) == {  # type: ignore[arg-type]
+        "32016R0679": ("2016-04-27", frozenset({"fmx4", "pdf"})),
+        "32016L0680": ("", frozenset({"xhtml"})),
+    }
     cons = _Http(
         [
-            {"b": {"value": "32016R0679"}, "cc": {"value": "02016R0679-20160504"}, "cd": {"value": "2016-05-04"}},
-            {"b": {"value": "32016R0679"}, "cc": {"value": "02016R0679-20180523"}, "cd": {"value": "2018-05-23"}},
+            {
+                "b": {"value": "32016R0679"},
+                "cc": {"value": "02016R0679-20160504"},
+                "cd": {"value": "2016-05-04"},
+                "t": {"value": "fmx4"},
+            },
+            {
+                "b": {"value": "32016R0679"},
+                "cc": {"value": "02016R0679-20160504"},
+                "cd": {"value": "2016-05-04"},
+                "t": {"value": "xhtml"},
+            },
+            {
+                "b": {"value": "32016R0679"},
+                "cc": {"value": "02016R0679-20180523"},
+                "cd": {"value": "2018-05-23"},
+                "t": {"value": "fmx4"},
+            },
         ]
     )
     assert consolidated_of_year(cons, 2016) == {  # type: ignore[arg-type]
-        "32016R0679": [("2016-05-04", "02016R0679-20160504"), ("2018-05-23", "02016R0679-20180523")]
+        "32016R0679": [
+            ("2016-05-04", "02016R0679-20160504", frozenset({"fmx4", "xhtml"})),
+            ("2018-05-23", "02016R0679-20180523", frozenset({"fmx4"})),
+        ]
     }
 
 
@@ -909,3 +942,364 @@ def test_a_consolidated_file_gives_the_number_year_and_domain_of_the_act(
     assert (doc.number, doc.year, doc.domain_code) == ("679", 2016, "EU")
     assert (doc.cons_start, doc.cons_end, doc.cons_date) == (date(2016, 5, 4), None, date(2018, 5, 23))
     assert isinstance(parts[0], Part) and bundle["base_celex"] == "32016R0679"
+
+
+# --------------------------------------------------------------------------- acts held as XHTML or legacy HTML
+# (about 7,100 acts in force have no Formex 4 file; see docs/jurisdictions/eu.md)
+
+
+@pytest.fixture(scope="module")
+def text_acts(tmp_path_factory: pytest.TempPathFactory) -> dict[str, RawDocument]:
+    cache = _cache_copy(tmp_path_factory.mktemp("eu-text") / "cache")
+    connector = CellarConnector(FIX / "manifest-text.yaml", "eu-eur-lex", cache, offline=True)
+    docs = {raw.external_id: raw for raw in connector.fetch()}
+    assert connector.http is not None and connector.http.requests_made == 0 and connector.fetch_errors == []
+    return docs
+
+
+def test_legacy_html_act_is_structured_from_its_paragraphs(text_acts: dict[str, RawDocument]) -> None:
+    raw = text_acts["cellar:32002L0059:en"]
+    bundle = json.loads(raw.content)
+    assert bundle["content_format"] == "html" and [p["role"] for p in bundle["parts"]] == [
+        "sparql:metadata",
+        "sparql:changes",
+        "sparql:items:html",
+        "item:html",
+    ]
+    (doc,) = parse_eu_cellar(raw.content)
+    assert (doc.instrument_type, doc.work_uri, doc.short_title, doc.number) == (
+        "directive",
+        "/eu/dir/2002/59",
+        "Directive 2002/59/EC",
+        "2002/59",
+    )
+    assert doc.ext == {
+        "celex": "32002L0059",
+        "eli": "http://data.europa.eu/eli/dir/2002/59/oj",
+        "resource_type": "DIR",
+        "act_type": "directive",
+        "year": 2002,
+        "number": "59",
+        "domain": "EC",
+    }
+    assert (doc.text_origin, doc.authoritative, doc.validity_basis, doc.consolidation_kind) == (
+        "official_conversion",
+        True,
+        "source_periods",
+        "as_adopted",
+    )
+    assert doc.version_date == date(2002, 6, 27) and doc.expression_uri == "/eu/dir/2002/59/eng@2002-06-27"
+    kinds = {k: sum(p.kind == k for p in doc.provisions) for k in ("article", "paragraph", "annex")}
+    assert kinds == {"article": 32, "paragraph": 54, "annex": 4} and len(doc.provisions) == 90
+    assert [p.eid for p in doc.provisions][:5] == ["art_1", "art_2", "art_2__para_1", "art_2__para_2", "art_3"]
+    assert [p.eid for p in doc.provisions][-5:] == ["art_32", "anx_I", "anx_II", "anx_III", "anx_IV"]
+    # The heading of an article is the short unpunctuated paragraph after "Article N"; the text starts after it.
+    art2 = _p(doc, "art_2")
+    assert art2.heading == "Scope" and art2.text.startswith("1. This Directive applies to ships of 300 gross tonnage")
+    assert not art2.is_leaf and not art2.has_own_content
+    assert _p(doc, "art_2__para_1").text == (
+        "This Directive applies to ships of 300 gross tonnage and upwards, unless stated otherwise."
+    )
+    assert _p(doc, "art_2__para_2").text.startswith("This Directive shall not apply to:\n(a) warships, naval")
+    # Divisions ("TITLE I" and its heading line) are the context of the articles that follow them.
+    assert _p(doc, "art_3").context_heading is None
+    assert _p(doc, "art_4").context_heading == "TITLE I SHIP REPORTING AND MONITORING"
+    assert _p(doc, "art_4").heading == "Notification prior to entry into ports of the Member States"
+    assert _p(doc, "art_32").context_heading == "TITLE IV ACCOMPANYING MEASURES"
+    assert _p(doc, "art_32").text == "This Directive is addressed to the Member States."
+    # Preamble, final formula and signatures are not indexed; annexes are one unit each.
+    joined = "\n".join(p.text for p in doc.provisions)
+    assert "HAVE ADOPTED THIS DIRECTIVE" not in joined and "Done at Luxembourg" not in joined
+    assert "Whereas" not in joined.split("\n")[0]
+    anx1 = _p(doc, "anx_I")
+    assert anx1.kind == "annex" and anx1.top_kind == "annex"
+    assert anx1.text.startswith("LIST OF INFORMATION TO BE NOTIFIED")
+    # Dates and changes come from the metadata exactly as for Formex acts.
+    assert {p.valid_from for p in doc.provisions} == {date(2002, 8, 5)}
+    assert [e.event_type for e in doc.events][:2] == ["document", "entry_into_force"]
+    assert _p(doc, "anx_IV").valid_to == date(2011, 3, 16) and _p(doc, "art_3").valid_to == date(2009, 5, 31)
+    assert len(doc.outstanding_changes) == 34
+    assert (_p(doc, "art_1").note or "").startswith(
+        "Text from the Publications Office's legacy EUR-Lex HTML rendition of the Official Journal"
+    )
+    assert _cite(doc, "art_4__para_1") == "Directive 2002/59/EC, art 4(1)"
+    assert _cite(doc, "anx_II") == "Directive 2002/59/EC, Annex II"
+
+
+def test_xhtml_act_with_attached_documents(text_acts: dict[str, RawDocument]) -> None:
+    raw = text_acts["cellar:32006D0245:en"]
+    assert json.loads(raw.content)["content_format"] == "xhtml"
+    (doc,) = parse_eu_cellar(raw.content)
+    assert (doc.instrument_type, doc.work_uri, doc.short_title, doc.number) == (
+        "decision",
+        "/eu/dec/2006/245",
+        "Decision 2006/245/EC",
+        "2006/245",
+    )
+    assert doc.title.startswith("2006/245/EC: Council Decision of 27 February 2006 on the conclusion")
+    assert doc.version_date == date(2006, 4, 3) and doc.work_date == date(2006, 2, 27)
+    assert [p.eid for p in doc.provisions] == [
+        "art_1",
+        "art_2",
+        "att_1",
+        "anx_I",
+        "anx_II",
+        "anx_III",
+        "att_2",
+        "att_3",
+        "att_4",
+    ]
+    assert _p(doc, "art_1").text.startswith("The Protocol to the Agreement between the European Community")
+    art2 = _p(doc, "art_2")
+    assert art2.text.startswith("The President of the Council shall") and "(2)" not in art2.text
+    assert "OJ" in (art2.note or "")  # the footnote called in the text is kept as a note
+    # A document that follows the signature (the Protocol, the declarations) is one unit each, its title the heading;
+    # its own annexes are annex units.
+    protocol = _p(doc, "att_1")
+    assert protocol.kind == "attachment" and protocol.top_kind == "annex" and protocol.is_leaf
+    assert (protocol.heading or "").startswith("PROTOCOL to the Agreement between the European Community")
+    assert protocol.text.startswith("THE KINGDOM OF BELGIUM,\nTHE CZECH REPUBLIC,")
+    assert _p(doc, "anx_I").text.startswith("TRANSITIONAL MEASURES ON THE PURCHASE OF LAND AND SECONDARY RESIDENCE")
+    assert (_p(doc, "att_2").heading or "").startswith("Declaration by Switzerland concerning the recognition")
+    assert {p.valid_from for p in doc.provisions} == {date(2006, 2, 27)} and doc.outstanding_changes == []
+    assert "OJ XHTML rendition" in (_p(doc, "art_1").note or "")
+    assert _cite(doc, "art_2") == "Decision 2006/245/EC, art 2"
+    assert _cite(doc, "att_1") == "Decision 2006/245/EC"  # an attached document is cited by the instrument
+
+
+def _bundle_with_text(content: bytes, fmt: str, body: str) -> bytes:
+    """A bundle of the Rome I fixture whose file is replaced by ``body`` in format ``fmt`` (xhtml or html)."""
+    import copy
+
+    raw = json.loads(content)
+    parts = copy.deepcopy(raw["parts"])
+    for part in parts:
+        if part["role"].startswith("sparql:items:"):
+            part["role"] = f"sparql:items:{fmt}"
+        if part["role"] == "item:fmx4":
+            part["role"], part["content"], part["encoding"] = f"item:{fmt}", body, "utf-8"
+            part["sha256"] = hashlib.sha256(body.encode()).hexdigest()
+    raw["parts"], raw["content_format"] = parts[:4], fmt
+    return json.dumps(raw).encode()
+
+
+_LEGACY = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html lang="EN"><head>
+<meta name="DC.description" content="Regulation (EEC) No 1/80 of the Council  ">
+<title>EUR-Lex - 31980R0001 - EN</title></head>
+<body><div id="banner"><p class="bglang"><a href="x">Avis juridique important</a></p></div><h1>31980R0001</h1>
+<p><strong>Regulation (EEC) No 1/80 of the Council</strong></p><div id="TexteOnly"><p><TXT_TE>
+<p>COUNCIL REGULATION (EEC) No 1/80</p><p> THE COUNCIL OF THE EUROPEAN COMMUNITIES, </p>
+<p> Whereas a test is needed; </p>
+<p> HAS ADOPTED THIS REGULATION:</p><p> </p><p> TITLE I</p><p> GENERAL PROVISIONS</p><p>   Article 1</p><p> Scope</p>
+<p> 1. This Regulation applies to &quot;tests&quot;. </p>
+<p> 2.    (a) It applies from 1 January 1980. (1)OJ No L 1, 1.1.1980, p. 1. </p>
+<p> The second paragraph continues here. 3. Not a paragraph label: out of sequence. </p><p> 3. A third paragraph. </p>
+<p> CHAPTER II</p><p> SPECIAL RULES</p><p> Article 2</p>
+<p> This Regulation shall enter into force on 1 January 1980. </p>
+<p> Done at Brussels, 1 January 1980.</p><p> For the Council</p><p> The President</p><p> ANNEX I</p><p> LIST</p>
+<p>>PIC FILE= "T0000001"></p><p> Item one | Item two </p><p> ANNEX II</p><p> Second annex text. </p>
+</div></body></html>"""
+
+
+def test_legacy_html_structure_rules(bundles: dict[str, RawDocument]) -> None:
+    from ulis.sources.parsers.eu_cellar import Part, parse_text_act
+
+    doc, provs = parse_text_act([Part("item:html", "u1", _LEGACY.encode())], "html")
+    assert doc.title == "Regulation (EEC) No 1/80 of the Council"  # DC.description, no doc-ti in this format
+    assert [p.eid for p in provs] == [
+        "art_1",
+        "art_1__para_1",
+        "art_1__para_2",
+        "art_1__para_3",
+        "art_2",
+        "anx_I",
+        "anx_II",
+    ]
+    art1, p1, p2, p3, art2, anx1, anx2 = provs
+    assert art1.heading == "Scope" and art1.context == "TITLE I GENERAL PROVISIONS"
+    assert p1.text == 'This Regulation applies to "tests".'  # entities decoded, whitespace normalised
+    # A label out of sequence inside a paragraph stays in its text; footnotes printed in the text stay there too.
+    assert p2.text == (
+        "(a) It applies from 1 January 1980. (1)OJ No L 1, 1.1.1980, p. 1.\n"
+        "The second paragraph continues here. 3. Not a paragraph label: out of sequence."
+    )
+    assert p3.text == "A third paragraph." and art1.text.startswith('1. This Regulation applies to "tests".\n2.')
+    assert art2.context == "TITLE I GENERAL PROVISIONS — CHAPTER II SPECIAL RULES" and art2.heading is None
+    assert art2.text == "This Regulation shall enter into force on 1 January 1980."
+    assert anx1.text == "LIST\nItem one | Item two" and anx2.text == "Second annex text."
+    assert doc.notes and "placeholder" in doc.notes[0]
+    assert "Whereas" not in "".join(p.text for p in provs) and "Done at" not in "".join(p.text for p in provs)
+
+    # Enacting terms without a numbered article: one provision.
+    plain = _LEGACY.split("<p> TITLE I</p>")[0] + (
+        "<p> The Council decides.</p><p> Done at Brussels.</p></div></body></html>"
+    )
+    _, provs = parse_text_act([Part("item:html", "u2", plain.encode())], "html")
+    assert [(p.eid, p.text) for p in provs] == [("terms", "The Council decides.")]
+    with pytest.raises(EuParseError, match="no text found"):
+        parse_text_act([Part("item:html", "u3", b"<html><body><p>nothing</p></body></html>")], "html")
+    only_preamble = b'<html><body><div id="TexteOnly"><p>Whereas.</p></div></body></html>'
+    with pytest.raises(EuParseError, match="no articles"):
+        parse_text_act([Part("item:html", "u4", only_preamble)], "html")
+
+
+def _point(label: str, text: str, inner: str = "") -> str:
+    return (
+        f'<table><tbody><tr><td><p class="oj-normal">{label}</p></td>'
+        f'<td><p class="oj-normal">{text}</p>{inner}</td></tr></tbody></table>'
+    )
+
+
+_XHTML = (
+    '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML//EN" "xhtml-strict.dtd">\n'
+    '<html xmlns="http://www.w3.org/1999/xhtml"><body>\n'
+    '<p class="oj-doc-ti">COUNCIL DECISION</p><p class="oj-doc-ti">of 1 January 2005</p>\n'
+    '<p class="oj-normal">Whereas tests are needed,</p><p class="oj-normal">HAS DECIDED AS FOLLOWS:</p>\n'
+    '<p class="oj-ti-section-1">CHAPTER I</p><p class="oj-ti-section-2">SCOPE</p>\n'
+    '<div class="eli-subdivision" id="art_1"><p class="oj-ti-art">Article 1</p><p class="oj-sti-art">Definitions</p>\n'
+    '<div id="001.001"><p class="oj-normal">1.   For the purposes of this Decision:</p>\n'
+    + _point("(a)", '‘test’ means a check<a href="#ntr1-x">(<span>1</span>)</a>;', _point("(i)", "of any kind."))
+    + _point("(b)", "‘check’ means a test.")
+    + "</div>\n"
+    '<div id="001.002"><p class="oj-normal">2.   Dashes stay in the text:</p>\n'
+    + _point("—", "first indent.")
+    + "</div></div>\n"
+    '<div class="eli-subdivision" id="art_2"><p class="oj-ti-art">Article 2</p>\n'
+    '<div class="oj-quotation"><p class="oj-ti-art">Article 10</p><p class="oj-normal">quoted text</p></div>\n'
+    '<div class="oj-enumeration-spacing"><p style="display: inline;">1. </p>'
+    '<p style="display: inline;"><span>Enumerated line.</span></p></div></div>\n'
+    '<div class="oj-final"><p class="oj-normal">Done at Brussels, 1 January 2005.</p>'
+    '<p class="oj-signatory">For the Council</p></div>\n'
+    '<p class="oj-note"><a id="ntr1-x" href="#ntc1-x">(<span>1</span>)</a> OJ L 1, 1.1.2005, p. 1.</p>\n'
+    '<div id="L_2005001EN.01000201"><p class="oj-doc-ti">ANNEX I</p><p class="oj-doc-ti">ANNEX Ia</p>'
+    '<p class="oj-normal">Rates</p>\n'
+    '<table class="oj-table"><tbody><tr><td><p>Code</p></td><td><p>Rate</p></td><td><p>Note</p></td></tr>\n'
+    "<tr><td><p>0101</p></td><td><p>10 %</p></td><td></td></tr></tbody></table></div>\n"
+    '<div id="L_2005001EN.01000301"><p class="oj-doc-ti">AGREEMENT</p><p class="oj-doc-ti">on tests</p>\n'
+    '<p class="oj-ti-art">Article 1</p><p class="oj-normal">The Parties agree.</p></div>\n'
+    "</body></html>"
+)
+
+
+def test_xhtml_structure_rules(bundles: dict[str, RawDocument]) -> None:
+    from ulis.sources.parsers.eu_cellar import Part, parse_text_act
+
+    doc, provs = parse_text_act([Part("item:xhtml", "u1", _XHTML.encode())], "xhtml")
+    assert doc.title == "COUNCIL DECISION of 1 January 2005"
+    assert [p.eid for p in provs] == [
+        "art_1",
+        "art_1__para_1",
+        "art_1__para_1__point_a",
+        "art_1__para_1__point_a__subpoint_i",
+        "art_1__para_1__point_b",
+        "art_1__para_2",
+        "art_2",
+        "art_2__para_1",
+        "anx_IA",
+        "att_1",
+    ]
+    by = {p.eid: p for p in provs}
+    assert by["art_1"].heading == "Definitions" and by["art_1"].context == "CHAPTER I SCOPE"
+    assert by["art_1__para_1"].text == (
+        "For the purposes of this Decision:\n(a) ‘test’ means a check;\n(i) of any kind.\n(b) ‘check’ means a test."
+    )
+    point_a = by["art_1__para_1__point_a"]
+    assert point_a.text == "‘test’ means a check;\n(i) of any kind." and not point_a.is_leaf
+    assert point_a.note == ["OJ L 1, 1.1.2005, p. 1."]  # the footnote called in the text, as for the Treaties
+    assert by["art_1__para_1__point_a__subpoint_i"].text == "of any kind." and by["art_1__para_1__point_b"].is_leaf
+    assert by["art_1__para_2"].text == "Dashes stay in the text:\n— first indent." and by["art_1__para_2"].is_leaf
+    assert by["art_1"].text.startswith("1. For the purposes of this Decision:\n(a) ‘test’")
+    # Quoted text (an article inserted into another act) is text of the article; an inline enumeration that opens the
+    # article's numbering is its first paragraph.
+    assert by["art_2"].text == "Article 10\nquoted text\n1. Enumerated line." and by["art_2"].own_content
+    assert by["art_2__para_1"].text == "Enumerated line."
+    # "ANNEX I" with nothing of its own over "ANNEX Ia" is no unit; a table is one line per row, cells separated by |.
+    assert by["anx_IA"].kind == "annex" and by["anx_IA"].text == "Rates\nCode | Rate | Note\n0101 | 10 % | "
+    assert by["att_1"].kind == "attachment" and by["att_1"].heading == "AGREEMENT on tests"
+    assert by["att_1"].text == "Article 1\nThe Parties agree."
+    assert "Done at" not in "".join(p.text for p in provs) and "Whereas" not in "".join(p.text for p in provs)
+
+    # Through the whole parser: the act's metadata (dates, type, ELI) comes from the bundle as for Formex.
+    (parsed,) = parse_eu_cellar(_bundle_with_text(bundles["cellar:32008R0593:en"].content, "xhtml", _XHTML))
+    assert parsed.instrument_type == "regulation" and parsed.work_uri == "/eu/reg/2008/593"
+    assert parsed.short_title == "Regulation (EC) No 593/2008" and [p.eid for p in parsed.provisions][0] == "art_1"
+    assert parsed.provisions[0].valid_from == date(2009, 12, 17)
+    assert {p.top_kind for p in parsed.provisions} == {"article", "annex"}
+    with pytest.raises(EuParseError, match="not an XHTML"):
+        parse_text_act([Part("item:xhtml", "u2", b"<ACT/>")], "xhtml")
+    with pytest.raises(EuParseError, match="no xhtml file"):
+        parse_text_act([Part("item:fmx4", "u3", b"<ACT/>")], "xhtml")
+
+
+def test_manifest_accepts_html_acts_but_not_html_consolidated_versions(tmp_path: Path) -> None:
+    def works(*entries: dict[str, Any]) -> list[dict[str, Any]]:
+        return list(entries)
+
+    ok = _batch_manifest(tmp_path, works=works({"celex": "31964D0300", "format": "html"}))
+    assert CellarConnector(ok, "eu-eur-lex", tmp_path / "c")._manifest()["works"][0]["format"] == "html"  # noqa: SLF001
+    bad = _batch_manifest(
+        tmp_path, works=works({"celex": "02016R0679-20160504", "base": "32016R0679", "format": "html"})
+    )
+    with pytest.raises(ManifestError, match="Formex 4"):
+        CellarConnector(bad, "eu-eur-lex", tmp_path / "c")._manifest()  # noqa: SLF001
+    assert query_items_batch(["31964D0300"], ["en"], "html").count('"html"') == 1
+
+
+def test_takes_effect_dates_count_as_entry_into_force() -> None:
+    from ulis.sources.parsers.eu_cellar import parse_metadata
+
+    rows = [
+        {"work": "w", "p": f"{CDM}resource_legal_id_celex", "o": "31964D0300"},
+        {"work": "w", "p": f"{CDM}work_has_resource-type", "o": "http://x/resource-type/DEC"},
+        {
+            "work": "w",
+            "p": f"{CDM}resource_legal_date_entry-into-force",
+            "o": "1964-05-21",
+            "ap": f"{ANN}type_of_date",
+            "av": "{PE|http://x/fd_335/PE}",
+        },
+    ]
+    meta = parse_metadata(rows, "31964D0300")
+    assert [d.value for d in meta.entry_into_force] == [date(1964, 5, 21)] and meta.application == []
+
+
+@pytest.mark.db
+def test_text_acts_are_ingested_and_searched(
+    session: Session,
+    catalog: Catalog,
+    store: LocalObjectStore,
+    eu_ingested: IngestionReport,
+    text_acts: dict[str, RawDocument],
+) -> None:
+    report = Ingestor(session, catalog, store).ingest_source(
+        "eu-eur-lex", actor="pytest", connector=_Fixtures(text_acts)
+    )
+    assert report.errors == [] and report.conflicts == [] and report.instruments_created == 2
+    assert report.instrument_versions_created == 2 and report.provision_versions_created == 90 + 9
+    res = _search(
+        session,
+        catalog,
+        q="vessel traffic monitoring and information system with a view to enhancing the safety",
+        as_of=date(2005, 1, 1),
+        query_language="en",
+    )
+    hit = _hit(res, "art_1")
+    assert hit["citation"] == "Directive 2002/59/EC, art 1" and hit["version"]["valid_from"] == "2002-08-05"
+    assert hit["version"]["text_origin"] == "official_conversion"
+    assert {"NOT_AUTHENTICATED", "SOURCE_NOT_AUTHENTIC", "VERSION_NOTE"} <= {lim["code"] for lim in hit["limitations"]}
+    assert "legacy EUR-Lex HTML rendition" in hit["version"]["note"]
+    on = provision_at(session, catalog, "/eu/dir/2002/59/~art_4__para_1", date(2005, 1, 1), language="en")
+    assert on["status_on_date"] == "in_force" and on["provision"]["citation"] == "Directive 2002/59/EC, art 4(1)"
+    # Annex IV was replaced with effect from 2011-03-16: no current wording is indexed.
+    later = provision_at(session, catalog, "/eu/dir/2002/59/~anx_IV", date(2012, 1, 1), language="en")
+    assert later["status_on_date"] == "no_version" and later["timeline"][0]["valid_to"] == "2011-03-16"
+    # An attached document (the Protocol) is searchable and cited by its instrument.
+    res = _search(
+        session,
+        catalog,
+        q="free movement of persons regarding the participation as contracting parties",
+        as_of=date(2026, 10, 14),
+        query_language="en",
+    )
+    hit = next(h for h in res["results"] if h["unit"]["eid"] == "att_1")
+    assert hit["citation"] == "Decision 2006/245/EC"

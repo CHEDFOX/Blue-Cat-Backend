@@ -10,7 +10,8 @@ the Commission reuse notice, Decision 2011/833/EU):
   and their kind, document type, in-force flag, amendments and corrigenda, the files of each
   language version), and
 * the RESTful item URLs ``https://publications.europa.eu/resource/cellar/<id>/DOC_<n>`` for the
-  files themselves (Formex 4 XML, a Formex zip, or XHTML).
+  files themselves (Formex 4 XML, a Formex zip, OJ XHTML, or the legacy EUR-Lex HTML of the acts
+  that have no Formex 4 file; manifest ``format``: ``fmx4``, ``xhtml``, ``html``).
 
 For every work in the manifest the connector runs three SPARQL queries, then downloads the
 files of the requested format in each requested language, all through :class:`PoliteHttp`
@@ -84,7 +85,7 @@ LANG3 = {
     "sl": "SLV",
     "sv": "SWE",
 }
-FORMATS = {"fmx4", "xhtml"}
+FORMATS = {"fmx4", "xhtml", "html"}
 CELEX_RE = re.compile(r"^[0-9CE][0-9]{4}[A-Z]{1,2}[0-9A-Z/()\-]{1,20}$")
 # A consolidated version of an act: sector 0, the act's year, type and number, and the date it applies from.
 CONSOLIDATED_RE = re.compile(r"^0[0-9]{4}[A-Z]{1,2}[0-9]{4}-[0-9]{8}$")

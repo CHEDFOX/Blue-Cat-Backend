@@ -41,6 +41,9 @@ DOMAIN = {
     "EC": {"en": "EC", "fr": "CE", "de": "EG"},
     "EEC": {"en": "EEC", "fr": "CEE", "de": "EWG"},
     "Euratom": {"en": "Euratom", "fr": "Euratom", "de": "Euratom"},
+    # Second and third pillar acts before the Treaty of Lisbon: 2005/495/CFSP, 2002/584/JHA.
+    "CFSP": {"en": "CFSP", "fr": "PESC", "de": "GASP"},
+    "JHA": {"en": "JHA", "fr": "JAI", "de": "JI"},
 }
 # The domain code as printed in each language's act number -> the language-neutral code.
 DOMAIN_CODES = {
@@ -53,6 +56,12 @@ DOMAIN_CODES = {
     "CEE": "EEC",
     "EWG": "EEC",
     "EURATOM": "Euratom",
+    "CFSP": "CFSP",
+    "PESC": "CFSP",
+    "GASP": "CFSP",
+    "JHA": "JHA",
+    "JAI": "JHA",
+    "JI": "JHA",
 }
 NUMBER_WORD = {"en": "No", "fr": "n°", "de": "Nr."}
 TREATY_ABBREVIATION = {
@@ -75,7 +84,7 @@ class EuExt(BaseModel):
     act_type: ActType | None = None
     year: int | None = None
     number: str | None = None
-    domain: Literal["EU", "EC", "EEC", "Euratom"] | None = None
+    domain: Literal["EU", "EC", "EEC", "Euratom", "CFSP", "JHA"] | None = None
     treaty: Literal["TEU", "TFEU", "CHARTER"] | None = None
     # A consolidated version of an act: the CELEX number of the base act (``celex`` is the version's own).
     base_celex: str | None = None
