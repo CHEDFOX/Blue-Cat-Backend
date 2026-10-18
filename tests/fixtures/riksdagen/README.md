@@ -1,9 +1,10 @@
 # Riksdagen SFS fixtures
 
 Real, unmodified responses of the Riksdag's open data API
-(`https://data.riksdagen.se/dokument/sfs-<year>-<number>.json`), retrieved on 2026-10-14 (the last five on 2026-10-15) with the
+(`https://data.riksdagen.se/dokument/sfs-<year>-<number>.json`), retrieved on 2026-10-14 (the next five on 2026-10-15, the last four on 2026-10-18) with the
 ULIS User-Agent and kept in the `PoliteHttp` cache layout (`<host>/<path>` plus `.meta.json` with
-the URL and retrieval time). Each JSON response is stored gzip-compressed (`.json.gz`) to keep the
+the URL and retrieval time; the four statutes whose number carries a suffix are stored under a file name without
+the space of the Riksdag's id, which the meta file gives). Each JSON response is stored gzip-compressed (`.json.gz`) to keep the
 repository small; the tests decompress it, and the bytes are exactly those received.
 
 | File (under `data.riksdagen.se/dokument/`) | Statute | Consolidated to |
@@ -19,6 +20,10 @@ repository small; the tests decompress it, and the bytes are exactly those recei
 | `sfs-2013-125.json.gz` | Lag (2013:125) om avtal mellan Sverige och Antigua och Barbuda ... (an annex, 33 KB) | - |
 | `sfs-2000-162.json.gz` | Tillkännagivande (2000:162) av uppgift om Riksbankens diskonto (one sentence, no section) | - |
 | `sfs-2005-676.json.gz` | Förordning (2005:676) om statsbidrag till viss påbyggnadsutbildning (repealed: skipped) | - |
+| `sfs-1736-0123-2.json.gz` | Handelsbalk (1736:0123 2): a balk suffix in the SFS number (Riksdag id `sfs-1736-0123 2`, URL `sfs-1736-0123%202.json`); retrieved 2026-10-18 | SFS 1986:798 |
+| `sfs-1736-0123-1.json.gz` | Byggningabalk (1736:0123 1): balk suffix; "1 § upphävd genom förordning (1933:269)." repeal notes; retrieved 2026-10-18 | SFS 1981:426 |
+| `sfs-1904-48-s.1.json.gz` | Lag (1904:48 s.1) om samäganderätt: a page suffix (Riksdag id `sfs-1904-48 s.1`); retrieved 2026-10-18 | SFS 2010:26 |
+| `sfs-1907-36-s.22.json.gz` | Lag (1907:36 s.22) om vad iakttagas skall ... (record number `1907:36 s. 22`, id `sfs-1907-36 s. 22`; 3 § enumerates "16 kap. ..." as text); retrieved 2026-10-18 | SFS 1943:883 |
 
 Terms: "Riksdagens öppna data är fria att användas och spridas vidare så länge du anger källa"
 (https://www.riksdagen.se/sv/dokument-och-lagar/riksdagens-oppna-data/anvandarstod/anvandningsvillkor/).

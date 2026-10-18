@@ -18,11 +18,12 @@ coverage: >-
   current consolidated text per statute in Svensk författningssamling (laws, ordinances, notices),
   with the consolidation status ("t.o.m. SFS ..."), date of issue, reprints, the transitional
   provisions of the statute and its amendments, and the new wordings of provisions whose amendments
-  are not yet in force. The Riksdag's document list had 11,567 records on 2026-10-15; the manifest
-  lists the 5,336 statutes in force that carry a YYYY:N number (the whole open collection of
-  statutes in force). Left out: 5,906 repealed statutes ("Författningen är upphävd" in the list),
-  192 records without a YYYY:N number (the N series, RFS and old printed-volume references) and the
-  Riksbank's and National Debt Office's regulations in the same list. Earlier consolidations, the
+  are not yet in force. The Riksdag's document list had 11,567 records on 2026-10-18; the manifest
+  lists the 5,353 statutes in force that carry an SFS number (YYYY:N; 17 of them with the balk or
+  page suffix a few old statutes carry, such as 1736:0123 2 and 1904:48 s.1: the whole open
+  collection of statutes in force). Left out: 5,906 repealed statutes ("Författningen är upphävd" in
+  the list), 174 records without such a number (166 of the N series, 8 supplement references, bih.)
+  and the Riksbank's and National Debt Office's regulations in the same list. Earlier consolidations, the
   original statutes as published in SFS, the amendment register (SFSR), case law and the Riksdag's
   other document types are not ingested.
 access:
@@ -40,7 +41,7 @@ rate_limits: >-
   https://data.riksdagen.se/robots.txt does not exist (404 on 2026-10-14);
   https://www.riksdagen.se/robots.txt sets "crawl-delay:1" only for named AI crawlers and disallows
   nothing. ULIS sends one request per 5 s with an identifying User-Agent and backs off on 429/5xx.
-  The whole manifest is 5,336 documents, one request each: about 7.4 hours of network time. The
+  The whole manifest is 5,353 documents, one request each: about 7.4 hours of network time. The
   document list serves at most 10,000 hits per query (page 51 of 200 answers HTTP 400), so the
   manifest script reads it in the default order, oldest first and newest first.
 licence:

@@ -53,11 +53,12 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from typing import Any
+from urllib.parse import unquote
 
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "riksdagen_sfs_json"
-PARSER_VERSION = "1.2.0"
+PARSER_VERSION = "1.3.0"
 
 # Fundamental laws (grundlagar) are named in regeringsformen 1 kap. 3 § ("Regeringsformen, successionsordningen,
 # tryckfrihetsförordningen och yttrandefrihetsgrundlagen är rikets grundlagar"; read in the record 1974:152). They are
@@ -72,17 +73,26 @@ FUNDAMENTAL_LAWS = {
 # docs/jurisdictions/se.md; to be confirmed by a Swedish reviewer.
 SHORT_NAMES = {"1915:218": "avtalslagen"}
 
-_NUMBER = re.compile(r"^(\d{4}):(\d{1,4})$")
+# The SFS number as the Riksdag's records print it (``beteckning``): ``YYYY:N``, the serial kept as printed (the
+# successionsordning is ``1810:0926``). A few statutes of the 1700s-1900s carry a suffix that is part of their number:
+# the balk (book) of the 1734 law, ``1736:0123 1`` (byggningabalken) and ``1736:0123 2`` (handelsbalken), or the page
+# of the volume where the statute begins, ``1904:48 s.1`` (also printed ``1907:36 s. 22``; one record spells it
+# ``1904:48s1``).
+# Supplement references (``1899:bih. 25``), the N series and RFS numbers are not SFS numbers of these forms.
+_SFS = re.compile(r"^(\d{4}):(\d{1,4})(?: (\d)| ?s\.? ?(\d{1,4}))?$")
 _NUM = r"\d+(?: ?[a-z])?"
-# "4 b § Text", "4 c /Träder i kraft I:.../ § Text" (a marker before "§"), "53 g §Text" (no space).
-_SECTION = re.compile(
-    rf"^({_NUM}) ((?:/[^/]*/\s*)*)§\.?(?:\s*((?:[A-ZÅÄÖ/]|[Hh]ar (?:upp?hävts|upphört|betecknats)).*))?$", re.S
-)
+# "4 b § Text", "4 c /Träder i kraft I:.../ § Text" (a marker before "§"), "53 g §Text" (no space). A repeal note
+# follows the number in lower case: "7 § har upphävts genom lag (1988:942)." or, in the oldest statutes, "1 § upphävd
+# genom förordning (1933:269)." (byggningabalken).
+_REPEAL_NOTE = r"(?:[Hh]ar (?:upp?hävts|upphört|betecknats)|upphävd\b)"
+_SECTION = re.compile(rf"^({_NUM}) ((?:/[^/]*/\s*)*)§\.?(?:\s*((?:[A-ZÅÄÖ/]|{_REPEAL_NOTE}).*))?$", re.S)
 _SECTION_LINE = re.compile(rf"^{_NUM} §\s*(?=[A-ZÅÄÖ/])")
 _SECTION_RANGE = re.compile(
     rf"^({_NUM})(?:\s*[-–]\s*|\s+och\s+)({_NUM}) §§ ([Hh]ar (?:upp?hävts|upphört att gälla) .*)$", re.S
 )
-_CHAPTER = re.compile(rf"^({_NUM}) [Kk]ap\.(?:\s+(.*))?$", re.S)
+# A chapter heading's title starts in upper case (or is a marker, or a repeal note); "16 kap. och 17 kap. 1, 2 och
+# 5 §§ jordabalken samt ..." is an enumeration inside a section (lag (1907:36 s.22) 3 §), not a chapter.
+_CHAPTER = re.compile(rf"^({_NUM}) [Kk]ap\.(?:\s+((?:[A-ZÅÄÖ0-9/(\"»]|{_REPEAL_NOTE}).*))?$", re.S)
 _POINT = re.compile(rf"^({_NUM})[.)] (.*)$", re.S)
 _SUBPOINT = re.compile(r"^([a-zåäö])\) (.*)$", re.S)
 _INDENT = re.compile(r"^[-–] (.*)$", re.S)
@@ -98,11 +108,14 @@ _ISO = re.compile(r"^(\d{4}-\d{2}-\d{2})\b")
 _AMENDED_BY = re.compile(
     r"\s*(?:(Lag|Förordning|Kungörelse)\s*\(\s*(\d{4}\s*:\s*\d+)\s*\)|\(\s*(Lag|Förordning)\s+(\d{4}\s*:\s*\d+)\s*\))\s*\.?\s*$"
 )
+# "har upphävts genom lag (1988:942).", "upphävd genom förordning (1860:56 s.3).", "har upphävts genom förordning
+# (1971:?)." (byggningabalken prints an unknown repealing statute so).
 _SECTION_REPEAL = re.compile(
-    r"^(?:[Hh]ar (?:upp?hävts|upphört att gälla)|[Hh]ar betecknats) .*(?:genom|enligt) [Ll]ag \(?\d{4}:\d+\)?\.?$"
+    r"^(?:[Hh]ar (?:upp?hävts|upphört att gälla)|[Hh]ar betecknats|upphävd) .*(?:genom|enligt) "
+    r"(?:[Ll]ag|[Ff]örordning|[Kk]ungörelse) *\(?(?:\d{4}:(?:\d+(?: ?s\. ?\d+)?|\?))?\)?\s*\??\.?$"
 )
 _POINT_REPEAL = re.compile(r"^[Hh]ar upp?hävts genom [Ll]ag \(?\d{4}:\d+\)?\.?$")
-_CHAPTER_REPEAL = re.compile(r"^[Hh]ar (?:upp?hävts|upphört att gälla)\b")
+_CHAPTER_REPEAL = re.compile(r"^(?:[Hh]ar (?:upp?hävts|upphört att gälla)|upphävd genom)\b")
 _SENTENCE_END = re.compile(r"[.!?]['\")]*$")
 _CONJUNCTION = re.compile(r"(?:och|eller|samt|som|respektive|resp\.|liksom)\b")
 _HEADING_ABBREVIATION = re.compile(r"(?:m\. ?m\.|m\. ?fl\.|etc\.)$")
@@ -139,15 +152,59 @@ def _spaced(label: str) -> str:
     return f"{m.group(1)} {m.group(2)}".strip() if m else label.strip()
 
 
-def work_uri(year: int | str, number: int | str) -> str:
-    return f"/se/sfs/{year}/{number}"
+@dataclass(frozen=True)
+class SfsNumber:
+    """An SFS number read from a record: ``1962:700``, ``1810:0926``, ``1736:0123 2``, ``1904:48 s.1``."""
+
+    year: int
+    serial: str  # as printed: "700", "0926"
+    balk: str | None = None  # "1" / "2": the balk of the 1734 law
+    page: str | None = None  # "1", "22": the page of the volume where the statute begins
+
+    @property
+    def suffix(self) -> str | None:
+        return self.balk or (f"s.{self.page}" if self.page else None)
+
+    @property
+    def canonical(self) -> str:
+        """The number in one spelling, whatever the record's: ``1736:0123 2``, ``1904:48 s.1``, ``1907:36 s.22``."""
+        head = f"{self.year}:{self.serial}"
+        return f"{head} {self.suffix}" if self.suffix else head
+
+    @property
+    def work_uri(self) -> str:
+        """``/se/sfs/1962/700`` (the serial as an integer); a suffixed number adds the suffix to the serial, without
+        spaces or dots, so that every spelling of one statute's number names the same work: ``/se/sfs/1736/123-2``
+        (handelsbalken), ``/se/sfs/1904/48-s1`` (lagen (1904:48 s.1) om samäganderätt)."""
+        tail = str(int(self.serial))
+        if self.balk:
+            tail += f"-{self.balk}"
+        elif self.page:
+            tail += f"-s{self.page}"
+        return f"/se/sfs/{self.year}/{tail}"
+
+
+def parse_sfs_number(text: str) -> SfsNumber | None:
+    """The SFS number a record prints (whitespace runs collapsed), or None when it is not one of the forms above."""
+    m = _SFS.match(" ".join(str(text).split()))
+    return SfsNumber(int(m.group(1)), m.group(2), m.group(3), m.group(4)) if m else None
+
+
+def _number_pattern(number: str) -> str:
+    """A pattern for a canonical number that also matches the spellings titles use (``s. 22``, ``s.22``)."""
+    return re.escape(number).replace("\\ ", r"\s*").replace(r"s\.", r"s\.\s*")
+
+
+def _squash(text: str) -> str:
+    return re.sub(r"\s+", "", text)
 
 
 def resolve_uri(uri: str) -> tuple[str, str | None] | None:
-    """Map a Riksdag SFS document URL (``https://data.riksdagen.se/dokument/sfs-1974-152``, with
-    or without a format suffix) to (ULIS work URI, None)."""
-    m = re.match(r"^https?://data\.riksdagen\.se/dokument/sfs-(\d{4})-(\d{1,4})(?:\.(?:json|html|text|xml))?$", uri)
-    return (work_uri(m.group(1), int(m.group(2))), None) if m else None
+    """Map a Riksdag SFS document URL (``https://data.riksdagen.se/dokument/sfs-1974-152``, with or without a format
+    suffix; ``sfs-1904-48%20s.1`` for a suffixed number) to (ULIS work URI, None)."""
+    m = re.match(r"^https?://data\.riksdagen\.se/dokument/sfs-(\d{4})-(.+?)(?:\.(?:json|html|text|xml))?$", uri)
+    number = parse_sfs_number(f"{m.group(1)}:{unquote(m.group(2))}") if m else None
+    return (number.work_uri, None) if number else None
 
 
 def citation_name(number: str, title: str) -> tuple[str, str]:
@@ -161,12 +218,12 @@ def citation_name(number: str, title: str) -> tuple[str, str]:
         return FUNDAMENTAL_LAWS[number], "fundamental_law"
     if number in SHORT_NAMES:
         return SHORT_NAMES[number], "established_short_name"
-    m = re.fullmatch(rf"(\w+)(balk|lag|förordning|ordning) \({re.escape(number)}\)", title)
+    m = re.fullmatch(rf"(\w+)(balk|lag|förordning|ordning) \({_number_pattern(number)}\)", title)
     if m:
         definite = (m.group(1) + m.group(2)).lower() + "en"  # brottsbalk -> brottsbalken
         # Codes (balkar) are cited without the SFS number; other named statutes with it.
         return (definite if m.group(2) == "balk" else f"{definite} ({number})"), "title"
-    m = re.fullmatch(rf"(Lag|Förordning|Kungörelse) \({re.escape(number)}\) (.+)", title)
+    m = re.fullmatch(rf"(Lag|Förordning|Kungörelse) \({_number_pattern(number)}\) (.+)", title)
     if m:
         head = {"Lag": "lagen", "Förordning": "förordningen", "Kungörelse": "kungörelsen"}[m.group(1)]
         return f"{head} ({number}) {m.group(2)}", "title"
@@ -350,13 +407,12 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
         raise ParseSkipped(
             f"the statute is repealed (upphävd {facts['upphavd'][:10]}, {by}); only statutes in force are ingested"
         )
-    number = _ws(str(dok.get("beteckning") or ""))
-    nm = _NUMBER.match(number)
-    if not nm:
-        raise SfsParseError(f"unsupported SFS number {number!r}")
-    year, serial = int(nm.group(1)), int(nm.group(2))
+    sfs = parse_sfs_number(str(dok.get("beteckning") or ""))
+    if sfs is None:
+        raise SfsParseError(f"unsupported SFS number {_ws(str(dok.get('beteckning') or ''))!r}")
+    number = sfs.canonical
     title = _ws(str(dok.get("titel") or ""))
-    if f"({number})" not in title:
+    if _squash(f"({number})") not in _squash(title):  # the title may space the number differently ("s. 22")
         raise SfsParseError(f"title {title!r} does not carry the SFS number {number}")
     text = str(dok.get("text") or "")
     if not text.strip():
@@ -817,11 +873,12 @@ def parse_riksdagen_sfs(content: bytes) -> list[ParsedDocument]:
         )
     events.append(ParsedEvent("version_change", version_date, None, consolidated_to, "dokument/publicerad"))
 
-    uri = work_uri(year, serial)
+    uri = sfs.work_uri
     ext: dict[str, Any] = {
         "sfs_number": number,
-        "year": year,
-        "number": serial,
+        "year": sfs.year,
+        "number": int(sfs.serial),
+        "suffix": sfs.suffix,
         "citation_name": name,
         "citation_name_basis": name_basis,
         "sections_per_chapter": per_chapter,
