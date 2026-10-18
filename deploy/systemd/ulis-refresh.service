@@ -6,6 +6,9 @@
 # laws is thousands of requests; make it monthly by adding `--skip de-gesetze-im-internet` here and running it
 # yourself, or raise --max-cache-age-days.
 # Exit status is non-zero when any source errored: `systemctl --failed` / journalctl show it.
+# Adding `--prune-cache` to the command keeps the download cache empty between refreshes at almost no extra network
+# cost (a refresh re-fetches files older than 7 days anyway; not so with a larger --max-cache-age-days): after a run in which no source failed it verifies the new
+# documents and deletes the cached downloads of the sources whose documents all pass (docs/deployment.md section 13).
 [Unit]
 Description=ULIS corpus refresh (live sources)
 After=docker.service

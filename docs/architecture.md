@@ -70,7 +70,7 @@ flowchart LR
 | Source registry | `ulis.sources.registry` | Coverage, access, licence; licence gate | Implemented |
 | Connectors | `ulis.sources.connectors` | Retrieval only (no interpretation) | `local_manifest`; real connectors planned |
 | Parsers | `ulis.sources.parsers` | Source format to normalised model | Akoma Ntoso 3.0 subset |
-| Object store | `ulis.storage` | Immutable, content-addressed raw documents | Local FS; S3-compatible planned |
+| Object store | `ulis.storage` | Immutable, content-addressed raw documents (key: SHA-256 of the original bytes) | Local FS, zstd-compressed files (lossless); S3-compatible planned |
 | Ingestion | `ulis.ingestion` | Idempotent, non-destructive pipeline, run records | Implemented |
 | Temporal engine | `ulis.temporal` | Validity intervals, point-in-time resolution | Implemented |
 | Retrieval | `ulis.retrieval` | Structured filters, FTS, concept expansion, rerank | Lexical implemented; vectors Phase 3 |
