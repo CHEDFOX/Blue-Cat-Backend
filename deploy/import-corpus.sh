@@ -4,7 +4,7 @@
 #   deploy/import-corpus.sh [--yes] [--objects ARCHIVE.tar.gz] DUMP
 #
 # Typical use on a fresh server, after `docker compose up -d` has created the (empty) database:
-#   scp old-server:/path/ulis-corpus-20261014.dump* .          # dump, .sha256, optionally the objects archive
+#   scp old-server:/path/ulis-corpus-20261014* .                # dump, .sha256, optionally the objects archive
 #   deploy/import-corpus.sh --objects ulis-corpus-20261014-objects.tar.gz ulis-corpus-20261014.dump
 #   docker compose --profile tools run --rm cli status
 #   docker compose --profile tools run --rm cli verify-sources   # only meaningful with the objects archive
@@ -42,6 +42,6 @@ if [ -n "$OBJECTS" ]; then
   dest="$(objects_dir)"
   mkdir -p "$dest"
   log "unpacking $OBJECTS into $dest (the directory must belong to uid 10001 for the containers)"
-  tar -C "$dest" -xzf "$OBJECTS"
+  tar -C "$dest" -xf "$OBJECTS"   # GNU tar recognises gzip (or a plain .tar) by itself
 fi
 log "import finished: run 'cli status' to see what was loaded"
