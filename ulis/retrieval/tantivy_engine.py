@@ -35,11 +35,13 @@ Two modes:
 
 Ranking: BM25 (Tantivy defaults k1 = 1.2, b = 0.75) over the positive lexemes of the expanded
 query, field ``a`` weighted 1.0 plus field ``b`` weighted 0.4; IDF and lengths are collection-wide
-(all jurisdictions, all configurations). The BM25 score becomes ``_Candidate.lexical``; the
-budget keeps the best ``budget`` passages ordered by score, then passage id (as ``ORDER BY
-lexical DESC, p.id``). Filters (validity on the date, statuses, include_* flags, case law,
-languages, jurisdiction chain/extent, treaties, regional organisations, foreign law) are the
-WHERE clause of ``_candidates`` evaluated on fast fields with SQL NULL semantics.
+(all jurisdictions, all configurations). Optional (``proximity`` > 0): for each pair of adjacent
+query lexemes (joined by AND or a phrase operator) a sloppy phrase (slop 2) on ``all`` adds
+``proximity`` x its BM25 score, a stand-in for the cover density of ``ts_rank_cd``. The score
+becomes ``_Candidate.lexical``; the budget keeps the best ``budget`` passages ordered by score,
+then passage id (as ``ORDER BY lexical DESC, p.id``). Filters (validity on the date, statuses,
+include_* flags, case law, languages, jurisdiction chain/extent, treaties, regional
+organisations, foreign law) are the WHERE clause of ``_candidates`` evaluated on fast fields with SQL NULL semantics.
 
 Build an index (streams passages in id order, commits every N rows, resumable after a crash):
     python scripts/search_eval/build_index.py --db URL --index-root DIR --mode both
@@ -367,6 +369,8 @@ class TantivyCandidates:
 
     process: TantivyProcess
     mode: str
+    # weight of the optional proximity clauses (adjacent query lexemes within 2 positions); 0 = BM25 only
+    proximity: float = 0.0
     last: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -385,7 +389,13 @@ class TantivyCandidates:
         budget: int,
     ) -> dict[str, Any]:
         specs = pg_query_specs(session, req, expansions) if self.mode == "pg" else native_query_specs(req, expansions)
-        return {"op": "search", "configs": specs, "filters": filter_spec(req, as_of, scope), "budget": budget}
+        return {
+            "op": "search",
+            "configs": specs,
+            "filters": filter_spec(req, as_of, scope),
+            "budget": budget,
+            "proximity": self.proximity,
+        }
 
     def __call__(
         self,
@@ -418,6 +428,18 @@ class TantivyCandidates:
             )
             for h in resp["hits"]
         ]
+
+
+def candidate_stage(engine: str, index_root: Path, proximity: float = 1.0) -> TantivyCandidates | None:
+    """The stage for an engine name: ``pg`` (None: PostgreSQL), ``tantivy-pg``, ``tantivy-native``, with
+    ``+prox`` appended for the proximity clauses (weight ``proximity``); indexes in <index_root>/<mode>."""
+    if engine == "pg":
+        return None
+    name, _, extra = engine.partition("+")
+    mode = name.removeprefix("tantivy-")
+    if mode not in MODES or extra not in ("", "prox"):
+        raise ValueError(f"unknown engine {engine!r}")
+    return TantivyCandidates(TantivyProcess(index_root / mode), mode, proximity=proximity if extra else 0.0)
 
 
 @contextmanager

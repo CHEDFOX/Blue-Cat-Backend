@@ -30,6 +30,8 @@ use tantivy::{DocId, DocSet, Index, IndexReader, Score, SegmentOrdinal, SegmentR
 pub const WEIGHT_A: f32 = 1.0;
 pub const WEIGHT_B: f32 = 0.4;
 const MAX_PHRASE_ALTERNATIVES: usize = 256;
+/// Slop of the optional proximity clauses (request field "proximity" = their weight, default 0).
+const PROXIMITY_SLOP: u32 = 2;
 
 pub struct Engine {
     _index: Index,
@@ -229,7 +231,17 @@ impl Engine {
         Ok(Box::new(PhraseQuery::new_with_offset(terms)))
     }
 
-    fn score_clauses(&self, n: &Node, out: &mut Vec<(Occur, Box<dyn Query>)>) {
+    fn score_clauses(&self, n: &Node, proximity: f32, out: &mut Vec<(Occur, Box<dyn Query>)>) {
+        if proximity > 0.0 {
+            // proximity: adjacent query lexemes (within one AND/phrase chain) found within 2 positions
+            let mut pairs = BTreeSet::new();
+            ordered_lexemes(n, &mut pairs);
+            for (x, y) in pairs {
+                let terms = vec![(0, Term::from_field_text(self.f.all, &x)), (1, Term::from_field_text(self.f.all, &y))];
+                let q = PhraseQuery::new_with_offset_and_slop(terms, PROXIMITY_SLOP);
+                out.push((Occur::Should, Box::new(BoostQuery::new(Box::new(q), proximity))));
+            }
+        }
         let mut lexemes = BTreeSet::new();
         positive_lexemes(n, false, &mut lexemes);
         for lex in lexemes {
@@ -275,6 +287,7 @@ impl Engine {
         let budget = req.get("budget").and_then(|v| v.as_u64()).unwrap_or(200) as usize;
         let filter = Arc::new(Filter::from_json(req.get("filters").unwrap_or(&Value::Null))?);
         let explain = req.get("explain").and_then(|v| v.as_bool()).unwrap_or(false);
+        let proximity = req.get("proximity").and_then(|v| v.as_f64()).unwrap_or(0.0) as f32;
         let mut per_config: Vec<(Occur, Box<dyn Query>)> = Vec::new();
         let mut direct_parts: Vec<(Occur, Box<dyn Query>)> = Vec::new();
         let mut with_expansions: HashSet<String> = HashSet::new();
@@ -297,7 +310,7 @@ impl Engine {
             let Some(matching) = self.config_restricted(cfg, self.compile(&m_node)?) else { continue };
             let mut clauses: Vec<(Occur, Box<dyn Query>)> =
                 vec![(Occur::Must, Box::new(ConstScoreQuery::new(matching, 0.0)))];
-            self.score_clauses(&m_node, &mut clauses);
+            self.score_clauses(&m_node, proximity, &mut clauses);
             per_config.push((Occur::Should, Box::new(BooleanQuery::new(clauses))));
             if d.as_ref() != Some(&m_node) {
                 with_expansions.insert(cfg.to_string());
@@ -381,6 +394,31 @@ fn flatten_or<'a>(n: &'a Node, out: &mut Vec<&'a Node>) {
             flatten_or(r, out);
         }
         other => out.push(other),
+    }
+}
+
+/// Positive lexemes of `n` in query order; collects pairs of neighbours joined by AND or a phrase
+/// operator (not across OR, not under NOT).
+fn ordered_lexemes(n: &Node, pairs: &mut BTreeSet<(String, String)>) -> Vec<String> {
+    match n {
+        Node::Val { lex, prefix: false, .. } => vec![lex.clone()],
+        Node::Val { .. } | Node::Stop | Node::Not(_) => Vec::new(),
+        Node::Or(l, r) => {
+            ordered_lexemes(l, pairs);
+            ordered_lexemes(r, pairs);
+            Vec::new()
+        }
+        Node::And(l, r) | Node::Phrase(l, r, _) => {
+            let mut left = ordered_lexemes(l, pairs);
+            let right = ordered_lexemes(r, pairs);
+            if let (Some(x), Some(y)) = (left.last(), right.first()) {
+                if x != y {
+                    pairs.insert((x.clone(), y.clone()));
+                }
+            }
+            left.extend(right);
+            left
+        }
     }
 }
 
@@ -811,5 +849,36 @@ impl HitReader {
             "direct": direct,
             "len": get(&self.cols["text_length"], d).unwrap_or(0),
         }))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::tsquery::parse_text;
+
+    fn pairs(t: &str) -> Vec<(String, String)> {
+        let mut out = BTreeSet::new();
+        ordered_lexemes(&parse_text(t).unwrap().unwrap(), &mut out);
+        out.into_iter().collect()
+    }
+
+    #[test]
+    fn proximity_pairs_follow_and_and_phrase_chains_only() {
+        let p = |a: &str, b: &str| (a.to_string(), b.to_string());
+        assert_eq!(pairs("'a' & 'b' & 'c'"), vec![p("a", "b"), p("b", "c")]);
+        assert_eq!(pairs("'x' | 'y' & 'z'"), vec![p("y", "z")]);
+        // a negated lexeme is skipped: its neighbours become adjacent
+        assert_eq!(pairs("'a' & !'b' & 'c'"), vec![p("a", "c")]);
+        assert_eq!(pairs("'right' <2> 'vote' & 'law'"), vec![p("right", "vote"), p("vote", "law")]);
+    }
+
+    #[test]
+    fn nested_phrases_flatten_with_postgres_widths() {
+        let alts = flatten_phrase(&parse_text("'a' <-> ( 'b' <2> 'c' )").unwrap().unwrap()).unwrap();
+        assert_eq!(alts, vec![vec![(0, "a".to_string(), false), (1, "b".to_string(), false), (3, "c".to_string(), false)]]);
+        let alts = flatten_phrase(&parse_text("( 'a' | 'b' ) <-> 'c'").unwrap().unwrap()).unwrap();
+        assert_eq!(alts.len(), 2);
+        assert!(flatten_phrase(&parse_text("'a' <-> !'b'").unwrap().unwrap()).is_err());
     }
 }

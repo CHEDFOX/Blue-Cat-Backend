@@ -8,7 +8,8 @@ Without relevance judgments, two synthetic known-item sets drawn from the indexe
     at most 3 sections) as the query; relevant = every passage of that section;
   * phrase: 4-7 consecutive words from the middle of one passage's text as the query (plain words,
     no quotes); relevant = that passage's section.
-For each query and engine the real search() runs (limit 10, budget 200); reported: success@1,
+Engines: pg, tantivy-pg, tantivy-native, and the same with "+prox" (proximity clauses, weight
+--proximity). For each query and engine the real search() runs (limit 10, budget 200); reported: success@1,
 success@10, MRR@10 (rank of the first result from a relevant section) and whether a relevant
 passage was among the candidates. Queries are written to --out with per-engine ranks.
 """
@@ -33,7 +34,6 @@ from ulis.retrieval import tantivy_engine as te
 from ulis.retrieval.search import SearchRequest, search
 from ulis.settings import REPO_ROOT
 
-ENGINES = ("pg", "tantivy-pg", "tantivy-native")
 TODAY = date(2026, 10, 18)
 _WORD = re.compile(r"[A-Za-z][A-Za-z'-]+")
 
@@ -56,16 +56,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--seed", type=int, default=5)
     ap.add_argument("--jurisdiction", default="US")
     ap.add_argument("--out", type=Path)
+    ap.add_argument("--engines", default="pg,tantivy-pg,tantivy-native,tantivy-pg+prox,tantivy-native+prox")
+    ap.add_argument("--proximity", type=float, default=1.0, help="weight of the proximity clauses (+prox engines)")
     args = ap.parse_args(argv)
     rng = random.Random(args.seed)  # noqa: S311 - reproducible sampling, not security
     catalog = Catalog.load(REPO_ROOT / "config")
     sessions = make_session_factory(make_engine(args.db))
-    stages = {
-        e: te.TantivyCandidates(
-            te.TantivyProcess(args.index_root / e.removeprefix("tantivy-")), e.removeprefix("tantivy-")
-        )
-        for e in ENGINES[1:]
-    }
+    engines = args.engines.split(",")
+    stages = {e: te.candidate_stage(e, args.index_root, args.proximity) for e in engines if e != "pg"}
     with sessions() as session:
         sample = session.execute(
             text(
@@ -102,7 +100,7 @@ def main(argv: list[str] | None = None) -> int:
         for item in queries:
             relevant = {tuple(s) for s in item["sections"]}
             req = SearchRequest(q=item["q"], jurisdiction=args.jurisdiction, limit=10)
-            for engine in ENGINES:
+            for engine in engines:
                 with te.use_engine(stages.get(engine)):
                     result = search(session, catalog, req, today=TODAY)
                 ids = [r["passage_id"] for r in result["results"]]
@@ -138,7 +136,7 @@ def main(argv: list[str] | None = None) -> int:
         }
     wins: Counter[str] = Counter()
     for item in queries:
-        for engine in ENGINES[1:]:
+        for engine in [e for e in engines if e != "pg" and "pg" in engines]:
             a, b = item.get("pg"), item.get(engine)
             ra, rb = a or 99, b or 99
             wins[f"{engine}:better"] += rb < ra

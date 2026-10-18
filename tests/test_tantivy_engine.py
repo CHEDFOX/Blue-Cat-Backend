@@ -65,6 +65,14 @@ def test_native_specs_mirror_candidates_query_construction() -> None:
     assert cjk["french"]["direct"] == {"websearch": "個人情報 保護"}
 
 
+def test_engine_names() -> None:
+    assert te.candidate_stage("pg", Path("/nonexistent")) is None
+    with pytest.raises(ValueError):
+        te.candidate_stage("tantivy-elastic", Path("/nonexistent"))
+    with pytest.raises(ValueError):
+        te.candidate_stage("tantivy-pg+boost", Path("/nonexistent"))
+
+
 # --------------------------------------------------------------------------- Rust helper, no database
 
 

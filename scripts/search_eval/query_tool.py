@@ -54,7 +54,7 @@ QUERIES = [
     "Medicare Part D prescription drug",
     "the",
 ]
-ENGINES = ("pg", "tantivy-pg", "tantivy-native")
+ENGINES = ("pg", "tantivy-pg", "tantivy-native", "tantivy-pg+prox")
 TODAY = date(2026, 10, 18)
 
 
@@ -105,8 +105,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--cold", action="store_true")
     ap.add_argument("--budget", type=int, default=200)
     ap.add_argument("--out", type=Path)
+    ap.add_argument("--engines", default=",".join(ENGINES))
+    ap.add_argument("--proximity", type=float, default=1.0, help="weight of the proximity clauses (+prox engines)")
     args = ap.parse_args(argv)
     queries = [q.strip() for q in args.queries.read_text().splitlines() if q.strip()] if args.queries else list(QUERIES)
+    engines = args.engines.split(",")
     catalog = Catalog.load(REPO_ROOT / "config")
     sessions = make_session_factory(make_engine(args.db))
     out = args.out.open("w") if args.out else None
@@ -116,11 +119,12 @@ def main(argv: list[str] | None = None) -> int:
         procs: dict[str, te.TantivyCandidates] = {}
 
         def stage(engine: str, restart: bool = False) -> te.TantivyCandidates:
-            mode = engine.removeprefix("tantivy-")
             if restart and engine in procs:
                 procs.pop(engine).process.close()
             if engine not in procs:
-                procs[engine] = te.TantivyCandidates(te.TantivyProcess(args.index_root / mode), mode)
+                stage = te.candidate_stage(engine, args.index_root, args.proximity)
+                assert stage is not None
+                procs[engine] = stage
             return procs[engine]
 
         for q in queries:
@@ -131,7 +135,7 @@ def main(argv: list[str] | None = None) -> int:
             rec: dict[str, Any] = {"q": q}
             cand_ids: dict[str, list[str]] = {}
             top_ids: dict[str, list[str]] = {}
-            for engine in ENGINES:
+            for engine in engines:
                 fn: Any
                 if engine == "pg":
                     fn = _candidates
@@ -140,7 +144,7 @@ def main(argv: list[str] | None = None) -> int:
                 else:
                     fn = stage(engine, restart=args.cold)
                     if args.cold:
-                        evict(index_files(args.index_root / engine.removeprefix("tantivy-")))
+                        evict(index_files(args.index_root / engine.removeprefix("tantivy-").split("+")[0]))
                 t0 = time.perf_counter()
                 cands = fn(session, req, as_of, scope, expansions, args.budget)
                 cold = ms(t0)
@@ -165,7 +169,7 @@ def main(argv: list[str] | None = None) -> int:
                     "lexical_warm_ms": statistics.median(warm) if warm else None,
                     "search_warm_ms": statistics.median(full),
                 }
-            for engine in ENGINES[1:]:
+            for engine in [e for e in engines if e != "pg" and "pg" in engines]:
                 a, b = set(cand_ids["pg"]), set(cand_ids[engine])
                 ta, tb = set(top_ids["pg"]), set(top_ids[engine])
                 rec[engine]["candidate_overlap"] = round(len(a & b) / len(a | b), 3) if a | b else 1.0
@@ -178,13 +182,13 @@ def main(argv: list[str] | None = None) -> int:
         for p in procs.values():
             p.process.close()
     summary: dict[str, Any] = {}
-    for engine in ENGINES:
+    for engine in engines:
         for key in ("lexical_cold_ms", "lexical_warm_ms", "search_warm_ms"):
             vals = sorted(r[engine][key] for r in rows if r[engine][key] is not None)
             if vals:
                 summary[f"{engine}.{key}.median"] = round(statistics.median(vals), 2)
                 summary[f"{engine}.{key}.p95"] = vals[min(len(vals) - 1, int(0.95 * len(vals)))]
-        if engine != "pg":
+        if engine != "pg" and "pg" in engines:
             for key in ("candidate_overlap", "top10_overlap"):
                 summary[f"{engine}.{key}.mean"] = round(statistics.mean(r[engine][key] for r in rows), 3)
     print(json.dumps({"summary": summary}, indent=2))

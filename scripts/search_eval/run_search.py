@@ -6,7 +6,8 @@
 --engine pg               search() exactly as in production (PostgreSQL full text)
 --engine tantivy-pg       Tantivy index of PostgreSQL's own lexemes, tsqueries built by PostgreSQL
 --engine tantivy-native   Tantivy index and queries analysed without PostgreSQL
---engine all              run the three and print them side by side
+--engine tantivy-pg+prox  (or tantivy-native+prox) BM25 plus proximity clauses (weight --proximity)
+--engine all              run all of them and print them side by side
 
 The index directory of a mode is <index-root>/<mode> (as written by build_index.py). Prints the
 ranked results (citation, scores) and timings; --json prints the full search() output.
@@ -28,13 +29,14 @@ from ulis.retrieval import tantivy_engine as te
 from ulis.retrieval.search import SearchRequest, search
 from ulis.settings import REPO_ROOT
 
-ENGINES = ("pg", "tantivy-pg", "tantivy-native")
+ENGINES = ("pg", "tantivy-pg", "tantivy-native", "tantivy-pg+prox", "tantivy-native+prox")
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--db", required=True, help="SQLAlchemy URL of the ULIS database")
     ap.add_argument("--engine", choices=[*ENGINES, "all"], default="pg")
+    ap.add_argument("--proximity", type=float, default=1.0, help="weight of the proximity clauses (+prox engines)")
     ap.add_argument("--index-root", type=Path, help="directory holding the pg/ and native/ indexes")
     ap.add_argument("--q", required=True)
     ap.add_argument("--jurisdiction")
@@ -70,15 +72,6 @@ def request(args: argparse.Namespace) -> SearchRequest:
     )
 
 
-def candidate_stage(engine: str, index_root: Path | None) -> te.TantivyCandidates | None:
-    if engine == "pg":
-        return None
-    if index_root is None:
-        raise SystemExit("--index-root is required for the Tantivy engines")
-    mode = engine.removeprefix("tantivy-")
-    return te.TantivyCandidates(te.TantivyProcess(index_root / mode), mode)
-
-
 def run(args: argparse.Namespace) -> list[dict[str, Any]]:
     catalog = Catalog.load(REPO_ROOT / "config")
     sessions = make_session_factory(make_engine(args.db))
@@ -86,7 +79,9 @@ def run(args: argparse.Namespace) -> list[dict[str, Any]]:
     engines = list(ENGINES) if args.engine == "all" else [args.engine]
     reports = []
     for engine in engines:
-        stage = candidate_stage(engine, args.index_root)
+        if engine != "pg" and args.index_root is None:
+            raise SystemExit("--index-root is required for the Tantivy engines")
+        stage = te.candidate_stage(engine, args.index_root or Path("."), args.proximity)
         timings, result = [], {}
         try:
             with sessions() as session, te.use_engine(stage):
