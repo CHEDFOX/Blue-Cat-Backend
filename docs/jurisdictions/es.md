@@ -4,9 +4,9 @@ Profile `ES` (`config/jurisdictions/es.yaml`, `draft_unverified`), source `es-bo
 (`config/sources/es-boe-consolidada.yaml`), manifest `config/manifests/es-boe-consolidada.yaml`,
 connector `ulis/sources/connectors/boe_consolidada.py`, parser
 `ulis/sources/parsers/boe_consolidada.py`, citation module `ulis/jurisdictions/modules/es.py`,
-tests `tests/test_boe_consolidada.py`, manifest generator `scripts/build_boe_manifest.py`. The manifest now lists **the
-whole State collection of the BOE list: 8,814 norms** (section "The whole collection" below); the six norms of the first
-pilot come first and are described in the tables that follow.
+tests `tests/test_boe_consolidada.py`, manifest generator `scripts/build_boe_manifest.py`. The manifest lists **the State
+norms of the AEBOE consolidated collection that are not spent: 6,826 norms** (regenerated 2026-10-18; section "The whole
+collection" below); the six norms of the first pilot come first and are described in the tables that follow.
 
 ## Source and licence
 
@@ -43,7 +43,7 @@ Politeness: `PoliteHttp` with the ULIS User-Agent, 5 s between requests, cache u
 `var/sources/www.boe.es/`. **Requests made in total: 11** (robots.txt, aviso legal, datosabiertos
 page, API PDF, API FAQ, and one request per norm). The real ingestion read the cache (0 requests).
 
-## The whole collection (widened 2026-10-15)
+## The whole collection (widened 2026-10-15, regenerated 2026-10-18)
 
 `python -m scripts.build_boe_manifest` reads the API's list endpoint (`GET .../legislacion-consolidada?limit=-1`,
 `Accept: application/json`, [APIconsolidada.pdf](https://www.boe.es/datosabiertos/documentos/APIconsolidada.pdf) section
@@ -55,6 +55,23 @@ and the connector re-checks that on every run. By rango: Real Decreto 3,512, Ord
 Real Decreto-ley 315, Acuerdo Internacional 254, Ley Orgánica 184, Circular 144, Decreto 123, Instrucción 122, Real
 Decreto Legislativo 44, Acuerdo 30, Reglamento 2, Decreto-ley 2, Constitución 1. 1,988 of them have `vigencia_agotada`
 = S (all provisions repealed or spent).
+
+**Listed: the 6,826 State norms without `vigencia_agotada` = S**, the law in force today; the 1,988 spent ones are left
+out unless the script is run with `--include-spent`. Regenerated on 2026-10-18 (3 requests: robots.txt, then 10,000 +
+4,414 rows over two pages, newest `fecha_actualizacion` 2026-10-16): the same 12,434 norms, 8,814 State and 3,620
+regional, **6,826 listed, identical to the manifest of 2026-10-16** (0 added, 0 removed, 0 titles changed). By rango of the
+6,826: Real Decreto 2,713, Orden 1,727, Ley 768, Resolución 553, Real Decreto-ley 264, Acuerdo Internacional 240, Ley
+Orgánica 175, Circular 118, Decreto 107, Instrucción 100, Real Decreto Legislativo 32, Acuerdo 24, Reglamento 2,
+Decreto-ley 2, Constitución 1; all 6,826 have `estado_consolidacion` Finalizado. `load-all --refresh` re-fetches only the
+norms already listed; new norms appear after `python -m scripts.build_boe_manifest` is re-run (delete the cached list
+pages under `var/sources/www.boe.es/legislacion-consolidada/` first; `docs/deployment.md`, "Refresh").
+
+**What the collection is.** The AEBOE's own FAQ (https://www.boe.es/datosabiertos/faq/consolidada.php) says the
+consolidated collection holds "las normas más relevantes del ordenamiento jurídico, principalmente normas con rango de
+ley... así como normativa estatal de otros rangos que se ha considerado que tiene especial interés". The list is therefore
+not the whole State legal order: **lower-rank State norms the AEBOE does not consolidate** (most órdenes, resoluciones and
+other instruments published in the BOE) are not in the API and are a documented gap, and so is **all autonomous-community
+law** (the 3,620 regional norms the list holds are not ingested, and the rest of regional law is not in the collection).
 
 Parser 1.1.0 maps the new rangos to instrument types (`decree_law`, `decree`, `regulation`, `ministerial_order`,
 `resolution`, `circular`, `instruction`, `agreement`, `international_agreement`) and to the ELI codes the BOE uses
@@ -72,8 +89,8 @@ BOE-A-2001-17164 (RD 996/2001, repealed 2017-04-01) is found for 2010-01-01 with
 A text with no provision at all raises `ParseSkipped`. The connector skips a norm the API does not know (404) and
 continues (`fetch_errors`); a refusal stops the run.
 
-**Scale.** 8,815 requests at 5 s = **12.2 h**. A uniform random sample of 80 of the 8,814 (cached, parsed, 0 failures,
-2026-10-15): 130.5 provision versions per norm (median 33, max 2,786, s.d. 327), 2.5 expressions per norm; raw API
+**Scale.** 6,827 requests at 5 s = **9.5 h** for the 6,826 listed (8,815 requests, 12.2 h, with the spent norms). A uniform
+random sample of 80 of the 8,814 State norms (cached, parsed, 0 failures, 2026-10-15): 130.5 provision versions per norm (median 33, max 2,786, s.d. 327), 2.5 expressions per norm; raw API
 document 0.96 MB on average (median 78 KB, largest 63 MB). Extrapolated: **~1.15 million provision versions (plausibly 0.5-1.8
 million), ~4 GB of PostgreSQL** (the 74-norm slice below: 3.3 KB per version including passages and indexes) and
 **~8 GB of raw documents** in the object store (heavy tail, uncertain). Use `python -m scripts.ingest_in_batches
@@ -86,6 +103,12 @@ of each of 15 rangos, and the one norm marked `Desactualizado`; 71 requests, 391
 horas" -> `art. 520.1 LECrim`, `art. 17.2 CE`; "Comisión Española sobre la digitalización ..." -> `art. 1.2 de la Orden
 CUL/1014/2007`; "procedimiento de examen previo aplicable patentes alimentación" for 2010-01-01 -> `art. 2 del Real
 Decreto 996/2001` (valid to 2017-04-01) and nothing from that decree for 2026-10-15.
+
+**Slice run of the regenerated manifest (2026-10-18, dev database `ulis_regen`).** 5 norms (the Constitución and the
+newest in-force norm of four rangos: Real Decreto-ley 29/2026, Orden APA/1082/2026, the Resolución of 5 October 2026 of
+the Dirección General del Catastro, Instrucción 1/2026 of the Junta Electoral Central; 5 requests): 5 documents, 9
+instrument versions, 815 provision versions, 681 passages, **0 errors** (22 s). `verify-sources`: **5 of 5 pass** (671,
+107, 28, 4 and 5 units).
 
 ## What is ingested (the six pilot norms)
 
@@ -180,8 +203,10 @@ oficial, ELI and department are kept in `ext` (`EsExt`).
 
 ## Known gaps
 
-* State norms only (8,814 of the list's 12,434): no regional (autonomous community) law, 3,620 norms; no case law
-  (TC, TS, AN, TSJ). The abbreviation table still covers only nine norms; the rest are cited by rango and number.
+* The AEBOE consolidated collection only, State norms not spent (6,826 of the list's 8,814 State norms; the list also
+  holds 3,620 regional norms): lower-rank State norms the AEBOE does not consolidate are not in the API at all, no
+  autonomous-community law, no case law (TC, TS, AN, TSJ). The abbreviation table still covers only nine norms; the rest
+  are cited by rango and number.
 * Castilian Spanish only: co-official languages (Catalan/Valencian, Galician, Basque) and
   translations are not ingested.
 * Consolidated texts are informative only; the authentic BOE publication is not ingested. Only
