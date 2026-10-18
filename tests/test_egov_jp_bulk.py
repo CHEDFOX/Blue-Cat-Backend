@@ -8,10 +8,12 @@ the same laws; API responses for the same revisions are in tests/fixtures/egov_l
 from __future__ import annotations
 
 import dataclasses
+import email.message
 import gzip
 import hashlib
 import json
 import shutil
+import urllib.error
 import zipfile
 from datetime import date
 from pathlib import Path
@@ -25,7 +27,8 @@ from sqlalchemy.orm import Session, sessionmaker
 from ulis.catalog import Catalog
 from ulis.db import models as m
 from ulis.ingestion.pipeline import METADATA_PARSERS, IngestionReport, Ingestor
-from ulis.ops.sources import manifest_info
+from ulis.ops.loading import LoadOptions, select_sources
+from ulis.ops.sources import STATIC_PINS, manifest_info
 from ulis.retrieval.lookup import provision_at
 from ulis.retrieval.search import SearchRequest, search
 from ulis.settings import REPO_ROOT
@@ -221,8 +224,9 @@ def test_bulk_connector_offline(tmp_path: Path) -> None:
     member = "321CONSTITUTION_19470503_000000000000000/321CONSTITUTION_19470503_000000000000000.xml"
     archive = zipfile.ZipFile(ARCHIVE)
     assert text.uri == f"{BULK_URL}#{member}" and text.content == archive.read(member)  # exact bytes
-    assert text.metadata["archive"] == {**_pin(), "member": member}
     meta = json.loads(ARCHIVE.with_name("all_xml.zip.meta.json").read_text())
+    provenance = {**_pin(), "retrieved_at": meta["retrieved_at"], "last_modified": None, "member": member}
+    assert text.metadata["archive"] == provenance  # the exact bytes: archive digest and member
     assert text.retrieved_at.isoformat() == meta["retrieved_at"] == report.retrieved_at.isoformat()
     lines = archive.read("all_law_list.csv").split(b"\n")
     assert report.content == lines[0] + b"\n" + b"".join(x + b"\n" for x in lines if b",321CONSTITUTION," in x)
@@ -254,12 +258,15 @@ def test_the_archive_is_pinned_and_the_manifest_checked(tmp_path: Path) -> None:
     wrong = {**_pin(), "sha256": "0" * 64}
     with pytest.raises(FetchError, match="not the one the manifest pins"):
         list(_connector(tmp_path / "a", laws, bulk=wrong).fetch())
-    unpinned = {"url": BULK_URL, "bytes": None, "sha256": None}  # take whatever archive is served
-    assert len(list(_connector(tmp_path / "b", laws, bulk=unpinned).fetch())) == 2
+    for n, latest in enumerate(({"url": BULK_URL, "pin": "latest"}, {"url": BULK_URL, "bytes": None, "sha256": None})):
+        assert len(list(_connector(tmp_path / f"b{n}", laws, bulk=latest).fetch())) == 2  # whatever archive is served
     for bad, message in (
         ({"mode": "zip"}, "mode must be one of"),
         ({"bulk": {"url": "https://example.org/all_xml.zip"}}, "bulk.url"),
         ({"bulk": {**_pin(), "sha256": None}}, "both set"),
+        ({"bulk": {"url": BULK_URL, "pin": "exact"}}, "both set"),
+        ({"bulk": {**_pin(), "pin": "latest"}}, "leave bulk.bytes and bulk.sha256 out"),
+        ({"bulk": {"url": BULK_URL, "pin": "newest"}}, "bulk.pin must be one of"),
     ):
         path = _manifest(tmp_path, [{"law_id": "322R00000001001"}], **bad)
         with pytest.raises(ManifestError, match=message):
@@ -269,17 +276,125 @@ def test_the_archive_is_pinned_and_the_manifest_checked(tmp_path: Path) -> None:
         list(EgovLawsConnector(manifest, "jp-egov-laws", tmp_path / "empty", offline=True).fetch())
 
 
-def test_committed_manifest_loads_from_the_pinned_archive(catalog: Catalog, tmp_path: Path) -> None:
+def test_committed_manifest_takes_the_latest_archive_and_is_refreshed(catalog: Catalog, tmp_path: Path) -> None:
     path = REPO_ROOT / "config" / "manifests" / "jp-egov-laws.yaml"
     manifest = EgovLawsConnector(path, "jp-egov-laws", tmp_path)._manifest()  # noqa: SLF001
-    assert manifest["mode"] == "bulk" and manifest["bulk"]["url"] == BULK_URL
-    assert (manifest["bulk"]["bytes"], manifest["bulk"]["sha256"]) == (
-        297_202_960,
-        "4581bf3a78278a83a18e5a7043f41e8ba56613b5458149db59e47c56979b744c",
-    )
+    assert manifest["mode"] == "bulk" and manifest["bulk"] == {"url": BULK_URL, "pin": "latest"}
     # The plan of load-all counts the requests of a bulk run (archive, list, two laws with history), not one per law.
     info = manifest_info(catalog.sources.get("jp-egov-laws"), REPO_ROOT)
     assert info is not None and info.entries == len(manifest["laws"]) and info.requests == 51
+    # Not a static pin: the weekly refresh discards an archive older than its age limit and loads the current one.
+    assert "jp-egov-laws" not in STATIC_PINS
+    assert "jp-egov-laws" in {i.source.id for i in select_sources(catalog, LoadOptions(refresh=True)).selected}
+
+
+class _Response:
+    def __init__(self, url: str, body: bytes):
+        self.url, self.body, self.status = url, body, 200
+        self.headers = {"Content-Type": "application/octet-stream"}  # e-Gov sends no ETag or Last-Modified
+
+    def read(self) -> bytes:
+        return self.body
+
+    def geturl(self) -> str:
+        return self.url
+
+    def __enter__(self) -> _Response:
+        return self
+
+    def __exit__(self, *exc: object) -> None:
+        return None
+
+
+class _EGov:
+    """Stands in for laws.e-gov.go.jp behind the real PoliteHttp: serves an archive and the list page; counts calls."""
+
+    def __init__(self, archive: bytes):
+        self.archive = archive
+        self.page = gzip.decompress(next(BULK_FIX.rglob("offset000000.xml.gz")).read_bytes())
+        self.requests: list[str] = []
+
+    def __call__(self, request: Any, timeout: float | None = None, **kwargs: Any) -> _Response:
+        url = request.full_url
+        self.requests.append(url)
+        if url == BULK_URL:
+            return _Response(url, self.archive)
+        if url.startswith("https://laws.e-gov.go.jp/api/2/laws?"):
+            return _Response(url, self.page)
+        raise urllib.error.HTTPError(url, 404, "Not Found", hdrs=email.message.Message(), fp=None)
+
+    def downloads(self) -> int:
+        return self.requests.count(BULK_URL)
+
+
+def _live(tmp_path: Path, egov: _EGov, monkeypatch: pytest.MonkeyPatch, **kwargs: Any) -> list[RawDocument]:
+    """One run of the connector with pin: latest against the stand-in (cache in tmp_path/cache)."""
+    monkeypatch.setattr("ulis.sources.connectors.polite_http.urllib.request.urlopen", egov)
+    laws = [{"law_id": "322R00000001001", "history": False}, {"law_id": STAGED, "history": False}]
+    pin = kwargs.pop("bulk", {"url": BULK_URL, "pin": "latest"})
+    manifest = _manifest(tmp_path, laws, bulk=pin)
+    connector = EgovLawsConnector(manifest, "jp-egov-laws", tmp_path / "cache", sleep=lambda s: None, **kwargs)
+    return list(connector.fetch())
+
+
+def _archive_paths(tmp_path: Path) -> tuple[Path, Path]:
+    path = tmp_path / "cache" / "laws.e-gov.go.jp" / "bulkdownload" / "all_xml.zip"
+    return path, path.with_name("all_xml.zip.meta.json")
+
+
+def test_live_archive_is_downloaded_once_recorded_and_reused(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    egov = _EGov(ARCHIVE.read_bytes())
+    docs = _live(tmp_path, egov, monkeypatch)
+    assert len(docs) == 4 and egov.downloads() == 1
+    assert egov.requests == ["https://laws.e-gov.go.jp/robots.txt", BULK_URL, egov.requests[2]]  # + one list page
+    pin = _pin()
+    path, meta_path = _archive_paths(tmp_path)
+    meta = json.loads(meta_path.read_text())
+    assert (meta["bytes"], meta["sha256"]) == (pin["bytes"], pin["sha256"]) and meta["last_modified"] is None
+    for doc in docs:  # every document names the exact bytes it came from
+        assert doc.metadata["archive"]["sha256"] == pin["sha256"] and doc.uri.startswith(f"{BULK_URL}#")
+        assert doc.metadata["archive"]["retrieved_at"] == meta["retrieved_at"]
+    assert (path.parent.parent / "api2" / "laws" / f"bulk-{pin['sha256'][:16]}" / "offset000000.xml").exists()
+    again = _live(tmp_path, egov, monkeypatch)  # a second run reuses the cache: no request at all
+    assert [d.content for d in again] == [d.content for d in docs] and len(egov.requests) == 3
+
+
+def test_a_deleted_or_damaged_archive_is_downloaded_again(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    egov = _EGov(ARCHIVE.read_bytes())
+    _live(tmp_path, egov, monkeypatch)
+    path, meta_path = _archive_paths(tmp_path)
+    path.unlink()  # e.g. pruned from the cache
+    assert len(_live(tmp_path, egov, monkeypatch)) == 4 and egov.downloads() == 2
+    meta_path.unlink()
+    assert len(_live(tmp_path, egov, monkeypatch)) == 4 and egov.downloads() == 3
+    # Cut short after it was recorded: offline the run stops (and keeps the file); online it is downloaded again.
+    path.write_bytes(path.read_bytes()[:50_000])
+    with pytest.raises(FetchError, match="no longer the file downloaded"):
+        _live(tmp_path, egov, monkeypatch, offline=True)
+    assert path.stat().st_size == 50_000
+    with pytest.raises(FetchError, match="no longer the file downloaded"):
+        _live(tmp_path, egov, monkeypatch, bulk=_pin())  # pin: exact never replaces the archive
+    assert len(_live(tmp_path, egov, monkeypatch)) == 4 and egov.downloads() == 4
+    assert path.read_bytes() == ARCHIVE.read_bytes()
+
+
+def test_a_new_archive_is_read_with_its_own_list(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    egov = _EGov(ARCHIVE.read_bytes())
+    first = _live(tmp_path, egov, monkeypatch)
+    rebuilt = tmp_path / "rebuilt.zip"
+    shutil.copy(ARCHIVE, rebuilt)
+    with zipfile.ZipFile(rebuilt, "a") as z:
+        z.comment = b"rebuilt"  # same laws, other bytes: as when e-Gov rebuilds the archive
+    egov.archive = rebuilt.read_bytes()
+    _archive_paths(tmp_path)[0].unlink()  # discarded by load-all --refresh once older than its age limit
+    lists_before = egov.requests.count(egov.requests[2])
+    second = _live(tmp_path, egov, monkeypatch)
+    new_sha = hashlib.sha256(egov.archive).hexdigest()
+    assert {d.metadata["archive"]["sha256"] for d in second} == {new_sha}  # one run, one archive
+    assert {d.metadata["archive"]["sha256"] for d in first} == {_pin()["sha256"]}
+    assert egov.downloads() == 2 and egov.requests.count(egov.requests[2]) == lists_before + 1  # list read again
+    assert (tmp_path / "cache" / "laws.e-gov.go.jp" / "api2" / "laws" / f"bulk-{new_sha[:16]}").is_dir()
+    assert [d.content for d in second] == [d.content for d in first]  # unchanged laws: the same bytes
 
 
 # --------------------------------------------------------------------------- PostgreSQL
@@ -316,6 +431,8 @@ def test_bulk_ingestion_is_searchable_and_verifiable(
     docs = session.scalars(select(m.SourceDocument).where(m.SourceDocument.external_id.like("e-gov:%"))).all()
     bulk_docs = [d for d in docs if d.metadata_.get("egov_bulk")]
     assert len(bulk_docs) == 12
+    assert {d.metadata_["archive"]["sha256"] for d in bulk_docs} == {_pin()["sha256"]}  # the exact archive
+    assert all(d.uri.startswith(f"{BULK_URL}#") for d in bulk_docs)
     results = [verify_source_document(session, catalog, store, d.id) for d in bulk_docs]
     assert all(r["result"] == "pass" for r in results) and sum(r["checked_events"] for r in results) > 0
     previous = provision_at(

@@ -5,13 +5,16 @@ Two modes (manifest ``mode``):
 ``bulk`` (the committed manifest; the route for a full load). Digital Agency asked API users not to loop over every
 law fetching texts one after another, and the API's own spec points to the XML bulk download for downloading law
 data. The connector downloads ``all_xml.zip`` once (``bulk.url``, every law in force or to come, one 法令標準XML file
-per revision plus the list ``all_law_list.csv``; 283 MB), checks it against the size and SHA-256 the manifest pins,
-and reads the API's list of laws in force once (``/laws?repeal_status=None``, 10 pages of 1,000, cached per archive):
+per revision plus the list ``all_law_list.csv``; 283 MB) and records its size and SHA-256 (``bulk.pin: latest``, the
+committed default: whatever archive e-Gov serves; ``pin: exact``: only the archive of ``bulk.bytes``/``bulk.sha256``,
+for a reproducible run). It reads the API's list of laws in force once (``/laws?repeal_status=None``, 10 pages of
+1,000, cached under the archive's SHA-256, so a run never mixes two archives):
 the list gives, for each law, the ``law_info`` and ``current_revision_info`` that a ``law_data`` response carries
 and the bare files lack. For every manifest law it then yields, without further requests:
 
-* the archive member of the revision the list names as in force (exact bytes; metadata ``egov_bulk: law`` with the
-  list's two records), which the parser turns into the document ``law_data`` gives for that revision;
+* the archive member of the revision the list names as in force (exact bytes, uri ``<archive URL>#<member>``;
+  metadata ``egov_bulk: law`` with the list's two records and ``archive``: the archive's URL, size, SHA-256 and
+  retrieval time and the member), which the parser turns into the document ``law_data`` gives for that revision;
 * the law's lines of ``all_law_list.csv`` (the header and its rows, exact bytes; ``egov_bulk: law_list``): the change
   report. Rows marked 未施行 (not yet in force) become outstanding changes; their texts, which are in the archive
   too, are never yielded.
@@ -38,9 +41,10 @@ Crawl-delay there would win). The delay stays at no less than :data:`MIN_DELAY` 
 users not to loop over every law fetching texts one after another and warned that excessive or bot access may be
 restricted (https://www.digital.go.jp/policies/legal-practice/public-test, read 2026-10-18), so ULIS does not go
 faster than it already did without asking first. Responses are cached forever: delete
-``<cache>/laws.e-gov.go.jp/api2/law_revisions`` to pick up new revisions. In bulk mode a new archive is picked up by
-deleting ``<cache>/laws.e-gov.go.jp/bulkdownload/all_xml.zip`` and moving the pin (``bulk.bytes``, ``bulk.sha256``)
-to the archive the run then reports; the list is read again for each archive.
+``<cache>/laws.e-gov.go.jp/api2/law_revisions`` to pick up new revisions. In bulk mode the archive is kept until the
+cached file is deleted (``load-all --refresh`` discards it once it is older than the refresh age; e-Gov's archive
+carries no ETag, Last-Modified or Content-Length to compare, see docs/jurisdictions/jp.md); the next run downloads the
+current one and reads the list again for it.
 
 The manifest may list every law in force (``scripts/build_egov_manifest.py``: about 9,000 laws, two requests
 each), so one law that cannot be fetched (404, a revision list without a revision in force, a server error that
@@ -79,6 +83,8 @@ BULK_CACHE_KEY = "bulkdownload/all_xml.zip"
 BULK_LIST = "all_law_list.csv"
 LIST_PAGE = 1000
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
+# bulk.pin: "latest" takes the archive e-Gov serves (recording its size and SHA-256); "exact" only bulk.bytes/sha256.
+PINS = ("latest", "exact")
 # The publisher's own wish (see the module docstring), stricter than the project-wide minimum of 1 s.
 MIN_DELAY = 5.0
 _LAW_ID = re.compile(r"^[0-9]{3}[0-9A-Z]+$")
@@ -204,7 +210,16 @@ class BulkArchive:
         self.retrieved_at = datetime.fromisoformat(meta["retrieved_at"])
 
     def provenance(self, member: str) -> dict[str, Any]:
-        return {"url": self.url, "bytes": self.size, "sha256": self.sha256, "member": member}
+        """Which bytes a document came from: the archive (URL, size, SHA-256, when it was retrieved, and its
+        Last-Modified header, which e-Gov does not send) and the member."""
+        return {
+            "url": self.url,
+            "bytes": self.size,
+            "sha256": self.sha256,
+            "retrieved_at": self.meta.get("retrieved_at"),
+            "last_modified": self.meta.get("last_modified"),
+            "member": member,
+        }
 
     def law(self, law_id: str, listed: Listed | None) -> list[RawDocument]:
         """The text of the revision in force and the change report of one law."""
@@ -312,12 +327,15 @@ class EgovLawsConnector:
             if not isinstance(bulk, dict) or bulk.get("url") != BULK_URL:
                 raise ManifestError(f"mode: bulk needs bulk.url {BULK_URL}")
             pinned = (bulk.get("bytes"), bulk.get("sha256"))
-            if pinned != (None, None) and not (
+            pin = bulk.setdefault("pin", "latest" if pinned == (None, None) else "exact")
+            if pin not in PINS:
+                raise ManifestError(f"bulk.pin must be one of {', '.join(PINS)} (got {pin!r})")
+            if pin == "exact" and not (
                 isinstance(pinned[0], int) and isinstance(pinned[1], str) and _SHA256.match(pinned[1])
             ):
-                raise ManifestError(
-                    "bulk.bytes and bulk.sha256 pin the archive: both set (an integer, 64 hex) or both null"
-                )
+                raise ManifestError("pin: exact needs bulk.bytes and bulk.sha256, both set (an integer, 64 hex)")
+            if pin == "latest" and pinned != (None, None):
+                raise ManifestError("pin: latest takes the archive e-Gov serves: leave bulk.bytes and bulk.sha256 out")
         return manifest
 
     def _get(self, url: str, cache_key: str) -> tuple[bytes, dict[str, Any]]:
@@ -346,23 +364,51 @@ class EgovLawsConnector:
         return documents
 
     def _archive(self, bulk: dict[str, Any]) -> BulkArchive:
-        """The bulk archive: downloaded once (one request) into the cache, then checked against the pin."""
+        """The bulk archive of this run: the cached one, or one download (one request) when there is none.
+
+        The size and SHA-256 of the file are written into the cache's ``.meta.json`` when it arrives, so a later run
+        notices a cached file that is no longer the downloaded one (cut short, altered): with ``pin: latest`` it is
+        downloaded again (once; never offline), with ``pin: exact`` the run stops. ``pin: exact`` also stops at any
+        archive other than ``bulk.bytes``/``bulk.sha256``. A deleted archive (or a deleted ``.meta.json``) is simply
+        downloaded again. The archive is opened once and used for the whole run.
+        """
         assert self.http is not None
         path = self.http.cache_path(BULK_URL, BULK_CACHE_KEY)
         meta_path = path.with_name(path.name + ".meta.json")
-        if not (path.exists() and meta_path.exists()):
-            self._get(BULK_URL, BULK_CACHE_KEY)  # PoliteHttp stores the file and its meta; the bytes are dropped
-        size, sha256 = path.stat().st_size, _file_sha256(path)
-        if bulk.get("sha256") is not None and (size, sha256) != (bulk.get("bytes"), bulk.get("sha256")):
-            raise FetchError(
-                f"{BULK_URL}: the archive in {path} ({size} bytes, SHA-256 {sha256}) is not the one the manifest pins "
-                f"({bulk.get('bytes')} bytes, SHA-256 {bulk.get('sha256')}). e-Gov serves only its latest archive: "
-                "review it, then move bulk.bytes and bulk.sha256 to it (or set both to null to take the latest)"
-            )
-        try:
-            return BulkArchive(path, json.loads(meta_path.read_text()), url=BULK_URL, sha256=sha256, size=size)
-        except zipfile.BadZipFile as exc:
-            raise FetchError(f"{BULK_URL}: {path} is not a zip archive: {exc}") from exc
+        exact = bulk["pin"] == "exact"
+        for attempt in (1, 2):
+            if not (path.exists() and meta_path.exists()):
+                self._get(BULK_URL, BULK_CACHE_KEY)  # PoliteHttp stores the file and its meta; the bytes are dropped
+            meta = json.loads(meta_path.read_text())
+            size, sha256 = path.stat().st_size, _file_sha256(path)
+            recorded = (meta.get("bytes"), meta.get("sha256"))
+            problem = None
+            if recorded == (None, None):  # just downloaded (or cached before digests were recorded)
+                meta.update(bytes=size, sha256=sha256)
+                meta_path.write_text(json.dumps(meta))
+            elif recorded != (size, sha256):
+                problem = f"is no longer the file downloaded ({recorded[0]} bytes, SHA-256 {recorded[1]})"
+            if problem is None:
+                try:
+                    archive = BulkArchive(path, meta, url=BULK_URL, sha256=sha256, size=size)
+                except zipfile.BadZipFile as exc:
+                    problem = f"is not a zip archive ({exc})"
+            if problem is not None:
+                where = f"{BULK_URL}: the cached archive {path} ({size} bytes, SHA-256 {sha256}) {problem}"
+                if exact or self.offline or attempt == 2:
+                    raise FetchError(where)
+                path.unlink()  # download it again
+                meta_path.unlink()
+                continue
+            if exact and (size, sha256) != (bulk.get("bytes"), bulk.get("sha256")):
+                archive.zip.close()
+                raise FetchError(
+                    f"{BULK_URL}: the archive in {path} ({size} bytes, SHA-256 {sha256}) is not the one the manifest "
+                    f"pins ({bulk.get('bytes')} bytes, SHA-256 {bulk.get('sha256')}). e-Gov serves only its latest "
+                    "archive: review it and move bulk.bytes and bulk.sha256 to it, or use pin: latest"
+                )
+            return archive
+        raise AssertionError("unreachable")  # pragma: no cover
 
     def _list(self, archive_sha256: str) -> dict[str, Listed]:
         """The API list of laws in force, read once per archive (cached under its SHA-256)."""

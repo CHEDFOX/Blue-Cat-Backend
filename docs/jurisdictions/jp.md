@@ -126,7 +126,7 @@ Same licence as the API (PDL1.0); no key, registration or notice.
 | | |
 |---|---|
 | Size | **297,202,960 bytes** (the bulk page's 「283MB」 is 283.4 MiB); no Content-Length or Last-Modified header |
-| SHA-256 | `4581bf3a78278a83a18e5a7043f41e8ba56613b5458149db59e47c56979b744c` (pinned in the manifest) |
+| SHA-256 | `4581bf3a78278a83a18e5a7043f41e8ba56613b5458149db59e47c56979b744c` (the archive of this evidence; the committed manifest takes the archive served at the time and records its digest) |
 | Members | 20,935: 10,467 directories `{law_revision_id}/`, each with one file `{law_revision_id}/{law_revision_id}.xml`, and `all_law_list.csv` (6,005,888 bytes); files dated 2026-10-17 15:01-15:03 |
 | Uncompressed | 3,303,703,667 bytes (292,974,162 compressed) |
 | XML | a bare `<Law>` root (法令標準XML), the element the API returns in `law_full_text` |
@@ -202,22 +202,33 @@ APPI) = 4.3 minutes of request spacing, plus about 20 s to transfer the archive 
 work comes on top (the slice wrote 450 provision versions per second; 1,258,761 provisions at that pace would be about
 47 minutes, an estimate only). `network_requests: 51` in the manifest gives `load-all --dry-run` that figure.
 
-**Refresh.** e-Gov rebuilds `all_xml.zip` as laws are promulgated and serves only the latest one, so the connector refuses an
-archive other than the pinned one, naming its size and SHA-256 (`jp-egov-laws` is now in `STATIC_PINS`: the weekly
-`load-all --refresh` skips it instead of failing). To refresh: delete `var/sources/laws.e-gov.go.jp/bulkdownload/all_xml.zip`,
-run, review and move the pin (or set `bytes` and `sha256` to null to take what is served); the list is read again for the new
-archive (10 requests). A law whose revision is unchanged has the same file bytes, so its documents are recognised by SHA-256
-and cost nothing; a new revision becomes a new snapshot. The per-update-date archives
-(`…/bulkdownload?file_section=3&update_date=YYYYMMDD&only_xml_flag=true`, the past 3 months; 61 listed, 2026-07-21 to
-2026-10-16) are not used: the one of 2026-10-16 (one request: 9,184,551 bytes) holds 94 revision files and `R081016.csv`
-(same 14 columns, 94 rows); 89 of the 94 files are byte-identical to the members of the same name in the full archive of
-2026-10-17, the other 5 were replaced by then (a later revision of the same day, a newer revision in force) or belong to two
-ordinances with no revision in force yet. A full archive gives one consistent state in one request; replaying daily files
-would have to rebuild that state.
+**Which archive, and provenance.** The committed manifest has `bulk.pin: latest`: a fresh load downloads whatever archive
+e-Gov serves (one request), writes its size and SHA-256 into the cache's `.meta.json`, and every document it yields names
+its exact bytes: uri `<archive URL>#<member>` and `metadata.archive` = URL, size, SHA-256, retrieval time, Last-Modified
+(e-Gov sends none) and member; `verify-sources` re-derives from those stored bytes. A run opens one archive and reads the
+list for that archive only (cached under its SHA-256), so it never mixes two. `pin: exact` with `bytes` and `sha256` accepts
+only that archive, for a reproducible run, and stops at any other. The connector downloads the archive again when the cached
+file or its `.meta.json` has been deleted, and, with `pin: latest`, when the cached file no longer matches the digest recorded
+for it (cut short, altered); offline, or with `pin: exact`, it stops instead.
+
+**Refresh.** e-Gov rebuilds `all_xml.zip` as laws are promulgated and serves only the latest one, and it gives **no cheap change
+signal**: a HEAD request (2026-10-18 13:11 UTC) returns no ETag, Last-Modified or Content-Length, the file comes from a PHP
+endpoint with `cache-control: max-age=0, no-cache, no-store`. So ULIS uses the age of the cached archive: `jp-egov-laws` is a
+live source (not in `STATIC_PINS`), `load-all --refresh` discards cached downloads older than the refresh age (7 days by
+default) and the run downloads the current archive (one request, about 20 s) and reads the list again for it (10 requests);
+a younger archive is reused. A change check would save little: the bulk page lists 61 update dates between 2026-07-21 and
+2026-10-16 (about five a week), so after a week the archive has almost always changed, and a check on that page would mean
+parsing its HTML. A law whose revision is unchanged has the same file bytes, so its documents are recognised by SHA-256 and
+cost nothing; a new revision becomes a new snapshot. The per-update-date archives
+(`…/bulkdownload?file_section=3&update_date=YYYYMMDD&only_xml_flag=true`, the past 3 months) are not used: the one of
+2026-10-16 (one request: 9,184,551 bytes) holds 94 revision files and `R081016.csv` (same 14 columns, 94 rows); 89 of the 94
+files are byte-identical to the members of the same name in the full archive of 2026-10-17, the other 5 were replaced by then
+(a later revision of the same day, a newer revision in force) or belong to two ordinances with no revision in force yet. A full
+archive gives one consistent state in one request; replaying daily files would have to rebuild that state.
 
 **Requests to laws.e-gov.go.jp for this work** (2026-10-18, one connection, at least 5 s between request starts, identifying
-User-Agent): 37 = 2 archives (all laws; the update of 2026-10-16), 10 list pages, 20 API responses for the comparison and 5
-reads of robots.txt (one per run). No 401, 403, 429 or 451; no retry.
+User-Agent): 38 = 2 archives (all laws; the update of 2026-10-16), one HEAD of the archive URL, 10 list pages, 20 API
+responses for the comparison and 5 reads of robots.txt (one per run). No 401, 403, 429 or 451; no retry.
 
 ## Structure, identifiers and text
 
@@ -324,8 +335,9 @@ Tests after widening (2026-10-16, own test database): full suite **1,291 passed*
 - The full 8,989-law load into a database has not been run (every law was parsed from the bulk archive; slices of 50 (bulk),
   35 and 5 (API) were ingested); the database size figures above are estimates.
 - Bulk mode: lifecycle events of the laws loaded from the archive are the amendment in force and the promulgation, not the
-  earlier amendments since 2017 (447 of 478 events of 15 revision lists compared). The archive is pinned: a refresh needs the
-  pin moved by hand (see "Bulk download route"). The per-update-date archives are not used.
+  earlier amendments since 2017 (447 of 478 events of 15 revision lists compared). e-Gov's archive has no change signal, so a
+  refresh downloads it again once the cached one is older than the refresh age (7 days), changed or not (see "Bulk download
+  route"). The per-update-date archives are not used. Old lists stay cached under their archive's digest until pruned.
 - No notices (告示), Diet or Supreme Court rules, treaties, local ordinances or case law: they are not in e-Gov. Laws
   that are repealed, expired or not yet in force at all are not ingested. New laws enter the manifest only when the
   builder is re-run.

@@ -73,7 +73,7 @@ licence:
 provenance: >-
   Data prepared by the Ministry of Justice reflecting each amendment, checked by the ministries
   concerned and published by the Digital Agency (help page). Loaded from the XML bulk download
-  (https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true, all_xml.zip, pinned by size and SHA-256):
+  (https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true, all_xml.zip; its size and SHA-256 recorded):
   each law's file of the revision in force and its lines of all_law_list.csv are stored unchanged, with the law_info
   and current_revision_info of https://laws.e-gov.go.jp/api/2/laws?repeal_status=None in the document metadata. Laws
   with history, and single laws, from https://laws.e-gov.go.jp/api/2/law_data/{law_revision_id}?response_format=xml

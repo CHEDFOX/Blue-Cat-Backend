@@ -7,17 +7,21 @@
 # read 2026-10-18); the API's own spec (lawapi-v2.yaml 2.1.139, "XML一括ダウンロードについて") points to the bulk download
 # for downloading law data. So a full load downloads all_xml.zip once (bulk.url; the bulk page
 # https://laws.e-gov.go.jp/bulkdownload/ says 「すべての法令データ 283MB」: every law in force or to come, XML only, one
-# 法令標準XML <Law> file per revision plus the list all_law_list.csv), pinned below by size and SHA-256, and reads the
-# API's list of laws in force once (/api/2/laws?repeal_status=None, 10 pages), which gives each law's law_info and
-# current_revision_info (the bare files carry neither). The archive of 2026-10-17 (downloaded 2026-10-18 11:51 UTC
-# in 20 s): 297,202,960 bytes, 10,467 revision files for 8,990 laws (8,991 rows in force, 1,476 not yet in force) and
-# the list; it holds every law below. Revisions not yet in force (未施行) are reported from the list as outstanding
+# 法令標準XML <Law> file per revision plus the list all_law_list.csv) and reads the API's list of laws in force once
+# per archive (/api/2/laws?repeal_status=None, 10 pages), which gives each law's law_info and current_revision_info
+# (the bare files carry neither). bulk.pin: latest takes the archive e-Gov serves at the time and records its size and
+# SHA-256 in the cache's .meta.json and in every document (metadata.archive; uri <archive URL>#<member>), so each
+# stored document names its exact bytes; pin: exact with bytes and sha256 accepts only that archive (a reproducible
+# run). The archive checked on 2026-10-18 (downloaded 11:51 UTC in 20 s, files dated 2026-10-17): 297,202,960 bytes,
+# SHA-256 4581bf3a78278a83a18e5a7043f41e8ba56613b5458149db59e47c56979b744c, 10,467 revision files for 8,990 laws (8,991
+# rows in force, 1,476 not yet in force) and the list; it held every law below. Revisions not yet in force (未施行) are reported from the list as outstanding
 # changes, never loaded as law. The archive holds only the revision in force and those to come, so the two laws with
 # history: true are fetched from the API (2 revision lists + 38 texts). A full run: 51 requests (archive 1, list 10,
 # API 40) = about 4 minutes at the 5 s delay, instead of 18,014 requests and 25 hours with mode: api.
-# e-Gov rebuilds the archive as laws are promulgated and serves only the latest one: to refresh, delete the cached
-# var/sources/laws.e-gov.go.jp/bulkdownload/all_xml.zip, run again, review the archive the run reports and move the
-# pin to it (or set bytes and sha256 to null to take whatever is served); the list is read again for each archive.
+# e-Gov rebuilds the archive as laws are promulgated (61 update dates from 2026-07-21 to 2026-10-16) and serves only
+# the latest one, with no ETag, Last-Modified or Content-Length (HEAD, 2026-10-18 13:11 UTC). The cached archive is
+# used until it is deleted: load-all --refresh discards it when it is older than the refresh age (7 days) and the next
+# run downloads the current one (one request) and reads the list again for it.
 # mode: api fetches every law from the API instead (revision list + text per law, 25 hours): for single laws only.
 #
 # history: true fetches every enforced revision since the 1 April 2017 data baseline (one per enforcement date), from
@@ -42,8 +46,7 @@ crawl_delay_seconds: 5
 mode: bulk
 bulk:
   url: https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true
-  bytes: 297202960
-  sha256: 4581bf3a78278a83a18e5a7043f41e8ba56613b5458149db59e47c56979b744c
+  pin: latest  # or `pin: exact` with `bytes:` and `sha256:` of the one archive to accept
 network_requests: 51  # a full run: the archive, 10 list pages, 2 revision lists and 38 texts (history: true)
 laws:
   - {law_id: 321CONSTITUTION, history: false}  # 日本国憲法 (Constitution of Japan; never amended)

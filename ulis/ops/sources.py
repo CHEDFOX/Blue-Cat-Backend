@@ -31,7 +31,6 @@ STATIC_PINS: dict[str, str] = {
     "pl-eli-sejm": "explicit list of consolidated texts; add newer ones to the manifest",
     "it-normattiva": "text as of the dates in the manifest; scripts/build_normattiva_manifest.py appends acts",
     "eu-eur-lex": "explicit CELEX list of the acts in force; regenerate with scripts/build_eu_manifest.py to refresh",
-    "jp-egov-laws": "pinned bulk archive (size and SHA-256); fetch the latest all_xml.zip and move the pin",
 }
 
 # Sources that must be loaded after others, whatever their size. The pipeline never overwrites a stored wording and does
