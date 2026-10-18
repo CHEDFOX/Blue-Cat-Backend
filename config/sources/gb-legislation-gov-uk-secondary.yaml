@@ -12,7 +12,8 @@
 #        Local Statutory Instruments and non-prints (all except Local and non-prints available as XML, most available as King's Printer PDF)", "Most UK
 #        Statutory Instruments made before 1987 (most only available as XML)"; Welsh, Scottish and Northern Ireland Statutory Rules similar; revised
 #        ("Are we revising these items?") "Yes, but only where available as XML"; amendments are recorded "normally only for ... 1994 onwards".
-#   The listing feeds (/<type>/data.feed?results-count=1000&page=N) give each item's formats; a work that exists as XML has a data.akn link.
+#   The listing feeds (/<type>/data.feed?results-count=1000&page=N) give each item's formats; a work that exists as XML has a data.akn link; a
+#        Welsh instrument also has an akn link with hreflang="cy" (its Welsh text, at .../welsh/data.akn), fetched as a second expression.
 schema_version: 1
 id: gb-legislation-gov-uk-secondary
 name: legislation.gov.uk - statutory instruments and rules
@@ -21,26 +22,31 @@ kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions: [GB, GB-EAW, GB-WLS, GB-SCT, GB-NIR]
 document_kinds: [statutory_instrument]
-languages: [en]
+languages: [en, cy]
 coverage: >-
-  The statutory instruments and rules that legislation.gov.uk holds as Akoma Ntoso XML and has revised at least once (17,878 works): UK Statutory
-  Instruments (9,831 of 109,378 listed), Scottish Statutory Instruments (2,121 of 11,454), Welsh Statutory Instruments (1,574 of 6,771), Northern
-  Ireland Statutory Rules (4,292 of 18,553) and UK Church Instruments (60), each with every point-in-time version the lifecycle lists, from the
-  first the site holds (the date it came into force) to the latest. Revoked instruments are included with their history. The 65,505 instruments the
-  site holds as XML and has never revised (the text as made) are the source gb-legislation-gov-uk-secondary-made, not loaded by default. The
-  instruments the site holds only as PDF (48,814 UK, 2,730 Scottish, 2,106 Welsh and 9,183 Northern Ireland: local and non-print instruments and
-  most before 1987) have no text on the site and are not ingested.
+  The statutory instruments and rules that legislation.gov.uk holds as Akoma Ntoso XML and has revised at least once (17,931 works, listing of
+  2026-10-18): UK Statutory Instruments (9,868 of 109,382 listed), Scottish Statutory Instruments (2,135 of 11,454), Welsh Statutory Instruments
+  (1,575 of 6,771), Northern Ireland Statutory Rules (4,293 of 18,553) and UK Church Instruments (60), each with every point-in-time version the
+  lifecycle lists, from the first the site holds (the date it came into force) to the latest (the committed manifest is `current_only`: the
+  current text of each). Revoked instruments are included with their history. The 583 Welsh Statutory Instruments whose revised text the site holds in Welsh
+  as well (of 1,575) are fetched in English and in Welsh (the site's own Welsh text, of equal standing with the English one, Government of
+  Wales Act 2006 s 156), as two expressions of each version with the same provision identifiers; the other 992 were revised in English only
+  (the site keeps the Welsh text of their as-made version, which is not the text in force and is not fetched). The 65,456 instruments the site
+  holds as XML and has never revised (the text as made) are the source gb-legislation-gov-uk-secondary-made, loaded by default after this one. The instruments the site holds only as PDF (48,814 UK, 2,730
+  Scottish, 2,106 Welsh and 9,183 Northern Ireland: local and non-print instruments and most before 1987) have no text on the site and are not
+  ingested.
 access:
   method: api
   endpoint: config/manifests/gb-legislation-gov-uk-secondary.yaml
 update_frequency: continuous (editorial); re-run scripts/build_legislation_gov_uk_manifest.py and the ingest to refresh
 rate_limits: >-
   Fair use policy (see the header): identify with a User-Agent with contact details; obey robots.txt (Crawl-delay 5); at most 1,500 requests per
-  5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest (17,878
-  works): about 42,700 documents, 48,700 requests (the current text, each earlier version, and the versions that answer 404 once) = about 68
-  hours at the crawl delay; about 1.18 million provision versions, 4.6 GB of database, 2.4 GB of raw responses (estimated from a slice, plus or
-  minus 50 percent). The connector
-  stops on any refusal (401/403/451/429), records a missing work and goes on, and gives up after five failures in a row.
+  5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest (17,931
+  works): with the committed `current_only` switch one request per work plus one for the Welsh text of each of the 583 bilingual instruments =
+  18,514 requests, about 26 hours; with every version about 42,700 documents, 48,700 requests (the current text, each earlier version, and the
+  versions that answer 404 once) plus the Welsh text of each version of the bilingual instruments (about 1,500 more) = about 70 hours at the crawl
+  delay; about 1.18 million provision versions, 4.6 GB of database, 2.4 GB of raw responses (estimated from a slice, plus or minus 50 percent).
+  The connector stops on any refusal (401/403/451/429), records a missing work and goes on, and gives up after five failures in a row.
 licence:
   id: OGL-UK-3.0
   name: Open Government Licence v3.0
@@ -73,8 +79,9 @@ known_limitations:
     The site records amendments from 1994 on (and some earlier ones for instruments implementing EU law), so the versions of an older instrument may
     miss pre-1994 amendments. Instruments are revised only where the site holds them as XML.
   - >-
-    Welsh-language versions of Welsh instruments are not fetched (English only). An instrument whose latest version has no text is skipped for that
-    version; earlier versions stay open-ended.
+    Welsh texts are indexed with PostgreSQL's "simple" text-search configuration (there is no Welsh stemmer): a Welsh query matches exact word
+    forms only. Only Welsh Statutory Instruments (wsi) carry a Welsh text on the site, and only 583 of the 1,575 revised ones in their
+    revised version; UK, Scottish and Northern Ireland instruments are English only. An instrument whose latest version has no text is skipped for that version; earlier versions stay open-ended.
   - >-
     Revised texts may have outstanding effects not yet applied; these are reported as limitations. Revised versions are editorial consolidations,
     not the authentic text. Citations of instruments are "Title, SI 2018/480, reg 2(1)" (SSI for Scottish ones, SR for Northern Ireland Statutory Rules).

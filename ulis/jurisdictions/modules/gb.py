@@ -2,6 +2,10 @@
 
 * Acts and Measures: ``Human Rights Act 1998, s 4(5)(a)``; schedules: ``Theft Act 1968, sch 1, para 2(1)``
 * Statutory instruments: ``Data Protection (Charges and Information) Regulations 2018, SI 2018/480, reg 2(1)``
+* Welsh texts (language ``cy``) of Welsh legislation: the Welsh title with the subdivision words in Welsh, ``Deddf
+  Plant (Diddymu Amddiffyniad Cosb Resymol) (Cymru) 2020, adran 1(2)``; ``Rheoliadau ..., OS 2024/1337, rheoliad 2(1)``;
+  ``Atodlen 1, paragraff 2``. The words are written in full (adran, rheoliad, erthygl, rheol, paragraff, Atodlen);
+  to be confirmed by a Welsh-speaking reviewer.
 
 * UK Supreme Court judgments (OSCOLA): the case name, the neutral citation and the paragraph in square brackets:
   ``Abbey Healthcare (Mill Hill) Ltd v Augusta 2008 LLP [2024] UKSC 23 [47]``
@@ -25,6 +29,15 @@ from ulis.jurisdictions.modules.base import (
 
 SI_SERIES = {"uksi": "SI", "ssi": "SSI", "wsi": "SI", "nisr": "SR", "nisi": "SI"}
 PREFIX = {"section": "s", "regulation": "reg", "article": "art", "rule": "r", "paragraph": "para"}
+# Welsh: "Offeryn Statudol" for a statutory instrument; the subdivision words in full.
+SI_SERIES_CY = {"uksi": "OS", "wsi": "OS", "nisi": "OS"}
+PREFIX_CY = {
+    "section": "adran",
+    "regulation": "rheoliad",
+    "article": "erthygl",
+    "rule": "rheol",
+    "paragraph": "paragraff",
+}
 
 
 class GbExt(BaseModel):
@@ -51,7 +64,7 @@ class GbJudgmentExt(BaseModel):
 
 class GbModule(JurisdictionModule):
     id: ClassVar[str] = "gb"
-    version: ClassVar[str] = "1.1.0"
+    version: ClassVar[str] = "1.2.0"
     ext_model: ClassVar[type[BaseModel]] = GbExt
 
     def validate_ext(self, ext: dict[str, Any]) -> dict[str, Any]:
@@ -64,15 +77,19 @@ class GbModule(JurisdictionModule):
         parts = [p for p in c.num_path if p]
         if not parts:
             return ""
+        welsh = c.language == "cy"
         schedule = re.match(r"^schedule-(\w+?)(?:-|$)", c.eid or "")
-        head = f"{PREFIX.get(c.top_kind, c.top_kind)} {parts[0]}" + "".join(subdivision(p) for p in parts[1:])
+        prefix = (PREFIX_CY if welsh else PREFIX).get(c.top_kind, c.top_kind)
+        head = f"{prefix} {parts[0]}" + "".join(subdivision(p) for p in parts[1:])
         if schedule:
-            return f"sch {schedule.group(1)}, para {parts[0]}" + "".join(subdivision(p) for p in parts[1:])
+            sch, para = ("Atodlen", "paragraff") if welsh else ("sch", "para")
+            return f"{sch} {schedule.group(1)}, {para} {parts[0]}" + "".join(subdivision(p) for p in parts[1:])
         return head
 
     def provision_citation(self, c: ProvisionCitationInput) -> str:
         pin = self.pinpoint(c)
-        series = SI_SERIES.get(str(c.ext.get("leg_type", "")))
+        leg_type = str(c.ext.get("leg_type", ""))
+        series = SI_SERIES_CY.get(leg_type, SI_SERIES.get(leg_type)) if c.language == "cy" else SI_SERIES.get(leg_type)
         title = c.instrument_title
         if series:
             title = f"{title}, {series} {c.ext.get('year')}/{c.ext.get('number')}"

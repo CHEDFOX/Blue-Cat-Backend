@@ -2,7 +2,10 @@
 
 For every work in the manifest it fetches the current revised text and, if ``history`` is
 set, the whole instrument as it stood on each date listed in its lifecycle - the dates on
-which some provision changed - which yields every historical version.
+which some provision changed - which yields every historical version. A work the manifest marks
+``welsh`` (Welsh legislation, which the site publishes in English and in Welsh with equal standing)
+is fetched in both languages: the Welsh expression of each version lives at ``.../welsh/data.akn``
+and is one more request per version.
 
 Fair-use rules from legislation.gov.uk/fair-use-policy and robots.txt are built in:
 an identifying User-Agent, the robots ``Crawl-delay`` (5 s) between network requests,
@@ -36,12 +39,15 @@ from ulis.sources.connectors.moj_laws import robots_allows
 # ``ukpga/Vict/22-23/12``), and calendar year + chapter number alone is ambiguous for some of them.
 _PATH = re.compile(r"^[a-z]+/(?:\d{4}(?:/[A-Za-z][A-Za-z0-9]*)?|[A-Za-z0-9&]+/\d+(?:-\d+)*)/\d+$")
 _DATE = re.compile(rb'<FRBRExpression>.*?<FRBRdate date="(\d{4}-\d{2}-\d{2})', re.S)
+_LANGUAGE = re.compile(rb'<FRBRExpression>.*?<FRBRlanguage language="([a-z]+)"', re.S)
 MAX_FAILURES_IN_A_ROW = 5
 _EVENT = re.compile(rb"<eventRef\b[^>]*>")
 _EVENT_DATE = re.compile(rb'\bdate="(\d{4}-\d{2}-\d{2})')
-# ``uksi/2018/480@made``: a work that exists in one version only (as enacted / as made).
-_COMPACT = re.compile(r"^([^@]+)(?:@(enacted|made))?$")
+# ``uksi/2018/480@made``: a work that exists in one version only (as enacted / as made); ``wsi/2024/1337@made+cy``
+# and ``anaw/2020/3+cy``: the site also holds the Welsh text (fetched as a second expression of each version).
+_COMPACT = re.compile(r"^([^@+]+)(?:@(enacted|made))?(?:\+(cy))?$")
 SINGLE_VERSIONS = ("enacted", "made")
+WELSH = "cy"
 
 
 class FetchError(RuntimeError):
@@ -103,19 +109,28 @@ class LegislationGovUkConnector:
     @staticmethod
     def _work(entry: Any, default_history: bool) -> dict[str, Any]:
         """A manifest entry as a dict. A plain string is ``path`` (history per ``history_default``) or ``path@made`` /
-        ``path@enacted`` (one version only, no history); a dict may carry ``history``, ``version`` and ``title``."""
+        ``path@enacted`` (one version only, no history), with ``+cy`` when the site also holds the Welsh text; a dict
+        may carry ``history``, ``version``, ``welsh`` and ``title``."""
         if isinstance(entry, str):
             m = _COMPACT.match(entry)
             if not m:
                 raise ManifestError(f"invalid work entry {entry!r}")
-            path, version = m.groups()
-            return {"path": path, "history": default_history and version is None, "version": version}
+            path, version, welsh = m.groups()
+            return {
+                "path": path,
+                "history": default_history and version is None,
+                "version": version,
+                "welsh": welsh is not None,
+            }
         if not isinstance(entry, dict) or "path" not in entry:
             raise ManifestError(f"invalid work entry {entry!r}")
         work = dict(entry)
         work.setdefault("history", default_history)
         if work.get("version") not in (None, *SINGLE_VERSIONS):
             raise ManifestError(f"invalid version {work['version']!r} for {work['path']!r}")
+        if not isinstance(work.get("welsh", False), bool):
+            raise ManifestError(f"invalid welsh flag {work['welsh']!r} for {work['path']!r}")
+        work["welsh"] = bool(work.get("welsh", False))
         return work
 
     def _robots(self, manifest: dict[str, Any], base: str) -> str | None:
@@ -207,15 +222,43 @@ class LegislationGovUkConnector:
         meta_file.write_text(json.dumps(meta))
         return data, meta
 
-    def _raw(self, path: str, data: bytes, meta: dict[str, Any], version: str) -> RawDocument:
+    def _raw(self, path: str, data: bytes, meta: dict[str, Any], version: str, language: str = "en") -> RawDocument:
+        suffix = f"/{language}" if language != "en" else ""
         return RawDocument(
-            external_id=f"legislation.gov.uk:{path}@{version}",
+            external_id=f"legislation.gov.uk:{path}@{version}{suffix}",
             uri=meta.get("final_url") or meta["url"],
             media_type="application/akn+xml",
             content=data,
             retrieved_at=datetime.fromisoformat(meta["retrieved_at"]),
-            metadata={"path": path, "point_in_time": version, "cached_fetch": meta},
+            metadata={"path": path, "point_in_time": version, "language": language, "cached_fetch": meta},
         )
+
+    def _welsh(
+        self, manifest: dict[str, Any], base: str, work: dict[str, Any], version: str | None, english_date: str
+    ) -> Iterator[RawDocument]:
+        """The Welsh expression of one version of a work marked ``welsh`` (``.../welsh/data.akn``); a version the
+        site has no Welsh text for is recorded in ``fetch_errors`` and the run goes on (the English text was
+        yielded)."""
+        if not work.get("welsh"):
+            return
+        path = work["path"]
+        segment = f"/{version}" if version else ""
+        got = self._get(
+            manifest, f"{base}/{path}{segment}/welsh/data.akn", self.cache_dir / path / f"{version or 'current'}.cy.akn"
+        )
+        if got is None:
+            self.fetch_errors.append(f"{path}: welsh text of the {version or 'current'} version not found (404)")
+            return
+        language = _LANGUAGE.search(got[0])
+        if language is None or language.group(1) != b"cym":
+            # The site answers .../welsh/data.akn with the English text when it holds no Welsh text of that version
+            # (seen on wsi/2019/432, revised in English only, 2026-10-18): not a Welsh expression, not stored.
+            self.fetch_errors.append(
+                f"{path}: no welsh text of the {version or 'current'} version (the site answered with the English text)"
+            )
+            return
+        match = _DATE.search(got[0])
+        yield self._raw(path, got[0], got[1], match.group(1).decode() if match else english_date, WELSH)
 
     def fetch(self) -> Iterator[RawDocument]:
         manifest = self._manifest()
@@ -246,7 +289,9 @@ class LegislationGovUkConnector:
             if got is None:
                 raise FetchError(f"{path}: {version} version not found (404)")
             match = _DATE.search(got[0])
-            yield self._raw(path, got[0], got[1], match.group(1).decode() if match else version)
+            single_date = match.group(1).decode() if match else version
+            yield self._raw(path, got[0], got[1], single_date)
+            yield from self._welsh(manifest, base, work, version, single_date)
             return
         current = self._get(manifest, f"{base}/{path}/data.akn", self.cache_dir / path / "current.akn")
         if current is None:
@@ -278,4 +323,6 @@ class LegislationGovUkConnector:
                     continue
                 seen.add(pit_date)
                 yield self._raw(path, got[0], got[1], pit_date)
+                yield from self._welsh(manifest, base, work, d, pit_date)
         yield self._raw(path, data, meta, current_date or "current")
+        yield from self._welsh(manifest, base, work, None, current_date or "current")

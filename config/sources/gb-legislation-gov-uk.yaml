@@ -15,7 +15,9 @@
 #   https://research.legislation.gov.uk/ (the "Legislation Data Research Infrastructure" with bulk downloads, announced by search results) answers
 #        HTTP 401 for /robots.txt: a refusal, not retried and not worked around; nothing is fetched from that host.
 #   The listing feeds (/<type>/data.feed?results-count=1000&page=N) are what the developer pages offer for finding the items; the formats of each
-#        item (data.akn, data.xml, data.pdf ...) are listed in its feed entry, so the items that exist as XML are known before any is fetched.
+#        item (data.akn, data.xml, data.pdf ...) are listed in its feed entry, so the items that exist as XML are known before any is fetched. Welsh
+#        legislation (anaw, asc, mwa) also lists its Welsh text (an akn link with hreflang="cy", at .../welsh/data.akn), fetched as a second
+#        expression of each version: the two texts are of equal standing (Government of Wales Act 2006, s 156(1)).
 schema_version: 1
 id: gb-legislation-gov-uk
 name: legislation.gov.uk - primary legislation
@@ -24,24 +26,28 @@ kind: official_legislation_portal
 authority: official_non_authentic
 jurisdictions: [GB, GB-EAW, GB-WLS, GB-SCT, GB-NIR]
 document_kinds: [act, measure]
-languages: [en]
+languages: [en, cy]
 coverage: >-
-  Every Act, Measure and Order in Council that legislation.gov.uk holds as Akoma Ntoso XML (7,178 works), as the site gives it: UK Public
+  Every Act, Measure and Order in Council that legislation.gov.uk holds as Akoma Ntoso XML (7,178 works, listing of 2026-10-18), as the site gives it: UK Public
   General Acts (4,393 of 17,560 listed), UK Local Acts (199 of 20,171), Acts of the Scottish Parliament (402), the National Assembly for Wales
   and Senedd Cymru (44 + 34) and Measures of the Assembly (22), Acts of the Northern Ireland Assembly (238), Measures of the Northern Ireland
   Assembly (2), Acts of the Parliament of Northern Ireland 1921-1972 (287), Northern Ireland Orders in Council (558), UK Church Measures (157),
   and the older parliaments' Acts that the site holds as XML: England (664), Scotland (109), Great Britain (58), Ireland (11). Each work comes
   with all its versions: the enacted text where the work has no later version (926 works), otherwise every point-in-time version the lifecycle
   lists, from the first the site holds (the enactment date, or the base date 1991-02-01 / 2006-01-01 for older Acts) to the latest. Repealed Acts
-  are included with their history. Items the site holds only as PDF scans (13,167 UK Public General Acts, 19,972 Local Acts, 869 Private Acts,
-  2,160 Acts of Great Britain and others) have no text on the site and are not ingested.
+  are included with their history. The 100 Welsh Acts and Measures (anaw, asc, mwa) are fetched in English and in Welsh (the site's own Welsh
+  text, of equal standing), as two expressions of each version with the same provision identifiers. Items the site holds only as PDF scans
+  (13,167 UK Public General Acts, 19,972 Local Acts, 869 Private Acts, 2,160 Acts of Great Britain and others) have no text on the site and are
+  not ingested.
 access:
   method: api
   endpoint: config/manifests/gb-legislation-gov-uk.yaml
 update_frequency: continuous (editorial); re-run scripts/build_legislation_gov_uk_manifest.py and the ingest to refresh
 rate_limits: >-
   Fair use policy (see the header): identify with a User-Agent with contact details; obey robots.txt (Crawl-delay 5); at most 1,500 requests per
-  5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest (7,178 works; the committed manifest is `current_only`, one request per work = about 10 hours; the figures that follow are for every version):
+  5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest (7,178 works;
+  the committed manifest is `current_only`, one request per work plus one for the Welsh text of each of the 100 Welsh works = 7,278 requests,
+  about 10 hours; the figures that follow are for every version, plus about 400 requests for the Welsh versions):
   about 24,700 documents, 28,200 requests (a document each, plus the versions that answer 404 once) = about 39 hours at the crawl delay, after
   53 listing requests (the listing of primary and secondary legislation took 209); about 2.75 million provision versions, 10.7 GB of database,
   9.2 GB of raw responses (estimated from a slice, plus or minus 50 percent). The connector stops on any refusal (401/403/451/429), records a missing work and goes on, and
@@ -71,8 +77,9 @@ known_limitations:
     Acts of Great Britain and 273 Local Acts of Great Britain exist on the site only as scans of the printed Acts (no text layer): their text is
     not available to ULIS (no OCR). Of the older Acts mostly those still in force on 1991-02-01 have XML.
   - >-
-    Welsh-language versions of Welsh legislation are not fetched (English only). Retained EU law and EU-origin legislation published on the site
-    (types eur, eut, eudn, eudr) are not part of this source (EU market).
+    Welsh texts are indexed with PostgreSQL's "simple" text-search configuration (there is no Welsh stemmer): a Welsh query matches exact word
+    forms only. Only Welsh legislation (anaw, asc, mwa) carries a Welsh text on the site. Retained EU law and EU-origin legislation published on
+    the site (types eur, eut, eudn, eudr) are not part of this source (EU market).
   - >-
     The history is the site's: its revised versions start on the enactment date for Acts enacted from 1991, on 1991-02-01 for older UK Acts and
     on 2006-01-01 for older Northern Ireland legislation; amendments are recorded by the site from 1994 on (some earlier ones are missing), so a
