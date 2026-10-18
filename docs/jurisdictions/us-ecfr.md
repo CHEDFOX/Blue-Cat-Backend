@@ -1,12 +1,12 @@
 # United States federal regulations: the eCFR (all CFR titles, current text)
-Status: **draft unverified (US profile 0.1.2); the manifest lists all 50 titles, the sandbox run ingested titles 1, 12, 17**.
+Status: **all 50 CFR titles ingested and verified (2026-10-18): 8,124 parts, 1,942,069 provision versions, 8,124/8,124 re-derived from the stored files; US profile still draft unverified**.
 Research aid, not legal advice. The eCFR is an *unofficial* editorial compilation.
 
 | | |
 |---|---|
 | Source | `config/sources/us-ecfr.yaml` (`us-ecfr`, active); manifest `config/manifests/us-ecfr.yaml` (50 titles, 49 files, title 35 reserved) |
-| Connector / parser | `ulis/sources/connectors/ecfr.py` (`ecfr`, on `PoliteHttp`); `ulis/sources/parsers/ecfr.py` (`ecfr_xml` 1.0.0); citations in `ulis/jurisdictions/modules/us.py` (`us` 1.2.0) |
-| Tests | `tests/test_ecfr.py` (22 tests, 5 on PostgreSQL); fixtures `tests/fixtures/ecfr/` (title 1 whole, parts of titles 12 and 17) |
+| Connector / parser | `ulis/sources/connectors/ecfr.py` (`ecfr`, on `PoliteHttp`); `ulis/sources/parsers/ecfr.py` (`ecfr_xml` 1.1.0); citations in `ulis/jurisdictions/modules/us.py` (`us` 1.2.0) |
+| Tests | `tests/test_ecfr.py` (25 tests, 5 on PostgreSQL); fixtures `tests/fixtures/ecfr/` (title 1 whole, parts of titles 12 and 17) |
 
 ## Source and licence (read 2026-10-14)
 
@@ -51,6 +51,29 @@ ranges and parts, tables of contents, graphics (a note says where they were), su
 
 `12 CFR 220.1`, `12 CFR 220.1(b)(3)(ii)`, `12 CFR part 302, appendix A` (the Federal Register's own form, no year:
 the eCFR is not a printed edition). The 2018-2019 annual-edition sample keeps `27 C.F.R. § 478.11(b) (2018)`.
+## Results (full load, 2026-10-18)
+
+The first load of the whole manifest, on a fresh database in the build container (4 cores, cached files after the
+first download: 49 files, 787 MB on disk; 49 requests at the 5 s delay plus the transfer).
+
+* **Three defects that only a full load shows**, each fixed with a regression test before the final run:
+  1. title 24 holds a `<DIV5 TYPE="PART">` with no number whose only content is the heading "Appendixes A-C to
+     Subtitle A [Reserved]"; it stopped the whole title ("unexpected part number ''"). It is an empty part now.
+  2. a part printed across several volumes (26 CFR part 1 in 15 volumes; 29 CFR 1910; 40 CFR 52, 60, 63; 41 CFR
+     50-128 and 301-304; 50 CFR 17: 17 parts) came as several envelopes with the same version id: the first chunk
+     was stored and 189 later chunks refused as "already recorded from different source bytes". The connector now
+     yields one envelope per part number and the parser reads the sections of every chunk.
+  3. title 48 (the Federal Acquisition Regulations System) numbers its sections "1.000", "52.212-4" without the
+     section sign the parser required: all 817 parts of the title parsed as empty and were skipped. Bare numbers
+     and "Sec. 1-1" / "Section 01" labels are sections now (parser 1.1.0); bare ranges stay reserved blocks.
+* **Final state** (`ingest us-ecfr` twice: the 49 titles, then title 48 after fix 3; `status`): 8,126 parts seen,
+  **8,124 instruments and versions, 1,942,069 provision versions, 1,812,535 passages, 0 errors, 0 conflicts**;
+  2 parts skipped as reserved without text (48 CFR parts 1042 and 2426). `verify-sources`: **8,124 of 8,124 pass**.
+  Database 6.1 GB for the eCFR alone (about 3.2 KB per provision version with its search index). About an hour of
+  parsing and persisting from the cache on this machine, one transaction per run.
+* Sections or appendices that sit in no part are not ingested: 22 in all (title 5: 2, title 15: 1, title 22: 2,
+  title 25: 1, title 41: 2, title 48: 14), reported by the connector at the end of each title.
+
 ## Results (sandbox, 2026-10-14)
 * **Slice ingested: titles 1, 12 and 17** (the manifest lists all). 4 requests (robots.txt and 3 files, 17 MB for
   title 17, 39 MB for title 12). Ingest report: 537 parts (28 + 395 + 114; 80 reserved ranges dropped by the
@@ -74,6 +97,6 @@ the eCFR is not a printed edition). The 2018-2019 annual-edition sample keeps `2
 * Current text only, unofficial, possibly behind the website; history comes from the annual editions (`us-govinfo-bulk-cfr-fr`, load them first: [us-govinfo-bulk.md](us-govinfo-bulk.md)).
 * About 2% of sections (irregular numbering) are one provision; unnumbered paragraphs belong to the paragraph before
   them; numbers repeated after unnumbered text (definitions) get `_dup2` eIds and an "Ambiguous pinpoint" note.
-* Content outside any part is not ingested (none in titles 1, 12, 17); the larger titles (26, 40, 42, 48 ...) were not
-  run here; a full run is one transaction with ~50 cached downloads. Tables are flattened; authority and Federal
-  Register citations are not linked to the US Code.
+* Content outside any part is not ingested (22 sections or appendices across titles 5, 15, 22, 25, 41 and 48, see
+  the full-load results). Tables are flattened; authority and Federal Register citations are not linked to the US
+  Code. Each `ingest` run is one transaction over the whole manifest (about an hour from the cache).
