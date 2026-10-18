@@ -1,6 +1,6 @@
 schema_version: 1
 id: au-federal-register
-name: Federal Register of Legislation (compilations, EPUB)
+name: Federal Register of Legislation (Acts, compilations and texts as made, EPUB)
 publisher: Office of Parliamentary Counsel (Australian Government)
 kind: official_legislation_portal
 authority: official_non_authentic
@@ -10,10 +10,13 @@ languages: [en]
 coverage: >-
   The Federal Register of Legislation (www.legislation.gov.au) is the Australian Government's
   website for Commonwealth legislation, managed by the Office of Parliamentary Counsel under the
-  Legislation Act 2003. ULIS fetches compilations (the law "as amended and in force" on a
-  compilation date) through the Register's public API, as EPUB documents with their version
-  metadata: the latest registered compilation of every principal Act in force that has one (785
-  titles, listed by scripts/build_frl_manifest.py) and every registered compilation of four of them.
+  Legislation Act 2003. ULIS fetches the latest registered version of every principal Act in force
+  (1,262 titles on 2026-10-18, listed by scripts/build_frl_manifest.py) through the Register's public
+  API, as EPUB documents with their version metadata: the latest compilation (the law "as amended and
+  in force" on a compilation date) of the 901 Acts that have one, the text as made of the 361 Acts that
+  were never amended (dated by the Register from assent; commencement is not extracted), and every
+  registered compilation of four titles. Legislative instruments are the separate source
+  au-federal-register-instruments.
 access:
   method: api
   endpoint: config/manifests/au-federal-register.yaml
@@ -26,7 +29,7 @@ rate_limits: >-
   site crawl or anything that may use significant resources, prefers incremental crawls outside
   08:00-20:00 Australian time (UTC+10), and warns that users imposing a large load may be blocked.
   The API needs no key. ULIS uses a 10-second delay, one request at a time, and lists the versions and
-  documents of 40 titles per request, so the whole-collection run is about 940 requests (2.6 hours at the
+  documents of 40 titles per request, so the whole-collection run is about 1,440 requests (4.0 hours at the
   crawl delay), the history of four titles included; it waits for the end of 08:00-20:00 UTC+10 before any
   uncached request (manifest option avoid_hours), never repeats a request (cache), and stops on any
   refusal (401/403/429/451).
@@ -69,34 +72,40 @@ licence:
     - Do not suggest that the Office of Parliamentary Counsel endorses ULIS or its use.
     - The Commonwealth Coat of Arms and material identified as third-party copyright are not covered (the Coat of Arms image in each EPUB is not reproduced).
     - >-
-      Respect robots.txt (Crawl-delay 10) and prefer crawling outside 08:00-20:00 Australian time (UTC+10): done by the connector. The help page says it is "advisable to contact us 1-2 weeks beforehand" before "a full site crawl or anything else that may use significant system resources", to ask about planned outages; this is advice, not a condition of reuse, and the project does not contact publishers. ULIS keeps the load far below a crawl of the site (one request per 10 s from a single client, about 2.6 hours in total, API listings batched) and stops at the first refusal.
+      Respect robots.txt (Crawl-delay 10) and prefer crawling outside 08:00-20:00 Australian time (UTC+10): done by the connector. The help page says it is "advisable to contact us 1-2 weeks beforehand" before "a full site crawl or anything else that may use significant system resources", to ask about planned outages; this is advice, not a condition of reuse, and the project does not contact publishers. ULIS keeps the load far below a crawl of the site (one request per 10 s from a single client, about 4 hours in total, API listings batched) and stops at the first refusal.
   notes: >-
     Authorised versions: "The latest version of all in force laws as well as some other laws on
     the Register have an authorised version that can be relied on for the purpose of court
     proceedings under sections 15ZA and 15ZB of the [Legislation Act 2003]. Authorised versions
     are always in Adobe Acrobat (PDF) format" and are stamped "Authorised version"
     (https://www.legislation.gov.au/help-and-resources/using-the-legislation-register/about-the-federal-register-of-legislation).
-    ULIS parses the EPUB of the same compilation (the API reports isAuthorised only for PDFs), so
-    its text is a reproduction, not an authorised version. Counsel review still recommended before
-    production use.
+    ULIS parses the EPUB of the same compilation or text as made (the API reports isAuthorised only
+    for PDFs), so its text is a reproduction, not an authorised version. Counsel review still
+    recommended before production use.
 provenance: >-
   Official register of Commonwealth legislation maintained by the Office of Parliamentary Counsel
   (Legislation Act 2003). Compilations are prepared by First Parliamentary Counsel, who may make
   editorial and presentational changes (stated in each compilation's front matter and endnotes).
-  Each raw document is the API response for one compilation document (EPUB in base64, with the
-  version's start and end dates), stored unmodified with its SHA-256.
+  Each raw document is the API response for one document, a compilation or the text as made (EPUB in
+  base64, with the version's start and end dates), stored unmodified with its SHA-256.
 known_limitations:
   - >-
-    Legislative instruments (about 24,000 in force), notifiable instruments, the Gazette and Acts that are
-    not principal (amending Acts, which have no compilation of their own) are not ingested; only the latest
-    registered compilation of each principal Act in force is, except four titles with every compilation.
-    477 of the 1,261 principal Acts in force (38%) were never amended: the Register holds only their "as made"
-    version, dated from the making date, which the parser does not ingest (commencement is in each Act's own
-    text and ULIS cannot date it from the Register), so they are not in the manifest.
+    Legislative instruments (24,071 in force) are the separate source au-federal-register-instruments, not
+    loaded by default; notifiable instruments, the Gazette and Acts that are not principal (amending Acts,
+    which have no compilation of their own) are not ingested. Only the latest registered version of each
+    principal Act in force is, except four titles with every compilation.
+  - >-
+    361 of the 1,261 principal Acts in force (29%) were never amended: the Register holds only their text
+    "as made", which it dates from assent, not from commencement (commencement is in each Act's own s 2 and
+    is not extracted). Their provisions are dated from assent with validity_basis enactment_date_presumed
+    (limitation EFFECTIVE_DATE_PRESUMED), carry a note saying so, and have no currency date
+    (CURRENCY_UNKNOWN); the EPUB is the Register's rendering of the text as made, not the authorised PDF
+    (text_origin official_conversion, NOT_AUTHENTICATED). If such an Act is amended later, the next run adds
+    its compilation; the as-made version's open end is not closed by it (re-load the title).
   - ULIS parses the EPUB rendering of each compilation; only the PDF stamped "Authorised version" can be relied on in court proceedings.
   - The Register dates compilations, not provisions. A provision's text is known to apply during the period of the compilations that show it (adjacent compilations with identical wording are joined); per-provision commencement dates are not given.
   - Uncommenced amendments are not shown in compilations; a later version of a title without a registered compilation, and the Register's "unincorporated amendments" flag, are reported as outstanding changes but not applied.
-  - Acts "as made" (compilation number 0) are not ingested; periods covered by versions without a registered compilation have no text.
+  - The text as made of an Act that was amended later is not ingested (only its compilations are); periods covered by versions without a registered compilation have no text.
   - Repealed provisions are omitted from compilations and are not recorded as repealed; text placed directly under Part or Division headings (outside a section) and images (formulas) are not reproduced.
   - Endnotes (legislation history, amendment history, editorial changes) are not ingested.
 status: active
