@@ -12,14 +12,16 @@ languages: [bg, cs, da, de, el, en, es, et, fi, fr, ga, hr, hu, it, lt, lv, mt, 
 coverage: >-
   EU law in all 24 official languages: the Official Journal, consolidated texts, case law and
   their metadata, held in Cellar (the repository behind EUR-Lex). ULIS ingests every regulation, directive and decision
-  in force (cdm:resource_legal_in-force) that Cellar holds as Formex 4 in English - 26,875 acts on 2026-10-15,
-  including implementing and delegated acts - plus the Charter of Fundamental Rights (OJ C 202, 2016) and the 2016
-  consolidated versions of the TEU and TFEU (XHTML; protocols, annexes and declarations excluded). For the 2,864 acts that
-  have a consolidated version (the Publications Office's text with the amendments applied, distributed as Formex 4 like the
-  Official Journal) the latest version applying today is ingested instead of the act as adopted; the other 24,011 are
-  ingested as adopted, with the Publications Office metadata on dates, amendments and corrigenda. English only for the
-  bulk; the Treaties, the Charter and five core acts (GDPR, Rome I, Brussels Ia, Consumer Rights Directive, AI Act) in
-  English, French and German. The list is generated from Cellar's SPARQL endpoint (scripts/build_eu_manifest.py).
+  in force (cdm:resource_legal_in-force) that Cellar holds in a machine-readable text format in English - 33,967 acts on
+  2026-10-18: 26,880 as Formex 4, 376 as the OJ XHTML and 6,711 (mostly 1953-2003) as the legacy EUR-Lex HTML, including
+  implementing and delegated acts - plus the Charter of Fundamental Rights (OJ C 202, 2016) and the 2016 consolidated
+  versions of the TEU and TFEU (XHTML; protocols, annexes and declarations excluded). For the 3,252 acts that have a
+  consolidated version in Formex 4 (the Publications Office's text with the amendments applied) the latest version applying
+  today is ingested instead of the act as adopted; the other 30,715 are ingested as adopted (24,016 Formex 4, 363 XHTML,
+  6,336 HTML), with the Publications Office metadata on dates, amendments and corrigenda. English only for the bulk; the
+  Treaties, the Charter and five core acts (GDPR, Rome I, Brussels Ia, Consumer Rights Directive, AI Act) in English,
+  French and German. The list is generated from Cellar's SPARQL endpoint (scripts/build_eu_manifest.py); the 52 acts in
+  force held only as PDF or print files and the 67 without an English version are not listed.
 access:
   method: api
   endpoint: config/manifests/eu-eur-lex.yaml
@@ -28,9 +30,10 @@ rate_limits: >-
   No published rate limit found. publications.europa.eu/robots.txt redirects to
   https://op.europa.eu/robots.txt ("User-agent: *", "Allow: /", no Crawl-delay; /resource/ and
   /webapi/ are not disallowed; read 2026-10-14 and 2026-10-15). ULIS waits at least 5 s between requests and caches every
-  response. The manifest generator makes about 150 SPARQL requests (two per year of the act, 1952-2026); a full ingest
-  makes about 60,200 requests at 5 s (about 84 h): three batched SPARQL queries per 20 works and one request per file (an act is one
-  to a few files, the Treaties and core acts three languages). eur-lex.europa.eu itself answered automated requests (even robots.txt)
+  response. The manifest generator makes about 150 SPARQL requests (two per year of the act, 1952-2026, about 18 s each); a full
+  ingest makes about 69,900 requests at 5 s (about 97 h): three batched SPARQL queries per 20 works and one request per file (a
+  Formex 4 act is one to a few files, 2.24 requests per work measured; an XHTML or HTML act one file, 1.31 per work measured; the
+  Treaties and core acts three languages). eur-lex.europa.eu itself answered automated requests (even robots.txt)
   with an AWS WAF challenge (HTTP 202, x-amzn-waf-action: challenge) on 2026-10-14; ULIS does not use it.
 licence:
   id: EU-REUSE-2011-833
@@ -86,13 +89,14 @@ provenance: >-
   used, exactly as received, with its URL, retrieval time and SHA-256 (images in annexes are
   listed but not kept).
 known_limitations:
-  - Formex 4 and XHTML files are the publisher's renditions of the Official Journal (and of the consolidated texts), not the authentic (signed) electronic edition.
+  - Formex 4, XHTML and HTML files are the publisher's renditions of the Official Journal (and of the consolidated texts), not the authentic (signed) electronic edition.
+  - Acts held only as the legacy EUR-Lex HTML (6,711, mostly 1953-2003) or the OJ XHTML (376) are structured from the headings and labels of that rendition - articles, numbered paragraphs, annexes and attached documents (points too in XHTML; in HTML they stay in the paragraph's text). The HTML carries the publisher's typed text with its page footnotes and transcription artefacts; an agreement or protocol attached to a decision is one unit.
   - An act without a consolidated version is ingested as adopted; later amendments and corrigenda are reported from the metadata but not applied. Where the metadata locates a replacement, deletion or insertion, the original wording of that provision is ended on the amendment's start of validity, and the later wording is not indexed.
   - A consolidated version is documentation produced by the Publications Office (not authentic) and a whole-instrument snapshot; it gives no date for individual provisions, so a provision starts on the version's START.DATE (an unamended article is older than that). Only the latest version applying today is ingested (not the earlier dated versions, about 6.5 times as many documents; widen with scripts/build_eu_manifest.py --all-consolidated-versions).
   - The TEU and TFEU are the 2016 consolidated versions (documentation); when each wording took effect is not recorded.
   - Partial application dates are recorded in notes; which provisions they concern is not modelled.
   - Recitals, citations, final formulas and signatures are not indexed.
-  - About 8,200 of the 35,085 acts in force (regulations, directives, decisions) have no English Formex 4 file in Cellar (older acts are held in other formats) and are not ingested; nor are acts of sectors other than 3, international agreements, or acts before 1952.
+  - 52 of the 34,086 acts in force (regulations, directives, decisions; 2026-10-18) are held in English only as PDF or print files and 67 have no English version; neither group is ingested, nor are acts of sectors other than 3, international agreements as works of their own, or acts before 1952.
   - English only except the Treaties, the Charter and five core acts (French and German); the other 21 official languages are not ingested.
 status: active
 connector: eu_cellar

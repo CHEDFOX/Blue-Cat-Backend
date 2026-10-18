@@ -28,3 +28,14 @@ received; article 37(1)(c) and 41(3) are the two that the consolidated text corr
 Source: EUR-Lex / Cellar, Publications Office of the European Union. © European Union.
 Reused under the Commission reuse notice (Commission Decision 2011/833/EU). These files are the
 publisher's renditions of the Official Journal, not its authentic electronic edition.
+
+## Acts held without a Formex 4 file (added 2026-10-18)
+
+`manifest-text.yaml` (`sparql_batch: 20`, English) lists two acts in force that Cellar holds only in a text format
+other than Formex 4: Directive 2002/59/EC (CELEX 32002L0059, vessel traffic monitoring) as the **legacy EUR-Lex HTML**
+(`resource/cellar/9150683a-2d91-414a-9c7f-e206ede0fa20.0004.01/DOC_1`, `text/html`, 59 KB) and Council Decision
+2006/245/EC (CELEX 32006D0245, Protocol to the EC-Switzerland agreement on the free movement of persons) as the **OJ
+XHTML** of the CONVEX converter (`resource/cellar/554b1fbc-1f09-468f-8728-eeed87d5b536.0005.02/DOC_1`,
+`application/xhtml+xml`, 225 KB, with the Protocol, its annexes and declarations). `webapi/rdf/sparql/batch/` holds the
+four batched answers (metadata and changes of both works, the HTML files of the first, the XHTML files of the second),
+unmodified, retrieved on 2026-10-18 together with the two files.

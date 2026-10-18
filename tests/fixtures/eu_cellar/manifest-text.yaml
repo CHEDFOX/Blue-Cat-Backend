@@ -1,0 +1,11 @@
+# Two acts in force that Cellar holds without a Formex 4 file: the legacy EUR-Lex HTML of Directive 2002/59/EC and
+# the OJ XHTML of Decision 2006/245/EC (a decision concluding a protocol, with the protocol and declarations attached).
+schema_version: 1
+source_id: eu-eur-lex
+user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
+crawl_delay_seconds: 5
+sparql_batch: 20
+languages: [en]
+works:
+  - {celex: "32002L0059", format: "html"}    # Directive 2002/59/EC (vessel traffic monitoring)
+  - {celex: "32006D0245", format: "xhtml"}   # Decision 2006/245/EC (Protocol to the EC-Switzerland agreement on free movement)

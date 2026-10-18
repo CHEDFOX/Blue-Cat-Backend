@@ -9,7 +9,10 @@ version, each exactly as received. Two text formats are read:
   either as separate files or as one zip (Official Journal act by act, from October 2023);
 * **OJ XHTML** for the consolidated Treaties (TEU, TFEU), which Cellar holds only in that
   format: articles are ``div`` elements whose ``id`` is the Formex identifier (``003``,
-  ``003.001``), points are two-column tables.
+  ``003.001``), points are two-column tables;
+* **OJ XHTML or legacy EUR-Lex HTML** for the acts (mostly 1953-2003) that Cellar holds without a Formex 4 file:
+  one stream of blocks (headings, paragraphs, points, titles of annexes) from which articles, numbered paragraphs,
+  points (XHTML only), divisions and annexes are recovered (see the "OJ XHTML and legacy HTML" section).
 
 * **consolidated versions** of an act (``CONS.ACT``, CELEX ``0YYYYTNNNN-YYYYMMDD``), in the same Formex 4: the text
   with the amendments applied, which the Publications Office prepares for documentation. Its ``INFO.CONSLEG`` gives
@@ -53,6 +56,7 @@ import zipfile
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import date
+from html.parser import HTMLParser
 from typing import Any
 from xml.etree.ElementTree import Element  # noqa: S405 - type only; parsing uses defusedxml
 
@@ -64,7 +68,7 @@ from ulis.sources.connectors.eu_cellar import BUNDLE_FORMAT, LANG3
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "eu_cellar"
-PARSER_VERSION = "1.1.0"
+PARSER_VERSION = "1.2.0"
 CDM = "http://publications.europa.eu/ontology/cdm#"
 ANN = "http://publications.europa.eu/ontology/annotation#"
 XHTML_NS = "{http://www.w3.org/1999/xhtml}"
@@ -77,6 +81,8 @@ MAX_ZIP_BYTES = 100 * 1024 * 1024
 # (fd_335 date comments, fd_370 subdivisions, fd_375 roles), as published in Cellar (skos:prefLabel).
 CODE_LABELS = {
     "EV": "Entry into force",
+    "PE": "Takes effect",
+    "DATNOT": "Date notif.",
     "MA": "Application",
     "MA/PART": "Partial application",
     "V": "See",
@@ -218,7 +224,9 @@ class WorkMeta:
 
     @property
     def entry_into_force(self) -> list[DateFact]:
-        return [d for d in self.effect_dates if d.kind == "EV"]
+        """``EV`` (entry into force) and ``PE`` (takes effect: the date a decision addressed to its addressees
+        produces its effects, which the Publications Office records instead of an entry into force)."""
+        return [d for d in self.effect_dates if d.kind in ("EV", "PE")]
 
     @property
     def application(self) -> list[DateFact]:
@@ -737,7 +745,7 @@ def x_footnotes(body: Element) -> dict[str, str]:
     """Footnote texts by id (``ntr2-...``); in the OJ XHTML they follow the text they annotate."""
     notes: dict[str, str] = {}
     for p in body.iter(_x("p")):
-        if "note" not in _cls(p).split():
+        if "note" not in {c.removeprefix("oj-") for c in _cls(p).split()}:  # ``oj-note`` from CONVEX 9
             continue
         anchor = next((a for a in p.iter(_x("a")) if (a.get("id") or "").startswith("ntr")), None)
         if anchor is not None:
@@ -896,6 +904,556 @@ def parse_xhtml_treaty(parts: list[Part]) -> tuple[str, list[Prov]]:
     if not b.provisions:
         raise EuParseError("no articles found in XHTML")
     return state["title"], b.provisions
+
+
+# --- OJ XHTML and legacy HTML (acts Cellar holds without a Formex 4 file) ---------------------
+#
+# About 7,100 of the acts in force (mostly 1953-2003) have no Formex 4 file in English. Cellar holds them either as the
+# legacy EUR-Lex HTML (HTML 4.01: the text of the Official Journal as flat ``<p>`` paragraphs inside ``<TXT_TE>``, no
+# structural markup, footnotes and image placeholders interleaved) or as the OJ XHTML of the CONVEX converter (either
+# flat ``p.ti-art``/``p.normal`` siblings, points as two-column tables, or - from version 9 - ``eli-subdivision`` divs
+# and ``oj-`` prefixed classes). Both are turned into one stream of blocks (titles, article headings, division headings,
+# text paragraphs, points, notes, the final formula) and the same builder recovers the structure: articles from their
+# headings ("Article 1", class ``ti-art``), numbered paragraphs from their labels ("1." in sequence), points from the
+# XHTML tables, divisions as context, each trailing document (ANNEX I ..., an attached agreement) as one unit. The text
+# is the publisher's rendition exactly as held; nothing is reflowed, corrected or completed.
+
+_ART_HEADING = re.compile(r"^(?:Article\s+(\d+)\s*([a-z])?|(Sole)\s+Article)\s*$", re.I)
+_ANNEX_HEADING = re.compile(r"^ANNEX(?:\s+([IVXLC]+[A-Za-z]?|\d+[A-Za-z]?))?$")
+_DIVISION_HEADING = re.compile(r"^(PART|TITLE|CHAPTER|SECTION|SUB-SECTION)\s+[IVXLC0-9]+[A-Za-z]?\s*$", re.I)
+_END_OF_TERMS = re.compile(r"^(Done at\b|For the (Council|Commission|European Parliament|Governing Council)\b)")
+_FORMULA = re.compile(r"^HA(?:S|VE)\s+(?:ADOPTED|DECIDED)\b.*:?\s*$")
+_PARA_LABEL_ACT = re.compile(r"^(\d+)([a-z])?\s*\.\s+(?=\S)")
+# Image and table placeholders of the legacy HTML (the pictures themselves are not held as text).
+_PLACEHOLDER = re.compile(
+    r"^>(?:PIC FILE|START OF GRAPHIC|END OF GRAPHIC|TABLE|START OF TABLE|END OF TABLE|REFERENCE TO A (?:GRAPHIC|FILM))"
+    r"\b[^<>]*>$"
+)
+_DIVISION_LEVELS = ("part", "title", "chapter", "section", "group")
+
+
+@dataclass
+class Block:
+    """One unit of the flattened act: ``kind`` is title, article, subtitle, division, text, point or end (``note`` is a
+    remark of the tokenizer about the file as a whole)."""
+
+    kind: str
+    text: str = ""
+    label: str = ""
+    level: int = 1
+    points: list[Block] = field(default_factory=list)
+    notes: list[str] = field(default_factory=list)
+
+
+class _LegacyHtml(HTMLParser):
+    """Paragraphs of a legacy EUR-Lex HTML page: the text inside ``div#TexteOnly`` (``<TXT_TE>``), one string per
+    ``<p>`` (or table row), whitespace normalised. The ``DC.description`` meta holds the title."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.paragraphs: list[str] = []
+        self.description: str | None = None
+        self._depth = 0
+        self._buf: list[str] | None = None
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        a = dict(attrs)
+        if tag == "meta" and a.get("name") == "DC.description":
+            self.description = _ws(a.get("content") or "") or None
+        if tag == "div":
+            if self._depth:
+                self._depth += 1
+            elif a.get("id") == "TexteOnly":
+                self._depth, self._buf = 1, []
+        elif self._depth and tag in ("p", "tr", "li", "h1", "h2", "h3"):
+            self._flush()
+            self._buf = []
+        elif self._depth and tag in ("br", "td", "th") and self._buf is not None:
+            self._buf.append(" ")
+
+    def handle_endtag(self, tag: str) -> None:
+        if not self._depth:
+            return
+        if tag == "div":
+            self._depth -= 1
+            if not self._depth:
+                self._flush()
+                self._buf = None
+        elif tag in ("p", "tr", "li", "h1", "h2", "h3"):
+            self._flush()
+            self._buf = []
+
+    def handle_data(self, data: str) -> None:
+        if self._depth and self._buf is not None:
+            self._buf.append(data)
+
+    def _flush(self) -> None:
+        if self._buf is not None:
+            text = _ws("".join(self._buf))
+            if text:
+                self.paragraphs.append(text)
+        self._buf = None
+
+
+def html_blocks(data: bytes, name: str) -> tuple[str | None, list[Block]]:
+    """Blocks of a legacy HTML page. Structure is recovered from the paragraphs' text alone: article headings
+    ("Article 1"), division headings ("TITLE I" and the heading lines that follow), annex headings ("ANNEX II"), the
+    final formula ("Done at ..."). Image placeholders (``>PIC FILE= ...>``) are dropped and reported."""
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise EuParseError(f"{name}: legacy HTML is not UTF-8: {exc}") from exc
+    parser = _LegacyHtml()
+    parser.feed(text)
+    parser.close()
+    if not parser.paragraphs:
+        raise EuParseError(f"{name}: no text found in the legacy HTML (div#TexteOnly)")
+    blocks: list[Block] = []
+    division_open = False
+    placeholders = 0
+    for para in parser.paragraphs:
+        if _PLACEHOLDER.match(para):
+            placeholders += 1
+            continue
+        art = _ART_HEADING.match(para)
+        if art:
+            number = "1" if art.group(3) else art.group(1) + (art.group(2) or "")
+            blocks.append(Block("article", para, number.lower()))
+            division_open = False
+        elif _DIVISION_HEADING.match(para):
+            blocks.append(Block("division", para, level=1))
+            division_open = True
+        elif _ANNEX_HEADING.match(para):
+            blocks.append(Block("title", para))
+            division_open = False
+        elif _END_OF_TERMS.match(para):
+            blocks.append(Block("end", para))
+            division_open = False
+        elif division_open:
+            blocks.append(Block("division", para, level=2))
+        else:
+            blocks.append(Block("text", para))
+    if placeholders:
+        blocks.insert(
+            0,
+            Block(
+                "note",
+                f"{placeholders} image or table placeholder(s) of the HTML rendition (e.g. '>PIC FILE= ...>') are not "
+                "text and were left out; the pictures themselves are not held in this format.",
+            ),
+        )
+    return parser.description, blocks
+
+
+def _classes(el: Element) -> set[str]:
+    """CSS classes without the ``oj-`` prefix that CONVEX 9 adds (``oj-ti-art`` and ``ti-art`` are the same)."""
+    return {c.removeprefix("oj-") for c in _cls(el).split()}
+
+
+def _footnote_ids(el: Element) -> list[str]:
+    return [(a.get("href") or "#")[1:] for a in el.iter(_x("a")) if _footnote_call(a)]
+
+
+def _x_point(table: Element, footnotes: dict[str, str]) -> Block | None:
+    point = _point_table(table)
+    if point is None:
+        return None
+    label, cell = point
+    block = Block("point", "", label)
+    block.notes = [footnotes[i] for i in _footnote_ids(cell) if i in footnotes]
+    for line in _x_cell_blocks(cell, footnotes):
+        if line.kind == "point":
+            block.points.append(line)
+        elif line.text:
+            block.text = f"{block.text}\n{line.text}" if block.text else line.text
+    return block
+
+
+def _x_cell_text(cell: Element) -> str:
+    """Text of a table cell: its paragraphs one after the other (nested tables flattened)."""
+    paragraphs = [_ws(x_text(p)) for p in cell.iter(_x("p"))]
+    return " ".join(t for t in paragraphs if t) if paragraphs else _ws(x_text(cell))
+
+
+def _x_table_lines(table: Element) -> list[str]:
+    """Rows of an ordinary table (a tariff schedule, a list of codes ...), one line per row, cells separated by
+    ``|`` as for Formex tables; nested tables are flattened into their cell."""
+    lines: list[str] = []
+    for row in table.iter(_x("tr")):
+        cells = [_x_cell_text(td) for td in row if td.tag in (_x("td"), _x("th"))]
+        if not any(cells):
+            continue
+        if len(cells) == 2 and re.fullmatch(r"[—–•-]?", cells[0]):
+            lines.append(" ".join(c for c in cells if c))  # an indent: the marker and its text
+        else:
+            lines.append(" | ".join(cells))
+    return lines
+
+
+def _x_enumeration(div: Element) -> str | None:
+    """CONVEX 9 prints "1. Text" as a ``div.enumeration-spacing`` with two inline paragraphs: one line."""
+    if "enumeration-spacing" not in _classes(div):
+        return None
+    parts = [_ws(x_text(child)) for child in div if child.tag == _x("p")]
+    return " ".join(t for t in parts if t) or None
+
+
+def _x_cell_blocks(el: Element, footnotes: dict[str, str]) -> list[Block]:
+    """Text and nested points inside a point cell (or any container), in document order."""
+    out: list[Block] = []
+    for child in el:
+        if child.tag == _x("p"):
+            text = _ws(x_text(child))
+            if text:
+                out.append(Block("text", text))
+        elif child.tag == _x("table"):
+            point = _x_point(child, footnotes)
+            if point is not None:
+                out.append(point)
+            else:
+                out.extend(Block("text", t) for t in _x_table_lines(child))
+        elif child.tag in (_x("div"), _x("figure")):
+            line = _x_enumeration(child)
+            if line:
+                out.append(Block("text", line))
+            else:
+                out.extend(_x_cell_blocks(child, footnotes))
+    return out
+
+
+def xhtml_blocks(data: bytes, name: str) -> list[Block]:
+    """Blocks of an OJ XHTML file (CONVEX 6 to 9): classes name the parts, tables carry the points."""
+    data = re.sub(rb"<!DOCTYPE[^>\[]*>", b"", data, count=1)
+    if b"<!DOCTYPE" in data or b"<!ENTITY" in data:
+        raise EuParseError(f"{name}: unexpected DTD in XHTML")
+    root = _xml(data, name)
+    body = root.find(_x("body"))
+    if root.tag != _x("html") or body is None:
+        raise EuParseError(f"{name}: not an XHTML document")
+    footnotes = x_footnotes(body)
+    blocks: list[Block] = []
+
+    def walk(el: Element, quoted: bool) -> None:
+        for child in el:
+            classes = _classes(child)
+            inner_quoted = quoted or "quotation" in classes
+            if child.tag == _x("p"):
+                text = _ws(x_text(child))
+                notes = [footnotes[i] for i in _footnote_ids(child) if i in footnotes]
+                if (
+                    not text
+                    or classes & {"note", "signatory", "doc-end", "separator"}
+                    or any(c.startswith("hd-") for c in classes)
+                ):
+                    continue
+                if inner_quoted:
+                    kind = "text"
+                elif "doc-ti" in classes:
+                    kind = "title"
+                elif "ti-art" in classes:
+                    kind = "article"
+                elif "sti-art" in classes:
+                    kind = "subtitle"
+                elif classes & {"ti-section-1", "ti-section-2", "ti-grseq-1", "ti-grseq-2"}:
+                    kind = "division"
+                else:
+                    kind = "end" if _END_OF_TERMS.match(text) and "final" in _classes(el) else "text"
+                block = Block(kind, text, level=2 if "ti-section-2" in classes else 1)
+                if kind == "article":
+                    m = _ART_HEADING.match(text)
+                    if not m:
+                        block = Block("text", text)
+                    else:
+                        block.label = ("1" if m.group(3) else m.group(1) + (m.group(2) or "")).lower()
+                block.notes = notes
+                blocks.append(block)
+            elif child.tag == _x("table"):
+                point = None if inner_quoted else _x_point(child, footnotes)
+                if point is not None:
+                    blocks.append(point)
+                else:
+                    blocks.extend(Block("text", t) for t in _x_table_lines(child))
+            elif child.tag in (_x("div"), _x("figure"), _x("span")):
+                line = _x_enumeration(child)
+                if line:
+                    block = Block("text", line)
+                    block.notes = [footnotes[i] for i in _footnote_ids(child) if i in footnotes]
+                    blocks.append(block)
+                else:
+                    walk(child, inner_quoted)
+
+    walk(body, False)
+    if not blocks:
+        raise EuParseError(f"{name}: no text found in the XHTML")
+    return blocks
+
+
+def _looks_like_heading(text: str) -> bool:
+    """In the legacy HTML an article's heading ("Scope", "Definitions") is a short paragraph right after "Article N",
+    without final punctuation and not a numbered paragraph or point."""
+    return len(text) <= 100 and not re.search(r"[.;:,]$", text) and not re.match(r"^[\d(—\-]", text)
+
+
+@dataclass
+class TextActDoc:
+    title: str
+    notes: list[str] = field(default_factory=list)
+
+
+class _ActBuilder:
+    """Turns the block stream of one act into provisions (see :class:`Prov`)."""
+
+    def __init__(self, text_headings: bool = False) -> None:
+        self.b = _Builder()
+        self.text_headings = text_headings  # article headings are unmarked paragraphs (legacy HTML)
+        self.phase = "preamble"  # preamble -> terms -> signature -> annex
+        self.title_lines: list[str] = []
+        self.headings: dict[str, str] = {}
+        self.last_level: str | None = None
+        self.article: Prov | None = None
+        self.art_lines: list[str] = []  # the article's complete text
+        self.own_lines = 0  # lines of the article outside its paragraphs
+        self.paragraph: Prov | None = None
+        self.para_lines: list[str] = []
+        self.para_children: list[str] = []
+        self.art_children: list[str] = []
+        self.unit: Prov | None = None  # an annex or an attached document
+        self.unit_lines: list[str] = []
+        self.unit_heading: list[str] = []
+        self.terms_lines: list[str] = []  # enacting terms without numbered articles
+        self.formula_seen = False
+        self.previous_kind = ""
+        self.attachments = 0
+
+    # -- helpers
+
+    def context(self) -> str | None:
+        return " — ".join(self.headings[level] for level in _DIVISION_LEVELS if self.headings.get(level)) or None
+
+    def _close_paragraph(self) -> None:
+        if self.paragraph is not None:
+            self.paragraph.text = "\n".join(self.para_lines)
+            self.paragraph.is_leaf = not self.para_children
+            self.paragraph.own_content = bool(self.para_children)
+        self.paragraph, self.para_lines, self.para_children = None, [], []
+
+    def _close_article(self) -> None:
+        self._close_paragraph()
+        if self.article is not None:
+            self.article.text = "\n".join(self.art_lines)
+            self.article.is_leaf = not self.art_children
+            self.article.own_content = bool(self.art_children) and self.own_lines > 0
+        self.article, self.art_lines, self.art_children, self.own_lines = None, [], [], 0
+
+    def _close_unit(self) -> None:
+        if self.unit is not None:
+            self.unit.text = "\n".join(self.unit_lines)
+            self.unit.heading = " ".join(self.unit_heading) or None
+        self.unit, self.unit_lines, self.unit_heading = None, [], []
+
+    def _start_unit(self, title: str) -> None:
+        self._close_article()
+        self._close_unit()
+        self.phase = "annex"
+        m = _ANNEX_HEADING.match(title)
+        if m:
+            eid = self.b.eid(None, f"anx_{m.group(1).upper()}" if m.group(1) else "anx")
+            self.unit = Prov(eid, "annex", None, "", None, True, False, None)
+        else:
+            self.attachments += 1
+            eid = self.b.eid(None, f"att_{self.attachments}")
+            self.unit = Prov(eid, "attachment", None, "", None, True, False, None)
+            self.unit_heading.append(title)
+        self.b.add(self.unit)
+
+    def _add_point(self, block: Block, parent: Prov, children: list[str], nested: bool) -> list[str]:
+        """A point (XHTML table) under ``parent``: one provision, its subpoints below it; returns its text lines."""
+        key = _key(block.label)
+        roman = nested and re.fullmatch(r"[ivxl]+", key) is not None
+        eid = self.b.eid(parent.eid, f"{'subpoint' if roman else 'point'}_{key}")
+        kind = "subpoint" if roman else "point"
+        prov = Prov(eid, kind, None, "", parent.eid, True, False, parent.context, list(block.notes))
+        self.b.add(prov)
+        children.append(eid)
+        lines = block.text.split("\n") if block.text else []
+        sub: list[str] = []
+        for inner in block.points:
+            lines += self._add_point(inner, prov, sub, nested=True)
+        prov.text = "\n".join(lines)
+        prov.is_leaf, prov.own_content = not sub, bool(sub)
+        if lines:
+            lines[0] = f"{block.label} {lines[0]}"
+        else:
+            lines = [block.label]
+        return lines
+
+    def _text_lines(self, block: Block) -> list[str]:
+        """The lines a block contributes to the text of an annex or attachment (points flattened)."""
+        if block.kind != "point":
+            return [block.text] if block.text else []
+        lines = block.text.split("\n") if block.text else []
+        for inner in block.points:
+            lines += self._text_lines(inner)
+        if lines:
+            lines[0] = f"{block.label} {lines[0]}"
+        return lines or [block.label]
+
+    # -- the state machine
+
+    def feed(self, block: Block) -> None:
+        kind = block.kind
+        if kind == "title":
+            if self.phase == "preamble":
+                self.title_lines.append(block.text)
+            elif self.previous_kind == "title" and self.unit is not None and not _ANNEX_HEADING.match(block.text):
+                self.unit_heading.append(block.text)  # a title of several lines
+            else:
+                self._start_unit(block.text)  # "ANNEX Ia" right after "ANNEX I" is a unit of its own
+            self.previous_kind = kind
+            return
+        self.previous_kind = kind
+        if self.phase == "annex":
+            assert self.unit is not None
+            self.unit_lines += self._text_lines(block)
+            self.unit.note += block.notes
+            return
+        if kind == "text" and self.phase in ("preamble", "terms", "signature") and _ANNEX_HEADING.match(block.text):
+            self._start_unit(block.text)  # legacy HTML: the annex heading is an ordinary paragraph
+            return
+        if kind == "article":
+            self._close_article()
+            self.phase = "terms"
+            eid = self.b.eid(None, f"art_{block.label}")
+            self.article = Prov(eid, "article", None, "", None, True, False, self.context(), list(block.notes))
+            self.b.add(self.article)
+            return
+        if kind == "division":
+            if self.phase in ("preamble", "terms"):
+                self._close_article()
+                if block.level == 2 and self.last_level:
+                    self.headings[self.last_level] = _ws(f"{self.headings.get(self.last_level, '')} {block.text}")
+                    return
+                m = _DIVISION_HEADING.match(block.text)
+                level = m.group(1).lower().replace("sub-section", "section") if m else "group"
+                for lower in _DIVISION_LEVELS[_DIVISION_LEVELS.index(level) :]:
+                    self.headings.pop(lower, None)
+                self.headings[level] = block.text
+                self.last_level = level
+            return
+        if kind == "end":
+            if self.phase == "terms":
+                self._close_article()
+                self.phase = "signature"
+            elif self.phase == "preamble" and self.formula_seen:
+                self.phase = "signature"
+            return
+        if (
+            kind == "text"
+            and self.text_headings
+            and self.article is not None
+            and self.article.heading is None
+            and not self.art_lines
+            and _looks_like_heading(block.text)
+        ):
+            kind = "subtitle"  # legacy HTML: "Article 1" / "Purpose" / "The purpose of this Directive is ..."
+        if kind == "subtitle":
+            if self.article is not None and self.article.heading is None and not self.art_lines:
+                self.article.heading = block.text
+                self.article.note += block.notes
+            elif self.article is not None:
+                self.art_lines.append(block.text)
+                self.own_lines += 1
+            return
+        if self.phase == "preamble":
+            if kind == "text" and _FORMULA.match(block.text):
+                self.formula_seen = True
+            elif self.formula_seen:
+                self.terms_lines += self._text_lines(block)
+            return
+        if self.phase == "signature" or self.article is None:
+            return
+        # Text or a point inside the current article.
+        if kind == "point":
+            parent = self.paragraph or self.article
+            children = self.para_children if self.paragraph is not None else self.art_children
+            lines = self._add_point(block, parent, children, nested=False)
+            (self.para_lines if self.paragraph is not None else self.art_lines).append("\n".join(lines))
+            if self.paragraph is not None:
+                self.art_lines.append("\n".join(lines))
+            return
+        text = block.text
+        m = _PARA_LABEL_ACT.match(text)
+        if m:
+            label = m.group(1) + (m.group(2) or "")
+            expected = len([c for c in self.art_children if c.split("__")[-1].startswith("para_")]) + 1
+            previous = self.paragraph.eid.split("para_")[-1] if self.paragraph is not None else ""
+            sequential = int(m.group(1)) == expected and not m.group(2)
+            lettered = bool(m.group(2)) and previous and re.sub(r"[a-z]$", "", previous) == m.group(1)
+            if sequential or lettered:
+                self._close_paragraph()
+                peid = self.b.eid(self.article.eid, f"para_{label}")
+                self.paragraph = Prov(peid, "paragraph", None, "", self.article.eid, True, False, self.article.context)
+                self.paragraph.note = list(block.notes)
+                self.b.add(self.paragraph)
+                self.art_children.append(peid)
+                self.para_lines.append(text[m.end() :])
+                self.art_lines.append(text)
+                return
+        if self.paragraph is not None:
+            self.para_lines.append(text)
+            self.paragraph.note += block.notes
+        else:
+            self.own_lines += 1
+            self.article.note += block.notes
+        self.art_lines.append(text)
+
+    def finish(self) -> tuple[TextActDoc, list[Prov]]:
+        self._close_article()
+        self._close_unit()
+        # A title with nothing under it ("ANNEX I" over "ANNEX Ia", "ANNEX Ib" ...) is not a unit.
+        self.b.provisions = [p for p in self.b.provisions if p.kind not in ("annex", "attachment") or p.text]
+        if not any(p.eid.startswith("art_") for p in self.b.provisions) and self.terms_lines:
+            text = "\n".join(self.terms_lines)
+            terms = Prov(self.b.eid(None, "terms"), "article", None, text, None, True, False, None)
+            self.b.provisions.insert(0, terms)
+        if not self.b.provisions:
+            raise EuParseError("no articles, enacting terms or annexes found in the text")
+        return TextActDoc(_ws(" ".join(self.title_lines))), self.b.provisions
+
+
+def parse_text_act(parts: list[Part], fmt: str) -> tuple[TextActDoc, list[Prov]]:
+    """Provisions of an act held as OJ XHTML or legacy HTML (``fmt``); several files follow each other."""
+    items = [p for p in parts if p.role == f"item:{fmt}" and p.data]
+    if not items:
+        raise EuParseError(f"no {fmt} file in the bundle")
+    builder = _ActBuilder(text_headings=fmt == "html")
+    notes: list[str] = []
+    description: str | None = None
+    for item in items:
+        name = item.url or item.role
+        if fmt == "html":
+            description, blocks = html_blocks(item.data, name)
+        else:
+            blocks = xhtml_blocks(item.data, name)
+        for block in blocks:
+            if block.kind == "note":  # what the tokenizer left out of the text (placeholders of the legacy HTML)
+                notes.append(block.text)
+                continue
+            builder.feed(block)
+    doc, provs = builder.finish()
+    if not doc.title and description:
+        doc.title = description
+    doc.notes = notes
+    return doc, provs
+
+
+def _domain_from_title(title: str) -> str | None:
+    """The domain printed in the act number: ``Regulation (EEC) No 2007/75``, ``64/300/EEC: Council Decision``,
+    ``Directive 2002/59/EC`` (EEC, EEC, EC)."""
+    m = re.search(r"\(([A-Za-z]{2,7})(?:,\s*[A-Za-z]{2,7})*\)\s*(?:No\s*)?\d+/\d+", title)
+    if not m:
+        m = re.search(r"\b\d{2,4}/\d+/([A-Za-z]{2,7})\b", title)
+    return DOMAIN_CODES.get(m.group(1).upper()) if m else None
 
 
 # --------------------------------------------------------------------------- changes -> versions
@@ -1082,7 +1640,7 @@ def _treaty(meta: WorkMeta) -> str | None:
 def parse_eu_cellar(content: bytes) -> list[ParsedDocument]:
     bundle, parts = load_bundle(content)
     celex, language, fmt = bundle.get("celex"), bundle.get("language"), bundle.get("content_format")
-    if not isinstance(celex, str) or language not in LANG3 or fmt not in ("fmx4", "xhtml"):
+    if not isinstance(celex, str) or language not in LANG3 or fmt not in ("fmx4", "xhtml", "html"):
         raise EuParseError("bundle lacks celex, language or format")
     lang3 = LANG3[language]
     base_celex = bundle.get("base_celex")
@@ -1141,15 +1699,40 @@ def parse_eu_cellar(content: bytes) -> list[ParsedDocument]:
             # title is the properly cased title of this language version.
             short_title = expression_title or fdoc.title or None
         publication = fdoc.publication_date or meta.publication_date
-    else:
-        if treaty not in ("TEU", "TFEU"):
-            raise EuParseError(f"{celex}: XHTML is only supported for the consolidated Treaties")
+    elif treaty in ("TEU", "TFEU"):
         xtitle, provs = parse_xhtml_treaty(parts)
         title = expression_title or xtitle
         ext["treaty"] = treaty
         short_title = TREATY_ABBREVIATION[treaty].get(language)
         number = None
         publication = meta.document_date
+    else:
+        # An act Cellar holds without a Formex 4 file: the OJ XHTML or the legacy EUR-Lex HTML of its text.
+        if not act_type or consolidated:
+            raise EuParseError(f"{celex}: {fmt} is read for acts as adopted only (regulations, directives, decisions)")
+        tdoc, provs = parse_text_act(parts, fmt)
+        title = expression_title or tdoc.title
+        year: int | None = None
+        number = None
+        act_number = re.fullmatch(r"3(\d{4})[A-Z](\d{4})", celex)
+        if act_number:
+            year, number = int(act_number.group(1)), str(int(act_number.group(2)))
+        domain = _domain_from_title(title) or _domain_from_title(tdoc.title)
+        ext.update(act_type=act_type, year=year, number=number, domain=domain)
+        short_title = designation(act_type, year, number, domain, language)
+        if year and number:
+            number = f"{year}/{number}" if year >= 2015 or act_type != "regulation" else f"{number}/{year}"
+        publication = meta.publication_date
+        rendition = "legacy EUR-Lex HTML" if fmt == "html" else "OJ XHTML"
+        format_notes = [
+            f"Text from the Publications Office's {rendition} rendition of the Official Journal, the only text format "
+            "Cellar holds for this act (no Formex 4 file). The structure (articles, numbered paragraphs"
+            f"{', points' if fmt == 'xhtml' else ''}, annexes) is recognised from the headings and labels of that "
+            "rendition; the wording is as held, including any footnotes printed within the text.",
+            *tdoc.notes,
+        ]
+        for prov in provs:
+            prov.note = [*format_notes, *prov.note]
     if not provs:
         raise ParseSkipped(f"{celex}: the Formex file holds no operative text to ingest")
 
@@ -1263,7 +1846,7 @@ def parse_eu_cellar(content: bytes) -> list[ParsedDocument]:
                 eid=p.eid,
                 kind=p.kind,
                 num_path=p.eid.split("__"),
-                top_kind="annex" if top.startswith("anx") else "article",
+                top_kind="annex" if top.startswith(("anx", "att")) else "article",
                 heading=p.heading,
                 text=p.text,
                 parent_eid=p.parent,
