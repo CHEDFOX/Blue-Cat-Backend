@@ -44,7 +44,12 @@ instrument's own text and is not extracted), so every provision is dated from th
 authorised PDF). In an Act as made the body starts at the assent endorsement (``AssentDt``); the
 cover and contents before it, the enacting words, and the second-reading and assent notes after the
 last provision (``2ndRd``, ``AssentBk``) are not law text. Unstyled recitals before the first
-heading are the preamble.
+heading are the preamble. Older re-keyed texts carry the endorsement, the second-reading note and
+the bill's print reference ("(45/99)") without a style; they are recognised by their wording. The
+date the note gives is checked against the source: an Act's version start must be a date in its
+assent endorsement, an instrument's must be the Register's registration date (``RegisteredAt``); a
+document whose start is not confirmed (the Register dates some Acts from a retrospective
+commencement, some instruments from their effect) is refused, not dated with a wrong claim.
 
 **Legislative instruments** (title ids ``F2016L00123``, ``F1996B00084``, ``C2004L09583``) use the
 same styles when drafted in the current template; compilations prepared by the Office of Legislative
@@ -72,7 +77,7 @@ from defusedxml.ElementTree import fromstring
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision
 
 PARSER_ID = "frl_epub"
-PARSER_VERSION = "1.1.0"
+PARSER_VERSION = "1.1.1"
 XHTML = "http://www.w3.org/1999/xhtml"
 OPF = "http://www.idpf.org/2007/opf"
 CONTAINER = "urn:oasis:names:tc:opendocument:xmlns:container"
@@ -102,6 +107,13 @@ AS_MADE_NOTE = {
 # The enacting words of an Act as made (not a provision): "The Parliament of Australia enacts:",
 # "BE IT THEREFORE enacted by the Queen, the Senate and the House of Representatives ..., as follows:".
 _ENACTING = re.compile(r"^(?:The Parliament of Australia enacts:?|BE IT(?: THEREFORE)? ENACTED\b.*)$", re.I)
+# Older Acts as made (re-keyed, registered 2004-2005) carry the same endorsement, second-reading note and bill print
+# reference without a style: "[Assented to 8 July 1999]", "[Minister’s second reading speech made in— ...]", "(45/99)".
+_ASSENT_ENDORSEMENT = re.compile(
+    r"^\[(?:Assented to|Queen['’]s Assent|Royal Assent|Reserved for Her Majesty['’]s pleasure)\b[^\]]*\]$", re.I
+)
+_SECOND_READING = re.compile(r"^\[(?:Minister['’]s )?second reading speech\b", re.I)
+_PRINT_REFERENCE = re.compile(r"^\(\d{1,4}/\d{2}\)$")
 # Cover-page, contents and signature styles that are never law text (the body starts after them).
 FRONT = {
     "ShortT", "Actno", "ShortTP1", "ActNoP1", "Page1", "AssentDt", "CompiledActNo", "SignCoverPageStart",
@@ -629,29 +641,52 @@ class _Builder:
         self.note_target = node
 
 
+def _unstyled_role(block: Element) -> str:
+    """A paragraph's style; for an unstyled paragraph of an Act as made, the style it stands for: ``AssentDt`` (the
+    assent endorsement), ``2ndRd`` (the second-reading note after the last provision), ``PrintRef`` (the bill's print
+    reference) or ``""``."""
+    if _local(block.tag) != "p" or block.get("class"):
+        return block.get("class") or ""
+    text = _ws("".join(block.itertext()))
+    if _ASSENT_ENDORSEMENT.match(text):
+        return "AssentDt"
+    if _SECOND_READING.match(text):
+        return "2ndRd"
+    if _PRINT_REFERENCE.match(text):
+        return "PrintRef"
+    return ""
+
+
 def _parse_body(pages: list[Element], b: _Builder) -> None:
     # An Act as made repeats its long title on the cover and on page 1 before the assent endorsement
     # ("[Assented to 2 December 2024]"); the body starts there, and the long title is recorded once.
     starts_at_assent = b.as_made and any(
-        (block.get("class") or "") == "AssentDt" for body in pages for block in _blocks(body)
+        _unstyled_role(block) == "AssentDt" for body in pages for block in _blocks(body)
     )
     long_title: str | None = None
+    started = False  # an Act as made: the body has started at the assent endorsement (kept across EPUB pages)
     for body in pages:
-        inside = False
+        inside = started
         for block in _blocks(body):
             tag = _local(block.tag)
-            cls = block.get("class") or ""
+            cls = _unstyled_role(block) if b.as_made else block.get("class") or ""
             if tag in ("h1", "h2", "h3", "h4", "h5", "h6") and not cls:
                 cls = f"ActHead{tag[1]}"
             cls = OLD_STYLES.get(cls, cls)
+            if cls == "PrintRef":
+                b.report.blocks_outside_provisions["print_reference"] += 1
+                continue
             if inside and _ENDNOTES.match(cls):
+                if b.as_made:  # the second-reading and assent notes close the text as made: nothing after is law
+                    b._unattached_schedule_notes()
+                    return
                 break
             if not inside and starts_at_assent:
                 if cls in ("LongT", "Page1"):
                     long_title = _render(_segments(block, []))
                 if cls != "AssentDt":
                     continue
-                inside = True
+                inside = started = True
                 if long_title:
                     b.close_all()
                     b.new("long-title", "long_title", "long_title", [], None, 0, None).items.append(long_title)
@@ -742,11 +777,12 @@ def _cover_value(pages: list[Element], pattern: str, cls: str | None = None) -> 
 
 def _assent_endorsements(pages: list[Element]) -> list[date]:
     """Dates in the assent endorsement(s) of an Act as made: "[Assented to 2 December 2024]",
-    "[Queen's Assent, 19 October 1973]" (also "[Reserved for Her Majesty's pleasure, 14 September 1973]")."""
+    "[Queen's Assent, 19 October 1973]" (also "[Reserved for Her Majesty's pleasure, 14 September 1973]"), styled
+    ``AssentDt`` or, in older re-keyed texts, unstyled."""
     out: list[date] = []
     for body in pages:
         for el in body.iter(f"{{{XHTML}}}p"):
-            if (el.get("class") or "") == "AssentDt":
+            if _unstyled_role(el) == "AssentDt":
                 for m in re.finditer(r"\d{1,2} [A-Z][a-z]+ \d{4}", _ws("".join(el.itertext()))):
                     d = written_date(m.group(0))
                     if d is not None:
@@ -812,9 +848,19 @@ def parse_with_report(content: bytes) -> tuple[list[ParsedDocument], ParseReport
     stated = _cover_value(pages, r"^Compilation date: (.+)$")
     if stated is not None and written_date(stated) not in (None, start):
         raise FrlParseError(f"compilation date {stated!r} differs from the version start {start}")
-    assented = _assent_endorsements(pages) if as_made else []
-    if assented and start not in assented:
-        raise FrlParseError(f"assent date(s) {assented} differ from the version start {start}")
+    # The note on a text as made says what the Register's version start is (an Act: assent; an instrument: its
+    # registration); that is checked against the source, and a document whose start it cannot confirm is refused
+    # (e.g. an Act the Register dates from a retrospective commencement) rather than dated with a wrong claim.
+    if as_made and instrument_type == "act":
+        assented = _assent_endorsements(pages)
+        if not assented:
+            raise FrlParseError(f"no assent endorsement found to confirm the version start {start} as the assent date")
+        if start not in assented:
+            raise FrlParseError(f"assent date(s) {assented} differ from the version start {start}")
+    if as_made and instrument_type == "legislative_instrument":
+        registered = _day(version.get("RegisteredAt"))
+        if registered != start:
+            raise FrlParseError(f"the version start {start} is not the registration date ({registered})")
     name = _ws(str(version.get("Name") or ""))
     if not name:
         raise FrlParseError("version has no title")

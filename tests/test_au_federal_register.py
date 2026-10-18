@@ -53,6 +53,10 @@ PRIVACY = API / "C2004A03712" / "2026-06-04_r0.json"
 # Acts as made (never amended): the current template (2024) and an older re-keyed text (1973).
 SURCHARGES = API / "C2024A00101" / "2024-12-02_r0.json"
 ROYAL_STYLE = API / "C2004A00044" / "1973-10-19_r0.json"
+# Older re-keyed texts as made whose assent endorsement, second-reading note and print reference carry no style: one
+# the Register dates from assent (1999), one it dates from a retrospective commencement before assent (2001).
+WINE = API / "C2004A00456" / "1999-07-08_r0.json"
+LAKE_EYRE = API / "C2004A00795" / "2000-10-21_r0.json"
 # Legislative instruments: one as made (current template), one compilation in the pre-2005 OLD template.
 LAVERTON = API / "F2026L01385" / "2026-10-14_r0.json"
 SPREP = API / "F1996B00533" / "2000-07-01_r1.json"
@@ -316,6 +320,68 @@ def test_act_as_made_older_text_with_preamble() -> None:
     shifted = {**data, "Start": "1973-10-20T00:00:00", "Version": {**data["Version"], "Start": "1973-10-20T00:00:00"}}
     with pytest.raises(FrlParseError, match="assent date"):
         parse_federal_register(json.dumps(shifted).encode())
+
+
+def _edit_epub(data: dict[str, Any], old: str, new: str) -> bytes:
+    """The response with ``old`` replaced by ``new`` in the EPUB's pages (to test what the parser does without it)."""
+    src = zipfile.ZipFile(io.BytesIO(base64.b64decode(data["Bytes"])))
+    buf = io.BytesIO()
+    replaced = 0
+    with zipfile.ZipFile(buf, "w") as out:
+        for info in src.infolist():
+            content = src.read(info)
+            if info.filename.endswith((".html", ".xhtml")) and old.encode() in content:
+                content = content.replace(old.encode(), new.encode())
+                replaced += 1
+            out.writestr(info, content)
+    assert replaced == 1
+    return json.dumps({**data, "Bytes": base64.b64encode(buf.getvalue()).decode()}).encode()
+
+
+def test_act_as_made_older_layout_with_unstyled_endorsement_and_notes() -> None:
+    """A re-keyed text whose assent endorsement, second-reading note and print reference carry no style."""
+    docs, report = parse_with_report(_read(WINE))
+    doc = docs[0]
+    assert (doc.version_date, doc.work_date, doc.number) == (date(1999, 7, 8), date(1999, 7, 8), "No. 66, 1999")
+    assert [x.eid for x in doc.provisions] == [
+        "long-title", "section-1", "section-2", "section-3", "section-3-1", "section-3-2", "section-4", "section-5",
+        "section-5-1", "section-5-2",
+    ]  # fmt: skip
+    # The cover and contents repeated before the endorsement are not a preamble; the print reference "(45/99)", printed
+    # between subsections (1) and (2) of s 5, is skipped; the second-reading note after s 5(2) ends the text.
+    assert report.blocks_outside_provisions == {"enacting_words": 1, "print_reference": 1}
+    p = _by_eid(doc)
+    assert p["section-5-1"].text == "This Act does not impose a tax on property of any kind belonging to a State."
+    assert p["section-5-2"].text == (
+        "Property of any kind belonging to a State has the same meaning as in section 114 of the Constitution."
+    )
+    joined = "\n".join(x.text for x in doc.provisions)
+    for absent in ("Contents", "No. 66", "Assented to", "(45/99)", "second reading", "House of Representatives on"):
+        assert absent not in joined, absent
+    assert all(
+        (x.note or "").startswith(
+            "Text as made, never amended. The Register dates this version from assent (1999-07-08)"
+        )
+        for x in doc.provisions
+    )
+    # Without an assent endorsement nothing confirms that the version start is the assent date: refused. (The
+    # endorsement is "[", "Assented to 8 July 1999" in italics, "]"; only the brackets are left.)
+    with pytest.raises(FrlParseError, match="no assent endorsement"):
+        parse_federal_register(_edit_epub(json.loads(_read(WINE)), ">Assented to 8 July 1999<", "><"))
+
+
+def test_texts_as_made_whose_version_start_the_source_does_not_confirm_are_refused() -> None:
+    # Lake Eyre Basin Intergovernmental Agreement Act 2001: assented to on 1 May 2001 (an unstyled endorsement), but the
+    # Register dates its text as made from 21 October 2000, the Agreement after which it is taken to have commenced.
+    with pytest.raises(FrlParseError, match="differ from the version start 2000-10-21"):
+        parse_federal_register(_read(LAKE_EYRE))
+    # An instrument as made is dated from its registration: a version start that is not the Register's own
+    # registration date (back-captured instruments, tariff concession orders), or no registration date, is refused.
+    data = json.loads(_read(LAVERTON))
+    for registered in ("2026-10-20T09:15:00", None):
+        moved = {**data, "Version": {**data["Version"], "RegisteredAt": registered}}
+        with pytest.raises(FrlParseError, match="not the registration date"):
+            parse_federal_register(json.dumps(moved).encode())
 
 
 def test_legislative_instrument_as_made() -> None:
