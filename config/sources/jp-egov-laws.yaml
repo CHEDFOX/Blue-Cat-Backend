@@ -11,11 +11,11 @@ coverage: >-
   The Constitution, Acts, Cabinet Orders, Imperial Ordinances, Ministerial Ordinances and Rules
   of Japan as amended (現行法令), with every revision since the data baseline of 1 April 2017
   (平成29年4月1日), including amendments promulgated but not yet in force. ULIS ingests every law
-  in force that the API's own list endpoint names (8,989 on 2026-10-15: the Constitution, Acts,
+  in force that the API's own list endpoint names (8,989 on 2026-10-18: the Constitution, Acts,
   Cabinet Orders, Imperial Orders, Ministerial Ordinances and Rules), in the revision in force,
   with the full revision history for two (刑法, 個人情報の保護に関する法律). Laws repealed, expired,
   suspended or without effect (廃止・失効・停止・実効性喪失, 561) and laws none of whose revisions is in
-  force yet (14) are not ingested.
+  force yet (16) are not ingested.
 access:
   method: api
   endpoint: config/manifests/jp-egov-laws.yaml
