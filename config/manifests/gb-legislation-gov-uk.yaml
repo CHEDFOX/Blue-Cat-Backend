@@ -2,31 +2,32 @@
 # Licence: Open Government Licence v3.0 (pre-1987 secondary legislation contributed by Westlaw UK also carries the
 # attribution "Westlaw UK derived from Crown Copyright material and contributed to legislation.gov.uk").
 # Fair use: identifying User-Agent, robots.txt Crawl-delay 5 s (1 request per 5 s; the limit is 1,500 per 5 minutes).
-# Generated 2026-10-16 by scripts/build_legislation_gov_uk_manifest.py from the site's listing feeds
+# Generated 2026-10-18 by scripts/build_legislation_gov_uk_manifest.py from the site's listing feeds
 # (https://www.legislation.gov.uk/<type>/data.feed?results-count=1000): 7178 works, of which 6252 have a
 # version history (`history: true`: every point-in-time version the lifecycle lists is fetched) and 926 exist
 # in one version only (`version: enacted|made`: one request).
 # Repealed and revoked items are included (their in-force versions are history); items the site holds only as PDF
-# (no machine-readable text; robots.txt disallows */data.pdf) are not listed.
-#   ukpga  UK Public General Acts (1801-)                                 items   17560, listed here    4393 (of which with XML: revised 4307, one version 86), PDF only 13167
-#   ukla   UK Local Acts (1801-)                                          items   20171, listed here     199 (of which with XML: revised 17, one version 182), PDF only 19972
-#   ukppa  UK Private and Personal Acts (1539-1987)                       items     869, listed here       0 (of which with XML: revised 0, one version 0), PDF only 869
-#   gbppa  Private and Personal Acts of the Parliament of Great Britain   items       0, listed here       0 (of which with XML: revised 0, one version 0), PDF only 0
-#   gbla   Local Acts of the Parliament of Great Britain (1797-1800)      items     273, listed here       0 (of which with XML: revised 0, one version 0), PDF only 273
-#   apgb   Acts of the Parliament of Great Britain (1707-1800)            items    2218, listed here      58 (of which with XML: revised 58, one version 0), PDF only 2160
-#   aep    Acts of the English Parliament (1235-1706)                     items     692, listed here     664 (of which with XML: revised 79, one version 585), PDF only 28
-#   aosp   Acts of the Old Scottish Parliament (1424-1707)                items     109, listed here     109 (of which with XML: revised 109, one version 0), PDF only 0
-#   aip    Acts of the Old Irish Parliament (1495-1800)                   items      46, listed here      11 (of which with XML: revised 11, one version 0), PDF only 35
-#   apni   Acts of the Parliament of Northern Ireland (1921-1972)         items     288, listed here     287 (of which with XML: revised 287, one version 0), PDF only 1
-#   mnia   Measures of the Northern Ireland Assembly (1974)               items       2, listed here       2 (of which with XML: revised 2, one version 0), PDF only 0
-#   nia    Acts of the Northern Ireland Assembly (2000-)                  items     238, listed here     238 (of which with XML: revised 226, one version 12), PDF only 0
-#   nisi   Northern Ireland Orders in Council (1972-)                     items     691, listed here     558 (of which with XML: revised 497, one version 61), PDF only 133
-#   ukcm   UK Church Measures (1920-)                                     items     244, listed here     157 (of which with XML: revised 157, one version 0), PDF only 87
-#   asp    Acts of the Scottish Parliament (1999-)                        items     402, listed here     402 (of which with XML: revised 402, one version 0), PDF only 0
-#   anaw   Acts of the National Assembly for Wales (2012-2020)            items      44, listed here      44 (of which with XML: revised 44, one version 0), PDF only 0
-#   asc    Acts of Senedd Cymru (2020-)                                   items      34, listed here      34 (of which with XML: revised 34, one version 0), PDF only 0
-#   mwa    Measures of the National Assembly for Wales (2008-2011)        items      22, listed here      22 (of which with XML: revised 22, one version 0), PDF only 0
-# Scale of loading all of it (estimated from a slice, plus or minus 50 percent): about 24,700 documents, 28,200 requests, 39 hours; about 2.75 million provision versions; about 10.7 GB of database and 9.2 GB of raw responses.
+# (no machine-readable text; robots.txt disallows */data.pdf) are not listed. 100 works are marked `welsh`
+# (the site holds their Welsh text as well, with equal standing): the connector fetches both languages.
+#   ukpga  UK Public General Acts (1801-)                                 items   17560, listed here    4393 (of which with XML: revised 4307, one version 86), PDF only 13167, with a Welsh text 0
+#   ukla   UK Local Acts (1801-)                                          items   20171, listed here     199 (of which with XML: revised 17, one version 182), PDF only 19972, with a Welsh text 0
+#   ukppa  UK Private and Personal Acts (1539-1987)                       items     869, listed here       0 (of which with XML: revised 0, one version 0), PDF only 869, with a Welsh text 0
+#   gbppa  Private and Personal Acts of the Parliament of Great Britain   items       0, listed here       0 (of which with XML: revised 0, one version 0), PDF only 0, with a Welsh text 0
+#   gbla   Local Acts of the Parliament of Great Britain (1797-1800)      items     273, listed here       0 (of which with XML: revised 0, one version 0), PDF only 273, with a Welsh text 0
+#   apgb   Acts of the Parliament of Great Britain (1707-1800)            items    2218, listed here      58 (of which with XML: revised 58, one version 0), PDF only 2160, with a Welsh text 0
+#   aep    Acts of the English Parliament (1235-1706)                     items     692, listed here     664 (of which with XML: revised 79, one version 585), PDF only 28, with a Welsh text 0
+#   aosp   Acts of the Old Scottish Parliament (1424-1707)                items     109, listed here     109 (of which with XML: revised 109, one version 0), PDF only 0, with a Welsh text 0
+#   aip    Acts of the Old Irish Parliament (1495-1800)                   items      46, listed here      11 (of which with XML: revised 11, one version 0), PDF only 35, with a Welsh text 0
+#   apni   Acts of the Parliament of Northern Ireland (1921-1972)         items     288, listed here     287 (of which with XML: revised 287, one version 0), PDF only 1, with a Welsh text 0
+#   mnia   Measures of the Northern Ireland Assembly (1974)               items       2, listed here       2 (of which with XML: revised 2, one version 0), PDF only 0, with a Welsh text 0
+#   nia    Acts of the Northern Ireland Assembly (2000-)                  items     238, listed here     238 (of which with XML: revised 226, one version 12), PDF only 0, with a Welsh text 0
+#   nisi   Northern Ireland Orders in Council (1972-)                     items     691, listed here     558 (of which with XML: revised 497, one version 61), PDF only 133, with a Welsh text 0
+#   ukcm   UK Church Measures (1920-)                                     items     244, listed here     157 (of which with XML: revised 157, one version 0), PDF only 87, with a Welsh text 0
+#   asp    Acts of the Scottish Parliament (1999-)                        items     402, listed here     402 (of which with XML: revised 402, one version 0), PDF only 0, with a Welsh text 0
+#   anaw   Acts of the National Assembly for Wales (2012-2020)            items      44, listed here      44 (of which with XML: revised 44, one version 0), PDF only 0, with a Welsh text 44
+#   asc    Acts of Senedd Cymru (2020-)                                   items      34, listed here      34 (of which with XML: revised 34, one version 0), PDF only 0, with a Welsh text 34
+#   mwa    Measures of the National Assembly for Wales (2008-2011)        items      22, listed here      22 (of which with XML: revised 22, one version 0), PDF only 0, with a Welsh text 22
+# Scale of loading all of it (estimated from a slice, plus or minus 50 percent): about 24,700 documents, 28,200 requests, 39 hours with every version (with `current_only` one request per work, about 10 hours), plus the Welsh texts of the 100 Welsh Acts and Measures; about 2.75 million provision versions; about 10.7 GB of database and 9.2 GB of raw responses.
 # `path` is the canonical path on the site; Acts before 1963 use the regnal-year form (ukpga/Eliz2/10-11/58).
 schema_version: 1
 source_id: gb-legislation-gov-uk
@@ -7117,103 +7118,103 @@ works:
   - {path: asp/2000/2, history: true, title: "Budget (Scotland) Act 2000"}
   - {path: asp/2000/1, history: true, title: "Public Finance and Accountability (Scotland) Act 2000"}
   - {path: asp/1999/1, history: true, title: "Mental Health (Public Safety and Appeals) (Scotland) Act 1999 (repealed)"}
-  - {path: anaw/2020/3, history: true, title: "Children (Abolition of Defence of Reasonable Punishment) (Wales) Act 2020"}
-  - {path: anaw/2020/2, history: true, title: "National Health Service (Indemnities) (Wales) Act 2020"}
-  - {path: anaw/2020/1, history: true, title: "Senedd and Elections (Wales) Act 2020"}
-  - {path: anaw/2019/4, history: true, title: "Legislation (Wales) Act 2019"}
-  - {path: anaw/2019/3, history: true, title: "Public Services Ombudsman (Wales) Act 2019"}
-  - {path: anaw/2019/2, history: true, title: "Renting Homes (Fees, Discrimination etc.) (Wales) Act 2019"}
-  - {path: anaw/2019/1, history: true, title: "Childcare Funding (Wales) Act 2019"}
-  - {path: anaw/2018/5, history: true, title: "Public Health (Minimum Price for Alcohol) (Wales) Act 2018"}
-  - {path: anaw/2018/4, history: true, title: "Regulation of Registered Social Landlords (Wales) Act 2018"}
-  - {path: anaw/2018/3, history: true, title: "Law Derived from the European Union (Wales) Act 2018 (repealed)"}
-  - {path: anaw/2018/2, history: true, title: "Additional Learning Needs and Education Tribunal (Wales) Act 2018"}
-  - {path: anaw/2018/1, history: true, title: "Abolition of the Right to Buy and Associated Rights (Wales) Act 2018"}
-  - {path: anaw/2017/4, history: true, title: "Trade Union (Wales) Act 2017"}
-  - {path: anaw/2017/3, history: true, title: "Landfill Disposals Tax (Wales) Act 2017"}
-  - {path: anaw/2017/2, history: true, title: "Public Health (Wales) Act 2017"}
-  - {path: anaw/2017/1, history: true, title: "Land Transaction Tax and Anti-avoidance of Devolved Taxes (Wales) Act 2017"}
-  - {path: anaw/2016/6, history: true, title: "Tax Collection and Management (Wales) Act 2016"}
-  - {path: anaw/2016/5, history: true, title: "Nurse Staffing Levels (Wales) Act 2016"}
-  - {path: anaw/2016/4, history: true, title: "Historic Environment (Wales) Act 2016 (repealed)"}
-  - {path: anaw/2016/3, history: true, title: "Environment (Wales) Act 2016"}
-  - {path: anaw/2016/2, history: true, title: "Regulation and Inspection of Social Care (Wales) Act 2016"}
-  - {path: anaw/2016/1, history: true, title: "Renting Homes (Wales) Act 2016"}
-  - {path: anaw/2015/6, history: true, title: "Local Government (Wales) Act 2015"}
-  - {path: anaw/2015/5, history: true, title: "Qualifications Wales Act 2015"}
-  - {path: anaw/2015/4, history: true, title: "Planning (Wales) Act 2015"}
-  - {path: anaw/2015/3, history: true, title: "Violence against Women, Domestic Abuse and Sexual Violence (Wales) Act 2015"}
-  - {path: anaw/2015/2, history: true, title: "Well-being of Future Generations (Wales) Act 2015"}
-  - {path: anaw/2015/1, history: true, title: "Higher Education (Wales) Act 2015"}
-  - {path: anaw/2014/7, history: true, title: "Housing (Wales) Act 2014"}
-  - {path: anaw/2014/6, history: true, title: "Agricultural Sector (Wales) Act 2014"}
-  - {path: anaw/2014/5, history: true, title: "Education (Wales) Act 2014"}
-  - {path: anaw/2014/4, history: true, title: "Social Services and Well-being (Wales) Act 2014"}
-  - {path: anaw/2014/3, history: true, title: "Control of Horses (Wales) Act 2014"}
-  - {path: anaw/2014/2, history: true, title: "National Health Service Finance (Wales) Act 2014"}
-  - {path: anaw/2014/1, history: true, title: "Further and Higher Education (Governance and Information) (Wales) Act"}
-  - {path: anaw/2013/7, history: true, title: "Active Travel (Wales) Act 2013"}
-  - {path: anaw/2013/6, history: true, title: "Mobile Homes (Wales) Act 2013"}
-  - {path: anaw/2013/5, history: true, title: "Human Transplantation (Wales) Act 2013"}
-  - {path: anaw/2013/4, history: true, title: "Democracy and Boundary Commission Cymru etc. Act 2013"}
-  - {path: anaw/2013/3, history: true, title: "Public Audit (Wales) Act 2013"}
-  - {path: anaw/2013/2, history: true, title: "Food Hygiene Rating (Wales) Act 2013"}
-  - {path: anaw/2013/1, history: true, title: "School Standards and Organisation (Wales) Act 2013"}
-  - {path: anaw/2012/2, history: true, title: "Local Government Byelaws (Wales) Act 2012"}
-  - {path: anaw/2012/1, history: true, title: "National Assembly for Wales (Official Languages) Act 2012"}
-  - {path: asc/2026/11, history: true, title: "Prohibition of Greyhound Racing (Wales) Act 2026"}
-  - {path: asc/2026/10, history: true, title: "Development of Tourism and Regulation of Visitor Accommodation (Wales) Act 2026"}
-  - {path: asc/2026/9, history: true, title: "Senedd Cymru (Member Accountability and Elections) Act 2026"}
-  - {path: asc/2026/8, history: true, title: "British Sign Language (Wales) Act 2026"}
-  - {path: asc/2026/7, history: true, title: "Planning (Consequential Provisions) (Wales) Act 2026"}
-  - {path: asc/2026/6, history: true, title: "Planning (Wales) Act 2026"}
-  - {path: asc/2026/5, history: true, title: "Building Safety (Wales) Act 2026"}
-  - {path: asc/2026/4, history: true, title: "Environment (Principles, Governance and Biodiversity Targets) (Wales) Act 2026"}
-  - {path: asc/2026/3, history: true, title: "Homelessness and Social Housing Allocation (Wales) Act 2026"}
-  - {path: asc/2026/2, history: true, title: "Bus Services (Wales) Act 2026"}
-  - {path: asc/2026/1, history: true, title: "Mental Health Review Tribunal for Wales (Membership) Act 2026"}
-  - {path: asc/2025/5, history: true, title: "Visitor Accommodation (Register and Levy) Etc. (Wales) Act 2025"}
-  - {path: asc/2025/4, history: true, title: "Disused Mine and Quarry Tips (Wales) Act 2025"}
-  - {path: asc/2025/3, history: true, title: "Legislation (Procedure, Publication and Repeals) (Wales) Act 2025"}
-  - {path: asc/2025/2, history: true, title: "Welsh Language and Education (Wales) Act 2025"}
-  - {path: asc/2025/1, history: true, title: "Health and Social Care (Wales) Act 2025"}
-  - {path: asc/2024/6, history: true, title: "Local Government Finance Act 2024"}
-  - {path: asc/2024/5, history: true, title: "Elections and Elected Bodies (Wales) Act 2024"}
-  - {path: asc/2024/4, history: true, title: "Senedd Cymru (Members and Elections) Act 2024"}
-  - {path: asc/2024/3, history: true, title: "Infrastructure (Wales) Act 2024"}
-  - {path: asc/2024/2, history: true, title: "Environment (Air Quality and Soundscapes) (Wales) Act 2024"}
-  - {path: asc/2024/1, history: true, title: "Health Service Procurement (Wales) Act 2024"}
-  - {path: asc/2023/4, history: true, title: "Agriculture (Wales) Act 2023"}
-  - {path: asc/2023/3, history: true, title: "Historic Environment (Wales) Act 2023"}
-  - {path: asc/2023/2, history: true, title: "The Environmental Protection (Single-use Plastic Products) (Wales) Act 2023"}
-  - {path: asc/2023/1, history: true, title: "Social Partnership and Public Procurement (Wales) Act 2023"}
-  - {path: asc/2022/2, history: true, title: "Welsh Tax Acts etc. (Power to Modify) Act 2022"}
-  - {path: asc/2022/1, history: true, title: "Tertiary Education and Research (Wales) Act 2022"}
-  - {path: asc/2021/4, history: true, title: "Curriculum and Assessment (Wales) Act 2021"}
-  - {path: asc/2021/3, history: true, title: "Renting Homes (Amendment) (Wales) Act 2021"}
-  - {path: asc/2021/2, history: true, title: "Welsh Elections (Coronavirus) Act 2021 (repealed)"}
-  - {path: asc/2021/1, history: true, title: "Local Government and Elections (Wales) Act 2021"}
-  - {path: asc/2020/2, history: true, title: "Wild Animals and Circuses (Wales) Act 2020"}
-  - {path: asc/2020/1, history: true, title: "Health and Social Care (Quality and Engagement) (Wales) Act 2020"}
-  - {path: mwa/2011/7, history: true, title: "Education (Wales) Measure 2011"}
-  - {path: mwa/2011/6, history: true, title: "Safety on Learner Transport (Wales) Measure 2011"}
-  - {path: mwa/2011/5, history: true, title: "Housing (Wales) Measure 2011"}
-  - {path: mwa/2011/4, history: true, title: "Local Government (Wales) Measure 2011"}
-  - {path: mwa/2011/3, history: true, title: "Domestic Fire Safety (Wales) Measure 2011 (repealed)"}
-  - {path: mwa/2011/2, history: true, title: "Rights of Children and Young Persons (Wales) Measure 2011"}
-  - {path: mwa/2011/1, history: true, title: "Welsh Language (Wales) Measure 2011"}
-  - {path: mwa/2010/8, history: true, title: "Waste (Wales) Measure 2010"}
-  - {path: mwa/2010/7, history: true, title: "Mental Health (Wales) Measure 2010"}
-  - {path: mwa/2010/6, history: true, title: "Playing Fields (Community Involvement in Disposal Decisions) (Wales) Measure 2010"}
-  - {path: mwa/2010/5, history: true, title: "Carers Strategies (Wales) Measure 2010 (repealed)"}
-  - {path: mwa/2010/4, history: true, title: "National Assembly for Wales (Remuneration) Measure 2010"}
-  - {path: mwa/2010/3, history: true, title: "Red Meat Industry (Wales) Measure 2010"}
-  - {path: mwa/2010/2, history: true, title: "Social Care Charges (Wales) Measure 2010 (repealed)"}
-  - {path: mwa/2010/1, history: true, title: "Children and Families (Wales) Measure 2010"}
-  - {path: mwa/2009/5, history: true, title: "Education (Wales) Measure 2009"}
-  - {path: mwa/2009/4, history: true, title: "National Assembly for Wales Commissioner for Standards Measure 2009"}
-  - {path: mwa/2009/3, history: true, title: "Healthy Eating in Schools (Wales) Measure 2009"}
-  - {path: mwa/2009/2, history: true, title: "Local Government (Wales) Measure 2009"}
-  - {path: mwa/2009/1, history: true, title: "Learning and Skills (Wales) Measure 2009"}
-  - {path: mwa/2008/2, history: true, title: "Learner Travel (Wales) Measure 2008"}
-  - {path: mwa/2008/1, history: true, title: "NHS Redress (Wales) Measure 2008"}
+  - {path: anaw/2020/3, history: true, welsh: true, title: "Children (Abolition of Defence of Reasonable Punishment) (Wales) Act 2020"}
+  - {path: anaw/2020/2, history: true, welsh: true, title: "National Health Service (Indemnities) (Wales) Act 2020"}
+  - {path: anaw/2020/1, history: true, welsh: true, title: "Senedd and Elections (Wales) Act 2020"}
+  - {path: anaw/2019/4, history: true, welsh: true, title: "Legislation (Wales) Act 2019"}
+  - {path: anaw/2019/3, history: true, welsh: true, title: "Public Services Ombudsman (Wales) Act 2019"}
+  - {path: anaw/2019/2, history: true, welsh: true, title: "Renting Homes (Fees, Discrimination etc.) (Wales) Act 2019"}
+  - {path: anaw/2019/1, history: true, welsh: true, title: "Childcare Funding (Wales) Act 2019"}
+  - {path: anaw/2018/5, history: true, welsh: true, title: "Public Health (Minimum Price for Alcohol) (Wales) Act 2018"}
+  - {path: anaw/2018/4, history: true, welsh: true, title: "Regulation of Registered Social Landlords (Wales) Act 2018"}
+  - {path: anaw/2018/3, history: true, welsh: true, title: "Law Derived from the European Union (Wales) Act 2018 (repealed)"}
+  - {path: anaw/2018/2, history: true, welsh: true, title: "Additional Learning Needs and Education Tribunal (Wales) Act 2018"}
+  - {path: anaw/2018/1, history: true, welsh: true, title: "Abolition of the Right to Buy and Associated Rights (Wales) Act 2018"}
+  - {path: anaw/2017/4, history: true, welsh: true, title: "Trade Union (Wales) Act 2017"}
+  - {path: anaw/2017/3, history: true, welsh: true, title: "Landfill Disposals Tax (Wales) Act 2017"}
+  - {path: anaw/2017/2, history: true, welsh: true, title: "Public Health (Wales) Act 2017"}
+  - {path: anaw/2017/1, history: true, welsh: true, title: "Land Transaction Tax and Anti-avoidance of Devolved Taxes (Wales) Act 2017"}
+  - {path: anaw/2016/6, history: true, welsh: true, title: "Tax Collection and Management (Wales) Act 2016"}
+  - {path: anaw/2016/5, history: true, welsh: true, title: "Nurse Staffing Levels (Wales) Act 2016"}
+  - {path: anaw/2016/4, history: true, welsh: true, title: "Historic Environment (Wales) Act 2016 (repealed)"}
+  - {path: anaw/2016/3, history: true, welsh: true, title: "Environment (Wales) Act 2016"}
+  - {path: anaw/2016/2, history: true, welsh: true, title: "Regulation and Inspection of Social Care (Wales) Act 2016"}
+  - {path: anaw/2016/1, history: true, welsh: true, title: "Renting Homes (Wales) Act 2016"}
+  - {path: anaw/2015/6, history: true, welsh: true, title: "Local Government (Wales) Act 2015"}
+  - {path: anaw/2015/5, history: true, welsh: true, title: "Qualifications Wales Act 2015"}
+  - {path: anaw/2015/4, history: true, welsh: true, title: "Planning (Wales) Act 2015"}
+  - {path: anaw/2015/3, history: true, welsh: true, title: "Violence against Women, Domestic Abuse and Sexual Violence (Wales) Act 2015"}
+  - {path: anaw/2015/2, history: true, welsh: true, title: "Well-being of Future Generations (Wales) Act 2015"}
+  - {path: anaw/2015/1, history: true, welsh: true, title: "Higher Education (Wales) Act 2015"}
+  - {path: anaw/2014/7, history: true, welsh: true, title: "Housing (Wales) Act 2014"}
+  - {path: anaw/2014/6, history: true, welsh: true, title: "Agricultural Sector (Wales) Act 2014"}
+  - {path: anaw/2014/5, history: true, welsh: true, title: "Education (Wales) Act 2014"}
+  - {path: anaw/2014/4, history: true, welsh: true, title: "Social Services and Well-being (Wales) Act 2014"}
+  - {path: anaw/2014/3, history: true, welsh: true, title: "Control of Horses (Wales) Act 2014"}
+  - {path: anaw/2014/2, history: true, welsh: true, title: "National Health Service Finance (Wales) Act 2014"}
+  - {path: anaw/2014/1, history: true, welsh: true, title: "Further and Higher Education (Governance and Information) (Wales) Act"}
+  - {path: anaw/2013/7, history: true, welsh: true, title: "Active Travel (Wales) Act 2013"}
+  - {path: anaw/2013/6, history: true, welsh: true, title: "Mobile Homes (Wales) Act 2013"}
+  - {path: anaw/2013/5, history: true, welsh: true, title: "Human Transplantation (Wales) Act 2013"}
+  - {path: anaw/2013/4, history: true, welsh: true, title: "Democracy and Boundary Commission Cymru etc. Act 2013"}
+  - {path: anaw/2013/3, history: true, welsh: true, title: "Public Audit (Wales) Act 2013"}
+  - {path: anaw/2013/2, history: true, welsh: true, title: "Food Hygiene Rating (Wales) Act 2013"}
+  - {path: anaw/2013/1, history: true, welsh: true, title: "School Standards and Organisation (Wales) Act 2013"}
+  - {path: anaw/2012/2, history: true, welsh: true, title: "Local Government Byelaws (Wales) Act 2012"}
+  - {path: anaw/2012/1, history: true, welsh: true, title: "National Assembly for Wales (Official Languages) Act 2012"}
+  - {path: asc/2026/11, history: true, welsh: true, title: "Prohibition of Greyhound Racing (Wales) Act 2026"}
+  - {path: asc/2026/10, history: true, welsh: true, title: "Development of Tourism and Regulation of Visitor Accommodation (Wales) Act 2026"}
+  - {path: asc/2026/9, history: true, welsh: true, title: "Senedd Cymru (Member Accountability and Elections) Act 2026"}
+  - {path: asc/2026/8, history: true, welsh: true, title: "British Sign Language (Wales) Act 2026"}
+  - {path: asc/2026/7, history: true, welsh: true, title: "Planning (Consequential Provisions) (Wales) Act 2026"}
+  - {path: asc/2026/6, history: true, welsh: true, title: "Planning (Wales) Act 2026"}
+  - {path: asc/2026/5, history: true, welsh: true, title: "Building Safety (Wales) Act 2026"}
+  - {path: asc/2026/4, history: true, welsh: true, title: "Environment (Principles, Governance and Biodiversity Targets) (Wales) Act 2026"}
+  - {path: asc/2026/3, history: true, welsh: true, title: "Homelessness and Social Housing Allocation (Wales) Act 2026"}
+  - {path: asc/2026/2, history: true, welsh: true, title: "Bus Services (Wales) Act 2026"}
+  - {path: asc/2026/1, history: true, welsh: true, title: "Mental Health Review Tribunal for Wales (Membership) Act 2026"}
+  - {path: asc/2025/5, history: true, welsh: true, title: "Visitor Accommodation (Register and Levy) Etc. (Wales) Act 2025"}
+  - {path: asc/2025/4, history: true, welsh: true, title: "Disused Mine and Quarry Tips (Wales) Act 2025"}
+  - {path: asc/2025/3, history: true, welsh: true, title: "Legislation (Procedure, Publication and Repeals) (Wales) Act 2025"}
+  - {path: asc/2025/2, history: true, welsh: true, title: "Welsh Language and Education (Wales) Act 2025"}
+  - {path: asc/2025/1, history: true, welsh: true, title: "Health and Social Care (Wales) Act 2025"}
+  - {path: asc/2024/6, history: true, welsh: true, title: "Local Government Finance Act 2024"}
+  - {path: asc/2024/5, history: true, welsh: true, title: "Elections and Elected Bodies (Wales) Act 2024"}
+  - {path: asc/2024/4, history: true, welsh: true, title: "Senedd Cymru (Members and Elections) Act 2024"}
+  - {path: asc/2024/3, history: true, welsh: true, title: "Infrastructure (Wales) Act 2024"}
+  - {path: asc/2024/2, history: true, welsh: true, title: "Environment (Air Quality and Soundscapes) (Wales) Act 2024"}
+  - {path: asc/2024/1, history: true, welsh: true, title: "Health Service Procurement (Wales) Act 2024"}
+  - {path: asc/2023/4, history: true, welsh: true, title: "Agriculture (Wales) Act 2023"}
+  - {path: asc/2023/3, history: true, welsh: true, title: "Historic Environment (Wales) Act 2023"}
+  - {path: asc/2023/2, history: true, welsh: true, title: "The Environmental Protection (Single-use Plastic Products) (Wales) Act 2023"}
+  - {path: asc/2023/1, history: true, welsh: true, title: "Social Partnership and Public Procurement (Wales) Act 2023"}
+  - {path: asc/2022/2, history: true, welsh: true, title: "Welsh Tax Acts etc. (Power to Modify) Act 2022"}
+  - {path: asc/2022/1, history: true, welsh: true, title: "Tertiary Education and Research (Wales) Act 2022"}
+  - {path: asc/2021/4, history: true, welsh: true, title: "Curriculum and Assessment (Wales) Act 2021"}
+  - {path: asc/2021/3, history: true, welsh: true, title: "Renting Homes (Amendment) (Wales) Act 2021"}
+  - {path: asc/2021/2, history: true, welsh: true, title: "Welsh Elections (Coronavirus) Act 2021 (repealed)"}
+  - {path: asc/2021/1, history: true, welsh: true, title: "Local Government and Elections (Wales) Act 2021"}
+  - {path: asc/2020/2, history: true, welsh: true, title: "Wild Animals and Circuses (Wales) Act 2020"}
+  - {path: asc/2020/1, history: true, welsh: true, title: "Health and Social Care (Quality and Engagement) (Wales) Act 2020"}
+  - {path: mwa/2011/7, history: true, welsh: true, title: "Education (Wales) Measure 2011"}
+  - {path: mwa/2011/6, history: true, welsh: true, title: "Safety on Learner Transport (Wales) Measure 2011"}
+  - {path: mwa/2011/5, history: true, welsh: true, title: "Housing (Wales) Measure 2011"}
+  - {path: mwa/2011/4, history: true, welsh: true, title: "Local Government (Wales) Measure 2011"}
+  - {path: mwa/2011/3, history: true, welsh: true, title: "Domestic Fire Safety (Wales) Measure 2011 (repealed)"}
+  - {path: mwa/2011/2, history: true, welsh: true, title: "Rights of Children and Young Persons (Wales) Measure 2011"}
+  - {path: mwa/2011/1, history: true, welsh: true, title: "Welsh Language (Wales) Measure 2011"}
+  - {path: mwa/2010/8, history: true, welsh: true, title: "Waste (Wales) Measure 2010"}
+  - {path: mwa/2010/7, history: true, welsh: true, title: "Mental Health (Wales) Measure 2010"}
+  - {path: mwa/2010/6, history: true, welsh: true, title: "Playing Fields (Community Involvement in Disposal Decisions) (Wales) Measure 2010"}
+  - {path: mwa/2010/5, history: true, welsh: true, title: "Carers Strategies (Wales) Measure 2010 (repealed)"}
+  - {path: mwa/2010/4, history: true, welsh: true, title: "National Assembly for Wales (Remuneration) Measure 2010"}
+  - {path: mwa/2010/3, history: true, welsh: true, title: "Red Meat Industry (Wales) Measure 2010"}
+  - {path: mwa/2010/2, history: true, welsh: true, title: "Social Care Charges (Wales) Measure 2010 (repealed)"}
+  - {path: mwa/2010/1, history: true, welsh: true, title: "Children and Families (Wales) Measure 2010"}
+  - {path: mwa/2009/5, history: true, welsh: true, title: "Education (Wales) Measure 2009"}
+  - {path: mwa/2009/4, history: true, welsh: true, title: "National Assembly for Wales Commissioner for Standards Measure 2009"}
+  - {path: mwa/2009/3, history: true, welsh: true, title: "Healthy Eating in Schools (Wales) Measure 2009"}
+  - {path: mwa/2009/2, history: true, welsh: true, title: "Local Government (Wales) Measure 2009"}
+  - {path: mwa/2009/1, history: true, welsh: true, title: "Learning and Skills (Wales) Measure 2009"}
+  - {path: mwa/2008/2, history: true, welsh: true, title: "Learner Travel (Wales) Measure 2008"}
+  - {path: mwa/2008/1, history: true, welsh: true, title: "NHS Redress (Wales) Measure 2008"}
