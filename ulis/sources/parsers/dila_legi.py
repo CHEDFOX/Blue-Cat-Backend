@@ -25,6 +25,14 @@ Mapping to ULIS (``validity_basis = source_periods``; the publisher states the p
   quoted in the note;
 * ``MODIFIE_MORT_NE`` (modified before it came into force: an empty period) and ``ANNULE`` versions (annulled
   retroactively; the source extends the earlier version over their period) are not ingested;
+* a version the source leaves without any period (``DATE_DEBUT`` and ``DATE_FIN`` both ``2999-01-01`` and no
+  ``ETAT``: nearly always an article whose whole content amends other texts, ``TYPE ENTIEREMENT_MODIF``, for which
+  the consolidation holds only its own summary "A modifié les dispositions suivantes : ...") cannot be placed in time
+  and is not ingested; an article or section with no other version is recorded as a provision without a version
+  (``record_version = False``), so the structure of the text stays complete;
+* when the source's text of a dated version is only that summary of the amendments the article made ("a modifié les
+  dispositions suivantes", "A créé les dispositions suivantes : ..."), it is the consolidation's note, not the words
+  of the article: it goes to ``note`` and the text is empty;
 * when a version ends and no other version of the article starts then, a ``repealed`` version (empty text, the source's
   state and end date in the note) starts at that date;
 * the text is the exact text of ``BLOC_TEXTUEL`` (paragraph breaks kept, whitespace runs collapsed); ``NOTA`` and the
@@ -50,12 +58,16 @@ from defusedxml.ElementTree import fromstring
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "dila_legi_xml"
-PARSER_VERSION = "1.0.0"
+PARSER_VERSION = "1.1.0"
 SITE = "https://www.legifrance.gouv.fr"
 OPEN_END = "2999"  # DATE_FIN 2999-01-01: no end
 PLACEHOLDER_FROM_YEAR = 2200  # 2222-01-01 / 2222-02-22: "date not fixed"
 SKIPPED_STATES = {"MODIFIE_MORT_NE", "ANNULE"}
 AMENDMENT_LINKS = {"CREATION", "MODIFICATION", "ABROGATION", "ANNULATION", "CODIFICATION", "TRANSFERT", "DEPLACEMENT"}
+# The consolidation's own summary of what an amending article did, printed where the words of the article would be.
+AMENDMENT_SUMMARY = re.compile(
+    r"^[Aa] (?:modifié|créé|abrogé|transféré|déplacé|rétabli|codifié|annulé) les dispositions suivantes\b"
+)
 MAX_MEMBER = 64 * 1024 * 1024
 MAX_TOTAL = 3 * 1024 * 1024 * 1024
 MEMBER_NAME = re.compile(r"bundle\.json|(?:struct|version|article|section_ta)/[A-Z]{8}\d{12}\.xml")
@@ -128,6 +140,12 @@ def _text_of(element: Element | None, path: str) -> str | None:
         return None
     found = element.find(path)
     return ((found.text or "").strip() or None) if found is not None else None
+
+
+def _label(value: str | None) -> str | None:
+    """A title or number of the source with its whitespace runs collapsed (some ``TITRE`` values hold a line
+    break, ``Décret n°2008-1484\n du 22 décembre 2008``): metadata, not the text of a provision."""
+    return re.sub(r"\s+", " ", value).strip() if value else None
 
 
 def render_text(element: Element | None) -> str:
@@ -215,9 +233,13 @@ def _art(root: Element, file_id: str) -> _Art:
     ]
     chain_ids = {entry[3] for entry in listed if entry[3]} | {file_id}
     section_titles = list(root.iterfind("CONTEXTE/TEXTE//TITRE_TM"))
-    titles = [(t.text or "").strip() for t in section_titles]
+    titles = [_label(t.text) or "" for t in section_titles]
     context_section = section_titles[-1].get("id") if section_titles else None
+    text = render_text(root.find("BLOC_TEXTUEL/CONTENU"))
     note_parts = []
+    if AMENDMENT_SUMMARY.match(text):  # not the article's words: the source's note on the amendments it made
+        note_parts.append(text)
+        text = ""
     nota = render_text(root.find("NOTA/CONTENU"))
     if nota:
         note_parts.append(nota)
@@ -227,7 +249,7 @@ def _art(root: Element, file_id: str) -> _Art:
             note_parts.append(f"{link.get('typelien')}: {label}")
     return _Art(
         id=file_id,
-        num=_text_of(spec, "NUM") or "",
+        num=_label(_text_of(spec, "NUM")) or "",
         etat=_text_of(spec, "ETAT") or "",
         debut=debut,
         debut_kind=debut_kind,
@@ -235,7 +257,7 @@ def _art(root: Element, file_id: str) -> _Art:
         fin_kind=fin_kind,
         chain=min(chain_ids),
         heading=titles[-1] if titles and titles[-1] else None,
-        text=render_text(root.find("BLOC_TEXTUEL/CONTENU")),
+        text=text,
         note="\n".join(note_parts) or None,
         listed=listed,
         context_section=context_section,
@@ -258,7 +280,7 @@ def _children(root: Element, container: str) -> tuple[list[_Sec], list[tuple[str
                 _Sec(
                     id=ident,
                     cid=entry.get("cid") or ident,
-                    title=(entry.text or "").strip(),
+                    title=_label(entry.text) or "",
                     debut=debut,
                     debut_kind=debut_kind,
                     fin=fin,
@@ -270,9 +292,11 @@ def _children(root: Element, container: str) -> tuple[list[_Sec], list[tuple[str
     return sections, order
 
 
-def _kept(etat: str, debut: date | None, fin: date | None) -> bool:
-    """Whether a version with this state and period is ingested (empty and annulled periods are not)."""
-    if etat in SKIPPED_STATES:
+def _kept(etat: str, debut: date | None, fin: date | None, debut_kind: str = "date") -> bool:
+    """Whether a version with this state and period is ingested: not the states never in force, not an empty period
+    and not a version without any start (``DATE_DEBUT`` 2999-01-01, the source's "no date", given to the articles
+    whose whole content amends other texts: nothing can be attested for any day)."""
+    if etat in SKIPPED_STATES or debut_kind == "open":
         return False
     return not (debut is not None and fin is not None and fin <= debut)
 
@@ -353,7 +377,7 @@ def parse_dila_legi(content: bytes) -> list[ParsedDocument]:
                 if own is None:  # a section no listing names: it has no period, so it cannot be placed
                     continue
                 own.children, own.has_file = order, True
-                title = _text_of(root, "TITRE_TA")
+                title = _label(_text_of(root, "TITRE_TA"))
                 if title:
                     own.title = title
     return _assemble(meta, version_root, arts, secs, top_order)
@@ -372,8 +396,8 @@ def _assemble(
     if not cid:
         raise ValueError("the version file has no CID")
     nature = _text_of(version_root, "META/META_COMMUN/NATURE") or ""
-    title = _text_of(spec, "META_TEXTE_VERSION/TITREFULL") or _text_of(spec, "META_TEXTE_VERSION/TITRE")
-    short_title = _text_of(spec, "META_TEXTE_VERSION/TITRE")
+    title = _label(_text_of(spec, "META_TEXTE_VERSION/TITREFULL") or _text_of(spec, "META_TEXTE_VERSION/TITRE"))
+    short_title = _label(_text_of(spec, "META_TEXTE_VERSION/TITRE"))
     if not title:
         raise ValueError(f"{cid}: the version file has no title")
     currency = date.fromisoformat(str(meta["currency_date"]))
@@ -384,7 +408,9 @@ def _assemble(
         chains[art.chain].append(art)
     periods: dict[str, list[tuple[date, date | None]]] = {}
     for key, versions in chains.items():
-        periods[key] = [(v.debut, v.fin) for v in versions if v.debut is not None and _kept(v.etat, v.debut, v.fin)]
+        periods[key] = [
+            (v.debut, v.fin) for v in versions if v.debut is not None and _kept(v.etat, v.debut, v.fin, v.debut_kind)
+        ]
     chain_num = {
         key: max(versions, key=lambda v: (v.debut or date.min, v.id)).num or versions[0].num
         for key, versions in chains.items()
@@ -407,7 +433,7 @@ def _assemble(
         sec_chains[sec.cid].append(sec)
 
     def latest(versions: list[_Sec]) -> _Sec:
-        usable = [v for v in versions if _kept(v.etat, v.debut, v.fin)] or versions
+        usable = [v for v in versions if _kept(v.etat, v.debut, v.fin, v.debut_kind)] or versions
         return max(usable, key=lambda v: (v.debut or date.min, v.has_file, v.id))
 
     order_of: dict[str, int] = {}  # node key ("sec:<cid>" | "art:<chain>") -> position
@@ -465,12 +491,24 @@ def _assemble(
         # (an open end is the longest), then the later identifier, as for articles.
         chosen: dict[tuple[date | None, str], _Sec] = {}
         for v in sorted(sec_versions, key=lambda x: x.id):
-            if not _kept(v.etat, v.debut, v.fin) or not v.title:
+            if not _kept(v.etat, v.debut, v.fin, v.debut_kind) or not v.title:
                 continue
             slot = (v.debut, v.debut_kind)
             old = chosen.get(slot)
             if old is None or (v.fin is None, v.fin or date.min) >= (old.fin is None, old.fin or date.min):
                 chosen[slot] = v
+        named = [v for v in sec_versions if v.title]
+        if not chosen and named:
+            # Every version is undated or never in force: the section is recorded, no version of it is claimed.
+            placeholder = max(named, key=lambda x: (x.debut or date.min, x.id))
+            kind, num_path = section_kind(placeholder.title)
+            provisions.append(
+                (
+                    order_of[node],
+                    0,
+                    _unrecorded(eid, kind, num_path, placeholder.title, parent_cid, order_of[node], False),
+                )
+            )
         for v in sorted(chosen.values(), key=lambda x: (x.debut or date.min, x.id)):
             kind, num_path = section_kind(v.title)
             provisions.append(
@@ -558,11 +596,37 @@ def _assemble(
     ]
 
 
+def _unrecorded(
+    eid: str, kind: str, num_path: list[str], heading: str | None, parent_cid: str | None, position: int, leaf: bool
+) -> ParsedProvision:
+    """A provision the text holds but of which no dated version can be claimed (``record_version = False``)."""
+    return ParsedProvision(
+        eid=eid,
+        kind=kind,
+        num_path=num_path,
+        top_kind=kind,
+        heading=heading,
+        text="",
+        parent_eid=section_eid(parent_cid) if parent_cid else None,
+        sort_order=position,
+        status="in_force",
+        valid_from=None,
+        valid_to=None,
+        extent=["FR"],
+        note=None,
+        refs=[],
+        is_leaf=leaf,
+        has_own_content=leaf,
+        record_version=False,
+    )
+
+
 def _article_provisions(
     eid: str, versions: list[_Art], chains: dict[str, list[_Art]], keys: list[str], position: int
 ) -> list[ParsedProvision]:
-    """The provision versions of one article number: the ingested versions plus repeal markers."""
-    kept = [v for v in versions if _kept(v.etat, v.debut, v.fin)]
+    """The provision versions of one article number: the ingested versions plus repeal markers. An article none
+    of whose versions can be ingested (undated amending articles) is one unrecorded provision."""
+    kept = [v for v in versions if _kept(v.etat, v.debut, v.fin, v.debut_kind)]
     # Two files with the same start (an annulled wording's predecessor restored by the source): keep the one that
     # runs longest (an open end is the longest), then the later identifier.
     by_start: dict[date, _Art] = {}
@@ -576,6 +640,8 @@ def _article_provisions(
             by_start[v.debut] = v
     chosen = [by_start[d] for d in sorted(by_start)] + list(undated.values())
     num = max(versions, key=lambda v: (v.debut or date.min, v.id)).num
+    if not chosen:
+        return [_unrecorded(eid, "article", [num], None, None, position, True)]
     # periods of every non-skipped version the chains list (also those whose file is not in the dump)
     listed_periods: list[tuple[str, date, date | None]] = []
     for key in keys:
