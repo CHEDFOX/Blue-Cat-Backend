@@ -99,7 +99,8 @@ tests/             unit + PostgreSQL integration tests
 [Temporal model](docs/temporal-model.md) · [Roadmap](docs/roadmap.md) ·
 [Security and evaluation](docs/security-and-evaluation.md) ·
 [Research assistant](docs/research-assistant.md) · [Deployment](docs/deployment.md) ·
-[Onboarding a jurisdiction](docs/onboarding-a-jurisdiction.md) · [Test results](docs/test-results.md)
+[Onboarding a jurisdiction](docs/onboarding-a-jurisdiction.md) · [Go-live](docs/go-live.md) ·
+[Footprint research](docs/footprint-research.md) · [Test results](docs/test-results.md)
 
 ## Corpora
 

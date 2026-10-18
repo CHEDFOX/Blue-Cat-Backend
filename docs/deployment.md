@@ -78,7 +78,8 @@ docker compose --profile tools run --rm cli status                  # per-jurisd
   2 usage, 3 another `load-all` is running, 130 interrupted. `--only SRC...`, `--skip SRC...`, `--dry-run`.
 * **Resumable**: downloads are cached under `/srv/ulis/sources` and ingestion is idempotent (documents are keyed by
   SHA-256). After a crash, reboot or Ctrl-C run the same command again; cached files are not fetched twice. Once the
-  documents are verified the cache is a second copy: `--prune-cache` (or `cli prune-cache` later) deletes it (section 13).
+  documents are verified, `--prune-cache` (or `cli prune-cache` later) deletes it; copy the publishers' whole files to cold
+  storage first if you want to keep them (section 13).
 * **Statistics during a load**: each source is one transaction, and the loader refreshes the planner statistics of the three big
   tables itself (`ANALYZE` inside the transaction, with a lock that keeps autovacuum off them until the source commits).
   So a manual `VACUUM`/`ANALYZE` on `provisions`, `provision_versions` or `provision_version_sources` waits until the running
@@ -350,7 +351,19 @@ dumps, faster to write at the same load (150 s against 195 s) and 3.5 times fast
 ### Download cache: `prune-cache`
 
 Connectors cache every download under `/srv/ulis/sources` (`ULIS_SOURCE_CACHE_DIR`) so that a load resumes without
-fetching again. Once a source's documents are in the object store and verified, the cache is a second copy.
+fetching again. What the cache holds is not always what the object store holds: for several sources the cache has the
+publisher's whole files (the eCFR title XML, e-Gov's `all_xml.zip`, Finlex's package, the DILA LEGI stock and its daily
+archives, the US Code zips), while the object store has the exact per-document bytes cut from them (an eCFR part, a
+Japanese law, a Finnish statute, a French text), each recording the SHA-256 of the file it came from. Checked on the eCFR
+load: 0 of the 50 cached title files are in the object store. So after pruning, **every stored text stays verifiable**
+against the exact publisher bytes of its own document (`verify-sources` reads only the object store), but the whole
+original files are gone, and publishers that rebuild them (Finlex daily, e-Gov on every promulgation) cannot give the
+same file back. To keep them as well, copy the cache to cold storage before pruning (an S3-compatible bucket or a storage
+box; they compress about 5-8x, a few GB for the launch set):
+
+```bash
+rclone copy /srv/ulis/sources remote:ulis-originals/$(date -u +%Y%m%d) --immutable   # or rsync -a to a backup host
+```
 
 ```bash
 docker compose --profile tools run --rm cli prune-cache --dry-run    # what would go, per source and directory
