@@ -5,8 +5,9 @@ For every law in the manifest it downloads ``https://www.gesetze-im-internet.de/
 Rechtsverordnungen über automatisierte Verfahren weiterverarbeiten möchten") and yields the
 archive exactly as received; the parser opens it. The DTD the XML refers to is never fetched.
 
-Built on :class:`PoliteHttp`: identifying User-Agent, 5 s between requests (robots.txt sets no
-Crawl-delay and disallows nothing), HTTPS to this one host only, refusals respected, and a cache
+Built on :class:`PoliteHttp`: identifying User-Agent, one connection, the manifest's delay between request
+starts (at least 1 s; robots.txt, read before the first request of a run, sets no Crawl-delay and disallows
+nothing, and would win if it set a longer one), HTTPS to this one host only, refusals respected, and a cache
 under ``<cache_dir>/www.gesetze-im-internet.de/<abbr>/xml.zip`` so runs can be repeated offline.
 """
 
@@ -24,7 +25,7 @@ import yaml
 
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
-from ulis.sources.connectors.polite_http import PoliteHttp
+from ulis.sources.connectors.polite_http import PoliteHttp, manifest_crawl_delay
 
 HOST = "www.gesetze-im-internet.de"
 BASE_URL = f"https://{HOST}"
@@ -65,6 +66,7 @@ class GesetzeImInternetConnector:
         for law in laws:
             if not _SLUG.match(str(law.get("abbr", ""))):
                 raise ManifestError(f"invalid law path {law.get('abbr')!r}")
+        manifest_crawl_delay(manifest)
         return manifest
 
     def fetch(self) -> Iterator[RawDocument]:
@@ -73,9 +75,10 @@ class GesetzeImInternetConnector:
             self.cache_dir,
             manifest["user_agent"],
             allowed_hosts={HOST},
-            crawl_delay=float(manifest.get("crawl_delay_seconds", 5)),
+            crawl_delay=manifest_crawl_delay(manifest),
             offline=self.offline,
             sleep=self._sleep,
+            honour_robots_delay=True,
         )
         for law in manifest["laws"]:
             abbr = law["abbr"]

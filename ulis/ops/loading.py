@@ -31,6 +31,7 @@ from ulis.ops import sources as ops_sources
 from ulis.ops.sources import DEFAULT_ENTRIES, STATIC_PINS, ManifestInfo
 from ulis.ops.text import format_table, human_bytes, human_duration
 from ulis.settings import REPO_ROOT, Settings
+from ulis.sources.connectors.polite_http import MIN_CRAWL_DELAY, robots_crawl_delay
 from ulis.sources.registry import LicenceNotApproved, SourceDescriptor, licence_gate
 from ulis.storage.object_store import LocalObjectStore, ObjectStore
 
@@ -212,12 +213,45 @@ def evict_stale_cache(
     return files, size
 
 
+PLAN_USER_AGENT = "ULIS-research-bot/0.1"  # the product token connectors send; robots groups are matched on it
+
+
+def cached_robots_delay(cache_dir: Path, host: str) -> float | None:
+    """The Crawl-delay of the robots.txt a connector cached for ``host`` (either spelling, with or without ``www.``)."""
+    bare = host.removeprefix("www.")
+    found: list[float] = []
+    for name in sorted({host, bare, "www." + bare}):
+        path = cache_dir / name / "robots.txt"
+        try:
+            text = path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        delay = robots_crawl_delay(text, PLAN_USER_AGENT)
+        if delay is not None:
+            found.append(delay)
+    return max(found) if found else None
+
+
+def plan_delay(info: ManifestInfo | None, cache_dir: Path | None = None) -> float | None:
+    """The delay a run will use, as the connectors apply it: the manifest's ``crawl_delay_seconds``, never under
+    the project-wide minimum, and never under a Crawl-delay in a robots.txt already cached for one of the hosts the
+    manifest names in its settings (a host whose robots.txt is not cached yet is read at run time)."""
+    if info is None or info.git or info.crawl_delay is None:
+        return None
+    delay = max(info.crawl_delay, MIN_CRAWL_DELAY)
+    if cache_dir is not None:
+        for host in info.data_hosts:
+            delay = max(delay, cached_robots_delay(cache_dir, host) or 0.0)
+    return delay
+
+
 def format_plan(selection: Selection, options: LoadOptions, cache_dir: Path | None = None) -> str:
     rows: list[list[object]] = []
     total_seconds = 0.0
     for n, item in enumerate(selection.selected, 1):
         info = item.info
-        floor = info.min_network_seconds if info else None
+        delay = plan_delay(info, cache_dir)
+        floor = info.requests * delay if info and info.requests is not None and delay is not None else None
         total_seconds += floor or 0.0
         rows.append(
             [
@@ -226,7 +260,7 @@ def format_plan(selection: Selection, options: LoadOptions, cache_dir: Path | No
                 "static" if item.source.id in STATIC_PINS else "live",
                 info.entries if info and info.entries is not None else "?",
                 f"{info.requests:,}" if info and info.requests is not None else "?",
-                "git clone" if info and info.git else (f"{info.crawl_delay:g}s" if info and info.crawl_delay else "-"),
+                "git clone" if info and info.git else (f"{delay:g}s" if delay else "-"),
                 f">= {human_duration(floor)}" if floor else "-",
             ]
         )
@@ -236,7 +270,9 @@ def format_plan(selection: Selection, options: LoadOptions, cache_dir: Path | No
     ]
     if total_seconds:
         lines.append(
-            f"Network time is a lower bound (requests x crawl delay; sources that fetch version histories need more): "
+            f"Network time is a lower bound (requests x crawl delay - the manifest's, at least {MIN_CRAWL_DELAY:g} s, "
+            f"or a longer robots.txt Crawl-delay; one connection per host; sources that fetch version histories need "
+            f"more): "
             f">= {human_duration(total_seconds)} in total; parsing and indexing come on top."
         )
     if options.refresh and cache_dir is not None:

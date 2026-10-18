@@ -27,14 +27,23 @@ access:
   endpoint: config/manifests/eu-eur-lex.yaml
 update_frequency: daily (Official Journal); re-fetch to refresh
 rate_limits: >-
-  No published rate limit found. publications.europa.eu/robots.txt redirects to
-  https://op.europa.eu/robots.txt ("User-agent: *", "Allow: /", no Crawl-delay; /resource/ and
-  /webapi/ are not disallowed; read 2026-10-14 and 2026-10-15). ULIS waits at least 5 s between requests and caches every
-  response. The manifest generator makes about 150 SPARQL requests (two per year of the act, 1952-2026, about 18 s each); a full
-  ingest makes about 69,900 requests at 5 s (about 97 h): three batched SPARQL queries per 20 works and one request per file (a
-  Formex 4 act is one to a few files, 2.24 requests per work measured; an XHTML or HTML act one file, 1.31 per work measured; the
-  Treaties and core acts three languages). eur-lex.europa.eu itself answered automated requests (even robots.txt)
-  with an AWS WAF challenge (HTTP 202, x-amzn-waf-action: challenge) on 2026-10-14; ULIS does not use it.
+  No published rate limit, no Crawl-delay, no notice or permission requirement for Cellar (re-checked 2026-10-18).
+  https://publications.europa.eu/robots.txt answers 301 to https://op.europa.eu/robots.txt: "User-agent: *" / "Allow: /",
+  no Crawl-delay, /webapi/ and /resource/ not disallowed (read 2026-10-18 10:50 UTC). None of the Cellar pages (home,
+  documentation, cellar-data, knowledge graph, contact), the Cellar End User Manual 8.10.1, the developers' harvesting
+  guide, the OP disclaimer, the EUR-Lex reuse page and legal notice, or "Retrieving EUR-Lex documents in structured,
+  machine-readable formats" v1.00 states a request rate, a concurrency rule, a fair-use clause or a quota; a test query
+  (ASK {}) answered 200 with no rate-limit or Retry-After header (2026-10-18 10:53 UTC). The Crawl-delay: 10 of
+  https://eur-lex.europa.eu/robots.txt governs that host only, which ULIS does not use. So ULIS uses the project
+  minimum: one connection, 1 s between request starts (PoliteHttp also reads publications.europa.eu's robots.txt before
+  the first request of each run and would apply any Crawl-delay it sets), back-off on 429/5xx honouring Retry-After,
+  and every response cached. A full ingest makes about 69,861 requests: about 19.4 h at 1 s (about 29 h if latency adds
+  to the delay; slow batched SPARQL answers add 1-3 h), against about 97 h at the earlier 5 s. eu-cellar-case-law is on
+  the same host and load-all never runs the two at once. The manifest generator makes about 150 SPARQL requests (about
+  18 s each, so server time dominates). Optional courtesy before the first full run at 1 request/s (not a publisher
+  requirement): tell the Cellar helpdesk (op-cellar@ec.europa.eu, https://op.europa.eu/en/web/cellar/contact). The EUR-Lex
+  Data Dump (https://datadump.publications.europa.eu/) needs EU Login and its terms could not be read (HTTP 401); it
+  is not used. eur-lex.europa.eu answered automated requests with an AWS WAF challenge on 2026-10-14 (not on 2026-10-18).
 licence:
   id: EU-REUSE-2011-833
   name: Commission reuse notice - Commission Decision 2011/833/EU of 12 December 2011 on the reuse of Commission documents

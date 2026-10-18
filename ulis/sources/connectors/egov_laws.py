@@ -12,8 +12,12 @@ the text of the revisions to ingest (``/law_data/{law_revision_id}``), as XML:
   texts, reports them as outstanding changes.
 
 Requests use ``PoliteHttp`` (identifying User-Agent, a delay between requests, back-off,
-refusals respected, HTTPS to laws.e-gov.go.jp only, local cache, offline mode). The site has
-no robots.txt, so the default 5-second delay applies. Responses are cached forever: delete
+refusals respected, HTTPS to laws.e-gov.go.jp only, one connection, local cache, offline mode). The site has
+no robots.txt (the path answers with the web app's HTML page; it is read before the first request of a run, and a
+Crawl-delay there would win). The delay stays at no less than :data:`MIN_DELAY` (5 s): Digital Agency asked API
+users not to loop over every law fetching texts one after another and warned that excessive or bot access may be
+restricted (https://www.digital.go.jp/policies/legal-practice/public-test, read 2026-10-18), so ULIS does not go
+faster than it already did without asking first. Responses are cached forever: delete
 ``<cache>/laws.e-gov.go.jp/api2/law_revisions`` to pick up new revisions.
 
 The manifest may list every law in force (``scripts/build_egov_manifest.py``: about 9,000 laws, two requests
@@ -38,9 +42,11 @@ from defusedxml.ElementTree import fromstring
 
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
-from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
+from ulis.sources.connectors.polite_http import FetchError, PoliteHttp, manifest_crawl_delay
 
 BASE_URL = "https://laws.e-gov.go.jp/api/2"
+# The publisher's own wish (see the module docstring), stricter than the project-wide minimum of 1 s.
+MIN_DELAY = 5.0
 _LAW_ID = re.compile(r"^[0-9]{3}[0-9A-Z]+$")
 _DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 IN_FORCE = ("CurrentEnforced", "PreviousEnforced")
@@ -124,6 +130,7 @@ class EgovLawsConnector:
             if law_id in seen:
                 raise ManifestError(f"{law_id} is listed twice")
             seen.add(law_id)
+        manifest_crawl_delay(manifest, minimum=MIN_DELAY)
         return manifest
 
     def _get(self, url: str, cache_key: str) -> tuple[bytes, dict[str, Any]]:
@@ -159,9 +166,10 @@ class EgovLawsConnector:
             self.cache_dir,
             manifest["user_agent"],
             allowed_hosts={host},
-            crawl_delay=float(manifest.get("crawl_delay_seconds", 5)),
+            crawl_delay=manifest_crawl_delay(manifest, minimum=MIN_DELAY),
             offline=self.offline,
             sleep=self._sleep,
+            honour_robots_delay=True,
         )
         failed_in_a_row = 0
         for law in manifest["laws"]:

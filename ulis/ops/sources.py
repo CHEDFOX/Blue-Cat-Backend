@@ -78,6 +78,8 @@ def url_hosts(text: str) -> set[str]:
     return {h.lower().rstrip(".") for h in _URL_HOST.findall(_BOT_CONTACT.sub("", text))}
 
 
+_COMMENT_LINE = re.compile(r"(?m)^\s*#.*$")
+
 DEFAULT_ENTRIES = 500  # ordering weight for a manifest that lists no recognisable collection
 
 
@@ -88,6 +90,8 @@ class ManifestInfo:
     crawl_delay: float | None  # seconds between requests, when the manifest sets one
     hosts: tuple[str, ...]  # hosts named in the manifest (they name the cache sub-directories)
     git: bool  # fetched with a git clone rather than HTTP requests
+    # hosts named in the manifest's settings and entries, not in its comments (whose robots.txt can set a floor)
+    data_hosts: tuple[str, ...] = ()
 
     @property
     def weight(self) -> int:
@@ -126,7 +130,8 @@ def _read(path: str, mtime_ns: int) -> ManifestInfo:
         delay = float(raw_delay) if isinstance(raw_delay, int | float) else None
         git = "repository" in data
     hosts = tuple(sorted(url_hosts(raw)))
-    return ManifestInfo(entries, requests, delay, hosts, git)
+    data_hosts = tuple(sorted(url_hosts(_COMMENT_LINE.sub("", raw))))
+    return ManifestInfo(entries, requests, delay, hosts, git, data_hosts)
 
 
 def manifest_info(source: SourceDescriptor, base_dir: Path) -> ManifestInfo | None:

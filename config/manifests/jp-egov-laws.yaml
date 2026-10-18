@@ -9,6 +9,13 @@
 # GET /api/2/laws?repeal_status=None (total_count 9,005; Act 2,073, Cabinet Order 2,310, Imperial Order 66, Ministerial
 # Ordinance 4,103, Rule 409, and 21 listed under two types such as "Act,CabinetOrder"; the Constitution is the first
 # entry). Left out: 561 repealed, expired, suspended or ineffective laws and 16 laws none of whose revisions is in force yet.
+# Pace: one connection, 5 s between request starts, kept on purpose. laws.e-gov.go.jp has no robots.txt (the path answers
+# with the web app's HTML, 2026-10-18 10:40 UTC) and no numeric limit is published, but Digital Agency asked users not to
+# loop over every law through the API and warned that excessive or bot access may be restricted
+# (https://www.digital.go.jp/policies/legal-practice/public-test, read 2026-10-18), so ULIS does not go faster (the
+# connector refuses less than 5 s); ask Digital Agency before any faster pace. The official bulk download
+# (https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true, 283 MB) is the faster route; it needs a
+# new connector path.
 # Cost of a full run: two requests per law (revision list, then text) = about 18,000 requests = 25 hours at
 # the 5 s crawl delay; about 1.5 GB of XML and, estimated from a random sample of 98 laws (163 KB of XML,
 # 127 provision versions and 0.63 MB of database per law), about 1.1 million provision versions and 4-8 GB of

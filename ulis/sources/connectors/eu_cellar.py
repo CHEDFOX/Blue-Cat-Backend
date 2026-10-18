@@ -15,7 +15,8 @@ the Commission reuse notice, Decision 2011/833/EU):
 
 For every work in the manifest the connector runs three SPARQL queries, then downloads the
 files of the requested format in each requested language, all through :class:`PoliteHttp`
-(identifying User-Agent, at least 5 s between requests, back-off, refusals respected, cache).
+(identifying User-Agent, one connection, the manifest's delay between request starts - at least
+1 s, and never less than a robots.txt Crawl-delay of the host - back-off, refusals respected, cache).
 For each (work, language) it yields one *bundle*: a JSON envelope holding every response used
 exactly as received (UTF-8 text, or base64 for binary), each with its URL, retrieval time and
 SHA-256. The parser therefore sees the metadata and the text together, and every byte stays
@@ -51,7 +52,7 @@ import yaml
 
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
-from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
+from ulis.sources.connectors.polite_http import FetchError, PoliteHttp, manifest_crawl_delay
 
 HOST = "publications.europa.eu"
 SPARQL_URL = f"https://{HOST}/webapi/rdf/sparql"
@@ -346,8 +347,7 @@ class CellarConnector:
         batch = manifest.get("sparql_batch", 1)
         if not isinstance(batch, int) or not 1 <= batch <= MAX_BATCH:
             raise ManifestError(f"sparql_batch must be an integer from 1 to {MAX_BATCH}")
-        if float(manifest.get("crawl_delay_seconds", 5)) < 5:
-            raise ManifestError("crawl_delay_seconds must be at least 5")
+        manifest_crawl_delay(manifest)
         seen: set[str] = set()
         for work in manifest.get("works") or []:
             celex = str(work.get("celex", ""))
@@ -375,9 +375,10 @@ class CellarConnector:
                 self.cache_dir,
                 manifest["user_agent"],
                 allowed_hosts={HOST},
-                crawl_delay=max(5.0, float(manifest.get("crawl_delay_seconds", 5))),
+                crawl_delay=manifest_crawl_delay(manifest),
                 offline=self.offline,
                 sleep=self._sleep,
+                honour_robots_delay=True,
             )
         return self.http
 

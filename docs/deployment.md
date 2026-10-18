@@ -87,8 +87,17 @@ docker compose --profile tools run --rm cli status                  # per-jurisd
   "unknown"; the list is in [licence-review.md](licence-review.md)). The early-access test is not commercial.
 * **Parallel**: `--jobs 4` loads four sources at once (default 1). Two sources whose publishers share a domain are never
   loaded together, so every publisher still sees one polite client; sources on different sites overlap. Sequentially
-  the network time of the 50 active sources is at least 31 hours (`--dry-run` prints it); with `--jobs 4` the wall time
-  is set by the slowest sources, Germany (at least 8.5 h) and the French and Czech dumps, so plan for about a day. Each
+  the network time of the 14 sources the default plan loads is at least 158 hours (`--dry-run` prints it, at the delay
+  each source will use; it was 229 hours before 2026-10-18). With `--jobs 4` the wall time is set by the three
+  legislation.gov.uk sources, which share one host and so run one after another at robots.txt's Crawl-delay of 5 s (at
+  least 10 + 25 + 91 = 126 hours, the secondary legislation as made being the largest), then Japan (at least 12.5 h) and
+  the French dump, so plan for five to six days unless The National Archives grants a faster or bulk route
+  ([permission-requests.md](permission-requests.md)). Since 2026-10-18 the request pace per source follows the
+  publisher's own allowance ([onboarding-a-jurisdiction.md](onboarding-a-jurisdiction.md), section 3): where the
+  publisher states no Crawl-delay or rate, 1 s between request starts on one connection (EU Cellar at least 9.4 h
+  instead of 47 h in the dry run - about 19 h instead of 97 h counting every file - Finland 3.1 h instead of 15.5 h,
+  Spain 1.9 h instead of 9.5 h, Germany 1.7 h instead of 8.5 h, Sweden 1.5 h instead of 7.4 h); where it does, its
+  figure (UK 5 s, Australia 10 s, Japan 5 s, the last at Digital Agency's request not to loop over the API). Each
   source runs in its own transaction; use `--jobs 2` on a small VPS (memory: the French and Czech archives are
   streamed, the largest single documents are US Code titles and CFR parts).
 * Time (estimates, not measured end to end): the smaller sources take minutes each (measured ingestion: Canada 2 min,

@@ -42,8 +42,16 @@ access:
   endpoint: config/manifests/de-gesetze-im-internet.yaml
 update_frequency: continuous ("fortlaufend konsolidiert"); daily table of contents at /gii-toc.xml
 rate_limits: >-
-  No published rate limit. robots.txt (2026-10-14) disallows nothing and sets no Crawl-delay;
-  ULIS waits 5 s between requests, identifies itself, and caches every download.
+  No published rate limit, no Crawl-delay, no notice or permission requirement (re-checked 2026-10-18).
+  https://www.gesetze-im-internet.de/robots.txt (2026-10-18 10:55 UTC) reads in full "User-agent: *" / "Disallow:".
+  index.html, hinweise.html and impressum.html (read 2026-10-18) say nothing about request frequency; Hinweise item 6
+  offers the XML "insbes. für die Nutzer ..., die ... über automatisierte Verfahren weiterverarbeiten möchten". The free-use
+  statement covers what may be done with the texts, not how often they may be requested, so ULIS uses the project
+  minimum: one connection, 1 s between request starts (robots.txt is read before the first request of each run and a
+  Crawl-delay there would win), identifies itself, backs off on 429/5xx and caches every download. A full load is 6,141
+  requests (one xml.zip per law) = about 1.7 h at 1 s (about 2.6 h if latency adds), against 8.5 h at the earlier 5 s.
+  No bulk archive exists. scripts/bulk_fetch_gii.py stays at 5 s. Optional courtesy before the first faster load:
+  kompetenzzentrum-ris@bfj.bund.de (impressum.html); ask there before more than one connection or more than 1 request/s.
 licence:
   id: DE-UrhG-5-official-works
   name: >-
@@ -68,7 +76,7 @@ licence:
   conditions:
     - Only the German-language norms; the English translations are not covered (prior consent needed outside copyright exceptions).
     - Do not present the consolidated text as the official version (the site says it is not; stated on every result).
-    - Polite retrieval (identifying User-Agent, 5 s between requests, cached downloads); stop on any refusal.
+    - Polite retrieval (identifying User-Agent, one connection, 1 s between request starts or a longer robots.txt Crawl-delay, cached downloads); stop on any refusal.
   notes: >-
     The site requires no attribution; ULIS attributes anyway. The XML also carries editorial
     material by the Federal Office of Justice / juris (Standangaben, footnotes); the free-use

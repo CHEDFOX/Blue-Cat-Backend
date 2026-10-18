@@ -36,14 +36,17 @@ update_frequency: >-
   committed manifest is made by scripts/build_sfs_manifest.py (about 90 list requests) and is
   regenerated to follow new and repealed statutes
 rate_limits: >-
-  None published (API page
-  https://www.riksdagen.se/sv/dokument-och-lagar/riksdagens-oppna-data/anvandarstod/om-apiet/).
-  https://data.riksdagen.se/robots.txt does not exist (404 on 2026-10-14);
-  https://www.riksdagen.se/robots.txt sets "crawl-delay:1" only for named AI crawlers and disallows
-  nothing. ULIS sends one request per 5 s with an identifying User-Agent and backs off on 429/5xx.
-  The whole manifest is 5,353 documents, one request each: about 7.4 hours of network time. The
-  document list serves at most 10,000 hits per query (page 51 of 200 answers HTTP 400), so the
-  manifest script reads it in the default order, oldest first and newest first.
+  None published, and no notice or permission requirement (re-checked 2026-10-18: the open-data pages under
+  https://www.riksdagen.se/sv/dokument-och-lagar/riksdagens-oppna-data/, including om-apiet and anvandningsvillkor; an
+  API response carried no rate-limit or Retry-After header). https://data.riksdagen.se/robots.txt does not exist (404 on
+  2026-10-18 10:58 UTC); https://www.riksdagen.se/robots.txt sets "crawl-delay:1" only for named crawlers (Claudebot,
+  Claude-User, Claude-SearchBot), has no "*" group and disallows nothing; read strictly, 1 s is the only rate the
+  publisher states anywhere and ULIS treats it as a minimum. ULIS sends one request per 1 s (start to start; the project
+  minimum; data.riksdagen.se's robots.txt is checked before the first request of each run and a Crawl-delay there would
+  win), one connection, with an identifying User-Agent, and backs off on 429/5xx. The whole manifest is 5,353 documents,
+  one request each: about 1.5 hours of network time at 1 s (about 2.2 h if latency adds), against 7.4 h at the earlier
+  5 s. No SFS bulk dataset exists. The document list serves at most 10,000 hits per query (page 51 of 200 answers HTTP
+  400), so the manifest script reads it in the default order, oldest first and newest first.
 licence:
   id: riksdagen-oppna-data-villkor
   name: Riksdagens öppna data - användningsvillkor (free use and redistribution with attribution)

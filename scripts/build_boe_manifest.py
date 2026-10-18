@@ -59,7 +59,7 @@ RANK = [
     "Acuerdo",
     "Acuerdo Internacional",
 ]
-REQUEST_SECONDS = 5.0
+REQUEST_SECONDS = 1.0  # robots.txt sets no Crawl-delay and AEBOE publishes no rate (checked 2026-10-18)
 
 
 def fetch_list(http: PoliteHttp) -> list[dict[str, Any]]:
@@ -92,8 +92,8 @@ def fetch_list(http: PoliteHttp) -> list[dict[str, Any]]:
 
 
 def main() -> int:
-    http = PoliteHttp(CACHE, USER_AGENT, allowed_hosts={HOST}, crawl_delay=REQUEST_SECONDS)
-    robots = http.get(f"https://{HOST}/robots.txt")
+    http = PoliteHttp(CACHE, USER_AGENT, allowed_hosts={HOST}, crawl_delay=REQUEST_SECONDS, honour_robots_delay=True)
+    robots = http.get(f"https://{HOST}/robots.txt", refresh=True)
     by_id, generic = robots_rules_by_id(robots[0].decode("utf-8", "replace")) if robots else ({}, [])
     rows = fetch_list(http)
     ambitos = Counter(r["ambito"]["texto"] for r in rows)
@@ -134,7 +134,12 @@ def main() -> int:
             "# in force today; `--include-spent` adds them, with their consolidated history).",
             "#",
             f"# Scale: {len(state):,} norms ({exhausted:,} with vigencia_agotada = S: all their provisions repealed or",
-            f"# spent); {requests:,} requests at 5 s = {requests * REQUEST_SECONDS / 3600:.1f} h.",
+            f"# spent); {requests:,} requests at {REQUEST_SECONDS:g} s = {requests * REQUEST_SECONDS / 3600:.1f} h.",
+            "# Pace: one connection, 1 s between request starts (the project minimum). The publisher states no Crawl-delay or rate:",
+            '# https://www.boe.es/robots.txt has one "User-agent: *" group and no Crawl-delay (fetched 2026-10-18 10:50 UTC); the API',
+            "# page https://www.boe.es/datosabiertos/api/api.php and APIconsolidada.pdf give no rate or quota (read 2026-10-18);",
+            "# the reuse conditions ask only for diligent use (https://www.boe.es/informacion/aviso_legal/index.php#reutilizacion).",
+            "# The connector reads robots.txt on every online run; a Crawl-delay there would win.",
             f"# Rango: {', '.join(f'{k} {v:,}' for k, v in by_rango.most_common())}.",
             f"# Left out: the {regional:,} norms of the autonomous communities that the list also holds (ambito",
             f"# Autonómico; ULIS has no profile for the communities) and {len(blocked)} norms robots.txt names for the",
@@ -151,7 +156,7 @@ def main() -> int:
         "source_id: es-boe-consolidada",
         f"api_base: {API}",
         f'user_agent: "{USER_AGENT}"',
-        "crawl_delay_seconds: 5",
+        f"crawl_delay_seconds: {REQUEST_SECONDS:g}",
         "documents:",
     ]
     for r in state:

@@ -1,7 +1,12 @@
 # Works fetched from legislation.gov.uk (statutory instruments and rules that have versions): every such item the site holds as Akoma Ntoso XML.
 # Licence: Open Government Licence v3.0 (pre-1987 secondary legislation contributed by Westlaw UK also carries the
 # attribution "Westlaw UK derived from Crown Copyright material and contributed to legislation.gov.uk").
-# Fair use: identifying User-Agent, robots.txt Crawl-delay 5 s (1 request per 5 s; the limit is 1,500 per 5 minutes).
+# Fair use: identifying User-Agent, one connection, 5 s between request starts. robots.txt: "User-agent: *" /
+# "Crawl-delay: 5" (https://www.legislation.gov.uk/robots.txt, 2026-10-18 11:05 UTC); fair-use policy: "You must not
+# exceed the request rate limit of 1,500 requests in any 5-minute period" and "Follow the crawl-delay setting in the
+# robots.txt file" (https://www.legislation.gov.uk/fair-use-policy, read 2026-10-18). Going faster needs the
+# publisher's agreement first (docs/permission-requests.md); the connector applies robots.txt's Crawl-delay over any
+# shorter value here.
 # Generated 2026-10-18 by scripts/build_legislation_gov_uk_manifest.py from the site's listing feeds
 # (https://www.legislation.gov.uk/<type>/data.feed?results-count=1000): 17931 works, of which 17931 have a
 # version history (`history: true`: every point-in-time version the lifecycle lists is fetched) and 0 exist

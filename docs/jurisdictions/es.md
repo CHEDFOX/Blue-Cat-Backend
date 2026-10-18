@@ -39,7 +39,8 @@ therefore carry `REVISED_TEXT` ("not the authentic enacted text") and `SOURCE_NO
 `CURRENCY` with the record's `fecha_actualizacion` (only when `estado_consolidacion` is
 "Finalizado"; otherwise an outstanding-change warning says the consolidation is out of date).
 
-Politeness: `PoliteHttp` with the ULIS User-Agent, 5 s between requests, cache under
+Politeness: `PoliteHttp` with the ULIS User-Agent, one connection, 1 s between request starts since 2026-10-18 (5 s
+before; robots.txt sets no Crawl-delay and AEBOE publishes no rate: `config/sources/es-boe-consolidada.yaml`), cache under
 `var/sources/www.boe.es/`. **Requests made in total: 11** (robots.txt, aviso legal, datosabiertos
 page, API PDF, API FAQ, and one request per norm). The real ingestion read the cache (0 requests).
 
@@ -89,7 +90,7 @@ BOE-A-2001-17164 (RD 996/2001, repealed 2017-04-01) is found for 2010-01-01 with
 A text with no provision at all raises `ParseSkipped`. The connector skips a norm the API does not know (404) and
 continues (`fetch_errors`); a refusal stops the run.
 
-**Scale.** 6,827 requests at 5 s = **9.5 h** for the 6,826 listed (8,815 requests, 12.2 h, with the spent norms). A uniform
+**Scale.** 6,827 requests at 1 s = **1.9 h** (9.5 h at the earlier 5 s) for the 6,826 listed (8,815 requests, 12.2 h, with the spent norms). A uniform
 random sample of 80 of the 8,814 State norms (cached, parsed, 0 failures, 2026-10-15): 130.5 provision versions per norm (median 33, max 2,786, s.d. 327), 2.5 expressions per norm; raw API
 document 0.96 MB on average (median 78 KB, largest 63 MB). Extrapolated: **~1.15 million provision versions (plausibly 0.5-1.8
 million), ~4 GB of PostgreSQL** (the 74-norm slice below: 3.3 KB per version including passages and indexes) and

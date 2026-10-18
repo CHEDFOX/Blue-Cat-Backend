@@ -13,7 +13,7 @@ Status: **the whole open collection of statutes in force** (5,353 laws, ordinanc
   "Riksdagens öppna data är fria att användas och spridas vidare så länge du anger källa" ("Källa: Sveriges riksdag");
   services must not suggest the Riksdag stands behind them; copyright material (images) excluded; GDPR for personal data.
   Statutes have no copyright (lag (1960:729) 9 §, read in the dataset). Review: `approved` (counsel review recommended).
-- robots: `data.riksdagen.se/robots.txt` 404; `www.riksdagen.se/robots.txt` disallows nothing. No rate limit published; 5 s delay.
+- robots: `data.riksdagen.se/robots.txt` 404; `www.riksdagen.se/robots.txt` disallows nothing. No rate limit published (re-checked 2026-10-18); 1 s delay since 2026-10-18 (5 s before).
 - **Legal status**: the texts are the Government Offices' consolidations (each record: "Källa: Fulltext (Regeringskansliet)",
   `rkrattsbaser.gov.se/sfst`), republished by the Riksdag. Not authentic: a statute is promulgated when published in
   Svensk författningssamling on the website (lag (1976:633) 5 §). Recorded as `official_revised`, `authoritative=false`,
@@ -32,7 +32,7 @@ Status: **the whole open collection of statutes in force** (5,353 laws, ordinanc
   Riksbank / National Debt Office regulations. `load-all --refresh` re-fetches only the statutes already listed; new ones
   appear after the script is re-run (delete the cached list pages `var/sources/data.riksdagen.se/dokumentlista@*` first;
   `docs/deployment.md`, "Refresh").
-- **Scale**: 5,353 documents, one request each at 5 s = **7.4 hours**. From the sample run: about 62 provision versions and
+- **Scale**: 5,353 documents, one request each at 1 s = **1.5 hours** (7.4 hours at the earlier 5 s). From the sample run: about 62 provision versions and
   16 KB of text per statute, so about **340,000 provision versions** and **about 0.5 GB of database** (plus the raw JSON, 26 KB a
   statute, 0.14 GB in the object store). Far below the 15 GB threshold, so the default manifest is the whole list. Ingest in batches:
   `python scripts/ingest_in_batches.py se-riksdagen-sfs --batch 100`.

@@ -9,14 +9,19 @@
 # Terms: free use and redistribution with attribution "Källa: Sveriges riksdag" (användningsvillkor).
 # `sfs` is the statute's number in Svensk författningssamling as the Riksdag's list prints it; the document is
 # https://data.riksdagen.se/dokument/sfs-<number with ":" replaced by "-">.json (current consolidation only).
-# Scale: 5353 documents at one request per 5 s is about 7.4 hours of network time. A statute repealed after
+# Pace: one connection, 1 s between request starts (the project minimum). The publisher states no rate:
+# https://data.riksdagen.se/robots.txt answers 404 (2026-10-18 10:58 UTC); https://www.riksdagen.se/robots.txt sets
+# "crawl-delay:1" only for named crawlers (read strictly, 1 s is the only rate the Riksdag states, so it is the
+# minimum); the open-data pages and terms give no limit (read 2026-10-18). A Crawl-delay in data.riksdagen.se's
+# robots.txt would win.
+# Scale: 5353 documents at one request per 1 s is about 1.5 hours of network time. A statute repealed after
 # this list was made is fetched and skipped by the parser (record with "upphavd"). To ingest a part only, copy this
 # file and delete works.
 schema_version: 1
 source_id: se-riksdagen-sfs
 base_url: https://data.riksdagen.se/dokument
 user_agent: ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)
-crawl_delay_seconds: 5
+crawl_delay_seconds: 1
 works:
   - {sfs: "1974:152", title: "Kungörelse (1974:152) om beslutad ny regeringsform"}
   - {sfs: "1962:700", title: "Brottsbalk (1962:700)"}

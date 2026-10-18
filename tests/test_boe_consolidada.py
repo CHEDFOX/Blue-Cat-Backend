@@ -345,7 +345,7 @@ def test_connector_validates_the_manifest(tmp_path: Path) -> None:
         ({"api_base": "https://mirror.example.org/api"}, "api_base"),
         ({"documents": [{"id": "../../etc/passwd"}]}, "invalid or repeated BOE identifier"),
         ({"documents": [{"id": CE}, {"id": CE}]}, "invalid or repeated BOE identifier"),
-        ({"crawl_delay_seconds": 1}, "crawl_delay_seconds"),
+        ({"crawl_delay_seconds": 0.5}, "crawl_delay_seconds"),
         ({"source_id": "other"}, "source_id"),
     ]:
         conn = BoeConsolidadaConnector(_manifest(tmp_path, [CE], **overrides), "es-boe-consolidada", tmp_path)
@@ -393,7 +393,7 @@ def test_the_committed_manifest_covers_the_state_list_and_passes_validation(tmp_
     assert ids[:6] == [CE, "BOE-A-1889-4763", CP, LOPDGDD, "BOE-A-2015-10565", "BOE-A-2015-11430"]
     assert len(ids) > 6000 and all(i.startswith("BOE-A-") for i in ids)
     assert all(d.get("title") for d in manifest["documents"])
-    assert manifest["crawl_delay_seconds"] >= 5
+    assert manifest["crawl_delay_seconds"] == 1  # no Crawl-delay or published rate: the project minimum
 
 
 # --------------------------------------------------------------------------- PostgreSQL

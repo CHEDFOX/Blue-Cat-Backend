@@ -34,6 +34,8 @@ import yaml
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
 from ulis.sources.connectors.moj_laws import robots_allows
+from ulis.sources.connectors.polite_http import manifest_crawl_delay
+from ulis.sources.connectors.polite_http import robots_crawl_delay as _robots_crawl_delay
 
 # ``ukpga/1998/42``; Acts before 1963 are identified by regnal year (``ukpga/Eliz2/10-11/58``,
 # ``ukpga/Vict/22-23/12``), and calendar year + chapter number alone is ambiguous for some of them.
@@ -89,6 +91,7 @@ class LegislationGovUkConnector:
             raise ManifestError("manifest schema or source_id mismatch")
         if not manifest.get("user_agent") or "(" not in manifest["user_agent"]:
             raise ManifestError("an identifying user_agent with contact details is required (fair-use policy)")
+        manifest_crawl_delay(manifest)  # at least the project-wide 1 s; robots.txt's Crawl-delay (5 s) wins at run time
         seen: set[str] = set()
         default_history = bool(manifest.get("history_default", False))
         current_only = bool(manifest.get("current_only", False))  # the current text of each work, no earlier versions
@@ -145,20 +148,9 @@ class LegislationGovUkConnector:
         return self._robots_txt
 
     @staticmethod
-    def robots_crawl_delay(robots_txt: str) -> float:
-        """The ``Crawl-delay`` of the ``*`` group (0 if none)."""
-        group_all = False
-        for line in robots_txt.splitlines():
-            key, _, value = line.split("#", 1)[0].partition(":")
-            key, value = key.strip().lower(), value.strip()
-            if key == "user-agent":
-                group_all = value == "*"
-            elif key == "crawl-delay" and group_all:
-                try:
-                    return float(value)
-                except ValueError:
-                    return 0.0
-        return 0.0
+    def robots_crawl_delay(robots_txt: str, user_agent: str = "*") -> float:
+        """The ``Crawl-delay`` of the group for the agent's product token, else of ``*`` (0 if none)."""
+        return _robots_crawl_delay(robots_txt, user_agent) or 0.0
 
     def _get(
         self, manifest: dict[str, Any], url: str, cache_file: Path, *, check_robots: bool = True
@@ -178,9 +170,9 @@ class LegislationGovUkConnector:
             and not robots_allows(self._robots_txt, manifest["user_agent"], url)
         ):
             raise Refused(f"{url}: disallowed by robots.txt")
-        delay = float(manifest.get("crawl_delay_seconds", 5))
+        delay = manifest_crawl_delay(manifest)
         if self._robots_txt:
-            delay = max(delay, self.robots_crawl_delay(self._robots_txt))
+            delay = max(delay, self.robots_crawl_delay(self._robots_txt, manifest["user_agent"]))
         for attempt in range(5):
             wait = self._last_request + delay - time.monotonic()
             if wait > 0:

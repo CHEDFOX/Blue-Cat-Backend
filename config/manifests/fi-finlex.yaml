@@ -8,7 +8,12 @@
 # 38,585 statutes, but 33,006 of them are empty shells (a title and metadata, `contentAbsent`, 3-5 KB); the
 # download package's index (central directory of statute-consolidated.zip, read with one Range request) says
 # which have text and in which language, so `languages: [fin]` / `[swe]` marks the 50 listed in one language only.
-# Cost of a full run: 11,108 documents = about 11,100 requests = 15.4 hours at the 5 s crawl delay; about 0.5 GB
+# Pace: one connection, 1 s between request starts (the project minimum). The publisher states no Crawl-delay or number:
+# https://opendata.finlex.fi/robots.txt answers 404 and www.finlex.fi/robots.txt has no Crawl-delay (2026-10-18); the
+# quick guide says only that "user volumes ... may be restricted" with HTTP 429
+# (https://www.finlex.fi/en/open-data/integration-quick-guide, read 2026-10-18): a 429 that persists stops the run.
+# A Crawl-delay in the API host's robots.txt would win.
+# Cost of a full run: 11,108 documents = about 11,100 requests = 3.1 hours at the 1 s crawl delay; about 0.5 GB
 # of XML; database about 2 GB (the measured ratio is 4 bytes of database per byte of XML). A 404 or a server
 # error for one statute is reported and the run goes on; a refusal stops it. Responses are cached, so an
 # interrupted run resumes without new requests. The 4.1 GB download package would be faster for the owner
@@ -17,7 +22,7 @@ schema_version: 1
 source_id: fi-finlex
 base_url: https://opendata.finlex.fi/finlex/avoindata/v1
 user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
-crawl_delay_seconds: 5
+crawl_delay_seconds: 1
 languages: [fin, swe]
 works:
   - {year: 1999, number: "731", history: false}     # Suomen perustuslaki / Finlands grundlag (Constitution)

@@ -38,11 +38,19 @@ update_frequency: >-
   Continuous. Per the API FAQ, a new consolidated version is prepared 1 to 3 days after a
   modifying norm is published; re-fetch to refresh.
 rate_limits: >-
-  No rate limit is published. https://www.boe.es/robots.txt (fetched 2026-10-15) has a single "User-agent: *" group,
-  no Crawl-delay, and does not disallow /datosabiertos/ (it disallows about 12,300 per-document paths on other parts
-  of the site - privacy de-indexing of documents of other sections; the connector reads robots.txt on every run and
-  skips a norm whose API path a rule names: none of the 6,826 does). The list endpoint (3 requests, 18 MB) and one
-  request per norm: ULIS waits 5 s between requests, so a full run is 6,827 requests = 9.5 h.
+  No rate limit, Crawl-delay, registration, key or notice is published (re-checked 2026-10-18). https://www.boe.es/robots.txt
+  (fetched 2026-10-18 10:50 UTC, Last-Modified 02 Oct 2026) has a single "User-agent: *" group, no Crawl-delay, and does not
+  disallow /datosabiertos/ (it disallows about 12,300 per-document paths on other parts of the site; the connector reads
+  robots.txt afresh on every online run and skips a norm whose API path a rule names: none of the 6,826 does). The API page
+  https://www.boe.es/datosabiertos/api/api.php lists only 200/400/404/500, APIconsolidada.pdf (2 September 2025) states no
+  rate, and an API response carried no rate-limit or Retry-After header (2026-10-18 10:52 UTC). The reuse conditions ask
+  for "una utilización diligente de los contenidos ... [no] contrarias ... a los usos generalmente aceptados" (condición
+  Tercera, https://www.boe.es/informacion/aviso_legal/index.php#reutilizacion), read strictly as generally accepted crawler
+  practice: one connection, 1 s between request starts (the project minimum; a Crawl-delay in robots.txt would win),
+  back-off on 429/5xx honouring Retry-After, any refusal stops the run (condición Quinta lets AEBOE suspend access
+  "sin previo aviso"). A full run is 6,827 requests = about 1.9 h at 1 s (about 2.8 h if latency adds; about 6.5 GB),
+  against 9.5 h at the earlier 5 s. No bulk file exists. Optional courtesy before the first full run at 1 request/s:
+  the webmaster form https://www.boe.es/contactar/formulario_simple.php?tipo=WEB.
 licence:
   id: AEBOE-reutilizacion-2024
   name: >-
