@@ -93,7 +93,7 @@ docker compose --profile tools run --rm cli status                  # per-jurisd
   streamed, the largest single documents are US Code titles and CFR parts).
 * Time (estimates, not measured end to end): the smaller sources take minutes each (measured ingestion: Canada 2 min,
   UK from cache 3.5 min, US GPO samples 8 min; downloads add requests x crawl delay).
-* **Germany**: the committed manifest (`config/manifests/de-gesetze-im-internet.yaml`) lists all 6,139 federal laws,
+* **Germany**: the committed manifest (`config/manifests/de-gesetze-im-internet.yaml`) lists all 6,141 federal laws,
   so `load-all` alone fetches and loads them (a law the site no longer serves is reported as a run error and skipped; a
   refusal such as 403/429 stops the source and is respected). About 2.6% of the files hold no text (consumed
   amendment acts); they are counted as `documents_skipped`, not errors. `scripts/bulk_fetch_gii.py` (download only,
@@ -115,6 +115,30 @@ until you edit or regenerate their manifest: `us-gpo-uslm-samples`, `ca-justice-
 `ie-irish-statute-book`, `dk-retsinformation`, `ee-riigi-teataja`, `ch-fedlex`, `pl-eli-sejm`, `it-normattiva`,
 `eu-eur-lex`. Live: UK, Germany, Netherlands, Spain, Japan, Finland, Sweden, Latvia, Taiwan, Argentina, Australia.
 A weekly refresh of Germany re-downloads thousands of files: raise `--max-cache-age-days` or skip it (see the unit).
+
+**New laws appear only after the manifest builders are re-run.** `load-all --refresh` never runs a builder: for each
+selected source it discards the stale cached downloads and then calls the same `Ingestor.ingest_source` as `ingest`
+(`ulis/ops/loading.py`), whose connector reads the committed `config/manifests/<source>.yaml`. So a refresh re-fetches only
+the works already listed (a changed text becomes a new version), and a law enacted after the manifest was generated is
+not fetched until the builder is re-run and the new manifest committed (the audit of 2026-10-18 found two norms missing
+in Germany and 17 statutes with a suffixed SFS number in Sweden this way). Every builder serves the publisher's list from
+the `PoliteHttp` cache when it holds one, so delete the cached list first (Germany `var/sources/www.gesetze-im-internet.de/
+gii-toc.xml`, Spain `var/sources/www.boe.es/legislacion-consolidada/index-*.json`, Japan
+`var/sources/laws.e-gov.go.jp/api2/laws/inforce-cur-offset*.xml`, Sweden `var/sources/data.riksdagen.se/dokumentlista@*`)
+or run the builder after the weekly eviction. Builders for the launch markets: US `python scripts/build_uscode_manifest.py`
+(`us-uscode-house`) and `python scripts/build_govinfo_manifests.py` (`us-govinfo-bulk-statutes`, `us-govinfo-bulk-cfr-fr`),
+all three static pins; `us-ecfr` has no builder (its manifest is the fixed list of 49 CFR titles, whose files GPO regenerates,
+so new regulations arrive with a refresh). GB `python scripts/build_legislation_gov_uk_manifest.py` (both legislation.gov.uk
+manifests). FR has no builder: the LEGI connector applies every daily incremental archive the host lists after the pinned
+stock (`incrementals.enabled: true`), so new texts of the selected natures arrive with a refresh, but a newer stock has to be
+pinned by hand in `config/manifests/fr-dila-legi.yaml` (DILA's data sheet asks for the latest stock). DE
+`python scripts/bulk_fetch_gii.py --limit 0` (fetches the table of contents only) then `python scripts/build_gii_manifest.py
+--all`. EU `python -m scripts.build_eu_manifest` (static pin). CA `python scripts/build_justice_canada_manifest.py
+/path/to/laws-lois-xml --all` (static pin; needs a checkout of github.com/justicecanada/laws-lois-xml). AU
+`python scripts/build_frl_manifest.py`. ES `python -m scripts.build_boe_manifest`. SE `python scripts/build_sfs_manifest.py`.
+FI `python -m scripts.build_finlex_manifest`. JP `python -m scripts.build_egov_manifest`. A static pin stays skipped by
+`--refresh` after its manifest changed: load it with `load-all` without `--refresh`, or `--only`. Running the builders on a
+schedule is not implemented.
 
 ## 5. Upgrading
 
