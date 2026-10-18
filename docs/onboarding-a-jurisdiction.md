@@ -33,8 +33,33 @@ Reuse what exists:
 - `git_snapshot` for a public repository pinned to a commit (`sparse: true` for large ones);
 - `ulis/sources/connectors/polite_http.py` (`PoliteHttp`) for websites and APIs: identifying
   User-Agent `ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)`,
-  robots crawl delay (5 s if none is given), back-off on 429/5xx, refusals respected, HTTPS
+  the delay rule below, back-off on 429/5xx (honouring `Retry-After`), refusals respected, HTTPS
   only to the hosts the manifest lists, cache under `var/sources/<host>/`, offline mode.
+
+**The delay rule.** One connection per publisher host (requests are sequential, never parallel), and
+between two request starts:
+
+    delay = max(the publisher's robots.txt Crawl-delay for that host, if any,
+                the manifest's crawl_delay_seconds)
+
+- The manifest's `crawl_delay_seconds` is what the research found the publisher allows. Without a
+  manifest value the connector uses 5 s. A manifest may go below 5 s, down to the project-wide minimum
+  `MIN_CRAWL_DELAY` (1 s), **only** where the publisher states no Crawl-delay, rate or quota of its own;
+  `manifest_crawl_delay()` (`polite_http.py`) refuses anything shorter than 1 s.
+- `PoliteHttp(..., honour_robots_delay=True)` reads the host's robots.txt afresh before the first network
+  request of each run and applies its Crawl-delay (the group for `ULIS-research-bot`, else `*`) as a floor,
+  so a Crawl-delay the publisher adds later wins over a shorter manifest value without a code change.
+  robots.txt governs only its own host: a Crawl-delay on a sister site does not carry over (write down why).
+- A published rate limit that is stricter than robots.txt (for example "one call per 10 s", or a stated wish
+  not to loop over the whole collection) goes into the manifest **and** into the connector as its own
+  minimum (`manifest_crawl_delay(manifest, minimum=...)`), with the publisher's words in a comment.
+  Never go above a published limit, and never use more than one connection unless the publisher
+  explicitly permits it.
+- Record the evidence (URL, date, the words) in the manifest header and in the source's `rate_limits`.
+  If the publisher asks for notice before a full crawl, or for contact before going faster, draft the
+  message in `docs/permission-requests.md` and keep the current pace until a written answer arrives.
+- `load-all` never runs two sources on one host at the same time, so they share the publisher's budget.
+  `load-all --dry-run` shows the delay each source will use and the network time it implies.
 
 A connector reads a manifest (`config/manifests/<id>.yaml`) that lists exactly what to
 fetch, yields `RawDocument`s (exact bytes as received, the URL, the retrieval time), and

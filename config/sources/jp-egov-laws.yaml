@@ -22,12 +22,19 @@ access:
 update_frequency: >-
   Each time a law is promulgated in the Official Gazette (官報), by enforcement date (help page).
 rate_limits: >-
-  No published numeric limit and no API key. laws.e-gov.go.jp has no robots.txt (the path
-  returns the single-page application, checked 2026-10-14), so the ULIS default of one request
-  every 5 seconds applies. Digital Agency's API prototype notes ask users not to put load on the
-  servers (bulk or bot access may be restricted). The widened manifest needs two requests per law
-  (revision list, then text): about 18,000 requests, 25 hours at 5 seconds; a refusal (401, 403,
-  429, 451) stops the run, and the responses are cached, so a repeated run costs no requests.
+  No published numeric limit, no API key, no notice requirement (re-checked 2026-10-18: https://laws.e-gov.go.jp/terms/,
+  /help/, /apitop/, the API v2 OpenAPI spec 2.1.139, which defines no 429, and /bulkdownload/). laws.e-gov.go.jp has no
+  robots.txt (the path returns the single-page application's HTML, "x-cache: Error from cloudfront", 2026-10-18 10:40 UTC),
+  so there is no Crawl-delay. Digital Agency's page for the API prototype (the forerunner of v2) says
+  「サーバの保護等のため、過剰アクセスやBOTアクセスなどが確認された場合には、アクセス制限を行うことがあります。」 and
+  「全法令をループして条文データを順次取得するようなご利用方法についても、サーバリソースの負担となり、他の利用者にも影響の生じうるレスポンス遅延やサーバダウンなどが発生するためお控えください。」
+  (https://www.digital.go.jp/policies/legal-practice/public-test, read 2026-10-18); ULIS applies it to v2 too. So ULIS
+  does not go faster: one connection, one request every 5 s (the connector refuses a manifest delay under 5 s), back-off
+  on 429/5xx. The manifest needs two requests per law (revision list, then text): 18,014 requests, 25 hours. A refusal
+  (401, 403, 429, 451) stops the run, and responses are cached, so a repeated run costs no requests. Because a full API
+  loop goes against the publisher's stated wish, the faster route is the official bulk download (all_xml.zip, 283 MB,
+  https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true, PDL1.0), which needs a new connector path;
+  ask Digital Agency (https://www.e-gov.go.jp/contact/inquiry.html) before any full API loop or a faster pace.
 licence:
   id: PDL-1.0
   name: 公共データ利用規約（第1.0版） / Public Data License 1.0 (compatible with CC BY 4.0)

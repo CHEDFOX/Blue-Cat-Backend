@@ -24,7 +24,8 @@ ULIS does not pass challenges, so no EUR-Lex page was fetched.
 `https://publications.europa.eu/robots.txt` redirects to `https://op.europa.eu/robots.txt`:
 `User-agent: *`, `Allow: /`, no `Crawl-delay`; `/resource/` and `/webapi/` are not disallowed.
 ULIS identifies itself (`ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)`),
-waits at least 5 s between requests, follows no redirects to plain HTTP (item URLs come from
+uses one connection and waits 1 s between request starts (the project minimum, since 2026-10-18: no Crawl-delay,
+rate or quota is published for publications.europa.eu; see `config/sources/eu-eur-lex.yaml`; it was 5 s before), follows no redirects to plain HTTP (item URLs come from
 SPARQL and are requested over HTTPS directly) and caches every response under
 `var/sources/publications.europa.eu/`. The full manifest needed 78 requests (24 SPARQL queries,
 54 files); a re-run makes none.
@@ -193,7 +194,7 @@ max 7.8 MB. Database: 7.4 MB of tables for the 48 (passages 5.2 MB, provision ve
 
 **Full-load estimate for the added acts.** 6,699 acts as adopted (1 file each) at 1.31 requests per work plus 391
 consolidated Formex 4 versions at 2.24: **about 9,650 requests, 13.4 h at 5 s** (the whole manifest: about 69,861 requests,
-97 h). About **69,000 provision versions**, **~0.3 GB of raw bundles** (6,336 x 48 KB + 363 x 1.5 MB) and **~1 GB of
+97 h at 5 s; about 19.4 h at the 1 s used since 2026-10-18). About **69,000 provision versions**, **~0.3 GB of raw bundles** (6,336 x 48 KB + 363 x 1.5 MB) and **~1 GB of
 PostgreSQL** (the XHTML decisions' attached agreements dominate: 3.2 bytes of tables per byte of text in the sample).
 
 **Not done / limits of the text renditions.** The 52 acts held only as PDF or print files and the 67 without an English

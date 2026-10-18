@@ -3,7 +3,7 @@
 Status: **every federal law and ordinance the publisher lists is in the manifest (6,141 norms on 2026-10-18); profile
 draft unverified.** Current consolidation only, German only. The real runs recorded here are the ten-law pilot of
 2026-10-14 (tables below), a 1,101-law trial from the cache (`docs/deployment.md`) and a five-law slice of the regenerated
-manifest (2026-10-18); the full load (at least 8.5 h of network time) has not been run here. Research aid, not legal
+manifest (2026-10-18); the full load (at least 1.7 h of network time at 1 s; 8.5 h at the earlier 5 s) has not been run here. Research aid, not legal
 advice. Not reviewed by a German lawyer.
 
 | | |
@@ -41,7 +41,8 @@ free-use statement for "alle angebotenen Formate" appears to cover). The optiona
 translations were skipped because their user notice requires consent beyond copyright exceptions.
 
 Retrieval: `PoliteHttp` with User-Agent `ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)`,
-5 s between requests, HTTPS to `www.gesetze-im-internet.de` only, cache under
+one connection, 1 s between request starts since 2026-10-18 (5 s before; robots.txt sets no Crawl-delay and no rate is
+published: `config/sources/de-gesetze-im-internet.yaml`), HTTPS to `www.gesetze-im-internet.de` only, cache under
 `var/sources/www.gesetze-im-internet.de/`. The whole onboarding made 20 requests to the site, one of them an automatic retry (the
 pages above, the table of contents, and 12 `xml.zip` downloads: the ten laws, plus SGB I and
 GewStG while choosing the tax/social law). The DTD was never fetched.

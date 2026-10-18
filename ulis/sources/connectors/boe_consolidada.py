@@ -7,7 +7,8 @@ generated from the same API's list endpoint (``scripts/build_boe_manifest.py``: 
 
 Reuse is governed by the AEBOE reuse conditions (https://www.boe.es/informacion/aviso_legal/
 index.php#reutilizacion). robots.txt sets no Crawl-delay and does not disallow ``/datosabiertos/``;
-``PoliteHttp`` identifies ULIS, waits 5 s between requests, respects refusals and caches every
+``PoliteHttp`` identifies ULIS, waits the manifest's delay between request starts (at least 1 s, and never
+less than a Crawl-delay robots.txt may set), uses one connection, respects refusals and caches every
 response under ``<cache>/www.boe.es/legislacion-consolidada/``.
 
 Robustness for a manifest of thousands of norms: robots.txt is read first, and a norm whose API path one
@@ -31,7 +32,7 @@ import yaml
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.likumi_lv import robots_disallowed
 from ulis.sources.connectors.local_manifest import ManifestError
-from ulis.sources.connectors.polite_http import PoliteHttp
+from ulis.sources.connectors.polite_http import PoliteHttp, manifest_crawl_delay
 
 API = "https://www.boe.es/datosabiertos/api/legislacion-consolidada"
 HOST = "www.boe.es"
@@ -79,8 +80,7 @@ class BoeConsolidadaConnector:
             raise ManifestError(f"api_base must be {API}")
         if not manifest.get("user_agent") or "(" not in manifest["user_agent"]:
             raise ManifestError("an identifying user_agent with contact details is required")
-        if float(manifest.get("crawl_delay_seconds", 5)) < 5:
-            raise ManifestError("crawl_delay_seconds must be at least 5")
+        manifest_crawl_delay(manifest)
         seen: set[str] = set()
         for doc in manifest["documents"]:
             boe_id = str(doc.get("id", ""))
@@ -95,12 +95,14 @@ class BoeConsolidadaConnector:
             self.cache_dir,
             manifest["user_agent"],
             allowed_hosts={HOST},
-            crawl_delay=max(5.0, float(manifest.get("crawl_delay_seconds", 5))),
+            crawl_delay=manifest_crawl_delay(manifest),
             offline=self.offline,
             sleep=self._sleep,
+            honour_robots_delay=True,
         )
         try:
-            robots = http.get(f"https://{HOST}/robots.txt")
+            # Read afresh on every online run (offline: the cached copy): its Disallow rules and any Crawl-delay.
+            robots = http.get(f"https://{HOST}/robots.txt", refresh=True)
             by_id, generic = robots_rules_by_id(robots[0].decode("utf-8", "replace")) if robots else ({}, [])
             for doc in manifest["documents"]:
                 boe_id = doc["id"]

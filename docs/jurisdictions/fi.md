@@ -31,7 +31,8 @@ API holds) and a 40-work slice of the widened manifest. The full download has no
 - `robots.txt`: `https://opendata.finlex.fi/robots.txt` answers 404 (no file);
   `https://www.finlex.fi/robots.txt` disallows only `/_next/image`. The site root
   `https://opendata.finlex.fi/` answers 403 - not a refusal of the API, and nothing outside the
-  documented API paths was requested. ULIS sends one request every 5 s.
+  documented API paths was requested. ULIS sends one request every 1 s since 2026-10-18 (every 5 s before; no
+  numeric limit is published, only HTTP 429 when volumes are restricted: `config/sources/fi-finlex.yaml`).
 - Copyright: statutes have no copyright in Finland - Copyright Act 404/1961, 9 § 1 mom. 1 kohta
   ("Tekijänoikeutta ei ole: 1) lakeihin ja asetuksiin"), read in the Finlex consolidation.
 - Attribution used on every result (Finlex prescribes no wording; CC BY 4.0 form): `Source: Finlex
@@ -100,7 +101,7 @@ taken from each latest version's `finlex:amendedBy` list.
   `instrument_types` list grew (one pinned test updated). **Connector:** a statute that cannot be fetched (404, 5xx)
   goes to `fetch_errors` and the run continues; a refusal (401/403/429/451) or 20 failures in a row stops it; a work
   may carry its own `languages`.
-- **Cost of the full run:** 11,108 documents = about 11,100 requests = **15.4 hours** at 5 s; XML about **0.5 GB**
+- **Cost of the full run:** 11,108 documents = about 11,100 requests = **3.1 hours** at 1 s (15.4 hours at the earlier 5 s); XML about **0.5 GB**
   (494 MB for the latest documents; 44 KB each). Database about **2-3 GB**: 13 works loaded alone took 30.5 MB for
   7.6 MB of XML (4.0x), the 40-work slice 19.6 MB for 3.8 MB (5.1x, shells included); 199 provision versions per
   work in the slice, so about 0.9 million provision versions.

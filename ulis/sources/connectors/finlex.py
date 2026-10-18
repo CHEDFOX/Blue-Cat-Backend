@@ -15,8 +15,10 @@ metadata; nothing is inferred in its place.
 
 Rules from the API documentation are built in through :class:`PoliteHttp`: a User-Agent
 header on every call (required by the API), ``Accept-Encoding: gzip`` (recommended), HTTPS
-only to ``opendata.finlex.fi``, a pause between requests (the API publishes no robots.txt,
-so 5 s), back-off on 429 (the API's rate-limit response) and 5xx, any refusal stops the run,
+only to ``opendata.finlex.fi``, one connection, the manifest's delay between request starts (at
+least 1 s; the API host has no robots.txt - it is checked before the first request of a run, and a
+Crawl-delay there would win - and publishes no numeric limit), back-off on 429 (the API's rate-limit
+response) and 5xx, any refusal stops the run,
 and every response is cached so nothing is fetched twice. Responses arrive gzip-encoded; the
 connector yields the decoded XML exactly as served.
 
@@ -41,7 +43,7 @@ import yaml
 
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
-from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
+from ulis.sources.connectors.polite_http import FetchError, PoliteHttp, manifest_crawl_delay
 
 API = "https://opendata.finlex.fi/finlex/avoindata/v1"
 HOST = "opendata.finlex.fi"
@@ -134,6 +136,7 @@ class FinlexConnector:
             if key in seen:
                 raise ManifestError(f"{work['number']}/{work['year']} is listed twice")
             seen.add(key)
+        manifest_crawl_delay(manifest)
         return manifest
 
     def _get(self, path: str) -> tuple[bytes, dict[str, Any]] | None:
@@ -186,9 +189,10 @@ class FinlexConnector:
             self.cache_dir,
             manifest["user_agent"],
             allowed_hosts={HOST},
-            crawl_delay=float(manifest.get("crawl_delay_seconds", 5)),
+            crawl_delay=manifest_crawl_delay(manifest),
             offline=self.offline,
             sleep=self._sleep,
+            honour_robots_delay=True,
         )
         failed_in_a_row = 0
         for work in manifest["works"]:

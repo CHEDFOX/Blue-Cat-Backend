@@ -535,7 +535,7 @@ def test_manifest_validation_for_batches_languages_and_consolidated_versions(tmp
     for changes, message in (
         ({"sparql_batch": 0}, "sparql_batch"),
         ({"sparql_batch": 500}, "sparql_batch"),
-        ({"crawl_delay_seconds": 1}, "crawl_delay_seconds"),
+        ({"crawl_delay_seconds": 0.5}, "crawl_delay_seconds"),
         (
             {"works": [{"celex": "32016R0679", "format": "fmx4"}, {"celex": "32016R0679", "format": "fmx4"}]},
             "repeated CELEX",

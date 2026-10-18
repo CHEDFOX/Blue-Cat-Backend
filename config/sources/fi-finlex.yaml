@@ -28,15 +28,20 @@ update_frequency: >-
   continuous - the API is updated shortly after publication; downloadable packages daily
   (https://www.finlex.fi/en/open-data)
 rate_limits: >-
-  No numeric limit is published. "User volumes ... may be restricted to ensure service
-  availability. If the number of calls is being restricted, the service will return the http
-  error code 429 Too Many Requests" (https://www.finlex.fi/en/open-data/integration-quick-guide).
-  opendata.finlex.fi has no robots.txt (404 on 2026-10-14); www.finlex.fi/robots.txt disallows
-  only /_next/image. ULIS sends one request per 5 s with an identifying User-Agent and backs
-  off on 429/5xx. The widened manifest needs about 11,100 requests (15 hours at 5 s); building it
-  took about 3,900 list requests (the list endpoint returns at most 10 entries a page) and 2
-  Range requests to the download package https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip
-  (robots.txt of www.finlex.fi allows it; only its central directory was read, not the 4.1 GB file).
+  No numeric limit is published. "User volumes ... may be restricted to ensure service availability. If the number of
+  calls is being restricted, the service will return the http error code 429 Too Many Requests"
+  (https://www.finlex.fi/en/open-data/integration-quick-guide, read 2026-10-18); "You can call the API without
+  identification or registration." The OpenAPI file https://opendata.finlex.fi/Finlex_avoin_data_v0_4_0.yaml has no rate
+  or quota text. opendata.finlex.fi has no robots.txt (404 on 2026-10-18); www.finlex.fi/robots.txt disallows only
+  /_next/image and sets no Crawl-delay. ULIS sends one request per 1 s (start to start; the project minimum; the API
+  host's robots.txt is checked before the first request of each run and a Crawl-delay there would win), one connection,
+  with an identifying User-Agent, and backs off on 429/5xx honouring Retry-After; a 429 that persists stops the run and
+  is never retried faster. The manifest needs about 11,140 requests: about 3.1 hours at 1 s (about 4.6 h if latency
+  adds), against 15.4 h at the earlier 5 s. Building it took about 3,900 list requests (the list endpoint returns at
+  most 10 entries a page) and 2 Range requests to the download package
+  https://www.finlex.fi/files/open-data/archives/statute-consolidated.zip (only its central directory was read). That
+  package (4.4 GB, updated daily, CC BY 4.0, byte-identical to the API for the document compared on 2026-10-18) would
+  be faster still but needs a package connector; it is not used yet.
 licence:
   id: CC-BY-4.0
   name: Creative Commons Attribution 4.0 International (Finlex open data)

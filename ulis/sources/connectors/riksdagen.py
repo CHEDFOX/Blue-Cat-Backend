@@ -12,8 +12,10 @@ so one statute that is no longer served (404) is reported in ``fetch_errors`` an
 refusal stops it.
 
 Rules built in through :class:`PoliteHttp`: an identifying User-Agent, HTTPS only to
-``data.riksdagen.se``, a pause between requests (data.riksdagen.se publishes no robots.txt, and
-www.riksdagen.se/robots.txt sets no delay for other agents, so 5 s), back-off on 429/5xx, any
+``data.riksdagen.se``, one connection, the manifest's delay between request starts (at least 1 s;
+data.riksdagen.se publishes no robots.txt - it is checked before the first request of a run, and a
+Crawl-delay there would win - and www.riksdagen.se/robots.txt sets "crawl-delay:1" only for named
+crawlers, which the 1 s minimum already meets), back-off on 429/5xx, any
 refusal (401/403/451) stops the run, and every response is cached with its URL and retrieval time
 so nothing is fetched twice and runs can be repeated offline.
 """
@@ -31,7 +33,7 @@ import yaml
 
 from ulis.sources.connectors.base import RawDocument
 from ulis.sources.connectors.local_manifest import ManifestError
-from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
+from ulis.sources.connectors.polite_http import FetchError, PoliteHttp, manifest_crawl_delay
 from ulis.sources.parsers.riksdagen_sfs import SfsNumber, parse_sfs_number
 
 BASE = "https://data.riksdagen.se/dokument"
@@ -91,6 +93,7 @@ class RiksdagenSfsConnector:
             if canonical in seen:
                 raise ManifestError(f"{work.get('sfs')} is listed twice")
             seen.add(canonical)
+        manifest_crawl_delay(manifest)
         return manifest
 
     def fetch(self) -> Iterator[RawDocument]:
@@ -100,9 +103,10 @@ class RiksdagenSfsConnector:
             self.cache_dir,
             manifest["user_agent"],
             allowed_hosts={HOST},
-            crawl_delay=float(manifest.get("crawl_delay_seconds", 5)),
+            crawl_delay=manifest_crawl_delay(manifest),
             offline=self.offline,
             sleep=self._sleep,
+            honour_robots_delay=True,
         )
         for work in manifest["works"]:
             doc_id = document_id(str(work["sfs"]))

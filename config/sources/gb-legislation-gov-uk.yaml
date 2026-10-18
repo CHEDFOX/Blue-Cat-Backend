@@ -44,13 +44,22 @@ access:
   endpoint: config/manifests/gb-legislation-gov-uk.yaml
 update_frequency: continuous (editorial); re-run scripts/build_legislation_gov_uk_manifest.py and the ingest to refresh
 rate_limits: >-
-  Fair use policy (see the header): identify with a User-Agent with contact details; obey robots.txt (Crawl-delay 5); at most 1,500 requests per
-  5 minutes. ULIS makes one request every 5 seconds (60 per 5 minutes), one at a time, and caches every response. Whole manifest (7,178 works;
-  the committed manifest is `current_only`, one request per work plus one for the Welsh text of each of the 100 Welsh works = 7,278 requests,
-  about 10 hours; the figures that follow are for every version, plus about 400 requests for the Welsh versions):
-  about 24,700 documents, 28,200 requests (a document each, plus the versions that answer 404 once) = about 39 hours at the crawl delay, after
-  53 listing requests (the listing of primary and secondary legislation took 209); about 2.75 million provision versions, 10.7 GB of database,
-  9.2 GB of raw responses (estimated from a slice, plus or minus 50 percent). The connector stops on any refusal (401/403/451/429), records a missing work and goes on, and
+  robots.txt: "User-agent: *" / "Crawl-delay: 5" (https://www.legislation.gov.uk/robots.txt, 2026-10-18 11:05 UTC). Fair use
+  policy (https://www.legislation.gov.uk/fair-use-policy, read 2026-10-18, Last-Modified 30 Sep 2026): "You must not exceed
+  the request rate limit of 1,500 requests in any 5-minute period ... This limit applies to users not IP addresses" and
+  "Follow the crawl-delay setting in the robots.txt file". The older copies on legislation.github.io say 3,000 per 5
+  minutes; the newer, stricter figure is used, and neither allows going faster than the Crawl-delay. ULIS makes one
+  request every 5 seconds (60 per 5 minutes), one at a time (the connector applies robots.txt's Crawl-delay over any
+  shorter manifest value), and caches every response; it never runs the three legislation.gov.uk sources at once. The
+  policy asks for contact before "a large, one-off crawl" or anything faster than robots.txt allows ("please contact us
+  prior to taking any action", data.legislation@nationalarchives.gov.uk): see docs/permission-requests.md. The bulk
+  downloads at research.legislation.gov.uk are "By Invitation Only" (HTTP 401, 2026-10-18). Whole manifest (7,178 works;
+  the committed manifest is `current_only`, one request per work plus one for the Welsh text of each of the 100 Welsh
+  works = 7,278 requests, about 10.1 hours; the figures that follow are for every version, plus about 400 requests for
+  the Welsh versions): about 24,700 documents, 28,200 requests (a document each, plus the versions that answer 404 once) =
+  about 39 hours at the crawl delay, after 53 listing requests (the listing of primary and secondary legislation took
+  209); about 2.75 million provision versions, 10.7 GB of database, 9.2 GB of raw responses (estimated from a slice, plus
+  or minus 50 percent). The connector stops on any refusal (401/403/451/429), records a missing work and goes on, and
   gives up after five failures in a row.
 licence:
   id: OGL-UK-3.0
