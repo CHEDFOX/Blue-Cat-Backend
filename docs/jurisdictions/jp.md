@@ -2,9 +2,11 @@
 
 Status: profile `draft_unverified` (0.1.0). The committed manifest lists **every law in force** that
 e-Gov 法令検索 names (8,989 laws; regenerated 2026-10-18 from a list of 9,005 laws not repealed, 16 of which have no
-revision in force yet; see "Widened to every law in force"); the real runs recorded in "Results" cover the original seven
-laws (two with their full revision history since 1 April 2017), a 35-law slice of the widened manifest and a 5-law slice of
-the regenerated one. The full download has not been run here.
+revision in force yet; see "Widened to every law in force") and, since 2026-10-18, loads them from e-Gov's **official XML
+bulk download** (`mode: bulk`, see "Bulk download route"): one archive and 50 API requests instead of 18,014 API requests.
+All 8,989 laws were parsed from the archive (0 errors) and a 50-law slice was ingested and verified; the real runs recorded
+in "Results" also cover the original seven laws (two with their full revision history since 1 April 2017), a 35-law slice
+of the widened manifest and a 5-law slice of the regenerated one. The full load into a database has not been run here.
 
 ## Source
 
@@ -12,7 +14,7 @@ the regenerated one. The full download has not been run here.
 |---|---|
 | Source id | `jp-egov-laws` (`config/sources/jp-egov-laws.yaml`) |
 | Publisher | Digital Agency (デジタル庁). Data prepared by the Ministry of Justice reflecting each amendment, checked by the ministries concerned ([help page](https://laws.e-gov.go.jp/help)) |
-| Access | 法令API Version 2, XML: `GET https://laws.e-gov.go.jp/api/2/law_revisions/{law_id}?response_format=xml` and `GET …/law_data/{law_revision_id}?response_format=xml` ([spec](https://laws.e-gov.go.jp/api/2/swagger-ui/), OpenAPI `lawapi-v2.yaml` 2.1.139). No API key |
+| Access | XML bulk download `all_xml.zip`: `GET https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true` ([bulk page](https://laws.e-gov.go.jp/bulkdownload/)), with the API's list of laws in force `GET …/api/2/laws?repeal_status=None`. 法令API Version 2, XML, for laws with history and single laws: `GET https://laws.e-gov.go.jp/api/2/law_revisions/{law_id}?response_format=xml` and `GET …/law_data/{law_revision_id}?response_format=xml` ([spec](https://laws.e-gov.go.jp/api/2/swagger-ui/), OpenAPI `lawapi-v2.yaml` 2.1.139). No key, registration or notice |
 | Connector | `egov_laws` (`ulis/sources/connectors/egov_laws.py`, uses `PoliteHttp`) |
 | Parser | `egov_law_xml` (`ulis/sources/parsers/egov_law.py`) |
 | Manifest | `config/manifests/jp-egov-laws.yaml` |
@@ -106,8 +108,116 @@ sub-items (号細分), the law's own original supplementary provisions (附則) 
   ordinances above, メートル条約 119IO0000000000, which the API types as an Imperial Order, and 会計検査院規則の公布に関する規則
   322R00000001001; 10 requests): 10 documents (5 revision lists, 5 texts), 5 instruments, 323 provision versions, 275
   passages, **0 errors** (45 s). `verify-sources`: **10 of 10 pass** (texts 216, 73, 10, 20 and 4 units).
-- Not evaluated: e-Gov's bulk download of all laws (one file instead of 18,000 requests), which would need a
-  different parser input and has no revision list.
+- e-Gov's bulk download of all laws (one file instead of 18,000 requests) was evaluated and adopted on 2026-10-18: see
+  "Bulk download route".
+
+## Bulk download route (2026-10-18)
+
+**Why.** Digital Agency asked API users not to loop over every law fetching texts one after another
+(「全法令をループして条文データを順次取得するようなご利用方法についても…お控えください。」,
+[public-test page](https://www.digital.go.jp/policies/legal-practice/public-test), read 2026-10-18), and the API's own spec
+(`lawapi-v2.yaml` 2.1.139, 「XML一括ダウンロードについて」) says 「法令データをダウンロードする場合は、XML一括ダウンロードにアクセスするか、
+以下のURLを利用してダウンロードしてください。」 naming `https://laws.e-gov.go.jp/bulkdownload?file_section=1&only_xml_flag=true`.
+Same licence as the API (PDL1.0); no key, registration or notice.
+
+**The archive** (downloaded once through `PoliteHttp`, identifying User-Agent, robots read first, 2026-10-18 11:51 UTC,
+**20.1 s**; cached at `var/sources/laws.e-gov.go.jp/bulkdownload/all_xml.zip`):
+
+| | |
+|---|---|
+| Size | **297,202,960 bytes** (the bulk page's 「283MB」 is 283.4 MiB); no Content-Length or Last-Modified header |
+| SHA-256 | `4581bf3a78278a83a18e5a7043f41e8ba56613b5458149db59e47c56979b744c` (pinned in the manifest) |
+| Members | 20,935: 10,467 directories `{law_revision_id}/`, each with one file `{law_revision_id}/{law_revision_id}.xml`, and `all_law_list.csv` (6,005,888 bytes); files dated 2026-10-17 15:01-15:03 |
+| Uncompressed | 3,303,703,667 bytes (292,974,162 compressed) |
+| XML | a bare `<Law>` root (法令標準XML), the element the API returns in `law_full_text` |
+| `all_law_list.csv` | UTF-8 with BOM, LF, one line per revision: 法令種別, 法令番号, 法令名, 法令名読み, 旧法令名, 公布日, 改正法令名, 改正法令番号, 改正法令公布日, 施行日, 施行日備考, 法令ID, 本文URL, 未施行 |
+| Rows | 10,467 (= the XML files, one-to-one through 本文URL `…/law/{law_id}/{date}_{amending law id}`), 8,990 law ids; **8,991 in force**, **1,476 marked 未施行** (not yet in force), 621 of them with a 施行日備考 (enforcement note: the date is not fixed) |
+
+Every one of the 8,989 manifest laws is in the archive. Laws with no revision in force at all are not (the 16 the list
+names are absent). The archive holds the revision in force and the revisions to come, not the earlier ones (one law,
+332AC0000000026, also still lists its previous revision in force).
+
+**Same law data as the API.** For 20 laws (the 9 of `tests/fixtures/egov_laws` and 11 fetched for this, below) the archive's
+`<Law>` and the API's `law_full_text/Law` of the same revision were compared element for element: tags, texts, tails and
+attribute sets are **identical in all 20** (24,103 provisions once parsed). The bytes differ only in the XML declaration
+(the files have one) and in the order of attributes (the API sorts them alphabetically).
+
+**What the files lack, and where it comes from.** A bare `<Law>` carries no law id and no revision data. The connector reads
+the API's list of laws in force once per archive (10 pages, cached under the archive's SHA-256) and passes each law's
+`law_info` and `current_revision_info` (the fields `law_data` puts in `revision_info`) as document metadata
+(`METADATA_PARSERS` in the pipeline; verification re-parses with the stored metadata). Checked for the 8,988 laws with one
+row in force: the list's revision in force is the archive's in every case (for 332AC0000000026 it is the later of its two
+rows); `<LawNum>` = the list's `law_num` 8,988/8,988; the CSV's era dates read as e-Gov's ISO dates: 公布日 8,988/8,988,
+改正法令公布日 8,988/8,988, 施行日 = the date in the revision id 10,467/10,467; `LawType` = the list's type except the 21 laws the
+list types twice (the file says `Act`, as the text endpoint does). Two fields are taken from the file, not the list:
+`LawTitle/@Abbrev` (equal to `law_data`'s `revision_info/abbrev` in 23 of 23 responses; the list writes 296 differently:
+278 in another order, 17 with 「抄」 added, and for 326M50000100030 the file has none where the list has one). `amendment_type` cannot be read from the archive (4 laws have no amending law but type 3), so it
+comes from the list.
+
+**Laws the API path cannot load.** For 34 laws e-Gov marks the revision in force `PreviousEnforced` and none
+`CurrentEnforced` (3 checked through the API: 322AC0000000026, 322AC0000000054, 322CO0000000016). The API path refuses them
+("the revision list has no revision currently in force"); the list's `current_revision_info` and the archive agree on that
+revision, so the bulk path loads them.
+
+**Not yet in force.** Rows marked 未施行 become the change report's outstanding changes, exactly as `UnEnforced` revisions of
+a revision list do: a row with a 施行日備考 has only a placeholder date (in the 18 revision lists at hand, 28 pending
+revisions have both a placeholder date and a comment, 30 neither, none one without the other) and is reported as "not yet
+fixed", quoting the note. Their texts, which are in the archive, are never yielded.
+
+**All 8,989 laws parsed from the archive** (connector offline over the committed manifest with `history` off, so that every
+law comes from the archive; 2026-10-18): 8,989 texts (1,165,105,058 bytes) and 8,989 change reports, **0 fetch errors, 0
+parse errors, 0 skipped**; 1,258,761 provisions; constitution 1, act 2,100, cabinet order 2,310, imperial ordinance 66,
+ministerial ordinance 4,103, rule 409; 1,476 outstanding changes on 800 laws (621 with a placeholder date); text origin
+`official_revised` 7,365, `official_conversion` 1,624. **61 s** in all (6.6 s reading the archive, 54.1 s parsing; a
+second run with the final code, while another test suite shared the machine: same counts, 92 s).
+
+**Same documents as the API path, 20 laws.** The bulk path (connector, offline) and the API path (`parse_egov` of the
+`law_data` / `law_revisions` responses: the 9 fixtures of 2026-10-14/15 and 20 requests on 2026-10-18 for 11 more laws chosen
+for edge cases: the three `PreviousEnforced` laws above, 332AC0000000026 with two rows in force, 地方税法 with 26 pending
+amendments, a Rule, 205M10000200030 and 504AC0000000068 whose revision has no amending law, 337AC0000000150 with ruby in its
+title, two laws whose abbreviations the list writes differently):
+
+- **Texts: 20 of 20 identical** (work and expression URIs, titles, number, dates, text origin, `ext`, all 24,103 provisions
+  with their eIds, texts, headings and statuses), except the locator of the one `version_change` event, which names where the
+  revision data was read: `revision_info/law_revision_id[…]` (API) vs `metadata/revision_info/law_revision_id[…]` (bulk).
+- **Change reports: 15 compared, outstanding changes identical in all 15** (52 changes; 地方税法 26, 332AC0000000026 14, APPI
+  6, 民法 5, 504AC0000000068 1), every other field identical except the events: the bulk report has the amendment in force and
+  the promulgation (31 events), the revision list also names the earlier amendments since 2017 (478; 447 not in the bulk
+  report). 3 more (the `PreviousEnforced` laws) only the bulk path produces; for 2 no revision list was fetched.
+- Acceptable: the events are lifecycle information, not text; the two laws loaded with history keep the full events from the
+  API. Not verifiable here: for the later stages of a law entering into force in stages (all-zero amending-law id, e.g.
+  防災庁設置法), the bulk report gives no amending-law link; where the API names the id `000000000000000` it links that.
+
+**Slice ingest** (dev database `ulis_jpb`, 2026-10-18; `scripts/ingest_in_batches.py jp-egov-laws --manifest <slice>`; 50 laws:
+the five hand-picked laws without history, the 16 other laws above, 29 drawn at random, seeded): documents seen 100, new 100,
+instruments 50, instrument versions 50, provision versions **33,739**, passages 29,736, **0 errors**, **75 s**, no request
+(everything cached). Re-run: 100 unchanged (8 s). `verify-sources`: **100 of 100 pass**, 33,739 units and 151 lifecycle
+events re-derived from the stored documents and their metadata (8 s). 74 outstanding changes on 16 expressions. Searches:
+`故意又は過失によって他人の権利` → 民法第709条; `道路運送車両` → 租税特別措置法第90条の12第1項, 地方税法第442条; `激甚災害` →
+激甚災害に対処するための特別の財政援助等に関する法律第11条の2第2項.
+
+**Cost of a full load.** Before: 18,014 API requests (8,989 revision lists, 8,987 texts, 14 + 24 texts of the two laws with
+history) = **25.0 hours** at 5 s. After: **51 requests** (the archive, 10 list pages, 2 revision lists and 38 texts for 刑法 and
+APPI) = 4.3 minutes of request spacing, plus about 20 s to transfer the archive and about 1 minute to parse; the database
+work comes on top (the slice wrote 450 provision versions per second; 1,258,761 provisions at that pace would be about
+47 minutes, an estimate only). `network_requests: 51` in the manifest gives `load-all --dry-run` that figure.
+
+**Refresh.** e-Gov rebuilds `all_xml.zip` as laws are promulgated and serves only the latest one, so the connector refuses an
+archive other than the pinned one, naming its size and SHA-256 (`jp-egov-laws` is now in `STATIC_PINS`: the weekly
+`load-all --refresh` skips it instead of failing). To refresh: delete `var/sources/laws.e-gov.go.jp/bulkdownload/all_xml.zip`,
+run, review and move the pin (or set `bytes` and `sha256` to null to take what is served); the list is read again for the new
+archive (10 requests). A law whose revision is unchanged has the same file bytes, so its documents are recognised by SHA-256
+and cost nothing; a new revision becomes a new snapshot. The per-update-date archives
+(`…/bulkdownload?file_section=3&update_date=YYYYMMDD&only_xml_flag=true`, the past 3 months; 61 listed, 2026-07-21 to
+2026-10-16) are not used: the one of 2026-10-16 (one request: 9,184,551 bytes) holds 94 revision files and `R081016.csv`
+(same 14 columns, 94 rows); 89 of the 94 files are byte-identical to the members of the same name in the full archive of
+2026-10-17, the other 5 were replaced by then (a later revision of the same day, a newer revision in force) or belong to two
+ordinances with no revision in force yet. A full archive gives one consistent state in one request; replaying daily files
+would have to rebuild that state.
+
+**Requests to laws.e-gov.go.jp for this work** (2026-10-18, one connection, at least 5 s between request starts, identifying
+User-Agent): 37 = 2 archives (all laws; the update of 2026-10-16), 10 list pages, 20 API responses for the comparison and 5
+reads of robots.txt (one per run). No 401, 403, 429 or 451; no retry.
 
 ## Structure, identifiers and text
 
@@ -139,8 +249,8 @@ sub-items (号細分), the law's own original supplementary provisions (附則) 
 - History starts at e-Gov's data baseline (1 April 2017): the oldest revision is the one in force then
   (刑法: 2016-06-23; APPI: 2017-03-01). Dates between promulgation (`work_date`) and that revision are
   `history_not_indexed`; dates before promulgation `not_yet_in_force`.
-- **Not-yet-enforced amendments** (`UnEnforced`) are never fetched as text. The revision list is
-  ingested as a *change report* for the current revision: each pending amendment becomes an
+- **Not-yet-enforced amendments** (`UnEnforced`; 未施行 in the bulk list) are never loaded as text. The revision list (in
+  bulk mode: the law's lines of `all_law_list.csv`) is ingested as a *change report* for the current revision: each pending amendment becomes an
   instrument-level outstanding change (`OUTSTANDING_CHANGES_INSTRUMENT`) with its promulgation date
   and scheduled date. When e-Gov only gives a placeholder ordering date
   (`amendment_scheduled_enforcement_date`, "not necessarily the actual date"), ULIS reports the date
@@ -211,7 +321,11 @@ Tests after widening (2026-10-16, own test database): full suite **1,291 passed*
 
 - History only for 刑法 and APPI and only from 1 April 2017; every other law is the revision in force on the
   day it was fetched (add `history: true` per law to widen, in a fresh database).
-- The full 8,989-law download has not been run (slices of 35 and of 5 have); the size figures above are estimates.
+- The full 8,989-law load into a database has not been run (every law was parsed from the bulk archive; slices of 50 (bulk),
+  35 and 5 (API) were ingested); the database size figures above are estimates.
+- Bulk mode: lifecycle events of the laws loaded from the archive are the amendment in force and the promulgation, not the
+  earlier amendments since 2017 (447 of 478 events of 15 revision lists compared). The archive is pinned: a refresh needs the
+  pin moved by hand (see "Bulk download route"). The per-update-date archives are not used.
 - No notices (告示), Diet or Supreme Court rules, treaties, local ordinances or case law: they are not in e-Gov. Laws
   that are repealed, expired or not yet in force at all are not ingested. New laws enter the manifest only when the
   builder is re-run.
@@ -219,6 +333,6 @@ Tests after widening (2026-10-16, own test database): full suite **1,291 passed*
   rules), the table of contents, the enacting formula, figures and forms are not indexed; furigana dropped.
 - Pending amendments are reported for the whole law, not linked to the provisions they change.
 - Revision lists are cached; delete `var/sources/laws.e-gov.go.jp/api2/law_revisions` to pick up new
-  revisions. Adding history for a law already ingested without it requires a fresh database
+  revisions (API mode and the two laws with history; bulk mode: see "Refresh" above). Adding history for a law already ingested without it requires a fresh database
   (snapshots must be recorded oldest first).
 - Japanese Law Translation (English) is unofficial and not ingested. No morphological analysis.
