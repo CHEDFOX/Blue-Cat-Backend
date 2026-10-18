@@ -1,8 +1,9 @@
 # European Union (EU)
 
-Status: **partial, draft_unverified profile**. Every regulation, directive and decision in force that Cellar holds as
-Formex 4 in English (26,875 acts on 2026-10-15), plus the Treaties and the Charter; the Treaties, the Charter and five core
-acts also in French and German. Not reviewed by counsel.
+Status: **partial, draft_unverified profile**. Every regulation, directive and decision in force that Cellar holds in a
+machine-readable text format in English (33,967 acts on 2026-10-18: 26,880 as Formex 4, 376 as OJ XHTML and 6,711 as the
+legacy EUR-Lex HTML), plus the Treaties and the Charter; the Treaties, the Charter and five core acts also in French and
+German. Not reviewed by counsel.
 
 ## Source and access
 
@@ -125,6 +126,86 @@ acts), 7+2+2 consolidated and 85 as adopted; **22.9 provision versions per work*
 
 **Slice result.** 108 works (the 100-work random sample, the core acts and the Treaties) gave 124 documents, 108 instruments, 15,305 provision versions and 13,626 passages, 0 ingest errors; `verify-sources` 124/124, database 61 MB. Searches on it: GDPR art. 6(1)(a) in English and French, AI Act art. 9, Consumer Rights Directive art. 16b (consolidated), Rome I art. 3(1) and GDPR art. 17(1) in German. Full suite of the widening branch (Spain, Italy, EU, Argentina): 1,309 passed; ruff and mypy clean.
 
+## The acts without a Formex 4 file (widened 2026-10-18)
+
+**What Cellar holds.** On 2026-10-18 the SPARQL endpoint listed **34,086 acts in force** with a CELEX number
+`3YYYY[RLD]NNNN` (16,258 regulations, 1,305 directives, 16,523 decisions; one aggregate query), **34,019 with an English
+language version** (67 have none: 10 regulations, 57 decisions). One query per year of the act (1952-2026, 75 queries,
+about 18 s each) returned every English manifestation type (`cdm:manifestation_type`) of each act: **26,880 have a Formex 4
+file**; of the other 7,139, **6,711 are held as HTML** (the legacy EUR-Lex HTML, `text/html`, in the combinations
+`html, pdfa1b, print` 3,899, `html, pdf, print` 2,796, `html, print` 15, one with XHTML too), **376 as OJ XHTML** without
+Formex 4 (`pdf, print, xhtml` 305, `pdfa1a, print, xhtml` 68, `print, xhtml` 2, one with HTML too) and **52 have no
+machine-readable text** (`pdf, print` 24, `print` 22, `pdfa1b, print` 3, `pdf` 3). By decade, the acts without Formex 4
+are 1950s 5, 1960s 59, 1970s 510, 1980s 1,429, 1990s 2,720, 2000s 2,384, 2010s 30, 2020s 2: the legacy HTML is the
+format of 1953-2003 (every year to 1998 has more HTML than Formex 4 acts; 1999-2003 have 2,206 HTML and 24 Formex 4 acts),
+the XHTML without Formex 4 is 2004-2012 (375 acts). The Publications Office's own PDF scans are not used (no OCR).
+
+**Formats.** `scripts/build_eu_manifest.py` now lists each act in the best text format Cellar has (`TEXT_FORMATS`: Formex
+4, else OJ XHTML, else legacy HTML) and counts the rest in the header ("Not listed: 52 acts ..."). The connector accepts
+`format: html` (one file per act, `text/html`, role `item:html`); consolidated versions are still read from Formex 4 only
+(the two acts whose only consolidated version is XHTML are listed as adopted). The parser (1.2.0) reads both renditions
+through one builder (`parse_text_act`):
+
+- **Legacy EUR-Lex HTML** (HTML 4.01, parsed with the standard library's `html.parser`): the text of the Official Journal as
+  flat `<p>` paragraphs inside `<div id="TexteOnly"><TXT_TE>`, with no structural markup. Articles are recovered from their
+  heading paragraphs ("Article 1", "Sole Article"), numbered paragraphs from labels in sequence ("1. ", "2. "; a label out
+  of sequence stays in the text), divisions ("TITLE I" and the heading lines after it) as context, the enacting terms end
+  at "Done at ..."; everything after the signatures that is headed "ANNEX [n]" is one annex unit. The short unpunctuated
+  paragraph after "Article N" is the article's heading ("Scope", "Definitions"). Points stay in the paragraph's text (the
+  rendition does not mark them). Footnotes are printed in the text by the publisher and stay there (noted); image and table
+  placeholders (`>PIC FILE= "T0014035">`, `>START OF GRAPHIC>`) are dropped and counted in the note.
+- **OJ XHTML** (CONVEX 6 to 9, parsed with `defusedxml` as the Treaties are): classes name the parts (`ti-art`, `sti-art`,
+  `ti-section-1/2`, `doc-ti`, `note`, `final`; CONVEX 9 prefixes them `oj-`), points are two-column tables (nested tables
+  are subpoints; `—` rows are indents in the text), ordinary tables are one line per row with `|` between cells, inline
+  enumerations (`div.enumeration-spacing`) are one line, quoted text (`div.quotation`: an article inserted into another
+  act) is text, footnote calls are removed and the notes attached to the unit. Each document after the signature is one
+  unit: `anx_<n>` when its title is "ANNEX n", otherwise an **attachment** (`att_<n>`, kind `attachment`, top kind
+  `annex`, heading = its title: the agreement or protocol a decision concludes, declarations, the final act); its own
+  annexes are annex units. A title with nothing under it ("ANNEX I" over "ANNEX Ia", "ANNEX Ib") is no unit.
+- Metadata as for Formex: dates, type, ELI, amendments and corrigenda from the three SPARQL answers; number and year from
+  the CELEX number, the domain from the title (`(EEC)`, `64/300/EEC`, `2005/495/CFSP`; CFSP and JHA added to the citation
+  module). `PE` ("Takes effect", authority table fd_335, read from Cellar on 2026-10-18) now counts as an entry-into-force
+  date beside `EV`: decisions addressed to Member States carry it instead of `EV` (64/300/EEC: valid from 1964-05-21).
+  `text_origin: official_conversion`, `authoritative: true`, `as_adopted`, `source_periods`; every provision's note names
+  the rendition and says that the structure was recognised from its headings and labels.
+
+**Manifest before/after.** Before: 26,878 works (26,876 Formex 4 entries, 2 XHTML Treaties; 2,864 consolidated versions).
+After (`python -m scripts.build_eu_manifest`, 2026-10-18): **33,970 works** (27,269 Formex 4, 365 XHTML, 6,336 HTML;
+3,252 consolidated versions). Every entry of the old manifest is in the new one unchanged except three consolidated
+versions that Cellar replaced in the meantime by a later dated version of the same acts (02020R0217-20200218,
+02014R0269-20260928, 02014D0145-20260928; no act dropped). Added: 7,095 entries = 6,336 acts as adopted in HTML, 363 in
+XHTML, 391 consolidated Formex 4 versions of acts whose own text is HTML or XHTML (listed instead of that text), and 5
+Formex 4 acts that entered into force since 2026-10-15. The new acts by type and decade: decisions 1950s 1, 1960s 18,
+1970s 330, 1980s 1,098, 1990s 1,698, 2000s 1,593, 2010s 26; regulations 1960s 17, 1970s 123, 1980s 253, 1990s 825, 2000s
+496; directives 1960s 6, 1970s 39, 1980s 55, 1990s 71, 2000s 50.
+
+**Sample ingested (dev database `ulis_eu`, 2026-10-18).** A uniform random sample of 48 of the newly listed acts (37 HTML:
+the 5 first looked at by decade and 32 drawn with seed 48; 11 XHTML: 3 by decade and 8 drawn), fetched through the real
+connector (**63 requests for 48 works: 1.31 per work**, one file each plus three batched queries per 20 works), parsed
+and ingested through the pipeline: **48 documents, 48 instruments, 48 instrument versions, 493 provision versions, 442
+passages, 0 errors, 0 conflicts** (two decisions first failed on the `CFSP` domain and were ingested after the citation
+module learnt it); `verify-sources`: **48 of 48 pass**. Units: 359 in the HTML acts (mean 9.7, median 4, max 90: Directive
+2002/59/EC with 32 articles, 54 paragraphs and 4 annexes), 140 in the XHTML acts (mean 12.7, median 5, max 52); 10.3
+recorded versions per work, median 4. Text: 206 KB in the 37 HTML acts (median 1 KB), 2.1 MB in the 11 XHTML acts (median
+21 KB; the Interim Agreement with Serbia, Decision 2010/36/EC, is 907 KB in 41 units, the largest unit 188 KB - well under
+PostgreSQL's 1 MB tsvector limit). Bundles: HTML mean 48 KB, median 25 KB, max 226 KB; XHTML mean 1.5 MB, median 123 KB,
+max 7.8 MB. Database: 7.4 MB of tables for the 48 (passages 5.2 MB, provision versions 1.5 MB), 18 MB of raw bundles.
+
+**Full-load estimate for the added acts.** 6,699 acts as adopted (1 file each) at 1.31 requests per work plus 391
+consolidated Formex 4 versions at 2.24: **about 9,650 requests, 13.4 h at 5 s** (the whole manifest: about 69,861 requests,
+97 h). About **69,000 provision versions**, **~0.3 GB of raw bundles** (6,336 x 48 KB + 363 x 1.5 MB) and **~1 GB of
+PostgreSQL** (the XHTML decisions' attached agreements dominate: 3.2 bytes of tables per byte of text in the sample).
+
+**Not done / limits of the text renditions.** The 52 acts held only as PDF or print files and the 67 without an English
+version are not listed (counted in the manifest header). Legacy HTML: points are not indexed as units (they stay in the
+paragraph's text), the publisher's page footnotes are printed inside the text, headings are recognised heuristically, and
+the typed text carries the publisher's own transcription artefacts (e.g. "0 78 unit of account" in Regulation (EEC) No
+2007/75); numbered paragraphs that are really a numbered list under an unnumbered paragraph become paragraphs. XHTML:
+attached agreements and protocols are one unit each (their articles are not separate provisions). Regulations before 1999
+are designated with the four-digit year ("Regulation (EEC) No 2007/1975", as the Formex path does; EUR-Lex prints
+"No 2007/75"); regulations numbered "No 359/67/EEC" the same way. Consolidated versions held only as XHTML (2 acts) are
+not read.
+
 ## What is ingested (the pilot instruments)
 
 | Instrument | CELEX | Type | Format | Provisions | Validity used |
@@ -206,7 +287,8 @@ title in that language. Unit-tested against the titles printed in each language.
 
 ## Known gaps
 
-See `coverage.known_gaps` in the profile. In short: acts in force with an English Formex 4 file only (26,875 of 35,085);
+See `coverage.known_gaps` in the profile. In short: acts in force with an English text file only (33,967 of 34,086 on
+2026-10-18: Formex 4, OJ XHTML or legacy HTML; 52 held only as PDF/print and 67 without an English version are not);
 English only except the Treaties, the Charter and five core acts; acts without a consolidated version are
 original OJ texts only (amended wording not indexed), acts with one have only its latest version, with a snapshot date
 and no provision dates;
