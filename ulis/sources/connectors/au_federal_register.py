@@ -5,7 +5,9 @@ REST API at ``https://api.prod.legislation.gov.au/v1/`` (no key; documented at
 ``/swagger/index.html``). Its "Data share and reuse" page allows automated downloading and
 commercial reuse under CC BY 4.0, asking only that robots.txt's crawl delay (10 s) be respected.
 
-For every title (``C1901A00002`` ...) in the manifest the connector reads:
+The same connector serves two sources: ``au-federal-register`` (Acts and the Constitution, title ids
+``C1901A00002`` ...) and ``au-federal-register-instruments`` (legislative instruments, ``F2016L00123``,
+``F1996B00084``, ``C2004L09583``), each with its own manifest. For every title in the manifest it reads:
 
 1. the title's versions (``/v1/Versions``): start and end dates, register id, compilation
    number, whether it is the latest registered version;
@@ -15,15 +17,21 @@ For every title (``C1901A00002`` ...) in the manifest the connector reads:
    ``$expand=version``. That single response carries the EPUB (base64) **and** the
    version's start and end dates, so each raw document is self-contained evidence.
 
-"As made" versions (compilation number 0) are not fetched: the Register dates them from the
-making date, which is not necessarily when the Act commenced. Versions without a registered
-compilation (gaps in older histories, future versions not yet compiled) have no document and are
-reported in ``skipped``. Multi-volume compilations are skipped as well (not yet supported).
+"As made" versions (compilation number 0, register id = title id) are fetched only when they are
+the title's latest registered version, i.e. the Act was never amended and no compilation exists
+(the manifest flags such titles ``as_made: true``; the connector decides from the Register's own
+listing, so a title that gains a compilation is fetched as a compilation). The Register dates an
+as-made version from the making date (assent), not from commencement; the parser records that
+basis (see ``ulis.sources.parsers.au_federal_register``). An as-made version that has later
+compilations is still skipped in history runs. Versions without a registered compilation (gaps in
+older histories, future versions not yet compiled) have no document and are reported in
+``skipped``. Multi-volume compilations are skipped as well (not yet supported).
 
-A manifest may list every in-force Act that has a compilation (``scripts/build_frl_manifest.py``, about 780
-titles). For the titles that need only their latest compilation, the listings of versions and documents are
-requested for 40 titles at a time (two requests per 40 titles instead of two per title), so a title costs one
-request, its EPUB. One title that is missing or whose document keeps failing is recorded in ``fetch_errors`` and
+A manifest may list every principal Act in force (``scripts/build_frl_manifest.py``, about 1,260 titles) or every
+principal legislative instrument in force (about 23,600). For the titles that need only their latest version, the
+listings of versions and documents are requested for 40 titles at a time (two requests per 40 titles instead of two
+per title), so a title costs one request, its EPUB. One title that is missing or whose document keeps failing is
+recorded in ``fetch_errors`` and
 the run continues; a refusal (401/403/429/451) or five failures in a row stop it. With ``avoid_hours`` in the
 manifest (the Register's help page prefers crawls outside 08:00-20:00 Australian time, UTC+10) network requests
 wait for the end of that window.
@@ -48,8 +56,9 @@ from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
 
 API_BASE = "https://api.prod.legislation.gov.au/v1"
 WEB_BASE = "https://www.legislation.gov.au"
-TITLE_ID = re.compile(r"^C\d{4}[A-Z]\d{5}$")
-REGISTER_ID = re.compile(r"^C\d{4}[A-Z]\d{5}$")
+# Acts and the Constitution (C2004A03712, C2004Q00685), legislative instruments (F2016L00123, F1996B00084, C2004L09583).
+TITLE_ID = re.compile(r"^[CF]\d{4}[A-Z]\d{5}$")
+REGISTER_ID = TITLE_ID
 VERSION_FIELDS = (
     "titleId,start,retrospectiveStart,end,retrospectiveEnd,compilationNumber,registerId,status,"
     "isLatest,isCurrent,hasUnincorporatedAmendments,name"
@@ -107,6 +116,8 @@ class FederalRegisterConnector:
         for work in manifest["works"]:
             if not TITLE_ID.match(str(work.get("title_id", ""))):
                 raise ManifestError(f"invalid title id {work.get('title_id')!r}")
+            if not all(isinstance(work.get(k, False), bool) for k in ("history", "as_made")):
+                raise ManifestError(f"title {work['title_id']}: history and as_made must be booleans")
             if work["title_id"] in seen:
                 raise ManifestError(f"title {work['title_id']} is listed twice")
             seen.add(work["title_id"])
@@ -236,7 +247,8 @@ class FederalRegisterConnector:
             if not v.get("registerId"):
                 self.skipped.append((title_id, start, "no registered compilation for this version"))
                 continue
-            if v.get("compilationNumber") == "0" or v.get("registerId") == title_id:
+            if (v.get("compilationNumber") == "0" or v.get("registerId") == title_id) and not v.get("isLatest"):
+                # The Act was amended later: its text as made is history (dated from making, not commencement).
                 self.skipped.append((title_id, start, "as made (not a compilation)"))
                 continue
             candidates = docs.get(start, [])
@@ -313,6 +325,7 @@ class FederalRegisterConnector:
             self.skipped.append((title_id, start, "document not found (404)"))
             return None
         data, meta = got
+        as_made = version.get("compilationNumber") == "0" or version.get("registerId") == title_id
         return RawDocument(
             external_id=f"frl:{title_id}@{start}#r{rect}",
             uri=url,
@@ -326,7 +339,8 @@ class FederalRegisterConnector:
                 "start": start,
                 "end": _day(version.get("end")) or None,
                 "rectification": rect,
-                "web_url": f"{WEB_BASE}/{title_id}/{start}/text",
+                "as_made": as_made,
+                "web_url": f"{WEB_BASE}/{title_id}/{'asmade' if as_made else start}/text",
                 "cached_fetch": meta,
             },
         )

@@ -24,7 +24,10 @@ from ulis.sources.connectors.polite_http import FetchError, PoliteHttp
 
 API = REPO_ROOT / "tests" / "fixtures" / "au_federal_register" / "cache" / "api.prod.legislation.gov.au"
 MANIFEST = REPO_ROOT / "config" / "manifests" / "au-federal-register.yaml"
+INSTRUMENTS_MANIFEST = REPO_ROOT / "config" / "manifests" / "au-federal-register-instruments.yaml"
 AIA, PRIVACY = "C1901A00002", "C2004A03712"
+SURCHARGES, LAVERTON = "C2024A00101", "F2026L01385"  # texts as made (an Act, a legislative instrument)
+FIXTURE_TITLES = sorted(p.name for p in API.iterdir() if (p / "documents-p0.json.gz").exists())
 NOW = "2026-10-15T09:00:00+00:00"
 
 
@@ -60,20 +63,20 @@ def _stub(monkeypatch: pytest.MonkeyPatch, fail: Callable[[str], str | None] | N
             raise FetchError(error)
         meta = {"url": url, "final_url": url, "status": 200, "retrieved_at": NOW}
         if m := re.search(r"/Versions\?\$filter=titleId%20in%20\(([^)]*)\)%20and%20isLatest%20eq%20true", url):
-            titles = re.findall(r"C\d{4}[A-Z]\d{5}", m.group(1))
+            titles = re.findall(r"[CF]\d{4}[A-Z]\d{5}", m.group(1))
             rows = [v for t in titles for v in versions_of(t) if v["isLatest"]]
             return json.dumps({"value": rows}).encode(), meta
         if m := re.search(r"/Documents\?\$filter=registerId%20in%20\(([^)]*)\)%20and", url):
-            wanted = set(re.findall(r"C\d{4}C\d{5}", m.group(1)))
-            rows = [d for t in (AIA, PRIVACY) for d in documents_of(t) if d["registerId"] in wanted]
+            wanted = set(re.findall(r"[CF]\d{4}[A-Z]\d{5}", m.group(1)))
+            rows = [d for t in FIXTURE_TITLES for d in documents_of(t) if d["registerId"] in wanted]
             matched = {d["registerId"] for d in rows}
             for r in sorted(wanted - matched):  # a synthetic title: its register id ends with the title's number
                 rows += [d for d in documents_of(f"C2026A{r[-5:]}") if d["registerId"] == r]
             return json.dumps({"value": rows}).encode(), meta
-        if m := re.search(r"/(Versions|Documents)\?\$filter=titleId%20eq%20'(C\d{4}[A-Z]\d{5})'", url):
+        if m := re.search(r"/(Versions|Documents)\?\$filter=titleId%20eq%20'([CF]\d{4}[A-Z]\d{5})'", url):
             rows = versions_of(m.group(2)) if m.group(1) == "Versions" else documents_of(m.group(2))
             return json.dumps({"value": rows}).encode(), meta
-        if m := re.search(r"/documents\(titleid='(C\d{4}[A-Z]\d{5})',start=([\d-]+),", url):
+        if m := re.search(r"/documents\(titleid='([CF]\d{4}[A-Z]\d{5})',start=([\d-]+),", url):
             path = API / m.group(1) / f"{m.group(2)}_r0.json"
             if path.with_name(path.name + ".gz").exists():
                 return gzip.decompress(path.with_name(path.name + ".gz").read_bytes()), meta
@@ -112,6 +115,24 @@ def test_batched_listings_cost_one_request_per_title(tmp_path: Path, monkeypatch
     assert "Documents?$filter=registerId%20in%20(" in requested[1]
     assert requested[2].startswith("https://api.prod.legislation.gov.au/v1/documents(titleid='C1901A00002'")
     assert conn.fetch_errors == []
+
+
+def test_texts_as_made_are_fetched_in_batch_mode_when_they_are_the_latest_version(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    requested = _stub(monkeypatch)
+    works = [{"title_id": AIA}, {"title_id": SURCHARGES, "as_made": True}, {"title_id": LAVERTON}]
+    conn = _connector(tmp_path, works, batch_listings=True)
+    docs = list(conn.fetch())
+    assert [d.external_id for d in docs] == [
+        "frl:C1901A00002@2026-03-28#r0",
+        "frl:C2024A00101@2024-12-02#r0",
+        "frl:F2026L01385@2026-10-14#r0",
+    ]
+    assert [d.metadata["as_made"] for d in docs] == [False, True, True]
+    assert len(requested) == 5 and conn.skipped == [] and conn.fetch_errors == []
+    # The as-made versions' register ids (= title ids) are in the batched documents listing.
+    assert "'C2024A00101'" in requested[1] and "'F2026L01385'" in requested[1]
 
 
 def test_titles_are_listed_in_batches_of_forty(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -250,11 +271,32 @@ def test_committed_manifest_is_every_principal_act_in_force() -> None:
     conn = FederalRegisterConnector(MANIFEST, "au-federal-register", Path("/nonexistent"))
     manifest = conn._manifest()  # noqa: SLF001 - the connector's own validation of the committed manifest
     works = manifest["works"]
-    assert len(works) > 700 and all("history" in w for w in works)
+    assert len(works) > 1200 and all("history" in w for w in works)
     assert manifest["batch_listings"] is True and manifest["avoid_hours"] == {"utc_offset": 10, "start": 8, "end": 20}
     flags = {w["title_id"]: w["history"] for w in works}
     assert [t for t, h in flags.items() if h] == ["C2004Q00685", "C1901A00002", "C2004A00553", "C2004A02944"]
     for sample in ("C1914A00012", PRIVACY, "C2004A00275", "C2004A04868"):
         assert flags[sample] is False
-    assert not any(w["title_id"].startswith("F") for w in works)  # no legislative instruments
+    # Never-amended Acts are listed too (their text as made), flagged for information; the connector decides.
+    as_made = [w for w in works if w.get("as_made")]
+    assert 300 < len(as_made) < len(works) / 2 and all(w["history"] is False for w in as_made)
+    assert {
+        "title_id": "C2004A00044",
+        "history": False,
+        "as_made": True,
+        "title": "Royal Style and Titles Act 1973",
+    } in works
+    assert all(w["title_id"][5] in "AQ" for w in works)  # Acts and the Constitution: no legislative instruments
     assert manifest["crawl_delay_seconds"] == 10
+
+
+def test_committed_instruments_manifest_is_every_principal_legislative_instrument_in_force() -> None:
+    conn = FederalRegisterConnector(INSTRUMENTS_MANIFEST, "au-federal-register-instruments", Path("/nonexistent"))
+    manifest = conn._manifest()  # noqa: SLF001
+    works = manifest["works"]
+    assert len(works) > 10000 and not any(w.get("history") or w.get("as_made") for w in works)
+    assert all(re.match(r"^[CF]\d{4}[BL]\d{5}$", w["title_id"]) for w in works)
+    assert manifest["batch_listings"] is True and manifest["avoid_hours"] == {"utc_offset": 10, "start": 8, "end": 20}
+    assert manifest["crawl_delay_seconds"] == 10 and manifest["user_agent"].startswith(
+        "ULIS-research-bot/0.1 (+https://"
+    )

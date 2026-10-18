@@ -1,0 +1,130 @@
+# Commonwealth legislative instruments in force, from the Federal Register of Legislation API: the same publisher, API,
+# licence and connector as au-federal-register (Acts), with its own manifest (scripts/build_frl_manifest.py
+# --collection LegislativeInstrument). Not loaded by default (load_by_default: false): 23,573 principal
+# instruments at one request per 10 s is about 69 hours of crawl delay. Load it with
+# `python -m ulis.cli ingest au-federal-register-instruments` (or load-all --include-history / --only).
+schema_version: 1
+id: au-federal-register-instruments
+name: Federal Register of Legislation (legislative instruments, EPUB)
+publisher: Office of Parliamentary Counsel (Australian Government)
+kind: official_legislation_portal
+authority: official_non_authentic
+jurisdictions: [AU]
+document_kinds: [legislative_instrument]
+languages: [en]
+coverage: >-
+  Every principal Commonwealth legislative instrument in force on the Federal Register of Legislation
+  (www.legislation.gov.au, Office of Parliamentary Counsel, Legislation Act 2003): 24,071 legislative
+  instruments were in force on 2026-10-18, 23,573 of them principal (regulations, rules, determinations,
+  declarations, orders, standards, plans, ...; amending instruments have no text of their own to fetch). For each,
+  the latest registered version through the Register's public API as an EPUB document with its version metadata:
+  the latest compilation of an instrument that was amended, or the text as made of one that never was (dated by
+  the Register from its registration, with the instrument's own commencement not extracted). Tested on a slice of
+  20 (every 1,179th title, 2026-10-18): the parser read 2 and refused 18 (docs/jurisdictions/au.md), so a full load
+  is not recommended until it covers the forms, tables and agency templates that make up most of the collection.
+access:
+  method: api
+  endpoint: config/manifests/au-federal-register-instruments.yaml
+update_frequency: continuous (instruments are registered daily; compilations when amendments commence); re-run scripts/build_frl_manifest.py --collection LegislativeInstrument and the ingest to refresh
+rate_limits: >-
+  robots.txt (https://www.legislation.gov.au/robots.txt, retrieved 2026-10-14): "Crawl-delay: 10",
+  only /assets/ disallowed; https://api.prod.legislation.gov.au/robots.txt does not exist (404).
+  The "Data share and reuse" help page allows automated downloading or spidering if the
+  robots.txt crawl delay is respected, asks users to contact the Register 1-2 weeks before a full
+  site crawl or anything that may use significant resources, prefers incremental crawls outside
+  08:00-20:00 Australian time (UTC+10), and warns that users imposing a large load may be blocked.
+  The API needs no key. ULIS uses a 10-second delay, one request at a time, and lists the versions and
+  documents of 40 titles per request, so the whole collection is about 24,753 requests (69 hours at the
+  crawl delay); it waits for the end of 08:00-20:00 UTC+10 before any uncached request (manifest option avoid_hours),
+  never repeats a request (cache), and stops on any refusal (401/403/429/451). Run it in batches
+  (scripts/ingest_in_batches.py) outside Australian business hours, never at the same time as au-federal-register.
+licence:
+  id: CC-BY-4.0
+  name: Creative Commons Attribution 4.0 International
+  url: https://creativecommons.org/licenses/by/4.0/
+  review_status: approved
+  reviewed_by: >-
+    ULIS project - https://www.legislation.gov.au/terms-of-use (section "Copyright") states: "With
+    the exception of the Commonwealth Coat of Arms, and where otherwise noted, all content on the
+    Federal Register of Legislation (the Legislation Register) is provided under Creative Commons
+    Attribution 4.0 International (the CC BY 4.0 licence)", which allows sharing and adapting "for
+    any purpose, even commercially". The help page
+    https://www.legislation.gov.au/help-and-resources/using-the-legislation-register/data-share-and-reuse
+    states that the Register "allows commercial reuse of our data" and "allowing data and documents
+    to be programmatically downloaded", and documents the API (https://api.prod.legislation.gov.au/v1/,
+    specification at https://api.prod.legislation.gov.au/swagger/index.html, whose termsOfService
+    field gives https://www.legislation.gov.au/Content/Disclaimer; the site footer's "Terms of use"
+    link is /terms-of-use, read above). Same review as au-federal-register (2026-10-14), re-read 2026-10-18.
+  reviewed_on: 2026-10-18
+  redistribution: allowed_with_conditions
+  bulk_download: allowed_with_conditions
+  automated_processing: allowed_with_conditions
+  commercial_use: allowed_with_conditions
+  attribution_required: true
+  attribution_text: >-
+    Based on content from the Federal Register of Legislation at {retrieved_date}. For the latest information on Australian Government legislation
+    please go to https://www.legislation.gov.au. Licensed under CC BY 4.0
+    (https://creativecommons.org/licenses/by/4.0/); changes: text extracted from the EPUB
+    document and divided into provisions.
+  conditions:
+    - >-
+      Attribution as required by the terms of use: a link to the relevant Register pages, the words
+      "Based on content from the Federal Register of Legislation at [full date of download]. For the
+      latest information on Australian Government legislation please go to https://www.legislation.gov.au."
+      (content changed) or "Sourced from the Federal Register of Legislation at [full date of download]. ..."
+      (unchanged), a link to the CC BY 4.0 licence and an indication of changes. ULIS restructures the
+      text into provisions, so it uses the "Based on content" form.
+    - Do not suggest that the Office of Parliamentary Counsel endorses ULIS or its use.
+    - The Commonwealth Coat of Arms and material identified as third-party copyright are not covered (the Coat of Arms image in each EPUB is not reproduced).
+    - >-
+      Respect robots.txt (Crawl-delay 10) and prefer crawling outside 08:00-20:00 Australian time (UTC+10): done by the connector. The help page says it is "advisable to contact us 1-2 weeks beforehand" before "a full site crawl or anything else that may use significant system resources", to ask about planned outages; this is advice, not a condition of reuse, and the project does not contact publishers. A whole-collection run of this source (69 hours at one request per 10 s) is the largest load ULIS puts on the Register: run it in batches outside business hours and stop at the first refusal (the connector does).
+  notes: >-
+    Authorised versions: "The latest version of all in force laws as well as some other laws on
+    the Register have an authorised version that can be relied on for the purpose of court
+    proceedings under sections 15ZA and 15ZB of the [Legislation Act 2003]. Authorised versions
+    are always in Adobe Acrobat (PDF) format" and are stamped "Authorised version"
+    (https://www.legislation.gov.au/help-and-resources/using-the-legislation-register/about-the-federal-register-of-legislation).
+    ULIS parses the EPUB of the same version (the API reports isAuthorised only for PDFs), so
+    its text is a reproduction, not an authorised version. Counsel review still recommended before
+    production use.
+provenance: >-
+  Official register of Commonwealth legislation maintained by the Office of Parliamentary Counsel
+  (Legislation Act 2003). Legislative instruments are made by Ministers, agencies and other rule-makers and
+  registered by OPC; compilations are prepared by First Parliamentary Counsel (before 2005 by the Office of
+  Legislative Drafting). Each raw document is the API response for one document (EPUB in base64, with the
+  version's start and end dates), stored unmodified with its SHA-256.
+known_limitations:
+  - >-
+    The parser reads only part of the collection: 2 of a 20-instrument slice (2026-10-18). Airworthiness directives
+    (9,010 titles, 38%) and tariff concession orders (5,596, 24%) are forms and tables without sections and are dated
+    from their effect rather than their registration; many agencies draft in templates the parser does not know
+    (Statements of Principles, accounting and vehicle standards, unstyled determinations). Such documents are refused
+    and reported. At the slice's rate a full load (about 24,750 requests, 69 hours) would ingest roughly 2,400
+    instruments; leaving the directives and concession orders out of the manifest would cut it to about 9,400
+    requests (26 hours).
+  - >-
+    Not loaded by default (about 69 hours of crawl delay for 23,573 titles). Amending instruments,
+    notifiable instruments, the Gazette, and instruments no longer in force are not listed; only the latest
+    registered version of each principal instrument is fetched (no history).
+  - >-
+    Instruments are drafted by many agencies: the parser reads the Office of Parliamentary Counsel's EPUB styles
+    (current template) and the Office of Legislative Drafting's pre-2005 compilation styles; a document whose
+    headings use other styles is refused ("no sections found") and reported, not ingested. The measured share is in
+    docs/jurisdictions/au.md.
+  - >-
+    A never-amended instrument has only its text as made, which the Register dates from its registration; the
+    instrument's own commencement (usually the day after registration unless it provides otherwise, Legislation Act
+    2003 s 12) is not extracted. Every such provision carries validity_basis enactment_date_presumed and a note. A text
+    as made whose version start is not the Register's registration date (RegisteredAt) is refused (12 of the 20 slice
+    instruments: back-captured directives dated 2004-12-20, concession orders dated from their effect).
+  - ULIS parses the EPUB rendering of each document; only the PDF stamped "Authorised version" can be relied on in court proceedings.
+  - The Register dates compilations, not provisions; per-provision commencement dates are not given, and repealed provisions (omitted from compilations) are not recorded as repealed.
+  - Uncommenced amendments are not shown in compilations; a later version of a title without a registered compilation, and the Register's "unincorporated amendments" flag, are reported as outstanding changes but not applied.
+  - >-
+    Not reproduced: text placed directly under Part or Division headings (outside a section), images (maps,
+    formulas), the signature block and making formula of an instrument as made, and the endnotes.
+  - Multi-volume documents (several EPUB volumes) are refused by the connector.
+status: active
+connector: au_federal_register
+parser: frl_epub
+load_by_default: false

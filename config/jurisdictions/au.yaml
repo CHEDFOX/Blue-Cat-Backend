@@ -2,7 +2,7 @@
 # profiles (AU-NSW, AU-VIC, AU-QLD, AU-WA, AU-SA, AU-TAS, AU-ACT, AU-NT) whose parent is AU.
 schema_version: 1
 id: AU
-profile_version: 0.1.0
+profile_version: 0.2.1
 name: Australia
 names: {en: Commonwealth of Australia}
 kind: sovereign_state
@@ -70,7 +70,7 @@ citation:
     - "Criminal Code (Cth) s 11.1(1)"
     - "Australian Constitution s 51(xx)"
 publication:
-  official_sources: [au-federal-register]
+  official_sources: [au-federal-register, au-federal-register-instruments]
   commencement: >-
     As the Act provides; otherwise an Act (other than one altering the Constitution) commences on
     the 28th day after Royal Assent (Acts Interpretation Act 1901 s 3A(2)).
@@ -81,9 +81,23 @@ publication:
 coverage:
   corpus_status: pilot
   known_gaps:
-    - Every principal Commonwealth Act in force that has a compilation (785 titles) and the Constitution are ingested; 477 never-amended principal Acts (only an as-made version in the Register) are not, and there are no legislative instruments, notifiable instruments or bills.
+    - >-
+      Every principal Commonwealth Act in force (1,262 titles on 2026-10-18) and the Constitution are listed: 901 Acts
+      in their latest registered compilation and 361 never-amended Acts in their text as made, which the Register
+      dates from assent, not from commencement (validity_basis enactment_date_presumed, with a note on every
+      provision). A text as made whose version start the source does not confirm as the assent date, or in which the
+      parser finds no sections, is refused and reported (4 of a 30-Act slice on 2026-10-18); schedule items
+      (amendments of other Acts, application and transitional items) in a text as made are not reproduced. Amending
+      Acts (no text of their own), notifiable instruments and bills are not ingested.
+    - >-
+      Legislative instruments (24,071 in force, 23,573 principal) are a separate source,
+      au-federal-register-instruments, which is not loaded by default (about 69 hours of crawl delay); until it
+      is loaded, the corpus holds no legislative instrument. The parser reads only part of them (2 of a 20-instrument
+      slice on 2026-10-18): airworthiness directives and tariff concession orders (62% of the titles) are forms and
+      tables without sections, many agencies use templates it does not know, and a text as made whose version start
+      is not its registration date is refused; such documents are reported, not ingested.
     - Compilation history is fetched for four titles only; the others start at their latest registered compilation, so earlier dates are reported as history not indexed.
-    - Acts as made, and periods covered by versions without a registered compilation, have no text.
+    - The text as made of an Act that was later amended, and periods covered by versions without a registered compilation, have no text.
     - The source dates compilations, not individual provisions; repealed provisions are not recorded as repealed (they are omitted from compilations).
     - State and Territory law is not part of this profile; it lives in the State and Territory profiles (AU-QLD and AU-TAS hold pilot corpora; the other publishers block ULIS or are unevaluated, see docs/jurisdictions/ca-au-subnational.md). A search for AU does not return it (it applies only within its State; search the State profile). No case law.
     - Text with non-breaking hyphens (e.g. "Governor‑General") is stored as published; a search typed with an ordinary hyphen does not match it (search without the hyphen).

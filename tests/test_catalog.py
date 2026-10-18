@@ -273,6 +273,7 @@ def test_licence_gate_allows_only_approved_sources(catalog: Catalog) -> None:
         "fi-finlex",
         "fi-finlex-dpo-decisions",
         "au-federal-register",
+        "au-federal-register-instruments",
         "nl-bwb",
         "nl-rechtspraak",
         "tw-moj-laws",

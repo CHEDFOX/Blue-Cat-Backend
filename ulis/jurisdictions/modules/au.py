@@ -6,7 +6,10 @@
 * a schedule enacted as a code: ``Criminal Code (Cth) s 11.1(1)``, ``Criminal Code (Cth) Dictionary
   (definition of ‘ABN’)``;
 * the Constitution: ``Australian Constitution s 51(xx)`` (the source prints ``(xx.)``); the covering
-  clauses of the Imperial Act: ``Commonwealth of Australia Constitution Act 1900 (Imp) s 5``.
+  clauses of the Imperial Act: ``Commonwealth of Australia Constitution Act 1900 (Imp) s 5``;
+* legislative instruments: ``Trade Marks Regulations 1995 (Cth) reg 4.3(1)``, ``... Rules 2026 (Cth) r 5``;
+  an instrument that is neither regulations nor rules (a determination, declaration, order, ...) is
+  divided into sections: ``Defence (Laverton—Defence Area) Declaration 2026 (Cth) s 3(1)``.
 
 Section numbers and labels are the source's own. Formatting conventions only; to be confirmed by
 an Australian reviewer before the AU profile is "reviewed" (see docs/jurisdictions/au.md).
@@ -14,6 +17,7 @@ an Australian reviewer before the AU profile is "reviewed" (see docs/jurisdictio
 
 from __future__ import annotations
 
+import re
 from typing import ClassVar, Literal
 
 from pydantic import BaseModel, ConfigDict
@@ -28,8 +32,8 @@ CONSTITUTION_ACT = "Commonwealth of Australia Constitution Act 1900 (Imp)"
 
 class AuExt(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    title_id: str  # Register title id, e.g. C2004A03712
-    collection: Literal["Act", "Constitution"]
+    title_id: str  # Register title id, e.g. C2004A03712, F2016L00123
+    collection: Literal["Act", "Constitution", "LegislativeInstrument"]
     act_number: str | None = None  # as printed on the compilation, e.g. "No. 119, 1988"
     code_title: str | None = None  # a schedule enacted as a code (e.g. "Criminal Code")
 
@@ -58,9 +62,20 @@ def _subs(parts: list[str]) -> str:
     return out
 
 
+def _unit(c: ProvisionCitationInput) -> str:
+    """``s`` for sections; ``reg`` in regulations and ``r`` in rules (AGLC pinpoints for delegated legislation)."""
+    if c.ext.get("collection") != "LegislativeInstrument":
+        return "s"
+    words = re.sub(r"\s*\(.*?\)\s*", " ", c.instrument_title).split()
+    kinds = [w for w in words if w in ("Regulations", "Regulation", "Rules", "Rule")]
+    if kinds and kinds[-1].startswith("Reg"):
+        return "reg"
+    return "r" if kinds else "s"
+
+
 class AuModule(JurisdictionModule):
     id: ClassVar[str] = "au"
-    version: ClassVar[str] = "1.0.0"
+    version: ClassVar[str] = "1.1.0"
     ext_model: ClassVar[type[BaseModel]] = AuExt
 
     def _title(self, c: ProvisionCitationInput) -> str:
@@ -95,7 +110,7 @@ class AuModule(JurisdictionModule):
             return ""
         if parts[0].startswith("heading:"):
             return f"‘{parts[0][8:]}’"
-        return f"s {parts[0]}" + _subs(parts[1:])
+        return f"{_unit(c)} {parts[0]}" + _subs(parts[1:])
 
     def provision_citation(self, c: ProvisionCitationInput) -> str:
         title = self._title(c)

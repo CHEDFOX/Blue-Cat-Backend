@@ -1,20 +1,24 @@
 # Australia (Commonwealth) - `AU`
 
-Status: **every principal Act in force that has a compilation** (785 titles in the manifest), profile
-`draft_unverified` (0.1.0); the latest registered compilation of each, and every registered compilation of four
-(Constitution, Acts Interpretation Act 1901, Electronic Transactions Act 1999, Insurance Contracts Act 1984). The
-sections below describe the parser and the pilot run on those four; "Whole-collection widening" has the scale.
+Status: **every principal Act in force** (1,262 titles in the manifest on 2026-10-18: 901 in their latest registered
+compilation, 361 never-amended Acts in their text as made), profile `draft_unverified` (0.2.1); every registered
+compilation of four titles (Constitution, Acts Interpretation Act 1901, Electronic Transactions Act 1999, Insurance
+Contracts Act 1984). Legislative instruments (23,573 principal instruments in force) are a second source,
+`au-federal-register-instruments`, **not loaded by default** (about 69 hours of crawl delay, and on a 20-title slice
+the parser could read only 2: see "Legislative instruments"). Slices on 2026-10-18: 26 of 30 never-amended Acts
+ingested as made, 2 of 20 instruments. The sections below describe the parser and the pilot run on the four history
+titles; "Whole-collection widening", "Texts as made" and "Legislative instruments" have the scale and the slice runs.
 
 ## Source
 
 | | |
 |---|---|
-| Source id | `au-federal-register` (`config/sources/au-federal-register.yaml`) |
+| Source id | `au-federal-register` (`config/sources/au-federal-register.yaml`); legislative instruments: `au-federal-register-instruments` (`config/sources/au-federal-register-instruments.yaml`, `load_by_default: false`) |
 | Publisher | Office of Parliamentary Counsel (OPC), which manages the Register under the Legislation Act 2003 ([about](https://www.legislation.gov.au/help-and-resources/using-the-legislation-register/about-the-federal-register-of-legislation)) |
 | Access | Public API `https://api.prod.legislation.gov.au/v1/` (OData-style REST, OpenAPI 3.0.1, no key; [spec](https://api.prod.legislation.gov.au/swagger/index.html)): `/v1/Versions` and `/v1/Documents` listings per title, then each compilation document `/v1/documents(titleid=…,start=…,…,format='Epub')?$expand=version` with `Accept: application/json` |
 | Connector | `au_federal_register` (`ulis/sources/connectors/au_federal_register.py`, uses `PoliteHttp`) |
-| Parser | `frl_epub` (`ulis/sources/parsers/au_federal_register.py`) |
-| Manifest | `config/manifests/au-federal-register.yaml` |
+| Parser | `frl_epub` (`ulis/sources/parsers/au_federal_register.py`): compilations and texts as made, Acts and legislative instruments |
+| Manifests | `config/manifests/au-federal-register.yaml` (Acts), `config/manifests/au-federal-register-instruments.yaml` (instruments), both written by `scripts/build_frl_manifest.py` |
 
 ### Licence and terms (read before any legislation was fetched, 2026-10-14)
 
@@ -41,7 +45,14 @@ sections below describe the parser and the pilot run on those four; "Whole-colle
   disallowed; the API host has no robots.txt (404). ULIS waits 10 s between requests on both hosts.
   It made 152 requests in total (terms and help pages, API specification, listings, 113
   compilation documents); the bulk of the history (97 documents) was fetched after 20:00
-  Australian Eastern Standard Time.
+  Australian Eastern Standard Time. On 2026-10-18 (texts as made, instruments) it made 42 listing requests for the
+  builder (titles and latest versions, 10:27-10:34 AEST), 14 requests for the eight fixture documents and listings
+  (10:48-10:53 AEST, one of them a malformed query answered 400 Bad Request, corrected and not retried as such), 10
+  requests for the as-made EPUB check and 48 for the instrument titles (11:05-11:20 AEST). A trial of the slice
+  driver then re-fetched the two as-made fixture Acts into the working cache: 6 requests (versions, documents, EPUB)
+  at 11:42-11:43 AEST, 10 s apart, because its manifest had no `avoid_hours` (a mistake: they were not needed). The
+  slice ingests made 54 requests (50 documents and 4 batched listings) at 20:06-20:15 AEST, after the window; the
+  re-runs after the parser fix below were served from the cache (0 requests). No request was refused.
 - **Authorised versions** ([about](https://www.legislation.gov.au/help-and-resources/using-the-legislation-register/about-the-federal-register-of-legislation)):
   "The latest version of all in force laws as well as some other laws on the Register have an
   authorised version that can be relied on for the purpose of court proceedings under sections 15ZA
@@ -73,6 +84,69 @@ are provision versions after unchanged wordings were joined across adjacent comp
 Without joining unchanged wordings the Acts Interpretation Act alone would have 29,687 provision
 versions (one per provision per compilation) instead of 1,914.
 
+### Texts as made (2026-10-18)
+
+An Act that was never amended has no compilation: the Register holds only its text **as made** (compilation
+number 0, register id = title id), which is its text in force. 361 of the 1,261 principal Acts in force are in that
+state (29%; the 2026-10-15 count of 477 also included 116 Acts whose latest version is an *unnumbered* older
+compilation, which the builder now lists as compilations). The connector fetches the as-made version when it is the
+title's latest registered version (the manifest flags such titles `as_made: true` for information; the connector
+decides from the Register's listing, so an Act that is amended later is fetched as a compilation from then on); an
+as-made version that has later compilations is still skipped in history runs. All 361 have an EPUB document.
+
+Dating is the honest part. The Register dates the as-made version from its making date (an Act: assent), **not**
+from commencement (Criminal Code Act 1995: assent 15 March 1995, commencement 1 January 1997). Commencement is in
+each Act's own s 2 and is not extracted. So every provision of a text as made is dated from the assent date with
+`validity_basis: enactment_date_presumed` (limitation `EFFECTIVE_DATE_PRESUMED`, warning) and a note on every
+provision version ("Text as made, never amended. The Register dates this version from assent (2024-12-02); the Act
+commences as it provides (otherwise 28 days after assent, Acts Interpretation Act 1901 s 3A), which is not
+recorded here.", limitation `VERSION_NOTE`); the version has no currency date (a text as made states none:
+`CURRENCY_UNKNOWN`), `text_origin: official_conversion` (the EPUB is the Register's rendering of the text as made,
+not the authorised PDF: `NOT_AUTHENTICATED`) and `consolidation_kind: as_made`. The Register's version end, when
+it lists one (an instrument that repeals itself), ends every provision. Nothing is guessed: the claim the note makes
+is checked against the source, and a document whose version start it cannot confirm is refused (reported in the
+run's errors), not recorded. An Act as made must carry an assent endorsement, styled `AssentDt` or, in older re-keyed
+texts, an unstyled "[Assented to 8 July 1999]", whose date is the version start: the Register dates some texts as
+made from a retrospective commencement instead (Lake Eyre Basin Intergovernmental Agreement Act 2001: version from
+21 October 2000, assent 1 May 2001; Household Stimulus Package Act (No. 2) 2009: from 1 January 2009, assent 18
+February 2009), and those are refused. An instrument as made must have the Register's own registration date
+(`RegisteredAt`) as its version start.
+
+Front and back matter of an Act as made are not law text: the cover (short title, "No. 101, 2024", long title),
+the contents, the assent endorsement ("[Assented to 2 December 2024]"; older texts: "[Reserved for Her Majesty's
+pleasure, 14 September 1973]", "[Queen's Assent, 19 October 1973]"), the enacting words ("The Parliament of
+Australia enacts:", "BE IT THEREFORE enacted by the Queen, the Senate and the House of Representatives ...") and
+the second-reading and assent notes after the last provision (`2ndRd`, `AssentBk`). Older re-keyed texts carry the
+endorsement, the second-reading note ("[Minister’s second reading speech made in— ...]") and the bill's print
+reference ("(45/99)", printed between two subsections of the last section) without a style; they are recognised by
+their wording and treated the same way. The body starts at the assent endorsement; the long title is recorded once;
+unstyled recitals before the first heading are the preamble (Royal Style and Titles Act 1973). Fixtures: Commonwealth
+Entities (Payment Surcharges) Act 2024 (current template), Royal Style and Titles Act 1973 and A New Tax System (Wine
+Equalisation Tax Imposition—General) Act 1999 (older re-keyed texts), Lake Eyre Basin Intergovernmental Agreement Act
+2001 (refused: version start before assent).
+
+**Slice run** (`ulis_au`, 2026-10-18, 30 as-made Acts, every 12th of the 361, from the Seat of Government Acceptance
+Act 1922 to the Public and Educational Lending Rights (Better Income for Authors) Act 2026): 30 documents and 2 batched
+listings, 32 requests, 310 s at the crawl delay. Result with parser 1.1.1 (re-run from the cache on a recreated schema
+after the fix below): **26 ingested**, 1,414 provision versions, 1,295 passages, 0 conflicts; **4 refused** (run
+errors, nothing stored): the Lake Eyre Basin Intergovernmental Agreement Act 2001 and the Household Stimulus Package
+Act (No. 2) 2009 (version start is not the assent date), the Loan Act 1976 (no assent endorsement; re-keyed in
+styles the parser does not know) and the Civil Aviation Legislation Amendment Act 1995 (1,032 unstyled paragraphs: no
+sections found). If the slice is representative, about 313 of the 361 load (87%). Parse report over the 26: 6 images
+noted on their provisions; 648 blocks not reproduced, all in 6 Acts: the schedule items of five consequential
+amendment Acts (630 blocks: 187 item headings, 191 items, 37 subitems, 12 transitional items and their paragraphs;
+the amendments themselves appear in the amended Acts' compilations, their application and transitional items do not)
+and the unstyled Schedule of the Seat of Government Acceptance Act 1922 (the 1920 Agreement: 16 paragraphs, 2
+tables). The first run (parser 1.1.0, 20:06 AEST) ingested 27 and showed two defects, fixed in 1.1.1: the unstyled
+cover and contents of an older text became a "preamble" and its print reference and second-reading note were
+appended to its last provisions (Wine Equalisation Tax Imposition Act), and an unstyled endorsement was not checked,
+so the Lake Eyre Act was stored as dated "from assent (2000-10-21)". Searches (`AU`, as of 2026-10-18): "rate of wine
+tax payable" -> `A New Tax System (Wine Equalisation Tax Imposition—General) Act 1999 (Cth) s 4` (from 1999-07-08);
+"property of any kind belonging to a State" -> `Primary Industries (Excise) Levies Act 2024 (Cth) s 21(2)`, `Recycling
+and Waste Reduction Charges (Excise) Act 2020 (Cth) s 6(2) (definition of ‘property of any kind belonging to a
+State’)`; each with `EFFECTIVE_DATE_PRESUMED`, `CURRENCY_UNKNOWN`, `PROFILE_UNVERIFIED`, `CITATOR_COVERAGE`
+(warnings), `NOT_AUTHENTICATED`, `SOURCE_NOT_AUTHENTIC`, `VERSION_PERIOD` and `VERSION_NOTE` (the as-made note).
+
 Language: English (`en`, PostgreSQL `english` configuration). Indexed: long title, preamble,
 sections, subsections, paragraphs (to sub-sub-paragraphs), definitions, schedule clauses and
 subclauses, the Criminal Code's sections and Dictionary, the Constitution's covering clauses and
@@ -83,15 +157,25 @@ Child Protection Convention in Family Law Act Schedule 1).
 
 - **Manifest** `config/manifests/au-federal-register.yaml`, generated by `scripts/build_frl_manifest.py` from the API's
   `Titles` listing (`isInForce`, `collection = 'Act'`, `isPrincipal`): 4,773 Acts in force, 1,261 principal Acts.
-  A principal Act is listed when its latest version is a registered compilation: **785 titles** (777 + the 8 of the
-  pilot). The other **477 (38%) were never amended**: the Register holds only their "as made" version, dated from
-  the making date (assent), not from commencement, which the parser refuses (see Known gaps). Legislative
-  instruments (24,082 in force) were counted and left out: far above the ~5,000 asked for.
+  On 2026-10-15 a principal Act was listed only when its latest version was a registered compilation: **785 titles**
+  (777 + the 8 of the pilot); 477 were counted as "as made only" and left out. On 2026-10-18 the builder was corrected
+  (116 of those 477 have an unnumbered older compilation as their latest version, e.g. a 1998 reprint registered in
+  2004, which the connector and parser always handled) and extended to list the never-amended Acts with their text as
+  made: **1,262 titles** = 901 compilations + 361 as made (see "Texts as made"). Legislative instruments (24,071 in
+  force) are the separate source below.
 - **Requests**: versions and documents of 40 titles per listing request (`batch_listings`), so a title costs one
-  request (its EPUB): 781 documents + 40 listings + the four history titles (109 compilations + 8 listings) = about
-  **940 requests, 2.6 hours at the 10 s crawl delay**. Nothing is fetched twice (cache); the connector waits out
+  request (its EPUB): 1,258 documents + 64 listings + the four history titles (109 compilations + 8 listings) = about
+  **1,440 requests, 4.0 hours at the 10 s crawl delay** (2026-10-15: 940 requests, 2.6 hours, for 785 titles).
+  Nothing is fetched twice (cache); the connector waits out
   08:00-20:00 UTC+10 before any uncached request (`avoid_hours`), stops at the first 401/403/429/451, records a
   missing or failing title and goes on, and gives up after five failures in a row.
+- **Database estimate for the 1,262 titles** (2026-10-18): the 2026-10-15 estimate for 785 titles (620,000 provision
+  versions, below) + 116 more compilations at 742 provision versions each (86,000) + about 313 texts as made (87% of
+  361, the slice's rate) at 54 each (the slice's 1,414 for 26 Acts: 17,000) = about 723,000 provision versions,
+  **about 2.1 GB** of database at 2.85 KB each (the small as-made slice measured 5.05 MB for 1,470 provision
+  versions, 3.4 KB each with its fixed index overhead); raw API responses about 0.5 GB (texts as made average 46 KB).
+  The instruments source at its slice's rate: about 2,400 instruments at 28 provision versions each (66,000), about
+  0.2 GB of database, but about 0.7 GB of raw responses (31 KB on average, cached whether or not they parse).
 - **The Register's `@odata.nextLink` drops the `$filter`** (verified: it keeps `$select`, `$orderby`, `$skip`), so
   following it lists unrelated titles; the connector and the builder page with `$skip` instead.
 - **Terms**: the help page "advises" contacting the Register 1-2 weeks before "a full site crawl or anything else that
@@ -100,7 +184,7 @@ Child Protection Convention in Family Law Act Schedule 1).
 - **Slice run** (`ulis_wau`, 50 titles: the 8 of the pilot + every 30th of the rest; 144 compilations, 1,095 s):
   35 latest-only Acts + 109 history compilations; 66,642 provision versions, 62,281 passages, **0 errors, 0
   conflicts**; `verify-sources` **144 pass, 0 fail** (113,363 units); database 190 MB. 11 of the 42 spread titles were
-  never-amended Acts (the manifest now excludes them). The 31 spread Acts hold 23,002 provision versions (742 per
+  never-amended Acts (excluded from the manifest then; listed as made since 2026-10-18). The 31 spread Acts hold 23,002 provision versions (742 per
   Act) against 37,804 for the four large pilot Acts. **Estimate for the full manifest**: about 620,000 provision
   versions, 580,000 passages, **about 1.8 GB** of database (2.85 KB per provision version with passages and indexes),
   raw API responses about 0.4 GB.
@@ -109,8 +193,65 @@ Child Protection Convention in Family Law Act Schedule 1).
   "referendum ballot paper" -> `Referendum (Machinery Provisions) Act 1984 (Cth) s 41AB(1)`; all with
   `AS_OF_AFTER_CURRENCY` (their compilations are dated before today), `SNAPSHOT_DATES`,
   `OFFICIAL_CONSOLIDATION_REPRODUCED`, `SOURCE_NOT_AUTHENTIC`, `PROFILE_UNVERIFIED`.
-- Tests: `tests/test_au_federal_register_wide.py` (9: batching, 40-title chunks, history per title, refusal and failure
-  handling, `$skip` paging, off-peak waiting, manifest checks, the committed manifest).
+- Tests: `tests/test_au_federal_register_wide.py` (11: batching, texts as made in batch mode, 40-title chunks, history
+  per title, refusal and failure handling, `$skip` paging, off-peak waiting, manifest checks, both committed manifests).
+
+## Legislative instruments (2026-10-18)
+
+The Register's `LegislativeInstrument` collection held **24,071 instruments in force** on 2026-10-18 (24,078 rows
+in the API's listing, 7 of them duplicates across pages),
+**23,573 of them principal** (regulations, rules, determinations, declarations, orders, standards, plans, ...;
+the rest are amending instruments with no text of their own to fetch). The same API, connector and parser serve
+them: title ids `F2016L00123`, `F1996B00084` (pre-1996 "backcapture"), `C2004L09583`; compilation register ids
+`F2004C00644`. They are a **separate source**, `au-federal-register-instruments` (own descriptor with the same
+licence block; own manifest from `scripts/build_frl_manifest.py --collection LegislativeInstrument`; approved in
+`tests/test_catalog.py`), with **`load_by_default: false`**: 23,573 documents + listings = about
+24,753 requests = **about 69 hours at the 10 s crawl delay**, far more than the Acts, so it is loaded
+only with `ingest au-federal-register-instruments` or `load-all --include-history` / `--only`, in batches, outside
+Australian business hours and never at the same time as the Acts source (same host). The manifest lists titles only
+(48 requests); the per-title version check of the Acts builder would cost 600 more, and the connector lists the
+latest version of 40 titles per request anyway and fetches the compilation or the text as made accordingly.
+
+- Work URIs `/au/legislative_instrument/F2026L01385`; `instrument_type: legislative_instrument` (declared in the
+  profile); `ext.collection: LegislativeInstrument`. Citations (AGLC-style, to verify): `South Pacific Regional
+  Environmental Programme (Privileges and Immunities) Regulations 1996 (Cth) reg 7(1)`, `... Rules 2026 (Cth) r 5`,
+  other instruments `Defence (Laverton—Defence Area) Declaration 2026 (Cth) s 3(1)(a)`, schedules `sch cl 1(3)`,
+  definitions `reg 3 (definition of ‘Act’)`; the unit word comes from the title ("Regulations", "Rules").
+- An instrument as made is dated by the Register from its **registration** (F2026L01385: made 12 October 2026,
+  registered 14 October, commencing 26 October by its s 2, repealed by its own s 4 on 30 November, which the Register
+  lists as the version's end): `enactment_date_presumed` from the registration date, the note says so, the "Dated"
+  line gives `work_date` and an enactment event. The making formula ("I, ..., make this declaration under ...") and
+  signature block are not law text. Not every instrument as made is dated that way: the parser requires the version
+  start to equal the Register's `RegisteredAt` and refuses the document otherwise (tariff concession orders are dated
+  from their effect, instruments back-captured in 2006 from 20 December 2004).
+- Styles: instruments drafted in the current OPC template use the Acts' styles; compilations prepared by the Office
+  of Legislative Drafting before 2005 use `HR` (regulation heading, number in the text, "[see Note 1]" dropped),
+  `R1`/`R2` (regulation, subregulation), `Rc` (closing words), `P1`-`P3` (paragraphs), `definition0`, `Note`, and
+  "Notes to the ..." endnotes (`NoteHeading`), all mapped. Instruments drafted by agencies in other templates have
+  headings the parser does not recognise: such a document is refused ("no sections found") and reported in the
+  run's errors, not ingested. Fixtures: F2026L01385 (as made), F1996B00533 (OLD-template compilation).
+- **Slice run** (`ulis_au`, 2026-10-18, 20 principal instruments, every 1,179th of the manifest): 20 documents and 2
+  batched listings, 22 requests, 210 s. Result with parser 1.1.1: **2 ingested** (Safety, Rehabilitation and
+  Compensation (Defence-related Claims) (Specified Diseases and Employment) Instrument 2017, a compilation; Social
+  Security (Tables for the Assessment of Work-related Impairment for Disability Support Pension) Determination 2023,
+  as made), 56 provision versions, 53 passages, 0 conflicts; **18 refused**: 12 whose version start is not their
+  registration date (6 airworthiness directives back-captured in 2006 and dated 2004-12-20, 5 tariff concession
+  orders, and the National Environment Protection (Used Packaging Materials) Measure 2011, made 16 September 2011 and
+  registered 20 October 2011 but dated 15 July 2005, which the first run with parser 1.1.0 stored with a note
+  calling 15 July 2005 its registration date) and 6 with no recognisable sections (an airworthiness directive form, an
+  accounting standard in the AASB's IASB styles, a vehicle standard compiled by the Department, two Repatriation
+  Medical Authority Statements of Principles in their own styles and auto-numbered lists, a determination with no
+  styles at all). By title, the 23,573 instruments in the manifest are 9,010 airworthiness directives (38.2%), 5,596
+  tariff concession orders (23.7%), 2,004 determinations, 919 regulations, 751 Statements of Principles, 367 rules,
+  183 vehicle standards, 89 accounting and auditing standards and 4,654 others; all 12 directives and orders in the
+  slice were refused.
+- **A full load is not worth its cost with this parser**: about 24,750 requests (69 hours at the crawl delay) to
+  fetch documents of which, at the slice's rate, about 1 in 10 would be ingested (roughly 2,400 instruments; the sample
+  is small). Before it is loaded the parser needs (a) the agency templates (Statements of Principles, accounting and
+  vehicle standards, unstyled determinations), (b) a unit for documents that are forms or tables without sections
+  (directives, concession orders) and (c) a dating rule for versions that start before registration; or the manifest
+  should leave out the directives and concession orders (14,606 titles), which cuts the load to about 9,400 requests
+  (26 hours).
 
 ## Format choice and parsing
 
@@ -168,10 +309,14 @@ pages are parsed with `defusedxml` (DTDs forbidden); zip size and paths are chec
   a continued wording ends where the latest compilation showing it ends, and a wording does **not**
   continue across a gap (a version of the title for which no compilation is registered): what
   applied in between is unknown, and a lookup in the gap answers `no_version`.
-- "As made" versions (compilation 0) are not ingested: the Register dates them from the making
-  date, which is not necessarily commencement (Criminal Code Act 1995: assent 15 Mar 1995,
+- "As made" versions (compilation 0) of an Act that was amended later are not ingested: the Register dates them
+  from the making date, which is not necessarily commencement (Criminal Code Act 1995: assent 15 Mar 1995,
   commencement 1 Jan 1997). Dates before the earliest indexed compilation are a history gap
-  (`history_not_indexed`); before assent (from Endnote 3, when stated) the Act did not exist.
+  (`history_not_indexed`); before assent (from Endnote 3, when stated) the Act did not exist. For a never-amended
+  Act the text as made is the only text and is ingested, dated from assent as `enactment_date_presumed` (see
+  "Texts as made"). If such an Act is amended later, the next run adds its compilation as a new snapshot; the
+  as-made version's open end is not closed by it (the snapshot rules only chain snapshots), so a lookup after the
+  compilation date finds the compilation, while the as-made version's period stays open: re-load the title.
 - Uncommenced amendments are not shown in compilations. When the latest registered compilation
   already has an end date (a later version exists with no compilation), its provisions end there
   and the later version is reported as an outstanding change; the Register's
@@ -195,6 +340,8 @@ pages are parsed with `defusedxml` (DTDs forbidden); zip size and paths are chec
 | Constitution | `Australian Constitution s 51(xx)` (source prints `(xx.)`), `Australian Constitution sch` |
 | Covering clauses | `Commonwealth of Australia Constitution Act 1900 (Imp) s 5` (year from the Register's making date 9 July 1900; AGLC adds the regnal year "63 & 64 Vict, c 12", which the source documents do not state - to verify) |
 | Preamble, long title, unnumbered heading | `Privacy Act 1988 (Cth) Preamble`, `… long title`, `Privacy Act 1988 (Cth) sch 1, ‘Overview of the Australian Privacy Principles’` |
+| Act as made | `Royal Style and Titles Act 1973 (Cth) s 2(1)`, `Royal Style and Titles Act 1973 (Cth) sch`, `Commonwealth Entities (Payment Surcharges) Act 2024 (Cth) s 5(1)` |
+| Legislative instruments | `South Pacific Regional Environmental Programme (Privileges and Immunities) Regulations 1996 (Cth) reg 7(1)`, `... reg 3 (definition of ‘Act’)`, `Court Procedures Rules 2026 (Cth) r 5(2)`, `Defence (Laverton—Defence Area) Declaration 2026 (Cth) s 3(1)(a)`, `... sch cl 1(3)` |
 
 ## Profile
 
@@ -207,10 +354,22 @@ ingested.
 
 ## Known gaps
 
-- 785 titles (principal Acts in force with a compilation). Not ingested: the 477 never-amended principal Acts
-  (as-made only; supporting them needs a decision on how to date text whose only date is assent, e.g. a version
-  with no start date and the `EFFECTIVE_DATE_UNKNOWN` limitation), legislative instruments, notifiable instruments,
-  bills, State or Territory law, case law.
+- 1,262 titles: every principal Act in force (901 compilations, 361 texts as made) and the Constitution. Not
+  ingested: amending Acts (in force but with no text of their own), notifiable instruments, bills, State or
+  Territory law, case law. The texts as made are dated from assent (`enactment_date_presumed`), not from
+  commencement, which is not extracted. A text as made whose version start the source does not confirm as the
+  assent date (the Register dates some from a retrospective commencement; older texts without an endorsement), or
+  in which the parser finds no sections, is refused and reported: 4 of 30 on the slice (about 48 of the 361 if the
+  slice is representative). In a text as made, schedule items (amendments of other Acts, application and
+  transitional items) and unstyled schedule text are not reproduced (648 blocks in 6 of the 26 slice Acts, counted
+  in the parse report).
+- Legislative instruments (24,071 in force, 23,573 principal) are the separate source
+  `au-federal-register-instruments`, not loaded by default (about 69 hours of crawl delay); until it is loaded
+  the corpus holds no legislative instrument. The parser reads 2 of the 20 slice instruments: forms and tables
+  without sections (airworthiness directives, tariff concession orders: 62% of the titles), agency templates it does
+  not know, and texts as made whose version start is not their registration date are refused and reported. A full
+  load is not recommended until the parser covers them (see "Legislative instruments"). Only their latest version;
+  no history.
 - Full compilation history only for the Constitution (from compilation 1, 1907), the Acts
   Interpretation Act 1901 (from compilation 1, 1916), the Electronic Transactions Act 1999 and the
   Insurance Contracts Act 1984; the Crimes Act 1914, Privacy Act 1988, Family Law Act 1975 and
@@ -246,6 +405,24 @@ ingested.
   `resolve_uri`), `ulis/jurisdictions/modules/__init__.py`, `tests/test_catalog.py`.
 
 ## Results (actual)
+
+### Checks and runs, texts as made and legislative instruments (2026-10-18)
+
+- `ruff check`, `ruff format --check`: clean; `mypy ulis`: no issues (236 files).
+- Full suite against `ulis_test_au`: **2018 passed** (10 min 47 s; 2016 before the two tests added with parser 1.1.1). AU tests: `tests/test_au_federal_register.py` (23: the 14 of the
+  pilot, plus the Act as made in the current template, in a 1973 re-keyed text and in a 1999 re-keyed text with an
+  unstyled endorsement, print reference and second-reading note, the refusal of texts as made whose version start the
+  source does not confirm (an Act dated from a retrospective commencement, an Act without an endorsement, an
+  instrument whose start is not its registration date), the instrument as made, the OLD-template instrument
+  compilation, the connector fetching texts as made, and two PostgreSQL tests: as-made Acts searched and looked up
+  with `EFFECTIVE_DATE_PRESUMED`, `CURRENCY_UNKNOWN`, `NOT_AUTHENTICATED` and the version note, `verify` passing; the
+  instruments source ingested, searched and looked up until the instrument's own repeal),
+  `tests/test_au_federal_register_wide.py` (11).
+- Dev database `ulis_au` (schema recreated 2026-10-18): `migrate`, `sync-catalog`, then the two slice ingests above
+  (the slice manifests, every 12th as-made Act and every 1,179th instrument of the committed manifests, through the
+  source's own connector and the pipeline's `Ingestor`, as `scripts/ingest_in_batches.py <source> --manifest <slice>`
+  does) and `verify-sources`: **28 pass, 0 fail** (1,470 stored provision texts re-derived from the raw API
+  responses); `status`: 28 instruments, 1,470 provisions, 1,348 passages, 28 source documents.
 
 ### Checks (worktree, after merging `claude/cool-edison-dzxoj3`)
 
