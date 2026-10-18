@@ -19,11 +19,18 @@ from ulis.db import models as m
 from ulis.ingestion.catalog_sync import sync_catalog
 from ulis.ingestion.pipeline import Ingestor
 from ulis.ops.commands import OPS_COMMANDS, add_ops_parsers, run_ops_command
+from ulis.ops.text import human_bytes
 from ulis.retrieval.indexer import rebuild_passages
 from ulis.retrieval.search import SearchRequest, search
-from ulis.settings import REPO_ROOT, Settings, load_settings
+from ulis.settings import (
+    DEFAULT_OBJECT_COMPRESSION_LEVEL,
+    MAX_OBJECT_COMPRESSION_LEVEL,
+    REPO_ROOT,
+    Settings,
+    load_settings,
+)
 from ulis.sources.registry import LicenceNotApproved
-from ulis.storage.object_store import LocalObjectStore
+from ulis.storage.object_store import LocalObjectStore, open_object_store
 from ulis.verification.integrity import verify_source_document
 
 
@@ -76,6 +83,39 @@ def _research(args: argparse.Namespace, settings: Settings, catalog: Catalog) ->
     return 0
 
 
+def _compact_objects(args: argparse.Namespace, settings: Settings) -> int:
+    level = args.level if args.level is not None else settings.object_compression_level
+    if level == 0 and args.level is None:
+        level = DEFAULT_OBJECT_COMPRESSION_LEVEL  # the store is set to write uncompressed; compaction still compresses
+    if not 1 <= level <= MAX_OBJECT_COMPRESSION_LEVEL:
+        print(f"--level must be 1 to {MAX_OBJECT_COMPRESSION_LEVEL}", file=sys.stderr)
+        return 2
+    store = LocalObjectStore(settings.object_store_dir, compression_level=level)
+
+    def progress(done: int) -> None:
+        if done % 1000 == 0:
+            print(f"... {done:,} objects", file=sys.stderr, flush=True)
+
+    report = store.compact(level, recompress=args.recompress, jobs=max(1, min(args.jobs, 32)), progress=progress)
+    saved = report.bytes_before - report.bytes_after
+    share = f" ({100 * saved / report.bytes_before:.1f}%)" if report.bytes_before else ""
+    print(
+        f"compact-objects (zstd level {level}) {settings.object_store_dir}: {report.objects:,} objects, "
+        f"{report.converted:,} compressed, {report.recompressed:,} recompressed, {report.unchanged:,} unchanged, "
+        f"{report.duplicates_removed:,} leftover uncompressed copies removed, "
+        f"{report.stale_tmp_removed:,} stale temporary files removed"
+    )
+    print(
+        f"bytes before {report.bytes_before:,} ({human_bytes(report.bytes_before)}), after {report.bytes_after:,} "
+        f"({human_bytes(report.bytes_after)}), saved {human_bytes(saved)}{share}"
+    )
+    for error in report.errors[:20]:
+        print(f"ERROR {error}", file=sys.stderr)
+    if len(report.errors) > 20:
+        print(f"... {len(report.errors) - 20} more errors", file=sys.stderr)
+    return 1 if report.errors else 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="ulis")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -87,7 +127,28 @@ def main(argv: list[str] | None = None) -> int:
     ing.add_argument("--actor", default="cli")
     sub.add_parser("reindex", help="rebuild the passages index from canonical tables")
     sub.add_parser("verify-sources", help="re-derive every stored text from its raw source document")
-    add_ops_parsers(sub)  # load-all, status (ulis/ops)
+    add_ops_parsers(sub)  # load-all, status, prune-cache (ulis/ops)
+    cmp = sub.add_parser(
+        "compact-objects",
+        help="store the raw source documents zstd-compressed (lossless, in place, resumable)",
+        description=(
+            "Converts the uncompressed objects of the object store to zstd (<digest>.zst), each one replaced only "
+            "after the new file was written, read back and its SHA-256 checked. Idempotent: run it again to resume. "
+            "Keys (the SHA-256 of the original bytes) do not change."
+        ),
+    )
+    cmp.add_argument(
+        "--level",
+        type=int,
+        metavar="N",
+        help=f"zstd level 1-22 (default: ULIS_OBJECT_COMPRESSION_LEVEL, else {DEFAULT_OBJECT_COMPRESSION_LEVEL})",
+    )
+    cmp.add_argument(
+        "--recompress",
+        action="store_true",
+        help="also rewrite compressed objects at --level when that makes them smaller (e.g. to go from 9 to 19)",
+    )
+    cmp.add_argument("--jobs", type=int, default=1, metavar="N", help="objects compressed at the same time (default 1)")
     srch = sub.add_parser("search", help="search the corpus")
     srch.add_argument("q")
     srch.add_argument("--jurisdiction")
@@ -122,9 +183,11 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd in OPS_COMMANDS:
         return run_ops_command(args, settings, catalog)
+    if args.cmd == "compact-objects":
+        return _compact_objects(args, settings)
 
     factory = make_session_factory(make_engine(settings.database_url))
-    store = LocalObjectStore(settings.object_store_dir)
+    store = open_object_store(settings)
     with session_scope(factory) as session:
         if args.cmd == "sync-catalog":
             print(json.dumps(sync_catalog(session, catalog, actor="cli")))

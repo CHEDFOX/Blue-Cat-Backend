@@ -34,7 +34,7 @@ from ulis.ingestion.catalog_sync import sync_catalog
 from ulis.ingestion.pipeline import CONNECTORS, Ingestor, build_connector
 from ulis.settings import load_settings
 from ulis.sources.connectors.base import RawDocument
-from ulis.storage.object_store import LocalObjectStore
+from ulis.storage.object_store import open_object_store
 
 
 class _Chunk:
@@ -67,7 +67,7 @@ def main(argv: list[str]) -> int:
     else:
         connector = build_connector(source, cache_dir=settings.source_cache_dir)
     sessions = make_session_factory(make_engine(settings.database_url))
-    store = LocalObjectStore(settings.object_store_dir)
+    store = open_object_store(settings)
     with session_scope(sessions) as session:
         sync_catalog(session, catalog, actor=args.actor)
 
