@@ -109,7 +109,8 @@ memberships:
 coverage:
   corpus_status: partial
   known_gaps:
-    - "Consolidated legislation comes from the DILA LEGI database (Licence Ouverte 2.0): all codes, the Constitutions, laws, organic laws, constitutional laws, ordinances and decree-laws (see docs/jurisdictions/fr.md for the exact numbers). Decrees and orders (arrêtés) that are not codified are NOT ingested (the manifest can add them: about 55,000 decrees and 83,000 orders)."
+    - "Consolidated legislation comes from the DILA LEGI database (Licence Ouverte 2.0): all codes, the Constitutions, laws, organic laws, constitutional laws, ordinances, decree-laws and decrees (see docs/jurisdictions/fr.md for the exact numbers). Orders (arrêtés) that are not codified are NOT ingested (81,452 texts in the stock; the manifest can add them)."
+    - "Articles whose whole content amends other texts (the database gives them no period and only the summary 'A modifié les dispositions suivantes') are recorded without a version: their words are not in the consolidated database. Unnumbered annexes are cited without a pinpoint; tables are linearised."
     - "The consolidated texts are the DILA's consolidation, not the authentic text: only the publication in the Journal officiel is authentic. Visas, signatures, preparatory works and tables outside articles are not ingested; articles are not split into paragraphs (alinéas)."
     - "ANNULE and MODIFIE_MORT_NE article versions are not ingested (annulled retroactively / never in force). The 11 texts the stock holds in both its in-force and not-in-force trees keep the copy listed first."
     - "No territorial applicability (overseas collectivities), no link graph between texts (citations, concordances), no treaties, no EU law, no Journal officiel, no regional or local law, no collective agreements (KALI)."

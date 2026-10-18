@@ -3,7 +3,8 @@
 # (cached under var/sources/); details in docs/jurisdictions/fr.md:
 #   https://echanges.dila.gouv.fr/robots.txt -> 404 (none published, so no restrictions); the directory
 #        https://echanges.dila.gouv.fr/OPENDATA/LEGI/ is an open Apache index: one stock (Freemium_legi_global_20250713-140000.tar.gz,
-#        1,171,027,316 bytes) and one incremental archive per publication day (LEGI_<date>.tar.gz), no login.
+#        1,171,027,316 bytes) and one incremental archive per publication day (LEGI_<date>.tar.gz), no login. Checked again on
+#        2026-10-18 (robots.txt still 404; the index still lists that single stock, then 466 daily archives up to LEGI_20261017-211053.tar.gz).
 #   https://echanges.dila.gouv.fr/OPENDATA/LEGI/DILA_LEGI_Presentation_20170824.pdf - DILA data sheet "LEGI, codes, lois et
 #        règlements consolidés", updated 24 August 2017: "Les données sont réutilisables gratuitement sous licence ouverte
 #        v2.0. Les réutilisateurs s'obligent à mentionner : la paternité des données (DILA) ; l'URL d'accès longue de
@@ -35,7 +36,8 @@ coverage: >-
   The consolidated text of French legislation as in Légifrance: the Constitutions, the codes (in force and repealed), laws,
   organic laws, constitutional laws, ordinances, decree-laws, decrees and orders, each article with all its versions and the
   period of each (DATE_DEBUT, DATE_FIN, ETAT). ULIS ingests the selection in the manifest (all codes, the Constitutions, laws,
-  organic and constitutional laws, ordinances and decree-laws); decrees and orders that are not codified are not selected.
+  organic and constitutional laws, ordinances, decree-laws and decrees: 53,383 decrees in the stock of 2025-07-13, in force or
+  not); orders (arrêtés, 81,452 texts) are not selected.
 access:
   method: bulk_download
   endpoint: config/manifests/fr-dila-legi.yaml
@@ -85,7 +87,10 @@ provenance: >-
   archives applied. Raw bundles are addressed by SHA-256; every provision version points to the XML file it was read from.
 known_limitations:
   - "Consolidated versions are the DILA's consolidation, not the authentic text (only the JORF publication is); errors in consolidation are possible and corrected by the DILA over time."
-  - "Decrees and orders that are not codified, collective agreements (KALI), the Journal officiel itself, circulars and other DILA databases are not ingested."
+  - "Orders (arrêtés) that are not codified, collective agreements (KALI), the Journal officiel itself, circulars and other DILA databases are not ingested."
+  - "An article version the database leaves without any period (DATE_DEBUT and DATE_FIN both 2999-01-01, no ETAT: the articles whose whole content amends other texts, TYPE ENTIEREMENT_MODIF, for which the consolidation holds only 'A modifié les dispositions suivantes : ...') is not ingested; the article is recorded without a version. The amendments it made appear in the notes of the amended articles. About 114,000 such article files among the decrees and 46,000 among the laws, ordinances and codes of the stock; texts made only of such articles (169 decrees) hold nothing to ingest."
+  - "When the database prints that summary in place of the words of a dated article version (606 versions among the decrees), it is stored as the version's note and the text is empty; annexes whose content the database does not hold as text (images, tables published as PDF) are empty too."
+  - "Tables are linearised (one cell per line, the cell's own line breaks kept); the column alignment of a table is not kept. Annexes are stored by the DILA as articles (NUM 'Annexe', 'Annexe I', 'annexe art. 4', or no number at all: eid art-x) and cited as 'annexe I', or without a pinpoint when the source gives no number."
   - "Versions in the states ANNULE (annulled retroactively) and MODIFIE_MORT_NE (never in force) are not ingested; articles are the unit of text (no split into paragraphs)."
   - "The stock holds 11 selected texts in both its in-force and its not-in-force tree with differing states; the first copy is kept."
   - "Versions the database lists but whose files are missing from the dump (for example early versions of some Code civil articles) are not ingested: a history gap, not a repeal."

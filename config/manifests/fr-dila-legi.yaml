@@ -1,22 +1,26 @@
 # French consolidated legislation from the DILA "LEGI" open data (https://echanges.dila.gouv.fr/OPENDATA/LEGI/).
 #
-# The directory holds ONE stock (Freemium_legi_global_<date>.tar.gz: the whole database at that moment, 1.1 GB, 5.5 million
-# files) and one small incremental archive per publication day (LEGI_<date>.tar.gz). The connector downloads the stock once
+# The directory holds ONE stock (Freemium_legi_global_<date>.tar.gz: the whole database at that moment, 1.17 GB, 2,276,109 text,
+# article and section files) and one small incremental archive per publication day (LEGI_<date>.tar.gz). The connector downloads the stock once
 # (resumable, cached under var/sources/echanges.dila.gouv.fr/), reads it as a stream and keeps only the texts selected below,
 # then applies the incremental archives published after the stock, one request each, at least 5 s apart. robots.txt of the host
 # is read first (it publishes none: 404, which means no restrictions).
 #
-# The stock is pinned by size and SHA-256 (computed on the file downloaded on 2026-10-14). DILA's data sheet obliges a new
-# user to use the latest stock; when a newer stock appears, change `stock` and run the ingestion again (new expressions are
-# added, nothing is overwritten).
+# The stock is pinned by size and SHA-256 (computed on the file downloaded on 2026-10-14 and again on 2026-10-18: same bytes).
+# DILA's data sheet obliges a new user to use the latest stock; the host's listing was checked on 2026-10-18 (00:38 UTC): the
+# stock of 2025-07-13 is still the only and latest one, followed by the daily archives up to LEGI_20261017-211053.tar.gz. When a
+# newer stock appears, change `stock` and run the ingestion again (new expressions are added, nothing is overwritten).
 #
 # Selection (stream rules, no text is listed one by one):
 #   required - texts that must be in the stock (a missing one is reported as a run error): the Constitution of 4 October
 #              1958, the main codes and the data-protection law (Loi n° 78-17);
 #   natures  - every text of these natures, in force or not: CODE (108 codes incl. 31 repealed ones), CONSTITUTION (3),
-#              LOI, LOI_ORGANIQUE, LOI_CONSTIT, ORDONNANCE, DECRET_LOI.
-#   Decrees (DECRET) and orders (ARRETE) are not selected: they are about 138,000 texts (55,000 decrees, 83,000 orders)
-#   and 1.5 million files of the stock's 2.3 million. To ingest them, add DECRET and/or ARRETE to `natures` (the ingestion is then proportionally longer).
+#              LOI, LOI_ORGANIQUE, LOI_CONSTIT, ORDONNANCE, DECRET_LOI, and DECRET (53,383 decrees in the stock: 42,673 in
+#              force, 8,595 repealed, 1,237 lapsed, 711 modified, 99 annulled, 61 with a deferred state, 7 never in force;
+#              676,228 files, 880 MB of per-text zips, 583,746 provision versions; the stock scan takes about 7 minutes on one core).
+#   Orders (ARRETE, 81,452 texts, about 600,000 article files) are not selected: ministerial and other orders are the lowest
+#   tier of the regulations and would double the French corpus for texts that are mostly technical (nominations, tariffs,
+#   lists); to ingest them add ARRETE to `natures` (the parser handles them like decrees).
 schema_version: 1
 source_id: fr-dila-legi
 user_agent: "ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)"
@@ -44,5 +48,5 @@ select:
     - {cid: LEGITEXT000006070933, title: Code de justice administrative}
     - {cid: LEGITEXT000031366350, title: Code des relations entre le public et l'administration}
     - {cid: JORFTEXT000000886460, title: "Loi n° 78-17 du 6 janvier 1978 relative à l'informatique, aux fichiers et aux libertés"}
-  natures: [CODE, CONSTITUTION, LOI, LOI_ORGANIQUE, LOI_CONSTIT, ORDONNANCE, DECRET_LOI]
+  natures: [CODE, CONSTITUTION, LOI, LOI_ORGANIQUE, LOI_CONSTIT, ORDONNANCE, DECRET_LOI, DECRET]
   exclude: []
