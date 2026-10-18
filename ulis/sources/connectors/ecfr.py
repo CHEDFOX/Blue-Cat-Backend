@@ -105,8 +105,13 @@ class TitleSplit:
             pos = end
             sections = body.count(b"<DIV8 ") + body.count(b"<DIV9 ")
             inside += sections
-            number = found.get(b"N", b"").decode("utf-8", "replace")
+            number = found.get(b"N", b"").decode("utf-8", "replace").strip()
             if not sections:
+                self.empty_parts += 1
+                continue
+            if not number and not body.count(b"<DIV8 "):
+                # A DIV5 with no part number and no section: title 24 holds one whose only content is the heading
+                # "Appendixes A-C to Subtitle A [Reserved]" (DIV9). Nothing to ingest; counted as an empty part.
                 self.empty_parts += 1
                 continue
             if not _PART_NUMBER.match(number):

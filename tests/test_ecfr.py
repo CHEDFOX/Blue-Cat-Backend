@@ -633,3 +633,32 @@ def test_stored_envelopes_rederive_from_their_raw_documents(
         .where(m.Instrument.uri.like("/us/cfr/t1/%"), m.Provision.kind == "paragraph")
     )
     assert paragraphs and paragraphs > 1000
+
+
+def test_a_part_with_no_number_and_only_a_reserved_appendix_heading_is_an_empty_part() -> None:
+    """Title 24 (2026-10-18) holds ``<DIV5 N="" TYPE="PART">`` whose only content is the heading "Appendixes A-C to
+    Subtitle A [Reserved]" as a DIV9: no section, nothing to ingest. It used to stop the whole title ("unexpected part
+    number ''"); it is now counted as an empty part. A numberless DIV5 that does hold sections is still refused."""
+    head = (
+        b'<?xml version="1.0"?><ECFR><DIV1 N="Title 24" TYPE="TITLE"><HEAD>Title 24</HEAD>'
+        b'<DIV2 N="Subtitle A" TYPE="SUBTITLE"><HEAD>Subtitle A</HEAD>'
+    )
+    reserved = (
+        b'<DIV5 N="" NODE="24:1.1.1.1.44" TYPE="PART">\n<HEAD> \n</HEAD>\n'
+        b'<DIV9 N="" NODE="24:1.1.1.1.44.0.67.1.10" TYPE="APPENDIX">\n'
+        b"<HEAD>Appendixes A-C to Subtitle A [Reserved]\n</HEAD>\n</DIV9>\n"
+        b"</DIV5>"
+    )
+    part_5 = (
+        b'<DIV5 N="5" NODE="24:1.1.1.1.5" TYPE="PART"><HEAD>PART 5-GENERAL</HEAD>'
+        b'<DIV8 N="\xc2\xa7 5.100" NODE="24:1.1.1.1.5.0.1.1" TYPE="SECTION"><HEAD>\xc2\xa7 5.100 Definitions.</HEAD>'
+        b"<P>Text.</P></DIV8></DIV5>"
+    )
+    tail = b"</DIV2></DIV1></ECFR>"
+    stamp = datetime(2026, 10, 13, 12, 0, tzinfo=UTC)
+    split = TitleSplit(head + reserved + part_5 + tail, 24, title_url(24), stamp, "0" * 64)
+    parts = list(split.parts())
+    assert [n for n, _ in parts] == ["5"] and split.empty_parts == 1 and split.outside_parts == 0
+    numberless_with_sections = part_5.replace(b'N="5"', b'N=""')
+    with pytest.raises(ManifestError, match="unexpected part number ''"):
+        list(TitleSplit(head + numberless_with_sections + tail, 24, title_url(24), stamp, "0" * 64).parts())
