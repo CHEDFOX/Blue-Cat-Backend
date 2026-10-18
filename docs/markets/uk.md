@@ -3,6 +3,12 @@
 Batch 8, 2026-10-16. Dev database `ulis_m_gb`, test database `ulis_test_m_gb`. Details: [gb.md](../jurisdictions/gb.md) (legislation),
 [gb-case-law.md](../jurisdictions/gb-case-law.md) (decisions). "Manifest" = what a full ingest would fetch; only slices were run here.
 
+Update 2026-10-18 (completeness audit, see [gb.md](../jurisdictions/gb.md)): the never-revised instruments (`gb-legislation-gov-uk-secondary-made`,
+65,456 works) are law in force as made unless revoked and are now loaded by default, last (opt-out: `load-all --skip`, documented in the
+descriptor); the Welsh texts of Welsh legislation are fetched as parallel expressions (3,675 works, language `cy`, Welsh citations); the three
+manifests were regenerated from the listings of 2026-10-18 (7,178 / 17,931 / 65,456 works). The "Welsh-language texts not fetched" and
+"off by default" statements below describe the state of 2026-10-16.
+
 ## Inventory
 
 | Collection | Source id | Status | In the manifest (before -> now) | What the publisher offers beyond | Action |
