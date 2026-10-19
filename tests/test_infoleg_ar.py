@@ -912,7 +912,8 @@ def test_generic_laws_ingest_search_and_carry_their_warnings(
         SearchRequest(q=phrase, jurisdiction="AR", as_of=TODAY, query_language="es"),
         today=TODAY,
     )
-    assert [r["citation"] for r in res["results"]][:5] == ["art. 1, Ley 25.344"], res["results"][:1]
+    full = [r["citation"] for r in res["results"] if r["score"]["matched_via"] == "query"]
+    assert full[:5] == ["art. 1, Ley 25.344"], res["results"][:1]
     hit = next(r for r in res["results"] if r["citation"] == "art. 1, Ley 25.344")
     codes = {lim["code"] for lim in hit["limitations"]}
     assert {"ATTESTED_ONLY_AT", "PROFILE_UNVERIFIED", "REVISED_TEXT"} <= codes

@@ -3,8 +3,9 @@
 Counting passages reads every row of a jurisdiction (about 0.7 s for the 1.9 million passages of the US eCFR), and
 every search reports coverage for the jurisdictions it involves. The counts change only when data is loaded, so they
 are cached per database and per jurisdiction until the ingestion runs change: every ingestion records its run in the
-same transaction as its data, so a committed load always invalidates the cache. A `reindex` on its own does not;
-restart the API after one.
+same transaction as its data, so a committed load always invalidates the cache. A transaction that has written
+anything itself counts afresh and leaves the cache alone (its rows may still be rolled back). A `reindex` on its own
+does not invalidate the cache; restart the API after one.
 """
 
 from __future__ import annotations
@@ -34,8 +35,15 @@ _CACHE: dict[str, tuple[tuple[Any, ...], dict[str, _Counts]]] = {}
 _LOCK = threading.Lock()
 
 
-def _signature(session: Session) -> tuple[Any, ...]:
-    return tuple(session.execute(text("SELECT count(*), max(started_at), max(finished_at) FROM ingestion_runs")).one())
+def _signature(session: Session) -> tuple[Any, ...] | None:
+    """The state of the ingestion runs, or None when this transaction has written (nothing it sees is settled)."""
+    *signature, wrote = session.execute(
+        text(
+            "SELECT count(*), max(started_at), max(finished_at), pg_current_xact_id_if_assigned() IS NOT NULL "
+            "FROM ingestion_runs"
+        )
+    ).one()
+    return None if wrote else tuple(signature)
 
 
 def _count(session: Session, ids: list[str]) -> dict[str, _Counts]:
@@ -75,6 +83,8 @@ def database_key(session: Session) -> str:
 def _counts(session: Session, ids: list[str]) -> dict[str, _Counts]:
     key = database_key(session)
     signature = _signature(session)
+    if signature is None:
+        return _count(session, list(dict.fromkeys(ids)))
     with _LOCK:
         entry = _CACHE.get(key)
         if entry is None or entry[0] != signature:

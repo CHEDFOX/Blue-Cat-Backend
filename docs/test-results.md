@@ -4,14 +4,15 @@ Recorded from 2026-10-14 to 2026-10-18 in the build container: Python 3.13.16, P
 (Playwright 1.56.1). These are the actual outputs of the runs, not targets. Older per-corpus sections below
 keep their original numbers; the first table is the current state.
 
-## Backend (`Blue-Cat-Backend`), current (2026-10-18)
+## Backend (`Blue-Cat-Backend`), current (2026-10-19)
 
 | Check | Command | Result |
 |---|---|---|
-| Lint, format, types | `ruff check`, `ruff format --check`, `mypy ulis` | clean (mypy: no issues in 237 source files) |
+| Lint, format, types | `ruff check`, `ruff format --check`, `mypy ulis` | clean (mypy: no issues in 240 source files) |
 | Config | `python -m ulis.cli validate-config` | 148 jurisdictions, 356 sources (144 active), 4 concepts |
-| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q -p no:cacheprovider` | **2,151 passed, 28 skipped, 0 failed** in 15 min 22 s (fresh test database, 2026-10-19). The 28 skipped are the experimental Tantivy tests, which need the helper built with `cargo build --release` in `scripts/search_eval/tantivy`; with it built, `tests/test_tantivy_engine.py` passes 32 of 32 |
-| Search-engine evaluation | `docs/search-engine-evaluation.md` | 240 judged queries in 8 languages, 682 point-in-time tests, 1,200 randomized filter requests, 89 syntax probes on a 2.52 M-passage corpus of 14 jurisdictions; production search unchanged |
+| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... python -m pytest -q -p no:cacheprovider` | **2,213 passed, 28 skipped, 0 failed** in 20 min 35 s (fresh test database, 2026-10-19, after the search fixes and the UK and BOE data fixes). The 28 skipped are the experimental Tantivy tests, which need the helper built with `cargo build --release` in `scripts/search_eval/tantivy`; with it built, `tests/test_tantivy_engine.py` passes 32 of 32. Four older tests assumed that a search returns only passages holding every word (or nothing); they now check the full matches, or that nothing comes from the jurisdiction without a corpus |
+| Search fixes, measured | the 240 judged queries through `search()` (`docs/search-engine-evaluation.md`, "Fixes made after this evaluation") | empty results 45% -> 1%; known item in the top 10 39% -> 76%; judged citations 1 -> 24 of 24; `search()` p50 1,006 -> 170 ms, p95 1,226 -> 587 ms |
+| Search-engine evaluation | `docs/search-engine-evaluation.md` | 240 judged queries in 8 languages, 682 point-in-time tests, 1,200 randomized filter requests, 89 syntax probes on a 2.52 M-passage corpus of 14 jurisdictions; the engine was not switched |
 | Full eCFR load (all 50 CFR titles) | `ingest us-ecfr`, `verify-sources`, `status` | 8,124 parts, 1,942,069 provision versions, 1,812,535 passages, 0 errors, 0 conflicts, 2 reserved parts skipped; **8,124/8,124 verified**; database 6.1 GB (`docs/jurisdictions/us-ecfr.md`) |
 
 The first full load of a whole national collection found three defects that slices had not (a numberless reserved

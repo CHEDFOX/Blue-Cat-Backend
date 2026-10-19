@@ -787,7 +787,11 @@ def test_utah_future_version_follows_the_dates_the_source_states(
     assert "the actor's unawareness is immaterial" in later["version"]["text"]
     # Search as of today shows the wording in force today only.
     res = _find(session, catalog, "US-UT", "voluntary intoxication is not a defense to a criminal charge")
-    texts = [h["text"] for h in res["results"] if h["document"]["uri"] == "/us-ut/code/76"]
+    texts = [
+        h["text"]
+        for h in res["results"]
+        if h["document"]["uri"] == "/us-ut/code/76" and h["score"]["matched_via"] == "query"
+    ]
     assert texts and all("his unawareness" in t for t in texts)
 
 

@@ -166,9 +166,10 @@ def test_judicial_treatment_and_outstanding_changes_on_statute(session: Session,
 
 def test_unindexed_jurisdiction_reports_no_coverage(session: Session, catalog: Catalog) -> None:
     res = run(session, catalog, q="retention of personal data", jurisdiction="NZ")
-    assert res["results"] == []
+    # Nothing from NZ; law above it (the international order, when other tests have loaded some) may match in part.
+    assert all(r["jurisdiction"]["id"] != "NZ" for r in res["results"])
     assert {"NO_CORPUS", "PROFILE_UNVERIFIED"} <= codes(res)
-    assert res["coverage"][0]["instruments"] == 0
+    assert next(c for c in res["coverage"] if c["jurisdiction"] == "NZ")["instruments"] == 0
 
 
 def test_missing_jurisdiction_asks_for_clarification(session: Session, catalog: Catalog) -> None:
@@ -260,7 +261,7 @@ def test_citation_of_another_jurisdictions_law_is_out_of_scope(session: Session,
     assert res["citation"] is None
 
 
-def test_coverage_counts_are_cached_until_the_next_ingestion_run(
+def test_coverage_counts_are_cached_until_the_data_changes(
     session: Session, catalog: Catalog, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     from ulis.retrieval import coverage
@@ -272,7 +273,17 @@ def test_coverage_counts_are_cached_until_the_next_ingestion_run(
     monkeypatch.setattr(coverage, "_count", lambda s, ids: calls.append(ids) or count(s, ids))
     assert coverage.coverage_for(session, catalog, ["XA"]) == first
     assert calls == []
+    # A transaction that has written counts afresh (its rows may be rolled back) and leaves the cache alone.
     session.add(m.IngestionRun(source_id="ulis-fictional-sample", actor="pytest", status="running"))
     session.flush()
     assert coverage.coverage_for(session, catalog, ["XA"]) == first
     assert calls == [["XA"]]
+    session.rollback()
+    assert coverage.coverage_for(session, catalog, ["XA"]) == first
+    assert calls == [["XA"]]
+    # A committed ingestion run (the same transaction as its data) makes every cached count stale.
+    key = coverage.database_key(session)
+    signature, counts = coverage._CACHE[key]
+    coverage._CACHE[key] = ((-1, *signature[1:]), counts)
+    assert coverage.coverage_for(session, catalog, ["XA"]) == first
+    assert calls == [["XA"], ["XA"]]

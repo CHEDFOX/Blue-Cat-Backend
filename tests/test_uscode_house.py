@@ -1107,7 +1107,7 @@ def test_repealed_section_is_recorded_but_never_presented_as_in_force(
     assert entry["status"] == "repealed" and entry["text"] == "" and entry["valid_from"] is None
     assert entry["note"].startswith("Status in source: repealed. The Code prints: Repealed. Pub. L. 110–403")
     session_hits = _search(session, catalog, q="seizure and forfeiture of copies", limit=20)["results"]
-    assert all(h["provision"]["eid"] != "sec_509" for h in session_hits)
+    assert all(h["unit"]["eid"] != "sec_509" for h in session_hits)
 
 
 @pytest.mark.db

@@ -98,10 +98,17 @@ Drafts are in [permission-requests.md](permission-requests.md), section "Notices
   including pre-1996 Northern Ireland Statutory Rules and pre-1991 Local Acts still in force. Revocation of never-amended
   instruments is not recorded by the publisher. Welsh is searched without stemming.
 * **US:** statutory and editorial notes are not ingested; uncodified statutes only with `--include-history`; state law out of scope.
-* **EU:** 52 acts in force have no machine-readable text and 67 no English version.
+* **EU:** 52 acts in force have no machine-readable text and 67 no English version. A consolidated text starts on the
+  date the publisher gives its first consolidated version, which can precede entry into force and application: the
+  GDPR reads as in force from 2016-05-04 (published; in force 2016-05-24; applies from 2018-05-25, both dates stored as
+  lifecycle events), so a search dated 2017 returns it without a warning (7 of 45 consolidated works start before entry
+  into force, 4 before application).
 * **France:** arrêtés (orders) are excluded by choice (81,452 more texts); amending articles without dates hold no text of their own.
 * **Germany:** current consolidation only (the publisher keeps no history); the publisher describes its collection as "nahezu" complete.
 * **Spain:** only the AEBOE consolidated collection (all norms with the rank of law, a selection of lower ranks); no autonomous-community law.
+  A norm repealed with exceptions is recognised from the BOE's initial note (parser 1.2.0); an exception made by reference
+  to another law (LO 15/1999 arts. 23-24, kept by LO 3/2018) is quoted, not applied, and one other wording of the note
+  ("queda derogado el presente Real Decreto, a excepción del título VI") is not yet read.
 * **Australia:** about 13% of never-amended Acts are refused by the parser (estimate from a 30-Act slice); legislative instruments
   (`au-federal-register-instruments`) are not loaded by default until their parser handles forms and tables.
 * **Canada:** current consolidation only; 430 repeal-only regulation stubs and 18 repeal-only Act stubs are excluded.
