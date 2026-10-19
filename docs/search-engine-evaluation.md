@@ -21,6 +21,62 @@ Short answer:
   return nothing (81% of natural-language questions), and citation-style queries almost never find the cited
   provision. Changing the engine does not fix either.
 
+## Corrections after independent review (2026-10-19)
+
+Two reviewers recomputed every metric from the raw files (judgments, key, results) without reusing this report's
+scripts. The arithmetic and the blind judging hold: every table value in sections 3.2 and 3.3 reproduces, the
+pools are exactly the union of the three engines' top 10, and the five worst regressions listed are in fact the five
+worst. The following claims were overstated and are corrected here; where the sections below differ, this section
+wins.
+
+- **Matching parity counts include empty results.** 109 of 240 judged queries, 874 of 1,181 filter requests and 37
+  of 89 probes return nothing on every engine and agree trivially. The informative figures for `tantivy-pg` are
+  **131/131 non-empty queries, 307/307 non-empty filter requests and 48/48 non-empty probes identical**, with one
+  more probe (`a & b | !c`) unverifiable because it reaches the 100,000 cut-off. In pg mode PostgreSQL builds the
+  tsquery itself, so identical parsing holds by construction; the probes test the translation. Native mode differs on
+  2 of 89 probes, and 11 of its 15 filter-run mismatches are citation or number inputs (`§ 1`, `1 §`, `RL 28:1`).
+- **The ranking gain is concentrated.** The 23 boolean queries give 51% of the +0.109 nDCG@10, and English plus
+  Japanese give 63%. Without boolean queries the gain is +0.066 [+0.029, +0.107]; without boolean queries and
+  without en and ja (69 queries) it is **+0.019 [-0.009, +0.046], indistinguishable from zero**. 69 of the 120
+  evaluable queries have 10 or fewer matches, so both engines show the same set (mean gain +0.005); the whole gain
+  comes from the 51 queries with more than 10 matches (+0.25, 11 of them worse). Informative queries per language
+  (more than 10 matches): en 10, fr 5, de 4, es 7, sv 2, fi 3, ja 10, cy 10.
+- **Per-language "same or better" is not demonstrated.** No non-inferiority margin was set; the lower 95% bounds are
+  negative in cy (-0.058), sv (-0.024), de (-0.020), fi (-0.016), es (-0.013) and fr (-0.012), with paired sign-flip
+  p-values of 0.16-0.57. Gate 6 is therefore partial for both modes. Intervals on fewer than about 10 queries
+  (citation n = 6, the 17 point-in-time queries: 4 better, 3 worse, 10 same, permutation p about 0.14) should be read
+  as not significant; nothing is corrected for multiplicity. `tantivy-native` and `tantivy-pg` have identical
+  per-query values; their slightly different intervals are bootstrap noise.
+- **Point-in-time candidate sets are not identical in every test.** The point-in-time runner recorded candidate
+  counts, not ids, and in 9 tests the count was exactly the 200 budget. Re-run with ids: tantivy-pg shares only 65 of
+  200 candidates with PostgreSQL in pitb-jp-06, 71 in pitb-jp-09 and 174-198 in pitb-jp-07, a ranking effect at the
+  budget cut, not a filter difference. Coverage is thin: tests per language en 215, fr 192, es 166, ja 76, sv 22,
+  de 6, cy 5, **fi 0**; version-boundary cases exist only for en, es, fr and ja. Gate 4 stays partial and is not
+  established for fi, sv, de and cy.
+- **Recall at the 200-candidate budget rests on 10 queries** (en-07, en-22, fi-18, cy-25 and six ja); none is fr, de,
+  es or sv. On those 10 Tantivy's 200 candidates share on average 54% with PostgreSQL's. The 0.274 -> 0.292 target
+  recall comes from 9 queries.
+- **Japanese `-term` does nothing useful on any engine, PostgreSQL included** (a production bug, not engine-specific):
+  the CJK path ORs every whitespace-separated term through `phraseto_tsquery`, and `phraseto_tsquery('simple',
+  '-強盗')` gives `'強盗'`, so `窃盗 -強盗` means "窃盗 OR 強盗". The judges graded most documents of ja-26 and ja-27 0
+  for this reason.
+- **Flags not exercised on the dev corpus:** `include_proposed` (no passage has status `proposed`) and
+  `include_case_law=false` (no judgment paragraphs) are covered only by the unit tests. Non-empty filter comparisons
+  are thin for languages ja 3, de 6, es 6, fi 6, cy 8 and jurisdictions JP 9, GB-ENG 4, DE 8. Concept expansions
+  fired on only 5 judged queries (en 2, fr 2, de 1).
+- **Judge rubric.** The rubric in section 2 is a paraphrase. The judges' prompt read: 3 = directly answers the query
+  for that jurisdiction and date; 2 = clearly relevant and useful (closely related provision, definitions the answer
+  depends on); 1 = marginally relevant; 0 = not relevant, wrong jurisdiction, or not in force on the query's date when
+  the query asks about the law on that date. The batch files also carried an older 0-2 instruction that every judge
+  overrode. Regenerate the batch files before any lawyer re-judging.
+- **The cross-check against the query files is not independent:** the query authors picked targets with the help of
+  PostgreSQL search, and the same model family judged. It is a consistency check, not a validation.
+- **Test suite.** The 2,178-passed run predates commit 2197b90; the full suite was re-run on the merged integration
+  branch (result recorded in `docs/test-results.md`).
+
+What does not change: no engine-specific crash or error; in pg mode no filter, validity-boundary, NULL-start or status
+difference was found; the problems shared by every engine (45% empty results, citation queries) dominate quality.
+
 ## 1. What was tested
 
 ### Corpus
@@ -403,12 +459,12 @@ that every engine has, PostgreSQL included.
 
 | gate | tantivy-pg | tantivy-native | evidence | absolute (all engines) |
 |---|---|---|---|---|
-| 1. Same or better recall | pass | partial | pg mode: identical match sets on 240/240 queries, 89/89 probes, 1181/1181 filter requests; target provisions in the 200 candidates 0.292 against 0.274. Native: 15/1181 filter requests differ (26 passages lost, 32 gained) from tokenizer gaps | 45% of queries match nothing (81% of natural-language questions) |
+| 1. Same or better recall | pass (thin at the budget cut) | partial | pg mode: identical match sets on 240/240 queries, 89/89 probes, 1181/1181 filter requests; target provisions in the 200 candidates 0.292 against 0.274. Native: 15/1181 filter requests differ (26 passages lost, 32 gained) from tokenizer gaps | 45% of queries match nothing (81% of natural-language questions) |
 | 2. Same or better ranking | pass (LLM judges, not lawyers) | pass (LLM judges, not lawyers) | nDCG@10 +0.109 [+0.066, +0.154], P@5 +0.095 [+0.052, +0.142], MRR +0.119 [+0.059, +0.181]; better or equal point estimate in all 8 languages and all 5 query types except MRR on natural questions (9 queries, CI spans 0); 18 of 120 queries worse; judge agreement linear kappa 0.875; same result with the second judge's grades | ranking of short citations differs widely between engines and was not judged |
 | 3. Robust legal query syntax | partial | partial | no crash, no engine-specific error; pg mode parses and matches all 89 probes like PostgreSQL; native differs on 1 (zero-width space) | citation queries fail on every engine (1 of 24 judged; `Art. 6(1)(f) GDPR`, `§ 823 Abs. 1 BGB` find nothing); NUL byte gives a server error on every engine |
-| 4. Identical point-in-time behaviour | partial | partial | 681/682; candidate sets identical in all 682 tests, no boundary, NULL-start, status or flag failure; 6 tests return a different order, 1 (pitb-jp-10) drops the target below limit 50 because of BM25 ranking; `repealed`/`proposed` only in unit tests | - |
+| 4. Identical point-in-time behaviour | partial | partial | 681/682; candidate sets differ in 3 Japanese cases at the 200 budget (ranking, see corrections), no fi tests, no boundary, NULL-start, status or flag failure; 6 tests return a different order, 1 (pitb-jp-10) drops the target below limit 50 because of BM25 ranking; `repealed`/`proposed` only in unit tests | - |
 | 5. Identical filters | partial | partial | pg mode 1181/1181 identical, 0 field differences; native's 15 differences are tokenizer gaps, not filters (counted under gate 1); treaties, case law and non-EU regional organisations are not in the corpus and were tested only on the unit-test corpus; 7 requests matched Japanese | - |
-| 6. Multilingual (en fr de es sv fi ja cy) | pass | partial | pg mode: identical matching in every language, nDCG gain significant in en and ja, positive but within noise in the other six, no language worse; native: tokenizer gaps seen in en, de, es, fi | per-language samples are small (11-18 evaluable queries); Japanese filter coverage thin |
+| 6. Multilingual (en fr de es sv fi ja cy) | partial (per-language non-inferiority not shown) | partial | pg mode: identical matching in every language, nDCG gain significant in en and ja, positive but within noise in the other six, no language worse; native: tokenizer gaps seen in en, de, es, fi | per-language samples are small (11-18 evaluable queries); Japanese filter coverage thin |
 | 7. Size and latency | pass: about 1.19 GB smaller lexical stage (not yet realisable, section 6 item 4); lexical p50 2.5x faster, p95 6.7x; end-to-end 2% faster | pass: same size; lexical p50 4x faster, p95 8x; end-to-end 2% faster | sections 3.7 and 3.8; warm cache only, no load test | end-to-end latency dominated by `coverage.py` full scan |
 
 ## 5. Failures, with examples
