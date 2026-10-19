@@ -49,6 +49,8 @@ CE, LOPDGDD, CP = "BOE-A-1978-31229", "BOE-A-2018-16673", "BOE-A-1995-25444"
 # Lower-ranking State norms added when the manifest was widened to the whole list: a Real Decreto repealed in full on
 # 2017-04-01, an Orden, an un-numbered Resolución and an Acuerdo Internacional.
 RD_REPEALED, ORDEN, RESOLUCION, ACUERDO = "BOE-A-2001-17164", "BOE-A-2007-8105", "BOE-A-2016-5431", "BOE-A-2020-4408"
+# Norms repealed with exceptions: the metadata keep estatus_derogacion N and the initial note states the repeal.
+LOPD_1999, RD_DOPAJE = "BOE-A-1999-23750", "BOE-A-1996-5276"
 
 
 @cache
@@ -277,6 +279,68 @@ def test_a_norm_repealed_in_full_ends_on_the_date_the_source_gives() -> None:
     # A norm in force is untouched.
     assert all(p.valid_to is None for p in _docs(ORDEN)[-1].provisions if p.eid == "art-1")
     assert "fecha_derogacion" not in _docs(ORDEN)[0].ext
+
+
+def _wordings(docs: list[ParsedDocument], eid: str) -> list[tuple[str, date | None, date | None]]:
+    return sorted(
+        ((p.status, p.valid_from, p.valid_to) for d in docs for p in d.provisions if p.eid == eid),
+        key=lambda w: w[1] or date.max,
+    )
+
+
+def test_a_norm_repealed_with_exceptions_ends_on_the_date_its_initial_note_states() -> None:
+    """LO 15/1999 was repealed by LO 3/2018 "sin perjuicio de" its DA 14: the BOE keeps estatus_derogacion N and states
+    the repeal only in the initial note, so every article used to read as in force with no end (257 wordings)."""
+    docs = _docs(LOPD_1999)
+    assert "fecha_derogacion" not in docs[0].ext  # the metadata do not say "repealed in full"
+    repeal = [e for e in docs[0].events if e.event_type == "repeal"]
+    assert [(e.date, e.affecting_uri, e.locator) for e in repeal] == [
+        (
+            date(2018, 12, 7),
+            "https://www.boe.es/buscar/doc.php?id=BOE-A-2018-16673",
+            "bloque[@tipo='nota_inicial']/version[@id_norma='BOE-A-2018-16673']",
+        )
+    ]
+    assert "sin perjuicio de lo previsto en la disposición adicional 14" in (repeal[0].description or "")
+    end = date(2018, 12, 7)
+    assert _wordings(docs, "art-1") == [("in_force", date(2000, 1, 14), end)]
+    # Only the last wording ends on the repeal: the earlier one keeps the end derived from the next (Ley 62/2003).
+    assert _wordings(docs, "art-37") == [("in_force", date(2000, 1, 14), None), ("in_force", date(2004, 1, 1), end)]
+    # Articles repealed before (RDL 5/2018, from 2018-07-31) keep their own repeal.
+    assert _wordings(docs, "art-40") == [("in_force", date(2000, 1, 14), None), ("repealed", date(2018, 7, 31), None)]
+    closed = [p for d in docs for p in d.provisions if p.valid_to == end]
+    assert len(closed) == 257
+    assert all(
+        (p.note or "").startswith("[ULIS: the BOE's initial note states that the norm is repealed") for p in closed
+    )
+    assert all("sin perjuicio de lo previsto en la disposición adicional 14" in (p.note or "") for p in closed)
+
+
+def test_articles_an_initial_note_excepts_from_the_repeal_stay_in_force() -> None:
+    """RD 255/1996: "Norma derogada, excepción hecha de su artículo 8, que permanecerá vigente ..." (vigencia
+    2008-02-05; the note states no "con efectos de" date)."""
+    docs = _docs(RD_DOPAJE)
+    assert [e.date for e in docs[0].events if e.event_type == "repeal"] == [date(2008, 2, 5)]
+    assert {w[2] for w in _wordings(docs, "art-8")} == {None}
+    assert {w[2] for w in _wordings(docs, "art-8-1")} == {None}
+    assert _wordings(docs, "art-1")[-1][2] == date(2008, 2, 5)
+
+
+def test_a_repeal_in_the_metadata_ends_only_the_last_wording_of_each_provision() -> None:
+    """estatus_derogacion S used to give every wording of a provision the repeal date as an explicit end, so all the
+    wordings of an article read as in force together until the repeal (1995 Workers' Statute: 333 provisions)."""
+    raw = _raw(LOPD_1999).replace(
+        b"<estatus_derogacion>N</estatus_derogacion>",
+        b"<estatus_derogacion>S</estatus_derogacion><fecha_derogacion>20181207</fecha_derogacion>",
+    )
+    docs = parse_boe_consolidada(raw)
+    repeal = [e for e in docs[0].events if e.event_type == "repeal"]
+    assert [(e.date, e.locator) for e in repeal] == [(date(2018, 12, 7), "metadatos/fecha_derogacion")]
+    end = date(2018, 12, 7)
+    assert _wordings(docs, "art-37") == [("in_force", date(2000, 1, 14), None), ("in_force", date(2004, 1, 1), end)]
+    assert all(
+        "repealed in full on 2018-12-07" in (p.note or "") for d in docs for p in d.provisions if p.valid_to == end
+    )
 
 
 def test_a_text_without_provisions_is_skipped_not_an_error() -> None:
@@ -573,3 +637,24 @@ def test_repealed_and_ministerial_norms_search_and_resolve_by_date(
         )
         assert doc is not None
         assert verify_source_document(session, catalog, store, doc.id, checker="pytest")["result"] == "pass"
+
+
+@pytest.mark.db
+def test_a_norm_repealed_with_exceptions_is_not_law_in_force_today(
+    session: Session, catalog: Catalog, store: LocalObjectStore, ingested: IngestionReport
+) -> None:
+    report = Ingestor(session, catalog, store).ingest_source(
+        "es-boe-consolidada", actor="pytest", connector=_Fixtures([LOPD_1999])
+    )
+    assert report.errors == [] and report.conflicts == []
+    query = "garantizar y proteger tratamiento de los datos personales libertades públicas honor intimidad"
+    before = [r for r in _search(session, catalog, query, date(2010, 1, 1))["results"] if "15/1999" in r["citation"]]
+    assert before and before[0]["version"]["valid_to"] == "2018-12-07"
+    assert not [
+        r for r in _search(session, catalog, query, date(2026, 10, 14))["results"] if "15/1999" in r["citation"]
+    ]
+    uri = "/es/lo/BOE-A-1999-23750/~art-37"
+    on_2010 = provision_at(session, catalog, uri, date(2010, 1, 1))
+    assert on_2010["status_on_date"] == "in_force" and on_2010["version"]["valid_from"] == "2004-01-01"
+    assert provision_at(session, catalog, uri, date(2003, 1, 1))["version"]["valid_to"] == "2004-01-01"
+    assert provision_at(session, catalog, uri, date(2018, 12, 7))["status_on_date"] == "no_version"

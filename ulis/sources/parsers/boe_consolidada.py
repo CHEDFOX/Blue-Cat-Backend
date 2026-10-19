@@ -29,7 +29,12 @@ Mapping to ULIS:
 * articles are split into apartados ("1."), letters ("a)") and ordinal items ("1.ª", "1.º") from the
   numbering printed at the start of their paragraphs, only when it runs in sequence; an apartado
   keeps its version while its own words are unchanged;
-* editorial notes go to ``note``; text is the exact paragraph text (whitespace normalised).
+* editorial notes go to ``note``; text is the exact paragraph text (whitespace normalised);
+* a norm repealed in full (``estatus_derogacion`` S, ``fecha_derogacion``) or annulled: the last wording of each
+  provision ends on that date (earlier wordings keep the end derived from the next one); a norm repealed with
+  exceptions keeps ``estatus_derogacion`` N and the BOE states the repeal only in its initial note ("Norma derogada,
+  con efectos de ..."), which ends the last wordings on the date it states, except the articles the note names as
+  excepted (1.2.0).
 """
 
 from __future__ import annotations
@@ -46,7 +51,7 @@ from defusedxml.ElementTree import fromstring
 from ulis.sources.normalized import ParsedDocument, ParsedEvent, ParsedProvision, ParseSkipped
 
 PARSER_ID = "boe_consolidada_xml"
-PARSER_VERSION = "1.1.0"
+PARSER_VERSION = "1.2.0"
 SITE = "https://www.boe.es"
 
 # BOE rango -> (ULIS instrument type, ELI type code used in the work URI)
@@ -90,6 +95,23 @@ MARKER_CLASSES = {"parrafo", "parrafo_2", "parrafo_3"}
 REPEAL = re.compile(
     r"^\(?\s*(derogad[oa]s?|suprimid[oa]s?|anulad[oa]s?|sin contenido|sin efecto)\s*\)?\.?$", re.IGNORECASE
 )
+# The initial note of a norm repealed as a whole: "Norma derogada, con efectos de 7 de diciembre de 2018, ...".
+NOTE_REPEAL = re.compile(r"^Norma derogada\b", re.IGNORECASE)
+EFFECT_DATE = re.compile(r"con efectos (?:de(?:sde)?(?: el)?|del) (\d{1,2}) de ([a-z]+) de (\d{4})")  # on folded text
+MONTHS = {
+    "enero": 1,
+    "febrero": 2,
+    "marzo": 3,
+    "abril": 4,
+    "mayo": 5,
+    "junio": 6,
+    "julio": 7,
+    "agosto": 8,
+    "septiembre": 9,
+    "octubre": 10,
+    "noviembre": 11,
+    "diciembre": 12,
+}
 SUFFIXES = (
     "bis",
     "ter",
@@ -121,6 +143,14 @@ DISP_KIND = {
     "dd": "repealing_provision",
     "df": "final_provision",
 }
+# Articles of the norm itself that an initial repeal note keeps in force: "Norma derogada, excepción hecha de su
+# artículo 8, que permanecerá vigente ..." (Real Decreto 255/1996).
+EXCEPTED_ARTICLES = re.compile(
+    rf"(?:excepci[oó]n hecha de|a excepci[oó]n de|salvo) (?:su|sus|el|los) art[íi]culos? "
+    rf"(\d+(?: ?(?:{_SUFFIX}))?(?:(?:, | y )\d+(?: ?(?:{_SUFFIX}))?)*)",
+    re.IGNORECASE,
+)
+EXCEPTED_NUMBER = re.compile(rf"(\d+)(?: ?({_SUFFIX}))?", re.IGNORECASE)
 NUM = re.compile(rf"^(\d{{1,3}})(?:\s+({_SUFFIX}))?\.\s+\S")
 ORD = re.compile(r"^(\d{1,3})\.?\s?([ºª°])\.?\s+\S")
 LET = re.compile(r"^([a-zñ])\)\s+\S")
@@ -199,6 +229,49 @@ def _repealing_norm(root: Element) -> str | None:
         if (posterior.findtext("relacion") or "").strip().upper() == "SE DEROGA":
             ident, texto = (posterior.findtext("id_norma") or "").strip(), (posterior.findtext("texto") or "").strip()
             return _ws(ident + ("" if texto.startswith(",") else " ") + texto) or None
+    return None
+
+
+@dataclass
+class _NotedRepeal:
+    on: date
+    text: str  # the note as printed
+    norma: str  # the repealing norm (the note version's id_norma)
+    locator: str
+    kept: set[tuple[int, str]]  # articles (number, suffix) the note names as excepted from the repeal
+
+
+def _noted_repeal(texto: Element) -> _NotedRepeal | None:
+    """The repeal of the whole norm as the initial note states it ("Norma derogada, con efectos de ...").
+
+    A norm repealed with exceptions keeps ``estatus_derogacion`` N in the metadata; the BOE states its repeal only in a
+    dated version of the ``nota_inicial`` block, which its web page prints as a banner above the text. The date is the
+    one the note states ("con efectos de 7 de diciembre de 2018"), else the version's ``fecha_vigencia``; without
+    either nothing is inferred.
+    """
+    for bloque in texto.findall("bloque"):
+        if (bloque.get("tipo") or "").strip().lower() != "nota_inicial":
+            continue
+        for v in bloque.findall("version"):
+            text = _text(v)
+            if not NOTE_REPEAL.match(text):
+                continue
+            stated = EFFECT_DATE.search(_fold(text))
+            on = None
+            if stated and stated.group(2) in MONTHS:
+                try:
+                    on = date(int(stated.group(3)), MONTHS[stated.group(2)], int(stated.group(1)))
+                except ValueError:
+                    on = None
+            on = on or _date(v.get("fecha_vigencia"))
+            if on is None:
+                continue
+            kept = {
+                (int(n), s.lower()) for m in EXCEPTED_ARTICLES.finditer(text) for n, s in EXCEPTED_NUMBER.findall(m[1])
+            }
+            norma = (v.get("id_norma") or "").strip()
+            locator = f"bloque[@tipo='nota_inicial']/version[@id_norma='{norma}']"
+            return _NotedRepeal(on, text, norma, locator, kept)
     return None
 
 
@@ -565,6 +638,25 @@ def _chain_candidates(
     return cands
 
 
+def _last_open_wordings(cands: list[_Cand], end: date) -> list[_Cand]:
+    """The wordings a repeal of the whole norm on ``end`` ends: of each unit, the latest wording that started before
+    ``end``, when it is in force and has no end. An earlier wording keeps the end derived from the next one; an
+    explicit end there would make it overlap its successors (1.2.0: before, every wording of the 1995 Workers'
+    Statute's art. 11 read as in force until 2015-11-13)."""
+    latest: dict[str, date] = {}
+    for c in cands:
+        if c.status in ("in_force", "repealed") and c.valid_from is not None and c.valid_from < end:
+            latest[c.unit.eid] = max(latest.get(c.unit.eid, c.valid_from), c.valid_from)
+    return [
+        c
+        for c in cands
+        if c.status == "in_force"
+        and c.valid_to is None
+        and c.valid_from is not None
+        and c.valid_from == latest.get(c.unit.eid)
+    ]
+
+
 def _covered(block: _Block, article: _Block) -> bool:
     if block.covers is None or article.article_key is None:
         return False
@@ -634,6 +726,8 @@ def parse_boe_consolidada(content: bytes) -> list[ParsedDocument]:
         ext["vigencia_agotada"] = True
     norm_end = min((d for d in (repealed_on, annulled_on) if d), default=None)
     repealer = _repealing_norm(root) if repealed_on else None
+    # A norm repealed with exceptions keeps estatus_derogacion N; its repeal is stated in the initial note (1.2.0).
+    noted = _noted_repeal(texto) if norm_end is None else None
 
     # ---- pass 1: blocks and their versions
     bloques = texto.findall("bloque")
@@ -747,10 +841,24 @@ def parse_boe_consolidada(content: bytes) -> list[ParsedDocument]:
             f"[ULIS: the BOE metadata state that the whole norm was {how} on {norm_end.isoformat()} "
             f"({field_name}); the consolidated text keeps showing its last wording.]"
         )
-        for c in cands:
-            if c.status == "in_force" and c.valid_to is None and c.valid_from is not None and c.valid_from < norm_end:
-                c.valid_to = norm_end
-                c.note = _note([c.note or "", remark])
+        for c in _last_open_wordings(cands, norm_end):
+            c.valid_to = norm_end
+            c.note = _note([c.note or "", remark])
+    elif noted is not None:
+        # Ley Orgánica 15/1999: "Norma derogada, con efectos de 7 de diciembre de 2018, sin perjuicio de lo previsto en
+        # la disposición adicional 14 de la Ley Orgánica 3/2018 ...". The last wording of each provision ends on that
+        # date except the articles the note itself names as excepted; an exception made by reference to another norm
+        # cannot be resolved here, so the note is quoted first on every wording it ends.
+        quoted = noted.text if len(noted.text) <= 600 else noted.text[:596].rstrip() + " […]"
+        remark = (
+            f"[ULIS: the BOE's initial note states that the norm is repealed from {noted.on.isoformat()}: "
+            f"«{quoted}» The consolidated text keeps showing its last wording; any exception the note states "
+            "is quoted, not applied, unless it names an article of this norm.]"
+        )
+        for c in _last_open_wordings(cands, noted.on):
+            if c.block.article_key not in noted.kept:
+                c.valid_to = noted.on
+                c.note = _note([remark, c.note or ""])
 
     # Index units: a provision is indexed if any of its versions is a leaf or has its own words.
     indexable: dict[str, bool] = defaultdict(bool)
@@ -820,6 +928,16 @@ def parse_boe_consolidada(content: bytes) -> list[ParsedDocument]:
                         f"Norm {what} (BOE metadata)"
                         + (f"; repealing norm per the BOE analysis: {repealer}" if repealer else ""),
                         "metadatos/fecha_derogacion" if norm_end == repealed_on else "metadatos/fecha_anulacion",
+                    )
+                )
+            elif noted is not None:
+                events.append(
+                    ParsedEvent(
+                        "repeal",
+                        noted.on,
+                        f"{SITE}/buscar/doc.php?id={noted.norma}" if BOE_ID.match(noted.norma) else None,
+                        _note([f"Norm repealed (BOE initial note): {noted.text}"]),
+                        noted.locator,
                     )
                 )
             if published:
