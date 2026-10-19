@@ -202,3 +202,35 @@ def test_a_version_the_site_does_not_have_is_not_asked_for_again(
     n = len(requested)
     again = list(_connector(tmp_path, works).fetch())  # same cache directory: nothing is requested again
     assert len(again) == 2 and len(requested) == n
+
+
+def test_history_also_follows_the_lifecycles_of_the_earlier_versions(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A lifecycle lists the dates of that version's own wordings. The current text of the Data Protection Act 1998
+    (repealed 2018-05-25) lists 5 dates, its version of 2000-03-01 lists 42: s 7's wordings from 2003-08-19 and
+    2014-12-03 were never fetched, so s 7 had no version in force between 2000-03-01 and the repeal."""
+    current = [("1998-07-16", 'refersTo="#enactment"'), ("1998-07-16", ""), ("2000-03-01", ""), ("2018-05-25", "")]
+    current.append(("2019-12-02", ""))
+    routes = {
+        **ROBOTS,
+        f"{SITE}/ukpga/1998/29/data.akn": _akn("2019-12-02", current),
+        f"{SITE}/ukpga/1998/29/1998-07-16/data.akn": _akn("1998-07-16", [("1998-07-16", ""), ("2005-01-01", "")]),
+        f"{SITE}/ukpga/1998/29/2000-03-01/data.akn": _akn("2000-03-01", [("2003-08-19", ""), ("2005-01-01", "")]),
+        # listed only by the version of 2003-08-19, itself listed only by the version of 2000-03-01
+        f"{SITE}/ukpga/1998/29/2003-08-19/data.akn": _akn("2003-08-19", [("2003-08-19", ""), ("2014-12-03", "")]),
+        f"{SITE}/ukpga/1998/29/2005-01-01/data.akn": _akn("2005-01-01", [("2019-12-02", "")]),
+        f"{SITE}/ukpga/1998/29/2014-12-03/data.akn": _akn("2014-12-03"),
+        f"{SITE}/ukpga/1998/29/2018-05-25/data.akn": _akn("2018-05-25"),
+    }
+    requested = _stub_site(monkeypatch, routes)
+    works = [{"path": "ukpga/1998/29", "history": True}]
+    docs = list(_connector(tmp_path, works).fetch())
+    expected = ["1998-07-16", "2000-03-01", "2003-08-19", "2005-01-01", "2014-12-03", "2018-05-25", "2019-12-02"]
+    assert [d.metadata["point_in_time"] for d in docs] == expected  # oldest first, the current text last
+    assert len(requested) == 8 and len(set(requested)) == 8  # robots.txt, the current text, six versions: once each
+    again = list(_connector(tmp_path, works).fetch())  # read back from the cache: nothing is requested again
+    assert [d.metadata["point_in_time"] for d in again] == expected and len(requested) == 8
+    # ``history_dates`` still restricts the versions, including the ones an earlier version lists.
+    only = [{"path": "ukpga/1998/29", "history": True, "history_dates": ["2000-03-01"]}]
+    assert [d.metadata["point_in_time"] for d in _connector(tmp_path, only).fetch()] == ["2000-03-01", "2019-12-02"]
