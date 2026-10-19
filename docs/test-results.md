@@ -10,7 +10,8 @@ keep their original numbers; the first table is the current state.
 |---|---|---|
 | Lint, format, types | `ruff check`, `ruff format --check`, `mypy ulis` | clean (mypy: no issues in 237 source files) |
 | Config | `python -m ulis.cli validate-config` | 148 jurisdictions, 356 sources (144 active), 4 concepts |
-| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q -p no:cacheprovider` | **2,147 passed, 0 failed** in 25 min 35 s (fresh test database, a shared machine under load) |
+| Full suite (PostgreSQL) | `ULIS_TEST_DATABASE_URL=... pytest -q -p no:cacheprovider` | **2,151 passed, 28 skipped, 0 failed** in 15 min 22 s (fresh test database, 2026-10-19). The 28 skipped are the experimental Tantivy tests, which need the helper built with `cargo build --release` in `scripts/search_eval/tantivy`; with it built, `tests/test_tantivy_engine.py` passes 32 of 32 |
+| Search-engine evaluation | `docs/search-engine-evaluation.md` | 240 judged queries in 8 languages, 682 point-in-time tests, 1,200 randomized filter requests, 89 syntax probes on a 2.52 M-passage corpus of 14 jurisdictions; production search unchanged |
 | Full eCFR load (all 50 CFR titles) | `ingest us-ecfr`, `verify-sources`, `status` | 8,124 parts, 1,942,069 provision versions, 1,812,535 passages, 0 errors, 0 conflicts, 2 reserved parts skipped; **8,124/8,124 verified**; database 6.1 GB (`docs/jurisdictions/us-ecfr.md`) |
 
 The first full load of a whole national collection found three defects that slices had not (a numberless reserved
