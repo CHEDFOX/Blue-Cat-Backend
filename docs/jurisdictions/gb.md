@@ -101,7 +101,13 @@ is its parallel version.
 Each point-in-time document is a whole-instrument text; the parser reads the site's own validity periods
 (`validity_basis="source_periods"`). The earliest version of a work made before the site's revised data begins starts on that date:
 1991-02-01 for UK Acts and Church Measures (`BASE_DATES`), 2006-01-01 for NI items; text repealed before then is not on the site. A work held only as enacted/made is one version with no start
-date (`EFFECTIVE_DATE_UNKNOWN`). The as-enacted text of a work that also has history is **not stored** (the pipeline refuses a second
+date (`EFFECTIVE_DATE_UNKNOWN`). The versions fetched are the dates of the current text's lifecycle and, recursively,
+the dates each earlier version's lifecycle lists: a lifecycle lists only the dates of that version's own wordings, and
+the current text of a repealed Act lists hardly any (Data Protection Act 1998: 5 dates; its version of 2000-03-01 lists
+42). Before this was read (2026-10-19), 38 of the 40 works loaded with history in the dev database missed at least 420
+earlier-listed dates, and s 7 of the 1998 Act had no version in force between 2000-03-01 and its repeal on
+2018-05-25; the request estimates "with every version" below predate this and are low for amended and repealed Acts
+(in that slice, 418 versions had been fetched and at least 420 more dates are listed: about twice the requests). The as-enacted text of a work that also has history is **not stored** (the pipeline refuses a second
 expression with the same URI and the dates would overlap); `#made` in a lifecycle is skipped. `derive_valid_to` (shared, `ulis/temporal/validity.py`)
 now ends a version at the next version that starts strictly later; two versions on one date produced a zero-length interval that the
 database refused (found on the Licensing (Scotland) Act 2005).

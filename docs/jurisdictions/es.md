@@ -87,6 +87,25 @@ provision of the 1,988 spent norms would read as in force. The metadata give `es
 (`valid_to`, with a note), a `repeal` event is recorded (the repealing norm "per the BOE analysis" is quoted), and the
 ext keeps the dates. A norm marked spent without such a date keeps `vigencia_agotada` in the ext and no end date. Test:
 BOE-A-2001-17164 (RD 996/2001, repealed 2017-04-01) is found for 2010-01-01 with `valid_to` 2017-04-01 and not for today.
+Only the last wording of each provision takes that end (parser 1.2.0): earlier wordings keep the end derived from the
+next one. Before, every wording got the repeal date as an explicit end, so all the wordings of an article read as in
+force together (dev database 2026-10-18: 333 provisions of RDLeg 1/1995 and 191 of Ley 30/1992 had overlapping
+versions; art. 11 of the 1995 Workers' Statute had 15 wordings all in force until 2015-11-13).
+
+**Norms repealed with exceptions** keep `estatus_derogacion` N and `vigencia_agotada` N, so the list and the metadata
+both present them as in force; the BOE states the repeal only in a dated version of the initial note
+(`bloque tipo="nota_inicial"`), which its web page prints as a banner above the text. Ley Orgánica 15/1999 (data
+protection): "Norma derogada, con efectos de 7 de diciembre de 2018, sin perjuicio de lo previsto en la disposición
+adicional 14 de la Ley Orgánica 3/2018, de 5 de diciembre, según establece su disposición derogatoria única.1."
+Parser 1.2.0 reads that note: the last wording of each provision ends on the date the note states ("con efectos de ...",
+else the version's `fecha_vigencia`), with the note quoted first in `note`, and a `repeal` event is recorded. Articles
+of the norm the note names as excepted ("excepción hecha de su artículo 8", RD 255/1996) stay in force; an exception
+made by reference to another norm (LO 3/2018 DA 14 keeps arts. 23 and 24 of LO 15/1999 in force) is quoted, not
+applied. In the dev database (300 norms) 3 norms are such: LO 15/1999 (257 open wordings), RD 255/1996 (48, art. 8
+kept) and RD 1599/1997 (218). Other formulas ("Téngase en cuenta que, a partir del 6 de agosto de 2003, queda derogado
+el presente Real Decreto, a excepción del título VI", the note of RD 822/1990) are not read. A norm the BOE presents as in
+force without any repeal statement stays in force (Ley 4/1999, which amended Ley 30/1992: no "SE DEROGA" reference,
+`estatus_derogacion` N, no note).
 A text with no provision at all raises `ParseSkipped`. The connector skips a norm the API does not know (404) and
 continues (`fetch_errors`); a refusal stops the run.
 

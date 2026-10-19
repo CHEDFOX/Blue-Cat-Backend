@@ -2,7 +2,9 @@
 
 For every work in the manifest it fetches the current revised text and, if ``history`` is
 set, the whole instrument as it stood on each date listed in its lifecycle - the dates on
-which some provision changed - which yields every historical version. A work the manifest marks
+which some provision changed - which yields every historical version. A lifecycle lists only the dates
+of that version's own wordings, so the lifecycle of every earlier version fetched adds its dates too (a
+repealed Act's current text no longer lists the changes to its repealed provisions). A work the manifest marks
 ``welsh`` (Welsh legislation, which the site publishes in English and in Welsh with equal standing)
 is fetched in both languages: the Welsh expression of each version lives at ``.../welsh/data.akn``
 and is one more request per version.
@@ -50,6 +52,17 @@ _EVENT_DATE = re.compile(rb'\bdate="(\d{4}-\d{2}-\d{2})')
 _COMPACT = re.compile(r"^([^@+]+)(?:@(enacted|made))?(?:\+(cy))?$")
 SINGLE_VERSIONS = ("enacted", "made")
 WELSH = "cy"
+
+
+def _lifecycle_dates(document: bytes) -> set[str]:
+    """The dates of a document's lifecycle events. Every one is a version, except the date an instrument was made
+    (``#made``): the site has no point-in-time version for it (the first one is the date it came into force)."""
+    dates = set()
+    for tag in _EVENT.findall(document):
+        found = _EVENT_DATE.search(tag)
+        if found and b'refersTo="#made"' not in tag:
+            dates.add(found.group(1).decode())
+    return dates
 
 
 class FetchError(RuntimeError):
@@ -292,28 +305,37 @@ class LegislationGovUkConnector:
         match = _DATE.search(data)
         current_date = match.group(1).decode() if match else None
         if work.get("history", False) and current_date:
-            seen = {current_date}
             # ``history_dates`` restricts the versions fetched (used for small test fixtures). A
             # partial history can hide intermediate versions, so production manifests omit it.
             wanted = work.get("history_dates")
-            # Every lifecycle date is a version, except the date an instrument was made (``#made``): the site has no
-            # point-in-time version for it (the first one is the date it came into force).
-            dates = set()
-            for tag in _EVENT.findall(data):
-                found = _EVENT_DATE.search(tag)
-                if found and b'refersTo="#made"' not in tag:
-                    dates.add(found.group(1).decode())
-            for d in sorted(dates):
-                if d >= current_date or (wanted is not None and d not in {str(w) for w in wanted}):
-                    continue
+            allowed = None if wanted is None else {str(w) for w in wanted}
+
+            def earlier_dates(document: bytes) -> set[str]:
+                return {d for d in _lifecycle_dates(document) if d < current_date and (allowed is None or d in allowed)}
+
+            # A lifecycle lists the dates of the wordings in that version only: the current text of an Act repealed
+            # since (in full or in part) no longer lists the dates on which its repealed provisions changed (the Data
+            # Protection Act 1998's current text lists 5 dates, its version of 2000-03-01 lists 42). Each earlier
+            # version's lifecycle therefore adds its own dates until no new one appears; the versions are then
+            # yielded oldest first, read back from the cache (no second request).
+            pending, tried = earlier_dates(data), set[str]()
+            versions: dict[str, str] = {}  # point-in-time date of the document -> the date it was requested for
+            while pending - tried:
+                d = min(pending - tried)
+                tried.add(d)
                 got = self._get(manifest, f"{base}/{path}/{d}/data.akn", self.cache_dir / path / f"{d}.akn")
                 if got is None:
                     continue
                 pit_match = _DATE.search(got[0])
                 pit_date = pit_match.group(1).decode() if pit_match else d
-                if pit_date in seen:  # this date resolved to a version already fetched
+                if pit_date == current_date or pit_date in versions:  # resolved to a version already fetched
                     continue
-                seen.add(pit_date)
+                versions[pit_date] = d
+                pending |= earlier_dates(got[0])
+            for pit_date, d in sorted(versions.items()):
+                got = self._get(manifest, f"{base}/{path}/{d}/data.akn", self.cache_dir / path / f"{d}.akn")
+                if got is None:  # pragma: no cover - cached by the loop above
+                    continue
                 yield self._raw(path, got[0], got[1], pit_date)
                 yield from self._welsh(manifest, base, work, d, pit_date)
         yield self._raw(path, data, meta, current_date or "current")
