@@ -21,6 +21,52 @@ Short answer:
   return nothing (81% of natural-language questions), and citation-style queries almost never find the cited
   provision. Changing the engine does not fix either.
 
+## Fixes made after this evaluation (2026-10-19)
+
+The four engine-independent problems below were fixed in production `search()` (PostgreSQL); the engine was not
+changed. Design: `docs/multilingual-retrieval.md`, section "When not every word matches, and citations". Measured
+on the same 240 judged queries, dev database and `today` as above, through the real `search()` with limit 10.
+"Known item" is a provision the query's author marked as the answer (`relevant` in the query files), found among the
+10 results; it is not the blind judges' nDCG, which would need new judgments for the new results.
+
+| | before | after |
+|---|---|---|
+| queries returning nothing | 109 of 240 (45%) | 2 (1%) |
+| natural-language questions returning nothing | 78 of 96 (81%) | 1 (1%) |
+| known item in the top 10, all queries | 94 (39%) | 182 (76%) |
+| known item at rank 1, all queries | 63 | 119 |
+| known item in the top 10, natural questions | 5 of 96 | 52 (31 at rank 1) |
+| known item in the top 10, citations | 1 of 24 | 24 of 24 (22 at rank 1) |
+| mean reciprocal rank (known item) | 0.304 | 0.573 |
+| `search()` latency p50 / p95 / max | 1,006 / 1,226 / 1,673 ms | 170 / 587 / 1,404 ms |
+
+Per language, known item in the top 10: en 14 -> 21, fr 12 -> 27, de 9 -> 19, es 14 -> 20, sv 14 -> 24, fi 11 -> 25,
+ja 11 -> 24, cy 9 -> 22 (of 30 each). 88 queries improved; one moved down: sv-18 `artikel 6.1 e
+dataskyddsförordningen allmänt intresse` now lists GDPR Art. 6(1)(e), which it cites, first and the expected Swedish
+provision second. Of the 55 queries that already found at least 10 passages holding every term, 50 keep exactly the
+same top 10; the other 5 are the citations sv-28, cy-28 and cy-30 (the cited provision now comes first) and ja-26
+and ja-27 (changed by the `-term` fix). The "before" latencies were measured while another job used the machine;
+the evaluation's own figure was 775 ms at p50.
+
+1. **Every word had to match.** When fewer passages than requested hold every term, passages holding most of them
+   follow, marked `partial_query` with the terms each lacks (`PARTIAL_MATCH`). Full matches always rank first.
+2. **Citations.** "§ 823 Abs. 1 BGB", "Art. 6(1)(f) GDPR", "3 kap. 1 § brottsbalken", "RL 28:1", "art. 1902 CC",
+   "刑法第百九十九条", "adran 173 Deddf Rhentu Cartrefi (Cymru) 2016" and the other 17 judged citations resolve to the
+   cited provision, which is listed first (`citation`). Laws are found by curated short names
+   (`config/citation-aliases.yaml`), publisher abbreviations, numbers and titles in every language (migration 0007).
+3. **0.7 s per call in `coverage.py`.** Counts are cached until the next ingestion run.
+4. **Bugs.** A Japanese `-term` now excludes; a NUL byte (and other control characters) no longer reaches PostgreSQL.
+
+Speed and recall were traded once, on measurement: relaxing "any 4 of 8" common English words costs PostgreSQL about
+2 s (70 combinations checked per candidate among hundreds of thousands of US passages), so such a form is tried only
+when nothing at all was found. Without that guard, earlier runs found about the same number of known items but took
+up to 2.1-2.4 s; with a strict two-thirds floor instead, 7 fewer natural questions found their answer. The slowest
+query left is fr-28 (11 terms, 1.4 s).
+
+What remains: the known item is still missed by 58 of 240 queries, 44 of them natural-language questions (en-20 and
+fi-21 return nothing: en-20 asks about 2010, before the indexed Australian compilation starts); ranking of the new
+partial results has not been judged blind. Section 6 (what a Tantivy switch would need) is unchanged.
+
 ## Corrections after independent review (2026-10-19)
 
 Two reviewers recomputed every metric from the raw files (judgments, key, results) without reusing this report's

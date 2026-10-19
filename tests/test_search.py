@@ -211,3 +211,68 @@ def test_input_validation(session: Session, catalog: Catalog) -> None:
     ):
         with pytest.raises(SearchError):
             run(session, catalog, **kw)
+
+
+def test_control_characters_never_reach_postgresql(session: Session, catalog: Catalog) -> None:
+    res = run(session, catalog, q="retain\x00personal​ data", jurisdiction="XA", as_of=TODAY)
+    assert res["query"]["q"] == "retain personal data"
+    assert S12_1 in by_citation(res)
+    with pytest.raises(SearchError):
+        run(session, catalog, q="\x00\x01")
+
+
+def test_most_terms_match_when_no_passage_holds_them_all(session: Session, catalog: Catalog) -> None:
+    res = run(session, catalog, q="personal data years unicornium", jurisdiction="XA", as_of=TODAY)
+    assert "PARTIAL_MATCH" in codes(res)
+    hit = by_citation(res)[S12_1]
+    assert hit["score"]["matched_via"] == "partial_query"
+    assert hit["score"]["missing_terms"] == ["unicornium"]
+    # Full matches rank above every partial one.
+    mixed = run(session, catalog, q="seven years personal", jurisdiction="XA", as_of=TODAY, limit=50)
+    via = [h["score"]["matched_via"] for h in mixed["results"]]
+    assert "query" in via and via == sorted(via, key=lambda v: v == "partial_query")
+    # A quoted phrase stays required, and an excluded term stays excluded.
+    assert run(session, catalog, q='"unicornium data" personal years', jurisdiction="XA", as_of=TODAY)["results"] == []
+    excluded = run(session, catalog, q="personal data years unicornium -seven", jurisdiction="XA", as_of=TODAY)
+    assert all("seven" not in h["text"].lower() for h in excluded["results"])
+
+
+def test_a_cited_provision_comes_first_in_document_order(session: Session, catalog: Catalog) -> None:
+    res = run(session, catalog, q="section 12 of the Personal Data Act 2015", jurisdiction="XA", as_of=TODAY)
+    cited = [h for h in res["results"] if h["score"]["matched_via"] == "citation"]
+    assert [h["unit"]["eid"] for h in cited] == ["sec_12__subsec_1", "sec_12__subsec_2"]
+    assert res["results"][: len(cited)] == cited
+    assert res["citation"]["exact"] and res["citation"]["instruments"][0]["uri"] == "/akn/xa/act/2015/12"
+
+    one = run(session, catalog, q="s. 12(1) Personal Data Act 2015", jurisdiction="XA", as_of=date(2020, 6, 1))
+    assert one["results"][0]["citation"] == S12_1 and "seven years" in one["results"][0]["text"]
+
+    missing = run(session, catalog, q="s. 12(9) Personal Data Act 2015", jurisdiction="XA", as_of=TODAY)
+    assert "CITED_UNIT_NOT_FOUND" in codes(missing) and not missing["citation"]["exact"]
+    assert missing["results"][0]["unit"]["eid"] == "sec_12__subsec_1"  # the enclosing section
+
+    absent = run(session, catalog, q="s. 99 Personal Data Act 2015", jurisdiction="XA", as_of=TODAY)
+    assert "CITED_UNIT_NOT_FOUND" in codes(absent) and absent["citation"]["results"] == 0
+
+
+def test_citation_of_another_jurisdictions_law_is_out_of_scope(session: Session, catalog: Catalog) -> None:
+    res = run(session, catalog, q="s. 6(1) Health Records Act 2019", jurisdiction="XB", as_of=TODAY)
+    assert res["citation"] is None
+
+
+def test_coverage_counts_are_cached_until_the_next_ingestion_run(
+    session: Session, catalog: Catalog, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from ulis.retrieval import coverage
+
+    coverage.clear_cache()
+    first = coverage.coverage_for(session, catalog, ["XA"])
+    calls: list[list[str]] = []
+    count = coverage._count
+    monkeypatch.setattr(coverage, "_count", lambda s, ids: calls.append(ids) or count(s, ids))
+    assert coverage.coverage_for(session, catalog, ["XA"]) == first
+    assert calls == []
+    session.add(m.IngestionRun(source_id="ulis-fictional-sample", actor="pytest", status="running"))
+    session.flush()
+    assert coverage.coverage_for(session, catalog, ["XA"]) == first
+    assert calls == [["XA"]]

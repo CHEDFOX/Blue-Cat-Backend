@@ -1,0 +1,158 @@
+# Short names that lawyers cite instead of a law's title (ulis/retrieval/citations.py).
+#
+# Each entry names one instrument of the jurisdiction it is listed under, by `uri`, `number` (instruments.number),
+# `title` (exact title or short title) or `ext` (one key of instruments.ext). Names are compared without case, dots,
+# spaces or hyphens ("C. consom." = "cconsom", "DS-GVO" = "DSGVO"). A name is used only when its jurisdiction is in
+# the scope of the search, so the same abbreviation can mean different laws in different jurisdictions ("CC" is the
+# Spanish Civil Code, "C.cr." the Canadian Criminal Code). An entry that names no stored instrument is ignored, and
+# the law is then looked up by its title. Laws whose publisher already records the abbreviation (German `jurabk`,
+# Japanese `abbrev`) or whose title is what lawyers write ("Code civil", "Data Protection Act 1998", "民法") need no
+# entry here. Names of three characters or fewer ("CC", "RL", "ET") are used only when the search names a
+# jurisdiction.
+
+EU:
+  - {names: [GDPR, DSGVO, DS-GVO, RGPD, AVG, dataskyddsförordningen, tietosuoja-asetus, GDPR-förordningen], uri: /eu/reg/2016/679}
+  - {names: [AI Act, KI-VO, KI-Verordnung, AI-förordningen, tekoälysäädös, "RIA"], uri: /eu/reg/2024/1689}
+  - {names: [DSA, Digital Services Act, Gesetz über digitale Dienste], uri: /eu/reg/2022/2065}
+  - {names: [DMA, Digital Markets Act], uri: /eu/reg/2022/1925}
+  - {names: [Data Act, Datenverordnung], uri: /eu/reg/2023/2854}
+  - {names: [DORA], uri: /eu/reg/2022/2554}
+  - {names: [MiCA, MiCAR], uri: /eu/reg/2023/1114}
+  - {names: [eIDAS], uri: /eu/reg/2014/910}
+  - {names: [REACH], uri: /eu/reg/2006/1907}
+  - {names: [Brussels Ia, Brussels I bis, Brüssel Ia-VO, EuGVVO, Bruxelles I bis, Bryssel I-förordningen], uri: /eu/reg/2012/1215}
+  - {names: [Rome I, Rom I-VO, Rome I-förordningen], uri: /eu/reg/2008/593}
+  - {names: [Rome II, Rom II-VO], uri: /eu/reg/2007/864}
+  - {names: [MiFIR], uri: /eu/reg/2014/600}
+  - {names: [CRR], uri: /eu/reg/2013/575}
+  - {names: [EUTMR, Unionsmarkenverordnung], uri: /eu/reg/2017/1001}
+  - {names: [NIS2, NIS 2], uri: /eu/dir/2022/2555}
+  - {names: [MiFID II, MiFID2], uri: /eu/dir/2014/65}
+  - {names: [CSRD], uri: /eu/dir/2022/2464}
+  - {names: [Whistleblower Directive, Whistleblowing-Richtlinie], uri: /eu/dir/2019/1937}
+  - {names: [ePrivacy Directive, ePrivacy-Richtlinie], uri: /eu/dir/2002/58}
+  - {names: [UCPD, UGP-Richtlinie], uri: /eu/dir/2005/29}
+  - {names: [Consumer Rights Directive, CRD, Verbraucherrechte-Richtlinie], uri: /eu/dir/2011/83}
+
+ES:
+  - {names: [CC, Código Civil, Codigo Civil, C.C.], ext: {boe_id: BOE-A-1889-4763}}
+  - {names: [CP, Código Penal, Codigo Penal, C.P.], ext: {boe_id: BOE-A-1995-25444}}
+  - {names: [CE, Constitución, Constitución Española, Constitucion Española], ext: {boe_id: BOE-A-1978-31229}}
+  - {names: [ET, TRLET, Estatuto de los Trabajadores], ext: {boe_id: BOE-A-2015-11430}}
+  - {names: [LEC, Ley de Enjuiciamiento Civil], ext: {boe_id: BOE-A-2000-323}}
+  - {names: [LECrim, LECr, Ley de Enjuiciamiento Criminal], ext: {boe_id: BOE-A-1882-6036}}
+  - {names: [LOPDGDD, LOPD], ext: {boe_id: BOE-A-2018-16673}}
+  - {names: [LPAC, LPACAP], ext: {boe_id: BOE-A-2015-10565}}
+  - {names: [LRJSP], ext: {boe_id: BOE-A-2015-10566}}
+  - {names: [LGT, Ley General Tributaria], ext: {boe_id: BOE-A-2003-23186}}
+  - {names: [LSC, Ley de Sociedades de Capital], ext: {boe_id: BOE-A-2010-10544}}
+  - {names: [TRLGDCU, LGDCU], ext: {boe_id: BOE-A-2007-20555}}
+  - {names: [LAU, Ley de Arrendamientos Urbanos], ext: {boe_id: BOE-A-1994-26003}}
+  - {names: [LOPJ, Ley Orgánica del Poder Judicial], ext: {boe_id: BOE-A-1985-12666}}
+  - {names: [LJCA], ext: {boe_id: BOE-A-1998-16718}}
+  - {names: [LH, Ley Hipotecaria], ext: {boe_id: BOE-A-1946-2453}}
+  - {names: [CCom, C.Com., Código de Comercio], ext: {boe_id: BOE-A-1885-6627}}
+
+SE:
+  - {names: [BrB, brottsbalken], number: "1962:700"}
+  - {names: [RB, rättegångsbalken], number: "1942:740"}
+  - {names: [ÄktB, äktenskapsbalken], number: "1987:230"}
+  - {names: [FB, föräldrabalken], number: "1949:381"}
+  - {names: [ÄB, ärvdabalken], number: "1958:637"}
+  - {names: [JB, jordabalken], number: "1970:994"}
+  - {names: [MB, miljöbalken], number: "1998:808"}
+  - {names: [UB, utsökningsbalken], number: "1981:774"}
+  - {names: [SFB, socialförsäkringsbalken], number: "2010:110"}
+  - {names: [AvtL, avtalslagen], number: "1915:218"}
+  - {names: [SkL, skadeståndslagen], number: "1972:207"}
+  - {names: [LAS, anställningsskyddslagen], number: "1982:80"}
+  - {names: [MBL, medbestämmandelagen], number: "1976:580"}
+  - {names: [OSL, offentlighets- och sekretesslagen], number: "2009:400"}
+  - {names: [FL, förvaltningslagen], number: "2017:900"}
+  - {names: [RF, regeringsformen], number: "1974:152"}
+  - {names: [TF, tryckfrihetsförordningen], number: "1949:105"}
+  - {names: [YGL, yttrandefrihetsgrundlagen], number: "1991:1469"}
+  - {names: [KöpL, köplagen], number: "1990:931"}
+  - {names: [ABL, aktiebolagslagen], number: "2005:551"}
+  - {names: [DL, diskrimineringslagen], number: "2008:567"}
+  - {names: [AML, arbetsmiljölagen], number: "1977:1160"}
+  - {names: [PBL, plan- och bygglagen], number: "2010:900"}
+  - {names: [KL, kommunallagen], number: "2017:725"}
+  - {names: [UtlL, utlänningslagen], number: "2005:716"}
+  - {names: [IL, inkomstskattelagen], number: "1999:1229"}
+  - {names: [ML, mervärdesskattelagen], number: "2023:200"}
+
+FI:
+  - {names: [RL, rikoslaki, rikoslain, strafflagen], number: "39/1889"}
+  - {names: [PL, perustuslaki, perustuslain, grundlagen], number: "731/1999"}
+  - {names: [TSL, työsopimuslaki, työsopimuslain, arbetsavtalslagen], number: "55/2001"}
+  - {names: [HL, hallintolaki, hallintolain, förvaltningslagen], number: "434/2003"}
+  - {names: [VahL, vahingonkorvauslaki, vahingonkorvauslain, skadeståndslagen], number: "412/1974"}
+  - {names: [OikTL, oikeustoimilaki, oikeustoimilain, rättshandlingslagen], number: "228/1929"}
+  - {names: [KSL, kuluttajansuojalaki, kuluttajansuojalain, konsumentskyddslagen], number: "38/1978"}
+  - {names: [OK, oikeudenkäymiskaari, oikeudenkäymiskaaren, rättegångsbalken], number: "4/1734"}
+  - {names: [OYL, osakeyhtiölaki, osakeyhtiölain, aktiebolagslagen], number: "624/2006"}
+  - {names: [JulkL, julkisuuslaki, julkisuuslain, offentlighetslagen], number: "621/1999"}
+  - {names: [AVL, arvonlisäverolaki, arvonlisäverolain, mervärdesskattelagen], number: "1501/1993"}
+  - {names: [TVL, tuloverolaki, tuloverolain, inkomstskattelagen], number: "1535/1992"}
+  - {names: [UlkL, ulkomaalaislaki, ulkomaalaislain, utlänningslagen], number: "301/2004"}
+  - {names: [TTurvL, työturvallisuuslaki, työturvallisuuslain, arbetarskyddslagen], number: "738/2002"}
+  - {names: [YhdenvertaisuusL, yhdenvertaisuuslaki, yhdenvertaisuuslain, diskrimineringslagen], number: "1325/2014"}
+  - {names: [tietosuojalaki, tietosuojalain, dataskyddslagen], number: "1050/2018"}
+  - {names: [MK, maakaari, maakaaren, jordabalken], number: "540/1995"}
+  - {names: [PK, perintökaari, perintökaaren, ärvdabalken], number: "40/1965"}
+  - {names: [AL, avioliittolaki, avioliittolain, äktenskapslagen], number: "234/1929"}
+  - {names: [ulosottokaari, ulosottokaaren, utsökningsbalken], number: "705/2007"}
+
+FR:
+  - {names: [C. civ., Cciv, code civil], uri: /fr/legi/LEGITEXT000006070721}
+  - {names: [C. pén., C. pen., CP, code pénal], uri: /fr/legi/LEGITEXT000006070719}
+  - {names: [C. trav., CT, code du travail], uri: /fr/legi/LEGITEXT000006072050}
+  - {names: [C. com., code de commerce], uri: /fr/legi/LEGITEXT000005634379}
+  - {names: [C. consom., C. conso., code de la consommation], uri: /fr/legi/LEGITEXT000006069565}
+  - {names: [CGI, code général des impôts], uri: /fr/legi/LEGITEXT000006069577}
+  - {names: [CPC, C. pr. civ., NCPC, code de procédure civile], uri: /fr/legi/LEGITEXT000006070716}
+  - {names: [CPP, C. pr. pén., code de procédure pénale], uri: /fr/legi/LEGITEXT000006071154}
+  - {names: [CSP, C. santé publ., code de la santé publique], uri: /fr/legi/LEGITEXT000006072665}
+  - {names: [CSS, C. sécu. soc., code de la sécurité sociale], uri: /fr/legi/LEGITEXT000006073189}
+  - {names: [C. env., code de l'environnement], uri: /fr/legi/LEGITEXT000006074220}
+  - {names: [CMF, C. mon. fin., code monétaire et financier], uri: /fr/legi/LEGITEXT000006072026}
+  - {names: [CJA, code de justice administrative], uri: /fr/legi/LEGITEXT000006070933}
+  - {names: [CPI, code de la propriété intellectuelle], uri: /fr/legi/LEGITEXT000006069414}
+  - {names: [CRPA], uri: /fr/legi/LEGITEXT000031366350}
+  - {names: [C. urb., code de l'urbanisme], uri: /fr/legi/LEGITEXT000006074075}
+  - {names: [CGCT], uri: /fr/legi/LEGITEXT000006070633}
+  - {names: [C. assur., code des assurances], uri: /fr/legi/LEGITEXT000006073984}
+  - {names: [CCH], uri: /fr/legi/LEGITEXT000006074096}
+  - {names: [CESEDA], uri: /fr/legi/LEGITEXT000006070158}
+  - {names: [C. route, code de la route], uri: /fr/legi/LEGITEXT000006074228}
+  - {names: [C. éduc., code de l'éducation], uri: /fr/legi/LEGITEXT000006071191}
+
+GB:
+  - {names: [DPA 2018], uri: /gb/ukpga/2018/12}
+  - {names: [DPA 1998], uri: /gb/ukpga/1998/29}
+  - {names: [HRA, HRA 1998], uri: /gb/ukpga/1998/42}
+  - {names: [ERA, ERA 1996], uri: /gb/ukpga/1996/18}
+  - {names: [EqA, EqA 2010], uri: /gb/ukpga/2010/15}
+  - {names: [CA 2006, Companies Act], uri: /gb/ukpga/2006/46}
+  - {names: [FSMA, FSMA 2000], uri: /gb/ukpga/2000/8}
+  - {names: [PACE, PACE 1984], uri: /gb/ukpga/1984/60}
+  - {names: [HSWA, HSWA 1974], uri: /gb/ukpga/1974/37}
+  - {names: [CRA 2015], uri: /gb/ukpga/2015/15}
+  - {names: [IA 1986, Insolvency Act], uri: /gb/ukpga/1986/45}
+  - {names: [FOIA, FOIA 2000], uri: /gb/ukpga/2000/36}
+
+CA:
+  - {names: [Cr. C., C.cr., Crim. Code, Criminal Code, Code criminel, C. crim.], uri: /ca/act/c-46}
+  - {names: [ITA, Income Tax Act, LIR, Loi de l'impôt sur le revenu], uri: /ca/act/i-3.3}
+
+JP:
+  - {names: [労基法], title: 労働基準法}
+  - {names: [個情法, 個人情報保護法], title: 個人情報の保護に関する法律}
+  - {names: [民訴法], title: 民事訴訟法}
+  - {names: [刑訴法], title: 刑事訴訟法}
+  - {names: [独禁法, 独占禁止法], title: 私的独占の禁止及び公正取引の確保に関する法律}
+  - {names: [金商法], title: 金融商品取引法}
+  - {names: [憲法], title: 日本国憲法}
+  - {names: [労契法], title: 労働契約法}
+  - {names: [行手法], title: 行政手続法}
