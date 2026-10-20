@@ -38,7 +38,7 @@ on the same 240 judged queries, dev database and `today` as above, through the r
 | known item in the top 10, natural questions | 5 of 96 | 52 (31 at rank 1) |
 | known item in the top 10, citations | 1 of 24 | 24 of 24 (22 at rank 1) |
 | mean reciprocal rank (known item) | 0.304 | 0.573 |
-| `search()` latency p50 / p95 / max | 1,006 / 1,226 / 1,673 ms | 170 / 587 / 1,404 ms |
+| `search()` latency p50 / p95 / max | 1,006 / 1,226 / 1,673 ms | 170 / 587 / 1,404 ms; 146 / 376 / 1,113 ms after the language fix of 2026-10-20 (results identical) |
 
 Per language, known item in the top 10: en 14 -> 21, fr 12 -> 27, de 9 -> 19, es 14 -> 20, sv 14 -> 24, fi 11 -> 25,
 ja 11 -> 24, cy 9 -> 22 (of 30 each). 88 queries improved; one moved down: sv-18 `artikel 6.1 e

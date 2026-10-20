@@ -99,7 +99,7 @@ def _counts(session: Session, ids: list[str]) -> dict[str, _Counts]:
             current = _CACHE.get(key)
             if current is not None and current[0] == signature:
                 current[1].update(fresh)
-    return cached
+    return {jid: cached[jid] for jid in ids}
 
 
 def indexed_languages(session: Session, catalog: Catalog, jurisdiction_ids: Iterable[str] | None = None) -> set[str]:

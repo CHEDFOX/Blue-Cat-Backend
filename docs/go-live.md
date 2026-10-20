@@ -47,6 +47,10 @@ UK needs The National Archives' agreement (below).
 
 ## Size, with lossless compression
 
+The planned layout (slim PostgreSQL storing each text once, plus one compact search index) is in
+[storage-and-search-plan.md](storage-and-search-plan.md): about 15 GB of data at launch instead of about 48 GB for the
+layout below (estimates), with search that fits the memory of an 8 GB server. The figures below are today's layout.
+
 `docs/deployment.md` section 13 has the measurements and the recipes. Nothing is lossy: every text and every source byte comes
 back exactly, and `verify-sources` keeps re-deriving every stored text from the publisher's original bytes.
 

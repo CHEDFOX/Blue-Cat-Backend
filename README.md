@@ -100,7 +100,8 @@ tests/             unit + PostgreSQL integration tests
 [Security and evaluation](docs/security-and-evaluation.md) ·
 [Research assistant](docs/research-assistant.md) · [Deployment](docs/deployment.md) ·
 [Onboarding a jurisdiction](docs/onboarding-a-jurisdiction.md) · [Go-live](docs/go-live.md) ·
-[Footprint research](docs/footprint-research.md) · [Test results](docs/test-results.md)
+[Footprint research](docs/footprint-research.md) · [Storage and search plan](docs/storage-and-search-plan.md) ·
+[Search engine evaluation](docs/search-engine-evaluation.md) · [Test results](docs/test-results.md)
 
 ## Corpora
 
