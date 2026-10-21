@@ -82,8 +82,9 @@ data route that makes the request unnecessary.
 ## Notices and faster routes for active sources (rate research, 2026-10-18)
 
 These sources are active and load at the pace each publisher allows (see `rate_limits` in their
-`config/sources/<id>.yaml`). Two publishers ask to be contacted first; the drafts below are for the owner to send from
-the route the publisher's own pages name. Until a written answer arrives, the pace stays as it is.
+`config/sources/<id>.yaml`). Two publishers ask to be contacted first; the drafts below are complete and ready for the
+owner to send through the route each publisher's own pages name. Until a written answer arrives, the pace stays as it
+is.
 
 ### Federal Register of Legislation (Australia): notice before a full crawl
 
@@ -96,37 +97,52 @@ processes." (https://www.legislation.gov.au/help-and-resources/using-the-legisla
 read 2026-10-18). Read strictly, the notice is needed before every full load of `au-federal-register` and, above all,
 of `au-federal-register-instruments`.
 
-- **Route**: the Register's feedback form, "Contact the Federal Register of Legislation"
-  (https://www.legislation.gov.au/help-and-resources/using-the-legislation-register/feedback), which the reuse page
-  names for API feedback. The API description (https://api.prod.legislation.gov.au/swagger/v1/swagger.json,
-  `info.contact`) also names a contact address; take it from there.
-- **When**: 1-2 weeks before the planned dates.
+- **Route**: the form on the Register's Feedback page,
+  https://www.legislation.gov.au/help-and-resources/using-the-legislation-register/feedback (the reuse page's "contact
+  us" link goes there; fields: name, email, subject, details, system details). The only published email address is
+  feedback@legislation.gov.au, from `info.contact` of https://api.prod.legislation.gov.au/swagger/v1/swagger.json; the
+  notice paragraph names the form, so use the form (read 2026-10-21).
+- **When**: 1-2 weeks or more before the planned start. The draft below plans Monday 16 November 2026; if that date
+  moves, send a one-line update with the new date.
 - **Keep meanwhile**: robots.txt's Crawl-delay of 10 s, one connection, the off-peak window the connector already
   keeps (`avoid_hours`: outside 08:00-20:00 UTC+10; during Australian daylight saving, October to April, also avoid
   07:00-08:00 UTC+10, so run 10:00-21:00 UTC), and never the two Register sources (or any other legislation.gov.au
   fetch) at the same time.
 
-> Subject: Planned automated download of Commonwealth legislation (notice as asked on your data-reuse page)
+Form fields: Your name: ULIS team. Your email: the address you read. Subject and Details:
+
+> Subject: Planned automated download of Commonwealth legislation from 16 November 2026 (notice as asked on your
+> data-reuse page)
 >
 > Dear Federal Register of Legislation team,
 >
-> As your data-reuse page asks, we are writing [1-2 weeks] before a full download from the Register. We operate
-> "ULIS" ([PUBLIC URL OF THE SERVICE]), a legal research aid that shows the exact text of legislation with a link back to
-> the Register and the statement that the Register is the authoritative source; content is used under CC BY 4.0 with
-> attribution.
+> As your data share and reuse page asks, we are writing before a full download from the Register.
 >
-> - Client: one connection, identified as `ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)`,
->   to https://api.prod.legislation.gov.au (Titles, Versions and Documents endpoints, EPUB).
-> - Pace: one request every 10 seconds (your robots.txt Crawl-delay), only outside 08:00-20:00 Australian time.
-> - Volume: about 1,443 requests (the principal Acts in force: about 4 hours), and separately about 24,753 requests
->   for the legislative instruments in force (about 69 hours, spread over several nights).
-> - Planned dates: [DATES AND TIMES, UTC and AEST/AEDT].
+> We are building ULIS, a legal research service that lets lawyers search the exact text of the laws in force, with a
+> link back to the Register and a statement that the Register is the authoritative source. We use the content under
+> CC BY 4.0, with attribution. The service is not public yet; the project page is
+> https://github.com/CHEDFOX/Blue-Cat-Backend.
 >
-> Could you tell us about any planned outages or other issues in that period? If a faster route would suit you
-> better - a shorter delay, a second connection, or a bulk export - we would be glad to use it on your terms; until we
-> hear from you we keep to the pace above. Later refreshes fetch only new compilations (tens of requests).
+> What we plan:
 >
-> Thank you, [NAME], [ORGANISATION], [EMAIL]
+> - Client: one connection at a time, identified by the User-Agent "ULIS-research-bot/0.1
+>   (+https://github.com/CHEDFOX/Blue-Cat-Backend)", to https://api.prod.legislation.gov.au (the Titles, Versions and
+>   Documents endpoints, EPUB documents).
+> - Pace: one request every 10 seconds, the Crawl-delay in your robots.txt.
+> - Hours: only between 10:00 and 21:00 UTC, which is 21:00 to 08:00 in Canberra and Sydney (AEDT), outside 08:00 to
+>   20:00 Australian time.
+> - Volume: about 1,440 requests for the principal Acts in force, about 4 hours, in one night.
+> - Start: Monday 16 November 2026, at 10:00 UTC (21:00 AEDT).
+> - Later updates fetch only new compilations, a few dozen requests at a time, in the same hours.
+> - We may later also download the legislative instruments in force (about 24,750 requests, spread over about seven
+>   nights). We will write to you again before we do.
+>
+> Could you let us know of any planned outages or other issues in that period? If a faster route suits you better (a
+> shorter delay, a second connection or a bulk export), we would be glad to use it on your terms. Until we hear from
+> you, we will keep to the pace above.
+>
+> Thank you,
+> The ULIS team
 
 ### legislation.gov.uk (The National Archives): a faster or bulk route
 
@@ -140,40 +156,54 @@ legislation.gov.uk as you require, or your activity may have an impact on the pe
 legislation.gov.uk or its API, please contact us prior to taking any action." The bulk downloads at
 research.legislation.gov.uk answer "By Invitation Only" (HTTP 401, 2026-10-18).
 
-- **Route**: the "contact us" link in the policy's "Talk to us if you have concerns" section
-  (https://www.legislation.gov.uk/fair-use-policy); the same team address is given on
-  https://legislation.github.io/data-documentation/. Take the address from those pages.
+- **Route**: email data.legislation@nationalarchives.gov.uk, the "contact us" address of the fair-use policy's "Talk to
+  us if you have concerns" section (https://www.legislation.gov.uk/fair-use-policy) and of the data documentation
+  (https://legislation.github.io/data-documentation/), read 2026-10-21.
 - **When**: before the first full load of the three legislation.gov.uk sources, and before any change of rate or
-  number of connections.
+  number of connections. The draft below plans Monday 16 November 2026.
 - **Keep meanwhile**: 5 s between request starts, one connection, the three sources never at the same time.
 - **For refreshes** (no permission needed): the Publication Log feed the policy recommends, so that only changed items
   are fetched.
 
-> Subject: legislation.gov.uk data: one-off load at your Crawl-delay, and access to the bulk downloads
+> To: data.legislation@nationalarchives.gov.uk
+>
+> Subject: Planned one-off download of legislation.gov.uk data from 16 November 2026, and access to the bulk downloads
 >
 > Dear legislation.gov.uk data team,
 >
-> Your fair-use policy asks users planning a large crawl to contact you first, so we are writing before we start. We
-> operate "ULIS" ([PUBLIC URL OF THE SERVICE]), a legal research aid that shows the exact text of legislation, with
-> attribution under the Open Government Licence v3.0 and a link back to legislation.gov.uk.
+> Your fair-use policy asks anyone planning a large crawl to contact you first, so we are writing before we start.
 >
-> - Client: one connection, identified as `ULIS-research-bot/0.1 (+https://github.com/CHEDFOX/Blue-Cat-Backend)`,
->   requesting the Akoma Ntoso XML (`data.akn`) of each item.
-> - Pace: one request every 5 seconds (your robots.txt Crawl-delay; 60 requests per 5 minutes).
-> - Volume: about 7,278 requests for the current text of the Acts, Measures and Orders in Council (about 10 hours;
->   about 28,200 requests with every earlier version), and, one after the other, the statutory instruments that have
->   versions (17,931 works) and those that exist as made only (65,456 works): about 126 hours in all at this pace.
+> We are building ULIS, a legal research service that lets lawyers search the exact text of legislation, with
+> attribution under the Open Government Licence v3.0 and a link back to legislation.gov.uk. The service is not public
+> yet; the project page is https://github.com/CHEDFOX/Blue-Cat-Backend.
 >
-> 1. Is this one-off load at the Crawl-delay acceptable to you, or would you prefer another route or time window?
-> 2. May we have an invitation to the bulk downloads at research.legislation.gov.uk? If so: are the revised
->    (latest-version) texts there in Akoma Ntoso, what are the terms, and how often are the packages refreshed?
-> 3. If bulk access is not possible, may we use a shorter crawl delay (for example [1] second) or a second connection
->    for our User-Agent, within your limit of 1,500 requests per 5 minutes?
+> What we plan:
 >
-> After the first load we will follow the Publication Log feed and fetch only items that changed. Until we hear from
-> you we keep to the pace above.
+> - Client: one connection at a time, identified by the User-Agent "ULIS-research-bot/0.1
+>   (+https://github.com/CHEDFOX/Blue-Cat-Backend)", requesting the Akoma Ntoso XML (data.akn) of each item.
+> - Pace: one request every 5 seconds, the Crawl-delay in your robots.txt: 60 requests per 5 minutes, well under your
+>   limit of 1,500.
+> - Volume, current text only, one part after the other:
+>   - Acts, Measures and Orders in Council: about 7,280 requests (about 10 hours);
+>   - statutory instruments with revised versions: about 18,510 requests (about 26 hours);
+>   - statutory instruments that exist only as made: about 68,450 requests (about 95 hours).
 >
-> Thank you, [NAME], [ORGANISATION], [EMAIL]
+>   In all about 94,240 requests over about 5.5 days.
+> - Start: Monday 16 November 2026.
+> - Afterwards we will follow the Publication Log feed and fetch only items that changed.
+>
+> Our questions:
+>
+> 1. Is this one-off load at your Crawl-delay acceptable to you, or would you prefer another route or time window?
+> 2. Could we have an invitation to the bulk downloads at research.legislation.gov.uk? If so, do they include the
+>    revised (latest-version) texts in Akoma Ntoso, on what terms, and how often are they refreshed?
+> 3. If bulk access is not possible, may we use a shorter delay for our User-Agent, for example one request per
+>    second, or a second connection, within your limit of 1,500 requests per 5 minutes?
+>
+> Until we hear from you, we will keep to the pace above.
+>
+> Thank you,
+> The ULIS team
 
 ### Other publishers: optional courtesy notes and an open question
 
